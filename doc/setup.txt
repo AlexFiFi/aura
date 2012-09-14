@@ -8,6 +8,10 @@
 
 This is a brief explaination on how to get Aura ready as fast as possible.
 
+What you need:
+- .NET Framework 4
+- A MySQL server
+
 =============================================================================
 | 1. Download                                                               |
 =============================================================================
