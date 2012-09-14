@@ -1,0 +1,8 @@
+// Aura
+// Database file
+//---------------------------------------------------------------------------
+
+[
+{ "Id": 10001, "Race": 20001, "Name": "Gray Wolf", "AI": "wolf", "Life": 90, "Exp": 30, "Size": 1.0, "GoldMin": 11, "GoldMax": 50, "Drops": [ { "ItemId": 50003, "Chance": 100 } ], "Skills": [ { "SkillId": 23002, "Rank": "B" }, { "SkillId": 20002, "Rank": "F" }, { "SkillId": 20003, "Rank": "F" }, { "SkillId": 20001, "Rank": "F" } ] },
+{ "Id": 10002, "Race": 360001, "Name": "Mammoth", "AI": "none", "Life": 10, "Exp": 0, "Size": 3.0 },
+]

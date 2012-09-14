@@ -1,0 +1,51 @@
+// Aura
+// Documentation file
+//---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+This is a brief explaination on how to get Aura ready as fast as possible.
+
+=============================================================================
+| 1. Download                                                               |
+=============================================================================
+
+...
+
+=============================================================================
+| 2. Compilation                                                            |
+=============================================================================
+
+(This step is optional if you already have a "bin" folder.)
+Open "Aura.sln" using Visual Studio 10+, switch to Release mode, and compile.
+
+=============================================================================
+| 3. Database                                                               |
+=============================================================================
+
+(We're gonna expect you to be able to administrate a MySQL server for now.)
+Run "sql/main.sql", a "aura" database will be created and filled, modify the
+rights if necessary, and adjust the database configuration in
+"conf/database.conf".
+
+=============================================================================
+| 4. Start Aura                                                             |
+=============================================================================
+
+Run Aura from bin, or use the bat files in the root folder.
+
+=============================================================================
+| 5. The first login                                                        |
+=============================================================================
+
+To create a new account from the login box, prefix your user name with
+"new//". For example, to create a new account with the name "aura" and
+password "1234", you'd type:
+
+Account:  "new//aura"
+Password: "1234"
+
+If the account "aura" doesn't exist yet, it gets created and you log in.
+After that you don't have to prefix anything anymore.

@@ -1,0 +1,90 @@
+// Aura
+// Commands documentation file
+//---------------------------------------------------------------------------
+
+** where
+
+Displays the current region and coordinates.
+
+-----------------------------------------------------------------------------
+
+** info
+
+Displays various information.
+
+-----------------------------------------------------------------------------
+
+** motion <category> <motion>
+
+Lets the character use the specified animation.
+See motion.xml in client data.
+
+-----------------------------------------------------------------------------
+
+** setrace <race>
+
+Changes the race of the character, and terminates the
+session, to activate the change.
+
+-----------------------------------------------------------------------------
+
+** gmcp
+
+Opens the Game Master Control Panel.
+
+-----------------------------------------------------------------------------
+
+** item|drop <id|item_name> [<amount>|[<color1> <color2> <color3>]]
+
+Drops a new item with the given ID or name to the ground. When using an
+item name, all spaces must be replaced with underscores, like in the example.
+You can specify the amount or the color, and you can use hex (prefix: 0x),
+Mabinogi colors, or names for the colors. See 'color.xml' for a list
+of Mabinogi's pre-defined colors, and their names.
+While 'drop' spawns the item on the ground, 'item' uses the temp. inventory.
+
+Examples:
+    item 1049 10 .............................. // 10 Holy Water
+    item hebona_robe .......................... // Guess what
+    item 19001 0 0 0 .......................... // Black Robe (Mabi)
+    item 19001 black black black .............. // Black Robe (Name)
+    item 19001 0x00000000 0x00000000 0x00000000 // Black Robe (Hex)
+
+-----------------------------------------------------------------------------
+
+** go <destination>
+
+Easy warping to selected destinations. Destinations are
+case in-sensitive, and can be shortened
+(e.g. tir, dun, neko).
+
+Destinations:
+    Tir Chonaill, Dugald Isle, Dunbarton, Gairech, Bangor,
+    Emain Macha, Nekojima, GM Island
+
+-----------------------------------------------------------------------------
+
+** iteminfo|ii <item name>
+
+Searches for the given items that contain the given string,
+and displays their Ids (to a maximum of 20).
+
+-----------------------------------------------------------------------------
+
+** spawn ?
+
+Spawns a dummy NPC.
+
+-----------------------------------------------------------------------------
+
+** despawn ?
+
+De-spawns a dummy NPC.
+
+-----------------------------------------------------------------------------
+
+** warp|goto <region> [x] [y]
+
+Warps character to the given region and coordinates.
+If x and y, or only y, are ommited, the current position
+of the character is used.

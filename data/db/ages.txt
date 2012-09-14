@@ -1,0 +1,30 @@
+// Aura
+// Database file
+//---------------------------------------------------------------------------
+
+[
+{ "Age": 10, "Race": 0, "BaseStats": { "age": 10, "ap": 0, "life": 20, "mana": 20, "stamina": 20, "str": 10, "int": 10, "dex": 10, "will": 10, "luck": 10 } }, 
+{ "Age": 11, "Race": 0, "BaseStats": { "age": 11, "ap": 1, "life": 25, "mana": 22, "stamina": 23, "str": 12, "int": 10, "dex": 12, "will": 13, "luck": 13 } }, 
+{ "Age": 12, "Race": 0, "BaseStats": { "age": 12, "ap": 2, "life": 30, "mana": 24, "stamina": 26, "str": 14, "int": 10, "dex": 15, "will": 16, "luck": 15 } }, 
+{ "Age": 13, "Race": 0, "BaseStats": { "age": 13, "ap": 3, "life": 34, "mana": 26, "stamina": 30, "str": 16, "int": 10, "dex": 18, "will": 19, "luck": 17 } }, 
+{ "Age": 14, "Race": 0, "BaseStats": { "age": 14, "ap": 4, "life": 38, "mana": 29, "stamina": 34, "str": 18, "int": 10, "dex": 21, "will": 22, "luck": 18 } }, 
+{ "Age": 15, "Race": 0, "BaseStats": { "age": 15, "ap": 5, "life": 42, "mana": 32, "stamina": 38, "str": 20, "int": 11, "dex": 23, "will": 24, "luck": 19 } }, 
+{ "Age": 16, "Race": 0, "BaseStats": { "age": 16, "ap": 6, "life": 46, "mana": 36, "stamina": 42, "str": 22, "int": 13, "dex": 24, "will": 26, "luck": 19 } }, 
+{ "Age": 17, "Race": 0, "BaseStats": { "age": 17, "ap": 7, "life": 49, "mana": 40, "stamina": 46, "str": 24, "int": 15, "dex": 25, "will": 28, "luck": 19 } }, 
+{ "Age": 10, "Race": 1, "BaseStats": { "age": 10, "ap": 0, "life": 16, "mana": 25, "stamina": 16, "str": 10, "int": 12, "dex": 14, "will": 10, "luck": 10 } }, 
+{ "Age": 11, "Race": 1, "BaseStats": { "age": 11, "ap": 1, "life": 18, "mana": 29, "stamina": 19, "str": 11, "int": 14, "dex": 18, "will": 11, "luck": 12 } }, 
+{ "Age": 12, "Race": 1, "BaseStats": { "age": 12, "ap": 2, "life": 21, "mana": 33, "stamina": 21, "str": 12, "int": 16, "dex": 22, "will": 12, "luck": 14 } }, 
+{ "Age": 13, "Race": 1, "BaseStats": { "age": 13, "ap": 3, "life": 24, "mana": 36, "stamina": 24, "str": 13, "int": 18, "dex": 26, "will": 13, "luck": 15 } }, 
+{ "Age": 14, "Race": 1, "BaseStats": { "age": 14, "ap": 4, "life": 27, "mana": 40, "stamina": 26, "str": 14, "int": 20, "dex": 29, "will": 15, "luck": 16 } }, 
+{ "Age": 15, "Race": 1, "BaseStats": { "age": 15, "ap": 5, "life": 31, "mana": 43, "stamina": 29, "str": 15, "int": 23, "dex": 32, "will": 17, "luck": 17 } }, 
+{ "Age": 16, "Race": 1, "BaseStats": { "age": 16, "ap": 6, "life": 33, "mana": 45, "stamina": 35, "str": 16, "int": 26, "dex": 35, "will": 19, "luck": 17 } }, 
+{ "Age": 17, "Race": 1, "BaseStats": { "age": 17, "ap": 7, "life": 38, "mana": 47, "stamina": 38, "str": 17, "int": 29, "dex": 38, "will": 20, "luck": 17 } }, 
+{ "Age": 10, "Race": 2, "BaseStats": { "age": 10, "ap": 0, "life": 24, "mana": 14, "stamina": 22, "str": 13, "int": 10, "dex": 11, "will": 13, "luck": 10 } }, 
+{ "Age": 11, "Race": 2, "BaseStats": { "age": 11, "ap": 1, "life": 28, "mana": 15, "stamina": 26, "str": 17, "int": 10, "dex": 13, "will": 15, "luck": 12 } }, 
+{ "Age": 12, "Race": 2, "BaseStats": { "age": 12, "ap": 2, "life": 33, "mana": 16, "stamina": 29, "str": 21, "int": 10, "dex": 15, "will": 18, "luck": 14 } }, 
+{ "Age": 13, "Race": 2, "BaseStats": { "age": 13, "ap": 3, "life": 37, "mana": 18, "stamina": 32, "str": 24, "int": 10, "dex": 17, "will": 21, "luck": 15 } }, 
+{ "Age": 14, "Race": 2, "BaseStats": { "age": 14, "ap": 4, "life": 41, "mana": 21, "stamina": 34, "str": 28, "int": 10, "dex": 18, "will": 24, "luck": 16 } }, 
+{ "Age": 15, "Race": 2, "BaseStats": { "age": 15, "ap": 5, "life": 46, "mana": 24, "stamina": 36, "str": 32, "int": 10, "dex": 19, "will": 27, "luck": 17 } }, 
+{ "Age": 16, "Race": 2, "BaseStats": { "age": 16, "ap": 6, "life": 49, "mana": 26, "stamina": 40, "str": 34, "int": 10, "dex": 21, "will": 31, "luck": 17 } }, 
+{ "Age": 17, "Race": 2, "BaseStats": { "age": 17, "ap": 7, "life": 55, "mana": 28, "stamina": 43, "str": 36, "int": 11, "dex": 23, "will": 35, "luck": 17 } }, 
+]

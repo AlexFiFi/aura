@@ -1,0 +1,175 @@
+// Aura
+// Script documentation file
+//---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+...
+
+
+=============================================================================
+| Function template format                                                  |
+=============================================================================
+
+Braces
+------
+<> = Non-optional
+[] = Optional
+{} = Parameter list (variable amount 0-?)
+
+Parameters
+----------
+<type:description>=default
+The (C# variable) type of the function paramter is specified first,
+followed by a colon and a short description of the parameter.
+If paramters are omitted, they might default to some value. This value
+is specified with an equal sign, after the description.
+
+Examples
+--------
+SetName(<string:name>)
+SetName has only one non-optional parameter, a string. This paramter
+must be specified when calling the function.
+
+SetBody([<float:height>=1.0f[, <float:fat>=1.0f[, <float:upper>=1.0f[, <float:lower>=1.0f]]])
+SetBody has 4 optional paramters. they're all of type float, and default
+to 1.0f (1.0 of type float) if they're omitted. The braces are nested,
+because you have to specify all paramters, even if you only want to set
+lower. The next paramter is only optional, if the previous one was specified.
+An exception are named paramters, which can certainly be used.
+(See 'SetBody' in the 'Functions' section for an example on how to use those.)
+If you use named paramters, the remaining optional paramters default to the
+specified default value.
+
+
+=============================================================================
+| Monster spawns                                                            |
+=============================================================================
+All monsters are defined in 'data/db/monsters.txt'.
+All monster spawns are defined in 'data/db/spawns.txt'.
+
+Example:
+    The following entry specifies a spawn of 20 Gray Wolves (Monster 10001)
+    in Tir (Region 1) in the area X1/2-Y1/2. The spawn locations are
+	random.
+    { "MonsterId": 10001, "Region": 1, "X1": 4148, "Y1": 17021, "X2": 16689, "Y2": 24392, "Amount": 20 },
+	
+To add a regular spawn at a fixed position, simply make the area smaller.
+
+
+=============================================================================
+| Functions                                                                 |
+=============================================================================
+
+=== NPC options =============================================================
+
+** SetName(<string:name>)
+
+Sets the name of the NPC.
+
+-----------------------------------------------------------------------------
+
+** SetRace(<uint:race>)
+
+Sets the race of the NPC.
+
+-----------------------------------------------------------------------------
+
+** SetLocation(<uint:region>, <uint:x>, <uint:y>)
+
+Sets the region and position of the NPC.
+
+-----------------------------------------------------------------------------
+
+** SetBody( [<float:height>=1.0f[, <float:fat>=1.0f[, <float:upper>=1.0f][, <float:lower>=1.0f]]] )
+
+Sets the body attributes of the NPC.
+
+Examples:
+    SetBody(1.3f, 1.0f, 1.0f, 1.0f); // Sets all
+    SetBody(1.3f);                   // Sets only height, default for others
+    SetBody(lower : 1.3f);           // Sets only lower, default for others (Named parameter)
+
+-----------------------------------------------------------------------------
+
+** SetDirection(<byte:direction>)
+
+Sets the direction the NPC looks at.
+Since this function takes a byte, it ranges from 0 to 255,
+0 being east, 127 west, etc.
+
+-----------------------------------------------------------------------------
+
+** SetStand(<string:style>)
+
+Sets the stand style for the NPC.
+
+
+=== Communication ===========================================================
+
+** Msg(<MabiClient:client>[, <bool:show_face>, <bool:show_name>], {string:messages})
+
+Sends the given message to the client. The messages will get concatenated,
+to form a text where every line is one string parameter.
+The 2 optional parameters specify if the npc portait and name should be
+displayed for this message.
+
+Examples:
+    Msg(c, "Line 1", "Line 2", "Line 3");                        // 3 line text
+	Msg(c, true, false, "(Caitin is looking in my direction.)"); // Displays the message, while hiding the NPC name
+	
+-----------------------------------------------------------------------------
+
+** MsgSelect(<MabiClient:client>, <string:message>{, string:buttons})
+
+Sends the given message to the client.
+Unlike 'Msg', this takes only one string as the message
+and the remaining ones as buttons, that are appended to the message
+to create clickable buttons. You always need 2 paramters per button,
+the button text, and the keyword.
+A line break in the message is possible by using '<br/>'.
+
+Examples:
+    MsgSelect(c, "Example Message");                  // Simple message with an [End] button
+    MsgSelect(c, "Example Message", "Test", "@test"); // Message 1 button, saying "Test"
+    MsgSelect(c, "Example Message", "Start Convorsation", "@talk", "Shop", "@shop");
+
+-----------------------------------------------------------------------------
+
+** Select(<MabiClient:client>)
+
+Notifies the client that he can select something now. This should be send
+after a message that contained buttons, so you can get some response.
+When using 'MsgSelect' or 'ShowKeywords', this is sent automatically,
+and doesn't have to follow the other command.
+
+
+=== Shops ===================================================================
+
+** OpenShop(<MabiClient:client>)
+
+Opens the shop of the current NPC.
+
+-----------------------------------------------------------------------------
+
+** Shop.AddItem(<string:tab_name>, <uint:item_id>[, <int:price>=default])
+** Shop.AddItem(<string:tab_name>, <uint:item_id>[, <uint:color1>=random[, <uint:color2>=random[, <uint:color3>=random[, <int:price>]]]])
+
+Adds item to the shop. If price is ommited, the default price from the item
+database is used. If the colors are ommited, random colors will be generated.
+
+Examples:
+    Shop.AddItem("Equipment", 19081, 51);                    // Nuadha's Robe for 51 gold
+    Shop.AddItem("Equipment", 19081, 0, 0, 0);               // Pure black Nuadha's Robe for 89,000 gold (default)
+    Shop.AddItem("Equipment", 19081, color1 : 0, price : 0); // Partially black Nuadha's Robe for free
+
+-----------------------------------------------------------------------------
+
+** Shop.AddTabs({string:tab_name})
+
+Takes a variable amount of tab names, and adds them to the shop.
+
+Examples:
+    Shop.AddTabs("Grocery", "Gift", "Quest", "Event");

@@ -1,0 +1,82 @@
+// Aura
+// Documentation file
+//---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+In this file we'll try to explain some decisions that were made for Aura,
+temporarily or not, that might seem odd for one reason or another.
+(Hint: Temporary solutions are just /waiting/ to get fixed.)
+
+=============================================================================
+| 1. BCrypt                                                                 |
+=============================================================================
+
+Before the client sends passwords to the server they are hashed with MD5.
+On earlier versions of Aura this hash was simply stored and compared to
+verify the password. No problem so far. But one important reason passwords
+are stored as hashes, is to make it harder for attackers to get the passwords
+if the database should ever get into the wrong hands. Since MD5 isn't safe
+anymore (and hasn't been in quite some time), Aura uses BCrypt as additional
+safety measure. 
+
+Further reading:
+http://en.wikipedia.org/wiki/Bcrypt
+http://codahale.com/how-to-safely-store-a-password/
+
+=============================================================================
+| 2. JSON                                                                   |
+=============================================================================
+
+Many information about the game, like races, items, etc. are freely
+available from the client files. You just have to use them and you're good to
+go! So what's the problem with this? Why not just use the XMLs that are given
+to us by Nexon/devCat? I gotta admit, you can argue its easier to use them
+/from a coder's or advanced user's perspective/.
+But
+- It's illegal.
+- Aura wouldn't be ready out of the box. I know, it seems trivial to copy
+some XMLs, after using a data extractor, or downloading them from somewhere,
+but Aura is supposed to be easy and fast to set up. Download it, (compile it
+if you chose to download a non-binary version,) set up the database, and run
+it. We can't host or link the XML files for people due to legal problems. So
+others would have to take care of that. We would get support requests on how
+to get those files, where to copy them, etc. Editing them might be a little
+harder, because of XML, and all the data we don't need inside those files.
+Servers could break, due to people using XML files that were changed by
+Nexon for some reason. It's simply not the best way to do this.
+- I don't like XML. Some people obviously do, but for a format that's
+supposed to be easily editable by machines and humans likewise, it's too
+bloaded in my opinion. Using the client files would not only mean to use XML
+there, but also to use it for all our other text file based data. It would
+seem strange otherwise. Also, in my tests I was unable to write an XML parser
+that was faster than our JSON parser, which resulted in long waiting times
+when restarting the server.
+Because of these and other reasons, Aura will be using JSON.
+
+=============================================================================
+| 3. id_pool (temp)                                                         |
+=============================================================================
+
+People who have some experience with databases and look at Aura's database
+for the first time will probably squeal upon the decision to store Ids for
+new datasets in a table. I know I did when I saw this in the old ISNOGI.
+But it's actually tricky to store characters, pets, and potentially more
+in a single table, with all of them having Ids in different ranges. And for
+some reason they /have/ to be in these ranges, or you'll get problems.
+On my quest to fix this, I've realized it's hard to fix this in a nice and
+clean way, so I simply didn't (yet). This has to be changed at some point
+of course, and it will, don't worry.
+
+=============================================================================
+| 4. Communication of servers through database (temp)                       |
+=============================================================================
+
+Another temporary decision, left from ISNOGI, is that servers don't
+communicate yet. The world server writes channel information into the
+database and the login server reads it, to get information of where the
+user can connect to. At some point the channels will have to contact the
+login server though, and they'll communicate directly, as it's supposed
+to be.

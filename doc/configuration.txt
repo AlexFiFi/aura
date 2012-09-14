@@ -1,0 +1,52 @@
+// Aura
+// Configuration documentation file
+//---------------------------------------------------------------------------
+
+** User settings
+
+Although all options can be freely changed in the main files
+(e.g. conf/login.conf), in some cases it might be more comfortable to put
+the user options into the sub-folder "user". The main files include their
+counter parts (e.g. conf/user/login.conf), and the options get overwritten.
+This way you don't have to worry about the main files changing when updating,
+or when commiting changes to the SVN. Just create the user file, or copy the
+main file, and put the options you need in there.
+
+-----------------------------------------------------------------------------
+
+** Command line settings
+
+Aside from the conf files, you can also define options on the command line,
+these will overwrite the settings read from the files. You have all
+features of the conf files here, so you can even include more files.
+Note the quotation in the example though. Since arguments are split
+by spaces, you'll have to use them on lines that have such.
+The commands 'include' and 'require' are relative to the root folder (trunk)
+when used from the command line for convincience, in case you want to include
+files from other sub-folders for some reason.
+
+Examples:
+    WorldServer.exe world_servername=NotMartyr world_channelhost=Foo
+    WorldServer.exe "include conf/world-channel1.conf"
+    WorldServer.exe "world_servername = Name with spaces"
+
+-----------------------------------------------------------------------------
+
+** Console filter
+
+By default all messages are displayed in the console. The filter options are
+bitmasks, which allow you to hide specific log messages. To specify more than
+one, you simply add the values.
+
+Values:
+    INFO      = 1
+    WARNING   = 2
+    ERROR     = 4
+    DEBUG     = 8
+    STATUS    = 16
+    EXCEPTION = 32
+
+Examples:
+    login_consolefilter = 0  // Display everything
+    login_consolefilter = 4  // Hides debug messages
+    login_consolefilter = 12 // Hides debug and error msgs, 4 + 8

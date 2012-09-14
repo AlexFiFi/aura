@@ -1,0 +1,12 @@
+// Aura
+// NPC list file
+//
+// This file contains a list of NPC scripts, to load at the start of the
+// server. The NPCs are loaded and initialized independendly, this means,
+// they decide where to be, and what to do, themselves.
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// Tir Chonaill
+//---------------------------------------------------------------------------
+towns/tir/caitin.cs
