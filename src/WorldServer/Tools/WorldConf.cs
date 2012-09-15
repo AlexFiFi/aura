@@ -53,7 +53,7 @@ namespace World.Tools
 
 			WorldConf.ServerName = _conf.GetString("world_servername", "Dummy");
 			WorldConf.ChannelName = _conf.GetString("world_channelname", "Ch1");
-			WorldConf.ChannelHost = _conf.GetString("world_channelhost", "127.0.1");
+			WorldConf.ChannelHost = _conf.GetString("world_channelhost", "127.0.0.1");
 			WorldConf.ChannelPort = (ushort)_conf.GetInt("world_channelport", 11020);
 
 			WorldConf.CommandPrefix = _conf.GetString("commands_prefix", ">")[0];

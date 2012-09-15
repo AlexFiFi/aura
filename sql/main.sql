@@ -135,7 +135,6 @@ CREATE TABLE IF NOT EXISTS `items` (
   `protect` smallint(5) unsigned NOT NULL,
   `effective_range` smallint(5) unsigned NOT NULL,
   `attack_speed` tinyint(3) unsigned NOT NULL,
-  `down_hit_count` tinyint(3) unsigned NOT NULL,
   `experience` smallint(5) unsigned NOT NULL,
   `exp_point` tinyint(3) unsigned NOT NULL,
   `upgraded` tinyint(3) unsigned NOT NULL,

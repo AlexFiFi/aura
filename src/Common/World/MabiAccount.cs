@@ -15,14 +15,14 @@ namespace Common.World
 
 		public string Userpass;
 
-		public DateTime Creation = DateTime.MinValue;
-		public DateTime LastLogin = DateTime.MinValue;
+		public DateTime Creation = DateTime.Now;
+		public DateTime LastLogin;
 		public string LastIp;
 
 		public byte Banned;
 		public string BannedReason;
-		public DateTime BannedTime = DateTime.MinValue;
-		public DateTime BannedExpiration = DateTime.MinValue;
+		public DateTime BannedTime;
+		public DateTime BannedExpiration;
 
 		public List<MabiCharacter> Characters = new List<MabiCharacter>();
 		public List<MabiPet> Pets = new List<MabiPet>();

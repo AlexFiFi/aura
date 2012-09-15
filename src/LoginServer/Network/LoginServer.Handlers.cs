@@ -732,7 +732,10 @@ namespace Login.Network
 
 			// Remove card
 			if (LoginConf.ConsumeCards)
+			{
 				client.Account.PetCards.Remove(card);
+				MabiDb.Instance.SaveCards(client.Account);
+			}
 
 			// Create new pet
 			var newChar = new MabiPet();

@@ -310,8 +310,8 @@ namespace Common.Database
 					account.LastIp = reader.GetString("lastip");
 					account.LastLogin = reader["lastlogin"] as DateTime? ?? DateTime.MinValue;
 					account.Banned = reader.GetByte("banned");
-					account.BannedTime = reader["bannedtime"] as DateTime? ?? DateTime.MinValue;
 					account.BannedReason = reader.GetString("bannedreason");
+					account.BannedTime = reader["bannedtime"] as DateTime? ?? DateTime.MinValue;
 					account.BannedExpiration = reader["bannedexpiration"] as DateTime? ?? DateTime.MinValue;
 				}
 
@@ -465,7 +465,7 @@ namespace Common.Database
 					character.WillMod = reader.GetFloat("willBoost");
 					character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
-					character.DeletionTime = reader.GetDateTime("deletionTime");
+					character.DeletionTime = reader["deletionTime"] as DateTime? ?? DateTime.MinValue;
 					character.Status = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
 
 					character.LoadDefault();
@@ -597,14 +597,27 @@ namespace Common.Database
 			var conn = this.GetConnection();
 			try
 			{
-				this.QueryI(String.Format(
-					"INSERT INTO accounts " +
-					"VALUES ('{0}', '{1}', '{2}', '{3:u}','{9:u}', '{4}', '{5}', '{6:u}', '{7}', '{8:u}') " +
-					"ON DUPLICATE KEY UPDATE password = '{1}', authority = '{2}', lastlogin = '{3:u}', lastip = '{4}'",
+				var mc = new MySqlCommand(
+					"INSERT INTO `accounts`"
+					+ " (`accountId`, `password`, `creation`) "
+					+ " VALUES (@username, @password, @creation) "
+					+ " ON DUPLICATE KEY UPDATE"
+					+ " `password` = @password, `authority` = @authority, `creation` = @creation, `lastlogin` = @lastlogin, `lastip` = @lastip,"
+					+ " `banned` = @banned, `bannedtime` = @bannedtime, `bannedreason` = @bannedreason, `bannedexpiration` = @bannedexpiration"
+				, conn);
 
-					account.Username, account.Userpass, account.Authority, account.LastLogin, account.LastIp,
-					account.Banned, account.BannedTime, account.BannedReason, account.BannedExpiration, account.Creation
-				), conn);
+				mc.Parameters.AddWithValue("@username", account.Username);
+				mc.Parameters.AddWithValue("@password", account.Userpass);
+				mc.Parameters.AddWithValue("@authority", account.Authority);
+				mc.Parameters.AddWithValue("@lastlogin", account.LastLogin);
+				mc.Parameters.AddWithValue("@lastip", account.LastIp);
+				mc.Parameters.AddWithValue("@banned", account.Banned);
+				mc.Parameters.AddWithValue("@bannedtime", account.BannedTime);
+				mc.Parameters.AddWithValue("@bannedreason", account.BannedReason);
+				mc.Parameters.AddWithValue("@bannedexpiration", account.BannedExpiration);
+				mc.Parameters.AddWithValue("@creation", account.Creation);
+
+				mc.ExecuteNonQuery();
 
 				this.SaveCards(account);
 
@@ -884,7 +897,6 @@ namespace Common.Database
 					mc.Parameters.AddWithValue("@protect", item.OptionInfo.Protection);
 					mc.Parameters.AddWithValue("@effective_range", item.OptionInfo.EffectiveRange);
 					mc.Parameters.AddWithValue("@attack_speed", item.OptionInfo.AttackSpeed);
-					//mc.Parameters.AddWithValue("@down_hit_count", item.OptionInfo.DownHitCount);
 					mc.Parameters.AddWithValue("@experience", item.OptionInfo.Experience);
 					mc.Parameters.AddWithValue("@exp_point", 0); // ?
 					mc.Parameters.AddWithValue("@upgraded", item.OptionInfo.Upgraded);

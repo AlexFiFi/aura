@@ -1,0 +1,1 @@
+ALTER TABLE `items` DROP `down_hit_count`;

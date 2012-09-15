@@ -42,7 +42,7 @@ namespace Common.Network
 			Console.Write(@"                                                                                ");
 
 			Console.ForegroundColor = ConsoleColor.White;
-			Console.Write(@"                         by the ISNOGI develpment team                          ");
+			Console.Write(@"                         by the Aura development team                           ");
 
 			Console.ForegroundColor = ConsoleColor.DarkGray;
 			Console.Write(@"________________________________________________________________________________");
