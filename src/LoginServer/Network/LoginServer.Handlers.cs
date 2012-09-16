@@ -753,6 +753,8 @@ namespace Login.Network
 
 			MabiDb.Instance.SaveCharacter(client.Account, newChar);
 
+			client.Account.Pets.Add(newChar);
+
 			// Success
 			response.PutByte(1);
 			response.PutString(serverName);

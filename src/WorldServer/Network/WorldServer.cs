@@ -143,9 +143,18 @@ namespace World.Network
 			do
 			{
 				input = Console.ReadLine();
+				var splitted = input.Split(' ');
 
-				switch (input)
+				switch (splitted[0])
 				{
+					case "help":
+						Logger.Info("Commands:");
+						Logger.Info("  status       Shows some status information about the channel");
+						Logger.Info("  shutdown     Annonuces and executes server shutdown");
+						Logger.Info("  auth         Sets the authority of the given user");
+						Logger.Info("  help         Shows this");
+						break;
+
 					case "status":
 						Logger.Info("Creatures: " + WorldManager.Instance.GetCreatureCount());
 						Logger.Info("Items: " + WorldManager.Instance.GetItemCount());
@@ -157,11 +166,28 @@ namespace World.Network
 						// announce shutdown
 						// save chars
 						// exit
-						Logger.Info("Not implemented.");
+						Logger.Info("Not implemented yet.");
 						break;
 
-					case "help":
-						Logger.Info("Commands: status, shutdown, help");
+					case "auth":
+						if (splitted.Length < 3)
+							Logger.Error("Usage: auth <user id> <auth level>");
+
+						var accountId = splitted[1];
+						byte level = 0;
+						try
+						{
+							level = Convert.ToByte(splitted[2]);
+							if (MabiDb.Instance.SetAuthority(accountId, level))
+								Logger.Info("Done.");
+							else
+								Logger.Info("Account couldn't be found.");
+						}
+						catch
+						{
+							Logger.Error("Please specify an existing account and an authority level between 0 and 99.");
+						}
+
 						break;
 
 					case "":

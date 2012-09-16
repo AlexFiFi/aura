@@ -1,6 +1,27 @@
 // Aura
-// Commands documentation file
+// GM commands documentation file
 //---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+These are the commands that may be executed from the in-game chat.
+For many commands your account requires a minimum authority level.
+
+Level | Rank
+---------------
+0     | Player
+1     | VIP
+50    | GM
+99    | Admin
+
+You can set the authority level via MySQL or the console command "auth"
+(see "doc/console_commands.txt").
+
+=============================================================================
+| Commands                                                                  |
+=============================================================================
 
 ** where
 

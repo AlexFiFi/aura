@@ -258,6 +258,30 @@ namespace Common.Database
 		}
 
 		/// <summary>
+		/// Sets the  authority for the given account.
+		/// </summary>
+		/// <param name="accName"></param>
+		/// <param name="level"></param>
+		/// <returns></returns>
+		public bool SetAuthority(string accName, byte level)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				var mc = new MySqlCommand("UPDATE accounts SET authority = @auth WHERE accountId = @id", conn);
+				mc.Parameters.AddWithValue("@id", accName);
+				mc.Parameters.AddWithValue("@auth", level);
+				var found = mc.ExecuteNonQuery();
+
+				return found > 0;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		/// <summary>
 		/// Checks if the name is okay, and if a character (or pet) with the given name exists.
 		/// </summary>
 		/// <param name="name"></param>

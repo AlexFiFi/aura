@@ -1,0 +1,42 @@
+// Aura
+// Console commands documentation file
+//---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+The world server supports some commands that can be executed directly from
+the console window. Those can simply get typed in, and executed by pressing
+[Enter].
+
+=============================================================================
+| Commands                                                                  |
+=============================================================================
+
+** help
+
+Displays some short information about the available commands.
+
+-----------------------------------------------------------------------------
+
+** status
+
+Displays some information about the channel, like number of creatures alive,
+number of items lying around, time the channel has been online, etc.
+
+-----------------------------------------------------------------------------
+
+** shutdown <time> [reason]
+
+(Not implemented yet)
+Broadcasts a message that the server will shutdown for the given reason
+(optional) after x minutes, specified in time.
+
+-----------------------------------------------------------------------------
+
+** auth <account id> <authority level>
+
+Changes the authority level for the given account. Please note that you have
+to relog for this to take effect, and you should log out before running this,
+or it might get reset.
