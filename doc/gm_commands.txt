@@ -92,15 +92,10 @@ and displays their Ids (to a maximum of 20).
 
 -----------------------------------------------------------------------------
 
-** spawn ?
+** spawn <monster id>
 
-Spawns a dummy NPC.
-
------------------------------------------------------------------------------
-
-** despawn ?
-
-De-spawns a dummy NPC.
+(Not implemented yet.)
+Spawns the monster with the given Id at the character's location.
 
 -----------------------------------------------------------------------------
 
@@ -109,3 +104,16 @@ De-spawns a dummy NPC.
 Warps character to the given region and coordinates.
 If x and y, or only y, are ommited, the current position
 of the character is used.
+
+-----------------------------------------------------------------------------
+
+** reloadnpcs
+
+Removes all creatures that classify as NPCs (including monsters) from the
+server and loads them again.
+
+-----------------------------------------------------------------------------
+
+** reloaddata
+
+Reloads all data (spawns, monsters, items, etc).

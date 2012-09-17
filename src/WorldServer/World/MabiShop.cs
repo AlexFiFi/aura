@@ -109,23 +109,5 @@ namespace World.World
 			var newItem = (item != null ? new MabiItem(item) : null);
 			return newItem;
 		}
-
-		public void AddData(MabiPacket packet)
-		{
-			packet.PutString("shopname");
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutInt(0);
-			packet.PutByte((byte)this.Tabs.Count);
-			foreach (var tab in this.Tabs)
-			{
-				packet.PutString(tab.Name);
-				packet.PutShort((ushort)tab.Items.Count);
-				foreach (var item in tab.Items)
-				{
-					packet.PutBin(item.Info);
-				}
-			}
-		}
 	}
 }

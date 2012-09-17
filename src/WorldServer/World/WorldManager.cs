@@ -245,6 +245,21 @@ namespace World.World
 			WorldEvents.Instance.OnEntityEntersRegion(creature);
 		}
 
+		public void RemoveAllNPCs()
+		{
+			var toRemove = new List<MabiCreature>();
+			foreach (var creature in _creatures)
+			{
+				if (creature is MabiNPC)
+					toRemove.Add(creature);
+			}
+
+			foreach (var creature in toRemove)
+			{
+				this.RemoveCreature(creature);
+			}
+		}
+
 		/// <summary>
 		/// Removes a creature from the world, and raises the LeaveRegion event,
 		/// to notifiy clients about it.

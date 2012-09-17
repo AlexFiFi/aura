@@ -45,7 +45,8 @@ namespace World.Scripting
 						{
 							// TODO: Maybe try to do this some other way, without script and NPC needing each other. But this is the most comfortable way I guess.
 
-							var script = (NPCScript)CSScript.Load(filePath).CreateObject("*");
+							//var script = (NPCScript)CSScript.Load(filePath).CreateObject("*");
+							var script = (NPCScript)CSScript.LoadCode(File.ReadAllText(filePath)).CreateObject("*");
 							var npc = new MabiNPC();
 							npc.Script = script;
 							npc.ScriptPath = filePath;
@@ -141,7 +142,8 @@ namespace World.Scripting
 
 				if (aiFilePath != null)
 				{
-					monster.AIScript = (AIScript)CSScript.Load(aiFilePath).CreateObject("*");
+					//monster.AIScript = (AIScript)CSScript.Load(aiFilePath).CreateObject("*");
+					monster.AIScript = (AIScript)CSScript.LoadCode(File.ReadAllText(aiFilePath)).CreateObject("*");
 					monster.AIScript.Creature = monster;
 					monster.AIScript.OnLoad();
 				}

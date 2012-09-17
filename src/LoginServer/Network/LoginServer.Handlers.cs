@@ -32,6 +32,10 @@ namespace Login.Network
 			this.RegisterPacketHandler(0x00000041, HandleDeletePC);
 			this.RegisterPacketHandler(0x00000043, HandleDeletePC);
 			this.RegisterPacketHandler(0x0000004D, HandleDisconnect);
+
+			// EU
+			//this.RegisterPacketHandler(0x1E, HandleVersionCheck);
+			//this.RegisterPacketHandler(0x0F010000, HandleLogin);
 		}
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)
@@ -73,7 +77,7 @@ namespace Login.Network
 
 			MabiAccount account = null;
 
-			if (LoginConf.NewAccounts && username.StartsWith("new//"))
+			if (LoginConf.NewAccounts && username.StartsWith("new//") || username.StartsWith("new__"))
 			{
 				username = username.Remove(0, 5);
 

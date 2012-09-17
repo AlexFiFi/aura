@@ -13,6 +13,7 @@ using CSScriptLibrary;
 using MabiNatives;
 using World.Network;
 using World.Tools;
+using World.Scripting;
 
 namespace World.World
 {
@@ -88,8 +89,6 @@ namespace World.World
 			this.AddCommand("iteminfo", "<item name>", Authority.GameMaster, Command_iteminfo);
 			this.AddCommand("ii", "<item name>", Authority.GameMaster, Command_iteminfo);
 			this.AddCommand("mi", "<item name>", Authority.GameMaster, Command_monsterinfo);
-			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
-			this.AddCommand("despawn", Authority.GameMaster, Command_despawn);
 			this.AddCommand("goto", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("warp", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("jump", "<x> [y]", Authority.GameMaster, Command_jump);
@@ -97,8 +96,11 @@ namespace World.World
 			this.AddCommand("statuseffect", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("se", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
+			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
+			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
+			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 
 			// Load script commands
 			var commandsPath = Path.Combine(WorldConf.ScriptPath, "command");
@@ -338,37 +340,16 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
-		// A dummy NPC... what for?
 		private CommandResult Command_spawn(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			MabiNPC dummyNPC = new MabiNPC();
-			dummyNPC.Race = uint.Parse(args[1]);
-			dummyNPC.Name = string.Format("{0:X}", dummyNPC.Id);
-			dummyNPC.Direction = byte.Parse(args[2]);
-			/*dummyNPC.SetHeight(float.Parse(parameters[3]));
-			dummyNPC.SetFat(float.Parse(parameters[4]));
-			dummyNPC.SetUpper(float.Parse(parameters[5]));
-			dummyNPC.SetLower(float.Parse(parameters[6]));*/
+			//if (args.Length < 2)
+			//    return CommandResult.WrongParameter;
 
-			dummyNPC.Region = creature.Region;
+			//uint monsterId = 0;
+			//if (!uint.TryParse(args[1], out monsterId))
+			//    return CommandResult.Fail;
 
-			var myLoc = creature.GetPosition();
-			dummyNPC.SetPosition(myLoc.X, myLoc.Y);
-
-			WorldManager.Instance.AddCreature(dummyNPC);
-
-			return CommandResult.Okay;
-		}
-
-		private CommandResult Command_despawn(WorldClient client, MabiCreature creature, string[] args, string msg)
-		{
-			ulong dummyid = UInt64.Parse(args[1], System.Globalization.NumberStyles.HexNumber);
-			MabiCreature dummyNPC = WorldManager.Instance.GetCreatureById(dummyid);
-
-			if (dummyNPC == null || !(dummyNPC is MabiNPC))
-				return CommandResult.Fail;
-
-			WorldManager.Instance.RemoveCreature(dummyNPC);
+			// TODO: Move some stuff around in NPCManager and add a monster spawn from here.
 
 			return CommandResult.Okay;
 		}
@@ -507,10 +488,7 @@ namespace World.World
 
 		private CommandResult Command_test(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			var p = new MabiPacket(0x6D6C, creature.Id);
-			p.PutByte(byte.Parse(args[1]));
-
-			client.Send(p);
+			WorldManager.Instance.RemoveAllNPCs();
 
 			return CommandResult.Okay;
 		}
@@ -518,6 +496,39 @@ namespace World.World
 		private CommandResult Command_skill(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			creature.Skills.Add(new MabiSkill(ushort.Parse(args[1]), (byte)SkillRank.R9, creature.Race));
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_reloadnpcs(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			client.Send(PacketCreator.ServerMessage(creature, "Reloading NPCs..."));
+
+			WorldManager.Instance.RemoveAllNPCs();
+			NPCManager.Instance.LoadNPCs();
+			NPCManager.Instance.LoadSpawns();
+
+			client.Send(PacketCreator.ServerMessage(creature, "done."));
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_reloaddata(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			client.Send(PacketCreator.ServerMessage(creature, "Reloading data for this channel..."));
+
+			try
+			{
+				MabiData.LoadFromJSON(WorldConf.DataPath, DataCats.All);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex.Message);
+				client.Send(PacketCreator.ServerMessage(creature, "Something went wrong here."));
+				return CommandResult.Fail;
+			}
+
+			client.Send(PacketCreator.ServerMessage(creature, "done."));
 
 			return CommandResult.Okay;
 		}

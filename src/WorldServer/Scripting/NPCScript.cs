@@ -197,11 +197,12 @@ namespace World.Scripting
 			p.PutByte(0);
 			p.PutInt(0);
 			p.PutByte((byte)this.Shop.Tabs.Count);
-			foreach (var tab in this.Shop.Tabs)
+			for (var i = 0; i < this.Shop.Tabs.Count; ++i)
 			{
-				p.PutString(tab.Name);
-				p.PutShort((ushort)tab.Items.Count);
-				foreach (var item in tab.Items)
+				p.PutString("[" + i + "]" + this.Shop.Tabs[i].Name);
+				p.PutByte(0);
+				p.PutShort((ushort)this.Shop.Tabs[i].Items.Count);
+				foreach (var item in this.Shop.Tabs[i].Items)
 				{
 					item.AddPrivateEntityData(p);
 				}

@@ -4,8 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Common.Network
 {
@@ -44,23 +44,8 @@ namespace Common.Network
 			this.Id = (ulong)IPAddress.HostToNetworkOrder(BitConverter.ToInt64(_buffer, _ptr + 4));
 			_ptr += 12;
 
-			//var bodyLen = 0;
-			//var bodyCount = 0;
-
-			//for (int i = 0; ; ++i)
-			//{
-			//    bodyLen += (_buffer[_ptr] & 0x7F) << (i * 7);
-			//    if (_buffer[_ptr++] < 0x80)
-			//        break;
-			//}
-			//for (int i = 0; ; ++i)
-			//{
-			//    bodyCount += (_buffer[_ptr] & 0x7F) << (i * 7);
-			//    if (_buffer[_ptr++] < 0x80)
-			//        break;
-			//}
-
-			do { _ptr++; } while (_buffer[_ptr - 1] != 0x00);
+			for (int i = 0; i < 6 && _buffer[++_ptr - 1] != 0x00 && _ptr < length; ++i) { }
+			//do { _ptr++; } while (_buffer[_ptr - 1] != 0x00 && _ptr < length);
 		}
 
 		public MabiPacket Put<T>(T val)
