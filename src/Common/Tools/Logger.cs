@@ -18,7 +18,7 @@ namespace Common.Tools
 			Debug = 8,
 			Status = 16,
 			Exception = 32,
-			FixMe = 64,
+			//FixMe = 64,
 		}
 
 		private static string _logFile = null;
@@ -41,10 +41,10 @@ namespace Common.Tools
 			Write(LogLevel.Info, s, newLine);
 		}
 
-		public static void FixMe(string s)
-		{
-			Write(LogLevel.FixMe, s);
-		}
+		//public static void FixMe(string s)
+		//{
+		//    Write(LogLevel.FixMe, s);
+		//}
 
 		public static void Warning(string s)
 		{
@@ -98,7 +98,7 @@ namespace Common.Tools
 				case LogLevel.Debug: Console.ForegroundColor = ConsoleColor.Cyan; break;
 				case LogLevel.Status: Console.ForegroundColor = ConsoleColor.Green; break;
 				case LogLevel.Exception: Console.ForegroundColor = ConsoleColor.DarkRed; break;
-				case LogLevel.FixMe: Console.ForegroundColor = ConsoleColor.DarkYellow; break;
+				//case LogLevel.FixMe: Console.ForegroundColor = ConsoleColor.DarkYellow; break;
 			}
 
 			Console.Write("[" + lvl.ToString() + "]");

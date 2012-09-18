@@ -117,3 +117,10 @@ server and loads them again.
 ** reloaddata
 
 Reloads all data (spawns, monsters, items, etc).
+
+-----------------------------------------------------------------------------
+
+** skill <skill id> [rank]
+
+Gives the skill with the specified Id to the character. "rank" ranges from
+0 (Novice) to 15 (Rank 1).

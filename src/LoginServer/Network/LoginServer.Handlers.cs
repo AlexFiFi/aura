@@ -77,7 +77,7 @@ namespace Login.Network
 
 			MabiAccount account = null;
 
-			if (LoginConf.NewAccounts && username.StartsWith("new//") || username.StartsWith("new__"))
+			if (LoginConf.NewAccounts && (username.StartsWith("new//") || username.StartsWith("new__")))
 			{
 				username = username.Remove(0, 5);
 

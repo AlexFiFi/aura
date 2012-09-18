@@ -445,9 +445,15 @@ namespace World.World
 			if (args.Length < 2)
 				return CommandResult.WrongParameter;
 
-			creature.Race = ushort.Parse(args[1]);
+			ushort raceId = 0;
+			if (!ushort.TryParse(args[1], out raceId))
+				return CommandResult.Fail;
 
-			client.Send(PacketCreator.SystemMessage(creature, "You changed your race. To complete the change, you will be logged out."), PacketCreator.SystemMessage(creature, "See you in 30 seconds..."));
+			// TODO: Check if this can be done without relog.
+			creature.Race = raceId;
+
+			client.Send(PacketCreator.SystemMessage(creature, "Your race has been changed. You'll be logged out to complete the process."));
+			client.Send(PacketCreator.SystemMessage(creature, "See you in 30 seconds :)"));
 
 			client.Kill();
 
@@ -497,7 +503,26 @@ namespace World.World
 
 		private CommandResult Command_skill(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			creature.Skills.Add(new MabiSkill(ushort.Parse(args[1]), (byte)SkillRank.R9, creature.Race));
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			ushort skillId = 0;
+			if (!ushort.TryParse(args[1], out skillId))
+				return CommandResult.Fail;
+
+			byte rank = (byte)SkillRank.R9;
+			if (args.Length > 2 && !byte.TryParse(args[2], out rank))
+				return CommandResult.Fail;
+
+			MabiSkill skill = creature.Skills.FirstOrDefault(a => a.Info.Id == skillId);
+			if (skill != null)
+				creature.Skills.Remove(skill);
+
+			skill = new MabiSkill(skillId, rank, creature.Race);
+			creature.Skills.Add(skill);
+
+			client.Send(new MabiPacket(0x6979, creature.Id).PutBin(skill.Info));
+			client.Send(PacketCreator.ServerMessage(creature, "Congratulations, you got skill '" + skillId + "'."));
 
 			return CommandResult.Okay;
 		}
