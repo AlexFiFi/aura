@@ -176,7 +176,7 @@ namespace Common.World
 		public float StaminaMaxBase { get { return _staminaMaxBase; } set { _staminaMaxBase = value; } }
 		public float StaminaMaxMod { get { return _staminaMaxMod; } set { _staminaMaxMod = value; } }
 		public float Food { get { return _food; } set { _food = value; } }
-		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxBase; } }
+		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxMod; } }
 		public float StaminaFood { get { return this.StaminaMax - _food; } }
 
 		private float _strBase, _dexBase, _intBase, _willBase, _luckBase;
@@ -268,6 +268,15 @@ namespace Common.World
 			this.DexBase = 10;
 			this.WillBase = 10;
 			this.LuckBase = 10;
+		}
+
+		public void FullHeal()
+		{
+			this.Injuries = 0;
+			this.Food = 0;
+			this.Life = this.LifeMax;
+			this.Mana = this.ManaMax;
+			this.Stamina = this.StaminaMax;
 		}
 
 		public float GetBalance()
@@ -547,10 +556,32 @@ namespace Common.World
 		public void GiveExp(ulong val)
 		{
 			this.Experience += val;
+
+			if (this.Experience < ExpTable.GetTotalForNextLevel(this.Level))
+				return;
+
+			Dictionary<string, ushort> addedStats = new Dictionary<string,ushort>()
+			{
+				{ "Level", 0 },
+				{ "AP", 0 }
+			};
+
 			while (this.Experience >= ExpTable.GetTotalForNextLevel(this.Level) && this.Level < ExpTable.GetMaxLevel())
 			{
-				this.Level++;
+				addedStats["Level"]++;
+				addedStats["AP"]++;
 			}
+			LevelUp(addedStats);
+		}
+
+		public void LevelUp(Dictionary<string, ushort> addedStats)
+		{
+			this.AbilityPoints += addedStats["AP"];
+			this.Level += addedStats["Level"];
+
+			//TODO: Other Stats
+
+			FullHeal();
 		}
 
 		public bool IsDead()

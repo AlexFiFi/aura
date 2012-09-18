@@ -276,6 +276,16 @@ namespace World.World
 		}
 
 		/// <summary>
+		/// Returns the first creature with the given name, or null if there isn't one.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public MabiCreature GetCreatureByName(string name)
+		{
+			return _creatures.FirstOrDefault(a => a.Name.Equals(name));
+		}
+
+		/// <summary>
 		/// Returns the creature with the given Id, or null if it couldn't be found.
 		/// </summary>
 		/// <param name="Id"></param>
@@ -300,7 +310,7 @@ namespace World.World
 		/// <returns></returns>
 		public uint GetCharactersCount()
 		{
-			return (uint)_creatures.FindAll(a => a is MabiPC).Count;
+			return (uint)_creatures.Count(a => a is MabiPC);
 		}
 
 		/// <summary>
@@ -720,13 +730,9 @@ namespace World.World
 						// Exp
 						if (action.Enemy.LevelingEnabled)
 						{
-							// Give exp, and raise level up event
+							// Give exp
 							var exp = action.Creature.BattleExp;
-							var oldLevel = action.Enemy.Level;
 							action.Enemy.GiveExp(exp);
-
-							if (oldLevel < action.Enemy.Level)
-								this.CreatureLevelUp(action.Enemy);
 
 							// If the creature is controlled by a client
 							// it probably wants to get some information.

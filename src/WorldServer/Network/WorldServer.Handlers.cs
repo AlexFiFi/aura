@@ -63,6 +63,9 @@ namespace World.Network
 			this.RegisterPacketHandler(0x0F213303, HandleMove);
 			this.RegisterPacketHandler(0x0FCC3231, HandleCombatAttack);
 			this.RegisterPacketHandler(0x0FF23431, HandleMove);
+			this.RegisterPacketHandler(0x4EEB, HandleGMCPSummon);
+			this.RegisterPacketHandler(0x4EEC, HandleGMCPMoveToChar);
+			this.RegisterPacketHandler(0x4EED, HandleGMCPRevive);
 		}
 
 		private void HandleLogin(WorldClient client, MabiPacket packet)
@@ -227,6 +230,67 @@ namespace World.Network
 			var p = new MabiPacket(0x540F, creature.Id);
 			p.PutByte(result);
 			client.Send(p);
+		}
+
+		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
+		{
+			string targetName = packet.GetString();
+			var target = WorldManager.Instance.GetCreatureByName(targetName);
+			if (target == null)
+			{
+				Logger.Warning("Tried to move to a nonexisting creature!");
+				client.Send(PacketCreator.SystemMessage(client.Creatures.FirstOrDefault(a => a.Id == packet.Id), "Creature \"" + targetName + "\" does not exist"));
+				return;
+			}
+			var region = target.Region;
+			var targetPos = target.GetPosition();
+			client.Warp(region, targetPos.X, targetPos.Y);
+		}
+
+		private void HandleGMCPRevive(WorldClient client, MabiPacket packet)
+		{
+			var creature = WorldManager.Instance.GetCreatureById(packet.Id);
+			if (creature == null || !creature.IsDead())
+			{
+				Logger.Warning("Tried to revive to a nonexisting/non-dead creature!");
+				client.Send(PacketCreator.SystemMessage(client.Creatures.FirstOrDefault(a => a.Id == packet.Id), "Creature does not exist or is not knocked out."));
+				return;				
+			}
+			WorldManager.Instance.CreatureRevive(creature);
+			var pos = creature.GetPosition();
+			var region = creature.Region;
+			var response = new MabiPacket(0x53FF, creature.Id);
+			response.PutInt(1);
+			response.PutInt(region);
+			response.PutInt(pos.X);
+			response.PutInt(pos.Y);
+			client.Send(response);
+
+			creature.FullHeal();
+		}
+
+		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
+		{
+			var myPos = client.Character.GetPosition();
+			var region = client.Character.Region;
+			string targetName = packet.GetString();
+			var target = WorldManager.Instance.GetCreatureByName(targetName);
+			if (target == null)
+			{
+				Logger.Warning("Tried to summon a nonexisting creature!");
+				client.Send(PacketCreator.SystemMessage(client.Creatures.FirstOrDefault(a => a.Id == packet.Id), "Creature \"" + targetName + "\" does not exist"));
+				return;
+			}
+			if (target.Client == null || !(target.Client is WorldClient)) //We'll let the summon continue, but we should warn them.
+			{
+				Logger.Warning("Summoning a non-client controlled creature! (Lich in Dunby?)");
+				//"Force" the summon. Probably not a good idea, but.........
+				target.SetLocation(region, myPos.X, myPos.Y);
+			}
+			else
+			{
+				(target.Client as WorldClient).Warp(region, myPos.X, myPos.Y);
+			}
 		}
 
 		private void HandleNPCTalkStart(WorldClient client, MabiPacket packet)
