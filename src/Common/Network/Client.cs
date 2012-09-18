@@ -72,11 +72,19 @@ namespace Common.Network
 			this.Send(packet.Build());
 		}
 
-		public void Send(List<MabiPacket> packets)
+		public void Send(IEnumerable<MabiPacket> packets)
 		{
 			foreach (var packet in packets)
 			{
 				this.Send(packet.Build());
+			}
+		}
+
+		public void Send(params MabiPacket[] packets)
+		{
+			foreach (var packet in packets)
+			{
+				this.Send(packet.Build()); //Better way to do this with less redundancy?
 			}
 		}
 

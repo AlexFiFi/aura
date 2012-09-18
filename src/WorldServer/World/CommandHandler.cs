@@ -447,6 +447,8 @@ namespace World.World
 
 			creature.Race = ushort.Parse(args[1]);
 
+			client.Send(PacketCreator.SystemMessage(creature, "You changed your race. To complete the change, you will be logged out."), PacketCreator.SystemMessage(creature, "See you in 30 seconds..."));
+
 			client.Kill();
 
 			return CommandResult.Okay;

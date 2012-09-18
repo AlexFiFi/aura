@@ -232,7 +232,7 @@ namespace Common.Network
 							}
 							else
 							{
-								Logger.Warning("Unhandled packet: " + HexTool.ToString(packet.Op));
+								Logger.FixMe("Unhandled packet: " + HexTool.ToString(packet.Op));
 							}
 						}
 					}
@@ -240,7 +240,16 @@ namespace Common.Network
 					client.Buffer.InitBB();
 				}
 
-				client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(OnReceive), client);
+				try
+				{
+					if (client.State == SessionState.Dead)
+						throw new ObjectDisposedException("Client socket"); //Hack, but it avoids duplicate code
+					client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(OnReceive), client);
+				}
+				catch (ObjectDisposedException)
+				{
+					Logger.FixMe("Bad client kill. Client attempted to send data after disconnect.");
+				}
 			}
 			catch (SocketException)
 			{

@@ -737,7 +737,7 @@ namespace Common.Database
 					+ " `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax,"
 					+ " `mana` = @mana, `manaMax` = @manaMax,"
 					+ " `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food,"
-					+ " `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age,"
+					+ " `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age, `race` = @race,"
 					+ " `strength` = @strength, `dexterity` = @dexterity, `intelligence` = @intelligence, `will` = @will, `luck` = @luck,"
 					+ " `abilityPoints` = @abilityPoints"
 				, conn);
@@ -994,7 +994,7 @@ namespace Common.Database
 
 						// Channel servers will update "heartbeat" regularly.
 						// If the value hasn't been updated recently, assume they died in a fire.
-						var state = (ChannelState)(DateTime.Now.Subtract(reader.GetDateTime("heartbeat")).TotalMinutes >= 2 ? 0 : reader.GetByte("state"));
+						var state = (ChannelState)(DateTime.Now.Subtract(reader.GetDateTime("heartbeat")).TotalMinutes >= 2 ? (byte)0 : reader.GetByte("state"));
 						var events = (ChannelEvent)reader.GetByte("events");
 						var stress = reader.GetByte("stress");
 
