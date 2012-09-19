@@ -184,7 +184,7 @@ namespace Common.World
 		public float StaminaMaxMod { get { return _staminaMaxMod; } set { _staminaMaxMod = value; } }
         public float StaminaBaseRegen { get { return _staminaBaseRegen; } set { _staminaBaseRegen = value; } }
 		public float Food { get { return _food; } set { _food = value; } }
-		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxBase; } }
+		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxMod; } }
 		public float StaminaFood { get { return this.StaminaMax - _food; } }
         public float StaminaRegen { get { return _staminaBaseRegen; } } //TODO: Factor in skills (rest, respite) and status (Enduring melody) here
 
@@ -218,6 +218,12 @@ namespace Common.World
 
 		private ulong _exp;
 		public ulong Experience { get { return _exp; } set { _exp = value; } }
+
+		private int _minMeleeDamageBase, _maxMeleeDamageBase;
+		public int MinMeleeDamageBase { get { return _minMeleeDamageBase; } set { _minMeleeDamageBase = value; } }
+		public int MaxMeleeDamageBase { get { return _maxMeleeDamageBase; } set { _maxMeleeDamageBase = value; } }
+		public int MinMeleeDamage { get { return Math.Min((int)(_minMeleeDamageBase + Str / 3f), MaxMeleeDamage); } }
+		public int MaxMeleeDamage { get { return (int)(_maxMeleeDamageBase + Str / 2.5f); } }
 
 
 		public bool IsPlayer()
@@ -284,6 +290,7 @@ namespace Common.World
                 Mana += ManaRegen;
                 Stamina += StaminaRegen;
             }
+			EntityEvents.Instance.OnCreatureStatUpdates(this);
         }
 
         public virtual void CalculateBaseStats()
@@ -608,11 +615,13 @@ namespace Common.World
 				{ "AP", 0 }
 			};
 
+			ushort maxLvl = ExpTable.GetMaxLevel();
+
 			do
 			{
 				addedStats["Level"]++;
 				addedStats["AP"]++;
-			} while (this.Experience >= ExpTable.GetTotalForNextLevel(this.Level + addedStats["Level"]) && this.Level < ExpTable.GetMaxLevel());
+			} while (this.Experience >= ExpTable.GetTotalForNextLevel(this.Level + addedStats["Level"]) && (this.Level + addedStats["Level"]) < maxLvl);
 
 			LevelUp(addedStats);
 		}

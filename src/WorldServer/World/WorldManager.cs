@@ -289,6 +289,7 @@ namespace World.World
 			}
 
 			this.CreatureLeaveRegion(creature);
+			creature.Dispose();
 		}
 
 		/// <summary>

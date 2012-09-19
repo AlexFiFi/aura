@@ -3,16 +3,16 @@
 
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Common.Constants;
 using Common.Database;
+using Common.Events;
 using Common.Network;
 using Common.Tools;
 using Common.World;
 using MabiNatives;
-using World.World;
 using World.Tools;
-using System.Text.RegularExpressions;
-using Common.Events;
+using World.World;
 
 namespace World.Network
 {
@@ -66,7 +66,8 @@ namespace World.Network
 			this.RegisterPacketHandler(0x0FF23431, HandleMove);
 			this.RegisterPacketHandler(0x4EEB, HandleGMCPSummon);
 			this.RegisterPacketHandler(0x4EEC, HandleGMCPMoveToChar);
-			this.RegisterPacketHandler(0x4EED, HandleGMCPRevive);
+			this.RegisterPacketHandler(0x4EED, HandleGMCPMove);
+			this.RegisterPacketHandler(0x4EEE, HandleGMCPRevive);
 		}
 
 		private void HandleLogin(WorldClient client, MabiPacket packet)
@@ -231,6 +232,14 @@ namespace World.Network
 			var p = new MabiPacket(0x540F, creature.Id);
 			p.PutByte(result);
 			client.Send(p);
+		}
+
+		public void HandleGMCPMove(WorldClient client, MabiPacket packet)
+		{
+			var region = packet.GetInt();
+			var x = packet.GetInt();
+			var y = packet.GetInt();
+			client.Warp(region, x, y);
 		}
 
 		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
