@@ -13,6 +13,7 @@ using MabiNatives;
 using World.Scripting;
 using World.Tools;
 using World.World;
+using Common.Events;
 
 namespace World.Network
 {
@@ -119,7 +120,7 @@ namespace World.Network
 
 			// Run the channel register method once, and then subscribe to the event that's run once per minute.
 			this.OncePerMinute(null, null);
-			WorldEvents.Instance.RealTimeTick += this.OncePerMinute;
+			ServerEvents.Instance.RealTimeTick += this.OncePerMinute;
 
 			// Starto
 			// --------------------------------------------------------------

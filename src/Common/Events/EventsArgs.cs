@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Common.World;
 using Common.Constants;
 
-namespace World.World
+namespace Common.Events
 {
 	/// <summary>
 	/// Generally used event arg, for when there's only a few packets to send.
@@ -32,6 +32,15 @@ namespace World.World
 		public override string ToString()
 		{
 			return (this.Hour.ToString().PadLeft(2, '0') + ":" + this.Minute.ToString().PadLeft(2, '0'));
+		}
+	}
+
+	public class EntityEventArgs : EventArgs
+	{
+		public MabiEntity Entity;
+		public EntityEventArgs(MabiEntity e)
+		{
+			Entity = e;
 		}
 	}
 

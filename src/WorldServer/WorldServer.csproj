@@ -68,7 +68,6 @@
     <Compile Include="World\MabiProp.cs" />
     <Compile Include="World\MabiShop.cs" />
     <Compile Include="World\WorldManager.cs" />
-    <Compile Include="World\WorldEventsArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -82,9 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="mabioriginal.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="World\WorldEvents.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

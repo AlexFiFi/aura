@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Common.Constants;
 using Common.Network;
 using MabiNatives;
+using Common.Events;
 
 namespace Common.World
 {
@@ -117,6 +118,7 @@ namespace Common.World
 			this.Height = itemToCopy.Height;
 
 			this.Id = _worldItemIndex++;
+
 		}
 
 		public MabiItem(PCCardItem cardItem)

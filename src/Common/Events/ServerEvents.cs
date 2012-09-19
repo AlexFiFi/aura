@@ -1,24 +1,30 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
-// For more information, see licence.txt in the main folder
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Common.World;
 
-namespace World.World
+namespace Common.Events
 {
-	public class WorldEvents
-	{
-		public readonly static WorldEvents Instance = new WorldEvents();
-		static WorldEvents() { }
-		private WorldEvents() { }
+	/// <summary>
+	/// The server raises these events. Entities should subscribe in their
+	/// "HookUp" method and unsubscribe in their "Dispose" method.
+	/// </summary>
+    public class ServerEvents
+    {
+		public readonly static ServerEvents Instance = new ServerEvents();
+		protected ServerEvents()
+		{
+
+		}
 
 		public EventHandler PlayerLogsIn;
-		public EventHandler<TimeEventArgs> ErinnTimeTick, RealTimeTick;
-		public EventHandler EntityEntersRegion, EntityLeavesRegion;
+		public EventHandler<TimeEventArgs> ErinnTimeTick, RealTimeTick, Erinn12HourTick;
+		public EventHandler<EntityEventArgs> EntityEntersRegion, EntityLeavesRegion;
 		public EventHandler<MoveEventArgs> CreatureMoves;
 		public EventHandler<ChatEventArgs> CreatureTalks;
 		public EventHandler<MotionEventArgs> CreatureUsesMotion;
-		public EventHandler CreatureLevelsUp;
+
 
 		public void OnPlayerLogsIn(MabiCreature creature, EventArgs e = null)
 		{
@@ -32,30 +38,29 @@ namespace World.World
 				ErinnTimeTick(sender, e);
 		}
 
+		public void OnErinn12HourTick(object sender, TimeEventArgs e)
+		{
+			if (Erinn12HourTick != null)
+				Erinn12HourTick(sender, e);
+		}
+
 		public void OnRealTimeTick(object sender, TimeEventArgs e)
 		{
 			if (RealTimeTick != null)
 				RealTimeTick(sender, e);
 		}
 
-		public void OnEntityEntersRegion(object sender, EventArgs e = null)
+		public void OnEntityEntersRegion(object sender, EntityEventArgs e = null)
 		{
 			if (EntityEntersRegion != null)
 				EntityEntersRegion(sender, e);
 		}
 
-		public void OnEntityLeavesRegion(object sender, EventArgs e = null)
+		public void OnEntityLeavesRegion(object sender, EntityEventArgs e = null)
 		{
 			if (EntityLeavesRegion != null)
 				EntityLeavesRegion(sender, e);
 		}
-
-		public void OnCreatureLevelsUp(object sender, EventArgs e = null)
-		{
-			if (CreatureLevelsUp != null)
-				CreatureLevelsUp(sender, e);
-		}
-
 		public void OnCreatureMoves(object sender, MoveEventArgs e)
 		{
 			if (CreatureMoves != null)
@@ -73,5 +78,6 @@ namespace World.World
 			if (CreatureUsesMotion != null)
 				CreatureUsesMotion(sender, e);
 		}
-	}
+
+    }
 }

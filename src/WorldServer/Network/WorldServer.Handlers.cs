@@ -12,6 +12,7 @@ using MabiNatives;
 using World.World;
 using World.Tools;
 using System.Text.RegularExpressions;
+using Common.Events;
 
 namespace World.Network
 {
@@ -130,7 +131,7 @@ namespace World.Network
 
 			client.State = SessionState.LoggedIn;
 
-			WorldEvents.Instance.OnPlayerLogsIn(creature);
+			ServerEvents.Instance.OnPlayerLogsIn(creature);
 		}
 
 		private void HandleDisconnect(WorldClient client, MabiPacket packet)
@@ -235,11 +236,11 @@ namespace World.Network
 		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
 		{
 			string targetName = packet.GetString();
-			var target = WorldManager.Instance.GetCreatureByName(targetName);
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null)
 			{
-				Logger.Warning("Tried to move to a nonexisting creature!");
-				client.Send(PacketCreator.SystemMessage(client.Creatures.FirstOrDefault(a => a.Id == packet.Id), "Creature \"" + targetName + "\" does not exist"));
+				Logger.Warning("Tried to move to a nonexisting character!");
+				client.Send(PacketCreator.SystemMessage(client.Character, "Character \"" + targetName + "\" does not exist"));
 				return;
 			}
 			var region = target.Region;
@@ -252,8 +253,8 @@ namespace World.Network
 			var creature = WorldManager.Instance.GetCreatureById(packet.Id);
 			if (creature == null || !creature.IsDead())
 			{
-				Logger.Warning("Tried to revive to a nonexisting/non-dead creature!");
-				client.Send(PacketCreator.SystemMessage(client.Creatures.FirstOrDefault(a => a.Id == packet.Id), "Creature does not exist or is not knocked out."));
+				Logger.Warning("Tried to revive to a nonexisting/non-dead character!");
+				client.Send(PacketCreator.SystemMessage(client.Character, "Character does not exist or is not knocked out."));
 				return;				
 			}
 			WorldManager.Instance.CreatureRevive(creature);
@@ -274,11 +275,11 @@ namespace World.Network
 			var myPos = client.Character.GetPosition();
 			var region = client.Character.Region;
 			string targetName = packet.GetString();
-			var target = WorldManager.Instance.GetCreatureByName(targetName);
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null)
 			{
-				Logger.Warning("Tried to summon a nonexisting creature!");
-				client.Send(PacketCreator.SystemMessage(client.Creatures.FirstOrDefault(a => a.Id == packet.Id), "Creature \"" + targetName + "\" does not exist"));
+				Logger.Warning("Tried to summon a nonexisting character!");
+				client.Send(PacketCreator.SystemMessage(client.Character, "Character \"" + targetName + "\" does not exist"));
 				return;
 			}
 			if (target.Client == null || !(target.Client is WorldClient)) //We'll let the summon continue, but we should warn them.

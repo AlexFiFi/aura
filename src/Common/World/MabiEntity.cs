@@ -3,6 +3,7 @@
 
 using System;
 using Common.Network;
+using Common.Events;
 
 namespace Common.World
 {
@@ -11,8 +12,31 @@ namespace Common.World
 		Undefined, Character, Pet, Item, NPC, Prop
 	}
 
-	public abstract class MabiEntity
+	public abstract class MabiEntity : IDisposable
 	{
+
+        private bool _disposed = false;
+
+        /// <summary>
+        /// Derived classes should override this method to hook their events into the HookableEvents instance.
+		/// It will be automatically called. Derived classes should ALWAYS call their base method.
+        /// </summary>
+        protected virtual void HookUp()
+        {
+
+        }
+
+        /// <summary>
+        /// UNHOOK YOUR EVENTS HERE!
+        /// </summary>
+        public virtual void Dispose()
+        {
+            if (!Disposed)
+            {
+                _disposed = true;
+            }
+        }
+
 		public virtual ulong Id { get; set; }
 
 		public virtual uint Region { get; set; }
@@ -24,6 +48,13 @@ namespace Common.World
 		public abstract EntityType EntityType { get; }
 		public abstract ushort DataType { get; }
 
+		public bool Disposed { get { return _disposed; } }
+
 		public abstract void AddEntityData(MabiPacket packet);
+
+		public MabiEntity()
+		{
+
+		}
 	}
 }
