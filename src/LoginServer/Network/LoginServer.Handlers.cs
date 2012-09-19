@@ -50,27 +50,34 @@ namespace Login.Network
 
 		private void HandleLogin(LoginClient client, MabiPacket packet)
 		{
-			var loginInfoType = packet.GetByte(); // 5/12 = login?, 2 = log off?, 20 = second password?
+			var loginType = packet.GetByte(); // Known: 0x12 (Normal), 0x5 (New), 0x2 (Coming from channel)
 			var username = packet.GetString();
-
-			// Tmp fix, when logging off account name is sent twice.
-			if (loginInfoType == 0x02)
-				packet.GetString();
-
-			string password = "";
+			var password = "";
 			ulong sessionKey = 0;
 
-			// If this is an ID, we have assigned the client an ID to use, we'll check that
-			// instead of the password
-			if (packet.GetElementType() == MabiPacket.ElementType.Long)
+			var response = new MabiPacket(0x23, 0x1000000000000010);
+
+			// Normal login, MD5 password
+			if (loginType == 0x0C)
 			{
+				password = System.Text.Encoding.UTF8.GetString(packet.GetBin());
+			}
+			// Logging in, comming from a channel
+			else if (loginType == 0x02)
+			{
+				packet.GetString(); // Double acc name
 				sessionKey = packet.GetLong();
 			}
-			// Its just a password if its not an ID
-			else
+			// Type 5 uses the new Nexon hash thingy...
+			// apart from that, equal to 0x0C.
+			else if (loginType == 0x05)
 			{
-				var userpassbytes = packet.GetBin();
-				password = System.Text.Encoding.UTF8.GetString(userpassbytes);
+				response.PutByte(51);
+				response.PutInt(14);
+				response.PutInt(1);
+				response.PutString("Sorry, but something seems to be wrong with your client.\nPlease report this, and try to login using \"new//\".");
+				client.Send(response);
+				return;
 			}
 
 			var loginResult = LoginResult.Fail;
@@ -150,8 +157,6 @@ namespace Login.Network
 				Logger.Info("Account '" + username + "' not found.");
 				loginResult = LoginResult.IdOrPassIncorrect;
 			}
-
-			var response = new MabiPacket(0x23, 0x1000000000000010);
 
 			response.PutByte((byte)loginResult);
 			if (loginResult != LoginResult.Success)

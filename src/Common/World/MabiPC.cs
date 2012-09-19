@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using Common.Network;
-using Common.Events;
 
 namespace Common.World
 {
@@ -29,11 +28,6 @@ namespace Common.World
 		{
 			get { return EntityType.Character; }
 		}
-
-        public MabiPC()
-        {
-
-        }
 
 		/// <summary>
 		/// Used in login check handler. Modes: 0 = Normal, 1 = Recover, 2 = Ready for deletion

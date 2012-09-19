@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see licence.txt in the main folder
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +13,8 @@ namespace Common.Events
 	/// The server raises these events. Entities should subscribe in their
 	/// "HookUp" method and unsubscribe in their "Dispose" method.
 	/// </summary>
-    public class ServerEvents
-    {
+	public class ServerEvents
+	{
 		public readonly static ServerEvents Instance = new ServerEvents();
 		protected ServerEvents()
 		{
@@ -38,7 +41,7 @@ namespace Common.Events
 				ErinnTimeTick(sender, e);
 		}
 
-		public void OnErinn12HourTick(object sender, TimeEventArgs e)
+		public void OnErinnDaytimeTick(object sender, TimeEventArgs e)
 		{
 			if (Erinn12HourTick != null)
 				Erinn12HourTick(sender, e);
@@ -78,6 +81,5 @@ namespace Common.Events
 			if (CreatureUsesMotion != null)
 				CreatureUsesMotion(sender, e);
 		}
-
-    }
+	}
 }

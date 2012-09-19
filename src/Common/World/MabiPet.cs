@@ -2,8 +2,6 @@
 // For more information, see licence.txt in the main folder
 
 using System;
-using Common.Constants;
-using Common.Events;
 
 namespace Common.World
 {
@@ -14,7 +12,6 @@ namespace Common.World
 			this.CreationTime = DateTime.Now;
 			this.LevelingEnabled = true;
 		}
-
 
 		public override EntityType EntityType
 		{

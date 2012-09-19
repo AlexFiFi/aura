@@ -496,7 +496,15 @@ namespace World.World
 
 		private CommandResult Command_test(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			WorldManager.Instance.RemoveAllNPCs();
+			var searchId = 2000;
+			var total = 0;
+			foreach (var item in client.Character.Items)
+			{
+				if (item.Info.Class == searchId || item.StackItem == searchId)
+					total += item.Info.Bundle;
+			}
+
+			client.Send(PacketCreator.ServerMessage(creature, "Your gold: " + total.ToString()));
 
 			return CommandResult.Okay;
 		}

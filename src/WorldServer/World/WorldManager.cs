@@ -24,8 +24,8 @@ namespace World.World
 
 		private WorldManager()
 		{
-			EntityEvents.Instance.CreatureLevelsUp += CreatureLevelUp;
-			EntityEvents.Instance.CreatureStatUpdates += CreatureStatsUpdate;
+			EntityEvents.Instance.CreatureLevelsUp += this.CreatureLevelsUp;
+			EntityEvents.Instance.CreatureStatUpdates += this.CreatureStatsUpdate;
 		}
 
 		private List<MabiCreature> _creatures = new List<MabiCreature>();
@@ -33,8 +33,6 @@ namespace World.World
 		private List<MabiProp> _props = new List<MabiProp>();
 
 		private int _lastRlHour = -1, _lastRlMinute = -1;
-
-        private byte  _lastErinn12State = 255;
 
 		/// <summary>
 		/// This is a general method that's run once every 1500ms (1 Erinn minute).
@@ -49,19 +47,21 @@ namespace World.World
 			var now = DateTime.Now;
 			long serverTicks = now.Ticks / 10000;
 
-            byte erinnHour = (byte)((serverTicks / 90000) % 24), erinnMinute = (byte)((serverTicks / 1500) % 60), erinn12State = (byte)((erinnHour + 6) / 12);
+			byte erinnHour = (byte)((serverTicks / 90000) % 24);
+			byte erinnMinute = (byte)((serverTicks / 1500) % 60);
 
 			// Erinn time event, every Erinn minute
 			ServerEvents.Instance.OnErinnTimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));
 
-            // Erinn time event, every 12 Erinn hours (6AM/6PM specifically)
-            if (erinn12State != _lastErinn12State)
-            {
-                _lastErinn12State = erinn12State;
-                ServerEvents.Instance.OnErinn12HourTick(this, new TimeEventArgs(erinnHour, erinnMinute));
-            }
+			// Erinn time event, every 12 Erinn hours (6AM/6PM specifically)
+			if ((erinnHour == 6 || erinnHour == 18) && erinnMinute == 0)
+			{
+				ServerEvents.Instance.OnErinnDaytimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));
+			}
 
 			// Real time event, every Real minute
+			// Some caching is needed here, since this method will be called
+			// multiple times dzring this minute.
 			int rlHour = now.Hour, rlMinute = now.Minute;
 			if ((rlHour != _lastRlHour || rlMinute != _lastRlMinute))
 			{
@@ -535,13 +535,12 @@ namespace World.World
 				priv.PutByte(3);
 				creature.AddPrivateStatData(priv);
 				creature.Client.Send(priv);
-			}		
+			}
 		}
 
 		public void CreatureStatsUpdate(object sender, EntityEventArgs e)
 		{
-			MabiCreature creature = (MabiCreature)e.Entity;
-			CreatureStatsUpdate(creature);
+			this.CreatureStatsUpdate(e.Entity as MabiCreature);
 		}
 
 		public void CreatureStatusEffectsChange(MabiCreature creature)
@@ -556,9 +555,9 @@ namespace World.World
 			this.Broadcast(p, SendTargets.Range, creature);
 		}
 
-		public void CreatureLevelUp(object sender, EntityEventArgs e)
+		public void CreatureLevelsUp(object sender, EntityEventArgs e)
 		{
-			var creature = (MabiCreature)e.Entity;
+			var creature = e.Entity as MabiCreature;
 			var p = new MabiPacket(0x6D69, creature.Id);
 			p.PutShort((ushort)creature.Level);
 

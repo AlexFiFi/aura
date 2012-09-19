@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using Common.Tools;
 
 namespace Common.Network
 {
@@ -336,6 +337,79 @@ namespace Common.Network
 			Array.Copy(body, 0, result, ptr, bodyLen);
 
 			return result;
+		}
+
+		/// <summary>
+		/// Prints packets from buffer in a readable format.
+		/// Only use on received packets, before "Get"ting anything.
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			var result = new StringBuilder();
+
+			var savPtr = _ptr;
+
+			result.Append("Op: " + this.Op.ToString("X").PadLeft(8, '0') + ", Id: " + this.Id.ToString("X").PadLeft(16, '0') + "\n");
+
+			uint i = 1;
+			ElementType type;
+			while ((type = this.GetElementType()) != ElementType.None)
+			{
+				if (type == ElementType.Byte)
+				{
+					var data = this.GetByte();
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Byte   : " + data);
+				}
+				else if (type == ElementType.Short)
+				{
+					var data = this.GetShort();
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Short  : " + data);
+				}
+				else if (type == ElementType.Int)
+				{
+					var data = this.GetInt();
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Int    : " + data);
+				}
+				else if (type == ElementType.Long)
+				{
+					var data = this.GetLong();
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Long   : " + data);
+				}
+				else if (type == ElementType.Float)
+				{
+					var data = this.GetFloat();
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Float  : " + data);
+				}
+				else if (type == ElementType.String)
+				{
+					var data = this.GetString();
+					result.Append(i.ToString().PadLeft(3, '0') + " [................] String : " + data);
+				}
+				else if (type == ElementType.Bin)
+				{
+					var data = BitConverter.ToString(this.GetBin());
+					var splitted = data.Split('-');
+
+					result.Append(i.ToString().PadLeft(3, '0') + " [................] Bin    : ");
+					for (var j = 1; j <= splitted.Length; ++j)
+					{
+						result.Append(splitted[j - 1]);
+						if (j < splitted.Length)
+							if (j % 16 == 0)
+								result.Append("\n".PadRight(33, ' '));
+							else
+								result.Append(' ');
+					}
+				}
+				result.Append("\n");
+
+				i++;
+			}
+
+			_ptr = savPtr;
+
+			return result.ToString();
 		}
 	}
 }

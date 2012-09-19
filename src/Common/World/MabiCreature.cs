@@ -14,8 +14,8 @@ using Common.Tools;
 namespace Common.World
 {
 	public abstract class MabiCreature : MabiEntity
-    {
-        public Client Client = null;
+	{
+		public Client Client = null;
 
 		public string Name;
 
@@ -141,10 +141,10 @@ namespace Common.World
 		public float LifeMaxBase { get { return _lifeMaxBase; } set { _lifeMaxBase = value; } }
 		public float LifeMaxMod { get { return _lifeMaxMod; } set { _lifeMaxMod = value; } }
 		public float Injuries { get { return _injuries; } set { _injuries = value; } }
-        public float LifeBaseRegen { get { return _lifeBaseRegen; } set { _lifeBaseRegen = value; } }
+		public float LifeBaseRegen { get { return _lifeBaseRegen; } set { _lifeBaseRegen = value; } }
 		public float LifeMax { get { return _lifeMaxBase + _lifeMaxMod; } }
 		public float LifeInjured { get { return this.LifeMax - _injuries; } }
-        public float LifeRegen { get { return _lifeBaseRegen; } } // TODO: Factor in skills (rest, demigod, respite) here.
+		public float LifeRegen { get { return _lifeBaseRegen; } } // TODO: Factor in skills (rest, demigod, respite) here.
 
 		private float _mana, _manaMaxBase, _manaMaxMod, _manaBaseRegen;
 		public float Mana
@@ -162,11 +162,11 @@ namespace Common.World
 		}
 		public float ManaMaxBase { get { return _manaMaxBase; } set { _manaMaxBase = value; } }
 		public float ManaMaxMod { get { return _manaMaxMod; } set { _manaMaxMod = value; } }
-        public float ManaBaseRegen { get { return _manaBaseRegen; } set { _manaBaseRegen = value; } }
+		public float ManaBaseRegen { get { return _manaBaseRegen; } set { _manaBaseRegen = value; } }
 		public float ManaMax { get { return _manaMaxBase + _manaMaxMod; } }
-        public float ManaRegen { get { return _manaBaseRegen; } } // TODO: factor in skills here (Meditation), status (Enduring melody) Time of Day, location.
+		public float ManaRegen { get { return _manaBaseRegen; } } // TODO: factor in skills here (Meditation), status (Enduring melody) Time of Day, location.
 
-        private float _stamina, _staminaMaxBase, _staminaMaxMod, _food, _staminaBaseRegen;
+		private float _stamina, _staminaMaxBase, _staminaMaxMod, _food, _staminaBaseRegen;
 		public float Stamina
 		{
 			get { return _stamina; }
@@ -182,11 +182,11 @@ namespace Common.World
 		}
 		public float StaminaMaxBase { get { return _staminaMaxBase; } set { _staminaMaxBase = value; } }
 		public float StaminaMaxMod { get { return _staminaMaxMod; } set { _staminaMaxMod = value; } }
-        public float StaminaBaseRegen { get { return _staminaBaseRegen; } set { _staminaBaseRegen = value; } }
+		public float StaminaBaseRegen { get { return _staminaBaseRegen; } set { _staminaBaseRegen = value; } }
 		public float Food { get { return _food; } set { _food = value; } }
 		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxMod; } }
 		public float StaminaFood { get { return this.StaminaMax - _food; } }
-        public float StaminaRegen { get { return _staminaBaseRegen; } } //TODO: Factor in skills (rest, respite) and status (Enduring melody) here
+		public float StaminaRegen { get { return _staminaBaseRegen; } } //TODO: Factor in skills (rest, respite) and status (Enduring melody) here
 
 		private float _strBase, _dexBase, _intBase, _willBase, _luckBase;
 		private float _strMod, _dexMod, _intMod, _willMod, _luckMod;
@@ -213,7 +213,7 @@ namespace Common.World
 		public ushort AbilityPoints { get { return _ap; } set { _ap = value; } }
 
 		private uint _lvl, _lvlTotal;
-        public uint Level { get { return _lvl; } set { _lvl = value; } }
+		public uint Level { get { return _lvl; } set { _lvl = value; } }
 		public uint LevelTotal { get { return _lvlTotal; } set { _lvlTotal = value; } }
 
 		private ulong _exp;
@@ -265,35 +265,35 @@ namespace Common.World
 			this.RaceInfo = dbInfo;
 		}
 
-        public MabiCreature()
-        {
+		public MabiCreature()
+		{
 
-        }
+		}
 
-        public override void Dispose()
-        {
-            ServerEvents.Instance.ErinnTimeTick -= RestoreStats;
-            base.Dispose();
-        }
+		public override void Dispose()
+		{
+			ServerEvents.Instance.ErinnTimeTick -= this.RestoreStats;
+			base.Dispose();
+		}
 
-        protected override void HookUp()
-        {
-            ServerEvents.Instance.ErinnTimeTick += RestoreStats;
-            base.HookUp();
-        }
+		protected override void HookUp()
+		{
+			ServerEvents.Instance.ErinnTimeTick += this.RestoreStats;
+			base.HookUp();
+		}
 
-        protected virtual void RestoreStats(object sender, TimeEventArgs e)
-        {
-            if ((Status & CreatureStates.Dead) != 0)
-            {
-                Life += LifeRegen;
-                Mana += ManaRegen;
-                Stamina += StaminaRegen;
-            }
+		protected virtual void RestoreStats(object sender, TimeEventArgs e)
+		{
+			if (this.IsDead())
+			{
+				this.Life += this.LifeRegen;
+				this.Mana += this.ManaRegen;
+				this.Stamina += this.StaminaRegen;
+			}
 			EntityEvents.Instance.OnCreatureStatUpdates(this);
-        }
+		}
 
-        public virtual void CalculateBaseStats()
+		public virtual void CalculateBaseStats()
 		{
 			this.Height = 1.0f;
 			this.Fat = 1.0f;
@@ -303,9 +303,9 @@ namespace Common.World
 			this.LifeMaxBase = 10;
 			this.ManaMaxBase = 10;
 			this.StaminaMaxBase = 10;
-            this.LifeBaseRegen = 0.18f;
-            this.ManaBaseRegen = 0.075f;
-            this.StaminaBaseRegen = 0.6f;
+			this.LifeBaseRegen = 0.18f;
+			this.ManaBaseRegen = 0.075f;
+			this.StaminaBaseRegen = 0.6f;
 			this.Life = 10;
 			this.Mana = 10;
 			this.Stamina = 10;
@@ -609,7 +609,7 @@ namespace Common.World
 			if (this.Experience < ExpTable.GetTotalForNextLevel(this.Level))
 				return;
 
-			Dictionary<string, ushort> addedStats = new Dictionary<string,ushort>()
+			Dictionary<string, ushort> addedStats = new Dictionary<string, ushort>()
 			{
 				{ "Level", 0 },
 				{ "AP", 0 }

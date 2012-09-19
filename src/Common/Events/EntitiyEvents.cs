@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see licence.txt in the main folder
+
+using System;
 using Common.World;
 
 namespace Common.Events
@@ -6,8 +9,8 @@ namespace Common.Events
 	/// <summary>
 	/// This class manages events raised by entities. The server subscribes to these.
 	/// </summary>
-    public class EntityEvents
-    {
+	public class EntityEvents
+	{
 		public static readonly EntityEvents Instance = new EntityEvents();
 
 		protected EntityEvents()
@@ -15,7 +18,7 @@ namespace Common.Events
 
 		}
 
-        public EventHandler<EntityEventArgs> CreatureLevelsUp;
+		public EventHandler<EntityEventArgs> CreatureLevelsUp;
 		public EventHandler<EntityEventArgs> CreatureStatUpdates;
 
 		public void OnCreatureLevelsUp(MabiCreature c)
@@ -23,6 +26,7 @@ namespace Common.Events
 			if (CreatureLevelsUp != null)
 				CreatureLevelsUp(c, new EntityEventArgs(c));
 		}
+
 		public void OnCreatureStatUpdates(MabiCreature c)
 		{
 			if (CreatureStatUpdates != null)

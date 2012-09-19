@@ -76,7 +76,7 @@ namespace World.World
 
 		public void AddItem(string tab, uint itemClass, uint color1, uint color2, uint color3, int price = -1)
 		{
-            var item = new MabiItem(itemClass);
+			var item = new MabiItem(itemClass);
 			item.Info.ColorA = color1;
 			item.Info.ColorB = color2;
 			item.Info.ColorC = color3;
