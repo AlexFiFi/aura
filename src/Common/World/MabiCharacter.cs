@@ -26,27 +26,27 @@ namespace Common.World
 
 			this.Height = (1.0f / 7.0f * (this.Age - 10.0f));
 
-			var ageInfo = MabiData.StatsBaseDb.Find((byte)(this.IsHuman() ? 0 : (this.IsElf() ? 1 : 2)), this.Age);
+			var ageInfo = MabiData.StatsBaseDb.Find(this.Race, this.Age);
 			if (ageInfo == null)
 			{
-				Logger.Warning("Unable to find age info for " + this.Race.ToString() + " " + this.Age.ToString() + ".");
+				Logger.Warning("Unable to find age info for race '" + this.Race.ToString() + "', age '" + this.Age.ToString() + "'.");
 				return;
 			}
 
-			this.LifeMaxBase = ageInfo.BaseStats["life"];
-			this.Life = ageInfo.BaseStats["life"];
+			this.LifeMaxBase = ageInfo.BaseStats["Life"];
+			this.Life = ageInfo.BaseStats["Life"];
 
-			this.ManaMaxBase = ageInfo.BaseStats["mana"];
-			this.Mana = ageInfo.BaseStats["mana"];
+			this.ManaMaxBase = ageInfo.BaseStats["Mana"];
+			this.Mana = ageInfo.BaseStats["Mana"];
 
-			this.StaminaMaxBase = ageInfo.BaseStats["stamina"];
-			this.Stamina = ageInfo.BaseStats["stamina"];
+			this.StaminaMaxBase = ageInfo.BaseStats["Stamina"];
+			this.Stamina = ageInfo.BaseStats["Stamina"];
 
-			this.StrBase = ageInfo.BaseStats["str"];
-			this.IntBase = ageInfo.BaseStats["int"];
-			this.DexBase = ageInfo.BaseStats["dex"];
-			this.WillBase = ageInfo.BaseStats["will"];
-			this.LuckBase = ageInfo.BaseStats["luck"];
+			this.StrBase = ageInfo.BaseStats["Str"];
+			this.IntBase = ageInfo.BaseStats["Int"];
+			this.DexBase = ageInfo.BaseStats["Dex"];
+			this.WillBase = ageInfo.BaseStats["Will"];
+			this.LuckBase = ageInfo.BaseStats["Luck"];
 		}
 	}
 }

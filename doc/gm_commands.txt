@@ -116,7 +116,8 @@ server and loads them again.
 
 ** reloaddata
 
-Reloads all data (spawns, monsters, items, etc).
+Reloads all data (spawns, monsters, items, etc). Calls "reloadnpcs"
+afterwards, to activate changes on NPCs and monsters.
 
 -----------------------------------------------------------------------------
 

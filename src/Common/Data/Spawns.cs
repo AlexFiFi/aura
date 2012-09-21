@@ -36,6 +36,7 @@ namespace Common.Data
 		protected override void CsvToEntry(SpawnInfo info, List<string> csv, int currentLine)
 		{
 			var i = 0;
+			info.Id = _spawnId++;
 			info.MonsterId = Convert.ToUInt32(csv[i++]);
 			info.Region = Convert.ToUInt32(csv[i++]);
 			info.X1 = Convert.ToInt32(csv[i++]);

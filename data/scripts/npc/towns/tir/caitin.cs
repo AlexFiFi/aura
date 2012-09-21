@@ -27,6 +27,8 @@ public class NewTest : NPCScript
 		Shop.AddTabs("Grocery", "Gift", "Quest", "Event");
 		Shop.AddItem("Grocery", "Bread");
 		Shop.AddItem("Grocery", "Slice of Cheese");
+		Shop.AddItem("Grocery", "Sugar", 1);
+		Shop.AddItem("Grocery", "Sugar", 10);
 	}
 
 	public override void OnTalk(WorldClient c)

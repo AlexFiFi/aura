@@ -87,6 +87,8 @@ namespace Common.World
 		public uint StackItem;
 		public byte Width, Height;
 
+		public short UsableVar;
+
 		private static ulong _worldItemIndex = 0x0050F00000000001;
 
 		public MabiItem(uint itemClass, bool worldId = true)
@@ -120,7 +122,7 @@ namespace Common.World
 		}
 
 		public MabiItem(CharCardSetInfo cardItem)
-			: this(cardItem.Id)
+			: this(cardItem.ItemId)
 		{
 			this.Info.Pocket = cardItem.Pocket;
 			this.Info.ColorA = cardItem.Color1;
@@ -178,6 +180,11 @@ namespace Common.World
 				this.StackItem = dbInfo.StackItem;
 				this.Width = dbInfo.Width;
 				this.Height = dbInfo.Height;
+
+				this.UsableVar = dbInfo.UsableVar;
+
+				if (this.Type != ItemType.Sac && this.Info.Bundle < 1)
+					this.Info.Bundle = 1;
 			}
 		}
 

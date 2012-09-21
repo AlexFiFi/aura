@@ -609,33 +609,23 @@ namespace Common.World
 			if (this.Experience < ExpTable.GetTotalForNextLevel(this.Level))
 				return;
 
-			Dictionary<string, ushort> addedStats = new Dictionary<string, ushort>()
+			var max = ExpTable.GetMaxLevel();
+			var lvl = this.Level;
+
+			// TODO: var levelStats = MabiData.StatsLevel(this.Age, this.Race);
+
+			while (this.Level < max && this.Experience >= ExpTable.GetTotalForNextLevel(this.Level))
 			{
-				{ "Level", 0 },
-				{ "AP", 0 }
-			};
+				this.Level++;
+				this.AbilityPoints++;
+			}
 
-			ushort maxLvl = ExpTable.GetMaxLevel();
-
-			do
+			if (lvl < this.Level)
 			{
-				addedStats["Level"]++;
-				addedStats["AP"]++;
-			} while (this.Experience >= ExpTable.GetTotalForNextLevel(this.Level + addedStats["Level"]) && (this.Level + addedStats["Level"]) < maxLvl);
-
-			LevelUp(addedStats);
-		}
-
-		public void LevelUp(Dictionary<string, ushort> addedStats)
-		{
-			this.AbilityPoints += addedStats["AP"];
-			this.Level += addedStats["Level"];
-
-			//TODO: Other Stats
-
-			FullHeal();
-
-			EntityEvents.Instance.OnCreatureLevelsUp(this);
+				this.FullHeal();
+				EntityEvents.Instance.OnCreatureLevelsUp(this);
+				// TODO: stats update
+			}
 		}
 
 		public bool IsDead()

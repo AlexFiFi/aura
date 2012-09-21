@@ -12,7 +12,7 @@ namespace Common.Data
 {
 	public class CharCardSetInfo
 	{
-		public uint Id;
+		public uint SetId;
 		public uint Race;
 		public uint ItemId;
 		public byte Pocket;
@@ -23,7 +23,7 @@ namespace Common.Data
 	{
 		public List<CharCardSetInfo> Find(uint setId, uint race)
 		{
-			return this.Entries.FindAll(a => a.Id == setId && a.Race == race);
+			return this.Entries.FindAll(a => a.SetId == setId && a.Race == race);
 		}
 
 		public override void LoadFromCsv(string filePath, bool reload = false)
@@ -34,13 +34,14 @@ namespace Common.Data
 
 		protected override void CsvToEntry(CharCardSetInfo info, List<string> csv, int currentLine)
 		{
-			info.Id = Convert.ToUInt32(csv[0]);
-			info.Race = Convert.ToUInt32(csv[1]);
-			info.ItemId = Convert.ToUInt32(csv[2]);
-			info.Pocket = Convert.ToByte(csv[3]);
-			info.Color1 = Convert.ToUInt32(csv[4]);
-			info.Color2 = Convert.ToUInt32(csv[5]);
-			info.Color3 = Convert.ToUInt32(csv[6]);
+			var i = 0;
+			info.SetId = Convert.ToUInt32(csv[i++]);
+			info.Race = Convert.ToUInt32(csv[i++]);
+			info.ItemId = Convert.ToUInt32(csv[i++]);
+			info.Pocket = Convert.ToByte(csv[i++]);
+			info.Color1 = Convert.ToUInt32(csv[i++]);
+			info.Color2 = Convert.ToUInt32(csv[i++]);
+			info.Color3 = Convert.ToUInt32(csv[i++]);
 		}
 	}
 }

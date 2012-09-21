@@ -211,6 +211,12 @@ namespace World.World
 				itemId = newItemInfo.Id;
 			}
 
+			if (MabiData.ItemDb.Find(itemId) == null)
+			{
+				client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemId + "' not found in database."));
+				return CommandResult.Fail;
+			}
+
 			var newItem = new MabiItem(itemId);
 			newItem.Info.Bundle = 1;
 
@@ -539,6 +545,8 @@ namespace World.World
 		{
 			client.Send(PacketCreator.ServerMessage(creature, "Reloading NPCs..."));
 
+			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Npcs, true);
+
 			WorldManager.Instance.RemoveAllNPCs();
 			NPCManager.Instance.LoadNPCs();
 			NPCManager.Instance.LoadSpawns();
@@ -550,11 +558,11 @@ namespace World.World
 
 		private CommandResult Command_reloaddata(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			client.Send(PacketCreator.ServerMessage(creature, "Reloading data for this channel..."));
+			client.Send(PacketCreator.ServerMessage(creature, "Reloading data..."));
 
-			WorldServer.Instance.LoadData(WorldConf.DataPath, true);
+			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Data, true);
 
-			client.Send(PacketCreator.ServerMessage(creature, "done."));
+			this.Command_reloadnpcs(client, creature, null, null);
 
 			return CommandResult.Okay;
 		}

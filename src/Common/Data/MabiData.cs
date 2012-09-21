@@ -25,4 +25,6 @@ namespace Common.Data
 		public static MonsterDb MonsterDb = new MonsterDb();
 		public static SpawnDb SpawnDb = new SpawnDb();
 	}
+
+	public enum DataLoad { Npcs = 0x01, Data = 0x02, All = 0xFFFF }
 }
