@@ -8,8 +8,6 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `creation` datetime DEFAULT NULL,
   `lastlogin` datetime DEFAULT NULL,
   `lastip` varchar(16) NOT NULL DEFAULT '',
-  `banned` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `bannedtime` datetime DEFAULT NULL,
   `bannedreason` varchar(255) NOT NULL DEFAULT '',
   `bannedexpiration` datetime DEFAULT NULL,
   PRIMARY KEY (`accountId`)

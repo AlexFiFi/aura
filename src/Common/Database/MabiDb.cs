@@ -333,9 +333,7 @@ namespace Common.Database
 					account.Creation = reader["creation"] as DateTime? ?? DateTime.MinValue;
 					account.LastIp = reader.GetString("lastip");
 					account.LastLogin = reader["lastlogin"] as DateTime? ?? DateTime.MinValue;
-					account.Banned = reader.GetByte("banned");
 					account.BannedReason = reader.GetString("bannedreason");
-					account.BannedTime = reader["bannedtime"] as DateTime? ?? DateTime.MinValue;
 					account.BannedExpiration = reader["bannedexpiration"] as DateTime? ?? DateTime.MinValue;
 				}
 
@@ -627,7 +625,7 @@ namespace Common.Database
 					+ " VALUES (@username, @password, @creation) "
 					+ " ON DUPLICATE KEY UPDATE"
 					+ " `password` = @password, `authority` = @authority, `creation` = @creation, `lastlogin` = @lastlogin, `lastip` = @lastip,"
-					+ " `banned` = @banned, `bannedtime` = @bannedtime, `bannedreason` = @bannedreason, `bannedexpiration` = @bannedexpiration"
+					+ " `bannedreason` = @bannedreason, `bannedexpiration` = @bannedexpiration"
 				, conn);
 
 				mc.Parameters.AddWithValue("@username", account.Username);
@@ -635,8 +633,6 @@ namespace Common.Database
 				mc.Parameters.AddWithValue("@authority", account.Authority);
 				mc.Parameters.AddWithValue("@lastlogin", account.LastLogin);
 				mc.Parameters.AddWithValue("@lastip", account.LastIp);
-				mc.Parameters.AddWithValue("@banned", account.Banned);
-				mc.Parameters.AddWithValue("@bannedtime", account.BannedTime);
 				mc.Parameters.AddWithValue("@bannedreason", account.BannedReason);
 				mc.Parameters.AddWithValue("@bannedexpiration", account.BannedExpiration);
 				mc.Parameters.AddWithValue("@creation", account.Creation);

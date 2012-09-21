@@ -1,0 +1,1 @@
+ALTER TABLE `accounts` DROP `banned`, DROP `bannedtime`;

@@ -118,10 +118,10 @@ namespace Login.Network
 						Logger.Info("Account '" + account.Username + "' is logged in already.");
 						loginResult = LoginResult.AlreadyLoggedIn;
 					}
-					else if (account.Banned != 0 && account.BannedExpiration.CompareTo(DateTime.Now) > 0)
+					else if (account.BannedExpiration.CompareTo(DateTime.Now) > 0)
 					{
 						Logger.Info("Banned! (" + account.Username + ")");
-						loginResult = LoginResult.Fail;
+						loginResult = LoginResult.Banned;
 					}
 					else
 					{
@@ -158,6 +158,16 @@ namespace Login.Network
 				// Account doesn't exist
 				Logger.Info("Account '" + username + "' not found.");
 				loginResult = LoginResult.IdOrPassIncorrect;
+			}
+
+			if (loginResult == LoginResult.Banned)
+			{
+				response.PutByte(51);
+				response.PutInt(14);
+				response.PutInt(1);
+				response.PutString("You've been banned, till " + account.BannedExpiration.ToString() + ".\r\nReason: " + account.BannedReason);
+				client.Send(response);
+				return;
 			}
 
 			response.PutByte((byte)loginResult);
@@ -297,7 +307,7 @@ namespace Login.Network
 			client.Send(response);
 		}
 
-		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, }
+		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, Banned = 101 }
 
 		private void HandleCharacterInfoRequest(LoginClient client, MabiPacket packet)
 		{

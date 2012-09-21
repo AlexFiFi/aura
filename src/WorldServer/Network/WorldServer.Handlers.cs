@@ -22,6 +22,12 @@ namespace World.Network
 		{
 			this.RegisterPacketHandler(0x4E22, HandleLogin);
 			this.RegisterPacketHandler(0x4E24, HandleDisconnect);
+			this.RegisterPacketHandler(0x4EEB, HandleGMCPSummon);
+			this.RegisterPacketHandler(0x4EEC, HandleGMCPMoveToChar);
+			this.RegisterPacketHandler(0x4EED, HandleGMCPMove);
+			this.RegisterPacketHandler(0x4EEE, HandleGMCPRevive);
+			this.RegisterPacketHandler(0x4EEF, HandleGMCPInvisibility);
+			this.RegisterPacketHandler(0x4EF7, HandleGMCPBan);
 			this.RegisterPacketHandler(0x5208, HandleCharacterInfoRequest);
 			this.RegisterPacketHandler(0x526C, HandleChat);
 			this.RegisterPacketHandler(0x53FE, HandleRevive);
@@ -32,6 +38,7 @@ namespace World.Network
 			this.RegisterPacketHandler(0x59D8, HandleItemMove);
 			this.RegisterPacketHandler(0x59DA, HandleItemPick);
 			this.RegisterPacketHandler(0x59DC, HandleItemDrop);
+			this.RegisterPacketHandler(0x59E2, HandleItemDestroy);
 			this.RegisterPacketHandler(0x59E8, HandleItemSplit);
 			this.RegisterPacketHandler(0x5BCD, HandleSwitchSet);
 			this.RegisterPacketHandler(0x5BD0, HandleItemStateChange);
@@ -64,10 +71,6 @@ namespace World.Network
 			this.RegisterPacketHandler(0x0F213303, HandleMove);
 			this.RegisterPacketHandler(0x0FCC3231, HandleCombatAttack);
 			this.RegisterPacketHandler(0x0FF23431, HandleMove);
-			this.RegisterPacketHandler(0x4EEB, HandleGMCPSummon);
-			this.RegisterPacketHandler(0x4EEC, HandleGMCPMoveToChar);
-			this.RegisterPacketHandler(0x4EED, HandleGMCPMove);
-			this.RegisterPacketHandler(0x4EEE, HandleGMCPRevive);
 		}
 
 		private void HandleLogin(WorldClient client, MabiPacket packet)
@@ -239,36 +242,33 @@ namespace World.Network
 			var region = packet.GetInt();
 			var x = packet.GetInt();
 			var y = packet.GetInt();
+
 			client.Warp(region, x, y);
 		}
 
 		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
 		{
-			string targetName = packet.GetString();
+			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
-			if (target == null)
+			if (target == null || target.Client == null)
 			{
-				Logger.Warning("Tried to move to a nonexisting character!");
-				client.Send(PacketCreator.SystemMessage(client.Character, "Character \"" + targetName + "\" does not exist"));
+				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
 				return;
 			}
-			var region = target.Region;
+
 			var targetPos = target.GetPosition();
-			client.Warp(region, targetPos.X, targetPos.Y);
+			client.Warp(target.Region, targetPos.X, targetPos.Y);
 		}
 
 		private void HandleGMCPRevive(WorldClient client, MabiPacket packet)
 		{
 			var creature = WorldManager.Instance.GetCreatureById(packet.Id);
 			if (creature == null || !creature.IsDead())
-			{
-				Logger.Warning("Tried to revive to a nonexisting/non-dead character!");
-				client.Send(PacketCreator.SystemMessage(client.Character, "Character does not exist or is not knocked out."));
-				return;				
-			}
-			WorldManager.Instance.CreatureRevive(creature);
+				return;
+
 			var pos = creature.GetPosition();
 			var region = creature.Region;
+
 			var response = new MabiPacket(0x53FF, creature.Id);
 			response.PutInt(1);
 			response.PutInt(region);
@@ -277,30 +277,57 @@ namespace World.Network
 			client.Send(response);
 
 			creature.FullHeal();
+
+			WorldManager.Instance.CreatureRevive(creature);
 		}
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
 		{
-			var myPos = client.Character.GetPosition();
-			var region = client.Character.Region;
-			string targetName = packet.GetString();
+			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
-			if (target == null)
+			if (target == null || target.Client == null)
 			{
-				Logger.Warning("Tried to summon a nonexisting character!");
-				client.Send(PacketCreator.SystemMessage(client.Character, "Character \"" + targetName + "\" does not exist"));
+				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
 				return;
 			}
-			if (target.Client == null || !(target.Client is WorldClient)) //We'll let the summon continue, but we should warn them.
+
+			var targetClient = (target.Client as WorldClient);
+			var pos = client.Character.GetPosition();
+
+			targetClient.Send(PacketCreator.ServerMessage(target, "You've been summoned by '" + client.Character.Name + "'."));
+			targetClient.Warp(client.Character.Region, pos.X, pos.Y);
+		}
+
+		public void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var toggle = packet.GetByte();
+			creature.StatusEffects.A = toggle == 1 ? (creature.StatusEffects.A | CreatureConditionA.Invisible) : (creature.StatusEffects.A & ~CreatureConditionA.Invisible);
+			WorldManager.Instance.CreatureStatusEffectsChange(creature);
+
+			var p = new MabiPacket(0x4EF0, creature.Id);
+			p.PutByte(1);
+			client.Send(p);
+		}
+
+		public void HandleGMCPBan(WorldClient client, MabiPacket packet)
+		{
+			var targetName = packet.GetString();
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
+			if (target == null || target.Client == null)
 			{
-				Logger.Warning("Summoning a non-client controlled creature! (Lich in Dunby?)");
-				//"Force" the summon. Probably not a good idea, but.........
-				target.SetLocation(region, myPos.X, myPos.Y);
+				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
+				return;
 			}
-			else
-			{
-				(target.Client as WorldClient).Warp(region, myPos.X, myPos.Y);
-			}
+
+			var end = DateTime.Now.AddMinutes(packet.GetInt());
+			target.Client.Account.BannedExpiration = end;
+			target.Client.Account.BannedReason = packet.GetString();
+
+			target.Client.Kill();
 		}
 
 		private void HandleNPCTalkStart(WorldClient client, MabiPacket packet)
@@ -651,6 +678,22 @@ namespace World.Network
 			var p = new MabiPacket(0x59DD, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
+		}
+
+		public void HandleItemDestroy(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var itemId = packet.GetLong();
+			var item = creature.GetItem(itemId);
+			if (item == null)
+				return;
+
+			creature.Items.Remove(item);
+			client.Send(PacketCreator.ItemRemove(creature, item));
+			client.Send(new MabiPacket(0x59E4, creature.Id).PutByte(1));
 		}
 
 		private void HandleItemSplit(WorldClient client, MabiPacket packet)
