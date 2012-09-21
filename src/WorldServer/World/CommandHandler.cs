@@ -102,7 +102,11 @@ namespace World.World
 			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
-			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
+			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs); //Leaving this in here
+			//as a note to future devs. Due to appdomains, NPCs CANNOT be reloaded, the server
+			//must be restarted. Loading NPCs into a new appdomain would incur a large performance hit.
+			//However, we still need to be able to reload NPCs. So we'll just add new
+			//assemblies in. This causes a large memory leak every time the code runs!--Xcelled
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 
 			// Load script commands
@@ -588,6 +592,12 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
+
+		//Leaving this in here
+		//as a note to future devs. Due to appdomains, NPCs CANNOT be reloaded, the server
+		//must be restarted. Loading NPCs into a new appdomain would incur a large performance hit.
+		//However, we still need to be able to reload NPCs. So we'll just add new
+		//assemblies in. This causes a large memory leak every time the code runs!--Xcelled
 		private CommandResult Command_reloadnpcs(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			client.Send(PacketCreator.ServerMessage(creature, "Reloading NPCs..."));

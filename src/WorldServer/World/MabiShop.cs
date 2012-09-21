@@ -63,6 +63,11 @@ namespace World.World
 			this.AddItem(tab, itemClass, color1, color2, color3, amount, price);
 		}
 
+		public void AddItem(string tab, uint itemClass, int price = -1)
+		{
+			AddItem(tab, itemClass, (ushort)1 ,price);
+		}
+
 		public void AddItem(string tab, uint itemClass, ushort amount = 1, int price = -1)
 		{
 			var item = new MabiItem(itemClass);

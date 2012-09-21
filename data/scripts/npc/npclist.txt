@@ -1,0 +1,21 @@
+// Aura
+// NPC list file
+//
+// If use_npc_list_as_exclude is set to True ,
+// this file specifies a list of NPCs to NOT load.
+// Otherwise, this file lists NPCs to be loaded by the server.
+//
+// The NPCs are loaded and initialized independendly, this means,
+// they decide where to be, and what to do, themselves.
+//---------------------------------------------------------------------------
+//
+// Example below
+//
+//---------------------------------------------------------------------------
+// Tir Chonaill
+//---------------------------------------------------------------------------
+//regions/tir/caitin.cs
+//
+//---------------------------------------------------------------------------
+
+regions/tir/caitin.cs

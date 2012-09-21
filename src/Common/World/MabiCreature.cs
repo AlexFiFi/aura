@@ -604,7 +604,7 @@ namespace Common.World
 
 		public void GiveExp(ulong val)
 		{
-			this.Experience += val;
+			this.Experience = Math.Min(this.Experience + val, ExpTable.GetForLevel(ExpTable.GetMaxLevel()));
 
 			if (this.Experience < ExpTable.GetTotalForNextLevel(this.Level))
 				return;

@@ -90,41 +90,46 @@ namespace Common.Tools
 			if (Logger.Hide.HasFlag(lvl))
 				return;
 
-			switch (lvl)
+			lock (Console.Out)
 			{
-				case LogLevel.Info: Console.ForegroundColor = ConsoleColor.White; break;
-				case LogLevel.Warning: Console.ForegroundColor = ConsoleColor.Yellow; break;
-				case LogLevel.Error: Console.ForegroundColor = ConsoleColor.Red; break;
-				case LogLevel.Debug: Console.ForegroundColor = ConsoleColor.Cyan; break;
-				case LogLevel.Status: Console.ForegroundColor = ConsoleColor.Green; break;
-				case LogLevel.Exception: Console.ForegroundColor = ConsoleColor.DarkRed; break;
-				//case LogLevel.FixMe: Console.ForegroundColor = ConsoleColor.DarkYellow; break;
-			}
 
-			Console.Write("[" + lvl.ToString() + "]");
-
-			Console.ForegroundColor = ConsoleColor.Gray;
-
-			if (newLine)
-				Console.WriteLine(" - " + s);
-			else
-				Console.Write(" - " + s);
-
-			if (_logFile != null)
-			{
-				using (var file = new StreamWriter(_logFile, true))
+				switch (lvl)
 				{
-					file.Write(DateTime.Now);
-					file.Write(" [" + lvl.ToString() + "]");
-					file.WriteLine(" - " + s);
-					file.Flush();
+					case LogLevel.Info: Console.ForegroundColor = ConsoleColor.White; break;
+					case LogLevel.Warning: Console.ForegroundColor = ConsoleColor.Yellow; break;
+					case LogLevel.Error: Console.ForegroundColor = ConsoleColor.Red; break;
+					case LogLevel.Debug: Console.ForegroundColor = ConsoleColor.Cyan; break;
+					case LogLevel.Status: Console.ForegroundColor = ConsoleColor.Green; break;
+					case LogLevel.Exception: Console.ForegroundColor = ConsoleColor.DarkRed; break;
+					//case LogLevel.FixMe: Console.ForegroundColor = ConsoleColor.DarkYellow; break;
+				}
+
+				Console.Write("[" + lvl.ToString() + "]");
+
+				Console.ForegroundColor = ConsoleColor.Gray;
+
+				if (newLine)
+					Console.WriteLine(" - " + s);
+				else
+					Console.Write(" - " + s);
+
+				if (_logFile != null)
+				{
+					using (var file = new StreamWriter(_logFile, true))
+					{
+						file.Write(DateTime.Now);
+						file.Write(" [" + lvl.ToString() + "]");
+						file.WriteLine(" - " + s);
+						file.Flush();
+					}
 				}
 			}
 		}
 
+		public static readonly string ClearLineString = "\r                                                                              \r";
 		public static void ClearLine()
 		{
-			Console.Write("\r                                                                              \r");
+			Console.Write(ClearLineString);
 		}
 	}
 }

@@ -70,7 +70,8 @@ namespace World.World
 		{
 			// TODO: Not good... >_>
 			var entities = new List<MabiEntity>();
-			entities.AddRange(_creatures);
+			lock (_creatures)
+				entities.AddRange(_creatures);
 			entities.AddRange(_items);
 			entities.AddRange(_props);
 
@@ -105,35 +106,38 @@ namespace World.World
 			}
 
 			// Update visible creatures
-			foreach (var creature in _creatures)
+			lock (_creatures)
 			{
-				foreach (var entity in entities)
+				foreach (var creature in _creatures)
 				{
-					if (creature == entity)
-						continue;
-
-					var creaturePos = creature.GetPosition();
-					var entityPos = entity.GetPosition();
-
-					// In sight range
-					if (InRange(creaturePos, entityPos))
+					foreach (var entity in entities)
 					{
-						// but previously not in sight range
-						if (!InRange(creature.PrevPosition, entity.PrevPosition))
+						if (creature == entity)
+							continue;
+
+						var creaturePos = creature.GetPosition();
+						var entityPos = entity.GetPosition();
+
+						// In sight range
+						if (InRange(creaturePos, entityPos))
 						{
-							if (creature.Client != null)
-								creature.Client.Send(PacketCreator.EntityAppears(entity));
+							// but previously not in sight range
+							if (!InRange(creature.PrevPosition, entity.PrevPosition))
+							{
+								if (creature.Client != null)
+									creature.Client.Send(PacketCreator.EntityAppears(entity));
+							}
 						}
-					}
 
-					// Not in range
-					else
-					{
-						// but was in range
-						if (InRange(creature.PrevPosition, entity.PrevPosition))
+						// Not in range
+						else
 						{
-							if (creature.Client != null)
-								creature.Client.Send(PacketCreator.EntityLeaves(entity));
+							// but was in range
+							if (InRange(creature.PrevPosition, entity.PrevPosition))
+							{
+								if (creature.Client != null)
+									creature.Client.Send(PacketCreator.EntityLeaves(entity));
+							}
 						}
 					}
 				}
@@ -372,6 +376,8 @@ namespace World.World
 			this.Broadcast(disappears, SendTargets.Range, item);
 
 			ServerEvents.Instance.OnEntityLeavesRegion(item);
+
+			item.Dispose();
 		}
 
 		/// <summary>
@@ -887,30 +893,33 @@ namespace World.World
 
 			// TODO: "Might" be more effective to not check every creature, but make a client list.
 
-			if (targets.HasFlag(SendTargets.All))
+			lock (_creatures)
 			{
-				foreach (var creature in _creatures)
+				if (targets.HasFlag(SendTargets.All))
 				{
-					if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
-						creature.Client.Send(packet);
-				}
-			}
-			else if (targets.HasFlag(SendTargets.Region))
-			{
-				foreach (var creature in _creatures)
-				{
-					if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
-						if (creature.Region == source.Region)
+					foreach (var creature in _creatures)
+					{
+						if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
 							creature.Client.Send(packet);
+					}
 				}
-			}
-			else if (targets.HasFlag(SendTargets.Range))
-			{
-				foreach (var creature in _creatures)
+				else if (targets.HasFlag(SendTargets.Region))
 				{
-					if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
-						if (InRange(creature, source, range))
-							creature.Client.Send(packet);
+					foreach (var creature in _creatures)
+					{
+						if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
+							if (creature.Region == source.Region)
+								creature.Client.Send(packet);
+					}
+				}
+				else if (targets.HasFlag(SendTargets.Range))
+				{
+					foreach (var creature in _creatures)
+					{
+						if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
+							if (InRange(creature, source, range))
+								creature.Client.Send(packet);
+					}
 				}
 			}
 		}

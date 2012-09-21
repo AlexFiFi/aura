@@ -81,6 +81,7 @@ namespace World.Scripting
 		protected virtual void SetStand(string style)
 		{
 			this.NPC.StandStyle = style;
+			WorldManager.Instance.CreatureChangeStance(this.NPC);
 		}
 
 		protected void SendScript(WorldClient client, string script)

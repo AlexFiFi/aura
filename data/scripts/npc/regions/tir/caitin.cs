@@ -5,11 +5,11 @@ using World.Scripting;
 using World.World;
 using Common.Constants;
 
-public class NewTest : NPCScript
+public class _CaitinScript : NPCScript
 {
 	public override void OnLoad()
 	{
-		SetName("_caitin");
+		SetName("_Caitin");
 		SetRace(10001);
 		SetBody(height: 1.3f);
 		SetFace(skin: 16, eye: 2, eyeColor: 39, lip: 0);

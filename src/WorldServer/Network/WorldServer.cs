@@ -37,6 +37,9 @@ namespace World.Network
 
 			Logger.Info("Initializing server @ " + DateTime.Now);
 
+			Logger.Info("Clearing CSScript cache..."); //Otherwise, things get iffy if we try to recompile
+			Directory.Delete(Path.Combine(Path.GetTempPath(), "CSSCRIPT"), true);
+
 			// Configuration
 			// --------------------------------------------------------------
 			Logger.Info("Reading configuration...");
@@ -87,7 +90,7 @@ namespace World.Network
 
 			// NPCs
 			// --------------------------------------------------------------
-			Logger.Info("Loading NPCs...");
+
 			NPCManager.Instance.LoadNPCs();
 
 			// Monsters
