@@ -14,6 +14,7 @@ using World.Network;
 using World.Scripting;
 using World.Tools;
 using Common.Data;
+using System.Text.RegularExpressions;
 
 namespace World.World
 {
@@ -97,6 +98,8 @@ namespace World.World
 			this.AddCommand("se", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
 			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
+			// GMCP
+			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
@@ -356,6 +359,50 @@ namespace World.World
 			//    return CommandResult.Fail;
 
 			// TODO: Move some stuff around in NPCManager and add a monster spawn from here.
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_set_inventory(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			if (args[1] != "/c")
+			{
+				client.Send(PacketCreator.ServerMessage(creature, "Unknown paramter '" + args[1] + "'."));
+				return CommandResult.Fail;
+			}
+
+			byte pocket = 2;
+			if (args.Length >= 3)
+			{
+				var match = Regex.Match(args[2], "/p:(?<id>[0-9]+)");
+				if (!match.Success)
+				{
+					client.Send(PacketCreator.ServerMessage(creature, "Unknown paramter '" + args[2] + "', please specify a pocket."));
+					return CommandResult.Fail;
+				}
+				if (!byte.TryParse(match.Groups["id"].Value, out pocket) || pocket > (byte)Pocket.Max - 1)
+				{
+					client.Send(PacketCreator.ServerMessage(creature, "Invalid pocket."));
+					return CommandResult.Fail;
+				}
+			}
+
+			var toRemove = new List<MabiItem>();
+			foreach (var item in creature.Items)
+			{
+				if (item.Info.Pocket == pocket)
+					toRemove.Add(item);
+			}
+			foreach (var item in toRemove)
+			{
+				creature.Items.Remove(item);
+				client.Send(PacketCreator.ItemRemove(creature, item));
+			}
+
+			client.Send(PacketCreator.ServerMessage(creature, "Cleared pocket '" + ((Pocket)pocket).ToString() + "'. (Deleted items: " + toRemove.Count.ToString()));
 
 			return CommandResult.Okay;
 		}

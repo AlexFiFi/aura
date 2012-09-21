@@ -27,6 +27,7 @@ namespace World.Network
 			this.RegisterPacketHandler(0x4EED, HandleGMCPMove);
 			this.RegisterPacketHandler(0x4EEE, HandleGMCPRevive);
 			this.RegisterPacketHandler(0x4EEF, HandleGMCPInvisibility);
+			this.RegisterPacketHandler(0x4EF6, HandleGMCPExpel);
 			this.RegisterPacketHandler(0x4EF7, HandleGMCPBan);
 			this.RegisterPacketHandler(0x5208, HandleCharacterInfoRequest);
 			this.RegisterPacketHandler(0x526C, HandleChat);
@@ -36,7 +37,7 @@ namespace World.Network
 			this.RegisterPacketHandler(0x55F0, HandleNPCTalkStart);
 			this.RegisterPacketHandler(0x55F2, HandleNPCTalkEnd);
 			this.RegisterPacketHandler(0x59D8, HandleItemMove);
-			this.RegisterPacketHandler(0x59DA, HandleItemPick);
+			this.RegisterPacketHandler(0x59DA, HandleItemPickUp);
 			this.RegisterPacketHandler(0x59DC, HandleItemDrop);
 			this.RegisterPacketHandler(0x59E2, HandleItemDestroy);
 			this.RegisterPacketHandler(0x59E8, HandleItemSplit);
@@ -313,6 +314,21 @@ namespace World.Network
 			client.Send(p);
 		}
 
+		public void HandleGMCPExpel(WorldClient client, MabiPacket packet)
+		{
+			var targetName = packet.GetString();
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
+			if (target == null || target.Client == null)
+			{
+				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
+				return;
+			}
+
+			client.Send(PacketCreator.MsgBox(client.Character, "'" + targetName + "' has been kicked."));
+
+			target.Client.Kill();
+		}
+
 		public void HandleGMCPBan(WorldClient client, MabiPacket packet)
 		{
 			var targetName = packet.GetString();
@@ -326,6 +342,8 @@ namespace World.Network
 			var end = DateTime.Now.AddMinutes(packet.GetInt());
 			target.Client.Account.BannedExpiration = end;
 			target.Client.Account.BannedReason = packet.GetString();
+
+			client.Send(PacketCreator.MsgBox(client.Character, "'" + targetName + "' has been banned till '" + end.ToString() + "'."));
 
 			target.Client.Kill();
 		}
@@ -569,7 +587,7 @@ namespace World.Network
 			client.Send(p);
 		}
 
-		private void HandleItemPick(WorldClient client, MabiPacket packet)
+		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)

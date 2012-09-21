@@ -76,9 +76,17 @@ namespace Common.Constants
 		Falias3 = 34,
 		Falias4 = 35,
 		ComboCard = 41,
-		SpecialInventory = 49,
+		ArmorStyle = 43,
+		GloveStyle = 44,
+		ShoeStyle = 45,
+		HeadStyle = 46,
+		RobeStyle = 47,
+		PersonalInventory = 49,
+		VIPInventory = 50,
 		ExpandedInventory = 72,
 		FarmStone = 81,
 		Inventory2 = 100,
+
+		Max,
 	}
 }

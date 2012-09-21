@@ -50,7 +50,7 @@ namespace Common.Data
 			return mapInfo.ColorMap[rand.Next(mapInfo.ColorMap.Length)];
 		}
 
-		public void LoadFromDat(string filePath, bool reload=false)
+		public void LoadFromDat(string filePath, bool reload = false)
 		{
 			if (reload)
 				this.Entries.Clear();

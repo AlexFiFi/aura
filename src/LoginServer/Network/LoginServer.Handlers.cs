@@ -81,6 +81,19 @@ namespace Login.Network
 				client.Send(response);
 				return;
 			}
+			// Second password?
+			else if (loginType == 0x14)
+			{
+				//sessionKey = packet.GetLong();
+				//secPassword = packet.GetString(); ?
+
+				response.PutByte(51);
+				response.PutInt(14);
+				response.PutInt(1);
+				response.PutString("Second passwords aren't supported yet.");
+				client.Send(response);
+				return;
+			}
 
 			var loginResult = LoginResult.Fail;
 

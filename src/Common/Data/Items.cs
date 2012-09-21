@@ -18,7 +18,7 @@ namespace Common.Data
 		public string Name, KorName;
 		public ushort Type;
 		public byte Width, Height;
-		public byte ColorMap1, ColorMap2, ColorMap3;
+		public byte ColorMap1, ColorMap2, ColorMap3, ColorMode;
 		public ushort StackType;
 		public ushort StackMax;
 		public uint StackItem;
@@ -59,7 +59,7 @@ namespace Common.Data
 		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
 			base.LoadFromCsv(filePath, reload);
-			this.ReadCsv(filePath, 24);
+			this.ReadCsv(filePath, 25);
 		}
 
 		protected override void CsvToEntry(ItemDbInfo info, List<string> csv, int currentLine)
@@ -77,6 +77,7 @@ namespace Common.Data
 			info.ColorMap1 = Convert.ToByte(csv[i++]);
 			info.ColorMap2 = Convert.ToByte(csv[i++]);
 			info.ColorMap3 = Convert.ToByte(csv[i++]);
+			info.ColorMode = Convert.ToByte(csv[i++]);
 			info.Price = Convert.ToUInt32(csv[i++]);
 			info.Durability = Convert.ToUInt32(csv[i++]);
 			info.Defense = Convert.ToUInt32(csv[i++]);

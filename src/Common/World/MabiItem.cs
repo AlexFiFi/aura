@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using Common.Constants;
 using Common.Network;
 using Common.Data;
+using System.Net;
+using System;
 
 namespace Common.World
 {
@@ -152,9 +154,6 @@ namespace Common.World
 			var dbInfo = MabiData.ItemDb.Find(this.Info.Class);
 			if (dbInfo != null)
 			{
-				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap1);
-				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap2);
-				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap3);
 				this.Info.DownHitCount = dbInfo.KnockCount;
 				this.OptionInfo.KnockCount = dbInfo.KnockCount;
 
@@ -185,6 +184,16 @@ namespace Common.World
 
 				if (this.Type != ItemType.Sac && this.Info.Bundle < 1)
 					this.Info.Bundle = 1;
+
+				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap1);
+				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap2);
+				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap3);
+				if (dbInfo.ColorMode == 6)
+				{
+					this.Info.ColorA = ((this.Info.ColorA & 0xFF) << 16) + ((this.Info.ColorA >> 8 & 0xFF) << 8) + (this.Info.ColorA >> 16 & 0xFF);
+					this.Info.ColorB = ((this.Info.ColorB & 0xFF) << 16) + ((this.Info.ColorB >> 8 & 0xFF) << 8) + (this.Info.ColorB >> 16 & 0xFF);
+					this.Info.ColorC = ((this.Info.ColorC & 0xFF) << 16) + ((this.Info.ColorC >> 8 & 0xFF) << 8) + (this.Info.ColorC >> 16 & 0xFF);
+				}
 			}
 		}
 
