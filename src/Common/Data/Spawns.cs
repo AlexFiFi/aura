@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 
-namespace MabiNatives
+namespace Common.Data
 {
 	public class SpawnInfo
 	{
@@ -28,24 +27,22 @@ namespace MabiNatives
 			return this.Entries.FirstOrDefault(a => a.Id == id);
 		}
 
-		public override void LoadFromXml(string path)
+		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
-			throw new NotImplementedException();
+			base.LoadFromCsv(filePath, reload);
+			this.ReadCsv(filePath, 7);
 		}
 
-		public override void LoadFromJson(string path)
+		protected override void CsvToEntry(SpawnInfo info, List<string> csv, int currentLine)
 		{
-			base.LoadFromJson(path);
-
-			foreach (var entry in this.Entries)
-			{
-				entry.Id = _spawnId++;
-			}
-		}
-
-		public override void ExportToJson(string path)
-		{
-			throw new NotImplementedException();
+			var i = 0;
+			info.MonsterId = Convert.ToUInt32(csv[i++]);
+			info.Region = Convert.ToUInt32(csv[i++]);
+			info.X1 = Convert.ToInt32(csv[i++]);
+			info.Y1 = Convert.ToInt32(csv[i++]);
+			info.X2 = Convert.ToInt32(csv[i++]);
+			info.Y2 = Convert.ToInt32(csv[i++]);
+			info.Amount = Convert.ToByte(csv[i++]);
 		}
 	}
 }

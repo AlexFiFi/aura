@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 using Common.Constants;
 using Common.Network;
-using MabiNatives;
+using Common.Data;
 
 namespace Common.World
 {
@@ -59,7 +59,7 @@ namespace Common.World
 		public short Protection;
 		public ushort EffectiveRange;
 		public byte AttackSpeed;
-		public byte DownHitCount;
+		public byte KnockCount;
 		public ushort Experience;
 		public byte EP;
 		public byte Upgraded;
@@ -119,7 +119,7 @@ namespace Common.World
 			this.Id = _worldItemIndex++;
 		}
 
-		public MabiItem(PCCardItem cardItem)
+		public MabiItem(CharCardSetInfo cardItem)
 			: this(cardItem.Id)
 		{
 			this.Info.Pocket = cardItem.Pocket;
@@ -153,8 +153,8 @@ namespace Common.World
 				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap1);
 				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap2);
 				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap3);
-				this.Info.DownHitCount = dbInfo.DownHitCount;
-				this.OptionInfo.DownHitCount = dbInfo.DownHitCount;
+				this.Info.DownHitCount = dbInfo.KnockCount;
+				this.OptionInfo.KnockCount = dbInfo.KnockCount;
 
 				this.OptionInfo.Durability = dbInfo.Durability;
 				this.OptionInfo.DurabilityMax = dbInfo.Durability;
@@ -172,8 +172,8 @@ namespace Common.World
 
 				this.OptionInfo.Flag = 1;
 
-				this.BundleMax = dbInfo.BundleMax;
-				this.BundleType = (BundleType)dbInfo.BundleType;
+				this.BundleMax = dbInfo.StackMax;
+				this.BundleType = (BundleType)dbInfo.StackType;
 				this.Type = (ItemType)dbInfo.Type;
 				this.StackItem = dbInfo.StackItem;
 				this.Width = dbInfo.Width;

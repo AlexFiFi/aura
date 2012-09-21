@@ -26,7 +26,7 @@ namespace World.World
 			if (source.IsStunned())
 				return AttackResult.Stunned;
 
-			var skillId = (SkillConst)(source.ActiveSkillId < 1 ? source.RaceInfo.CombatSkill : source.ActiveSkillId);
+			var skillId = (SkillConst)(source.ActiveSkillId < 1 ? source.RaceInfo.AttackSkill : source.ActiveSkillId);
 			var skill = source.GetSkill(skillId);
 			if (skill == null)
 			{
@@ -64,7 +64,7 @@ namespace World.World
 			if (target == null)
 				return AttackResult.None;
 
-			if (!WorldManager.InRange(source, target, (uint)(source.RaceInfo.MeleeAttackRange + 50)))
+			if (!WorldManager.InRange(source, target, (uint)(source.RaceInfo.AttackRange + 50)))
 				return AttackResult.OutOfRange;
 
 			uint prevCombatActionId = 0;
@@ -138,8 +138,8 @@ namespace World.World
 				// Stuns
 				if (!targetAction.ActionType.HasFlag(CombatActionType.Defense))
 				{
-					var atkSpeed = (weapon == null ? source.RaceInfo.DefaultAttackSpeed : weapon.OptionInfo.AttackSpeed);
-					var downHitCount = (weapon == null ? source.RaceInfo.DefaultDownHitCount : weapon.OptionInfo.DownHitCount);
+					var atkSpeed = (weapon == null ? source.RaceInfo.AttackSpeed : weapon.OptionInfo.AttackSpeed);
+					var downHitCount = (weapon == null ? source.RaceInfo.KnockCount : weapon.OptionInfo.KnockCount);
 					var targetStunTime = CalculateStunTarget(atkSpeed, targetAction.IsKnock());
 
 					sourceAction.StunTime = CalculateStunSource(atkSpeed, targetAction.IsKnock());
@@ -204,7 +204,7 @@ namespace World.World
 			if (target == null)
 				return AttackResult.None;
 
-			if (!WorldManager.InRange(source, target, (uint)(source.RaceInfo.MeleeAttackRange + 50)))
+			if (!WorldManager.InRange(source, target, (uint)(source.RaceInfo.AttackRange + 50)))
 				return AttackResult.OutOfRange;
 
 			var rnd = RandomProvider.Get();

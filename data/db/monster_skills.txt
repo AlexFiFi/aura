@@ -1,0 +1,12 @@
+// Aura
+// Database file
+// 
+// Structure:
+// MonsterId  SkillId  Rank
+//---------------------------------------------------------------------------
+
+// Gray Wolf
+10001, 23002, B   // Combat Mastery
+10001, 20002, F   // Smash
+10001, 20003, F   // Counter
+10001, 20001, F   // Defense

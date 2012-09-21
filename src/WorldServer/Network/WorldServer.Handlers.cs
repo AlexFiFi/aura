@@ -10,9 +10,9 @@ using Common.Events;
 using Common.Network;
 using Common.Tools;
 using Common.World;
-using MabiNatives;
 using World.Tools;
 using World.World;
+using Common.Data;
 
 namespace World.Network
 {
@@ -833,12 +833,12 @@ namespace World.Network
 
 			creature.ActiveSkillId = skillId;
 
-			uint castTime = skill.RankInfo.PrepareTime;
+			uint castTime = skill.RankInfo.LoadTime;
 
 			switch ((SkillConst)skillId)
 			{
 				case SkillConst.Healing:
-					creature.Mana -= skill.RankInfo.ManaCosts;
+					creature.Mana -= skill.RankInfo.ManaCost;
 					WorldManager.Instance.CreatureStatsUpdate(creature);
 					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(11).PutString("healing"), SendTargets.Range, creature);
 					break;
@@ -885,7 +885,7 @@ namespace World.Network
 				return;
 			}
 
-			creature.ActiveSkillStacks = skill.RankInfo.Stacks;
+			creature.ActiveSkillStacks = skill.RankInfo.Stack;
 
 			client.Send(new MabiPacket(0x6991, creature.Id).PutBytes(creature.ActiveSkillStacks, creature.ActiveSkillStacks).PutShort(creature.ActiveSkillId));
 
@@ -1010,7 +1010,7 @@ namespace World.Network
 			r.PutShort(skillId);
 			client.Send(r);
 
-			if (creature.ActiveSkillStacks > 0 && skill.RankInfo.Stacks > 1)
+			if (creature.ActiveSkillStacks > 0 && skill.RankInfo.Stack > 1)
 			{
 				client.Send(new MabiPacket(0x6983, creature.Id).PutShort(creature.ActiveSkillId));
 			}
@@ -1376,7 +1376,7 @@ namespace World.Network
 				if (creature.Region == portalInfo.Region && WorldManager.InRange(creature, portalInfo.X, portalInfo.Y, 1500))
 				{
 					success = 1;
-					client.Warp(portalInfo.DestinationRegion, portalInfo.DestinationX, portalInfo.DestinationY);
+					client.Warp(portalInfo.ToRegion, portalInfo.ToX, portalInfo.ToY);
 				}
 			}
 			else

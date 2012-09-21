@@ -8,8 +8,8 @@ using Common.Database;
 using Common.Network;
 using Common.Tools;
 using Common.World;
-using MabiNatives;
 using Login.Tools;
+using Common.Data;
 
 namespace Login.Network
 {
@@ -32,6 +32,8 @@ namespace Login.Network
 			this.RegisterPacketHandler(0x00000041, HandleDeletePC);
 			this.RegisterPacketHandler(0x00000043, HandleDeletePC);
 			this.RegisterPacketHandler(0x0000004D, HandleDisconnect);
+			this.RegisterPacketHandler(0x00000050, HandleEnterPetCreation);
+			this.RegisterPacketHandler(0x00000055, HandleEnterPetCreation);
 
 			// EU
 			//this.RegisterPacketHandler(0x1E, HandleVersionCheck);
@@ -387,11 +389,11 @@ namespace Login.Network
 
 			// Check if account has this card
 			var card = client.Account.CharacterCards.FirstOrDefault(a => a.Id == cardId);
-			PCCardInfo cardInfo = null;
+			CharCardInfo cardInfo = null;
 			if (card != null)
 			{
 				// Check if this is a valid card and if this race can use it
-				cardInfo = MabiData.PCCardDb.Find(card.Race);
+				cardInfo = MabiData.CharCardDb.Find(card.Race);
 				if (cardInfo == null || !cardInfo.Races.Contains(charRace))
 				{
 					// Reset card, so the request fails
@@ -435,10 +437,10 @@ namespace Login.Network
 
 			// Retrieve start items, add head, and add items to inventory
 			//var cardItems = cardInfo.CardItems.FindAll(a => a.Race == charRace);
-			var cardItems = MabiData.PCCardDb.FindSet(cardInfo.Id, charRace);
+			var cardItems = MabiData.CharCardSetDb.Find(cardInfo.SetId, charRace);
 
-			cardItems.Add(new PCCardItem(face, 3, charRace, skinColor));
-			cardItems.Add(new PCCardItem(hair, 4, charRace, (uint)hairColor + 0x10000000));
+			cardItems.Add(new CharCardSetInfo { ItemId = face, Pocket = 3, Race = charRace, Color1 = skinColor });
+			cardItems.Add(new CharCardSetInfo { ItemId = hair, Pocket = 4, Race = charRace, Color1 = (uint)hairColor + 0x10000000 });
 
 			foreach (var item in cardItems)
 			{
@@ -782,6 +784,11 @@ namespace Login.Network
 			Logger.Info("'" + accountName + "' is closing the connection. Saving...");
 
 			//MabiDb.Instance.SaveAccount(client.Account);
+		}
+
+		private void HandleEnterPetCreation(LoginClient client, MabiPacket packet)
+		{
+			//Logger.Error("OMG! Someone is trying to create a pet/partner!!");
 		}
 	}
 }

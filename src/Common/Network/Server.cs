@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using Common.Tools;
+using Common.Data;
+using System.IO;
 
 namespace Common.Network
 {
@@ -91,6 +93,56 @@ namespace Common.Network
 				return _handlers[op];
 
 			return null;
+		}
+
+		public void LoadData(string dataPath, bool reload = false)
+		{
+			try
+			{
+				MabiData.SpeedDb.LoadFromCsv(dataPath + "/db/speed.txt", reload);
+				MabiData.RaceDb.LoadFromCsv(dataPath + "/db/races.txt", reload);
+				Logger.Info("Done loading " + MabiData.RaceDb.Entries.Count + " entries from races.txt.");
+
+				MabiData.PortalDb.LoadFromCsv(dataPath + "/db/portals.txt", reload);
+				Logger.Info("Done loading " + MabiData.PortalDb.Entries.Count + " entries from portals.txt.");
+
+				MabiData.StatsBaseDb.LoadFromCsv(dataPath + "/db/stats_base.txt", reload);
+				Logger.Info("Done loading " + MabiData.StatsBaseDb.Entries.Count + " entries from stats_base.txt.");
+
+				MabiData.MotionDb.LoadFromCsv(dataPath + "/db/motions.txt", reload);
+				Logger.Info("Done loading " + MabiData.MotionDb.Entries.Count + " entries from motions.txt.");
+
+				MabiData.CharCardSetDb.LoadFromCsv(dataPath + "/db/charcardsets.txt", reload);
+				MabiData.CharCardDb.LoadFromCsv(dataPath + "/db/charcards.txt", reload);
+				Logger.Info("Done loading " + MabiData.CharCardSetDb.Entries.Count + " entries from charcardsets.txt.");
+
+				MabiData.MonsterSkillDb.LoadFromCsv(dataPath + "/db/monster_skills.txt", reload);
+				MabiData.MonsterDb.LoadFromCsv(dataPath + "/db/monsters.txt", reload);
+				Logger.Info("Done loading " + MabiData.MonsterDb.Entries.Count + " entries from monsters.txt.");
+
+				MabiData.SpawnDb.LoadFromCsv(dataPath + "/db/spawns.txt", reload);
+				Logger.Info("Done loading " + MabiData.SpawnDb.Entries.Count + " entries from spawns.txt.");
+
+				MabiData.ColorMapDb.LoadFromDat(dataPath + "/db/colormap.dat", reload);
+				Logger.Info("Done loading " + MabiData.ColorMapDb.Entries.Count + " entries from colormap.dat.");
+
+				MabiData.ItemDb.LoadFromCsv(dataPath + "/db/items.txt", reload);
+				Logger.Info("Done loading " + MabiData.ItemDb.Entries.Count + " entries from items.txt.");
+
+				MabiData.SkillRankDb.LoadFromCsv(dataPath + "/db/skill_ranks.txt", reload);
+				MabiData.SkillDb.LoadFromCsv(dataPath + "/db/skills.txt", reload);
+				Logger.Info("Done loading " + MabiData.SkillDb.Entries.Count + " entries from skills.txt.");
+			}
+			catch (FileNotFoundException ex)
+			{
+				Logger.Error(ex.Message);
+				this.Exit(1);
+			}
+			catch (Exception ex)
+			{
+				Logger.Exception(ex, null, true);
+				this.Exit(1);
+			}
 		}
 
 		/// <summary>

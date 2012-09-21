@@ -11,8 +11,8 @@ using Common.Network;
 using Common.Tools;
 using Common.World;
 using Login.Tools;
-using MabiNatives;
 using Common.Constants;
+using Common.Data;
 
 namespace Login.Network
 {
@@ -75,20 +75,7 @@ namespace Login.Network
 			// Data
 			// --------------------------------------------------------------
 			Logger.Info("Loading data files...");
-			try
-			{
-				MabiData.LoadFromJSON(LoginConf.DataPath, DataCats.Age | DataCats.Color | DataCats.Item | DataCats.PCCard | DataCats.Skill | DataCats.Race);
-			}
-			catch (XmlException ex)
-			{
-				Logger.Exception(ex, "Unable to parse '" + Path.GetFileName(ex.SourceUri) + "'");
-				this.Exit(1);
-			}
-			catch (Exception ex)
-			{
-				Logger.Exception(ex, null, true);
-				this.Exit(1);
-			}
+			this.LoadData(LoginConf.DataPath);
 
 			// Starto
 			// --------------------------------------------------------------

@@ -29,6 +29,10 @@ namespace Common.Constants
 		Kiosk = 21,
 		Hair = 100,
 		Face = 101,
+		Usable = 501,
+		Quest = 502,
+		Usable2 = 503,
+		Unknown1 = 504,
 		Sac = 1000,
 		Misc = 1001, // ?
 	}

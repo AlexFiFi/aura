@@ -8,7 +8,7 @@ using System.Linq;
 using System.Xml;
 using System.Globalization;
 
-namespace MabiNatives
+namespace Common.Data
 {
 	public class MotionInfo
 	{
@@ -30,29 +30,17 @@ namespace MabiNatives
 			return this.Entries.FirstOrDefault(a => a.Name == name);
 		}
 
-		public override void LoadFromXml(string filePath)
+		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
-			base.LoadFromXml(filePath);
+			base.LoadFromCsv(filePath, reload);
+			this.ReadCsv(filePath, 3);
+		}
 
-			using (var itemInfoReader = new XmlTextReader(filePath))
-			{
-				while (itemInfoReader.Read())
-				{
-					if (itemInfoReader.NodeType != XmlNodeType.Element)
-						continue;
-
-					if (itemInfoReader.Name != "Motion")
-						continue;
-
-					var motion = new MotionInfo();
-					motion.Name = itemInfoReader.GetAttribute("name");
-					string[] motiondatas = itemInfoReader.GetAttribute("main_motion").Split(',');
-					motion.Category = ushort.Parse(motiondatas[0]);
-					motion.Type = ushort.Parse(motiondatas[1]);
-
-					this.Entries.Add(motion);
-				}
-			}
+		protected override void CsvToEntry(MotionInfo info, List<string> csv, int currentLine)
+		{
+			info.Name = csv[0];
+			info.Category = Convert.ToUInt16(csv[1]);
+			info.Type = Convert.ToUInt16(csv[2]);
 		}
 	}
 }

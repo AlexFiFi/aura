@@ -4,8 +4,8 @@
 using System;
 using Common.Constants;
 using Common.Tools;
-using MabiNatives;
 using Common.Events;
+using Common.Data;
 
 namespace Common.World
 {
@@ -26,7 +26,7 @@ namespace Common.World
 
 			this.Height = (1.0f / 7.0f * (this.Age - 10.0f));
 
-			var ageInfo = MabiData.AgeDb.Find((byte)(this.IsHuman() ? 0 : (this.IsElf() ? 1 : 2)), this.Age);
+			var ageInfo = MabiData.StatsBaseDb.Find((byte)(this.IsHuman() ? 0 : (this.IsElf() ? 1 : 2)), this.Age);
 			if (ageInfo == null)
 			{
 				Logger.Warning("Unable to find age info for " + this.Race.ToString() + " " + this.Age.ToString() + ".");

@@ -1,8 +1,9 @@
 // Aura
 // Database file
+// 
+// Structure:
+// Id  RaceId  Name  AI  Life  Exp  Size  GoldMin  GoldMax  [DropItem  DropChance ...]
 //---------------------------------------------------------------------------
 
-[
-{ "Id": 10001, "Race": 20001, "Name": "Gray Wolf", "AI": "wolf", "Life": 90, "Exp": 30, "Size": 1.0, "GoldMin": 11, "GoldMax": 50, "Drops": [ { "ItemId": 50003, "Chance": 100 } ], "Skills": [ { "SkillId": 23002, "Rank": "B" }, { "SkillId": 20002, "Rank": "F" }, { "SkillId": 20003, "Rank": "F" }, { "SkillId": 20001, "Rank": "F" } ] },
-{ "Id": 10002, "Race": 360001, "Name": "Mammoth", "AI": "none", "Life": 10, "Exp": 0, "Size": 3.0 },
-]
+10001, 20001,  "Gray Wolf", "wolf", 90,30,1.0, 11,50, 50003,100,100,5
+10002, 360001, "Mammoth",   "none", 10,0,3.0,  1,1

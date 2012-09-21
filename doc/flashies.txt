@@ -1,0 +1,288 @@
+// Aura
+// Documentation file
+//---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+Flashies are built using a special HEX code. The format: 0xAARRGGBB.
+
+In the normal color code, AA is usually "FF", which specifies the code to
+be normal. By changing that value, you can change how the code is used.
+If it's changed to flashy, or using one byte only, the colors below are
+used.
+
+Some potential values:
+00/FF  Normal
+10     Use BB
+20     Use GG
+40     Slow pulsate flash from BB to GG
+41     Faster pulsate flash from BB to GG
+45-49  Ridiculous fast pulsate flash from BB to GG
+70-79  Flickering flash from BB to GG
+
+=============================================================================
+| Colors                                                                    |
+=============================================================================
+
+0     0x000000    // Black
+1     0x002084    // Dark Blue
+2     0x008221    // Dark Green
+3     0x0082A5    // Dark Cyan
+4     0x840C18    // Dark Red
+5     0x7B1894    // Dark Purple
+6     0xBD7D21    // Dark Orange
+7     0xC6C3C6    // Light Gray
+8     0x393839    // Dark Gray
+9     0x002CFF    // Blue
+10    0x10FF63    // Green
+11    0xFF0000    // Red
+12    0xFFFF00    // Yellow
+13    0xEF49FF    // Purple
+14    0x29DFFF    // Cyan
+15    0xFFFFFF    // White
+16    0xF7EFFF    // Pearly
+17    0xF7F3DE    // White Yellow
+18    0xEFE3B5    // Orangish Yellow
+19    0xFFE3B5    // Light Yellow
+20    0xFFD7B5    // Yellow
+21    0xFFC7C6    // Peach
+22    0xCEAAAD    // Grayish Red
+23    0xB58A7B    // Coffee Colored
+24    0xADAAA5    // Earthlike
+25    0x9C5D42    // Bronzed
+26    0xC6794A    // Reddish Brown
+27    0x633C31    // Dark Brown
+28    0x000000    // Black
+29    0x211C39    // Blue Black
+30    0x424563    // Blue Gray
+31    0x5A4D8C    // Violet
+32    0x7B8AAD    // Light Blue
+33    0xADAEC6    // Light Violet
+34    0xE7E3FF    // Silver Violet
+35    0xFFF38C    // Blonde
+36    0xEF9252    // Orange
+37    0xC67139    // Light Brown
+38    0xC61400    // Red
+39    0x7B2C10    // Brown
+40    0x000000    // Pure Black
+41    0x000033    // Shyam Black
+42    0x000066    // Deep Blue
+43    0x000099    // Ultra Marine
+44    0x0000CC    // Goblin Blue
+45    0x0000FF    // Azurite Blue
+46    0x003300    // Deep Dark Green
+47    0x003333    // Deep Dark Turquoise
+48    0x003366    // Deep Dark Blue
+49    0x003399    // Dark Smalte Blue
+50    0x0033CC    // Smalte Blue
+51    0x0033FF    // Blue
+52    0x006600    // Viridis Green
+53    0x006633    // Kynnbragg Green
+54    0x006666    // Dark Turquoise
+55    0x006699    // Aegiptian Blue
+56    0x0066CC    // Duke Blue
+57    0x0066FF    // Sky Blue
+58    0x009900    // Realm Green
+59    0x009933    // Vallandry Green
+60    0x009966    // Green Turquoise
+61    0x009999    // Turquoise
+62    0x0099CC    // Bleu de France
+63    0x0099FF    // Blue
+64    0x00CC00    // Green
+65    0x00CC33    // Green
+66    0x00CC66    // Green
+67    0x00CC99    // Green Turquoise
+68    0x00CCCC    // Turquoise
+69    0x00CCFF    // Deep Sky Blue
+70    0x00FF00    // Acid Green
+71    0x00FF33    // Lime Green
+72    0x00FF66    // Neon Green
+73    0x00FF99    // Neon Green
+74    0x00FFCC    // Neon Turquoise
+75    0x00FFFF    // Aqua
+76    0x330000    // Ochros Brown
+77    0x330033    // Dark Grape
+78    0x330066    // Iris
+79    0x330099    // Indigo Blue
+80    0x3300CC    // Sapphire Blue
+81    0x3300FF    // Blue
+82    0x333300    // Turndail Green
+83    0x333333    // Dark Gray
+84    0x333366    // Dark Violet
+85    0x333399    // Dark Blue
+86    0x3333CC    // Blue
+87    0x3333FF    // Blue
+88    0x336600    // Forestis Green
+89    0x336633    // Earth Green
+90    0x336666    // Malache Green
+91    0x336699    // Dark Pastel Blue
+92    0x3366CC    // Cobalt Blue
+93    0x3366FF    // Royal Blue
+94    0x339900    // Green
+95    0x339933    // Emerald Green
+96    0x339966    // ?
+97    0x339999    // ?
+98    0x3399CC    // ?
+99    0x3399FF    // Bilan Blue
+100   0x33CC00    // ?
+101   0x33CC33    // ?
+102   0x33CC66    // ?
+103   0x33CC99    // ?
+104   0x33CCCC    // Turquoise Blue
+105   0x33CCFF    // ?
+106   0x33FF00    // ?
+107   0x33FF33    // ?
+108   0x33FF66    // ?
+109   0x33FF99    // ?
+110   0x33FFCC    // ?
+111   0x33FFFF    // ?
+112   0x660000    // Maedere Red
+113   0x660033    // Eternium Red
+114   0x660066    // Prepeace Wine
+115   0x660099    // ?
+116   0x6600CC    // Adamantium Violet
+117   0x6600FF    // ?
+118   0x663300    // Ochros Red
+119   0x663333    // Chocolatl
+120   0x663366    // Goblin Violet
+121   0x663399    // ?
+122   0x6633CC    // ?
+123   0x6633FF    // ?
+124   0x666600    // Lowendal Green
+125   0x666633    // ?
+126   0x666666    // ?
+127   0x666699    // Slate Blue
+128   0x6666CC    // Eweca Blue
+129   0x6666FF    // ?
+130   0x669900    // Gras Green
+131   0x669933    // Verte Greak
+132   0x669966    // Goblin Green
+133   0x669999    // ?
+134   0x6699CC    // Steel Blue
+135   0x6699FF    // Cornflower Blue
+136   0x66CC00    // ?
+137   0x66CC33    // ?
+138   0x66CC66    // ?
+139   0x66CC99    // ?
+140   0x66CCCC    // ?
+141   0x66CCFF    // ?
+142   0x66FF00    // ?
+143   0x66FF33    // ?
+144   0x66FF66    // ?
+145   0x66FF99    // ?
+146   0x66FFCC    // Aquamarine
+147   0x66FFFF    // ?
+148   0x990000    // Carmine Red
+149   0x990033    // ?
+150   0x990066    // ?
+151   0x990099    // ?
+152   0x9900CC    // ?
+153   0x9900FF    // ?
+154   0x993300    // Saddle Brown
+155   0x993333    // Brick Red
+156   0x993366    // ?
+157   0x993399    // ?
+158   0x9933CC    // ?
+159   0x9933FF    // ?
+160   0x996600    // Ochros
+161   0x996633    // Desertum
+162   0x996666    // ?
+163   0x996699    // ?
+164   0x9966CC    // ?
+165   0x9966FF    // ?
+166   0x999900    // Olive
+167   0x999933    // ?
+168   0x999966    // ?
+169   0x999999    // ?
+170   0x9999CC    // ?
+171   0x9999FF    // ?
+172   0x99CC00    // ?
+173   0x99CC33    // ?
+174   0x99CC66    // ?
+175   0x99CC99    // ?
+176   0x99CCCC    // ?
+177   0x99CCFF    // Iceberg Blue
+178   0x99FF00    // Chartreuse Green
+179   0x99FF33    // ?
+180   0x99FF66    // ?
+181   0x99FF99    // ?
+182   0x99FFCC    // ?
+183   0x99FFFF    // ?
+184   0xCC0000    // Bloody Red
+185   0xCC0033    // Crimson Red
+186   0xCC0066    // ?
+187   0xCC0099    // ?
+188   0xCC00CC    // Enndoria Pink
+189   0xCC00FF    // ?
+190   0xCC3300    // Vermilion Red
+191   0xCC3333    // Lamoah Hong
+192   0xCC3366    // Palarua Red
+193   0xCC3399    // ?
+194   0xCC33CC    // ?
+195   0xCC33FF    // ?
+196   0xCC6600    // Meldeceit Desertum
+197   0xCC6633    // Glandernos Ochros
+198   0xCC6666    // Ladeca Red
+199   0xCC6699    // Meldeceit Red
+200   0xCC66CC    // Orchid
+201   0xCC66FF    // ?
+202   0xCC9900    // Meldeceit Yellow
+203   0xCC9933    // ?
+204   0xCC9966    // Ochros Yellow
+205   0xCC9999    // Rosy Brown
+206   0xCC99CC    // ?
+207   0xCC99FF    // ?
+208   0xCCCC00    // ?
+209   0xCCCC33    // ?
+210   0xCCCC66    // Khaki
+211   0xCCCC99    // ?
+212   0xCCCCCC    // Light Gray
+213   0xCCCCFF    // Mythril White
+214   0xCCFF00    // Lemon Yellow
+215   0xCCFF33    // ?
+216   0xCCFF66    // ?
+217   0xCCFF99    // ?
+218   0xCCFFCC    // ?
+219   0xCCFFFF    // Zilberlandow White
+220   0xFF0000    // Burning Red
+221   0xFF0033    // Ruby Red
+222   0xFF0066    // Meldeceit Sun
+223   0xFF0099    // ?
+224   0xFF00CC    // ?
+225   0xFF00FF    // Poison Magenta
+226   0xFF3300    // Lava Red
+227   0xFF3333    // Forging Sword
+228   0xFF3366    // ?
+229   0xFF3399    // ?
+230   0xFF33CC    // ?
+231   0xFF33FF    // Fuchsia
+232   0xFF6600    // Chroma Orange
+233   0xFF6633    // Rahj Al Ghar Orange
+234   0xFF6666    // Tomato
+235   0xFF6699    // Apricot Pink
+236   0xFF66CC    // Hot Pink
+237   0xFF66FF    // ?
+238   0xFF9900    // Orange
+239   0xFF9933    // Meldeceit Yellow
+240   0xFF9966    // Coral Pink
+241   0xFF9999    // Salmon Pink
+242   0xFF99CC    // Prill Pink
+243   0xFF99FF    // Plum Pink
+244   0xFFCC00    // Imperial Yellow
+245   0xFFCC33    // Canaria Yellow
+246   0xFFCC66    // Xanthe Yellow
+247   0xFFCC99    // Palarua Yellow
+248   0xFFCCCC    // Misty Rose
+249   0xFFCCFF    // ?
+250   0xFFFF00    // Chroma Yellow
+251   0xFFFF33    // ?
+252   0xFFFF66    // ?
+253   0xFFFF99    // Hatchling Yellow
+254   0xFFFFCC    // ?
+255   0xFFFFFF    // Seraphim White
+256   0xB5BA9F    // Green Gray
+257   0xB2591F    // Red Browne
+258   0x6F5E2E    // Khaki Browne
+259   0x1E2F41    // Deep Blue

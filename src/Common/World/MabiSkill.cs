@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 using Common.Constants;
 using Common.Tools;
-using MabiNatives;
+using Common.Data;
 
 namespace Common.World
 {
@@ -69,7 +69,7 @@ namespace Common.World
 				return;
 			}
 
-			var rankInfo = skillInfo.GetLevelInfo(this.Info.Rank, _race);
+			var rankInfo = skillInfo.GetRankInfo(this.Info.Rank, _race);
 			if (rankInfo == null)
 			{
 				Logger.Warning("Unable to find level info for skill '" + this.Info.Id.ToString() + "', level '" + this.Info.Rank.ToString() + "'.");

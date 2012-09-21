@@ -8,7 +8,7 @@ using Common.Tools;
 using Common.World;
 using World.Network;
 using World.World;
-using MabiNatives;
+using Common.Data;
 
 namespace World.Scripting
 {

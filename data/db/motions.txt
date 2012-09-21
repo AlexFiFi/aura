@@ -1,44 +1,45 @@
 // Aura
 // Database file
+// 
+// Structure:
+// Name  Val1  Val2
 //---------------------------------------------------------------------------
 
-[
-{ "Name": "salute", "Category": 53, "Type": 30 }, 
-{ "Name": "courtesy", "Category": 53, "Type": 31 }, 
-{ "Name": "dance1", "Category": 53, "Type": 33 }, 
-{ "Name": "dance2", "Category": 53, "Type": 32 }, 
-{ "Name": "dance3", "Category": 53, "Type": 34 }, 
-{ "Name": "dance4", "Category": 53, "Type": 35 }, 
-{ "Name": "greet", "Category": 53, "Type": 0 }, 
-{ "Name": "laugh", "Category": 53, "Type": 1 }, 
-{ "Name": "cry", "Category": 53, "Type": 2 }, 
-{ "Name": "clap", "Category": 53, "Type": 3 }, 
-{ "Name": "positive", "Category": 53, "Type": 4 }, 
-{ "Name": "negative", "Category": 53, "Type": 5 }, 
-{ "Name": "angry", "Category": 53, "Type": 9 }, 
-{ "Name": "question", "Category": 53, "Type": 6 }, 
-{ "Name": "surprise", "Category": 53, "Type": 7 }, 
-{ "Name": "frustrate", "Category": 53, "Type": 8 }, 
-{ "Name": "kiss", "Category": 53, "Type": 10 }, 
-{ "Name": "beg", "Category": 53, "Type": 11 }, 
-{ "Name": "listen_music", "Category": 53, "Type": 13 }, 
-{ "Name": "raise_hand", "Category": 53, "Type": 15 }, 
-{ "Name": "hurrah", "Category": 53, "Type": 16 }, 
-{ "Name": "provoke", "Category": 53, "Type": 17 }, 
-{ "Name": "shy", "Category": 53, "Type": 18 }, 
-{ "Name": "charge", "Category": 53, "Type": 19 }, 
-{ "Name": "boast_costume", "Category": 53, "Type": 20 }, 
-{ "Name": "boast_strength", "Category": 53, "Type": 21 }, 
-{ "Name": "boast_shape", "Category": 53, "Type": 22 }, 
-{ "Name": "hungry", "Category": 53, "Type": 23 }, 
-{ "Name": "follow_me", "Category": 53, "Type": 24 }, 
-{ "Name": "joke", "Category": 53, "Type": 25 }, 
-{ "Name": "smell", "Category": 53, "Type": 26 }, 
-{ "Name": "yes", "Category": 53, "Type": 27 }, 
-{ "Name": "painful", "Category": 53, "Type": 28 }, 
-{ "Name": "provoke2", "Category": 53, "Type": 29 }, 
-{ "Name": "disregard", "Category": 14, "Type": 14 }, 
-{ "Name": "victory", "Category": 82, "Type": 0 }, 
-{ "Name": "proposal1", "Category": 53, "Type": 46 }, 
-{ "Name": "proposal2", "Category": 53, "Type": 47 }, 
-]
+salute,53,30
+courtesy,53,31
+dance1,53,33
+dance2,53,32
+dance3,53,34
+dance4,53,35
+greet,53,0
+laugh,53,1
+cry,53,2
+clap,53,3
+positive,53,4
+negative,53,5
+angry,53,9
+question,53,6
+surprise,53,7
+frustrate,53,8
+kiss,53,10
+beg,53,11
+listen_music,53,13
+raise_hand,53,15
+hurrah,53,16
+provoke,53,17
+shy,53,18
+charge,53,19
+boast_costume,53,20
+boast_strength,53,21
+boast_shape,53,22
+hungry,53,23
+follow_me,53,24
+joke,53,25
+smell,53,26
+yes,53,27
+painful,53,28
+provoke2,53,29
+disregard,14,14
+victory,82,0
+proposal1,53,46
+proposal2,53,47

@@ -6,7 +6,7 @@ using System.Linq;
 using Common.Network;
 using Common.Tools;
 using Common.World;
-using MabiNatives;
+using Common.Data;
 
 namespace World.World
 {

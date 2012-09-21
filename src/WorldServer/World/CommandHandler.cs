@@ -10,10 +10,10 @@ using Common.Network;
 using Common.Tools;
 using Common.World;
 using CSScriptLibrary;
-using MabiNatives;
 using World.Network;
-using World.Tools;
 using World.Scripting;
+using World.Tools;
+using Common.Data;
 
 namespace World.World
 {
@@ -244,14 +244,14 @@ namespace World.World
 						}
 						else
 						{
-							var colorInfo = MabiData.ColorDb.Find(args[i + 2]);
-							if (colorInfo == null)
+							switch (args[i + 2])
 							{
-								client.Send(PacketCreator.ServerMessage(creature, "Unknown color."));
-								return CommandResult.Fail;
+								case "black": color[i] = 0xFF000000; break;
+								case "white": color[i] = 0xFFFFFFFF; break;
+								default:
+									client.Send(PacketCreator.ServerMessage(creature, "Unknown color."));
+									return CommandResult.Fail;
 							}
-
-							color[i] = colorInfo.ARGB;
 						}
 					}
 				}
@@ -552,16 +552,7 @@ namespace World.World
 		{
 			client.Send(PacketCreator.ServerMessage(creature, "Reloading data for this channel..."));
 
-			try
-			{
-				MabiData.LoadFromJSON(WorldConf.DataPath, DataCats.All);
-			}
-			catch (Exception ex)
-			{
-				Logger.Error(ex.Message);
-				client.Send(PacketCreator.ServerMessage(creature, "Something went wrong here."));
-				return CommandResult.Fail;
-			}
+			WorldServer.Instance.LoadData(WorldConf.DataPath, true);
 
 			client.Send(PacketCreator.ServerMessage(creature, "done."));
 

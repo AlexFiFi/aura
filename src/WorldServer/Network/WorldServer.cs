@@ -7,13 +7,13 @@ using System.Net;
 using System.Threading;
 using System.Xml;
 using Common.Database;
+using Common.Events;
 using Common.Network;
 using Common.Tools;
-using MabiNatives;
 using World.Scripting;
 using World.Tools;
 using World.World;
-using Common.Events;
+using Common.Data;
 
 namespace World.Network
 {
@@ -78,25 +78,7 @@ namespace World.Network
 			// Data
 			// --------------------------------------------------------------
 			Logger.Info("Loading data files...");
-			try
-			{
-				MabiData.LoadFromJSON(WorldConf.DataPath, DataCats.All);
-			}
-			catch (XmlException ex)
-			{
-				Logger.Exception(ex, "Unable to parse '" + Path.GetFileName(ex.SourceUri) + "'");
-				this.Exit(1);
-			}
-			catch (FileNotFoundException ex)
-			{
-				Logger.Error(ex.Message);
-				this.Exit(1);
-			}
-			catch (Exception ex)
-			{
-				Logger.Exception(ex, null, true);
-				this.Exit(1);
-			}
+			this.LoadData(WorldConf.DataPath);
 
 			// Commands
 			// --------------------------------------------------------------

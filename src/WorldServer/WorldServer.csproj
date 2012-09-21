@@ -74,10 +74,6 @@
       <Project>{5DF703A7-208F-450C-A8E7-CDAF60A41EC0}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MabiNatives\MabiNatives.csproj">
-      <Project>{E0EEB4F0-5C49-4652-8B73-44A518F1D2AE}</Project>
-      <Name>MabiNatives</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="mabioriginal.ico" />

@@ -7,8 +7,8 @@ using Common.Tools;
 using CSScriptLibrary;
 using World.Tools;
 using World.World;
-using MabiNatives;
 using Common.Constants;
+using Common.Data;
 
 namespace World.Scripting
 {
