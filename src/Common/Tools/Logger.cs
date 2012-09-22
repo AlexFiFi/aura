@@ -126,10 +126,9 @@ namespace Common.Tools
 			}
 		}
 
-		public static readonly string ClearLineString = "\r                                                                              \r";
 		public static void ClearLine()
 		{
-			Console.Write(ClearLineString);
+			Console.Write("\r                                                                              \r");
 		}
 	}
 }

@@ -98,18 +98,12 @@ namespace World.World
 			this.AddCommand("se", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
 			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
-
 			this.AddCommand("ri", Authority.GameMaster, Command_randomitem);
-
 			// GMCP
 			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
-			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs); //Leaving this in here
-			//as a note to future devs. Due to appdomains, NPCs CANNOT be reloaded, the server
-			//must be restarted. Loading NPCs into a new appdomain would incur a large performance hit.
-			//However, we still need to be able to reload NPCs. So we'll just add new
-			//assemblies in. This causes a large memory leak every time the code runs!--Xcelled
+			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 
 			// Load script commands
@@ -199,22 +193,17 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
-		char[] colorCodes = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F' };
-		private string getRandomColor()
-		{
-			string s = "0x";
-			for (int i = 0; i < 8; i++)
-				s += colorCodes[RandomProvider.Get().Next(colorCodes.Length - 1)];
-
-			return s;
-		}
-
 		private CommandResult Command_randomitem(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			var item = MabiData.ItemDb.Entries[RandomProvider.Get().Next(MabiData.ItemDb.Entries.Count - 1)];
-			string[] a = new string[] {"drop", item.Id.ToString(),  getRandomColor(), getRandomColor(), getRandomColor() };
+			var rand = RandomProvider.Get();
 
-			return Command_item(client, creature, a, msg);
+			var item = MabiData.ItemDb.Entries[rand.Next(MabiData.ItemDb.Entries.Count - 1)];
+			var color1 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
+			var color2 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
+			var color3 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
+			var cmd = new string[] { "drop", item.Id.ToString(), color1, color2, color3 };
+
+			return Command_item(client, creature, cmd, msg);
 		}
 
 		private CommandResult Command_item(WorldClient client, MabiCreature creature, string[] args, string msg)
@@ -613,12 +602,11 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
-
-		//Leaving this in here
-		//as a note to future devs. Due to appdomains, NPCs CANNOT be reloaded, the server
-		//must be restarted. Loading NPCs into a new appdomain would incur a large performance hit.
-		//However, we still need to be able to reload NPCs. So we'll just add new
-		//assemblies in. This causes a large memory leak every time the code runs!--Xcelled
+		// Due to appdomains, the server must be restarted to really reload NPCs.
+		// Loading NPCs into a new appdomain would incur a large performance hit.
+		// However, we still need to be able to reload NPCs. So we'll just add
+		// new assemblies in, even though this causes a memory leak over time.
+		// -- Xcelled
 		private CommandResult Command_reloadnpcs(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			client.Send(PacketCreator.ServerMessage(creature, "Reloading NPCs..."));

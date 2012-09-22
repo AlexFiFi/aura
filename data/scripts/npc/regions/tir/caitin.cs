@@ -14,10 +14,10 @@ public class _CaitinScript : NPCScript
 		SetBody(height: 1.3f);
 		SetFace(skin: 16, eye: 2, eyeColor: 39, lip: 0);
 
-		EquipItem(Pocket.Face, 0xF3C, 0x1AB67C, 0xF09D3B, 0x007244); //7C B6 1A  3B 9D F0  44 72 00 
-		EquipItem(Pocket.Hair, 0xBBA, 0x683E33, 0x683E33, 0x683E33); //333E6800 333E6800 333E6800
-		EquipItem(Pocket.Armor, "Popo's Skirt", 0x708B3D, 0xFBE39B, 0x6D685F); //3D8D70 9BE3FB 5F686D
-		EquipItem(Pocket.Shoe, 0x426E, 0x2A2A2A);
+		EquipItem(Pocket.Face, 3900, 0x1AB67C, 0xF09D3B, 0x007244);
+		EquipItem(Pocket.Hair, 3002, 0x683E33, 0x683E33, 0x683E33);
+		EquipItem(Pocket.Armor, "Popo's Skirt", 0x708B3D, 0xFBE39B, 0x6D685F);
+		EquipItem(Pocket.Shoe, "Cloth Shoes", 0x2A2A2A);
 
 		SetLocation(region: 5, x: 1831, y: 1801);
 

@@ -37,9 +37,6 @@ namespace World.Network
 
 			Logger.Info("Initializing server @ " + DateTime.Now);
 
-			Logger.Info("Clearing CSScript cache..."); //Otherwise, things get iffy if we try to recompile
-			Directory.Delete(Path.Combine(Path.GetTempPath(), "CSSCRIPT"), true);
-
 			// Configuration
 			// --------------------------------------------------------------
 			Logger.Info("Reading configuration...");
@@ -74,9 +71,17 @@ namespace World.Network
 				Logger.Error("Unable to connect to database. (" + ex.Message + ")");
 				this.Exit(1);
 			}
-
 			//Logger.Info("Clearing database cache...");
 			//MabiDb.Instance.ClearDatabaseCache();
+
+			// CS-S
+			// --------------------------------------------------------------
+			//var tmpPath = Path.Combine(Path.GetTempPath(), "CSSCRIPT");
+			//if (Directory.Exists(tmpPath))
+			//{
+			//    Logger.Info("Clearing CSScript cache...");
+			//    Directory.Delete(tmpPath, true);
+			//}
 
 			// Data
 			// --------------------------------------------------------------
@@ -90,7 +95,6 @@ namespace World.Network
 
 			// NPCs
 			// --------------------------------------------------------------
-
 			NPCManager.Instance.LoadNPCs();
 
 			// Monsters
