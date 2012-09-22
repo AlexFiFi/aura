@@ -187,7 +187,7 @@ namespace World.World
 
 		private CommandResult Command_gmcp(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			var p = new MabiPacket(0x4EE9, creature.Id);
+			var p = new MabiPacket(Op.GMCPOpen, creature.Id);
 			client.Send(p);
 
 			return CommandResult.Okay;
@@ -596,7 +596,7 @@ namespace World.World
 			skill = new MabiSkill(skillId, rank, creature.Race);
 			creature.Skills.Add(skill);
 
-			client.Send(new MabiPacket(0x6979, creature.Id).PutBin(skill.Info));
+			client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Info));
 			client.Send(PacketCreator.ServerMessage(creature, "Congratulations, you got skill '" + skillId + "'."));
 
 			return CommandResult.Okay;

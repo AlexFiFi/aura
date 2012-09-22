@@ -20,7 +20,7 @@ namespace World.Network
 	{
 		public static MabiPacket SystemMessage(MabiCreature target, string from, string message)
 		{
-			var p = new MabiPacket(0x526C, target.Id);
+			var p = new MabiPacket(Op.Chat, target.Id);
 
 			p.PutByte(0);
 			p.PutString(from);
@@ -50,7 +50,7 @@ namespace World.Network
 
 		public static MabiPacket MsgBox(MabiCreature target, string message, MsgBoxTitle title = MsgBoxTitle.NOTICE, MsgBoxButtons buttons = MsgBoxButtons.CLOSE, MsgBoxAlign align = MsgBoxAlign.CENTER)
 		{
-			var p = new MabiPacket(0x526F, target.Id);
+			var p = new MabiPacket(Op.MsgBox, target.Id);
 
 			p.PutString(message);
 			p.PutByte((byte)title);
@@ -62,7 +62,7 @@ namespace World.Network
 
 		public static MabiPacket MsgBox(MabiCreature target, string message, string title, MsgBoxButtons buttons = MsgBoxButtons.CLOSE, MsgBoxAlign align = MsgBoxAlign.CENTER)
 		{
-			var p = new MabiPacket(0x526F, target.Id);
+			var p = new MabiPacket(Op.MsgBox, target.Id);
 
 			p.PutString(message);
 			p.PutString(title);
@@ -74,7 +74,7 @@ namespace World.Network
 
 		public static MabiPacket Notice(MabiCreature target, string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
 		{
-			var p = new MabiPacket(0x526D, target.Id);
+			var p = new MabiPacket(Op.Notice, target.Id);
 
 			p.PutByte((byte)type);
 			p.PutString(message);
@@ -88,7 +88,7 @@ namespace World.Network
 
 		public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
 		{
-			var p = new MabiPacket(0x5334, 0x3000000000000000);
+			var p = new MabiPacket(Op.EntitiesSpawn, 0x3000000000000000);
 
 			p.PutShort((ushort)entities.Count);
 			foreach (var entity in entities)
@@ -107,9 +107,9 @@ namespace World.Network
 
 		public static MabiPacket EntityAppears(MabiEntity entity)
 		{
-			uint op = 0x520C;
+			uint op = Op.EntityAppears;
 			if (entity is MabiItem)
-				op = 0x5211;
+				op = Op.ItemAppears;
 
 			var p = new MabiPacket(op, 0x3000000000000000);
 			entity.AddEntityData(p);
@@ -118,7 +118,7 @@ namespace World.Network
 
 		public static MabiPacket EntitiesLeave(List<MabiEntity> entities)
 		{
-			var p = new MabiPacket(0x5335, 0x3000000000000000);
+			var p = new MabiPacket(Op.EntitiesDisappear, 0x3000000000000000);
 
 			p.PutShort((ushort)entities.Count);
 			foreach (var entity in entities)
@@ -132,9 +132,9 @@ namespace World.Network
 
 		public static MabiPacket EntityLeaves(MabiEntity entity)
 		{
-			uint op = 0x520D;
+			uint op = Op.EntityDisappears;
 			if (entity is MabiItem)
-				op = 0x5212;
+				op = Op.ItemDisappears;
 
 			var p = new MabiPacket(op, 0x3000000000000000);
 			p.PutLong(entity.Id);
@@ -145,7 +145,7 @@ namespace World.Network
 
 		public static MabiPacket EnterRegionPermission(MabiEntity entity, bool permission = true)
 		{
-			var p = new MabiPacket(0x6597, 0x1000000000000001);
+			var p = new MabiPacket(Op.EnterRegionPermission, 0x1000000000000001);
 			var pos = entity.GetPosition();
 
 			p.PutLong(entity.Id);
@@ -166,14 +166,14 @@ namespace World.Network
 
 		public static MabiPacket ItemInfo(MabiCreature creature, MabiItem item)
 		{
-			var p = new MabiPacket(0x59E0, creature.Id);
+			var p = new MabiPacket(Op.ItemNew, creature.Id);
 			item.AddPrivateEntityData(p);
 			return p;
 		}
 
 		public static MabiPacket ItemRemove(MabiCreature creature, MabiItem item)
 		{
-			var p = new MabiPacket(0x59E1, creature.Id);
+			var p = new MabiPacket(Op.ItemRemove, creature.Id);
 			p.PutLong(item.Id);
 			p.PutByte(item.Info.Pocket);
 			return p;
@@ -181,7 +181,7 @@ namespace World.Network
 
 		public static MabiPacket ItemAmount(MabiCreature creature, MabiItem item)
 		{
-			var p = new MabiPacket(0x59EA, creature.Id);
+			var p = new MabiPacket(Op.ItemAmount, creature.Id);
 			p.PutLong(item.Id);
 			p.PutShort(item.Info.Bundle);
 			p.PutByte(2);

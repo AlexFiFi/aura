@@ -17,32 +17,29 @@ namespace Login.Network
 	{
 		protected override void InitPacketHandlers()
 		{
-			this.RegisterPacketHandler(0x0FD1020A, HandleVersionCheck);
-			this.RegisterPacketHandler(0x0FD12002, HandleLogin);
-			this.RegisterPacketHandler(0x00000029, HandleCharacterInfoRequest);
-			this.RegisterPacketHandler(0x0000002B, HandleCreateCharacter);
-			this.RegisterPacketHandler(0x0000002F, HandleEnterGame);
-			this.RegisterPacketHandler(0x0000002D, HandleDeletePC);
-			this.RegisterPacketHandler(0x00000035, HandleDeletePC);
-			this.RegisterPacketHandler(0x00000037, HandleDeletePC);
-			this.RegisterPacketHandler(0x00000039, HandleCheckName);
-			this.RegisterPacketHandler(0x0000003B, HandlePetInfoRequest);
-			this.RegisterPacketHandler(0x0000003D, HandleCreatePet);
-			this.RegisterPacketHandler(0x0000003F, HandleDeletePC);
-			this.RegisterPacketHandler(0x00000041, HandleDeletePC);
-			this.RegisterPacketHandler(0x00000043, HandleDeletePC);
-			this.RegisterPacketHandler(0x0000004D, HandleDisconnect);
-			this.RegisterPacketHandler(0x00000050, HandleEnterPetCreation);
-			this.RegisterPacketHandler(0x00000055, HandleEnterPetCreation);
-
-			// EU
-			//this.RegisterPacketHandler(0x1E, HandleVersionCheck);
-			//this.RegisterPacketHandler(0x0F010000, HandleLogin);
+			this.RegisterPacketHandler(Op.ClientIdent, HandleVersionCheck);
+			this.RegisterPacketHandler(Op.Login, HandleLogin);
+			this.RegisterPacketHandler(Op.CharInfoRequest, HandleCharacterInfoRequest);
+			this.RegisterPacketHandler(Op.CreateCharacter, HandleCreateCharacter);
+			this.RegisterPacketHandler(Op.EnterGame, HandleEnterGame);
+			this.RegisterPacketHandler(Op.DeleteCharRequest, HandleDeletePC);
+			this.RegisterPacketHandler(Op.DeleteChar, HandleDeletePC);
+			this.RegisterPacketHandler(Op.RecoverChar, HandleDeletePC);
+			this.RegisterPacketHandler(Op.NameCheck, HandleCheckName);
+			this.RegisterPacketHandler(Op.PetInfoRequest, HandlePetInfoRequest);
+			this.RegisterPacketHandler(Op.CreatePet, HandleCreatePet);
+			this.RegisterPacketHandler(Op.DeletePetRequest, HandleDeletePC);
+			this.RegisterPacketHandler(Op.DeletePet, HandleDeletePC);
+			this.RegisterPacketHandler(Op.RecoverPet, HandleDeletePC);
+			this.RegisterPacketHandler(Op.CreatePartner, HandleCreatePartner);
+			this.RegisterPacketHandler(Op.Disconnect, HandleDisconnect);
+			this.RegisterPacketHandler(Op.CreatingPet, HandleEnterPetCreation);
+			this.RegisterPacketHandler(Op.CreatingPartner, HandleEnterPetCreation);
 		}
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)
 		{
-			var response = new MabiPacket(0x1F, 0x1000000000000010);
+			var response = new MabiPacket(Op.ClientIdentR, 0x1000000000000010);
 
 			response.PutByte(1);
 			response.PutLong(0x49534E4F47493A5D); // time?
@@ -57,7 +54,7 @@ namespace Login.Network
 			var password = "";
 			ulong sessionKey = 0;
 
-			var response = new MabiPacket(0x23, 0x1000000000000010);
+			var response = new MabiPacket(Op.LoginR, 0x1000000000000010);
 
 			// Normal login, MD5 password
 			if (loginType == 0x0C)
@@ -67,7 +64,8 @@ namespace Login.Network
 			// Logging in, comming from a channel
 			else if (loginType == 0x02)
 			{
-				packet.GetString(); // Double acc name
+				if (Op.Version > 160000)
+					packet.GetString(); // Double acc name
 				sessionKey = packet.GetLong();
 			}
 			// Type 5 uses the new Nexon hash thingy...
@@ -193,7 +191,8 @@ namespace Login.Network
 			// Account
 			// --------------------------------------------------------------
 			response.PutString(account.Username);
-			response.PutString(account.Username);
+			if (Op.Version > 160000)
+				response.PutString(account.Username);
 			response.PutLong(MabiDb.Instance.CreateSession(account.Username));
 			response.PutByte(0x00);
 
@@ -327,7 +326,7 @@ namespace Login.Network
 			var serverName = packet.GetString();
 			var id = packet.GetLong();
 
-			var response = new MabiPacket(0x2A, 0x1000000000000010);
+			var response = new MabiPacket(Op.CharInfo, 0x1000000000000010);
 
 			var player = client.Account.Characters.FirstOrDefault(a => a.Id == id);
 			if (player == null)
@@ -408,7 +407,7 @@ namespace Login.Network
 			var lip = packet.GetByte();
 			var face = packet.GetInt();
 
-			var response = new MabiPacket(0x2C, 0x1000000000000010);
+			var response = new MabiPacket(Op.CharacterCreated, 0x1000000000000010);
 
 			// Check if account has this card
 			var card = client.Account.CharacterCards.FirstOrDefault(a => a.Id == cardId);
@@ -564,7 +563,7 @@ namespace Login.Network
 				}
 			}
 
-			var response = new MabiPacket(0x30, 0x1000000000000001);
+			var response = new MabiPacket(Op.ChannelInfo, 0x1000000000000001);
 
 			if (channel == null)
 			{
@@ -596,7 +595,7 @@ namespace Login.Network
 			//var charName = packet.GetString();
 
 			MabiPC character = null;
-			if (packet.Op < 0x3F)
+			if (packet.Op < Op.DeletePetRequest)
 				character = client.Account.Characters.FirstOrDefault(a => a.Id == charId);
 			else
 				character = client.Account.Pets.FirstOrDefault(a => a.Id == charId);
@@ -606,7 +605,7 @@ namespace Login.Network
 
 			var response = new MabiPacket(op, 0x1000000000000010);
 
-			if (character == null || ((op == 0x36 || op == 0x42) && character.DeletionTime > DateTime.Now))
+			if (character == null || ((op == Op.DeleteCharR || op == Op.DeletePetR) && character.DeletionTime > DateTime.Now))
 			{
 				// Fail
 				response.PutByte(0);
@@ -619,27 +618,21 @@ namespace Login.Network
 				response.PutLong(charId);
 				response.PutLong(0);
 
-				switch (packet.Op)
+				if (packet.Op == Op.RecoverChar || packet.Op == Op.RecoverPet)
+				{
+					// Reset time
+					character.DeletionTime = DateTime.MinValue;
+				}
+				else if (packet.Op == Op.DeleteChar || packet.Op == Op.DeletePet)
+				{
+					// Mark for deletion
+					character.DeletionTime = DateTime.MaxValue;
+				}
+				else // Op.DeleteCharRequest || Op.DeletePetRequest || Error?
 				{
 					// Set time at which the character can be deleted for good.
-					default:
-					case 0x2D:
-					case 0x3F:
-						// TODO: This should be configurable.
-						character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(7, 0, 0));
-						break;
-
-					// Reset time
-					case 0x37:
-					case 0x43:
-						character.DeletionTime = DateTime.MinValue;
-						break;
-
-					// Mark for deletion
-					case 0x35:
-					case 0x41:
-						character.DeletionTime = DateTime.MaxValue;
-						break;
+					// TODO: This should be configurable.
+					character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(7, 0, 0));
 				}
 			}
 
@@ -651,7 +644,7 @@ namespace Login.Network
 			var server = packet.GetString();
 			var name = packet.GetString();
 
-			MabiPacket response = new MabiPacket(0x3A, 0x1000000000000010);
+			MabiPacket response = new MabiPacket(Op.NameCheckR, 0x1000000000000010);
 
 			if (MabiDb.Instance.NameOkay(name, server))
 			{
@@ -674,7 +667,7 @@ namespace Login.Network
 			var serverName = packet.GetString();
 			var id = packet.GetLong();
 
-			var response = new MabiPacket(0x3C, 0x1000000000000010);
+			var response = new MabiPacket(Op.PetInfo, 0x1000000000000010);
 
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == id);
 			if (pet == null)
@@ -747,7 +740,7 @@ namespace Login.Network
 			var cardId = packet.GetLong();
 			var name = packet.GetString();
 
-			MabiPacket response = new MabiPacket(0x3E, 0x1000000000000010);
+			MabiPacket response = new MabiPacket(Op.PetCreated, 0x1000000000000010);
 
 			// Check if the card is valid
 			MabiCard card = null;
@@ -793,6 +786,35 @@ namespace Login.Network
 			response.PutByte(1);
 			response.PutString(serverName);
 			response.PutLong(newChar.Id);
+
+			client.Send(response);
+		}
+
+		private void HandleCreatePartner(LoginClient client, MabiPacket packet)
+		{
+			var serverName = packet.GetString();
+			var cardId = packet.GetLong();
+			var name = packet.GetString();
+			packet.GetInt();    // 730204
+			var skinColor = packet.GetByte();
+			var hair = packet.GetInt();
+			var hairColor = packet.GetByte();
+			var eye = packet.GetByte();
+			var eyeColor = packet.GetByte();
+			var lip = packet.GetByte();
+			var face = packet.GetInt();
+			var height = packet.GetFloat();
+			var weight = packet.GetFloat();
+			var upper = packet.GetFloat();
+			var lower = packet.GetFloat();
+			var personality = packet.GetInt();
+
+			MabiPacket response = new MabiPacket(Op.CreatePartnerR, 0x1000000000000010);
+			//response.PutString("Dear user, unfortunately the creation of partners is not implemented yet, please try again la-- ah wait, we can't give a reason, right. >_>");
+			response.PutByte(0);
+			client.Send(response);
+
+			Logger.Unimplemented("Partners aren't implemented yet.");
 
 			client.Send(response);
 		}

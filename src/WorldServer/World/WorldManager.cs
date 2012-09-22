@@ -351,7 +351,7 @@ namespace World.World
 			lock (_items)
 				_items.Add(item);
 
-			var appears = new MabiPacket(0x5211, 0x3000000000000000);
+			var appears = new MabiPacket(Op.ItemAppears, 0x3000000000000000);
 			appears.PutLong(item.Id);
 			appears.PutByte(1);
 			appears.PutBin(item.Info);
@@ -371,7 +371,7 @@ namespace World.World
 			lock (_items)
 				_items.Remove(item);
 
-			var disappears = new MabiPacket(0x5212, 0x3000000000000000);
+			var disappears = new MabiPacket(Op.ItemDisappears, 0x3000000000000000);
 			disappears.PutLong(item.Id);
 			this.Broadcast(disappears, SendTargets.Range, item);
 
@@ -404,7 +404,7 @@ namespace World.World
 
 		public void CreatureChangeTitle(MabiCreature creature)
 		{
-			var p = new MabiPacket(0x8FC5, creature.Id);
+			var p = new MabiPacket(Op.ChangedTitle, creature.Id);
 			p.PutShort(creature.Title);
 			p.PutShort(0);
 
@@ -413,7 +413,7 @@ namespace World.World
 
 		public void CreatureSetTarget(MabiCreature creature, MabiCreature target)
 		{
-			var p = new MabiPacket(0x791A, creature.Id);
+			var p = new MabiPacket(Op.CombatTargetSet, creature.Id);
 			p.PutLong(target != null ? target.Id : 0);
 
 			this.Broadcast(p, SendTargets.Range, creature);
@@ -421,7 +421,7 @@ namespace World.World
 
 		public void CreatureMove(MabiCreature creature, MabiVertex from, MabiVertex to, bool walking = false)
 		{
-			var p = new MabiPacket((!walking ? (uint)0x0F44BBA3 : (uint)0x0FD13021), creature.Id);
+			var p = new MabiPacket((!walking ? (uint)Op.Running : (uint)Op.Walking), creature.Id);
 			p.PutInt(from.X);
 			p.PutInt(from.Y);
 			p.PutInt(to.X);
@@ -434,7 +434,7 @@ namespace World.World
 
 		public void CreatureSwitchSet(MabiCreature creature)
 		{
-			var p = new MabiPacket(0x5BCF, creature.Id);
+			var p = new MabiPacket(Op.SwitchedSet, creature.Id);
 			p.PutByte(creature.WeaponSet);
 
 			this.Broadcast(p, SendTargets.Range, creature);
@@ -442,7 +442,7 @@ namespace World.World
 
 		public void CreatureSitDown(MabiCreature creature)
 		{
-			var p = new MabiPacket(0x6D6C, creature.Id);
+			var p = new MabiPacket(Op.Resting, creature.Id);
 			p.PutByte((byte)(creature.RestPose + (creature.RaceInfo.Gender == 2 ? 0 : 1)));
 
 			this.Broadcast(p, SendTargets.Range, creature);
@@ -450,7 +450,7 @@ namespace World.World
 
 		public void CreatureStandUp(MabiCreature creature)
 		{
-			var p = new MabiPacket(0x6D6D, creature.Id);
+			var p = new MabiPacket(Op.StandUp, creature.Id);
 			p.PutByte(1);
 
 			this.Broadcast(p, SendTargets.Range, creature);
@@ -463,13 +463,13 @@ namespace World.World
 			if (cancel)
 			{
 				// Cancel motion
-				p = new MabiPacket(0x6D65, creature.Id);
+				p = new MabiPacket(Op.MotionCancel, creature.Id);
 				p.PutByte(0);
 				this.Broadcast(p, SendTargets.Range, creature);
 			}
 
 			// Do motion
-			p = new MabiPacket(0x6D62, creature.Id);
+			p = new MabiPacket(Op.Motions, creature.Id);
 			p.PutInt(category);
 			p.PutInt(type);
 			p.PutByte(loop);
@@ -481,7 +481,7 @@ namespace World.World
 
 		public void CreatureChangeStance(MabiCreature creature, byte unk = 1)
 		{
-			var p = new MabiPacket(0x6E2A, creature.Id);
+			var p = new MabiPacket(Op.ChangesStance, creature.Id);
 			p.PutByte(creature.BattleState);
 			p.PutByte(unk);
 
@@ -490,7 +490,7 @@ namespace World.World
 
 		public void CreatureMoveEquip(MabiCreature creature, Pocket from, Pocket to)
 		{
-			var p = new MabiPacket(0x59E7, creature.Id);
+			var p = new MabiPacket(Op.EquipmentMoved, creature.Id);
 			p.PutByte((byte)from);
 			p.PutByte((byte)to);
 
@@ -499,7 +499,7 @@ namespace World.World
 
 		public void CreatureChangeEquip(MabiCreature creature, MabiItem item)
 		{
-			var p = new MabiPacket(0x59E6, creature.Id);
+			var p = new MabiPacket(Op.EquipmentChanged, creature.Id);
 			p.PutBin(item.Info);
 			p.PutByte(1);
 
@@ -515,7 +515,7 @@ namespace World.World
 
 		public void CreatureTalk(MabiCreature creature, string message, byte type = 0)
 		{
-			var p = new MabiPacket(0x526C, creature.Id);
+			var p = new MabiPacket(Op.Chat, creature.Id);
 			p.PutByte(type);
 			p.PutString(creature.Name);
 			p.PutString(message);
@@ -527,14 +527,14 @@ namespace World.World
 
 		public void CreatureStatsUpdate(MabiCreature creature)
 		{
-			var pub = new MabiPacket(0x7532, creature.Id);
+			var pub = new MabiPacket(Op.StatUpdatePublic, creature.Id);
 			pub.PutByte(4);
 			creature.AddPublicStatData(pub);
 			this.Broadcast(pub, SendTargets.Range, creature);
 
 			if (creature.Client != null)
 			{
-				var priv = new MabiPacket(0x7530, creature.Id);
+				var priv = new MabiPacket(Op.StatUpdatePrivate, creature.Id);
 				priv.PutByte(3);
 				creature.AddPrivateStatData(priv);
 				creature.Client.Send(priv);
@@ -548,7 +548,7 @@ namespace World.World
 
 		public void CreatureStatusEffectsChange(MabiCreature creature)
 		{
-			var p = new MabiPacket(0xA028, creature.Id);
+			var p = new MabiPacket(Op.StatusEffectUpdate, creature.Id);
 			p.PutLong((ulong)creature.StatusEffects.A);
 			p.PutLong((ulong)creature.StatusEffects.B);
 			p.PutLong((ulong)creature.StatusEffects.C);
@@ -561,7 +561,7 @@ namespace World.World
 		public void CreatureLevelsUp(object sender, EntityEventArgs e)
 		{
 			var creature = e.Entity as MabiCreature;
-			var p = new MabiPacket(0x6D69, creature.Id);
+			var p = new MabiPacket(Op.LevelUp, creature.Id);
 			p.PutShort((ushort)creature.Level);
 
 			this.Broadcast(p, SendTargets.Range, creature);
@@ -569,7 +569,7 @@ namespace World.World
 
 		public void Effect(MabiCreature creature, uint effect, uint region, uint x, uint y)
 		{
-			var p = new MabiPacket(0x9090, creature.Id);
+			var p = new MabiPacket(Op.Effect, creature.Id);
 			p.PutInt(effect);
 			p.PutInt(region);
 			p.PutFloat((float)x);
@@ -581,7 +581,7 @@ namespace World.World
 
 		public void VehicleBind(MabiCreature creature, MabiCreature vehicle)
 		{
-			var bind1 = new MabiPacket(0x1FBD4, creature.Id);
+			var bind1 = new MabiPacket(Op.VehicleBond, creature.Id);
 			bind1.PutInt(vehicle.RaceInfo.VehicleType);
 			bind1.PutInt(7);
 			bind1.PutLong(vehicle.Id);
@@ -589,7 +589,7 @@ namespace World.World
 			bind1.PutByte(1);
 			bind1.PutLong(creature.Id);
 
-			var bind2 = new MabiPacket(0x1FBD4, vehicle.Id);
+			var bind2 = new MabiPacket(Op.VehicleBond, vehicle.Id);
 			bind2.PutInt(vehicle.RaceInfo.VehicleType);
 			bind2.PutInt(0);
 			bind2.PutLong(vehicle.Id);
@@ -611,7 +611,7 @@ namespace World.World
 
 			if (!spawn)
 			{
-				p = new MabiPacket(0x1FBD4, creature.Id);
+				p = new MabiPacket(Op.VehicleBond, creature.Id);
 				p.PutInt(0);
 				p.PutInt(0);
 				p.PutLong(0);
@@ -619,7 +619,7 @@ namespace World.World
 				p.PutByte(0);
 				this.Broadcast(p, SendTargets.Range, creature);
 
-				p = new MabiPacket(0x1FBD4, creature.Id);
+				p = new MabiPacket(Op.VehicleBond, creature.Id);
 				p.PutInt(0);
 				p.PutInt(5);
 				p.PutLong(creature.Id);
@@ -628,7 +628,7 @@ namespace World.World
 				this.Broadcast(p, SendTargets.Range, creature);
 			}
 
-			p = new MabiPacket(0x1FBD4, vehicle.Id);
+			p = new MabiPacket(Op.VehicleBond, vehicle.Id);
 			p.PutInt(0);
 			p.PutInt(1);
 			p.PutLong(vehicle.Id);
@@ -644,15 +644,15 @@ namespace World.World
 				switch ((SkillConst)creature.ActiveSkillId)
 				{
 					case SkillConst.Healing:
-						creature.Client.Send(new MabiPacket(0x9090, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(0, 0));
+						creature.Client.Send(new MabiPacket(Op.Effect, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(0, 0));
 						goto default;
 
 					default:
-						creature.Client.Send(new MabiPacket(0x6992, creature.Id).PutBytes(0, 1, 0).PutShort(0));
+						creature.Client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(0, 1, 0).PutShort(0));
 						break;
 				}
 
-				creature.Client.Send(new MabiPacket(0x6989, creature.Id).PutBytes(1, 1));
+				creature.Client.Send(new MabiPacket(Op.SkillCancel, creature.Id).PutBytes(1, 1));
 			}
 
 			creature.ActiveSkillId = 0;
@@ -666,15 +666,15 @@ namespace World.World
 				switch ((SkillConst)creature.ActiveSkillId)
 				{
 					case SkillConst.Smash:
-						creature.Client.Send(new MabiPacket(0x6986, creature.Id).PutShort(creature.ActiveSkillId).PutInts(600, 1));
+						creature.Client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(creature.ActiveSkillId).PutInts(600, 1));
 						goto default;
 
 					case SkillConst.Defense:
-						creature.Client.Send(new MabiPacket(0x6986, creature.Id).PutShort(creature.ActiveSkillId).PutInts(1000, 1));
+						creature.Client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(creature.ActiveSkillId).PutInts(1000, 1));
 						goto default;
 
 					default:
-						creature.Client.Send(new MabiPacket(0x6992, creature.Id).PutBytes(0, 1, 0).PutShort(creature.ActiveSkillId));
+						creature.Client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(0, 1, 0).PutShort(creature.ActiveSkillId));
 						break;
 				}
 			}
@@ -687,10 +687,10 @@ namespace World.World
 		{
 			creature.Revive();
 
-			var alive = new MabiPacket(0x53FD, creature.Id);
+			var alive = new MabiPacket(Op.BackFromTheDead1, creature.Id);
 			WorldManager.Instance.Broadcast(alive, SendTargets.Range, creature);
 
-			var standUp = new MabiPacket(0x701D, creature.Id);
+			var standUp = new MabiPacket(Op.BackFromTheDead2, creature.Id);
 			WorldManager.Instance.Broadcast(standUp, SendTargets.Range, creature);
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
@@ -698,7 +698,7 @@ namespace World.World
 
 		public void CreatureCombatAction(MabiCreature source, MabiCreature target, CombatEventArgs combatArgs)
 		{
-			var combatPacket = new MabiPacket(0x7926, 0x3000000000000000);
+			var combatPacket = new MabiPacket(Op.CombatActionBundle, 0x3000000000000000);
 			combatPacket.PutInt(combatArgs.CombatActionId);
 			combatPacket.PutInt(combatArgs.PrevCombatActionId);
 			combatPacket.PutByte(combatArgs.Hit);
@@ -710,7 +710,7 @@ namespace World.World
 			foreach (var action in combatArgs.CombatActions)
 			{
 				// Sub-packet
-				var actionPacket = new MabiPacket(0x7924, action.Creature.Id);
+				var actionPacket = new MabiPacket(Op.CombatAction, action.Creature.Id);
 				actionPacket.PutInt(combatArgs.CombatActionId);
 				actionPacket.PutLong(action.Creature.Id);
 				actionPacket.PutByte((byte)action.ActionType);
@@ -817,7 +817,7 @@ namespace World.World
 						}
 
 						// Set finisher?
-						var finishPacket = new MabiPacket(0x7921, action.Creature.Id);
+						var finishPacket = new MabiPacket(Op.CombatSetFinisher, action.Creature.Id);
 						finishPacket.PutLong(action.Enemy.Id);
 						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
 
@@ -825,18 +825,18 @@ namespace World.World
 						WorldManager.Instance.CreatureSetTarget(action.Enemy, null);
 
 						// Finish this finisher part?
-						finishPacket = new MabiPacket(0x7922, action.Creature.Id);
+						finishPacket = new MabiPacket(Op.CombatSetFinisher2, action.Creature.Id);
 						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
 
 						// TODO: There appears to be something missing to let it lay there for finish, if we don't kill it with the following packets.
 						// TODO: Check for finishing.
 
 						// Make it dead
-						finishPacket = new MabiPacket(0x53FC, action.Creature.Id);
+						finishPacket = new MabiPacket(Op.IsNowDead, action.Creature.Id);
 						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
 
 						// Remove finisher?
-						finishPacket = new MabiPacket(0x7921, action.Creature.Id);
+						finishPacket = new MabiPacket(Op.CombatSetFinisher, action.Creature.Id);
 						finishPacket.PutLong(0);
 						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
 
@@ -848,7 +848,7 @@ namespace World.World
 
 						if (action.Creature.Owner != null)
 						{
-							WorldManager.Instance.Broadcast(new MabiPacket(0x5403, action.Creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, action.Creature);
+							WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, action.Creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, action.Creature);
 							// TODO: Unmount.
 						}
 					}
@@ -875,12 +875,13 @@ namespace World.World
 				combatPacket.PutInt((uint)actionPacketB.Length);
 				combatPacket.PutBin(actionPacketB);
 			}
+
 			WorldManager.Instance.Broadcast(combatPacket, SendTargets.Range, source);
 		}
 
 		public void CreatureCombatSubmit(MabiCreature source, uint actionId)
 		{
-			var p = new MabiPacket(0x7925, 0x3000000000000000);
+			var p = new MabiPacket(Op.CombatActionEnd, 0x3000000000000000);
 			p.PutInt(actionId);
 
 			this.Broadcast(p, SendTargets.Range, source);

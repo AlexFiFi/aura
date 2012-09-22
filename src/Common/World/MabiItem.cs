@@ -7,6 +7,7 @@ using Common.Network;
 using Common.Data;
 using System.Net;
 using System;
+using Common.Tools;
 
 namespace Common.World
 {
@@ -184,6 +185,8 @@ namespace Common.World
 
 				if (this.Type != ItemType.Sac && this.Info.Bundle < 1)
 					this.Info.Bundle = 1;
+				if (this.Type != ItemType.Sac && this.BundleMax < 1)
+					this.BundleMax = 1;
 
 				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap1);
 				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap2);
@@ -194,6 +197,10 @@ namespace Common.World
 					this.Info.ColorB = ((this.Info.ColorB & 0xFF) << 16) + ((this.Info.ColorB >> 8 & 0xFF) << 8) + (this.Info.ColorB >> 16 & 0xFF);
 					this.Info.ColorC = ((this.Info.ColorC & 0xFF) << 16) + ((this.Info.ColorC >> 8 & 0xFF) << 8) + (this.Info.ColorC >> 16 & 0xFF);
 				}
+			}
+			else
+			{
+				Logger.Warning("Item '" + this.Info.Class.ToString() + "' couldn't be found in the database.");
 			}
 		}
 

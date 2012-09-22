@@ -105,6 +105,7 @@
     <Compile Include="Events\EventsArgs.cs" />
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Events\EntitiyEvents.cs" />
+    <Compile Include="Network\Version.cs" />
     <Compile Include="Tools\BCrypt.cs" />
     <Compile Include="World\MabiServers.cs" />
     <Compile Include="Network\Client.cs" />

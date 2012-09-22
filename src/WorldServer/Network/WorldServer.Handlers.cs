@@ -20,59 +20,69 @@ namespace World.Network
 	{
 		protected override void InitPacketHandlers()
 		{
-			this.RegisterPacketHandler(0x4E22, HandleLogin);
-			this.RegisterPacketHandler(0x4E24, HandleDisconnect);
-			this.RegisterPacketHandler(0x4EEB, HandleGMCPSummon);
-			this.RegisterPacketHandler(0x4EEC, HandleGMCPMoveToChar);
-			this.RegisterPacketHandler(0x4EED, HandleGMCPMove);
-			this.RegisterPacketHandler(0x4EEE, HandleGMCPRevive);
-			this.RegisterPacketHandler(0x4EEF, HandleGMCPInvisibility);
-			this.RegisterPacketHandler(0x4EF6, HandleGMCPExpel);
-			this.RegisterPacketHandler(0x4EF7, HandleGMCPBan);
-			this.RegisterPacketHandler(0x4EEA, (c, p) => {} );
-			this.RegisterPacketHandler(0x5208, HandleCharacterInfoRequest);
-			this.RegisterPacketHandler(0x526C, HandleChat);
-			this.RegisterPacketHandler(0x53FE, HandleRevive);
-			this.RegisterPacketHandler(0x5401, HandleDeadMenu);
-			this.RegisterPacketHandler(0x540E, HandleGesture);
-			this.RegisterPacketHandler(0x55F0, HandleNPCTalkStart);
-			this.RegisterPacketHandler(0x55F2, HandleNPCTalkEnd);
-			this.RegisterPacketHandler(0x59D8, HandleItemMove);
-			this.RegisterPacketHandler(0x59DA, HandleItemPickUp);
-			this.RegisterPacketHandler(0x59DC, HandleItemDrop);
-			this.RegisterPacketHandler(0x59E2, HandleItemDestroy);
-			this.RegisterPacketHandler(0x59E8, HandleItemSplit);
-			this.RegisterPacketHandler(0x5BCD, HandleSwitchSet);
-			this.RegisterPacketHandler(0x5BD0, HandleItemStateChange);
-			this.RegisterPacketHandler(0x5DC4, HandleNPCTalkKeyword);
+			this.RegisterPacketHandler(Op.LoginW, HandleLogin);
+			this.RegisterPacketHandler(Op.DisconnectW, HandleDisconnect);
+			this.RegisterPacketHandler(Op.CharInfoRequestW, HandleCharacterInfoRequest);
+
+			this.RegisterPacketHandler(Op.Walk, HandleMove);
+			this.RegisterPacketHandler(Op.Run, HandleMove);
+			this.RegisterPacketHandler(Op.Chat, HandleChat);
+
+			this.RegisterPacketHandler(Op.ItemMove, HandleItemMove);
+			this.RegisterPacketHandler(Op.ItemPickUp, HandleItemPickUp);
+			this.RegisterPacketHandler(Op.ItemDrop, HandleItemDrop);
+			this.RegisterPacketHandler(Op.ItemDestroy, HandleItemDestroy);
+			this.RegisterPacketHandler(Op.ItemSplit, HandleItemSplit);
+			this.RegisterPacketHandler(Op.SwitchSet, HandleSwitchSet);
+			this.RegisterPacketHandler(Op.ItemStateChange, HandleItemStateChange);
+
+			this.RegisterPacketHandler(Op.NPCTalkStart, HandleNPCTalkStart);
+			this.RegisterPacketHandler(Op.NPCTalkEnd, HandleNPCTalkEnd);
+			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
+			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
+			this.RegisterPacketHandler(Op.ShopBuyItem, HandleShopBuyItem);
+			this.RegisterPacketHandler(Op.ShopSellItem, HandleShopSellItem);
+
+			this.RegisterPacketHandler(Op.ChangeStance, HandleChangeStance);
+			this.RegisterPacketHandler(Op.CombatSetTarget, HandleCombatSetTarget);
+			this.RegisterPacketHandler(Op.CombatAttack, HandleCombatAttack);
+			this.RegisterPacketHandler(Op.StunMeter, HandleStunMeterDummy);
+			this.RegisterPacketHandler(Op.SubsribeStun, HandleStunMeterRequest); // subscription ?
+			this.RegisterPacketHandler(Op.Revive, HandleRevive);
+			this.RegisterPacketHandler(Op.DeadMenu, HandleDeadMenu);
+
+			this.RegisterPacketHandler(Op.SkillPrepare, HandleSkillPrepare);
+			this.RegisterPacketHandler(Op.SkillPrepared, HandleSkillPrepared);
+			this.RegisterPacketHandler(Op.SkillUse, HandleSkillUse);
+			this.RegisterPacketHandler(Op.SkillUsed, HandleSkillUsed);
+			this.RegisterPacketHandler(Op.SkillCancel, HandleSkillCancel);
+			this.RegisterPacketHandler(Op.SkillStart, HandleSkillStart);
+			this.RegisterPacketHandler(Op.SkillStop, HandleSkillStop);
+
+			this.RegisterPacketHandler(Op.PetSummon, HandlePetSummon);
+			this.RegisterPacketHandler(Op.PetUnsummon, HandlePetUnsummon);
+			this.RegisterPacketHandler(Op.PetMount, HandlePetMount);
+			this.RegisterPacketHandler(Op.PetUnmount, HandlePetUnmount);
+
+			this.RegisterPacketHandler(Op.EnterRegion, HandleEnterRegion);
+			this.RegisterPacketHandler(Op.AreaChange, HandleAreaChange);
+			this.RegisterPacketHandler(Op.PortalUse, HandlePortalUse);
+
+			this.RegisterPacketHandler(Op.ChangeTitle, HandleTitleChange);
+			this.RegisterPacketHandler(Op.MailsRequest, HandleMailsRequest);
+			this.RegisterPacketHandler(Op.SosButton, HandleSosButton);
+			//this.RegisterPacketHandler(Op.MoonGateRequest, HandleMoonGateRequest);
+			this.RegisterPacketHandler(Op.UseGesture, HandleGesture);
 			this.RegisterPacketHandler(0x61A8, HandleIamWatchingYou);
-			this.RegisterPacketHandler(0x6598, HandleEnterRegion);
-			this.RegisterPacketHandler(0x6982, HandleSkillPrepare);
-			this.RegisterPacketHandler(0x6983, HandleSkillPrepared);
-			this.RegisterPacketHandler(0x6986, HandleSkillUse);
-			this.RegisterPacketHandler(0x6987, HandleSkillUsed);
-			this.RegisterPacketHandler(0x6989, HandleSkillCancel);
-			this.RegisterPacketHandler(0x698A, HandleSkillStart);
-			this.RegisterPacketHandler(0x698B, HandleSkillStop);
-			this.RegisterPacketHandler(0x6E28, HandleChangeStance);
-			this.RegisterPacketHandler(0x7150, HandleShopBuyItem);
-			this.RegisterPacketHandler(0x7152, HandleShopSellItem);
-			this.RegisterPacketHandler(0x7920, HandleCombatSetTarget);
-			this.RegisterPacketHandler(0x8FC4, HandleTitleChange);
-			this.RegisterPacketHandler(0x88B8, HandleAreaChange);
-			this.RegisterPacketHandler(0x902C, HandlePetSummon);
-			this.RegisterPacketHandler(0x9031, HandlePetUnsummon);
-			this.RegisterPacketHandler(0x908B, HandlePortalUse);
-			this.RegisterPacketHandler(0xA898, HandleUnknown1);
-			this.RegisterPacketHandler(0xA9A9, HandleSosButton);
-			this.RegisterPacketHandler(0xAA1C, HandleStunMeterRequest); // subscription ?
-			//this.RegisterPacketHandler(0xA428, HandleMoonGateRequest);
-			this.RegisterPacketHandler(0x13883, HandleNPCTalkSelect);
-			this.RegisterPacketHandler(0x1FBD0, HandlePetMount);
-			this.RegisterPacketHandler(0x1FBD2, HandlePetUnmount);
-			this.RegisterPacketHandler(0x0F213303, HandleMove);
-			this.RegisterPacketHandler(0x0FCC3231, HandleCombatAttack);
-			this.RegisterPacketHandler(0x0FF23431, HandleMove);
+
+			this.RegisterPacketHandler(Op.GMCPSummon, HandleGMCPSummon);
+			this.RegisterPacketHandler(Op.GMCPMoveToChar, HandleGMCPMoveToChar);
+			this.RegisterPacketHandler(Op.GMCPMove, HandleGMCPMove);
+			this.RegisterPacketHandler(Op.GMCPRevive, HandleGMCPRevive);
+			this.RegisterPacketHandler(Op.GMCPInvisibility, HandleGMCPInvisibility);
+			this.RegisterPacketHandler(Op.GMCPExpel, HandleGMCPExpel);
+			this.RegisterPacketHandler(Op.GMCPBan, HandleGMCPBan);
+			this.RegisterPacketHandler(Op.GMCPDisable, (c, p) => { });
 		}
 
 		private void HandleLogin(WorldClient client, MabiPacket packet)
@@ -113,14 +123,14 @@ namespace World.Network
 			client.Character = creature;
 			client.Character.Client = client;
 
-			p = new MabiPacket(0x90A1, creature.Id);
-			p.PutByte(0);
-			p.PutByte(1);
-			p.PutInt(0);
-			p.PutInt(0);
-			client.Send(p);
+			//p = new MabiPacket(0x90A1, creature.Id);
+			//p.PutByte(0);
+			//p.PutByte(1);
+			//p.PutInt(0);
+			//p.PutInt(0);
+			//client.Send(p);
 
-			p = new MabiPacket(0x4E23, 0x1000000000000001);
+			p = new MabiPacket(Op.LoginWR, 0x1000000000000001);
 			p.PutByte(1);
 			p.PutLong(creature.Id);
 			p.PutLong(DateTime.Now);
@@ -128,7 +138,7 @@ namespace World.Network
 			p.PutString("");
 			client.Send(p);
 
-			p = new MabiPacket(0x701E, creature.Id);
+			p = new MabiPacket(Op.LoginWLock, creature.Id);
 			p.PutInt(0xEFFFFFFE);
 			p.PutInt(0);
 			client.Send(p);
@@ -157,14 +167,14 @@ namespace World.Network
 			client.Character = null;
 			client.Account = null;
 
-			var p = new MabiPacket(0x4E25, 0x1000000000000001);
+			var p = new MabiPacket(Op.DisconnectWR, 0x1000000000000001);
 			p.PutByte(0);
 			client.Send(p);
 		}
 
 		private void HandleCharacterInfoRequest(WorldClient client, MabiPacket packet)
 		{
-			var p = new MabiPacket(0x5209, 0x1000000000000001);
+			var p = new MabiPacket(Op.CharInfoRequestWR, 0x1000000000000001);
 
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
@@ -190,7 +200,7 @@ namespace World.Network
 
 				if (creature.IsDead())
 				{
-					WorldManager.Instance.Broadcast(new MabiPacket(0x5403, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
 				}
 			}
 		}
@@ -234,7 +244,7 @@ namespace World.Network
 				WorldManager.Instance.CreatureUseMotion(creature, info.Category, info.Type, false);
 			}
 
-			var p = new MabiPacket(0x540F, creature.Id);
+			var p = new MabiPacket(Op.UseGestureR, creature.Id);
 			p.PutByte(result);
 			client.Send(p);
 		}
@@ -271,7 +281,7 @@ namespace World.Network
 			var pos = creature.GetPosition();
 			var region = creature.Region;
 
-			var response = new MabiPacket(0x53FF, creature.Id);
+			var response = new MabiPacket(Op.Revived, creature.Id);
 			response.PutInt(1);
 			response.PutInt(region);
 			response.PutInt(pos.X);
@@ -310,7 +320,7 @@ namespace World.Network
 			creature.StatusEffects.A = toggle == 1 ? (creature.StatusEffects.A | CreatureConditionA.Invisible) : (creature.StatusEffects.A & ~CreatureConditionA.Invisible);
 			WorldManager.Instance.CreatureStatusEffectsChange(creature);
 
-			var p = new MabiPacket(0x4EF0, creature.Id);
+			var p = new MabiPacket(Op.GMCPInvisibilityR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
 		}
@@ -375,7 +385,7 @@ namespace World.Network
 				target = null;
 			}
 
-			var p = new MabiPacket(0x55F1, creature.Id);
+			var p = new MabiPacket(Op.NPCTalkStartR, creature.Id);
 
 			p.PutByte((byte)(target != null ? 1 : 0));
 			p.PutLong(npcId);
@@ -408,7 +418,7 @@ namespace World.Network
 				return;
 			}
 
-			var p = new MabiPacket(0x55F3, creature.Id);
+			var p = new MabiPacket(Op.NPCTalkEndR, creature.Id);
 			p.PutByte(1);
 			p.PutLong(target.Id);
 			p.PutString("");
@@ -434,7 +444,7 @@ namespace World.Network
 				return;
 			}
 
-			var p = new MabiPacket(0x5DC5, creature.Id);
+			var p = new MabiPacket(Op.NPCTalkKeywordR, creature.Id);
 			p.PutByte(1);
 			p.PutString(keyword);
 			client.Send(p);
@@ -469,7 +479,7 @@ namespace World.Network
 
 			if (response == "@end")
 			{
-				client.Send(new MabiPacket(0x59F9, creature.Id));
+				client.Send(new MabiPacket(Op.NPCTalkSelectEnd, creature.Id));
 
 				target.Script.OnEnd(client);
 				return;
@@ -546,13 +556,13 @@ namespace World.Network
 
 				client.Send(PacketCreator.ItemAmount(creature, collidingItem));
 
-				p = new MabiPacket(0x59D9, creature.Id);
+				p = new MabiPacket(Op.ItemMoveEnd, creature.Id);
 				p.PutByte(1);
 				client.Send(p);
 				return;
 			}
 
-			p = new MabiPacket((uint)(collidingItem == null ? 0x59DE : 0x59DF), creature.Id);
+			p = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveR : Op.ItemMoveRCollision), creature.Id);
 			p.PutLong(item.Id);
 			p.PutByte((byte)source);
 			p.PutByte((byte)target);
@@ -583,7 +593,7 @@ namespace World.Network
 				WorldManager.Instance.CreatureMoveEquip(creature, source, target);
 			}
 
-			p = new MabiPacket(0x59D9, creature.Id);
+			p = new MabiPacket(Op.ItemMoveEnd, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
 		}
@@ -654,7 +664,7 @@ namespace World.Network
 				}
 			}
 
-			var response = new MabiPacket(0x59DB, creature.Id);
+			var response = new MabiPacket(Op.ItemPickUpR, creature.Id);
 			response.PutByte(result);
 			client.Send(response);
 		}
@@ -694,7 +704,7 @@ namespace World.Network
 			WorldManager.Instance.AddItem(item);
 
 			// Done
-			var p = new MabiPacket(0x59DD, creature.Id);
+			var p = new MabiPacket(Op.ItemDropR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
 		}
@@ -712,7 +722,7 @@ namespace World.Network
 
 			creature.Items.Remove(item);
 			client.Send(PacketCreator.ItemRemove(creature, item));
-			client.Send(new MabiPacket(0x59E4, creature.Id).PutByte(1));
+			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
 		}
 
 		private void HandleItemSplit(WorldClient client, MabiPacket packet)
@@ -725,7 +735,7 @@ namespace World.Network
 			var amount = packet.GetShort();
 			var unk1 = packet.GetByte();
 
-			packet = new MabiPacket(0x59E9, creature.Id);
+			packet = new MabiPacket(Op.ItemSplitR, creature.Id);
 
 			var item = creature.GetItem(itemId);
 			if (item != null && item.BundleType != BundleType.None)
@@ -781,7 +791,7 @@ namespace World.Network
 			creature.WeaponSet = set;
 			WorldManager.Instance.CreatureSwitchSet(creature);
 
-			var response = new MabiPacket(0x5BCE, creature.Id);
+			var response = new MabiPacket(Op.SwitchSetR, creature.Id);
 			response.PutByte(1);
 			client.Send(response);
 		}
@@ -812,7 +822,7 @@ namespace World.Network
 				}
 			}
 
-			MabiPacket response = new MabiPacket(0x5BD1, creature.Id);
+			MabiPacket response = new MabiPacket(Op.ItemStateChangeR, creature.Id);
 			client.Send(response);
 		}
 
@@ -829,11 +839,11 @@ namespace World.Network
 
 			MabiPacket p;
 
-			p = new MabiPacket(0x701F, creature.Id);
+			p = new MabiPacket(Op.LoginWUnlock, creature.Id);
 			p.PutInt(0xEFFFFFFE);
 			client.Send(p);
 
-			p = new MabiPacket(0x659C, 0x1000000000000001);
+			p = new MabiPacket(Op.EnterRegionR, 0x1000000000000001);
 			p.PutByte(1);
 			p.PutLong(creature.Id);
 			p.PutLong(DateTime.Now);
@@ -851,7 +861,7 @@ namespace World.Network
 					client.Send(PacketCreator.EntitiesAppear(entities));
 				}
 
-				p = new MabiPacket(0x6599, creature.Id);
+				p = new MabiPacket(Op.WarpRegion, creature.Id);
 				var pos = creature.GetPosition();
 				p.PutByte(1);
 				p.PutInt(creature.Region);
@@ -902,23 +912,23 @@ namespace World.Network
 				case SkillConst.Healing:
 					creature.Mana -= skill.RankInfo.ManaCost;
 					WorldManager.Instance.CreatureStatsUpdate(creature);
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(11).PutString("healing"), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString("healing"), SendTargets.Range, creature);
 					break;
 
 				case SkillConst.Windmill:
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(11).PutString(""), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString(""), SendTargets.Range, creature);
 					break;
 
 				case SkillConst.HiddenResurrection:
-					client.Send(new MabiPacket(0x6983, creature.Id).PutShort(skillId).PutString(parameters));
+					client.Send(new MabiPacket(Op.SkillPrepared, creature.Id).PutShort(skillId).PutString(parameters));
 					return;
 
 				default:
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(11).PutString("flashing"), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString("flashing"), SendTargets.Range, creature);
 					break;
 			}
 
-			var r = new MabiPacket(0x6982, creature.Id);
+			var r = new MabiPacket(Op.SkillPrepare, creature.Id);
 			r.PutShort(skillId);
 
 			if (parameters.Length > 0)
@@ -949,21 +959,21 @@ namespace World.Network
 
 			creature.ActiveSkillStacks = skill.RankInfo.Stack;
 
-			client.Send(new MabiPacket(0x6991, creature.Id).PutBytes(creature.ActiveSkillStacks, creature.ActiveSkillStacks).PutShort(creature.ActiveSkillId));
+			client.Send(new MabiPacket(Op.SkillStackSet, creature.Id).PutBytes(creature.ActiveSkillStacks, creature.ActiveSkillStacks).PutShort(creature.ActiveSkillId));
 
 			switch ((SkillConst)skillId)
 			{
 				case SkillConst.Healing:
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(12).PutString("healing"), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(12).PutString("healing"), SendTargets.Range, creature);
 					break;
 
 				case SkillConst.FinalHit:
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(69).PutBytes(1, 1), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(69).PutBytes(1, 1), SendTargets.Range, creature);
 					break;
 			}
 
-			var r = new MabiPacket(0x6983, creature.Id);
+			var r = new MabiPacket(Op.SkillPrepared, creature.Id);
 			r.PutShort(creature.ActiveSkillId);
 			if (parameters.Length > 0)
 				r.PutString(parameters);
@@ -995,9 +1005,9 @@ namespace World.Network
 					WorldManager.Instance.CreatureStatsUpdate(creature);
 
 					creature.ActiveSkillStacks--;
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(14).PutString("healing").PutLong(targetId), SendTargets.Range, creature);
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
-					client.Send(new MabiPacket(0x6992, creature.Id).PutBytes(creature.ActiveSkillStacks, 1, 0).PutShort(skillId));
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(14).PutString("healing").PutLong(targetId), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
+					client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(creature.ActiveSkillStacks, 1, 0).PutShort(skillId));
 					break;
 
 				case SkillConst.Windmill:
@@ -1006,7 +1016,7 @@ namespace World.Network
 					if (MabiCombat.Attack(creature, null) != AttackResult.Okay)
 					{
 						client.Send(PacketCreator.Notice(creature, "Unable to use when there is no target.", NoticeType.MIDDLE));
-						client.Send(new MabiPacket(0x698D, creature.Id));
+						client.Send(new MabiPacket(Op.SkillUnkown1, creature.Id));
 						return;
 					}
 					goto default;
@@ -1016,15 +1026,15 @@ namespace World.Network
 					if (creature.ActiveSkillTarget == null)
 						return;
 
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(14).PutString("healing_phoenix").PutLong(targetId), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(14).PutString("healing_phoenix").PutLong(targetId), SendTargets.Range, creature);
 					break;
 
 				default:
-					client.Send(new MabiPacket(0x6992, creature.Id).PutBytes(--creature.ActiveSkillStacks, 1, 0).PutShort(skillId));
+					client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(--creature.ActiveSkillStacks, 1, 0).PutShort(skillId));
 					break;
 			}
 
-			var r = new MabiPacket(0x6986, creature.Id);
+			var r = new MabiPacket(Op.SkillUse, creature.Id);
 			r.PutShort(skillId);
 			r.PutLong(targetId);
 			r.PutInt(unk1);
@@ -1060,7 +1070,7 @@ namespace World.Network
 
 						WorldManager.Instance.CreatureRevive(creature.ActiveSkillTarget);
 
-						client.Send(new MabiPacket(0x6987, creature.Id).PutShort(skillId).PutLong(creature.ActiveSkillTarget.Id).PutInts(0, 1));
+						client.Send(new MabiPacket(Op.SkillUsed, creature.Id).PutShort(skillId).PutLong(creature.ActiveSkillTarget.Id).PutInts(0, 1));
 					}
 
 					creature.ActiveSkillId = 0;
@@ -1068,13 +1078,13 @@ namespace World.Network
 					return;
 			}
 
-			var r = new MabiPacket(0x6987, creature.Id);
+			var r = new MabiPacket(Op.SkillUsed, creature.Id);
 			r.PutShort(skillId);
 			client.Send(r);
 
 			if (creature.ActiveSkillStacks > 0 && skill.RankInfo.Stack > 1)
 			{
-				client.Send(new MabiPacket(0x6983, creature.Id).PutShort(creature.ActiveSkillId));
+				client.Send(new MabiPacket(Op.SkillPrepared, creature.Id).PutShort(creature.ActiveSkillId));
 			}
 			else
 			{
@@ -1115,7 +1125,7 @@ namespace World.Network
 				case SkillConst.ManaShield:
 					creature.StatusEffects.A |= CreatureConditionA.ManaShield;
 					WorldManager.Instance.CreatureStatusEffectsChange(creature);
-					WorldManager.Instance.Broadcast(new MabiPacket(0x9090, creature.Id).PutInt(121), SendTargets.Range, creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(121), SendTargets.Range, creature);
 					break;
 
 				case SkillConst.Rest:
@@ -1124,7 +1134,7 @@ namespace World.Network
 					break;
 			}
 
-			var r = new MabiPacket(0x698A, creature.Id);
+			var r = new MabiPacket(Op.SkillStart, creature.Id);
 			r.PutShort(skillId);
 			r.PutString("");
 			client.Send(r);
@@ -1147,7 +1157,7 @@ namespace World.Network
 					break;
 			}
 
-			var r = new MabiPacket(0x698B, creature.Id);
+			var r = new MabiPacket(Op.SkillStop, creature.Id);
 			r.PutShort(skillId);
 			r.PutByte(1);
 			client.Send(r);
@@ -1170,7 +1180,7 @@ namespace World.Network
 			WorldManager.Instance.CreatureChangeStance(creature);
 
 			// Unlock
-			client.Send(new MabiPacket(0x6E29, creature.Id));
+			client.Send(new MabiPacket(Op.ChangeStanceR, creature.Id));
 		}
 
 		private void HandleShopBuyItem(WorldClient client, MabiPacket packet)
@@ -1183,18 +1193,18 @@ namespace World.Network
 				return;
 
 			var itemId = packet.GetLong();
-			var unk1 = packet.GetByte(); // 0:cursor, 1:inv
+			var targetPocket = packet.GetByte(); // 0:cursor, 1:inv
 			var unk2 = packet.GetByte(); // storage gold?
 
 			var newItem = client.NPCSession.Target.Script.Shop.GetItem(itemId);
 			if (newItem == null)
 				return;
 
-			if (unk1 == 0)
+			if (targetPocket == 0)
 			{
 				newItem.Move(Pocket.Cursor, 0, 0);
 			}
-			else if (unk1 == 1)
+			else if (targetPocket == 1)
 			{
 				var pos = creature.GetFreeItemSpace(newItem, Pocket.Inventory);
 				if (pos != null)
@@ -1215,7 +1225,7 @@ namespace World.Network
 				client.Send(PacketCreator.ItemInfo(creature, newItem));
 			}
 
-			var p = new MabiPacket(0x7151, creature.Id);
+			var p = new MabiPacket(Op.ShopBuyItemR, creature.Id);
 			client.Send(p);
 		}
 
@@ -1245,7 +1255,7 @@ namespace World.Network
 				// TODO: There could be an optional tab for rebuying sold things.
 			}
 
-			var p = new MabiPacket(0x7153, creature.Id);
+			var p = new MabiPacket(Op.ShopSellItemR, creature.Id);
 			client.Send(p);
 		}
 
@@ -1265,7 +1275,7 @@ namespace World.Network
 				WorldManager.Instance.CreatureChangeTitle(creature);
 			}
 
-			var answer = new MabiPacket(0x8FC6, creature.Id);
+			var answer = new MabiPacket(Op.ChangeTitleR, creature.Id);
 			answer.PutByte(1);
 			answer.PutByte(0);
 			client.Send(answer);
@@ -1285,7 +1295,7 @@ namespace World.Network
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == petId);
 			if (pet == null)
 			{
-				p = new MabiPacket(0x902D, creature.Id);
+				p = new MabiPacket(Op.PetSummonR, creature.Id);
 				p.PutByte(0);
 				p.PutLong(petId);
 				client.Send(p);
@@ -1303,17 +1313,17 @@ namespace World.Network
 
 			pet.Save = true;
 
-			p = new MabiPacket(0x9024, creature.Id);
+			p = new MabiPacket(Op.PetRegister, creature.Id);
 			p.PutLong(pet.Id);
 			p.PutByte(2);
 			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
 
-			p = new MabiPacket(0x902D, creature.Id);
+			p = new MabiPacket(Op.PetSummonR, creature.Id);
 			p.PutByte(1);
 			p.PutLong(petId);
 			client.Send(p);
 
-			p = new MabiPacket(0x701E, petId);
+			p = new MabiPacket(Op.LoginWLock, petId);
 			p.PutInt(0xEFFFFFFE);
 			p.PutInt(0);
 			client.Send(p);
@@ -1334,7 +1344,7 @@ namespace World.Network
 			var pet = client.Creatures.FirstOrDefault(a => a.Id == petId);
 			if (pet == null)
 			{
-				p = new MabiPacket(0x9032, creature.Id);
+				p = new MabiPacket(Op.PetUnsummonR, creature.Id);
 				p.PutByte(0);
 				p.PutLong(petId);
 				client.Send(p);
@@ -1354,17 +1364,17 @@ namespace World.Network
 			}
 
 			// ?
-			p = new MabiPacket(0x9025, creature.Id);
+			p = new MabiPacket(Op.PetUnRegister, creature.Id);
 			p.PutLong(pet.Id);
 			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
 
 			// Disappear
-			p = new MabiPacket(0x4E2A, 0x1000000000000001);
+			p = new MabiPacket(Op.Disappear, 0x1000000000000001);
 			p.PutLong(pet.Id);
 			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
 
 			// Result
-			p = new MabiPacket(0x9032, creature.Id);
+			p = new MabiPacket(Op.PetUnsummonR, creature.Id);
 			p.PutByte(1);
 			p.PutLong(petId);
 			client.Send(p);
@@ -1383,7 +1393,7 @@ namespace World.Network
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == petId);
 			if (pet == null || pet.IsDead())
 			{
-				p = new MabiPacket(0x1FBD1, creature.Id);
+				p = new MabiPacket(Op.PetMountR, creature.Id);
 				p.PutByte(0);
 				client.Send(p);
 				return;
@@ -1393,7 +1403,7 @@ namespace World.Network
 
 			WorldManager.Instance.VehicleBind(creature, pet);
 
-			p = new MabiPacket(0x1FBD1, creature.Id);
+			p = new MabiPacket(Op.PetMountR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
 		}
@@ -1408,7 +1418,7 @@ namespace World.Network
 
 			if (creature.Vehicle == null)
 			{
-				p = new MabiPacket(0x1FBD3, creature.Id);
+				p = new MabiPacket(Op.PetUnmountR, creature.Id);
 				p.PutByte(0);
 				client.Send(p);
 				return;
@@ -1418,7 +1428,7 @@ namespace World.Network
 
 			creature.Vehicle = null;
 
-			p = new MabiPacket(0x1FBD3, creature.Id);
+			p = new MabiPacket(Op.PetUnmountR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
 		}
@@ -1446,7 +1456,7 @@ namespace World.Network
 				Logger.Warning("Missing portal: " + portalId.ToString());
 			}
 
-			var p = new MabiPacket(0x908C, creature.Id);
+			var p = new MabiPacket(Op.PortalUseR, creature.Id);
 			p.PutByte(success);
 			client.Send(p);
 		}
@@ -1519,7 +1529,7 @@ namespace World.Network
 				attackResult = MabiCombat.Attack(creature, target);
 			}
 
-			var answer = new MabiPacket(0x7D01, creature.Id);
+			var answer = new MabiPacket(Op.CombatAttackR, creature.Id);
 
 			if (attackResult == AttackResult.Okay)
 			{
@@ -1553,7 +1563,7 @@ namespace World.Network
 
 			client.Send(answer);
 
-			client.Send(new MabiPacket(0xAA1D, creature.Id).PutLong(target.Id).PutByte(1).PutFloat(target.Stun));
+			client.Send(new MabiPacket(Op.StunMeter, creature.Id).PutLong(target.Id).PutByte(1).PutFloat(target.Stun));
 		}
 
 		public void HandleDeadMenu(WorldClient client, MabiPacket packet)
@@ -1562,7 +1572,7 @@ namespace World.Network
 			if (creature == null && creature.IsDead())
 				return;
 
-			var response = new MabiPacket(0x5402, creature.Id);
+			var response = new MabiPacket(Op.DeadMenuR, creature.Id);
 			response.PutByte(1);
 			response.PutString("town;here;;stay");
 			response.PutInt(0);
@@ -1584,7 +1594,7 @@ namespace World.Network
 			// TODO: Town etc support.
 			if (option == 9)
 			{
-				var feather = new MabiPacket(0x5403, creature.Id);
+				var feather = new MabiPacket(Op.DeadFeather, creature.Id);
 				feather.PutShort((ushort)(creature.WaitingForRes ? 4 : 5));
 				feather.PutInt(0);
 				feather.PutInt(1);
@@ -1607,7 +1617,7 @@ namespace World.Network
 				y = pos.Y;
 			}
 
-			var response = new MabiPacket(0x53FF, creature.Id);
+			var response = new MabiPacket(Op.Revived, creature.Id);
 			response.PutInt(1);
 			response.PutInt(region);
 			response.PutInt(x);
@@ -1615,9 +1625,9 @@ namespace World.Network
 			client.Send(response);
 		}
 
-		public void HandleUnknown1(WorldClient client, MabiPacket packet)
+		public void HandleMailsRequest(WorldClient client, MabiPacket packet)
 		{
-			client.Send(new MabiPacket(0xA899, client.Character.Id));
+			client.Send(new MabiPacket(Op.MailsRequestR, client.Character.Id));
 
 			// Mails
 			// client.Send(new MabiPacket(0x7255, client.Character.Id).PutInt(3));
@@ -1626,12 +1636,13 @@ namespace World.Network
 		public void HandleIamWatchingYou(WorldClient client, MabiPacket packet)
 		{
 			// TODO : Send entities?
+			// NOTE: Don't use funny names, no idea what this does anymore...
 		}
 
 		public void HandleSosButton(WorldClient client, MabiPacket packet)
 		{
 			// Enable = 1, Disable = 0
-			client.Send(new MabiPacket(0xA9AA, client.Character.Id).PutByte(false));
+			client.Send(new MabiPacket(Op.SosButtonR, client.Character.Id).PutByte(false));
 		}
 
 		public void HandleAreaChange(WorldClient client, MabiPacket packet)
@@ -1653,7 +1664,7 @@ namespace World.Network
 
 			// TODO: Check target, get target, send back actual value
 
-			var response = new MabiPacket(0xAA1D, creature.Id);
+			var response = new MabiPacket(Op.StunMeter, creature.Id);
 			response.PutLong(targetId);
 			if (targetId > 0)
 			{
@@ -1664,6 +1675,11 @@ namespace World.Network
 				response.PutByte(0);
 
 			client.Send(response);
+		}
+
+		public void HandleStunMeterDummy(WorldClient client, MabiPacket packet)
+		{
+			// Something about the stun meter I guess.
 		}
 	}
 }

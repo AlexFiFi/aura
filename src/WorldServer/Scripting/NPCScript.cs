@@ -86,7 +86,7 @@ namespace World.Scripting
 
 		protected void SendScript(WorldClient client, string script)
 		{
-			var p = new MabiPacket(0x13882, client.Character.Id);
+			var p = new MabiPacket(Op.NPCTalkSelectable, client.Character.Id);
 			p.PutString(script);
 			p.PutBin(new byte[] { 0 });
 			client.Send(p);
@@ -178,7 +178,7 @@ namespace World.Scripting
 		{
 			message = "<npcportrait name=\"NONE\"/><title name=\"NONE\"/>" + message;
 
-			var p = new MabiPacket(0x55F3, client.Character.Id);
+			var p = new MabiPacket(Op.NPCTalkEndR, client.Character.Id);
 			p.PutByte(1);
 			p.PutLong(client.NPCSession.Target.Id);
 			p.PutString(message);
@@ -192,7 +192,7 @@ namespace World.Scripting
 
 		protected virtual void OpenShop(WorldClient client)
 		{
-			var p = new MabiPacket(0x715E, client.Character.Id);
+			var p = new MabiPacket(Op.ShopOpen, client.Character.Id);
 			p.PutString("shopname");
 			p.PutByte(0);
 			p.PutByte(0);

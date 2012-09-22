@@ -290,7 +290,7 @@ namespace Common.Network
 							}
 							else
 							{
-								Logger.Warning("Unhandled packet: " + HexTool.ToString(packet.Op));
+								Logger.Unimplemented("Unhandled packet: " + HexTool.ToString(packet.Op));
 							}
 						}
 					}
