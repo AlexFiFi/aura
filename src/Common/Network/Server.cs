@@ -308,6 +308,10 @@ namespace Common.Network
 				Logger.Info("Lost connection from " + client.Socket.RemoteEndPoint.ToString());
 				this.OnClientDisconnect(client);
 			}
+			catch (NullReferenceException)
+			{
+				Logger.Warning("A connected socket just went NULL!");
+			}
 		}
 	}
 }

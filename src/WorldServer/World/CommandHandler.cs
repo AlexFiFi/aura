@@ -98,6 +98,9 @@ namespace World.World
 			this.AddCommand("se", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
 			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
+
+			this.AddCommand("ri", Authority.GameMaster, Command_randomitem);
+
 			// GMCP
 			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
 
@@ -194,6 +197,24 @@ namespace World.World
 			client.Send(p);
 
 			return CommandResult.Okay;
+		}
+
+		char[] colorCodes = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F' };
+		private string getRandomColor()
+		{
+			string s = "0x";
+			for (int i = 0; i < 8; i++)
+				s += colorCodes[RandomProvider.Get().Next(colorCodes.Length - 1)];
+
+			return s;
+		}
+
+		private CommandResult Command_randomitem(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			var item = MabiData.ItemDb.Entries[RandomProvider.Get().Next(MabiData.ItemDb.Entries.Count - 1)];
+			string[] a = new string[] {"drop", item.Id.ToString(),  getRandomColor(), getRandomColor(), getRandomColor() };
+
+			return Command_item(client, creature, a, msg);
 		}
 
 		private CommandResult Command_item(WorldClient client, MabiCreature creature, string[] args, string msg)

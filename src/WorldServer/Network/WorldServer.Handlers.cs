@@ -29,6 +29,7 @@ namespace World.Network
 			this.RegisterPacketHandler(0x4EEF, HandleGMCPInvisibility);
 			this.RegisterPacketHandler(0x4EF6, HandleGMCPExpel);
 			this.RegisterPacketHandler(0x4EF7, HandleGMCPBan);
+			this.RegisterPacketHandler(0x4EEA, (c, p) => {} );
 			this.RegisterPacketHandler(0x5208, HandleCharacterInfoRequest);
 			this.RegisterPacketHandler(0x526C, HandleChat);
 			this.RegisterPacketHandler(0x53FE, HandleRevive);
