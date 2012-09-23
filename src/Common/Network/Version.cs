@@ -91,13 +91,13 @@ namespace Common.Network
 		public readonly static uint NPCTalkEnd = 0x55F2;
 		public readonly static uint NPCTalkEndR = 0x55F3;
 		public readonly static uint ItemMove = 0x59D8;
-		public readonly static uint ItemMoveEnd = 0x59D9;
+		public readonly static uint ItemMoveR = 0x59D9;
 		public readonly static uint ItemPickUp = 0x59DA;
 		public readonly static uint ItemPickUpR = 0x59DB;
 		public readonly static uint ItemDrop = 0x59DC;
 		public readonly static uint ItemDropR = 0x59DD;
-		public readonly static uint ItemMoveR = 0x59DE;
-		public readonly static uint ItemMoveRCollision = 0x59DF;
+		public readonly static uint ItemMoveInfo = 0x59DE;
+		public readonly static uint ItemMoveInfoCollision = 0x59DF;
 		public readonly static uint ItemNew = 0x59E0;
 		public readonly static uint ItemRemove = 0x59E1;
 		public readonly static uint ItemDestroy = 0x59E2;

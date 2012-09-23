@@ -34,9 +34,9 @@ namespace World.World
 				return AttackResult.None;
 			}
 
-			var rightHand = source.GetItem(Pocket.LeftHand1);
-			var leftHand = source.GetItem(Pocket.RightHand1);
-			var magazine = source.GetItem(Pocket.Arrow1);
+			var rightHand = source.GetItemInPocket(Pocket.LeftHand1);
+			var leftHand = source.GetItemInPocket(Pocket.RightHand1);
+			var magazine = source.GetItemInPocket(Pocket.Arrow1);
 
 			if (leftHand != null && (leftHand.Type != ItemType.Weapon && leftHand.Type != ItemType.Weapon2))
 				leftHand = null;

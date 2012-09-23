@@ -22,11 +22,10 @@ namespace World.Tools
 		public static string ChannelHost;
 		public static ushort ChannelPort;
 
-		public static bool UseNpcListAsExclude;
-
 		public static char CommandPrefix;
 
 		public static string ScriptPath;
+		public static bool DisableScriptCaching;
 
 		public static string Motd;
 
@@ -64,7 +63,7 @@ namespace World.Tools
 
 			WorldConf.SightRange = _conf.Get<uint>("world_sightrange", 3000);
 
-			WorldConf.UseNpcListAsExclude = _conf.GetBool("use_npc_list_as_exclude", false);
+			WorldConf.DisableScriptCaching = _conf.GetBool("disable_cache", false);
 
 			try
 			{

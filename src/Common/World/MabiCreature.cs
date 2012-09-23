@@ -403,16 +403,16 @@ namespace Common.World
 			return this.HasSkill((ushort)id);
 		}
 
-		public MabiItem GetItem(Pocket slot)
+		public MabiItem GetItemInPocket(Pocket slot)
 		{
 			// Maybe it would make more sense to really switch the pocket on toggling the set.
 			if (slot == Pocket.LeftHand1 || slot == Pocket.RightHand1 || slot == Pocket.Arrow1)
 				slot += this.WeaponSet;
 
-			return this.GetItemInSlot((byte)slot);
+			return this.GetItemInPocket((byte)slot);
 		}
 
-		public MabiItem GetItemInSlot(byte slot)
+		public MabiItem GetItemInPocket(byte slot)
 		{
 			return this.Items.FirstOrDefault(a => a.Info.Pocket == slot);
 		}

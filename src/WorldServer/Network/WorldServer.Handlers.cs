@@ -578,13 +578,13 @@ namespace World.Network
 
 				client.Send(PacketCreator.ItemAmount(creature, collidingItem));
 
-				p = new MabiPacket(Op.ItemMoveEnd, creature.Id);
+				p = new MabiPacket(Op.ItemMoveR, creature.Id);
 				p.PutByte(1);
 				client.Send(p);
 				return;
 			}
 
-			p = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveR : Op.ItemMoveRCollision), creature.Id);
+			p = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveInfo : Op.ItemMoveInfoCollision), creature.Id);
 			p.PutLong(item.Id);
 			p.PutByte((byte)source);
 			p.PutByte((byte)target);
@@ -612,10 +612,39 @@ namespace World.Network
 			}
 			if (source >= Pocket.Armor && source <= Pocket.Accessory2)
 			{
+				if (source == Pocket.LeftHand1 || source == Pocket.LeftHand2)
+				{
+					var secSource = source + 2;
+					var secHand = creature.GetItemInPocket(secSource);
+					if (secHand == null)
+						secHand = creature.GetItemInPocket(secSource += 2);
+
+					if (secHand != null)
+					{
+						var secTarget = Pocket.Inventory;
+						var pos = creature.GetFreeItemSpace(secHand, secTarget);
+						if (pos == null)
+						{
+							secTarget = Pocket.Temporary;
+							pos = new MabiVertex(0, 0);
+						}
+						secHand.Move(secTarget, pos.X, pos.Y);
+						WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
+						client.Send(
+							new MabiPacket(Op.ItemMoveInfo, creature.Id)
+							.PutLong(secHand.Id)
+							.PutByte((byte)secSource)
+							.PutByte((byte)secTarget)
+							.PutByte(unk)
+							.PutByte((byte)pos.X)
+							.PutByte((byte)pos.Y)
+						);
+					}
+				}
 				WorldManager.Instance.CreatureMoveEquip(creature, source, target);
 			}
 
-			p = new MabiPacket(Op.ItemMoveEnd, creature.Id);
+			p = new MabiPacket(Op.ItemMoveR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
 		}
@@ -835,7 +864,7 @@ namespace World.Network
 			{
 				if (target > 0)
 				{
-					var item = creature.GetItem((Pocket)target);
+					var item = creature.GetItemInPocket((Pocket)target);
 					if (item != null)
 					{
 						item.Info.FigureA = (byte)(item.Info.FigureA == 1 ? 0 : 1);
@@ -1169,7 +1198,7 @@ namespace World.Network
 				return;
 
 			var skillId = packet.GetShort();
-			var parameters = packet.GetByte();
+			//var parameters = packet.GetByte();
 
 			switch ((SkillConst)skillId)
 			{

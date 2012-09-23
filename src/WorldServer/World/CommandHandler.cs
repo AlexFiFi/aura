@@ -416,7 +416,7 @@ namespace World.World
 				client.Send(PacketCreator.ItemRemove(creature, item));
 			}
 
-			client.Send(PacketCreator.ServerMessage(creature, "Cleared pocket '" + ((Pocket)pocket).ToString() + "'. (Deleted items: " + toRemove.Count.ToString()));
+			client.Send(PacketCreator.ServerMessage(creature, "Cleared pocket '" + ((Pocket)pocket).ToString() + "'. (Deleted items: " + toRemove.Count.ToString() + ")"));
 
 			return CommandResult.Okay;
 		}

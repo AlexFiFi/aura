@@ -8,7 +8,6 @@
 
 ...
 
-
 =============================================================================
 | Function template format                                                  |
 =============================================================================
@@ -43,10 +42,10 @@ An exception are named paramters, which can certainly be used.
 If you use named paramters, the remaining optional paramters default to the
 specified default value.
 
-
 =============================================================================
 | Monster spawns                                                            |
 =============================================================================
+
 All monsters are defined in 'data/db/monsters.txt'.
 All monster spawns are defined in 'data/db/spawns.txt'.
 
@@ -58,6 +57,40 @@ Example:
 	
 To add a regular spawn at a fixed position, simply make the area smaller.
 
+=============================================================================
+| Inheritance                                                               |
+=============================================================================
+
+Just like in C# NPCs can inherit from one another. This way you can create
+base NPCs that are to be used in several locations, or alternate versions
+for events. For this to work, the parent NPCs will have to be loaded, like
+normal, by adding them in npclist.txt, together with the children.
+
+For example, you could create one base NPC, that's supposed to stand in every
+town. Let it inherit from NPCScript like normal, and place it on some test
+map. Next you create the children, one for each town, and let them inherit
+from your base NPC, instead of NPCScript. Now just override OnLoad,
+call base.OnLoad, and change the position.
+
+Since it would be annoying to place all parent NPCs on some test map though,
+it's possible to load NPCs, without actually placing them on a map.
+This can be done be prefixing the line in npclist.txt with "virtual:"
+
+Example:
+  virtual: regions/tir/caitin.cs
+  regions/tir/caitin2.cs
+
+This would load both scripts, but only the second Caitin would actually
+appear in Tir, and could inherit from the first one.
+
+The scripts are loaded in order, so the parent NPCs always have to be loaded
+before the children.
+
+Example: (WIP)
+
+Note: At the moment it's not possible to reload virtual NPCs with a command,
+  you have to restart the server. Normal NPCs (like the children) will
+  reload.
 
 =============================================================================
 | Functions                                                                 |
@@ -106,7 +139,6 @@ Since this function takes a byte, it ranges from 0 to 255,
 
 Sets the stand style for the NPC.
 
-
 === Communication ===========================================================
 
 ** Msg(<MabiClient:client>[, <bool:show_face>, <bool:show_name>], {string:messages})
@@ -145,7 +177,6 @@ after a message that contained buttons, so you can get some response.
 When using 'MsgSelect' or 'ShowKeywords', this is sent automatically,
 and doesn't have to follow the other command.
 
-
 === Shops ===================================================================
 
 ** OpenShop(<MabiClient:client>)
@@ -154,8 +185,8 @@ Opens the shop of the current NPC.
 
 -----------------------------------------------------------------------------
 
-** Shop.AddItem(<string:tab_name>, <uint:item_id>[, <int:price>=default])
-** Shop.AddItem(<string:tab_name>, <uint:item_id>[, <uint:color1>=random[, <uint:color2>=random[, <uint:color3>=random[, <int:price>]]]])
+** Shop.AddItem(<string:tab_name>, <uint:item_id>[, <ushort:amount>=1[, <int:price>=default]])
+** Shop.AddItem(<string:tab_name>, <uint:item_id>[, <uint:color1>=random[, <uint:color2>=random[, <uint:color3>=random[, <ushort:amount>=1[, <int:price>]]]]])
 
 Adds item to the shop. If price is ommited, the default price from the item
 database is used. If the colors are ommited, random colors will be generated.
@@ -164,6 +195,7 @@ Examples:
     Shop.AddItem("Equipment", 19081, 51);                    // Nuadha's Robe for 51 gold
     Shop.AddItem("Equipment", 19081, 0, 0, 0);               // Pure black Nuadha's Robe for 89,000 gold (default)
     Shop.AddItem("Equipment", 19081, color1 : 0, price : 0); // Partially black Nuadha's Robe for free
+    Shop.AddItem("Stuff", "Sugar", 10);                      // 10x Sugar
 
 -----------------------------------------------------------------------------
 

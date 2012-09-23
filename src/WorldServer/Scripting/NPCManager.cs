@@ -4,10 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using Common.Constants;
 using Common.Data;
 using Common.Tools;
@@ -23,36 +21,23 @@ namespace World.Scripting
 		static NPCManager() { }
 		private NPCManager() { }
 
-		public readonly string NpcFolder = Path.Combine(WorldConf.ScriptPath, "npc");
-		public readonly string NpcCompiled = Path.Combine(Path.Combine(WorldConf.ScriptPath, "npc"), "compiled");
-
-		private int _loadedNpcs, _loadedDefs, _cached;
+		private int _loadedNpcs, _cached;
 
 		public void LoadNPCs()
 		{
 			Logger.Info("Loading NPCs...");
 
-			_loadedDefs = _loadedNpcs = _cached = 0;
-
-			// The first thing to do is to load our DEF files,
-			// as some of the NPCs derive from them.
-			// Disabled for now while not needed.
-			//var defFiles = Directory.GetFiles(this.NpcFolder, "*.def", SearchOption.AllDirectories);
-			//this.LoadScriptFiles(defFiles, LoadDef);
-			//Logger.Info("Done loading " + _loadedDefs + " NPC defs.");
+			_loadedNpcs = _cached = 0;
 
 			// NPCs
-			var listPath = Path.Combine(this.NpcFolder, "npclist.txt");
+			var listPath = Path.Combine(Path.Combine(WorldConf.ScriptPath, "npc"), "npclist.txt");
 			var npcListContents = new List<string>();
 
 			if (File.Exists(listPath))
 			{
 				try
 				{
-					FileReader.DoEach(listPath, (string line) =>
-					{
-						npcListContents.Add(Path.Combine(WorldConf.ScriptPath, "npc", line));
-					});
+					npcListContents = FileReader.GetAllLines(listPath);
 				}
 				catch (Exception ex)
 				{
@@ -64,75 +49,49 @@ namespace World.Scripting
 				Logger.Warning("Unable to find NPC list '" + listPath + "'.");
 			}
 
-			string[] scriptFiles;
-			if (!WorldConf.UseNpcListAsExclude)
-				scriptFiles = npcListContents.ToArray();
-			else
-				scriptFiles = Directory.GetFiles(Path.Combine(WorldConf.ScriptPath, "npc"), "*.cs", SearchOption.AllDirectories).Except(npcListContents).ToArray();
+			var scriptFiles = npcListContents.ToArray();
 
-			this.LoadScriptFiles(scriptFiles, LoadNPC);
-			Logger.Info("Done loading " + _loadedNpcs + " NPCs.");
-			Logger.Info("Cached " + _cached + " NPC scripts.");
-		}
-
-		/// <summary>
-		/// Runs loadMethod for files, using tasks.
-		/// </summary>
-		/// <param name="files"></param>
-		/// <param name="loadMethod"></param>
-		private void LoadScriptFiles(string[] files, Action<object> loadMethod)
-		{
-			var tasks = new List<Task>();
-			foreach (var file in files)
-				tasks.Add(Task.Factory.StartNew(loadMethod, file, TaskCreationOptions.PreferFairness));
-
-			Task.WaitAll(tasks.ToArray());
-		}
-
-		/// <summary>
-		/// Loads the def file at the given path.
-		/// </summary>
-		/// <param name="path"></param>
-		private void LoadDef(object path)
-		{
-			var scriptPath = path as string;
-
-			try
+			foreach (var line in scriptFiles)
 			{
-				var asm = this.LoadScript(scriptPath);
-				Interlocked.Increment(ref _loadedDefs);
-			}
-			catch (Exception ex)
-			{
-				try
+				var file = line;
+				bool virt = false;
+				if (file.StartsWith("virtual:"))
 				{
-					File.Delete(Path.ChangeExtension(scriptPath, ".compiled"));
+					virt = true;
+					file = file.Replace("virtual:", "").Trim();
 				}
-				catch { }
-				Logger.Error("While processing: " + scriptPath + " ... " + ex.Message);
+				LoadNPC(Path.Combine(WorldConf.ScriptPath, "npc", file), virt);
 			}
 
+			Logger.Info("Done loading " + _loadedNpcs + " NPCs.");
+			if (!WorldConf.DisableScriptCaching)
+				Logger.Info("Cached " + _cached + " NPC scripts.");
 		}
 
 		/// <summary>
 		/// Loads the script file at the given path and adds the NPC to the world.
 		/// </summary>
 		/// <param name="path"></param>
-		private void LoadNPC(object path)
+		private void LoadNPC(string scriptPath, bool virtualLoad = false)
 		{
-			var scriptPath = path as string;
-
 			try
 			{
-				var script = this.LoadScript(scriptPath).CreateObject("*") as NPCScript;
-				var npc = new MabiNPC();
-				npc.Script = script;
-				npc.ScriptPath = scriptPath;
-				script.NPC = npc;
-				script.OnLoad();
-				npc.LoadDefault();
+				if (!virtualLoad)
+				{
+					var script = this.LoadScript(scriptPath).CreateObject("*") as NPCScript;
+					var npc = new MabiNPC();
+					npc.Script = script;
+					npc.ScriptPath = scriptPath;
+					script.NPC = npc;
+					script.OnLoad();
+					npc.LoadDefault();
 
-				WorldManager.Instance.AddCreature(npc);
+					WorldManager.Instance.AddCreature(npc);
+				}
+				else
+				{
+					this.LoadScript(scriptPath).CreateObject("*");
+				}
 
 				Interlocked.Increment(ref _loadedNpcs);
 			}
@@ -169,32 +128,35 @@ namespace World.Scripting
 			var compiledPath = this.GetCompiledPath(scriptPath);
 
 			Assembly asm;
-			if (File.Exists(compiledPath) && File.GetLastWriteTime(compiledPath) >= File.GetLastWriteTime(scriptPath))
+			if (!WorldConf.DisableScriptCaching && File.Exists(compiledPath) && File.GetLastWriteTime(compiledPath) >= File.GetLastWriteTime(scriptPath))
 			{
 				asm = Assembly.LoadFrom(compiledPath);
 			}
 			else
 			{
 				asm = CSScript.LoadCode(File.ReadAllText(scriptPath));
-				try
+				if (!WorldConf.DisableScriptCaching)
 				{
-					if (File.Exists(compiledPath))
-						File.Delete(compiledPath);
-					else
-						Directory.CreateDirectory(Path.GetDirectoryName(compiledPath));
+					try
+					{
+						if (File.Exists(compiledPath))
+							File.Delete(compiledPath);
+						else
+							Directory.CreateDirectory(Path.GetDirectoryName(compiledPath));
 
-					File.Copy(asm.Location, compiledPath);
+						File.Copy(asm.Location, compiledPath);
 
-					Interlocked.Increment(ref _cached);
-				}
-				catch (UnauthorizedAccessException)
-				{
-					// Thrown if file can't be copied. Happens if script was
-					// initially loaded from cache.
-				}
-				catch (Exception ex)
-				{
-					Logger.Warning(ex.Message);
+						Interlocked.Increment(ref _cached);
+					}
+					catch (UnauthorizedAccessException)
+					{
+						// Thrown if file can't be copied. Happens if script was
+						// initially loaded from cache.
+					}
+					catch (Exception ex)
+					{
+						Logger.Warning(ex.Message);
+					}
 				}
 			}
 

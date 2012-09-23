@@ -37,11 +37,6 @@ namespace World.World
 			}
 		}
 
-		public void AddItem(string tab, string itemName, int price = -1)
-		{
-			this.AddItem(tab, itemName, (ushort)1, price);
-		}
-
 		public void AddItem(string tab, string itemName, ushort amount = 1, int price = -1)
 		{
 			uint itemClass = 50003; // Apple
@@ -66,11 +61,6 @@ namespace World.World
 				itemClass = dbInfo.Id;
 
 			this.AddItem(tab, itemClass, color1, color2, color3, amount, price);
-		}
-
-		public void AddItem(string tab, uint itemClass, int price = -1)
-		{
-			this.AddItem(tab, itemClass, (ushort)1, price);
 		}
 
 		public void AddItem(string tab, uint itemClass, ushort amount = 1, int price = -1)
