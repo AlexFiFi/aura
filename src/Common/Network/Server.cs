@@ -214,103 +214,105 @@ namespace Common.Network
 		/// <param name="result"></param>
 		protected void OnReceive(IAsyncResult result)
 		{
-			var client = result.AsyncState as TClient;
-
 			try
 			{
-				int bytesReceived = client.Socket.EndReceive(result);
-				int bytesRead = 0;
-
-				if (bytesReceived <= 0)
+				var client = result.AsyncState as TClient;
+				try
 				{
-					Logger.Info("Connection closed from " + client.Socket.RemoteEndPoint.ToString());
-					this.OnClientDisconnect(client);
-					return;
-				}
+					int bytesReceived = client.Socket.EndReceive(result);
+					int bytesRead = 0;
 
-				// Turn buffer into packets
-				while (bytesRead < bytesReceived)
-				{
-					// New packet
-					if (client.Buffer.Remaining < 1)
+					if (bytesReceived <= 0)
 					{
-						client.Buffer.Remaining =
-							(client.Buffer.Front[bytesRead + 1] << 0) +
-							(client.Buffer.Front[bytesRead + 2] << 8) +
-							(client.Buffer.Front[bytesRead + 3] << 16) +
-							(client.Buffer.Front[bytesRead + 4] << 24);
+						Logger.Info("Connection closed from " + client.Socket.RemoteEndPoint.ToString());
+						this.OnClientDisconnect(client);
+						return;
 					}
 
-					// Copy to back buffer
-					client.Buffer.Back[client.Buffer.Ptr++] = client.Buffer.Front[bytesRead++];
-
-					// Full packet is not in back buffer yet
-					if (--client.Buffer.Remaining > 0)
-						continue;
-
-					// Prepare buffer, cut the appended 4 bytes
-					int len = client.Buffer.Ptr - 4;
-					var buffer = new byte[len];
-					Array.Copy(client.Buffer.Back, buffer, len);
-					BitConverter.GetBytes(len).CopyTo(buffer, 1);
-
-					client.Crypto.DecodePacket(buffer);
-
-					if (buffer[5] == 0x01)
+					// Turn buffer into packets
+					while (bytesRead < bytesReceived)
 					{
-						client.Crypto.EncodePacket(buffer);
-						client.Socket.Send(buffer);
-					}
-					else
-					{
-						// Challenge
-						if (client.State == SessionState.ClientCheck)
+						// New packet
+						if (client.Buffer.Remaining < 1)
 						{
-							client.Send(new byte[] { 0x88, 0x07, 0x00, 0x00, 0x00, 0x00, 0x07 });
-
-							client.State = SessionState.Login;
+							client.Buffer.Remaining =
+								(client.Buffer.Front[bytesRead + 1] << 0) +
+								(client.Buffer.Front[bytesRead + 2] << 8) +
+								(client.Buffer.Front[bytesRead + 3] << 16) +
+								(client.Buffer.Front[bytesRead + 4] << 24);
 						}
-						// Actual packets
+
+						// Copy to back buffer
+						client.Buffer.Back[client.Buffer.Ptr++] = client.Buffer.Front[bytesRead++];
+
+						// Full packet is not in back buffer yet
+						if (--client.Buffer.Remaining > 0)
+							continue;
+
+						// Prepare buffer, cut the appended 4 bytes
+						int len = client.Buffer.Ptr - 4;
+						var buffer = new byte[len];
+						Array.Copy(client.Buffer.Back, buffer, len);
+						BitConverter.GetBytes(len).CopyTo(buffer, 1);
+
+						client.Crypto.DecodePacket(buffer);
+
+						if (buffer[5] == 0x01)
+						{
+							client.Crypto.EncodePacket(buffer);
+							client.Socket.Send(buffer);
+						}
 						else
 						{
-							var packet = new MabiPacket(buffer, (ushort)len);
-
-							var handler = this.GetPacketHandler(packet.Op);
-							if (handler != null)
+							// Challenge
+							if (client.State == SessionState.ClientCheck)
 							{
-								//Logger.Debug("Handling packet: " + HexTool.ToString(packet.Op));
-								try
-								{
-									handler(client, packet);
-								}
-								catch (Exception ex)
-								{
-									Logger.Exception(ex, "There has been a problem while handling '" + HexTool.ToString(packet.Op) + "'.", true);
-								}
+								client.Send(new byte[] { 0x88, 0x07, 0x00, 0x00, 0x00, 0x00, 0x07 });
+
+								client.State = SessionState.Login;
 							}
+							// Actual packets
 							else
 							{
-								Logger.Unimplemented("Unhandled packet: " + HexTool.ToString(packet.Op));
+								var packet = new MabiPacket(buffer, (ushort)len);
+
+								var handler = this.GetPacketHandler(packet.Op);
+								if (handler != null)
+								{
+									//Logger.Debug("Handling packet: " + HexTool.ToString(packet.Op));
+									try
+									{
+										handler(client, packet);
+									}
+									catch (Exception ex)
+									{
+										Logger.Exception(ex, "There has been a problem while handling '" + HexTool.ToString(packet.Op) + "'.", true);
+									}
+								}
+								else
+								{
+									Logger.Warning("Unhandled packet: " + HexTool.ToString(packet.Op));
+								}
 							}
 						}
+
+						client.Buffer.InitBB();
 					}
 
-					client.Buffer.InitBB();
+					if (client.State < SessionState.Dead)
+						client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(OnReceive), client);
+					else
+						Logger.Warning("Bad client kill. Client attempted to send data after disconnect.");
 				}
-
-				if (client.State < SessionState.Dead)
-					client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(OnReceive), client);
-				else
-					Logger.Warning("Bad client kill. Client attempted to send data after disconnect.");
-			}
-			catch (SocketException)
-			{
-				Logger.Info("Lost connection from " + client.Socket.RemoteEndPoint.ToString());
-				this.OnClientDisconnect(client);
+				catch (SocketException)
+				{
+					Logger.Info("Lost connection from " + client.Socket.RemoteEndPoint.ToString());
+					this.OnClientDisconnect(client);
+				}
 			}
 			catch (NullReferenceException)
 			{
-				Logger.Warning("A connected socket just went NULL!");
+				Logger.Warning("Something went wrong in the recieve!");
 			}
 		}
 	}

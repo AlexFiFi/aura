@@ -32,6 +32,8 @@ namespace World.World
 
 		private int _lastRlHour = -1, _lastRlMinute = -1;
 
+		private DateTime last = DateTime.MaxValue;
+
 		/// <summary>
 		/// This is a general method that's run once every 1500ms (1 Erinn minute).
 		/// It's used to raise the Erinn and Real time events (once per Erinn/Real minute).
@@ -45,8 +47,15 @@ namespace World.World
 			var now = DateTime.Now;
 			long serverTicks = now.Ticks / 10000;
 
+			if ((now - last).TotalMilliseconds > 1600)
+			{
+				Logger.Warning("Can't keep up! The server is overloaded!");
+			}
+			last = now;
+
 			byte erinnHour = (byte)((serverTicks / 90000) % 24);
 			byte erinnMinute = (byte)((serverTicks / 1500) % 60);
+
 
 			// Erinn time event, every Erinn minute
 			ServerEvents.Instance.OnErinnTimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));

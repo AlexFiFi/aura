@@ -9,13 +9,26 @@ using Common.World;
 using World.Network;
 using World.World;
 using Common.Data;
+using System;
 
 namespace World.Scripting
 {
+	[Flags]
+	public enum NPCLoadFlags
+	{
+		Real = 1 << 0,
+		Virtual = 1 << 1,
+	}
+
 	public abstract class NPCScript : BaseScript
 	{
 		public MabiNPC NPC { get; set; }
 		public MabiShop Shop = new MabiShop();
+
+		/// <summary>
+		/// Describes how the NPC was loaded
+		/// </summary>
+		public NPCLoadFlags LoadFlags { get; set; }
 
 		public override void OnLoad()
 		{
@@ -35,7 +48,7 @@ namespace World.Scripting
 
 		public virtual void OnEnd(WorldClient client)
 		{
-			this.Close(client);
+			this.Close(client, "(You ended your conversation with " + NPC.Name.Substring(1) + ".)");
 		}
 
 		// Built in methods

@@ -65,9 +65,4 @@ public class _CaitinScript : NPCScript
 				break;
 		}
 	}
-
-	public override void OnEnd(WorldClient c)
-	{
-		Close(c, "(You ended your conversation with Caitin.)");
-	}
 }

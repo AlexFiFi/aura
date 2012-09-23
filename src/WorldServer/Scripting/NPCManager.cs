@@ -76,13 +76,14 @@ namespace World.Scripting
 		{
 			try
 			{
+				var script = this.LoadScript(scriptPath).CreateObject("*") as NPCScript;
 				if (!virtualLoad)
 				{
-					var script = this.LoadScript(scriptPath).CreateObject("*") as NPCScript;
 					var npc = new MabiNPC();
 					npc.Script = script;
 					npc.ScriptPath = scriptPath;
 					script.NPC = npc;
+					script.LoadFlags = NPCLoadFlags.Real;
 					script.OnLoad();
 					npc.LoadDefault();
 
@@ -90,7 +91,7 @@ namespace World.Scripting
 				}
 				else
 				{
-					this.LoadScript(scriptPath).CreateObject("*");
+					script.LoadFlags = NPCLoadFlags.Virtual;
 				}
 
 				Interlocked.Increment(ref _loadedNpcs);
