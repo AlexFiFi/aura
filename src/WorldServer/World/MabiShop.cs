@@ -90,6 +90,10 @@ namespace World.World
 					Logger.Warning(string.Format("Price for '{0}' is lower than the selling price. ({1} < {2})", item.Info.Class.ToString(), item.OptionInfo.Price, item.OptionInfo.SellingPrice));
 				}
 			}
+			if (amount > 1)
+			{
+				item.OptionInfo.Price *= amount;
+			}
 			this.AddItems(tab, item);
 		}
 

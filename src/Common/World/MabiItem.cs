@@ -168,7 +168,7 @@ namespace Common.World
 				this.OptionInfo.Defense = dbInfo.Defense;
 				this.OptionInfo.Protection = dbInfo.Protection;
 				this.OptionInfo.Price = dbInfo.Price;
-				this.OptionInfo.SellingPrice = (uint)(dbInfo.Price * 0.1f);
+				this.OptionInfo.SellingPrice = dbInfo.SellingPrice;
 				this.OptionInfo.WeaponType = dbInfo.WeaponType;
 				this.OptionInfo.AttackSpeed = dbInfo.AttackSpeed;
 

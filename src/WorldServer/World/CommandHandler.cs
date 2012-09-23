@@ -246,6 +246,9 @@ namespace World.World
 					client.Send(PacketCreator.ServerMessage(creature, "Invalid amount."));
 					return CommandResult.Fail;
 				}
+
+				if (newItem.Info.Bundle > newItem.BundleMax)
+					newItem.Info.Bundle = newItem.BundleMax;
 			}
 			else if (args.Length == 5)
 			{

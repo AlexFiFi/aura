@@ -22,7 +22,7 @@ namespace Common.Data
 		public ushort StackType;
 		public ushort StackMax;
 		public uint StackItem;
-		public uint Price;
+		public uint Price, SellingPrice;
 		public uint Durability;
 		public uint Defense;
 		public short Protection;
@@ -79,6 +79,7 @@ namespace Common.Data
 			info.ColorMap3 = Convert.ToByte(csv[i++]);
 			info.ColorMode = Convert.ToByte(csv[i++]);
 			info.Price = Convert.ToUInt32(csv[i++]);
+			info.SellingPrice = (info.Id != 2000 ? (uint)(info.Price * 0.1f) : 1);
 			info.Durability = Convert.ToUInt32(csv[i++]);
 			info.Defense = Convert.ToUInt32(csv[i++]);
 			info.Protection = Convert.ToInt16(csv[i++]);

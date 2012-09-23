@@ -544,6 +544,8 @@ namespace World.Network
 			// If moved item collides, and can be added to the stack
 			if (collidingItem != null && (item.Info.Class == collidingItem.Info.Class || item.Info.Class == collidingItem.StackItem || item.StackItem == collidingItem.StackItem) && collidingItem.BundleType != BundleType.None)
 			{
+				var prev = collidingItem.Info.Bundle;
+
 				// If colliding stack doesn't have enough room
 				if (collidingItem.Info.Bundle + item.Info.Bundle > collidingItem.BundleMax)
 				{
@@ -558,7 +560,8 @@ namespace World.Network
 						item.Info.Bundle = item.BundleMax;
 					}
 
-					client.Send(PacketCreator.ItemAmount(creature, item));
+					if (prev != collidingItem.Info.Bundle)
+						client.Send(PacketCreator.ItemAmount(creature, item));
 				}
 				else
 				{
@@ -576,12 +579,15 @@ namespace World.Network
 					}
 				}
 
-				client.Send(PacketCreator.ItemAmount(creature, collidingItem));
+				if (prev != collidingItem.Info.Bundle)
+				{
+					client.Send(PacketCreator.ItemAmount(creature, collidingItem));
 
-				p = new MabiPacket(Op.ItemMoveR, creature.Id);
-				p.PutByte(1);
-				client.Send(p);
-				return;
+					p = new MabiPacket(Op.ItemMoveR, creature.Id);
+					p.PutByte(1);
+					client.Send(p);
+					return;
+				}
 			}
 
 			p = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveInfo : Op.ItemMoveInfoCollision), creature.Id);
@@ -1306,7 +1312,22 @@ namespace World.Network
 			creature.Items.Remove(item);
 			client.Send(PacketCreator.ItemRemove(creature, item));
 
-			creature.GiveGold(item.OptionInfo.SellingPrice);
+			var sellingPrice = item.OptionInfo.SellingPrice;
+
+			if (item.BundleType == BundleType.Sac)
+			{
+				var stackItem = MabiData.ItemDb.Find(item.StackItem);
+				if (stackItem != null)
+				{
+					sellingPrice += stackItem.SellingPrice * item.Info.Bundle;
+				}
+			}
+			else if (item.BundleType == BundleType.Stackable)
+			{
+				sellingPrice *= item.Info.Bundle;
+			}
+
+			creature.GiveGold(sellingPrice);
 
 			// TODO: There could be an optional tab for rebuying sold things.
 

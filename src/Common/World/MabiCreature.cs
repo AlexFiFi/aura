@@ -547,6 +547,8 @@ namespace Common.World
 		/// <param name="amount"></param>
 		public void RemoveItem(uint itemId, uint amount)
 		{
+			var toRemove = new List<MabiItem>();
+
 			// Items first
 			foreach (var item in this.Items)
 			{
@@ -565,7 +567,11 @@ namespace Common.World
 					}
 
 					if (prev != item.Info.Bundle)
+					{
+						if (item.BundleType != BundleType.Sac && item.Info.Bundle < 1)
+							toRemove.Add(item);
 						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+					}
 				}
 			}
 
@@ -589,10 +595,17 @@ namespace Common.World
 						}
 
 						if (prev != item.Info.Bundle)
+						{
+							if (item.BundleType != BundleType.Sac && item.Info.Bundle < 1)
+								toRemove.Add(item);
 							EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+						}
 					}
 				}
 			}
+
+			foreach (var item in toRemove)
+				this.Items.Remove(item);
 		}
 
 		/// <summary>

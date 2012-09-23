@@ -516,7 +516,7 @@ namespace World.World
 			if (!ie.New)
 			{
 				// Update or remove, depending on type and amount
-				if (ie.Item.Type == ItemType.Sac || ie.Item.Info.Bundle > 0)
+				if (ie.Item.BundleType == BundleType.Sac || ie.Item.Info.Bundle > 0)
 				{
 					(creature.Client as WorldClient).Send(PacketCreator.ItemAmount(creature, ie.Item));
 				}
