@@ -71,6 +71,7 @@ namespace World.Network
 				Logger.Error("Unable to connect to database. (" + ex.Message + ")");
 				this.Exit(1);
 			}
+
 			//Logger.Info("Clearing database cache...");
 			//MabiDb.Instance.ClearDatabaseCache();
 

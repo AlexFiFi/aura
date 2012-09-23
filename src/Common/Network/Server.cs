@@ -129,7 +129,7 @@ namespace Common.Network
 					Logger.Info("Done loading " + MabiData.SkillDb.Entries.Count + " entries from skills.txt.");
 				}
 
-				if (toLoad.HasFlag(DataLoad.Data))
+				if (toLoad.HasFlag(DataLoad.Npcs))
 				{
 					MabiData.MonsterSkillDb.LoadFromCsv(dataPath + "/db/monster_skills.txt", reload);
 					MabiData.MonsterDb.LoadFromCsv(dataPath + "/db/monsters.txt", reload);

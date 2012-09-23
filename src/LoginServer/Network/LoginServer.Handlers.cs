@@ -3,13 +3,14 @@
 
 using System;
 using System.Linq;
+using System.Text;
 using Common.Constants;
+using Common.Data;
 using Common.Database;
 using Common.Network;
 using Common.Tools;
 using Common.World;
 using Login.Tools;
-using Common.Data;
 
 namespace Login.Network
 {
@@ -19,20 +20,23 @@ namespace Login.Network
 		{
 			this.RegisterPacketHandler(Op.ClientIdent, HandleVersionCheck);
 			this.RegisterPacketHandler(Op.Login, HandleLogin);
+			this.RegisterPacketHandler(Op.EnterGame, HandleEnterGame);
+			this.RegisterPacketHandler(Op.Disconnect, HandleDisconnect);
+			this.RegisterPacketHandler(Op.NameCheck, HandleCheckName);
+
 			this.RegisterPacketHandler(Op.CharInfoRequest, HandleCharacterInfoRequest);
 			this.RegisterPacketHandler(Op.CreateCharacter, HandleCreateCharacter);
-			this.RegisterPacketHandler(Op.EnterGame, HandleEnterGame);
 			this.RegisterPacketHandler(Op.DeleteCharRequest, HandleDeletePC);
 			this.RegisterPacketHandler(Op.DeleteChar, HandleDeletePC);
 			this.RegisterPacketHandler(Op.RecoverChar, HandleDeletePC);
-			this.RegisterPacketHandler(Op.NameCheck, HandleCheckName);
+
 			this.RegisterPacketHandler(Op.PetInfoRequest, HandlePetInfoRequest);
 			this.RegisterPacketHandler(Op.CreatePet, HandleCreatePet);
+			this.RegisterPacketHandler(Op.CreatePartner, HandleCreatePartner);
 			this.RegisterPacketHandler(Op.DeletePetRequest, HandleDeletePC);
 			this.RegisterPacketHandler(Op.DeletePet, HandleDeletePC);
 			this.RegisterPacketHandler(Op.RecoverPet, HandleDeletePC);
-			this.RegisterPacketHandler(Op.CreatePartner, HandleCreatePartner);
-			this.RegisterPacketHandler(Op.Disconnect, HandleDisconnect);
+
 			this.RegisterPacketHandler(Op.CreatingPet, HandleEnterPetCreation);
 			this.RegisterPacketHandler(Op.CreatingPartner, HandleEnterPetCreation);
 		}
@@ -49,7 +53,7 @@ namespace Login.Network
 
 		private void HandleLogin(LoginClient client, MabiPacket packet)
 		{
-			var loginType = packet.GetByte(); // Known: 0x12 (Normal), 0x5 (New), 0x2 (Coming from channel)
+			var loginType = packet.GetByte(); // Known: 0x00 (KR), 0x0C, 0x12 (EU) (Normal), 0x5 (New), 0x2 (Coming from channel)
 			var username = packet.GetString();
 			var password = "";
 			ulong sessionKey = 0;
@@ -57,9 +61,21 @@ namespace Login.Network
 			var response = new MabiPacket(Op.LoginR, 0x1000000000000010);
 
 			// Normal login, MD5 password
-			if (loginType == 0x0C)
+			if (loginType == 0x0C || loginType == 0x12 || loginType == 0x00)
 			{
-				password = System.Text.Encoding.UTF8.GetString(packet.GetBin());
+				var passbin = packet.GetBin();
+				password = System.Text.Encoding.UTF8.GetString(passbin);
+
+				if (Op.Version == 140400)
+				{
+					// EU had no client side hashing. Let's make it compatible to NA.
+					password = string.Empty;
+					foreach (var chr in passbin.TakeWhile(a => a != 0))
+						password += (char)chr;
+
+					var md5 = System.Security.Cryptography.MD5.Create();
+					password = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(password))).Replace("-", "");
+				}
 			}
 			// Logging in, comming from a channel
 			else if (loginType == 0x02)

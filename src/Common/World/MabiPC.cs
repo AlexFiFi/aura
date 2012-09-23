@@ -99,7 +99,8 @@ namespace Common.World
 				packet.PutBin(skill.Info);
 			}
 			packet.PutInt(0);					 // SkillVarBufferList
-			packet.PutByte(0);					 // {PLGCNT}
+			if (Op.Version > 140400)
+				packet.PutByte(0);					 // {PLGCNT}
 
 			// Banner
 			// --------------------------------------------------------------
@@ -125,7 +126,10 @@ namespace Common.World
 			packet.PutLong((ulong)StatusEffects.A);
 			packet.PutLong((ulong)StatusEffects.B);
 			packet.PutLong((ulong)StatusEffects.C);
-			packet.PutLong((ulong)StatusEffects.D);
+			if (Op.Version > 140400)
+				packet.PutLong((ulong)StatusEffects.D);
+			if (Op.Version >= 170000)
+				packet.PutLong(0);
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt
@@ -295,7 +299,7 @@ namespace Common.World
 			packet.PutLong(0);
 			packet.PutShort(0);
 
-			// Achievements
+			// 
 			// --------------------------------------------------------------
 			packet.PutInt(0);
 			packet.PutInt(0);
@@ -345,7 +349,7 @@ namespace Common.World
 			packet.PutLong(0);					 // TransportCharacterId
 			packet.PutFloat(1);					 // ScaleHeight
 
-			// Demigod
+			// 
 			// --------------------------------------------------------------
 			packet.PutByte(0);					 // IsGhost
 			packet.PutLong(0);					 // SittingProp

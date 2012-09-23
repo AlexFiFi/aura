@@ -5,6 +5,9 @@ namespace Common.Network
 {
 	public static class Op
 	{
+		// NA:      160300
+		// KR test: 170000 (not fully supported yet)
+		// EU:      140400 (not fully supported yet)
 		public const uint Version = 160300;
 
 		// Login Server															
@@ -52,6 +55,7 @@ namespace Common.Network
 		public readonly static uint Disappear = 0x4E2A;
 		//public readonly static uint GoRebirth = 0x4E32;
 		public readonly static uint GMCPOpen = 0x4EE9;
+		public readonly static uint GMCPClose = 0x4EEA;
 		public readonly static uint GMCPSummon = 0x4EEB;
 		public readonly static uint GMCPMoveToChar = 0x4EEC;
 		public readonly static uint GMCPMove = 0x4EED;
@@ -60,7 +64,6 @@ namespace Common.Network
 		public readonly static uint GMCPInvisibilityR = 0x4EF0;
 		public readonly static uint GMCPExpel = 0x4EF6;
 		public readonly static uint GMCPBan = 0x4EF7;
-		public readonly static uint GMCPDisable = 0x4EEA;
 		public readonly static uint CharInfoRequestW = 0x5208;
 		public readonly static uint CharInfoRequestWR = 0x5209;
 		public readonly static uint EntityAppears = 0x520C;

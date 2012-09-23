@@ -65,7 +65,7 @@ namespace Login.Network
 			}
 			catch (Exception ex)
 			{
-				Logger.Exception(ex, "Unable to connect to database.");
+				Logger.Error("Unable to connect to database. (" + ex.Message + ")");
 				this.Exit(1);
 			}
 

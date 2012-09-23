@@ -82,7 +82,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.GMCPInvisibility, HandleGMCPInvisibility);
 			this.RegisterPacketHandler(Op.GMCPExpel, HandleGMCPExpel);
 			this.RegisterPacketHandler(Op.GMCPBan, HandleGMCPBan);
-			this.RegisterPacketHandler(Op.GMCPDisable, (c, p) => { });
+			this.RegisterPacketHandler(Op.GMCPClose, (c, p) => { }); // TODO: Maybe add this to a gm log.
 		}
 
 		private void HandleLogin(WorldClient client, MabiPacket packet)
@@ -91,10 +91,11 @@ namespace World.Network
 				return;
 
 			var userName = packet.GetString();
-			var userName2 = packet.GetString(); // why...?
+			if (Op.Version > 160000)
+				packet.GetString(); // double acc name
 			var seedKey = packet.GetLong();
 			var charID = packet.GetLong();
-			byte unk1 = packet.GetByte();
+			//byte unk1 = packet.GetByte();
 
 			MabiPacket p;
 
@@ -251,6 +252,9 @@ namespace World.Network
 
 		public void HandleGMCPMove(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < 50)
+				return;
+
 			var region = packet.GetInt();
 			var x = packet.GetInt();
 			var y = packet.GetInt();
@@ -260,6 +264,9 @@ namespace World.Network
 
 		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < 50)
+				return;
+
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null || target.Client == null)
@@ -274,6 +281,9 @@ namespace World.Network
 
 		private void HandleGMCPRevive(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < 50)
+				return;
+
 			var creature = WorldManager.Instance.GetCreatureById(packet.Id);
 			if (creature == null || !creature.IsDead())
 				return;
@@ -295,6 +305,9 @@ namespace World.Network
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < 50)
+				return;
+
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null || target.Client == null)
@@ -312,6 +325,9 @@ namespace World.Network
 
 		public void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < 50)
+				return;
+
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
 				return;
@@ -327,6 +343,9 @@ namespace World.Network
 
 		public void HandleGMCPExpel(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < 50)
+				return;
+
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null || target.Client == null)
@@ -342,6 +361,9 @@ namespace World.Network
 
 		public void HandleGMCPBan(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < 50)
+				return;
+
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null || target.Client == null)
@@ -520,7 +542,7 @@ namespace World.Network
 			var collidingItem = creature.GetItemColliding(target, targetX, targetY, item);
 
 			// If moved item collides, and can be added to the stack
-			if (collidingItem != null && (item.Info.Class == collidingItem.Info.Class || item.Info.Class == collidingItem.StackItem) && collidingItem.BundleType != BundleType.None)
+			if (collidingItem != null && (item.Info.Class == collidingItem.Info.Class || item.Info.Class == collidingItem.StackItem || item.StackItem == collidingItem.StackItem) && collidingItem.BundleType != BundleType.None)
 			{
 				// If colliding stack doesn't have enough room
 				if (collidingItem.Info.Bundle + item.Info.Bundle > collidingItem.BundleMax)
@@ -530,7 +552,7 @@ namespace World.Network
 						item.Info.Bundle -= (ushort)(collidingItem.BundleMax - collidingItem.Info.Bundle);
 						collidingItem.Info.Bundle = collidingItem.BundleMax;
 					}
-					else
+					else if (item.BundleMax >= collidingItem.Info.Bundle)
 					{
 						collidingItem.Info.Bundle = item.Info.Bundle;
 						item.Info.Bundle = item.BundleMax;
@@ -1217,15 +1239,20 @@ namespace World.Network
 				}
 			}
 
-			// TODO: check and reduce gold
-
-			if (newItem != null)
+			var p = new MabiPacket(Op.ShopBuyItemR, creature.Id);
+			if (creature.HasGold(newItem.OptionInfo.Price) && newItem != null)
 			{
+				creature.RemoveGold(newItem.OptionInfo.Price);
+
 				creature.Items.Add(newItem);
 				client.Send(PacketCreator.ItemInfo(creature, newItem));
 			}
+			else
+			{
+				client.Send(PacketCreator.MsgBox(creature, "Insufficient amount of gold."));
 
-			var p = new MabiPacket(Op.ShopBuyItemR, creature.Id);
+				p.PutByte(0);
+			}
 			client.Send(p);
 		}
 
@@ -1245,17 +1272,15 @@ namespace World.Network
 			if (item == null)
 				return;
 
-			// TODO: check space for gold and add it
-
-			if (item != null)
-			{
-				creature.Items.Remove(item);
-				client.Send(PacketCreator.ItemRemove(creature, item));
-
-				// TODO: There could be an optional tab for rebuying sold things.
-			}
-
 			var p = new MabiPacket(Op.ShopSellItemR, creature.Id);
+
+			creature.Items.Remove(item);
+			client.Send(PacketCreator.ItemRemove(creature, item));
+
+			creature.GiveGold(item.OptionInfo.SellingPrice);
+
+			// TODO: There could be an optional tab for rebuying sold things.
+
 			client.Send(p);
 		}
 

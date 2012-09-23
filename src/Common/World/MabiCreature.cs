@@ -439,6 +439,12 @@ namespace Common.World
 			return null;
 		}
 
+		/// <summary>
+		/// Returns null if there is no space for this item.
+		/// </summary>
+		/// <param name="newItem"></param>
+		/// <param name="pocket"></param>
+		/// <returns></returns>
 		public MabiVertex GetFreeItemSpace(MabiItem newItem, Pocket pocket)
 		{
 			var info = MabiData.ItemDb.Find(newItem.Info.Class);
@@ -458,6 +464,183 @@ namespace Common.World
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Returns item with the given Id from inventory, or null if it's not found.
+		/// </summary>
+		/// <param name="itemid"></param>
+		/// <returns></returns>
+		public MabiItem GetItem(ulong itemid)
+		{
+			return this.Items.FirstOrDefault(a => a.Id == itemid);
+		}
+
+		/// <summary>
+		/// Adds one or multiple items with the given id to the creature's
+		/// inventory. Tries to fill sacs first, inventory afterwards, and
+		/// all remaining will be added to the temp inventory.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		public void GiveItem(uint itemId, uint amount)
+		{
+			foreach (var item in this.Items)
+			{
+				if ((item.Type == ItemType.Sac && item.StackItem == itemId) || (item.Info.Class == itemId && item.BundleType == BundleType.Stackable))
+				{
+					if (item.Info.Bundle >= item.BundleMax)
+						continue;
+
+					var prev = item.Info.Bundle;
+					var diff = item.BundleMax - item.Info.Bundle;
+					if (diff >= amount)
+					{
+						item.Info.Bundle += (ushort)amount;
+						amount = 0;
+					}
+					else
+					{
+						item.Info.Bundle = item.BundleMax;
+						amount -= (uint)diff;
+					}
+
+					if (prev != item.Info.Bundle)
+						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+				}
+			}
+
+			while (amount > 0)
+			{
+				var item = new MabiItem(itemId);
+				if (amount <= item.BundleMax)
+				{
+					item.Info.Bundle = (ushort)amount;
+					amount = 0;
+				}
+				else
+				{
+					item.Info.Bundle = item.BundleMax;
+					amount -= item.BundleMax;
+				}
+
+				var pocket = Pocket.Inventory;
+				var space = this.GetFreeItemSpace(item, pocket);
+				if (space == null)
+				{
+					pocket = Pocket.Temporary;
+					space = new MabiVertex(0, 0);
+				}
+
+				item.Move(pocket, space.X, space.Y);
+				this.Items.Add(item);
+
+				EntityEvents.Instance.OnCreatureItemUpdate(this, item, true);
+			}
+		}
+
+		/// <summary>
+		/// Removes the given amount of items with the given id from the
+		/// creature's inventory. Tries inventory first, sacs afterwards.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		public void RemoveItem(uint itemId, uint amount)
+		{
+			// Items first
+			foreach (var item in this.Items)
+			{
+				if (item.Info.Class == 2000)
+				{
+					var prev = item.Info.Bundle;
+					if (amount <= item.Info.Bundle)
+					{
+						item.Info.Bundle -= (ushort)amount;
+						amount = 0;
+					}
+					else
+					{
+						amount = amount - item.Info.Bundle;
+						item.Info.Bundle = 0;
+					}
+
+					if (prev != item.Info.Bundle)
+						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+				}
+			}
+
+			// Sacs afterwards
+			if (amount > 0)
+			{
+				foreach (var item in this.Items)
+				{
+					if (item.Type == ItemType.Sac && item.StackItem == 2000)
+					{
+						var prev = item.Info.Bundle;
+						if (amount <= item.Info.Bundle)
+						{
+							item.Info.Bundle -= (ushort)amount;
+							amount = 0;
+						}
+						else
+						{
+							amount = amount - item.Info.Bundle;
+							item.Info.Bundle = 0;
+						}
+
+						if (prev != item.Info.Bundle)
+							EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Adds the given amount of gold to the inventory. See GiveItem.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void GiveGold(uint amount)
+		{
+			this.GiveItem(2000, amount);
+		}
+
+		/// <summary>
+		/// Removes the given amount of gold from the inventory. See RemoveItem.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void RemoveGold(uint amount)
+		{
+			this.RemoveItem(2000, amount);
+		}
+
+		/// <summary>
+		/// Returns wheather the amount of all items with the given id in the
+		/// inventory exceeds the given amount. Sacs are counted as well.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public bool HasItem(uint itemId, uint amount = 1)
+		{
+			var total = 0;
+			foreach (var item in this.Items)
+			{
+				if (item.Info.Class == itemId || item.StackItem == itemId)
+					total += item.Info.Bundle;
+			}
+
+			return (total >= amount);
+		}
+
+		/// <summary>
+		/// Returns wheather the creature has the given amount of gold in
+		/// its inventory. See HasItem.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public bool HasGold(uint amount)
+		{
+			return this.HasItem(2000, amount);
 		}
 
 		public float GetSpeed()
@@ -537,16 +720,6 @@ namespace Common.World
 		public bool IsDestination(MabiVertex dest)
 		{
 			return (_destination.Equals(dest));
-		}
-
-		/// <summary>
-		/// Returns item with the given Id from inventory, or null if it's not found.
-		/// </summary>
-		/// <param name="itemid"></param>
-		/// <returns></returns>
-		public MabiItem GetItem(ulong itemid)
-		{
-			return this.Items.FirstOrDefault(a => a.Id == itemid);
 		}
 
 		//public void AddStatModifier(Stat attribute, uint time, float change)
@@ -800,6 +973,8 @@ namespace Common.World
 			packet.PutLong((ulong)StatusEffects.B);
 			packet.PutLong((ulong)StatusEffects.C);
 			packet.PutLong((ulong)StatusEffects.D);
+			if (Op.Version >= 170000)
+				packet.PutLong(0);
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt

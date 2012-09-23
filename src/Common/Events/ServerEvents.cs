@@ -28,7 +28,6 @@ namespace Common.Events
 		public EventHandler<ChatEventArgs> CreatureTalks;
 		public EventHandler<MotionEventArgs> CreatureUsesMotion;
 
-
 		public void OnPlayerLogsIn(MabiCreature creature, EventArgs e = null)
 		{
 			if (PlayerLogsIn != null)

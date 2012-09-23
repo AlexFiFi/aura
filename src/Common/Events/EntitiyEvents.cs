@@ -12,14 +12,11 @@ namespace Common.Events
 	public class EntityEvents
 	{
 		public static readonly EntityEvents Instance = new EntityEvents();
-
-		protected EntityEvents()
-		{
-
-		}
+		protected EntityEvents() { }
 
 		public EventHandler<EntityEventArgs> CreatureLevelsUp;
 		public EventHandler<EntityEventArgs> CreatureStatUpdates;
+		public EventHandler<ItemUpdateEventArgs> CreatureItemUpdate;
 
 		public void OnCreatureLevelsUp(MabiCreature c)
 		{
@@ -31,6 +28,12 @@ namespace Common.Events
 		{
 			if (CreatureStatUpdates != null)
 				CreatureStatUpdates(c, new EntityEventArgs(c));
+		}
+
+		public void OnCreatureItemUpdate(MabiCreature creature, MabiItem item, bool isNew = false)
+		{
+			if (CreatureItemUpdate != null)
+				CreatureItemUpdate(creature, new ItemUpdateEventArgs(item, isNew));
 		}
 	}
 }

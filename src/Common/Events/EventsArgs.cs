@@ -78,6 +78,18 @@ namespace Common.Events
 		}
 	}
 
+	public class ItemUpdateEventArgs : EventArgs
+	{
+		public MabiItem Item;
+		public bool New;
+
+		public ItemUpdateEventArgs(MabiItem item, bool isNew = false)
+		{
+			this.Item = item;
+			this.New = isNew;
+		}
+	}
+
 	/// <summary>
 	/// Combat related args, used to pass the required combat information from the combat class
 	/// to the event raising methods, to create the packets, which are passed to the clients

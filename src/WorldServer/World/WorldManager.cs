@@ -23,6 +23,7 @@ namespace World.World
 		{
 			EntityEvents.Instance.CreatureLevelsUp += this.CreatureLevelsUp;
 			EntityEvents.Instance.CreatureStatUpdates += this.CreatureStatsUpdate;
+			EntityEvents.Instance.CreatureItemUpdate += this.CreatureItemUpdate;
 		}
 
 		private List<MabiCreature> _creatures = new List<MabiCreature>();
@@ -504,6 +505,31 @@ namespace World.World
 			p.PutByte(1);
 
 			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureItemUpdate(object sender, ItemUpdateEventArgs ie)
+		{
+			var creature = sender as MabiCreature;
+			if (creature.Client == null)
+				return;
+
+			if (!ie.New)
+			{
+				// Update or remove, depending on type and amount
+				if (ie.Item.Type == ItemType.Sac || ie.Item.Info.Bundle > 0)
+				{
+					(creature.Client as WorldClient).Send(PacketCreator.ItemAmount(creature, ie.Item));
+				}
+				else
+				{
+					(creature.Client as WorldClient).Send(PacketCreator.ItemRemove(creature, ie.Item));
+				}
+			}
+			else
+			{
+				// Send info about a new item
+				(creature.Client as WorldClient).Send(PacketCreator.ItemInfo(creature, ie.Item));
+			}
 		}
 
 		public void CreatureLeaveRegion(MabiCreature creature)
