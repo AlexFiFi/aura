@@ -5,7 +5,7 @@ using World.Scripting;
 using World.World;
 using Common.Constants;
 
-public class _CaitinScript : NPCScript
+public class CaitinScript : NPCScript
 {
 	public override void OnLoad()
 	{

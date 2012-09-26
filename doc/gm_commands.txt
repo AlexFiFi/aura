@@ -8,6 +8,7 @@
 
 These are the commands that may be executed from the in-game chat.
 For many commands your account requires a minimum authority level.
+These are the default level ranges, currently used in Aura:
 
 Level | Rank
 ---------------
@@ -132,3 +133,10 @@ Gives the skill with the specified Id to the character. "rank" ranges from
 
 Drops a random item from the database, with a completely random color.
 (Will mostly result in flashies.)
+
+-----------------------------------------------------------------------------
+
+** who [region]
+
+Lists all players online in the specified region, or on the server, if region
+is omitted.

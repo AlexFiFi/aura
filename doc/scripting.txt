@@ -104,6 +104,17 @@ Sets the name of the NPC.
 
 -----------------------------------------------------------------------------
 
+** SetDialogName(<string:name>)
+** SetDialogFace(<string:name>)
+
+Dialog name and face can be used to set names and portraits for the dialog.
+Name would replace the default name given in SetName, while Face would
+allow you to, for example, display Nao's face while talking to some NPC.
+These are mainly helpful in custom NPCs, as default NPCs already have
+these values defined in the client.
+
+-----------------------------------------------------------------------------
+
 ** SetRace(<uint:race>)
 
 Sets the race of the NPC.
@@ -167,6 +178,14 @@ Examples:
     MsgSelect(c, "Example Message");                  // Simple message with an [End] button
     MsgSelect(c, "Example Message", "Test", "@test"); // Message 1 button, saying "Test"
     MsgSelect(c, "Example Message", "Start Convorsation", "@talk", "Shop", "@shop");
+	
+-----------------------------------------------------------------------------
+
+** MsgFaceName(<MabiClient:client>, <string:face>, <string:name>, {string:messages})
+
+Similar to Msg, this function allows you to send a message to the client.
+You're able to specify a face and a name here though, to switch those
+on the fly during a conversation.
 
 -----------------------------------------------------------------------------
 

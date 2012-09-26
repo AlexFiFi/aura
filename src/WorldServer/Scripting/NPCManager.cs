@@ -12,6 +12,8 @@ using Common.Tools;
 using CSScriptLibrary;
 using World.Tools;
 using World.World;
+using csscript;
+using System.CodeDom.Compiler;
 
 namespace World.Scripting
 {
@@ -96,6 +98,14 @@ namespace World.Scripting
 				}
 
 				Interlocked.Increment(ref _loadedNpcs);
+			}
+			catch (CompilerException ex)
+			{
+				var errors = ex.Data["Errors"] as CompilerErrorCollection;
+
+				Logger.Error("In " + scriptPath + ":");
+				foreach (CompilerError err in errors)
+					Logger.Error("  Line " + err.Line.ToString() + ": " + err.ErrorText);
 			}
 			catch (Exception ex)
 			{

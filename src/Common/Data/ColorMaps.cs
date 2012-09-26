@@ -47,7 +47,10 @@ namespace Common.Data
 				return 0;
 
 			var rand = new Random(Environment.TickCount);
-			return mapInfo.ColorMap[rand.Next(mapInfo.ColorMap.Length)];
+			var color = mapInfo.ColorMap[rand.Next(mapInfo.ColorMap.Length)];
+			if (color >> 24 == 0)
+				color = ((color & 0xFF) << 16) + ((color >> 8 & 0xFF) << 8) + (color >> 16 & 0xFF);
+			return color;
 		}
 
 		public void LoadFromDat(string filePath, bool reload = false)

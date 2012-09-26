@@ -191,12 +191,12 @@ namespace Common.World
 				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap1);
 				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap2);
 				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap3);
-				if (dbInfo.ColorMode == 6 || dbInfo.ColorMode == 8)
-				{
-					this.Info.ColorA = ((this.Info.ColorA & 0xFF) << 16) + ((this.Info.ColorA >> 8 & 0xFF) << 8) + (this.Info.ColorA >> 16 & 0xFF);
-					this.Info.ColorB = ((this.Info.ColorB & 0xFF) << 16) + ((this.Info.ColorB >> 8 & 0xFF) << 8) + (this.Info.ColorB >> 16 & 0xFF);
-					this.Info.ColorC = ((this.Info.ColorC & 0xFF) << 16) + ((this.Info.ColorC >> 8 & 0xFF) << 8) + (this.Info.ColorC >> 16 & 0xFF);
-				}
+				//if (dbInfo.ColorMode == 6 || dbInfo.ColorMode == 8)
+				//{
+				//    this.Info.ColorA = ((this.Info.ColorA & 0xFF) << 16) + ((this.Info.ColorA >> 8 & 0xFF) << 8) + (this.Info.ColorA >> 16 & 0xFF);
+				//    this.Info.ColorB = ((this.Info.ColorB & 0xFF) << 16) + ((this.Info.ColorB >> 8 & 0xFF) << 8) + (this.Info.ColorB >> 16 & 0xFF);
+				//    this.Info.ColorC = ((this.Info.ColorC & 0xFF) << 16) + ((this.Info.ColorC >> 8 & 0xFF) << 8) + (this.Info.ColorC >> 16 & 0xFF);
+				//}
 			}
 			else
 			{

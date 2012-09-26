@@ -72,7 +72,7 @@ namespace World.Tools
 			catch (FileNotFoundException)
 			{
 				Logger.Warning("'motd.txt' not found.");
-				WorldConf.Motd = "";
+				WorldConf.Motd = string.Empty;
 			}
 		}
 	}

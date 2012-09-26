@@ -64,6 +64,7 @@ namespace Common.Network
 		public readonly static uint GMCPInvisibilityR = 0x4EF0;
 		public readonly static uint GMCPExpel = 0x4EF6;
 		public readonly static uint GMCPBan = 0x4EF7;
+
 		public readonly static uint CharInfoRequestW = 0x5208;
 		public readonly static uint CharInfoRequestWR = 0x5209;
 		public readonly static uint EntityAppears = 0x520C;
@@ -97,7 +98,7 @@ namespace Common.Network
 		public readonly static uint ItemDrop = 0x59DC;
 		public readonly static uint ItemDropR = 0x59DD;
 		public readonly static uint ItemMoveInfo = 0x59DE;
-		public readonly static uint ItemMoveInfoCollision = 0x59DF;
+		public readonly static uint ItemSwitchInfo = 0x59DF;
 		public readonly static uint ItemNew = 0x59E0;
 		public readonly static uint ItemRemove = 0x59E1;
 		public readonly static uint ItemDestroy = 0x59E2;
@@ -117,6 +118,7 @@ namespace Common.Network
 		public readonly static uint ItemStateChanged = 0x5BD9;
 		public readonly static uint NPCTalkKeyword = 0x5DC4;
 		public readonly static uint NPCTalkKeywordR = 0x5DC5;
+
 		public readonly static uint WARP_ENTER = 0x6594;
 		public readonly static uint EnterRegionPermission = 0x6597;
 		public readonly static uint EnterRegion = 0x6598;
@@ -141,6 +143,7 @@ namespace Common.Network
 		public readonly static uint ChangeStance = 0x6E28;
 		public readonly static uint ChangeStanceR = 0x6E29;
 		public readonly static uint ChangesStance = 0x6E2A;
+
 		public readonly static uint BackFromTheDead2 = 0x701D;
 		public readonly static uint LoginWLock = 0x701E;
 		public readonly static uint LoginWUnlock = 0x701F;
@@ -159,10 +162,12 @@ namespace Common.Network
 		public readonly static uint CombatActionEnd = 0x7925;
 		public readonly static uint CombatActionBundle = 0x7926;
 		public readonly static uint CombatAttackR = 0x7D01;
+
 		public readonly static uint ChangeTitle = 0x8FC4;
 		public readonly static uint ChangedTitle = 0x8FC5;
 		public readonly static uint ChangeTitleR = 0x8FC6;
 		public readonly static uint AreaChange = 0x88B8;
+
 		public readonly static uint PetRegister = 0x9024;
 		public readonly static uint PetUnRegister = 0x9025;
 		public readonly static uint PetSummon = 0x902C;
@@ -172,21 +177,26 @@ namespace Common.Network
 		public readonly static uint PortalUse = 0x908B;
 		public readonly static uint PortalUseR = 0x908C;
 		public readonly static uint Effect = 0x9090;
+
 		public readonly static uint StatusEffectUpdate = 0xA028;
+		public readonly static uint MoonGateRequest = 0xA428;
 		public readonly static uint MailsRequest = 0xA898;
 		public readonly static uint MailsRequestR = 0xA899;
 		public readonly static uint SosButton = 0xA9A9;
 		public readonly static uint SosButtonR = 0xA9AA;
 		public readonly static uint SubsribeStun = 0xAA1C; // ?
 		public readonly static uint StunMeter = 0xAA1D;
-		public readonly static uint MoonGateRequest = 0xA428;
+		public readonly static uint AfterLogin = 0xAA54;
+
 		public readonly static uint NPCTalkSelectable = 0x13882;
 		public readonly static uint NPCTalkSelect = 0x13883;
+
 		public readonly static uint PetMount = 0x1FBD0;
 		public readonly static uint PetMountR = 0x1FBD1;
 		public readonly static uint PetUnmount = 0x1FBD2;
 		public readonly static uint PetUnmountR = 0x1FBD3;
 		public readonly static uint VehicleBond = 0x1FBD4;
+
 		public readonly static uint Run = 0x0F213303;
 		public readonly static uint Running = 0x0F44BBA3;
 		public readonly static uint CombatAttack = 0x0FCC3231;

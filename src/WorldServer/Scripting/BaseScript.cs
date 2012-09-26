@@ -1,21 +1,20 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
 
 namespace World.Scripting
 {
-	public class BaseScript : System.IDisposable
+	public class BaseScript : IDisposable
 	{
-		private bool _disposed = false;
-		public bool Disposed { get { return _disposed; } }
+		public bool Disposed { get; protected set; }
+
 		public virtual void OnLoad()
 		{
-
 		}
 
 		public virtual void OnLoadDone()
 		{
-
 		}
 
 		/// <inheritdoc/>
@@ -25,7 +24,7 @@ namespace World.Scripting
 		/// </summary>
 		public virtual void Dispose()
 		{
-			_disposed = true;
+			this.Disposed = true;
 		}
 	}
 }

@@ -75,6 +75,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.UseGesture, HandleGesture);
 			this.RegisterPacketHandler(Op.UsePotion, HandleUsePotion);
 			this.RegisterPacketHandler(0x61A8, HandleIamWatchingYou);
+			this.RegisterPacketHandler(Op.AfterLogin, HandleAfterLogin);
 
 			this.RegisterPacketHandler(Op.GMCPSummon, HandleGMCPSummon);
 			this.RegisterPacketHandler(Op.GMCPMoveToChar, HandleGMCPMoveToChar);
@@ -709,44 +710,70 @@ namespace World.Network
 			if ((target >= Pocket.LeftHand1 && target <= Pocket.Arrow2) || (source >= Pocket.LeftHand1 && source <= Pocket.Arrow2))
 				creature.StopMove();
 
-			if (target != Pocket.Inventory)
+			// Inv -> Cursor
+			// --------------------------------------------------------------
+			if (target == Pocket.Cursor)
 			{
-				targetX = 0;
-				targetY = 0;
+				item.Move(target, targetX, targetY);
+
+				// Move
+				client.Send(
+					new MabiPacket(Op.ItemMoveInfo, creature.Id)
+					.PutLong(item.Id).PutBytes((byte)source, (byte)target)
+					.PutByte(unk).PutBytes(0, 0)
+				);
+
+				// Update euip
+				if (source >= Pocket.Armor && source <= Pocket.Accessory2)
+					WorldManager.Instance.CreatureMoveEquip(creature, source, target);
+
+				// Check for moving second hand
+				if (source == Pocket.LeftHand1 || source == Pocket.LeftHand2)
+				{
+					var secSource = source + 2; // RightHand1/2
+					var secItem = creature.GetItemInPocket(secSource);
+					if (secItem != null || (secItem = creature.GetItemInPocket(secSource += 2)) != null)
+					{
+						var secTarget = Pocket.Inventory;
+						var free = creature.GetFreeItemSpace(secItem, secTarget);
+						if (free == null)
+						{
+							secTarget = Pocket.Temporary;
+							free = new MabiVertex(0, 0);
+						}
+						client.Send(
+							new MabiPacket(Op.ItemMoveInfo, creature.Id)
+							.PutLong(secItem.Id).PutBytes((byte)secSource, (byte)secTarget)
+							.PutByte(unk).PutBytes((byte)free.X, (byte)free.Y)
+						);
+						secItem.Move(secTarget, free.X, free.Y);
+						WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
+					}
+				}
+
+				// Okay
+				client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
+				return;
 			}
 
-			MabiPacket p;
+			// Cursor -> Inv
+			// --------------------------------------------------------------
 
+			// Check for item at the target space
 			var collidingItem = creature.GetItemColliding(target, targetX, targetY, item);
 
-			// If moved item collides, and can be added to the stack
-			if (collidingItem != null && (item.Info.Class == collidingItem.Info.Class || item.Info.Class == collidingItem.StackItem || item.StackItem == collidingItem.StackItem) && collidingItem.BundleType != BundleType.None)
+			// Is there a collision?
+			if (collidingItem != null && ((collidingItem.BundleType == BundleType.Sac && (collidingItem.StackItem == item.Info.Class || collidingItem.StackItem == item.StackItem)) || (item.BundleType == BundleType.Stackable && item.Info.Class == collidingItem.Info.Class)))
 			{
-				var prev = collidingItem.Info.Bundle;
-
-				// If colliding stack doesn't have enough room
-				if (collidingItem.Info.Bundle + item.Info.Bundle > collidingItem.BundleMax)
+				if (collidingItem.Info.Bundle < collidingItem.BundleMax)
 				{
-					if (collidingItem.Info.Bundle < collidingItem.BundleMax)
-					{
-						item.Info.Bundle -= (ushort)(collidingItem.BundleMax - collidingItem.Info.Bundle);
-						collidingItem.Info.Bundle = collidingItem.BundleMax;
-					}
-					else if (item.BundleMax >= collidingItem.Info.Bundle)
-					{
-						collidingItem.Info.Bundle = item.Info.Bundle;
-						item.Info.Bundle = item.BundleMax;
-					}
+					var diff = (ushort)(collidingItem.BundleMax - collidingItem.Info.Bundle);
 
-					if (prev != collidingItem.Info.Bundle)
-						client.Send(PacketCreator.ItemAmount(creature, item));
-				}
-				else
-				{
-					collidingItem.Info.Bundle += item.Info.Bundle;
-					item.Info.Bundle = 0;
+					collidingItem.Info.Bundle += Math.Min(diff, item.Info.Bundle);
+					client.Send(PacketCreator.ItemAmount(creature, collidingItem));
 
-					if (item.Type == ItemType.Sac && item.BundleType == BundleType.Sac)
+					item.Info.Bundle -= Math.Min(diff, item.Info.Bundle);
+					if (item.Info.Bundle > 0)
 					{
 						client.Send(PacketCreator.ItemAmount(creature, item));
 					}
@@ -755,20 +782,14 @@ namespace World.Network
 						creature.Items.Remove(item);
 						client.Send(PacketCreator.ItemRemove(creature, item));
 					}
-				}
 
-				if (prev != collidingItem.Info.Bundle)
-				{
-					client.Send(PacketCreator.ItemAmount(creature, collidingItem));
+					client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
 
-					p = new MabiPacket(Op.ItemMoveR, creature.Id);
-					p.PutByte(1);
-					client.Send(p);
 					return;
 				}
 			}
 
-			p = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveInfo : Op.ItemMoveInfoCollision), creature.Id);
+			var p = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveInfo : Op.ItemSwitchInfo), creature.Id);
 			p.PutLong(item.Id);
 			p.PutByte((byte)source);
 			p.PutByte((byte)target);
@@ -788,49 +809,38 @@ namespace World.Network
 			}
 			client.Send(p);
 
+			// Check for moving second hand
+			// TODO: This should be done in item.Move or something, to get it DRY.
+			if (target == Pocket.LeftHand1 || target == Pocket.LeftHand2)
+			{
+				var secSource = target + 2; // RightHand1/2
+				var secItem = creature.GetItemInPocket(secSource);
+				if (secItem != null || (secItem = creature.GetItemInPocket(secSource += 2)) != null)
+				{
+					var secTarget = Pocket.Inventory;
+					var free = creature.GetFreeItemSpace(secItem, secTarget);
+					if (free == null)
+					{
+						secTarget = Pocket.Temporary;
+						free = new MabiVertex(0, 0);
+					}
+					client.Send(
+						new MabiPacket(Op.ItemMoveInfo, creature.Id)
+						.PutLong(secItem.Id).PutBytes((byte)secSource, (byte)secTarget)
+						.PutByte(unk).PutBytes((byte)free.X, (byte)free.Y)
+					);
+					secItem.Move(secTarget, free.X, free.Y);
+					WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
+				}
+			}
+
 			item.Move(target, targetX, targetY);
 
+			// Update Equip
 			if (target >= Pocket.Armor && target <= Pocket.Accessory2)
-			{
 				WorldManager.Instance.CreatureChangeEquip(creature, item);
-			}
-			if (source >= Pocket.Armor && source <= Pocket.Accessory2)
-			{
-				if (source == Pocket.LeftHand1 || source == Pocket.LeftHand2)
-				{
-					var secSource = source + 2;
-					var secHand = creature.GetItemInPocket(secSource);
-					if (secHand == null)
-						secHand = creature.GetItemInPocket(secSource += 2);
 
-					if (secHand != null)
-					{
-						var secTarget = Pocket.Inventory;
-						var pos = creature.GetFreeItemSpace(secHand, secTarget);
-						if (pos == null)
-						{
-							secTarget = Pocket.Temporary;
-							pos = new MabiVertex(0, 0);
-						}
-						secHand.Move(secTarget, pos.X, pos.Y);
-						WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
-						client.Send(
-							new MabiPacket(Op.ItemMoveInfo, creature.Id)
-							.PutLong(secHand.Id)
-							.PutByte((byte)secSource)
-							.PutByte((byte)secTarget)
-							.PutByte(unk)
-							.PutByte((byte)pos.X)
-							.PutByte((byte)pos.Y)
-						);
-					}
-				}
-				WorldManager.Instance.CreatureMoveEquip(creature, source, target);
-			}
-
-			p = new MabiPacket(Op.ItemMoveR, creature.Id);
-			p.PutByte(1);
-			client.Send(p);
+			client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
 		}
 
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
@@ -922,8 +932,29 @@ namespace World.Network
 			// Notify clients of equip change if equipment is being dropped
 			var source = (Pocket)item.Info.Pocket;
 			if (source >= Pocket.Armor && source <= Pocket.Accessory2)
-			{
 				WorldManager.Instance.CreatureMoveEquip(creature, source, Pocket.None);
+
+			if (source == Pocket.LeftHand1 || source == Pocket.LeftHand2)
+			{
+				var secSource = source + 2; // RightHand1/2
+				var secItem = creature.GetItemInPocket(secSource);
+				if (secItem != null || (secItem = creature.GetItemInPocket(secSource += 2)) != null)
+				{
+					var secTarget = Pocket.Inventory;
+					var free = creature.GetFreeItemSpace(secItem, secTarget);
+					if (free == null)
+					{
+						secTarget = Pocket.Temporary;
+						free = new MabiVertex(0, 0);
+					}
+					client.Send(
+						new MabiPacket(Op.ItemMoveInfo, creature.Id)
+						.PutLong(secItem.Id).PutBytes((byte)secSource, (byte)secTarget)
+						.PutByte(unk).PutBytes((byte)free.X, (byte)free.Y)
+					);
+					secItem.Move(secTarget, free.X, free.Y);
+					WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
+				}
 			}
 
 			creature.Items.Remove(item);
@@ -1933,6 +1964,16 @@ namespace World.Network
 		public void HandleStunMeterDummy(WorldClient client, MabiPacket packet)
 		{
 			// Something about the stun meter I guess.
+		}
+
+		public void HandleAfterLogin(WorldClient client, MabiPacket packet)
+		{
+			// This seems to get send after the login (on a character),
+			// once the initial location notice fades away.
+			// Could be pretty much anything... but let us put our MOTD here for now^^
+
+			if (WorldConf.Motd != string.Empty)
+				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
 		}
 	}
 }

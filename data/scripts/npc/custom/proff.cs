@@ -7,14 +7,13 @@ using World.Tools;
 using World.World;
 using Common.Constants;
 
-public class _ProffScript : NPCScript
+public class ProffScript : NPCScript
 {
     
 	public override void OnLoad()
 	{
-        base.OnLoad();
-     
 		SetName("_<mini>NPC</mini> The Proffessor");
+		SetDialogName("The Proffessor");
 		SetRace(10002);
 		SetBody(height: 1f);
 		SetFace(skin: 18, eye: 5, eyeColor: 54, lip: 12);
@@ -29,23 +28,17 @@ public class _ProffScript : NPCScript
 
 		SetDirection(135);
 		SetStand("chapter4/human/anim/male_alchemists_stand_idle01.ani");
+		
+        Phrases.Add("Hello, there.");
+        Phrases.Add("Come with me... I shall show you a future in ruins.");
+        Phrases.Add("E = mc2 actually stands for Enjoyment = (Mod the Client)2");
+        Phrases.Add("Hmm... I haven't checked in with FIONA lately...");
+        Phrases.Add("My latest creation is almost ready!");
 	}
     
-    public override void OnLoadDone()
-    {
-        _chatBoxName = "The Proffessor";
-        PublicSpeakPhrases.Add("Hello, there.");
-        PublicSpeakPhrases.Add("Come with me... I shall show you a future in ruins.");
-        PublicSpeakPhrases.Add("E = mc2 actually stands for Enjoyment = (Mod the Client)2");
-        PublicSpeakPhrases.Add("Hmm... I haven't checked in with FIONA lately...");
-        PublicSpeakPhrases.Add("My latest creation is almost ready!");
-    }
-
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "A handsome young man stands before you. He has an air of intelligence and sophistication about him.",
-        "His clear blue eyes are focused intently on the bottles in his hands, constantly pouring one into the other.",
-        "He glances at you as you approach.");
+		Msg(c, false, false, "A handsome young man stands before you. He has an air of intelligence and sophistication about him.", "His clear blue eyes are focused intently on the bottles in his hands, constantly pouring one into the other.", "He glances at you as you approach.");
         OnSelect(c, "@startingpoint");
     }
 
@@ -54,7 +47,7 @@ public class _ProffScript : NPCScript
 		switch (r)
 		{
             case "@whereami":
-                MsgSelect(c, "Heh, heh, I've often wondered that myself. However, I can tell you that you're on an Aura server.", "Continue", "@startingpoint");
+                MsgSelect(c, "Heh, heh, I've often wondered that myself. However, I can tell you that you're on an Aura powered server.", "Continue", "@startingpoint");
                 break;
         
             case "@startingpoint":
@@ -62,10 +55,9 @@ public class _ProffScript : NPCScript
                 break;
                 
 			case "@whatcommands":
-                List<string> commandNames = CommandHandler.Instance.GetAllCommandsForAuth(c.Account.Authority);
+                var commandNames = CommandHandler.Instance.GetAllCommandsForAuth(c.Account.Authority);
                 
-                MsgSelect(c, "Well, " + c.Character.Name + "... Let's see... At your current rank, the following commands are available to you: " + string.Join(", ", commandNames) + ".<br/>Does that help to clear things up?",
-                "Continue", "@startingpoint");
+                MsgSelect(c, "Well, " + c.Character.Name + "... Let's see... At your current rank, the following commands are available to you: " + string.Join(", ", commandNames) + ".<br/>Does that help to clear things up?", "Continue", "@startingpoint");
                 break;
                 
             case "@aboutcmd":
@@ -78,6 +70,7 @@ public class _ProffScript : NPCScript
             case "@endconvo":
                 MsgSelect(c, "Is that all for now? Well, thanks for stopping by. Feel free to return any time.", "Continue", "@end");
                 break;
+				
 			default:
 				MsgSelect(c, "I'm sorry, " + c.Character.Name + ". I don't feel like talking about that right now. Perhaps another time?", "Continue", "@startingpoint");
 				break;

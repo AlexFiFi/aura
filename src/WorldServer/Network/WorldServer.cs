@@ -162,7 +162,10 @@ namespace World.Network
 
 					case "auth":
 						if (splitted.Length < 3)
+						{
 							Logger.Error("Usage: auth <user id> <auth level>");
+							break;
+						}
 
 						var accountId = splitted[1];
 						byte level = 0;

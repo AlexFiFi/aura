@@ -15,6 +15,7 @@ using World.Scripting;
 using World.Tools;
 using Common.Data;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace World.World
 {
@@ -103,14 +104,13 @@ namespace World.World
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
 			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
 			this.AddCommand("ri", Authority.GameMaster, Command_randomitem);
+			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
 			// GMCP
 			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
-
-			this.AddCommand("listchars", Authority.Admin, Command_listchars);
 
 			// Load script commands
 			var commandsPath = Path.Combine(WorldConf.ScriptPath, "command");
@@ -176,7 +176,7 @@ namespace World.World
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var pos = creature.GetPosition();
-			client.Send(PacketCreator.ServerMessage(creature, "  Region: " + creature.Region + ", X: " + pos.X + ", Y: " + pos.Y));
+			client.Send(PacketCreator.ServerMessage(creature, "  Region: " + creature.Region + ", X: " + pos.X + ", Y: " + pos.Y + ", Direction: " + creature.Direction));
 
 			return CommandResult.Okay;
 		}
@@ -199,14 +199,26 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
-		private CommandResult Command_listchars(WorldClient client, MabiCreature creature, string[] args, string msg)
+		private CommandResult Command_who(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			//TODO: Add filtering by region
-			var players = WorldManager.Instance.GetAllPlayers();
-			foreach (MabiCreature c in players)
+			uint region = 0;
+			if (args.Length > 1 && !uint.TryParse(args[1], out region))
+				return CommandResult.WrongParameter;
+
+			client.Send(PacketCreator.ServerMessage(creature, "Players online" + (region == 0 ? "" : " in region " + region.ToString()) + ":"));
+
+			var players = (region == 0 ? WorldManager.Instance.GetAllPlayers() : WorldManager.Instance.GetAllPlayersInRegion(region));
+			if (players.Count() > 0)
 			{
-				var pos = c.GetPosition();
-				client.Send(PacketCreator.ServerMessage(creature, c.Name + (c is MabiPet ? " <PET> " : " ") + "Region: " + c.Region + "   X: " + pos.X + "  Y: " + pos.Y));
+				foreach (var player in players)
+				{
+					var pos = player.GetPosition();
+					client.Send(PacketCreator.ServerMessage(creature, player.Name + (player is MabiPet ? " <PET>" : "") + " - Region: " + player.Region + ", X: " + pos.X + ", Y: " + pos.Y));
+				}
+			}
+			else
+			{
+				client.Send(PacketCreator.ServerMessage(creature, "None."));
 			}
 
 			return CommandResult.Okay;

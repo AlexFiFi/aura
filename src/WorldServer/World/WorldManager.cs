@@ -56,7 +56,6 @@ namespace World.World
 			byte erinnHour = (byte)((serverTicks / 90000) % 24);
 			byte erinnMinute = (byte)((serverTicks / 1500) % 60);
 
-
 			// Erinn time event, every Erinn minute
 			ServerEvents.Instance.OnErinnTimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));
 
@@ -65,6 +64,8 @@ namespace World.World
 			{
 				ServerEvents.Instance.OnErinnDaytimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));
 			}
+
+			this.IsNight = !(erinnHour >= 6 && erinnHour < 18);
 
 			// Real time event, every Real minute
 			// Some caching is needed here, since this method will be called
@@ -75,6 +76,8 @@ namespace World.World
 				ServerEvents.Instance.OnRealTimeTick(this, new TimeEventArgs((byte)(_lastRlHour = rlHour), (byte)(_lastRlMinute = rlMinute)));
 			}
 		}
+
+		public bool IsNight { get; private set; }
 
 		public void CreatureUpdates(object state)
 		{
@@ -252,6 +255,16 @@ namespace World.World
 			return _items.FindAll(a => a.Region == region);
 		}
 
+		public IEnumerable<MabiCreature> GetAllPlayers()
+		{
+			return _creatures.Where(c => c is MabiPC);
+		}
+
+		public IEnumerable<MabiCreature> GetAllPlayersInRegion(uint region)
+		{
+			return this.GetAllPlayers().Where(a => a.Region == region);
+		}
+
 		/// <summary>
 		/// Adds a creature to the world, and raises the EnterRegion event,
 		/// to notifiy clients about it.
@@ -311,7 +324,7 @@ namespace World.World
 		/// <returns></returns>
 		public MabiCharacter GetCharacterByName(string name)
 		{
-			return (MabiCharacter)_creatures.FirstOrDefault(a => a.Name.Equals(name) && a is MabiCharacter);
+			return _creatures.FirstOrDefault(a => a.Name.Equals(name) && a is MabiCharacter) as MabiCharacter;
 		}
 
 		/// <summary>
@@ -559,11 +572,6 @@ namespace World.World
 			this.Broadcast(p, SendTargets.Range, creature);
 
 			ServerEvents.Instance.OnCreatureTalks(creature, new ChatEventArgs(message));
-		}
-
-		public IEnumerable<MabiPC> GetAllPlayers() //TODO: Region
-		{
-			return _creatures.Where(c => c is MabiPC).Cast<MabiPC>();
 		}
 
 		public void CreatureStatsUpdate(MabiCreature creature)
