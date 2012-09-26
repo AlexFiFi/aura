@@ -6,6 +6,14 @@ using System.Collections.Generic;
 
 namespace Common.World
 {
+	public static class Authority
+	{
+		public static byte Player = 0;
+		public static byte VIP = 1;
+		public static byte GameMaster = 50;
+		public static byte Admin = 99;
+	}
+
 	public class MabiAccount
 	{
 		public bool LoggedIn;

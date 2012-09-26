@@ -442,7 +442,7 @@ namespace Login.Network
 			var faceItem = MabiData.ItemDb.Find(face);
 			var hairItem = MabiData.ItemDb.Find(hair);
 
-			if (card == null || !MabiDb.Instance.NameOkay(charName, serverName) || faceItem == null || faceItem.Type != (ushort)ItemType.Face || hairItem == null || hairItem.Type != (ushort)ItemType.Hair)
+			if (card == null || !MabiDb.Instance.NameOkay(charName, serverName) || faceItem == null || faceItem.Type != (ushort)ItemType.Face || hairItem == null || (hairItem.Type != (ushort)ItemType.Hair && hairItem.Type != (ushort)ItemType.Face))
 			{
 				// Fail
 				response.PutByte(0);

@@ -403,8 +403,8 @@ namespace Common.Database
 						var character = this.GetCharacter<MabiCharacter>((ulong)reader.GetInt64("characterId"));
 
 						// Add GM titles for the characters of authority 50+ accounts
-						if (account.Authority >= 50) character.Titles.Add(60000, true); // GM
-						if (account.Authority >= 99) character.Titles.Add(60001, true); // devCat
+						if (account.Authority >= Authority.GameMaster) character.Titles.Add(60000, true); // GM
+						if (account.Authority >= Authority.Admin) character.Titles.Add(60001, true); // devCat
 
 						account.Characters.Add(character);
 					}

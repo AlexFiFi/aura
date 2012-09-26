@@ -26,7 +26,7 @@ namespace World.World
 		{
 			this.Name = "";
 			this.Id = ++_npcIdIndex;
-			this.Race = 1;
+			this.Race = uint.MaxValue;
 			this.Region = 0;
 			this.SetPosition(0, 0);
 

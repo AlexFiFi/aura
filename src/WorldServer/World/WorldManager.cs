@@ -284,6 +284,7 @@ namespace World.World
 			foreach (var creature in toRemove)
 			{
 				this.RemoveCreature(creature);
+				creature.Dispose();
 			}
 		}
 
@@ -558,6 +559,11 @@ namespace World.World
 			this.Broadcast(p, SendTargets.Range, creature);
 
 			ServerEvents.Instance.OnCreatureTalks(creature, new ChatEventArgs(message));
+		}
+
+		public IEnumerable<MabiPC> GetAllPlayers() //TODO: Region
+		{
+			return _creatures.Where(c => c is MabiPC).Cast<MabiPC>();
 		}
 
 		public void CreatureStatsUpdate(MabiCreature creature)

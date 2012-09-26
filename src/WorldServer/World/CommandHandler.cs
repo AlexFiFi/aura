@@ -18,14 +18,6 @@ using System.Text.RegularExpressions;
 
 namespace World.World
 {
-	public static class Authority
-	{
-		public const byte Player = 0;
-		public const byte VIP = 1;
-		public const byte GameMaster = 50;
-		public const byte Admin = 99;
-	}
-
 	public enum CommandResult { Okay, WrongParameter, Fail }
 
 	public delegate CommandResult CommandFunc(WorldClient client, MabiCreature creature, string[] args, string msg);
@@ -59,6 +51,18 @@ namespace World.World
 		private CommandHandler() { }
 
 		private static Dictionary<string, Command> _commands = new Dictionary<string, Command>();
+
+		public List<string> GetAllCommandsForAuth(byte auth)
+		{
+			List<string> ret = new List<string>();
+			foreach (KeyValuePair<string, Command> kvp in _commands)
+			{
+				if (kvp.Value.Auth <= auth)
+					ret.Add(kvp.Key);
+			}
+			ret.Sort();
+			return ret;
+		}
 
 		public void AddCommand(Command command)
 		{
@@ -105,6 +109,8 @@ namespace World.World
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
+
+			this.AddCommand("listchars", Authority.Admin, Command_listchars);
 
 			// Load script commands
 			var commandsPath = Path.Combine(WorldConf.ScriptPath, "command");
@@ -170,7 +176,7 @@ namespace World.World
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var pos = creature.GetPosition();
-			client.Send(PacketCreator.ServerMessage(creature, "Region: " + creature.Region + ", X: " + pos.X + ", Y: " + pos.Y));
+			client.Send(PacketCreator.ServerMessage(creature, "  Region: " + creature.Region + ", X: " + pos.X + ", Y: " + pos.Y));
 
 			return CommandResult.Okay;
 		}
@@ -189,6 +195,19 @@ namespace World.World
 		{
 			var p = new MabiPacket(Op.GMCPOpen, creature.Id);
 			client.Send(p);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_listchars(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			//TODO: Add filtering by region
+			var players = WorldManager.Instance.GetAllPlayers();
+			foreach (MabiCreature c in players)
+			{
+				var pos = c.GetPosition();
+				client.Send(PacketCreator.ServerMessage(creature, c.Name + (c is MabiPet ? " <PET> " : " ") + "Region: " + c.Region + "   X: " + pos.X + "  Y: " + pos.Y));
+			}
 
 			return CommandResult.Okay;
 		}

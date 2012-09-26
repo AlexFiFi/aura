@@ -1,15 +1,17 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
+using System.Collections.Generic;
 using System.Text;
 using Common.Constants;
+using Common.Data;
+using Common.Events;
 using Common.Network;
 using Common.Tools;
 using Common.World;
 using World.Network;
 using World.World;
-using Common.Data;
-using System;
 
 namespace World.Scripting
 {
@@ -25,6 +27,12 @@ namespace World.Scripting
 		public MabiNPC NPC { get; set; }
 		public MabiShop Shop = new MabiShop();
 
+		public List<string> PublicSpeakPhrases = new List<string>();
+
+		protected string _chatBoxFace = "", _chatBoxName = "";
+
+		private int timeToNextSpeak = 0;
+
 		/// <summary>
 		/// Describes how the NPC was loaded
 		/// </summary>
@@ -32,8 +40,7 @@ namespace World.Scripting
 
 		public override void OnLoad()
 		{
-			this.NPC.Region = 0;
-			this.NPC.SetPosition(0, 0);
+			Common.Events.ServerEvents.Instance.ErinnTimeTick += ErinnTimeTick;
 		}
 
 		public virtual void OnTalk(WorldClient client)
@@ -48,11 +55,31 @@ namespace World.Scripting
 
 		public virtual void OnEnd(WorldClient client)
 		{
-			this.Close(client, "(You ended your conversation with " + NPC.Name.Substring(1) + ".)");
+			this.Close(client, "(You ended your conversation with " + NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1) + ".)");
 		}
 
 		// Built in methods
 		// ==================================================================
+
+		public override void Dispose()
+		{
+			Common.Events.ServerEvents.Instance.ErinnTimeTick -= ErinnTimeTick;
+			base.Dispose();
+		}
+
+		private void ErinnTimeTick(object sender, TimeEventArgs e)
+		{
+			if (--timeToNextSpeak <= 0)
+			{
+				Speak();
+				timeToNextSpeak = RandomProvider.Get().Next(10, 10);
+			}
+		}
+		private void Speak()
+		{
+			if (PublicSpeakPhrases.Count != 0)
+				Speak(PublicSpeakPhrases[RandomProvider.Get().Next(PublicSpeakPhrases.Count)]);
+		}
 
 		protected virtual void SetName(string name)
 		{
@@ -113,11 +140,17 @@ namespace World.Scripting
 		protected virtual void Msg(WorldClient client, bool face, bool name, params string[] lines)
 		{
 			string message = string.Join("<br/>", lines);
+			string faceStr = (face ? _chatBoxFace : "NONE"), nameStr = (name ? _chatBoxName : "NONE");
 
-			if (!face)
-				message = "<npcportrait name=\"NONE\"/>" + message;
-			if (!name)
-				message = "<title name=\"NONE\"/>" + message;
+			FaceNameMsg(client, faceStr, nameStr, message);
+		}
+
+		protected virtual void FaceNameMsg(WorldClient client, string face, string name, string message)
+		{
+			if (!string.IsNullOrWhiteSpace(face))
+				message = "<npcportrait name=\"" + face + "\"/>" + message;
+			if (!string.IsNullOrWhiteSpace(name))
+				message = "<title name=\"" + name + "\"/>" + message;
 
 			message = System.Web.HttpUtility.HtmlEncode(message);
 
@@ -135,6 +168,7 @@ namespace World.Scripting
 			, client.Character.Id.ToString(), message);
 
 			this.SendScript(client, script);
+
 		}
 
 		protected virtual void MsgSelect(WorldClient client, string message, params string[] buttons)

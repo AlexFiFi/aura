@@ -12,3 +12,4 @@
 // Tir Chonaill
 //---------------------------------------------------------------------------
 regions/tir/caitin.cs
+custom/tir/proff.cs

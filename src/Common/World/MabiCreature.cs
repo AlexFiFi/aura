@@ -248,7 +248,7 @@ namespace Common.World
 
 		public void LoadDefault()
 		{
-			if (this.Race == 0)
+			if (this.Race == uint.MaxValue)
 				throw new Exception("Set race before calling LoadDefault.");
 
 			var dbInfo = MabiData.RaceDb.Find(this.Race);

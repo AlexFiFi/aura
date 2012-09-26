@@ -85,6 +85,7 @@ namespace World.Scripting
 					script.NPC = npc;
 					script.LoadFlags = NPCLoadFlags.Real;
 					script.OnLoad();
+					script.OnLoadDone();
 					npc.LoadDefault();
 
 					WorldManager.Instance.AddCreature(npc);
