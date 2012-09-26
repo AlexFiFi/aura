@@ -5,10 +5,10 @@ namespace Common.Network
 {
 	public static class Op
 	{
-		// NA:      160300
-		// KR test: 170000 (not fully supported yet)
+		// NA:      160200
+		// KR test: 170100 (not fully supported yet)
 		// EU:      140400 (not fully supported yet)
-		public const uint Version = 160300;
+		public const uint Version = 160200;
 
 		// Login Server															
 		public readonly static uint ClientIdent = 0x0FD1020A;
@@ -211,6 +211,10 @@ namespace Common.Network
 				ClientIdent = 0x1E;
 				Login = 0x0F010000;
 				Disconnect = 0x4B;
+				Run = 0x0F010300;
+				Walk = 0x0F010800;
+				Running = 0x0F0400A0;
+				CombatAttack = 0x0FB10001;
 			}
 		}
 	}

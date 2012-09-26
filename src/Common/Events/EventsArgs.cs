@@ -22,11 +22,14 @@ namespace Common.Events
 	public class TimeEventArgs : EventArgs
 	{
 		public byte Hour, Minute;
+		public bool IsNight { get; private set; }
 
 		public TimeEventArgs(byte hour, byte minute)
 		{
 			this.Hour = hour;
 			this.Minute = minute;
+
+			this.IsNight = !(hour >= 6 && hour < 18);
 		}
 
 		public override string ToString()

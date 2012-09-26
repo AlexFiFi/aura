@@ -36,6 +36,7 @@ namespace World.Network
 			Logger.FileLog = "../../logs/world.txt";
 
 			Logger.Info("Initializing server @ " + DateTime.Now);
+			Logger.Info("Packet version: " + Op.Version);
 
 			// Configuration
 			// --------------------------------------------------------------

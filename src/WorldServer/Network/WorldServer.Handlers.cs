@@ -856,7 +856,7 @@ namespace World.Network
 			var item = WorldManager.Instance.GetItemById(itemId);
 			if (item != null)
 			{
-				if (item.BundleType == BundleType.Stackable && item.Type == ItemType.Sac)
+				if (item.BundleType == BundleType.Stackable)// && item.Type == ItemType.Sac)
 				{
 					foreach (var invItem in creature.Items)
 					{

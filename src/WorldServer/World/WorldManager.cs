@@ -65,8 +65,6 @@ namespace World.World
 				ServerEvents.Instance.OnErinnDaytimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));
 			}
 
-			this.IsNight = !(erinnHour >= 6 && erinnHour < 18);
-
 			// Real time event, every Real minute
 			// Some caching is needed here, since this method will be called
 			// multiple times dzring this minute.
@@ -76,8 +74,6 @@ namespace World.World
 				ServerEvents.Instance.OnRealTimeTick(this, new TimeEventArgs((byte)(_lastRlHour = rlHour), (byte)(_lastRlMinute = rlMinute)));
 			}
 		}
-
-		public bool IsNight { get; private set; }
 
 		public void CreatureUpdates(object state)
 		{

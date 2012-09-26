@@ -128,7 +128,7 @@ namespace Common.World
 			packet.PutLong((ulong)StatusEffects.C);
 			if (Op.Version > 140400)
 				packet.PutLong((ulong)StatusEffects.D);
-			if (Op.Version >= 170000)
+			if (Op.Version >= 170100)
 				packet.PutLong(0);
 			packet.PutInt(0);					 // condition event message list
 			// loop
@@ -345,9 +345,12 @@ namespace Common.World
 
 			// Commerce
 			// --------------------------------------------------------------
-			packet.PutByte(1);					 // IsInCommerceCombat
-			packet.PutLong(0);					 // TransportCharacterId
-			packet.PutFloat(1);					 // ScaleHeight
+			if (Op.Version > 140400)
+			{
+				packet.PutByte(1);					 // IsInCommerceCombat
+				packet.PutLong(0);					 // TransportCharacterId
+				packet.PutFloat(1);					 // ScaleHeight
+			}
 
 			// 
 			// --------------------------------------------------------------
@@ -386,9 +389,12 @@ namespace Common.World
 
 			// Pocket ExpireTime List
 			// --------------------------------------------------------------
-			packet.PutShort(0);
-			packet.PutLong(0);
-			packet.PutShort(0);					 // end of list
+			if (Op.Version > 140400)
+			{
+				packet.PutShort(0);
+				packet.PutLong(0);
+				packet.PutShort(0);					 // end of list
+			}
 		}
 	}
 }

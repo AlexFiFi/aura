@@ -33,6 +33,7 @@ namespace Login.Network
 			Logger.FileLog = "../../logs/login.txt";
 
 			Logger.Info("Initializing server @ " + DateTime.Now);
+			Logger.Info("Packet version: " + Op.Version);
 
 			// Configuration
 			// --------------------------------------------------------------

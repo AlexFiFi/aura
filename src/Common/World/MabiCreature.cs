@@ -124,7 +124,7 @@ namespace Common.World
 		public float Upper { get { return _upper; } set { _upper = value; } }
 		public float Lower { get { return _lower; } set { _lower = value; } }
 
-		private float _life, _lifeMaxBase, _lifeMaxMod, _injuries, _lifeBaseRegen;
+		private float _life, _lifeMaxBase, _lifeMaxMod, _injuries;
 		public float Life
 		{
 			get { return _life; }
@@ -141,12 +141,10 @@ namespace Common.World
 		public float LifeMaxBase { get { return _lifeMaxBase; } set { _lifeMaxBase = value; } }
 		public float LifeMaxMod { get { return _lifeMaxMod; } set { _lifeMaxMod = value; } }
 		public float Injuries { get { return _injuries; } set { _injuries = value; } }
-		public float LifeBaseRegen { get { return _lifeBaseRegen; } set { _lifeBaseRegen = value; } }
 		public float LifeMax { get { return _lifeMaxBase + _lifeMaxMod; } }
 		public float LifeInjured { get { return this.LifeMax - _injuries; } }
-		public float LifeRegen { get { return _lifeBaseRegen; } } // TODO: Factor in skills (rest, demigod, respite) here.
 
-		private float _mana, _manaMaxBase, _manaMaxMod, _manaBaseRegen;
+		private float _mana, _manaMaxBase, _manaMaxMod;
 		public float Mana
 		{
 			get { return _mana; }
@@ -162,11 +160,9 @@ namespace Common.World
 		}
 		public float ManaMaxBase { get { return _manaMaxBase; } set { _manaMaxBase = value; } }
 		public float ManaMaxMod { get { return _manaMaxMod; } set { _manaMaxMod = value; } }
-		public float ManaBaseRegen { get { return _manaBaseRegen; } set { _manaBaseRegen = value; } }
 		public float ManaMax { get { return _manaMaxBase + _manaMaxMod; } }
-		public float ManaRegen { get { return _manaBaseRegen; } } // TODO: factor in skills here (Meditation), status (Enduring melody) Time of Day, location.
 
-		private float _stamina, _staminaMaxBase, _staminaMaxMod, _food, _staminaBaseRegen;
+		private float _stamina, _staminaMaxBase, _staminaMaxMod, _food;
 		public float Stamina
 		{
 			get { return _stamina; }
@@ -182,11 +178,9 @@ namespace Common.World
 		}
 		public float StaminaMaxBase { get { return _staminaMaxBase; } set { _staminaMaxBase = value; } }
 		public float StaminaMaxMod { get { return _staminaMaxMod; } set { _staminaMaxMod = value; } }
-		public float StaminaBaseRegen { get { return _staminaBaseRegen; } set { _staminaBaseRegen = value; } }
 		public float Food { get { return _food; } set { _food = value; } }
 		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxMod; } }
 		public float StaminaFood { get { return this.StaminaMax - _food; } }
-		public float StaminaRegen { get { return _staminaBaseRegen; } } //TODO: Factor in skills (rest, respite) and status (Enduring melody) here
 
 		private float _strBase, _dexBase, _intBase, _willBase, _luckBase;
 		private float _strMod, _dexMod, _intMod, _willMod, _luckMod;
@@ -225,6 +219,9 @@ namespace Common.World
 		public int MinMeleeDamage { get { return Math.Min((int)(_minMeleeDamageBase + Str / 3f), MaxMeleeDamage); } }
 		public int MaxMeleeDamage { get { return (int)(_maxMeleeDamageBase + Str / 2.5f); } }
 
+		public MabiCreature()
+		{
+		}
 
 		public bool IsPlayer()
 		{
@@ -263,17 +260,12 @@ namespace Common.World
 			}
 
 			this.RaceInfo = dbInfo;
-		}
 
-		public MabiCreature()
-		{
+			_statMods.Add(new MabiStatMod(Stat.Life, 0.1875f, this.LifeMax));
+			_statMods.Add(new MabiStatMod(Stat.Mana, 0.075f, this.ManaMax));
+			_statMods.Add(new MabiStatMod(Stat.Stamina, 0.6f, this.StaminaMax));
 
-		}
-
-		public override void Dispose()
-		{
-			ServerEvents.Instance.ErinnTimeTick -= this.RestoreStats;
-			base.Dispose();
+			this.HookUp();
 		}
 
 		protected override void HookUp()
@@ -282,15 +274,32 @@ namespace Common.World
 			base.HookUp();
 		}
 
+		public override void Dispose()
+		{
+			ServerEvents.Instance.ErinnTimeTick -= this.RestoreStats;
+			base.Dispose();
+		}
+
 		protected virtual void RestoreStats(object sender, TimeEventArgs e)
 		{
-			if (this.IsDead())
+			if (!this.IsDead())
 			{
-				this.Life += this.LifeRegen;
-				this.Mana += this.ManaRegen;
-				this.Stamina += this.StaminaRegen;
+				foreach (var stat in _statMods)
+				{
+					switch (stat.StatusAttribute)
+					{
+						case Stat.Life: this.Life += stat.ChangePerSecond; break;
+						case Stat.Mana: this.Mana += stat.ChangePerSecond; break;
+						case Stat.Stamina: this.Stamina += stat.ChangePerSecond; break;
+					}
+				}
+
+				//if (e.IsNight)
+				//{
+				//    this.Mana += 0.15f;
+				//}
 			}
-			EntityEvents.Instance.OnCreatureStatUpdates(this);
+			//EntityEvents.Instance.OnCreatureStatUpdates(this);
 		}
 
 		public virtual void CalculateBaseStats()
@@ -303,9 +312,6 @@ namespace Common.World
 			this.LifeMaxBase = 10;
 			this.ManaMaxBase = 10;
 			this.StaminaMaxBase = 10;
-			this.LifeBaseRegen = 0.18f;
-			this.ManaBaseRegen = 0.075f;
-			this.StaminaBaseRegen = 0.6f;
 			this.Life = 10;
 			this.Mana = 10;
 			this.Stamina = 10;
@@ -735,29 +741,6 @@ namespace Common.World
 			return (_destination.Equals(dest));
 		}
 
-		//public void AddStatModifier(Stat attribute, uint time, float change)
-		//{
-		//    var max = this.GetStatMax(attribute);
-		//    var mod = new MabiStatMod(attribute, time, change, max);
-
-		//    _statMods.Add(mod);
-		//}
-
-		//public float GetStatModifier(Stat stat)
-		//{
-		//    float result = 0;
-
-		//    foreach (var mod in _statMods)
-		//    {
-		//        if (mod.StatusAttribute == stat)
-		//        {
-		//            result += mod.GetCurrentChange();
-		//        }
-		//    }
-
-		//    return result;
-		//}
-
 		public void TakeDamage(float damage)
 		{
 			var hpBefore = this.Life;
@@ -851,11 +834,8 @@ namespace Common.World
 			packet.PutFloat(this.LifeInjured);
 
 			packet.PutInt((uint)_statMods.Count);
-
 			foreach (var mod in _statMods)
-			{
 				mod.AddData(packet);
-			}
 
 			packet.PutInt(0);
 			packet.PutInt(0);
@@ -958,8 +938,9 @@ namespace Common.World
 			packet.PutInt(0);			         // SkillSyncList
 			// loop						         
 			//   packet.PutShort		         
-			//   packet.PutShort		         
-			packet.PutByte(0);			         // {PLGCNT}
+			//   packet.PutShort	
+			if (Op.Version > 140400)
+				packet.PutByte(0);			         // {PLGCNT}
 
 			// Banner
 			// --------------------------------------------------------------
@@ -985,8 +966,9 @@ namespace Common.World
 			packet.PutLong((ulong)StatusEffects.A);
 			packet.PutLong((ulong)StatusEffects.B);
 			packet.PutLong((ulong)StatusEffects.C);
-			packet.PutLong((ulong)StatusEffects.D);
-			if (Op.Version >= 170000)
+			if (Op.Version > 140400)
+				packet.PutLong((ulong)StatusEffects.D);
+			if (Op.Version >= 170100)
 				packet.PutLong(0);
 			packet.PutInt(0);					 // condition event message list
 			// loop
@@ -1078,20 +1060,23 @@ namespace Common.World
 
 			// Farming
 			// --------------------------------------------------------------
-			packet.PutLong(0);					 // FarmId
-			//   packet.PutLong
-			//   packet.PutLong
-			//   packet.PutLong
-			//   packet.PutShort
-			//   packet.PutShort
-			//   packet.PutShort
-			//   packet.PutShort
-			//   packet.PutShort
-			//   packet.PutShort
-			//   packet.PutByte
-			//   packet.PutLong
-			//   packet.PutByte
-			//   packet.PutLong
+			if (Op.Version > 140400)
+			{
+				packet.PutLong(0);			     // FarmId
+				//   packet.PutLong
+				//   packet.PutLong
+				//   packet.PutLong
+				//   packet.PutShort
+				//   packet.PutShort
+				//   packet.PutShort
+				//   packet.PutShort
+				//   packet.PutShort
+				//   packet.PutShort
+				//   packet.PutByte
+				//   packet.PutLong
+				//   packet.PutByte
+				//   packet.PutLong
+			}
 
 			// Event (CaptureTheFlag, WaterBalloonBattle)
 			// --------------------------------------------------------------
@@ -1121,7 +1106,7 @@ namespace Common.World
 
 			// NPC
 			// --------------------------------------------------------------
-			if (this.EntityType == EntityType.NPC)
+			if (Op.Version > 140400 && this.EntityType == EntityType.NPC)
 			{
 				packet.PutShort(0);		         // OnlyShowFilter
 				packet.PutShort(0);		         // HideFilter
@@ -1129,9 +1114,12 @@ namespace Common.World
 
 			// Commerce
 			// --------------------------------------------------------------
-			packet.PutByte(1);					 // IsInCommerceCombat
-			packet.PutLong(0);					 // TransportCharacterId
-			packet.PutFloat(1);					 // ScaleHeight
+			if (Op.Version > 140400)
+			{
+				packet.PutByte(1);					 // IsInCommerceCombat
+				packet.PutLong(0);					 // TransportCharacterId
+				packet.PutFloat(1);					 // ScaleHeight
+			}
 
 			// Character
 			// --------------------------------------------------------------
@@ -1161,7 +1149,8 @@ namespace Common.World
 			{
 				packet.PutString("");	         // NPC_TALKING_MOTION
 			}
-			packet.PutByte(0);			         // BombEventState
+			if (Op.Version > 140400)
+				packet.PutByte(0);			         // BombEventState
 		}
 
 		public void AddEntityData(MabiPacket packet, byte attr)
@@ -1321,14 +1310,9 @@ namespace Common.World
 				packet.PutByte(0);					 // ElementFire
 				packet.PutByte(0);					 // ElementIce
 
-				packet.PutInt(0);                    // StackingBuffer (all active buff)
-				// loop
-				//   packet.PutInt;
-				//   packet.PutFloat
-				//   packet.PutInt
-				//   packet.PutInt
-				//   packet.PutByte
-				//   packet.PutFloat
+				packet.PutInt((uint)_statMods.Count);
+				foreach (var mod in _statMods)
+					mod.AddData(packet);
 			}
 			else
 			{
@@ -1337,7 +1321,10 @@ namespace Common.World
 				packet.PutFloat(this.LifeMaxMod);
 				packet.PutFloat(this.LifeInjured);
 
-				packet.PutInt(0);
+				packet.PutInt((uint)_statMods.Count);
+				foreach (var mod in _statMods)
+					mod.AddData(packet);
+
 				packet.PutInt(0);
 			}
 		}

@@ -842,7 +842,7 @@ namespace Login.Network
 			if (accountName != client.Account.Username)
 				return;
 
-			Logger.Info("'" + accountName + "' is closing the connection. Saving...");
+			Logger.Info("'" + accountName + "' is closing the connection.");
 
 			//MabiDb.Instance.SaveAccount(client.Account);
 		}
