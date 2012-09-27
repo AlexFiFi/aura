@@ -21,11 +21,12 @@
 //   Manual      16
 // 
 // UsableType:
-//   Food             0   Life + Mana      5
-//   Life Potion      1   Life + Stamina   6
-//   Mana Potion      2   Antidote        11
-//   Stamina Pottion  3   Recovery        12
-//   Injury Potion    4   Others          13
+//   Food             0   Life + Stamina   6
+//   Life Potion      1   Antidote        11
+//   Mana Potion      2   Recovery        12
+//   Stamina Potion   3   Others          13
+//   Injury Potion    4   Elixirs         14
+//   Life + Mana      5
 // 
 // StackType: 0 No, 1 Yes, 2 Sac
 // StackItem: If Sac, this item is hold.

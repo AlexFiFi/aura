@@ -44,6 +44,21 @@ namespace Common.Constants
 		Sac = 2,
 	}
 
+	public enum UsableType : byte
+	{
+		Food = 0,
+		Life = 1,
+		Mana = 2,
+		Stamina = 3,
+		Injury = 4,
+		LifeMana = 5,
+		LifeStamina = 6,
+		Antidote = 11,
+		Recovery = 12,
+		Others = 13,
+		Elixir = 14,
+	}
+
 	public enum Pocket : byte
 	{
 		None = 0,

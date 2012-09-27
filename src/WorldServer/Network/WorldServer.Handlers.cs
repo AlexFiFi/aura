@@ -35,6 +35,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.ItemSplit, HandleItemSplit);
 			this.RegisterPacketHandler(Op.SwitchSet, HandleSwitchSet);
 			this.RegisterPacketHandler(Op.ItemStateChange, HandleItemStateChange);
+			this.RegisterPacketHandler(Op.ItemUse, HandleItemUse);
 
 			this.RegisterPacketHandler(Op.NPCTalkStart, HandleNPCTalkStart);
 			this.RegisterPacketHandler(Op.NPCTalkEnd, HandleNPCTalkEnd);
@@ -73,7 +74,6 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.SosButton, HandleSosButton);
 			//this.RegisterPacketHandler(Op.MoonGateRequest, HandleMoonGateRequest);
 			this.RegisterPacketHandler(Op.UseGesture, HandleGesture);
-			this.RegisterPacketHandler(Op.UsePotion, HandleUsePotion);
 			this.RegisterPacketHandler(0x61A8, HandleIamWatchingYou);
 			this.RegisterPacketHandler(Op.AfterLogin, HandleAfterLogin);
 
@@ -252,181 +252,93 @@ namespace World.Network
 			client.Send(p);
 		}
 
-		public void HandleUsePotion(WorldClient client, MabiPacket packet)
+		public void HandleItemUse(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead())
+			if (creature == null || creature.IsDead())
 				return;
 
 			var itemId = packet.GetLong();
 
 			var item = creature.GetItem(itemId);
-			if (item != null)
+			if (item == null || item.DataInfo == null || item.Type != ItemType.Usable)
 			{
-				if (item.BundleType != BundleType.None)
-					item.Info.Bundle -= 1;
-
-				switch (item.Info.Class)
-				{
-					case 51001: //HP 10 Potion
-					case 51002: //HP 30 Potion
-					case 51003: //HP 50 Potion
-					case 51004: //HP 100 Potion
-					case 51005: //HP 300 Potion
-					case 51074: //Slurpee HP 100 Potion
-					case 51113: //HP 30 Potion for Beginners
-					case 51141: //HP 100 Potion RE
-					case 51142: //HP 300 Potion RE
-					case 51143: //HP 500 Potion RE
-					case 51144: //HP 1000 Potion RE
-					case 51157: //HP 50 Potion
-					case 90100: //HP 10 Potion
-					case 92000: //HP 10 Potion for Premium PC Cafe
-					case 92001: //HP 30 Potion for Premium PC Cafe
-					case 92002: //HP 50 Potion for Premium PC Cafe
-					case 92003: //HP 100 Potion for Premium PC Cafe
-					case 92004: //HP 300 Potion for Premium PC Cafe
-						creature.Life += item.UsableVar;
-						//TODO: Potion Poisoning
-						break;
-					case 51125: //HP 100 Potion SE
-					case 51126: //HP 300 Potion SE
-					case 51127: //HP 500 Potion SE
-					case 51128: //HP 1000 Potion SE
-					case 51160: //HP 100 Potion SE
-						creature.Life += item.UsableVar;
-						break;
-					case 51006: //MP 10 Potion
-					case 51007: //MP 30 Potion
-					case 51008: //MP 50 Potion
-					case 51009: //MP 100 Potion
-					case 51010: //MP 300 Potion
-					case 51114: //MP 30 Potion for Beginners
-					case 51145: //MP 50 Potion RE
-					case 51146: //MP 100 Potion RE
-					case 51147: //MP 300 Potion RE
-					case 51148: //MP 500 Potion RE
-					case 51158: //MP 50 Potion
-					case 92005: //MP 10 Potion for Premium PC Cafe
-					case 92006: //MP 30 Potion for Premium PC Cafe
-					case 92007: //MP 50 Potion for Premium PC Cafe
-					case 92008: //MP 100 Potion for Premium PC Cafe
-					case 92009: //MP 300 Potion for Premium PC Cafe
-						creature.Mana += item.UsableVar;
-						//TODO: Potion Poisoning
-						break;
-					case 51129: //MP 50 Potion SE
-					case 51130: //MP 100 Potion SE
-					case 51131: //MP 300 Potion SE
-					case 51132: //MP 500 Potion SE
-					case 51161: //MP 100 Potion SE
-						creature.Mana += item.UsableVar;
-						break;
-					case 51011: //Stamina 10 Potion
-					case 51012: //Stamina 30 Potion
-					case 51013: //Stamina 50 Potion
-					case 51014: //Stamina 100 Potion
-					case 51015: //Stamina 300 Potion
-					case 51115: //Stamina 30 Potion for Beginners
-					case 51149: //Stamina 100 Potion RE
-					case 51150: //Stamina 300 Potion RE
-					case 51151: //Stamina 500 Potion RE
-					case 51152: //Stamina 1000 Potion RE
-					case 51159: //Stamina 50 Potion
-					case 90101: //Stamina 10 Potion
-					case 92010: //Stamina 10 Potion for Premium PC Cafe
-					case 92011: //Stamina 30 Potion for Premium PC Cafe
-					case 92012: //Stamina 50 Potion for Premium PC Cafe
-					case 92013: //Stamina 100 Potion for Premium PC Cafe
-					case 92014: //Stamina 300 Potion for Premium PC Cafe
-						creature.Stamina += item.UsableVar;
-						//TODO: Potion Poisoning
-						break;
-					case 51133: //Stamina 100 Potion SE
-					case 51134: //Stamina 300 Potion SE
-					case 51135: //Stamina 500 Potion SE
-					case 51136: //Stamina 1000 Potion SE
-					case 51162: //Stamina 100 Potion SE
-						creature.Stamina += item.UsableVar;
-						break;
-					case 51016: //Wound Recovery 10 Potion
-					case 51017: //Wound Recovery 30 Potion
-					case 51018: //Wound Recovery 50 Potion
-					case 51019: //Wound Recovery 100 Potion
-					case 51020: //Wound Recovery 300 Potion
-					case 51153: //Wound Recovery 100 Potion RE
-					case 51154: //Wound Recovery 300 Potion RE
-					case 51155: //Wound Recovery 500 Potion RE
-					case 51156: //Wound Recovery 1000 Potion RE
-						creature.Injuries = Math.Max(0, creature.Injuries - item.UsableVar);
-						//TODO: Potion Poisoning
-						break;
-					case 51137: //Wound Recovery 100 Potion SE
-					case 51138: //Wound Recovery 300 Potion SE
-					case 51139: //Wound Recovery 500 Potion SE
-					case 51140: //Wound Recovery 1000 Potion SE
-						creature.Injuries = Math.Max(0, creature.Injuries - item.UsableVar);
-						break;
-					case 51021: //HP && MP 10 Potion
-					case 51022: //HP && MP 30 Potion
-					case 51023: //HP && MP 50 Potion
-					case 51024: //HP && MP 100 Potion
-					case 51025: //HP && MP 300 Potion
-						creature.Life += item.UsableVar;
-						creature.Mana += item.UsableVar;
-						//TODO: Potion Poisoning
-						break;
-					case 51026: //HP && Stamina 10 Potion
-					case 51027: //HP && Stamina 30 Potion
-					case 51028: //HP && Stamina 50 Potion
-					case 51029: //HP && Stamina 100 Potion
-					case 51030: //HP && Stamina 300 Potion
-						creature.Life += item.UsableVar;
-						creature.Stamina += item.UsableVar;
-						//TODO: Potion Poisoning
-						break;
-					case 51031: //Full Recovery Potion
-					case 51032: //Full Recovery Potion
-						creature.FullHeal();
-						//TODO: Potion Poisoning
-						break;
-					case 51034: //Antidote Potion
-					case 63077: //Elixir of Life
-					case 63078: //Elixir of Mana
-					case 63079: //Elixir of Stamina
-					case 63083: //Elixir of Life
-					case 63084: //Elixir of Mana
-					case 63085: //Elixir of Stamina
-					case 63086: //Elixir of Life
-					case 63087: //Elixir of Mana
-					case 63088: //Elixir of Stamina
-					case 63089: //Elixir of Life
-					case 63090: //Elixir of Mana
-					case 63091: //Elixir of Stamina
-					case 85612: //Elixir of Life
-					case 85613: //Magical Damage_Up Potion (Supposed to be Elixir of Mana?)
-					case 85614: //Elixir of Stamina
-						Logger.Unimplemented("Known Unimplemented Potion: " + item.Info.Class);
-						break;
-
-					default:
-						Logger.Unimplemented("Unhandled Potion ID: " + item.Info.Class);
-						break;
-				}
-
-				if (item.Info.Bundle == 0)
-				{
-					creature.Items.Remove(item);
-					client.Send(PacketCreator.ItemRemove(creature, item));
-				}
-
-				creature.Client.Send(PacketCreator.ItemAmount(creature, item));
+				client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(0));
+				return;
 			}
 
-			var p = new MabiPacket(0x59EC, creature.Id);
-			p.PutByte(1);
-			client.Send(p);
+			// Doing this with ifs might be better.
+			switch ((UsableType)item.DataInfo.UsableType)
+			{
+				// TODO: Remaining positive and negative effects.
+				case UsableType.Life:
+					creature.Life += item.DataInfo.UsableVar;
+					break;
+				case UsableType.Mana:
+					creature.Mana += item.DataInfo.UsableVar;
+					break;
+				case UsableType.Stamina:
+					creature.Stamina += item.DataInfo.UsableVar;
+					break;
+				case UsableType.Injury:
+					creature.Injuries -= item.DataInfo.UsableVar;
+					break;
+				case UsableType.LifeMana:
+					creature.Life += item.DataInfo.UsableVar;
+					creature.Mana += item.DataInfo.UsableVar;
+					break;
+				case UsableType.LifeStamina:
+					creature.Life += item.DataInfo.UsableVar;
+					creature.Stamina += item.DataInfo.UsableVar;
+					break;
+				case UsableType.Food:
+					creature.Hunger -= item.DataInfo.UsableVar;
+					break;
+				case UsableType.Recovery:
+					// Full Recovery
+					if (item.DataInfo.UsableVar == 100)
+					{
+						// Manually, to handle multiple recovery items at
+						// once later, and we don't need 2 update packets.
+						creature.Injuries = 0;
+						creature.Hunger = 0;
+						creature.Life = creature.LifeMax;
+						creature.Mana = creature.ManaMax;
+						creature.Stamina = creature.StaminaMax;
+					}
+					// Various chocolates? Full recovery as well?
+					//else if (item.DataInfo.UsableVar == 300)
+					//{
+					//}
+					// Recovery booster
+					//else if (item.DataInfo.UsableVar == 1)
+					//{
+					//}
+					else goto default;
+					break;
+				case UsableType.Antidote:
+				case UsableType.Elixir:
+				case UsableType.Others:
+				default:
+					client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(0));
+					Logger.Unimplemented("This usable type is not supported yet.");
+					return;
+			}
+
+			item -= 1;
+			if (item.Count > 0)
+			{
+				client.Send(PacketCreator.ItemAmount(creature, item));
+			}
+			else
+			{
+				creature.Items.Remove(item);
+				client.Send(PacketCreator.ItemRemove(creature, item));
+			}
+
 			WorldManager.Instance.CreatureStatsUpdate(creature);
+
+			client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(1).PutInt(item.Info.Class));
 		}
 
 		public void HandleGMCPMove(WorldClient client, MabiPacket packet)
@@ -477,9 +389,9 @@ namespace World.Network
 			response.PutInt(pos.Y);
 			client.Send(response);
 
-			creature.FullHeal();
-
 			WorldManager.Instance.CreatureRevive(creature);
+
+			creature.FullHeal();
 		}
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)

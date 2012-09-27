@@ -31,7 +31,7 @@ namespace Common.World
 		public byte uFigureB;
 		public byte uFigureC;
 		public byte uFigureD;
-		public byte DownHitCount;
+		public byte KnockCount;
 		private byte __unknown12;
 		private byte __unknown13;
 		private byte __unknown14;
@@ -79,18 +79,26 @@ namespace Common.World
 		public uint DucatPrice;
 	}
 
+	/// <summary>
+	/// Info/OptionInfo: These two fields containt structs that contain
+	///     values which are send to the client. We simply turn the structs
+	///     into bins, that's why those values are in there.
+	/// DataInfo: This on the other hand is the data that we read from the
+	///     item db file. Some of these values are use for fields in Info/
+	///     OptionInfo, but the ones that aren't needed there, might be
+	///     used directly. Those values /shouldn't be changed/.
+	/// </summary>
 	public class MabiItem : MabiEntity
 	{
 		public MabiItemInfo Info;
 		public MabiItemOptionInfo OptionInfo;
+		public ItemDbInfo DataInfo;
 
 		public ItemType Type = ItemType.Misc;
 		public BundleType BundleType;
 		public ushort BundleMax;
 		public uint StackItem;
 		public byte Width, Height;
-
-		public short UsableVar;
 
 		private static ulong _worldItemIndex = 0x0050F00000000001;
 
@@ -150,12 +158,32 @@ namespace Common.World
 			get { return 80; }
 		}
 
+		public int Count { get { return this.Info.Bundle; } }
+
+		public static MabiItem operator +(MabiItem item, int val)
+		{
+			if (item.Info.Bundle + val < 0)
+				item.Info.Bundle = 0;
+			else if (item.Info.Bundle + val > ushort.MaxValue)
+				item.Info.Bundle = ushort.MaxValue;
+			else
+				item.Info.Bundle += (ushort)val;
+			return item;
+		}
+
+		public static MabiItem operator -(MabiItem item, int val)
+		{
+			return item += -val;
+		}
+
 		public void LoadDefault()
 		{
 			var dbInfo = MabiData.ItemDb.Find(this.Info.Class);
 			if (dbInfo != null)
 			{
-				this.Info.DownHitCount = dbInfo.KnockCount;
+				this.DataInfo = dbInfo;
+
+				this.Info.KnockCount = dbInfo.KnockCount;
 				this.OptionInfo.KnockCount = dbInfo.KnockCount;
 
 				this.OptionInfo.Durability = dbInfo.Durability;
@@ -180,8 +208,6 @@ namespace Common.World
 				this.StackItem = dbInfo.StackItem;
 				this.Width = dbInfo.Width;
 				this.Height = dbInfo.Height;
-
-				this.UsableVar = dbInfo.UsableVar;
 
 				if (this.Type != ItemType.Sac && this.Info.Bundle < 1)
 					this.Info.Bundle = 1;

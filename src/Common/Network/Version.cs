@@ -108,7 +108,8 @@ namespace Common.Network
 		public readonly static uint ItemSplit = 0x59E8;
 		public readonly static uint ItemSplitR = 0x59E9;
 		public readonly static uint ItemAmount = 0x59EA;
-		public readonly static uint UsePotion = 0x59EB;
+		public readonly static uint ItemUse = 0x59EB;
+		public readonly static uint UseItemR = 0x59EC;
 		public readonly static uint NPCTalkSelectEnd = 0x59F9;
 		public readonly static uint SwitchSet = 0x5BCD;
 		public readonly static uint SwitchSetR = 0x5BCE;

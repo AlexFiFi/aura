@@ -128,12 +128,13 @@ namespace Common.World
 			packet.PutLong((ulong)StatusEffects.C);
 			if (Op.Version > 140400)
 				packet.PutLong((ulong)StatusEffects.D);
-			if (Op.Version >= 170100)
-				packet.PutLong(0);
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt
 			//   packet.PutString
+
+			if (Op.Version >= 170100)
+				packet.PutLong(0);
 
 			// Guild
 			// --------------------------------------------------------------
@@ -172,6 +173,14 @@ namespace Common.World
 				packet.PutLong(this.Owner.Id);	 // MasterID
 				packet.PutByte(2);               // Type (1:RPCharacter, 2:Pet, 3:Transport, 4:PartnerVehicle)
 				packet.PutByte(0);				 // SubType
+			}
+
+			// ?
+			// --------------------------------------------------------------
+			if (Op.Version >= 170100)
+			{
+				packet.PutFloat(1);
+				packet.PutLong(0);
 			}
 
 			// Transformation
@@ -236,7 +245,7 @@ namespace Common.World
 			// Showdown
 			// --------------------------------------------------------------
 			packet.PutInt(0);	                 // unknown at 0x18
-			packet.PutShort(0);                  // unknown at 0x08
+			packet.PutLong(0);                   // unknown at 0x08
 			packet.PutLong(0);	                 // unknown at 0x10
 			packet.PutByte(1);	                 // IsPartyPvpDropout
 
@@ -296,7 +305,7 @@ namespace Common.World
 
 			// Heartstickers
 			// --------------------------------------------------------------
-			packet.PutLong(0);
+			packet.PutShort(0);
 			packet.PutShort(0);
 
 			// 
@@ -352,6 +361,32 @@ namespace Common.World
 				packet.PutFloat(1);					 // ScaleHeight
 			}
 
+			// ?
+			// --------------------------------------------------------------
+			if (Op.Version >= 170100)
+			{
+				packet.PutShort(0);
+				packet.PutByte(255);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutByte(0);
+			}
+
 			// 
 			// --------------------------------------------------------------
 			packet.PutByte(0);					 // IsGhost
@@ -391,9 +426,10 @@ namespace Common.World
 			// --------------------------------------------------------------
 			if (Op.Version > 140400)
 			{
-				packet.PutShort(0);
 				packet.PutLong(0);
-				packet.PutShort(0);					 // end of list
+				packet.PutShort(72);
+				packet.PutLong(0);
+				packet.PutShort(73);
 			}
 		}
 	}

@@ -469,7 +469,7 @@ namespace Common.Database
 					character.ManaMaxBase = reader.GetFloat("manaMax");
 					character.Mana = reader.GetFloat("mana");
 					character.StaminaMaxBase = reader.GetFloat("staminaMax");
-					character.Food = reader.GetFloat("food");
+					character.Hunger = reader.GetFloat("food");
 					character.Stamina = reader.GetFloat("stamina");
 					character.Level = reader.GetUInt32("level");
 					character.LevelTotal = reader.GetUInt16("totalLevel");
@@ -766,7 +766,7 @@ namespace Common.Database
 				mc.Parameters.AddWithValue("@manaMax", character.ManaMaxBase);
 				mc.Parameters.AddWithValue("@stamina", character.Stamina);
 				mc.Parameters.AddWithValue("@staminaMax", character.StaminaMaxBase);
-				mc.Parameters.AddWithValue("@food", character.Food);
+				mc.Parameters.AddWithValue("@food", character.Hunger);
 				mc.Parameters.AddWithValue("@level", character.Level);
 				mc.Parameters.AddWithValue("@totalLevel", character.LevelTotal);
 				mc.Parameters.AddWithValue("@experience", character.Experience);

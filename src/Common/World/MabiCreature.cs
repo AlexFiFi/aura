@@ -138,9 +138,19 @@ namespace Common.World
 					_life = value;
 			}
 		}
+		public float Injuries
+		{
+			get { return _injuries; }
+			set
+			{
+				if (value < 0)
+					_injuries = 0;
+				else
+					_injuries = value;
+			}
+		}
 		public float LifeMaxBase { get { return _lifeMaxBase; } set { _lifeMaxBase = value; } }
 		public float LifeMaxMod { get { return _lifeMaxMod; } set { _lifeMaxMod = value; } }
-		public float Injuries { get { return _injuries; } set { _injuries = value; } }
 		public float LifeMax { get { return _lifeMaxBase + _lifeMaxMod; } }
 		public float LifeInjured { get { return this.LifeMax - _injuries; } }
 
@@ -162,25 +172,35 @@ namespace Common.World
 		public float ManaMaxMod { get { return _manaMaxMod; } set { _manaMaxMod = value; } }
 		public float ManaMax { get { return _manaMaxBase + _manaMaxMod; } }
 
-		private float _stamina, _staminaMaxBase, _staminaMaxMod, _food;
+		private float _stamina, _staminaMaxBase, _staminaMaxMod, _hunger;
 		public float Stamina
 		{
 			get { return _stamina; }
 			set
 			{
-				if (value > this.StaminaFood)
-					_stamina = this.StaminaFood;
-				else if (value < -this.StaminaMax)
-					_stamina = -this.StaminaMax;
+				if (value > this.StaminaHunger)
+					_stamina = this.StaminaHunger;
+				else if (value < 0)
+					_stamina = 0;
 				else
 					_stamina = value;
 			}
 		}
+		public float Hunger
+		{
+			get { return _hunger; }
+			set
+			{
+				if (value < 0)
+					_hunger = 0;
+				else
+					_hunger = value;
+			}
+		}
 		public float StaminaMaxBase { get { return _staminaMaxBase; } set { _staminaMaxBase = value; } }
 		public float StaminaMaxMod { get { return _staminaMaxMod; } set { _staminaMaxMod = value; } }
-		public float Food { get { return _food; } set { _food = value; } }
 		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxMod; } }
-		public float StaminaFood { get { return this.StaminaMax - _food; } }
+		public float StaminaHunger { get { return this.StaminaMax - _hunger; } }
 
 		private float _strBase, _dexBase, _intBase, _willBase, _luckBase;
 		private float _strMod, _dexMod, _intMod, _willMod, _luckMod;
@@ -261,6 +281,7 @@ namespace Common.World
 
 			this.RaceInfo = dbInfo;
 
+			// Do NPCs even regen? o.o
 			_statMods.Add(new MabiStatMod(Stat.Life, 0.1875f, this.LifeMax));
 			_statMods.Add(new MabiStatMod(Stat.Mana, 0.075f, this.ManaMax));
 			_statMods.Add(new MabiStatMod(Stat.Stamina, 0.6f, this.StaminaMax));
@@ -326,7 +347,7 @@ namespace Common.World
 		public void FullHeal()
 		{
 			this.Injuries = 0;
-			this.Food = 0;
+			this.Hunger = 0;
 			this.Life = this.LifeMax;
 			this.Mana = this.ManaMax;
 			this.Stamina = this.StaminaMax;
@@ -874,13 +895,13 @@ namespace Common.World
 			packet.PutFloat(this.Stamina);
 
 			packet.PutInt((uint)Stat.Food);
-			packet.PutFloat(this.StaminaFood);
+			packet.PutFloat(this.StaminaHunger);
 
 			packet.PutInt((uint)Stat.StaminaMax);
 			packet.PutFloat(this.StaminaMaxBase);
 
 			packet.PutInt((uint)Stat.StaminaMaxFood);
-			packet.PutFloat(this.Food);
+			packet.PutFloat(this.Hunger);
 
 			// TODO: Only update required stats.
 
@@ -1204,7 +1225,7 @@ namespace Common.World
 				packet.PutFloat(this.Stamina);
 				packet.PutFloat(this.StaminaMaxBase);
 				packet.PutFloat(this.StaminaMaxMod);
-				packet.PutFloat(this.StaminaFood);
+				packet.PutFloat(this.StaminaHunger);
 				packet.PutFloat(0.5f);
 				packet.PutShort((ushort)this.Level);
 				packet.PutInt(this.LevelTotal);
