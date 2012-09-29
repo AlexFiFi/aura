@@ -25,7 +25,6 @@ public class CommerceImpScript : NPCScript
 		Phrases.Add("What will you do with all that money? Use it here!");
 
 		Shop.AddTabs("General", "Fomor Weapons", "Limited Time Only", "Quest", "Wine Ingredients");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -43,27 +42,34 @@ public class CommerceImpScript : NPCScript
 				Msg(c, "What are you looking for?");
 				OpenShop(c);
 				break;
+				
 			case "@trade":
 				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>I'll give you some Ducats for proof that you took care of them.", "End Conversation", "@endseeing");
 				break;
+				
 			case "@exchange":
 				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>Hey, if you're sick of carrying all those badges, I'll trade you<br/>for a better one. I know how heavy they can get.", "End Conversation", "@endseeing");
 				break;
+				
 			case "@repair":
 				MsgSelect(c, "If it's a Fomor weapon, just leave it to me.",  "Continue", "@endme");
 				break;
+				
 			case "@endme":
 				MsgSelect(c, "If it breaks again, come to me for repairs. Just me. Not the others. Me.", "Continue", "@end");
 				break;
+				
 			case "@endseeing":
 				MsgSelect(c, "I'll be seeing you, then.", "Continue", "@end");
 				break;
+				
 			default:
 				Msg(c, "Can we change the subject?");
 				ShowKeywords(c);
 				break;
 		}
 	}
+	
 	public override void OnEnd(WorldClient c)
 	{
 		Close(c, "(You have ended your conversation with the Trade Assistant Imp.)");

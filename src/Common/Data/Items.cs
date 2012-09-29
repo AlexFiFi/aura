@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using MySql.Data.MySqlClient;
 using System.Globalization;
+using Common.Tools;
 
 namespace Common.Data
 {
@@ -66,6 +67,10 @@ namespace Common.Data
 		{
 			var i = 0;
 			info.Id = Convert.ToUInt32(csv[i++]);
+
+			if (this.Find(info.Id) != null)
+				Logger.Warning("Double item id: " + info.Id.ToString());
+
 			info.Name = csv[i++];
 			info.KorName = csv[i++];
 			info.Type = Convert.ToUInt16(csv[i++]);

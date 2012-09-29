@@ -14,10 +14,6 @@ public class CommerceElephantScript : NPCScript
 		SetBody(height: 2f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 0, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;
-
 		SetStand("");
 
 		Phrases.Add("Bhoo hoo...");
@@ -25,7 +21,6 @@ public class CommerceElephantScript : NPCScript
 		Phrases.Add("Bhoo! Bhoo!");
 		Phrases.Add("Boo!");
 		Phrases.Add("Boooo!");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -36,5 +31,4 @@ public class CommerceElephantScript : NPCScript
 		Msg(c, "Boooo?", "Bhoo!");
 		Msg(c, "Bhooo!", "Bhoo, bhoooo!");
 	}
-
 }

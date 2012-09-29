@@ -14,10 +14,6 @@ public class BelrickScript : CommerceElephantScript
 		SetName("_tircho_elephant");
 		SetFace(skin: 0, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;
-
 		SetLocation(region: 1, x: 6811, y: 17049);
 
 		SetDirection(56);

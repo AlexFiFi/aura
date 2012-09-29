@@ -60,6 +60,10 @@ namespace Common.Tools
 		{
 			Write(LogLevel.Debug, s);
 		}
+		public static void Debug<T>(T s)
+		{
+			Write(LogLevel.Debug, s.ToString());
+		}
 
 		public static void Status(string s)
 		{

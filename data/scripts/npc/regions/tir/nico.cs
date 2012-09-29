@@ -13,10 +13,7 @@ public class NicoScript : CommerceGoblinScript
 
 		SetName("_tircho_goblin");
 		SetFace(skin: 23, eye: 3, eyeColor: 7, lip: 2);
-
-		NPC.ColorA = 0x811E1E;
-		NPC.ColorB = 0x3A2D28;
-		NPC.ColorC = 0xDDAD1F;
+		SetColor(0x811E1E, 0x3A2D28, 0xDDAD1F);
 
 		EquipItem(Pocket.LeftHand1, 0x9DF4, 0x808080, 0x808080, 0x808080);
 		EquipItem(Pocket.RightHand1, 0xB3C7, 0x808080, 0x808080, 0x808080);

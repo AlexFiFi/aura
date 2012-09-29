@@ -65,9 +65,11 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.PetMount, HandlePetMount);
 			this.RegisterPacketHandler(Op.PetUnmount, HandlePetUnmount);
 
+			this.RegisterPacketHandler(Op.TouchProp, HandleTouchProp);
+			this.RegisterPacketHandler(Op.HitProp, HandleHitProp);
+
 			this.RegisterPacketHandler(Op.EnterRegion, HandleEnterRegion);
 			this.RegisterPacketHandler(Op.AreaChange, HandleAreaChange);
-			this.RegisterPacketHandler(Op.PortalUse, HandlePortalUse);
 
 			this.RegisterPacketHandler(Op.ChangeTitle, HandleTitleChange);
 			this.RegisterPacketHandler(Op.MailsRequest, HandleMailsRequest);
@@ -1635,13 +1637,15 @@ namespace World.Network
 			client.Send(p);
 		}
 
-		private void HandlePortalUse(WorldClient client, MabiPacket packet)
+		private void HandleTouchProp(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
 				return;
 
 			byte success = 0;
+
+			// TODO: If all portals are props, and not all props are portals, what's this?
 
 			var portalId = packet.GetLong();
 			var portalInfo = MabiData.PortalDb.Find(portalId);
@@ -1655,10 +1659,10 @@ namespace World.Network
 			}
 			else
 			{
-				Logger.Warning("Missing portal: " + portalId.ToString());
+				Logger.Warning("Unknown prop: " + portalId.ToString());
 			}
 
-			var p = new MabiPacket(Op.PortalUseR, creature.Id);
+			var p = new MabiPacket(Op.TouchPropR, creature.Id);
 			p.PutByte(success);
 			client.Send(p);
 		}
@@ -1892,6 +1896,23 @@ namespace World.Network
 
 			if (WorldConf.Motd != string.Empty)
 				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
+		}
+
+		public void HandleHitProp(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null && creature.IsDead())
+				return;
+
+			var targetId = packet.GetLong();
+
+			// TODO: Check for prop to exist?
+			// TODO: Drops. Hard, we'll have to create a prop database...
+
+			var pos = creature.GetPosition();
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.HittingProp, creature.Id).PutLong(targetId).PutInt(2000).PutFloat(pos.X).PutFloat(pos.Y), SendTargets.Region, creature);
+
+			client.Send(new MabiPacket(Op.HitPropR, creature.Id).PutByte(1));
 		}
 	}
 }

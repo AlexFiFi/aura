@@ -541,7 +541,7 @@ namespace Common.World
 			while (amount > 0)
 			{
 				var item = new MabiItem(itemId);
-				ushort itemBundleMax = item.BundleMax > 1 ? item.BundleMax : (ushort)1; //This way, we can't drag the server into an infinate loop
+				ushort itemBundleMax = item.BundleMax > 1 ? item.BundleMax : (ushort)1; // This way, we can't drag the server into an infinate loop
 				if (amount <= itemBundleMax)
 				{
 					item.Info.Bundle = (ushort)amount;

@@ -280,6 +280,8 @@ namespace World.World
 
 				if (newItem.Info.Bundle > newItem.BundleMax)
 					newItem.Info.Bundle = newItem.BundleMax;
+				if (newItem.BundleType == BundleType.None)
+					newItem.Info.Bundle = 1;
 			}
 			else if (args.Length == 5)
 			{

@@ -13,16 +13,11 @@ virtual: commerce/elephant_base.cs
 // Regions                                                                  |
 //===========================================================================
 
-// Sidhe
-//---------------------------------------------------------------------------
-regions/sidhe/bear.cs
-regions/sidhe/tarlach.cs
-
 // Tir Chonaill
 //---------------------------------------------------------------------------
 regions/tir/alissa.cs
 regions/tir/bebhinn.cs
-commerce/belrick.cs
+regions/tir/belrick.cs
 regions/tir/caitin.cs
 regions/tir/deian.cs
 regions/tir/devcat.cs
@@ -30,17 +25,22 @@ regions/tir/dilys.cs
 regions/tir/duncan.cs
 regions/tir/endelyon.cs
 regions/tir/ferghus.cs
-commerce/ghelp.cs
+regions/tir/ghelp.cs
 regions/tir/goro.cs
 regions/tir/lassar.cs
 regions/tir/malcolm.cs
 regions/tir/meven.cs
-commerce/neru.cs
-commerce/nico.cs
+regions/tir/neru.cs
+regions/tir/nico.cs
 regions/tir/nora.cs
 regions/tir/piaras.cs
 regions/tir/ranald.cs
 regions/tir/trefor.cs
+
+// Sidhe
+//---------------------------------------------------------------------------
+regions/sidhe/bear.cs
+regions/sidhe/tarlach.cs
 
 //===========================================================================
 // Custom                                                                   |

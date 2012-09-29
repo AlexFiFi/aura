@@ -6,7 +6,8 @@ namespace Common.Network
 	public static class Op
 	{
 		// NA:      160200
-		// KR test: 170100 (not fully supported yet)
+		// TW:      170100 (not fully supported yet)
+		// KR test: 170200 (not fully supported yet)
 		// EU:      140400 (not fully supported yet)
 		public const uint Version = 160200;
 
@@ -176,8 +177,11 @@ namespace Common.Network
 		public readonly static uint PetSummonR = 0x902D;
 		public readonly static uint PetUnsummon = 0x9031;
 		public readonly static uint PetUnsummonR = 0x9032;
-		public readonly static uint PortalUse = 0x908B;
-		public readonly static uint PortalUseR = 0x908C;
+		public readonly static uint HitProp = 0x9088;
+		public readonly static uint HitPropR = 0x9089;
+		public readonly static uint HittingProp = 0x908A;
+		public readonly static uint TouchProp = 0x908B;
+		public readonly static uint TouchPropR = 0x908C;
 		public readonly static uint Effect = 0x9090;
 
 		public readonly static uint StatusEffectUpdate = 0xA028;

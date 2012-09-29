@@ -14,12 +14,8 @@ public class MalcolmScript : NPCScript
 		SetBody(height: 1.22f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 26, eyeColor: 162, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0x1324, 0xBA0562, 0x714B59, 0x19449);
-		EquipItem(Pocket.Hair, 0x103B, 0xECBC58, 0xECBC58, 0xECBC58);
+		EquipItem(Pocket.Face, 0x1324, 0xBA0562);
+		EquipItem(Pocket.Hair, 0x103B, 0xECBC58);
 		EquipItem(Pocket.Armor, 0x3D27, 0xD8C9B7, 0x112A13, 0x131313);
 		EquipItem(Pocket.Shoe, 0x4387, 0x544838, 0x0, 0x0);
 		EquipItem(Pocket.LeftHand1, 0x9E2B, 0x808080, 0x0, 0x0);
@@ -68,6 +64,7 @@ public class MalcolmScript : NPCScript
 				Msg(c, true, false, "(Malcolm is waiting for me to say something.)");
 				ShowKeywords(c);
 				break;
+				
 			default:
 				Msg(c, "Sorry, I don't know.",
 					"Hmm... Maybe I should have a travel diary to write things down.");

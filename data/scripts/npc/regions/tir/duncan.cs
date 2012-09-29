@@ -14,10 +14,10 @@ public class DuncanScript : NPCScript
 		SetBody(height: 1.3f);
 		SetFace(skin: 20, eye: 17, eyeColor: 0, lip: 0);
 
-		EquipItem(Pocket.Face, 4950, 9633884, 16361044, 5138520);
-		EquipItem(Pocket.Hair, 4083, 12234138, 12234138, 12234138);
-		EquipItem(Pocket.Armor, 15004, 6176328, 13932380, 4011589);
-		EquipItem(Pocket.Shoe, 17021, 13351853);
+		EquipItem(Pocket.Face, 4950, 9633884);
+		EquipItem(Pocket.Hair, 4083, 12234138);
+		EquipItem(Pocket.Armor, 15004, 0x5E3E48, 0xD4975C, 0x3D3645);
+		EquipItem(Pocket.Shoe, 17021, 0xCBBBAD);
 
 		SetLocation(region: 1, x: 15409, y: 38310);
 
@@ -35,7 +35,6 @@ public class DuncanScript : NPCScript
 		Phrases.Add("That tree has been there for quite a long time, now that I think about it.");
 		Phrases.Add("The graveyard has been left unattended far too long.");
 		Phrases.Add("Watch your language.");
-
 	}
 
 	public override void OnTalk(WorldClient c)

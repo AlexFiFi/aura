@@ -147,6 +147,13 @@ namespace World.Scripting
 			this.NPC.Lip = lip;
 		}
 
+		protected virtual void SetColor(uint c1 = 0x808080, uint c2 = 0x808080, uint c3 = 0x808080)
+		{
+			NPC.ColorA = c1;
+			NPC.ColorB = c2;
+			NPC.ColorC = c3;
+		}
+
 		protected virtual void SetDirection(byte direction)
 		{
 			this.NPC.Direction = direction;

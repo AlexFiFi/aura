@@ -146,6 +146,12 @@ Since this function takes a byte, it ranges from 0 to 255,
 
 -----------------------------------------------------------------------------
 
+** SetColor([<uint:color1>[, <uint:color2>[, <uint:color3>]]])
+
+Sets the color for this NPC. (Ineffective for many races.)
+
+-----------------------------------------------------------------------------
+
 ** SetStand(<string:style>)
 
 Sets the stand style for the NPC.

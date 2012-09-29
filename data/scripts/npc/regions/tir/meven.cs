@@ -14,12 +14,8 @@ public class MevenScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 21, eye: 5, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0x1324, 0xA4AFD9, 0x6894, 0x6562);
-		EquipItem(Pocket.Hair, 0xFBA, 0xEBE0C0, 0xEBE0C0, 0xEBE0C0);
+		EquipItem(Pocket.Face, 0x1324, 0xA4AFD9);
+		EquipItem(Pocket.Hair, 0xFBA, 0xEBE0C0);
 		EquipItem(Pocket.Armor, 0x3A9E, 0x313727, 0x282C2B, 0xF0DA4A);
 		EquipItem(Pocket.Shoe, 0x4274, 0x313727, 0xFFFFFF, 0xA0927D);
 
@@ -56,6 +52,7 @@ public class MevenScript : NPCScript
 				Msg(c, true, false, "(Meven is waiting for me to say something.)");
 				ShowKeywords(c);
 				break;
+				
 			default:
 				Msg(c, "...", "I really don't know.");
 				ShowKeywords(c);

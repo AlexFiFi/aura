@@ -14,12 +14,8 @@ public class DilysScript : NPCScript
 		SetBody(height: 0.9f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 17, eye: 3, eyeColor: 27, lip: 48);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0xF44, 0xFFE170, 0x8F7BB9, 0xF45756);
-		EquipItem(Pocket.Hair, 0xC45, 0x633C31, 0x633C31, 0x633C31);
+		EquipItem(Pocket.Face, 0xF44, 0xFFE170);
+		EquipItem(Pocket.Hair, 0xC45, 0x633C31);
 		EquipItem(Pocket.Armor, 0x3D25, 0xFFFFFF, 0x61854B, 0xFFFFFF);
 		EquipItem(Pocket.Glove, 0x3EE2, 0x61854B, 0x0, 0x0);
 		EquipItem(Pocket.Shoe, 0x4385, 0xE8E8E8, 0x0, 0x0);
@@ -37,7 +33,6 @@ public class DilysScript : NPCScript
 		Phrases.Add("Perhaps I should order a safe this month.");
 		Phrases.Add("Should I go to the market?");
 		Phrases.Add("What should I cook for dinner tonight?");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -118,7 +113,7 @@ public class DilysScript : NPCScript
 				{
 					Msg(c, "Oh no, I don't think you have enough gold.",
 						"Hmmm... The gold covers the cost of the bandages and medicine...",
-						"HOw about doing a part-time job?");
+						"How about doing a part-time job?");
 				}
 				break;
 
@@ -132,6 +127,7 @@ public class DilysScript : NPCScript
 				Msg(c, true, false, "(Dilys is waiting for me to say something.)");
 				ShowKeywords(c);
 				break;
+				
 			default:
 				Msg(c, "Can we change the subject?");
 				ShowKeywords(c);

@@ -14,12 +14,8 @@ public class RanaldScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1.1f, lower: 1f);
 		SetFace(skin: 20, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0x1324, 0xF88B4A, 0x5221, 0x6A0000);
-		EquipItem(Pocket.Hair, 0x103A, 0x4D4B53, 0x4D4B53, 0x4D4B53);
+		EquipItem(Pocket.Face, 0x1324, 0xF88B4A);
+		EquipItem(Pocket.Hair, 0x103A, 0x4D4B53);
 		EquipItem(Pocket.Armor, 0x3D24, 0xAC9271, 0x4D4F48, 0x7C6144);
 		EquipItem(Pocket.Shoe, 0x4274, 0x9C7D6C, 0xFFC9A3, 0xF7941D);
 		EquipItem(Pocket.LeftHand1, 0x9C4C, 0xDCDCDC, 0xC08B48, 0x808080);
@@ -36,7 +32,6 @@ public class RanaldScript : NPCScript
 		Phrases.Add("I should sharpen my blade later.");
 		Phrases.Add("It's really dusty here.");
 		Phrases.Add("What's with the hair styles of today's kids?");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -60,7 +55,7 @@ public class RanaldScript : NPCScript
 
 			case "@pass":
 				GiveItem(c, 63139);
-				Notice(c, "Recieved Ciar Beginner Dungeon Pass from Ranald");
+				Notice(c, "Recieved Ciar Beginner Dungeon Pass from Ranald.");
 				Msg(c, "Ok, here's the pass.",
 					"You can ask for it again if you need it.",
 					"That doesn't mean you can fill up the iventory with a pile of passes.");
@@ -77,6 +72,7 @@ public class RanaldScript : NPCScript
 				Msg(c, true, false, "(Ranald is paying attention to me.)");
 				ShowKeywords(c);
 				break;
+				
 			default:
 				Msg(c, "Well, I don't really know...");
 				ShowKeywords(c);

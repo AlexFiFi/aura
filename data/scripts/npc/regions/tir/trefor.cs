@@ -14,8 +14,8 @@ public class DuncanScript : NPCScript
 		SetBody(height: 1.35f);
 		SetFace(skin: 20, eye: 0, eyeColor: 27, lip: 0);
 
-		EquipItem(Pocket.Face, 4909, 9633884, 16361044, 5138520);
-		EquipItem(Pocket.Hair, 4023, 0xD43F34, 0xD43F34, 0xD43F34);
+		EquipItem(Pocket.Face, 4909, 0x93005C);
+		EquipItem(Pocket.Hair, 4023, 0xD43F34);
 		EquipItem(Pocket.Armor, 14076, 0x1F1F1F, 0x303F36, 0x1F1F1F);
 		EquipItem(Pocket.Glove, 16097, 0x303F36, 0x000000, 0x000000);
 		EquipItem(Pocket.Shoe, 17282, 0x1F1F1F, 0x1F1F1F);
@@ -39,7 +39,6 @@ public class DuncanScript : NPCScript
 		Phrases.Add("Seems like I caught a cold...");
 		Phrases.Add("Soo itchy... and I can't scratch it!");
 		Phrases.Add("This helmet's really making me sweat");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -79,6 +78,7 @@ public class DuncanScript : NPCScript
 					"Drop by anytime when you need more.",
 					"I'm a generous man, ha ha.");
 				break;
+				
 			default:
 				Msg(c, "Oh, is that so?");
 				ShowKeywords(c);

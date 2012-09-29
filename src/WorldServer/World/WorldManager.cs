@@ -48,9 +48,9 @@ namespace World.World
 			var now = DateTime.Now;
 			long serverTicks = now.Ticks / 10000;
 
-			if ((now - last).TotalMilliseconds > 1600)
+			if ((now - last).TotalMilliseconds > 1700)
 			{
-				Logger.Warning("Can't keep up! The server is overloaded!");
+				Logger.Warning("Server took longer than expected for ErinnTimeTick. (Overloaded?)");
 			}
 			last = now;
 

@@ -33,7 +33,7 @@ public class NoraScript : NPCScript
 		Phrases.Add("Wait a second.");
 		Phrases.Add("Wow! Look at that owl! Beautiful!");
 
-		Shop.AddTabs("Tailoring", "Sewing Patterns", "Gift", "Quest", "Cooking Appliances"); //TODO: Intimacy to get shop tabs
+		Shop.AddTabs("Tailoring", "Sewing Patterns", "Gift", "Quest", "Cooking Appliances");
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -67,15 +67,11 @@ public class NoraScript : NPCScript
 					"but I'll do my best.",
 					"Just in case, when in doubt, you can always go to a professional tailor.");
 				break;
+				
 			default:
 				Msg(c, "Can we change the subject?");
 				ShowKeywords(c);
 				break;
 		}
-	}
-
-	public override void OnEnd(WorldClient c)
-	{
-		Close(c, "(You ended your conversation with Nora.)");
 	}
 }

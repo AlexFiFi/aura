@@ -22,7 +22,6 @@ public class CommerceOgreScript : NPCScript
 		Phrases.Add("Meat? Meat. Meat!");
 		Phrases.Add("Movement speed potion make elephant run fast as horse, but make them taste bad too.");
 
-
 		SetStand("chapter4/monster/anim/ogre/ogre_c4_npc_commerce", "chapter4/monster/anim/ogre/ogre_c4_npc_commerce_talk");
 	}
 
@@ -40,15 +39,18 @@ public class CommerceOgreScript : NPCScript
 			case "@endmeat":
 				Msg(c, "Take good care of equipment. As valuable as meat.");
 				break;
+				
 			case "@repair":
 				MsgSelect(c, "Ogre no good at repairs.<br/>But repair cost cheap.<br/>I only take enough money to buy meat. Heh heh.", "End Conversation", "@endmeat");
 				break;
+				
 			default:
 				Msg(c, "Can we change the subject?");
 				ShowKeywords(c);
 				break;
 		}
 	}
+	
 	public override void OnEnd(WorldClient c)
 	{
 		Close(c, "(You have ended your conversation with the Transportation Helper.)");

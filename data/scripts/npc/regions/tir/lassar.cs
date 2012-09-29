@@ -14,12 +14,8 @@ public class LassarScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 153, eyeColor: 25, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0xF3C, 0xF67F3D, 0xFBCDD1, 0xC10060);
-		EquipItem(Pocket.Hair, 0xC48, 0xD25D5D, 0xD25D5D, 0xD25D5D);
+		EquipItem(Pocket.Face, 0xF3C, 0xF67F3D);
+		EquipItem(Pocket.Hair, 0xC48, 0xD25D5D);
 		EquipItem(Pocket.Armor, 0x3D29, 0x394254, 0x394254, 0x574747);
 		EquipItem(Pocket.Shoe, 0x4385, 0x394254, 0x0, 0x0);
 		EquipItem(Pocket.LeftHand1, 0x9DE2, 0x808080, 0x0, 0x0);
@@ -41,7 +37,6 @@ public class LassarScript : NPCScript
 		Phrases.Add("Perhaps I could take today off...");
 		Phrases.Add("The weather will be fine for some time, it seems.");
 		Phrases.Add("Will things get better tomorrow, I wonder?");
-
 	}
 
 	public override void OnTalk(WorldClient c)

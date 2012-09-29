@@ -14,12 +14,8 @@ public class AlissaScript : NPCScript
 		SetBody(height: 0.1f, fat: 1.3f, upper: 1.3f, lower: 1.4f);
 		SetFace(skin: 19, eye: 10, eyeColor: 148, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0xF3C, 0xFCD7D7, 0xFBC858, 0xFCF9E4);
-		EquipItem(Pocket.Hair, 0xC47, 0xD57527, 0xD57527, 0xD57527);
+		EquipItem(Pocket.Face, 0xF3C, 0xFCD7D7);
+		EquipItem(Pocket.Hair, 0xC47, 0xD57527);
 		EquipItem(Pocket.Armor, 0x3D26, 0xDECDB0, 0x6C7553, 0x9B9E7B);
 		EquipItem(Pocket.Shoe, 0x4274, 0x693F1E, 0x0, 0x0);
 		EquipItem(Pocket.Head, 0x47E6, 0xDECDB0, 0x0, 0x0);
@@ -37,7 +33,6 @@ public class AlissaScript : NPCScript
 		Phrases.Add("There's a guard at the wheat field, and I'm watching the Windmill.");
 		Phrases.Add("When is Caitin going to teach me how to bake bread?");
 		Phrases.Add("You can gather wheat at the wheat field.");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -68,6 +63,7 @@ public class AlissaScript : NPCScript
 				MsgSelect(c, "How long do you want to use the Mill?<br/>It's 100 Gold for one minute and 450 Gold for 5 minutes.<br/>Once it starts working, anyone can use the Mill.",
 					"1 Minute", "@onemin", "5 Minutes", "@fivemin", "Forget It", "@forget");
 				break;
+				
 			default:
 				Msg(c, "Can we change the subject?");
 				ShowKeywords(c);

@@ -18,7 +18,7 @@ public class ProffScript : NPCScript
 		SetBody(height: 1f);
 		SetFace(skin: 18, eye: 5, eyeColor: 54, lip: 12);
 
-		EquipItem(Pocket.Hair, 4955, 268435546, 0, 0);
+		EquipItem(Pocket.Hair, 4955, 0x1000005A, 0, 0);
         EquipItem(Pocket.Face, 4909, 18, 0, 0);
 		EquipItem(Pocket.Robe, "Lava Cat Robe", 0x077acb, 0x001647, 0xFFFFFF);
 		EquipItem(Pocket.Shoe, "Dustin Silver Knight Greaves", 0x676767);

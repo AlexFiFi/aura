@@ -14,12 +14,8 @@ public class PiarasScript : NPCScript
 		SetBody(height: 1.28f, fat: 0.9f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 22, eye: 1, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0x1324, 0x8FB397, 0xF69D31, 0xF9AF57);
-		EquipItem(Pocket.Hair, 0xFA4, 0x3F4959, 0x3F4959, 0x3F4959);
+		EquipItem(Pocket.Face, 0x1324, 0x8FB397);
+		EquipItem(Pocket.Hair, 0xFA4, 0x3F4959);
 		EquipItem(Pocket.Armor, 0x3A9B, 0x355047, 0xF6E2B1, 0xFBFBF3);
 		EquipItem(Pocket.Shoe, 0x4274, 0x9C936F, 0x724548, 0x50685C);
 
@@ -34,7 +30,6 @@ public class PiarasScript : NPCScript
 		Phrases.Add("I haven't seen Malcolm around here today. He used to come by every day.");
 		Phrases.Add("Nora, where are you? Nora?");
 		Phrases.Add("The Inn is always bustling with people.");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -58,6 +53,7 @@ public class PiarasScript : NPCScript
 				Msg(c, true, false, "(Piaras is waiting for me to say something.)");
 				ShowKeywords(c);
 				break;
+				
 			default:
 				Msg(c, "I'd love to listen to you, but about something else.");
 				ShowKeywords(c);

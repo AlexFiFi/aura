@@ -14,12 +14,8 @@ public class FerghusScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1.4f, lower: 1.1f);
 		SetFace(skin: 23, eye: 3, eyeColor: 112, lip: 4);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0x1356, 0xF79435, 0xF4666E, 0x245A);
-		EquipItem(Pocket.Hair, 0x1039, 0x2E303F, 0x2E303F, 0x2E303F);
+		EquipItem(Pocket.Face, 0x1356, 0xF79435);
+		EquipItem(Pocket.Hair, 0x1039, 0x2E303F);
 		EquipItem(Pocket.Armor, 0x3D22, 0x1F2340, 0x988486, 0x9E9FAC);
 		EquipItem(Pocket.Shoe, 0x4383, 0x77564A, 0xF2A03A, 0x8A243D);
 		EquipItem(Pocket.LeftHand1, 0x9C58, 0x808080, 0x212121, 0x808080);
@@ -40,7 +36,6 @@ public class FerghusScript : NPCScript
 		Phrases.Add("Ouch, I yawned too big. I nearly ripped my mouth open!");
 		Phrases.Add("Scratching");
 		Phrases.Add("What am I going to make today?");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -86,8 +81,8 @@ public class FerghusScript : NPCScript
 			case "@upgrade":
 				MsgSelect(c, "Will you select items to be modified?<br/>The number and types of modifications are different depending on the items.<br/>When I modify them, my hands never slip or make mistakes. So don't worry, trust me.",
 					"End Conversation", "@endupgrade");
-
 				break;
+				
 			default:
 				Msg(c, "*Yawn* I don't know.");
 				ShowKeywords(c);

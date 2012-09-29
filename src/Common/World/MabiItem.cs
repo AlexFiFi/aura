@@ -209,9 +209,9 @@ namespace Common.World
 				this.Width = dbInfo.Width;
 				this.Height = dbInfo.Height;
 
-				if (this.Type != ItemType.Sac && this.Info.Bundle < 1)
+				if (this.BundleType != BundleType.Sac && this.Info.Bundle < 1)
 					this.Info.Bundle = 1;
-				if (this.Type != ItemType.Sac && this.BundleMax < 1)
+				if (this.BundleMax < 1)
 					this.BundleMax = 1;
 
 				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap1);

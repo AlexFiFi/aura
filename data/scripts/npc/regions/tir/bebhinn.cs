@@ -14,12 +14,8 @@ public class BebhinnScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 27, eye: 59, eyeColor: 55, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		EquipItem(Pocket.Face, 0xF3C, 0xF78042, 0x2A53, 0x6F6A57);
-		EquipItem(Pocket.Hair, 0xC1C, 0x201C1A, 0x201C1A, 0x201C1A);
+		EquipItem(Pocket.Face, 0xF3C, 0xF78042);
+		EquipItem(Pocket.Hair, 0xC1C, 0x201C1A);
 		EquipItem(Pocket.Armor, 0x15FFA, 0xFFE4BF, 0x1E649D, 0x175884);
 		EquipItem(Pocket.Shoe, 0x4290, 0x996633, 0x6175AD, 0x808080);
 
@@ -39,7 +35,6 @@ public class BebhinnScript : NPCScript
 		Phrases.Add("There's nothing worse than a man who makes a woman wait.");
 		Phrases.Add("Where would be a good place to spend my vacation?");
 		Phrases.Add("Wow... I'm so pretty... Hehe.");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -58,6 +53,7 @@ public class BebhinnScript : NPCScript
 				Msg(c, "Are you here to redeem your coupon?",
 					"Please enter the coupon number you wish to redeem.");
 				break;
+				
 			case "@shop":
 				Msg(c, "So, does that mean you're looking for a Personal Shop License then?",
 					"You must have something you want to sell around here!",
@@ -70,6 +66,7 @@ public class BebhinnScript : NPCScript
 				Msg(c, true, false, "(Bebhinn is looking at me.)");
 				ShowKeywords(c);
 				break;
+				
 			default:
 				Msg(c, "Can we change the subject?");
 				ShowKeywords(c);

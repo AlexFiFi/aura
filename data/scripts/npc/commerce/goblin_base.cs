@@ -22,7 +22,6 @@ public class CommerceGoblinScript : NPCScript
 		Phrases.Add("Sell goods in towns not frequented by others!");
 		Phrases.Add("Trading can earn you money!");
 		Phrases.Add("Use a Letter of Guarantee to get better prices for your Trade Goods!");
-
 	}
 
 	public override void OnTalk(WorldClient c)
@@ -41,9 +40,11 @@ public class CommerceGoblinScript : NPCScript
 					"The kingdom came up with Ducats for commerce transactions.",
 					"Use what you earn to purchase new items from the Imp.");
 				break;
+				
 			case "@endcare":
 				Msg(c, "Okay, take good care of it.");
 				break;
+				
 			case "@explain":
 				Msg(c, "Buy low, sell high!<br/>This is the number one principle of trading.", "You purchase trade goods and sell them in other towns.");
 				Msg(c, "If you carry goods to far away places, or places where they are rare,",
@@ -56,15 +57,18 @@ public class CommerceGoblinScript : NPCScript
 					"Y'know, instead of listening to me go on and on, try it yourself!",
 					"Start by purchasing some goods from me to trade.");
 				break;
+				
 			case "@repair":
 				MsgSelect(c, "If it's a Fomor weapon, I can repair it.", "End Conversation", "@endcare");
 				break;
+				
 			default:
 				Msg(c, "Can we change the subject?");
 				ShowKeywords(c);
 				break;
 		}
 	}
+	
 	public override void OnEnd(WorldClient c)
 	{
 		Close(c, "(You have ended your conversation with the Trade Helper.)");

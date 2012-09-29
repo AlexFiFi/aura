@@ -5,7 +5,7 @@ using World.Scripting;
 using World.World;
 using Common.Constants;
 
-public class CaitinScript : NPCScript
+public class DeianScript : NPCScript
 {
 	public override void OnLoad()
 	{
@@ -14,8 +14,8 @@ public class CaitinScript : NPCScript
 		SetBody(height: .85f);
 		SetFace(skin: 23, eye: 19, eyeColor: 0, lip: 0);
 
-		EquipItem(Pocket.Face, 4900, 0x1AB67C, 0xF09D3B, 0x007244);
-		EquipItem(Pocket.Hair, 4156, 0xE7CB60, 0xE7CB60, 0xE7CB60);
+		EquipItem(Pocket.Face, 4900, 0x1AB67C);
+		EquipItem(Pocket.Hair, 4156, 0xE7CB60);
 		EquipItem(Pocket.Armor, 15656, 0xE2EDC7, 0x4F5E44);
 		EquipItem(Pocket.Glove, 16099, 0x343F2D);
 		EquipItem(Pocket.Shoe, 17287, 0x4C392A);
@@ -38,7 +38,6 @@ public class CaitinScript : NPCScript
 		Phrases.Add("I'm so bored. There's just nothing exciting around here.");
 		Phrases.Add("It's amazing how fast they grow feeding on grass.");
 		Phrases.Add("What the... Now there's one missing!");
-
 	}
 
 	public override void OnTalk(WorldClient c)
