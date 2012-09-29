@@ -34,6 +34,7 @@ namespace Common.World
 
 		public byte SkinColor, Eye, EyeColor, Lip;
 		public string StandStyle = "";
+		public string StandStyleTalk = "";
 
 		public uint ColorA = 0x808080;
 		public uint ColorB = 0x808080;
@@ -510,7 +511,7 @@ namespace Common.World
 		/// </summary>
 		/// <param name="itemId"></param>
 		/// <param name="amount"></param>
-		public void GiveItem(uint itemId, uint amount)
+		public void GiveItem(uint itemId, uint amount, int color1 = 0, int color2 = 0, int color3 = 0)
 		{
 			foreach (var item in this.Items)
 			{
@@ -540,15 +541,16 @@ namespace Common.World
 			while (amount > 0)
 			{
 				var item = new MabiItem(itemId);
-				if (amount <= item.BundleMax)
+				ushort itemBundleMax = item.BundleMax > 1 ? item.BundleMax : (ushort)1; //This way, we can't drag the server into an infinate loop
+				if (amount <= itemBundleMax)
 				{
 					item.Info.Bundle = (ushort)amount;
 					amount = 0;
 				}
 				else
 				{
-					item.Info.Bundle = item.BundleMax;
-					amount -= item.BundleMax;
+					item.Info.Bundle = itemBundleMax;
+					amount -= itemBundleMax;
 				}
 
 				var pocket = Pocket.Inventory;
@@ -1168,8 +1170,9 @@ namespace Common.World
 
 			if (this.EntityType == EntityType.NPC)
 			{
-				packet.PutString("");	         // NPC_TALKING_MOTION
+				packet.PutString(StandStyleTalk);	         // NPC_TALKING_MOTION
 			}
+
 			if (Op.Version > 140400)
 				packet.PutByte(0);			         // BombEventState
 		}

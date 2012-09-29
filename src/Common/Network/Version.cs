@@ -64,6 +64,7 @@ namespace Common.Network
 		public readonly static uint GMCPInvisibilityR = 0x4EF0;
 		public readonly static uint GMCPExpel = 0x4EF6;
 		public readonly static uint GMCPBan = 0x4EF7;
+		public readonly static uint GMCPNPCList = 0x4EFF;
 
 		public readonly static uint CharInfoRequestW = 0x5208;
 		public readonly static uint CharInfoRequestWR = 0x5209;

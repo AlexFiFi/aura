@@ -9,7 +9,7 @@ public class CaitinScript : NPCScript
 {
 	public override void OnLoad()
 	{
-		SetName("_Caitin");
+		SetName("_caitin");
 		SetRace(10001);
 		SetBody(height: 1.3f);
 		SetFace(skin: 16, eye: 2, eyeColor: 39, lip: 0);
@@ -22,13 +22,23 @@ public class CaitinScript : NPCScript
 		SetLocation(region: 5, x: 1831, y: 1801);
 
 		SetDirection(64);
-		SetStand("human/female/anim/female_natural_stand_npc_Caitin");
+		SetStand("human/female/anim/female_natural_stand_npc_Caitin_new", "human/female/anim/female_natural_stand_npc_Caitin_talk");
 
 		Shop.AddTabs("Grocery", "Gift", "Quest", "Event");
 		Shop.AddItem("Grocery", "Bread");
 		Shop.AddItem("Grocery", "Slice of Cheese");
 		Shop.AddItem("Grocery", "Sugar", 1);
 		Shop.AddItem("Grocery", "Sugar", 10);
+
+		Phrases.Add("*Yawn*");
+		Phrases.Add("Hmm... Sales are low today... That isn't good.");
+		Phrases.Add("I am a little tired.");
+		Phrases.Add("I have to finish these bills... I'm already behind schedule.");
+		Phrases.Add("I must have had a bad dream.");
+		Phrases.Add("It's about time for customers to start coming in.");
+		Phrases.Add("My body feels stiff all over.");
+		Phrases.Add("These vegetables are spoiling...");
+
 	}
 
 	public override void OnTalk(WorldClient c)

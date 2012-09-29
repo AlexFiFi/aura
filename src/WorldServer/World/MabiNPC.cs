@@ -35,8 +35,8 @@ namespace World.World
 			this.Lower = 1.0f;
 			this.Fat = 1.0f;
 
-			this.LifeMaxBase = 10;
-			this.Life = 10;
+			this.LifeMaxBase = 1000;
+			this.Life = 1000;
 
 			this.Status |= CreatureStates.GoodNpc;
 			this.Status |= CreatureStates.NamedNpc;

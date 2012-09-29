@@ -5,6 +5,7 @@ using Common.World;
 using Common.Network;
 using System.Collections.Generic;
 using Common.Constants;
+using System;
 
 namespace World.Network
 {
@@ -18,6 +19,7 @@ namespace World.Network
 	/// </summary>
 	public static class PacketCreator
 	{
+		public const long GlobalBroadcastId = 0x3000000000000000;
 		public static MabiPacket SystemMessage(MabiCreature target, string from, string message)
 		{
 			var p = new MabiPacket(Op.Chat, target.Id);
@@ -72,9 +74,9 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket Notice(MabiCreature target, string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
+		public static MabiPacket Notice(ulong Id, string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
 		{
-			var p = new MabiPacket(Op.Notice, target.Id);
+			var p = new MabiPacket(Op.Notice, Id);
 
 			p.PutByte((byte)type);
 			p.PutString(message);
@@ -86,9 +88,26 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
+		public static MabiPacket Notice(MabiCreature target, string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
 		{
-			var p = new MabiPacket(Op.EntitiesSpawn, 0x3000000000000000);
+			return Notice(target.Id, message, type, duration);
+		}
+
+		/// <summary>
+		/// Sends a notice to all clients.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="type"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public static MabiPacket Notice(string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
+		{
+			return Notice(GlobalBroadcastId, message, type, duration);
+		}
+
+        public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
+		{
+			var p = new MabiPacket(Op.EntitiesSpawn, GlobalBroadcastId);
 
 			p.PutShort((ushort)entities.Count);
 			foreach (var entity in entities)
@@ -111,14 +130,14 @@ namespace World.Network
 			if (entity is MabiItem)
 				op = Op.ItemAppears;
 
-			var p = new MabiPacket(op, 0x3000000000000000);
+			var p = new MabiPacket(op, GlobalBroadcastId);
 			entity.AddEntityData(p);
 			return p;
 		}
 
 		public static MabiPacket EntitiesLeave(List<MabiEntity> entities)
 		{
-			var p = new MabiPacket(Op.EntitiesDisappear, 0x3000000000000000);
+			var p = new MabiPacket(Op.EntitiesDisappear, GlobalBroadcastId);
 
 			p.PutShort((ushort)entities.Count);
 			foreach (var entity in entities)
@@ -136,7 +155,7 @@ namespace World.Network
 			if (entity is MabiItem)
 				op = Op.ItemDisappears;
 
-			var p = new MabiPacket(op, 0x3000000000000000);
+			var p = new MabiPacket(op, GlobalBroadcastId);
 			p.PutLong(entity.Id);
 			p.PutByte(0);
 

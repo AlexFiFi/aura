@@ -27,6 +27,7 @@ namespace World.World
 		}
 
 		private List<MabiCreature> _creatures = new List<MabiCreature>();
+		private List<WorldClient> _clients = new List<WorldClient>();
 		private List<MabiItem> _items = new List<MabiItem>();
 		private List<MabiProp> _props = new List<MabiProp>();
 
@@ -56,18 +57,21 @@ namespace World.World
 			byte erinnHour = (byte)((serverTicks / 90000) % 24);
 			byte erinnMinute = (byte)((serverTicks / 1500) % 60);
 
+			TimeEventArgs args = new TimeEventArgs(erinnHour, erinnMinute);
+
 			// Erinn time event, every Erinn minute
-			ServerEvents.Instance.OnErinnTimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));
+			ServerEvents.Instance.OnErinnTimeTick(this, args);
 
 			// Erinn time event, every 12 Erinn hours (6AM/6PM specifically)
-			if ((erinnHour == 6 || erinnHour == 18) && erinnMinute == 0)
+			if (((erinnHour == 6 || erinnHour == 18) && erinnMinute == 0) || _lastRlHour == -1) //LastRLHour is so we *always* run it on server startup.
 			{
-				ServerEvents.Instance.OnErinnDaytimeTick(this, new TimeEventArgs(erinnHour, erinnMinute));
+				ServerEvents.Instance.OnErinnDaytimeTick(this, args);
+				this.Broadcast(PacketCreator.Notice((args.IsNight ? "Eweca is rising.\nMana is starting to fill the air all around." : "Eweca has disappeared.\nThe surrounding Mana is starting to fade away."), NoticeType.MIDDLE_TOP), SendTargets.All, null);
 			}
 
 			// Real time event, every Real minute
 			// Some caching is needed here, since this method will be called
-			// multiple times dzring this minute.
+			// multiple times during this minute.
 			int rlHour = now.Hour, rlMinute = now.Minute;
 			if ((rlHour != _lastRlHour || rlMinute != _lastRlMinute))
 			{
@@ -275,6 +279,14 @@ namespace World.World
 					_creatures.Add(creature);
 				}
 			}
+			if (creature.Client != null)
+			{
+				lock (_clients)
+				{
+					if (! _clients.Contains((WorldClient)creature.Client))
+						_clients.Add((WorldClient)creature.Client);
+				}
+			}
 
 			this.Broadcast(PacketCreator.EntityAppears(creature), SendTargets.Range | SendTargets.ExcludeSender, creature);
 
@@ -308,6 +320,13 @@ namespace World.World
 			{
 				_creatures.Remove(creature);
 			}
+			if (creature.Client != null)
+			{
+				lock (_clients)
+				{
+					_clients.Remove((WorldClient)creature.Client);
+				}
+			}
 
 			this.CreatureLeaveRegion(creature);
 			creature.Dispose();
@@ -318,9 +337,12 @@ namespace World.World
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public MabiCharacter GetCharacterByName(string name)
+		public MabiCreature GetCharacterByName(string name, bool forcePC = true)
 		{
-			return _creatures.FirstOrDefault(a => a.Name.Equals(name) && a is MabiCharacter) as MabiCharacter;
+			if (forcePC)
+				return _creatures.FirstOrDefault(a => a.Name.Equals(name) && a is MabiPC);
+			else
+				return _creatures.FirstOrDefault(a => a.Name.Equals(name));
 		}
 
 		/// <summary>
@@ -937,34 +959,37 @@ namespace World.World
 			if (range < 1)
 				range = WorldConf.SightRange;
 
-			// TODO: "Might" be more effective to not check every creature, but make a client list.
-
-			lock (_creatures)
+			bool excludeSender = targets.HasFlag(SendTargets.ExcludeSender);
+			WorldClient sourceClient = null;
+			if (source != null && source is MabiCreature)
+				sourceClient = (WorldClient)((MabiCreature)source).Client;
+			lock (_clients)
 			{
 				if (targets.HasFlag(SendTargets.All))
 				{
-					foreach (var creature in _creatures)
+					foreach (var client in _clients)
 					{
-						if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
-							creature.Client.Send(packet);
+						if (!(excludeSender && client == sourceClient)) //Don't send if we're excluding the sender AND the sender is the client
+							client.Send(packet);
 					}
 				}
 				else if (targets.HasFlag(SendTargets.Region))
 				{
-					foreach (var creature in _creatures)
+					var region = source.Region;
+					foreach (var client in _clients)
 					{
-						if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
-							if (creature.Region == source.Region)
-								creature.Client.Send(packet);
+						if (!(excludeSender && client == sourceClient))
+							if (region == client.Character.Region)
+								client.Send(packet);
 					}
 				}
 				else if (targets.HasFlag(SendTargets.Range))
 				{
-					foreach (var creature in _creatures)
+					foreach (var client in _clients)
 					{
-						if (creature.Client != null && (creature != source || !targets.HasFlag(SendTargets.ExcludeSender)))
-							if (InRange(creature, source, range))
-								creature.Client.Send(packet);
+						if (!(excludeSender && client == sourceClient))
+							if (InRange(client.Character, source, range))
+								client.Send(packet);
 					}
 				}
 			}

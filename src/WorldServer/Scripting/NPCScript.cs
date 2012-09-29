@@ -54,7 +54,9 @@ namespace World.Scripting
 
 		public virtual void OnEnd(WorldClient client)
 		{
-			this.Close(client, "(You ended your conversation with " + NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1) + ".)");
+			string properNPCname = NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
+			properNPCname = properNPCname.Substring(0, 1).ToUpper() + properNPCname.Substring(1);
+			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
 		}
 
 		public override void Dispose()
@@ -68,7 +70,7 @@ namespace World.Scripting
 			if (--_timeToNextSpeak <= 0)
 			{
 				this.Speak();
-				_timeToNextSpeak = RandomProvider.Get().Next(10, 10);
+				_timeToNextSpeak = RandomProvider.Get().Next(10, 30);
 			}
 		}
 
@@ -80,6 +82,28 @@ namespace World.Scripting
 
 		// Built in methods
 		// ==================================================================
+
+		protected void GiveItem(WorldClient client, string name, int color1 = 0, int color2 = 0, int color3 = 0, uint amount = 1)
+		{
+			var item = MabiData.ItemDb.Find(name);
+			if (item == null)
+			{
+				Logger.Warning("Unknown item '" + name + "' cannot be given. Try specifying the ID manually.");
+				return;
+			}
+			GiveItem(client, item.Id, color1, color2, color3, amount);
+		}
+
+		protected void GiveItem(WorldClient client, uint id, int color1 = 0, int color2 = 0, int color3 = 0, uint amount = 1)
+		{
+			client.Character.GiveItem(id, amount);
+		}
+
+		protected void Notice(WorldClient client, params string[] messages)
+		{
+			string message = string.Join("\n", messages);
+			client.Send(PacketCreator.Notice(message));
+		}
 
 		protected virtual void SetName(string name)
 		{
@@ -128,10 +152,10 @@ namespace World.Scripting
 			this.NPC.Direction = direction;
 		}
 
-		protected virtual void SetStand(string style)
+		protected virtual void SetStand(string style, string talk_style = "")
 		{
 			this.NPC.StandStyle = style;
-			WorldManager.Instance.CreatureChangeStance(this.NPC);
+			this.NPC.StandStyleTalk = talk_style;
 		}
 
 		protected void SendScript(WorldClient client, string script)
@@ -285,7 +309,7 @@ namespace World.Scripting
 			var dbInfo = MabiData.ItemDb.Find(itemName);
 			if (dbInfo == null)
 			{
-				Logger.Warning("Unknown item '" + itemName + "'.");
+				Logger.Warning("Unknown item '" + itemName + "' cannot be eqipped. Try specifying the ID manually.");
 				return;
 			}
 

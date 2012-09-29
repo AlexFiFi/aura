@@ -85,6 +85,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.GMCPExpel, HandleGMCPExpel);
 			this.RegisterPacketHandler(Op.GMCPBan, HandleGMCPBan);
 			this.RegisterPacketHandler(Op.GMCPClose, (c, p) => { }); // TODO: Maybe add this to a gm log.
+			this.RegisterPacketHandler(Op.GMCPNPCList, HandleGMCPListNPCs);
 		}
 
 		private void HandleLogin(WorldClient client, MabiPacket packet)
@@ -359,8 +360,8 @@ namespace World.Network
 				return;
 
 			var targetName = packet.GetString();
-			var target = WorldManager.Instance.GetCharacterByName(targetName);
-			if (target == null || target.Client == null)
+			var target = WorldManager.Instance.GetCharacterByName(targetName, false);
+			if (target == null)
 			{
 				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
 				return;
@@ -414,7 +415,12 @@ namespace World.Network
 			targetClient.Warp(client.Character.Region, pos.X, pos.Y);
 		}
 
-		public void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
+		private void HandleGMCPListNPCs(WorldClient client, MabiPacket packet)
+		{
+			client.Send(PacketCreator.SystemMessage(client.Character, "Unimplimented at the moment!"));
+		}
+
+		private void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
 		{
 			if (client.Account.Authority < Authority.GameMaster)
 				return;
@@ -432,7 +438,7 @@ namespace World.Network
 			client.Send(p);
 		}
 
-		public void HandleGMCPExpel(WorldClient client, MabiPacket packet)
+		private void HandleGMCPExpel(WorldClient client, MabiPacket packet)
 		{
 			if (client.Account.Authority < Authority.GameMaster)
 				return;
@@ -450,7 +456,7 @@ namespace World.Network
 			target.Client.Kill();
 		}
 
-		public void HandleGMCPBan(WorldClient client, MabiPacket packet)
+		private void HandleGMCPBan(WorldClient client, MabiPacket packet)
 		{
 			if (client.Account.Authority < Authority.GameMaster)
 				return;
