@@ -568,7 +568,7 @@ namespace Common.Database
 						item.Info.ColorB = reader.GetUInt32("color_02");
 						item.Info.ColorC = reader.GetUInt32("color_03");
 						item.OptionInfo.Price = reader.GetUInt32("price");
-						item.Info.Bundle = reader.GetUInt16("bundle");
+						item.Info.Amount = reader.GetUInt16("bundle");
 						item.OptionInfo.LinkedPocketId = reader.GetUInt32("linked_pocket");
 						item.Info.FigureA = (byte)reader.GetUInt32("figure");
 						item.OptionInfo.Flag = reader.GetByte("flag");
@@ -900,7 +900,7 @@ namespace Common.Database
 					mc.Parameters.AddWithValue("@color_02", item.Info.ColorB);
 					mc.Parameters.AddWithValue("@color_03", item.Info.ColorC);
 					mc.Parameters.AddWithValue("@price", item.OptionInfo.Price);
-					mc.Parameters.AddWithValue("@bundle", item.Info.Bundle);
+					mc.Parameters.AddWithValue("@bundle", item.Info.Amount);
 					mc.Parameters.AddWithValue("@linked_pocket", item.OptionInfo.LinkedPocketId);
 					mc.Parameters.AddWithValue("@figure", item.Info.FigureA);
 					mc.Parameters.AddWithValue("@flag", item.OptionInfo.Flag);

@@ -66,14 +66,14 @@ namespace World.World
 		public void AddItem(string tab, uint itemClass, ushort amount = 1, int price = -1)
 		{
 			var item = new MabiItem(itemClass);
-			item.Info.Bundle = Math.Min(amount, item.BundleMax);
+			item.Info.Amount = Math.Min(amount, item.StackMax);
 			this.AddItem(tab, item, amount, price);
 		}
 
 		public void AddItem(string tab, uint itemClass, uint color1, uint color2, uint color3, ushort amount = 1, int price = -1)
 		{
 			var item = new MabiItem(itemClass);
-			item.Info.Bundle = Math.Min(amount, item.BundleMax);
+			item.Info.Amount = Math.Min(amount, item.StackMax);
 			item.Info.ColorA = color1;
 			item.Info.ColorB = color2;
 			item.Info.ColorC = color3;

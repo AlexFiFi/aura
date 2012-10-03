@@ -39,12 +39,13 @@ bitmasks, which allow you to hide specific log messages. To specify more than
 one, you simply add the values.
 
 Values:
-    INFO      = 1
-    WARNING   = 2
-    ERROR     = 4
-    DEBUG     = 8
-    STATUS    = 16
-    EXCEPTION = 32
+    Info          = 1
+    Warning       = 2
+    Error         = 4
+    Debug         = 8
+    Status        = 16
+    Exception     = 32
+    Unimplemented = 64
 
 Examples:
     login_consolefilter = 0  // Display everything

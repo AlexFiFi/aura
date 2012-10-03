@@ -249,14 +249,14 @@ namespace World.World
 
 				var itemName = args[1].Replace('_', ' ');
 
-				var newItemInfo = MabiData.ItemDb.Find(itemName);
-				if (newItemInfo == null)
+				var newItemInfo = MabiData.ItemDb.FindAll(itemName);
+				if (newItemInfo.Count < 1)
 				{
 					client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemName + "' not found in database."));
 					return CommandResult.Fail;
 				}
 
-				itemId = newItemInfo.Id;
+				itemId = newItemInfo[0].Id;
 			}
 
 			if (MabiData.ItemDb.Find(itemId) == null)
@@ -266,22 +266,23 @@ namespace World.World
 			}
 
 			var newItem = new MabiItem(itemId);
-			newItem.Info.Bundle = 1;
+			newItem.Info.Amount = 1;
 
 			if (args.Length == 3)
 			{
 				// command id amount
 
-				if (!ushort.TryParse(args[2], out newItem.Info.Bundle))
+				if (!ushort.TryParse(args[2], out newItem.Info.Amount))
 				{
 					client.Send(PacketCreator.ServerMessage(creature, "Invalid amount."));
 					return CommandResult.Fail;
 				}
 
-				if (newItem.Info.Bundle > newItem.BundleMax)
-					newItem.Info.Bundle = newItem.BundleMax;
-				if (newItem.BundleType == BundleType.None)
-					newItem.Info.Bundle = 1;
+				// Just in case
+				if (newItem.Info.Amount > newItem.StackMax)
+					newItem.Info.Amount = newItem.StackMax;
+				if (newItem.StackType == BundleType.None)
+					newItem.Info.Amount = 1;
 			}
 			else if (args.Length == 5)
 			{
@@ -293,24 +294,24 @@ namespace World.World
 				{
 					if (args[i + 2].StartsWith("0x"))
 					{
+						// Color in hex
 						color[i] = uint.Parse(args[i + 2].Substring(2), System.Globalization.NumberStyles.HexNumber);
+					}
+					else if (uint.TryParse(args[i + 2], out color[i]))
+					{
+						// Mabi color
+						color[i] += 0x10000000;
 					}
 					else
 					{
-						if (uint.TryParse(args[i + 2], out color[i]))
+						// Color by name
+						switch (args[i + 2])
 						{
-							color[i] += 0x10000000;
-						}
-						else
-						{
-							switch (args[i + 2])
-							{
-								case "black": color[i] = 0xFF000000; break;
-								case "white": color[i] = 0xFFFFFFFF; break;
-								default:
-									client.Send(PacketCreator.ServerMessage(creature, "Unknown color."));
-									return CommandResult.Fail;
-							}
+							case "black": color[i] = 0xFF000000; break;
+							case "white": color[i] = 0xFFFFFFFF; break;
+							default:
+								client.Send(PacketCreator.ServerMessage(creature, "Unknown color."));
+								return CommandResult.Fail;
 						}
 					}
 				}
@@ -556,9 +557,8 @@ namespace World.World
 			creature.Race = raceId;
 
 			client.Send(PacketCreator.SystemMessage(creature, "Your race has been changed. You'll be logged out to complete the process."));
-			client.Send(PacketCreator.SystemMessage(creature, "See you in 30 seconds :)"));
 
-			client.Kill();
+			client.Disconnect(3);
 
 			return CommandResult.Okay;
 		}
@@ -599,15 +599,7 @@ namespace World.World
 
 		private CommandResult Command_test(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			var searchId = 2000;
-			var total = 0;
-			foreach (var item in client.Character.Items)
-			{
-				if (item.Info.Class == searchId || item.StackItem == searchId)
-					total += item.Info.Bundle;
-			}
-
-			client.Send(PacketCreator.ServerMessage(creature, "Your gold: " + total.ToString()));
+			client.Disconnect(10);
 
 			return CommandResult.Okay;
 		}

@@ -22,7 +22,6 @@ namespace World.Network
 
 		public override void Kill()
 		{
-			// TODO: There is some kind of client disconnect packet, isn't there?
 			if (this.State != SessionState.Dead)
 			{
 				foreach (var creature in this.Creatures)
@@ -40,6 +39,11 @@ namespace World.Network
 			{
 				Logger.Warning("Client got killed multiple times." + Environment.NewLine + Environment.StackTrace);
 			}
+		}
+
+		public void Disconnect(int seconds = 5)
+		{
+			this.Send(new MabiPacket(Op.RequestClientDisconnect, 0x1000000000000001).PutSInt(seconds * 1000));
 		}
 
 		public void Warp(uint region, uint x, uint y)

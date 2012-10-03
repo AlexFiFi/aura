@@ -46,7 +46,7 @@ namespace World.Scripting
 		{
 		}
 
-		public virtual void OnSelect(WorldClient client, string response)
+		public virtual void OnSelect(WorldClient client, string response, string input = null)
 		{
 			// TODO: I guess we need a check later, if the player actually has the keyword.
 			this.MsgSelect(client, "(Server: Unknown keyword.)");
@@ -260,6 +260,12 @@ namespace World.Scripting
 
 			this.SendScript(client, script);
 
+			this.Select(client);
+		}
+
+		protected virtual void MsgInput(WorldClient client, string message, string title = "Input", string description = "", byte maxLen = 20, bool cancelable = true)
+		{
+			this.Msg(client, message, "<inputbox title='" + title + "' caption='" + description + "' max_len='" + maxLen.ToString() + "' allow_cancel='" + (cancelable ? "true" : "false") + "'/>");
 			this.Select(client);
 		}
 

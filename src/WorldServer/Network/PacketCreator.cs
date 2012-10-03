@@ -202,7 +202,7 @@ namespace World.Network
 		{
 			var p = new MabiPacket(Op.ItemAmount, creature.Id);
 			p.PutLong(item.Id);
-			p.PutShort(item.Info.Bundle);
+			p.PutShort(item.Info.Amount);
 			p.PutByte(2);
 			return p;
 		}

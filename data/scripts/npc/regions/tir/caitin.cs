@@ -38,7 +38,6 @@ public class CaitinScript : NPCScript
 		Phrases.Add("It's about time for customers to start coming in.");
 		Phrases.Add("My body feels stiff all over.");
 		Phrases.Add("These vegetables are spoiling...");
-
 	}
 
 	public override void OnTalk(WorldClient c)

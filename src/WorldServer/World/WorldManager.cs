@@ -32,6 +32,7 @@ namespace World.World
 		private List<MabiProp> _props = new List<MabiProp>();
 
 		private int _lastRlHour = -1, _lastRlMinute = -1;
+		private int _overloadCounter = 0;
 
 		private DateTime last = DateTime.MaxValue;
 
@@ -50,8 +51,13 @@ namespace World.World
 
 			if ((now - last).TotalMilliseconds > 1700)
 			{
-				Logger.Warning("Server took longer than expected for ErinnTimeTick. (Overloaded?)");
+				if (++_overloadCounter >= 2)
+				{
+					Logger.Warning("Server took longer than expected for ErinnTimeTick. (Overloaded?)");
+					_overloadCounter = 0;
+				}
 			}
+
 			last = now;
 
 			byte erinnHour = (byte)((serverTicks / 90000) % 24);
@@ -283,7 +289,7 @@ namespace World.World
 			{
 				lock (_clients)
 				{
-					if (! _clients.Contains((WorldClient)creature.Client))
+					if (!_clients.Contains((WorldClient)creature.Client))
 						_clients.Add((WorldClient)creature.Client);
 				}
 			}
@@ -530,16 +536,16 @@ namespace World.World
 			this.Broadcast(p, SendTargets.Range, creature);
 		}
 
-		public void CreatureMoveEquip(MabiCreature creature, Pocket from, Pocket to)
+		public void CreatureUnequip(MabiCreature creature, Pocket from)
 		{
 			var p = new MabiPacket(Op.EquipmentMoved, creature.Id);
 			p.PutByte((byte)from);
-			p.PutByte((byte)to);
+			p.PutByte(1);
 
 			this.Broadcast(p, SendTargets.Range, creature);
 		}
 
-		public void CreatureChangeEquip(MabiCreature creature, MabiItem item)
+		public void CreatureEquip(MabiCreature creature, MabiItem item)
 		{
 			var p = new MabiPacket(Op.EquipmentChanged, creature.Id);
 			p.PutBin(item.Info);
@@ -557,7 +563,7 @@ namespace World.World
 			if (!ie.New)
 			{
 				// Update or remove, depending on type and amount
-				if (ie.Item.BundleType == BundleType.Sac || ie.Item.Info.Bundle > 0)
+				if (ie.Item.StackType == BundleType.Sac || ie.Item.Info.Amount > 0)
 				{
 					(creature.Client as WorldClient).Send(PacketCreator.ItemAmount(creature, ie.Item));
 				}
@@ -856,7 +862,7 @@ namespace World.World
 								if (amount > 0)
 								{
 									var gold = new MabiItem(2000);
-									gold.Info.Bundle = (ushort)amount;
+									gold.Info.Amount = (ushort)amount;
 									gold.Info.Region = npc.Region;
 									gold.Info.X = (uint)(action.OldPosition.X + rnd.Next(-50, 51));
 									gold.Info.Y = (uint)(action.OldPosition.Y + rnd.Next(-50, 51));
@@ -872,7 +878,7 @@ namespace World.World
 								if (rnd.NextDouble() <= drop.Chance)
 								{
 									var item = new MabiItem(drop.ItemId);
-									item.Info.Bundle = 1;
+									item.Info.Amount = 1;
 									item.Info.Region = npc.Region;
 									item.Info.X = (uint)(action.OldPosition.X + rnd.Next(-50, 51));
 									item.Info.Y = (uint)(action.OldPosition.Y + rnd.Next(-50, 51));

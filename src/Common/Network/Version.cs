@@ -7,7 +7,7 @@ namespace Common.Network
 	{
 		// NA:      160200
 		// TW:      170100 (not fully supported yet)
-		// KR test: 170200 (not fully supported yet)
+		// KR test: 170300 (not fully supported yet)
 		// EU:      140400 (not fully supported yet)
 		public const uint Version = 160200;
 
@@ -53,6 +53,7 @@ namespace Common.Network
 		public readonly static uint LoginWR = 0x4E23;
 		public readonly static uint DisconnectW = 0x4E24;
 		public readonly static uint DisconnectWR = 0x4E25;
+		public readonly static uint RequestClientDisconnect = 0x4E26;
 		public readonly static uint Disappear = 0x4E2A;
 		//public readonly static uint GoRebirth = 0x4E32;
 		public readonly static uint GMCPOpen = 0x4EE9;
@@ -186,13 +187,16 @@ namespace Common.Network
 
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint MoonGateRequest = 0xA428;
+		public readonly static uint MoonGateRequestR = 0xA429;
 		public readonly static uint MailsRequest = 0xA898;
 		public readonly static uint MailsRequestR = 0xA899;
 		public readonly static uint SosButton = 0xA9A9;
 		public readonly static uint SosButtonR = 0xA9AA;
 		public readonly static uint SubsribeStun = 0xAA1C; // ?
 		public readonly static uint StunMeter = 0xAA1D;
-		public readonly static uint AfterLogin = 0xAA54;
+		public readonly static uint HomesteadInfoRequest = 0xAA54;
+		public readonly static uint HomesteadInfoRequestR = 0xAA55;
+		public readonly static uint GoBeautyShop = 0xAAEC;
 
 		public readonly static uint NPCTalkSelectable = 0x13882;
 		public readonly static uint NPCTalkSelect = 0x13883;
@@ -209,6 +213,7 @@ namespace Common.Network
 		public readonly static uint Walking = 0x0FD13021;
 		public readonly static uint Walk = 0x0FF23431;
 
+#pragma warning disable
 		static Op()
 		{
 			// EU
@@ -223,5 +228,6 @@ namespace Common.Network
 				CombatAttack = 0x0FB10001;
 			}
 		}
+#pragma warning restore
 	}
 }

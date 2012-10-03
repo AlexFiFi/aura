@@ -195,6 +195,17 @@ on the fly during a conversation.
 
 -----------------------------------------------------------------------------
 
+** MsgInput(<MabiClient:client>, <string:message>, [<string:title>="Input"[, <string:description>=""[, <byte:maxLen>=20[, <bool:cancelable>=true]]]])
+
+Sends the given message to the client, and opens an input box. If the player
+cancels the input, the response code will be "@cancel". If he enters
+something, the code will be "@input", and the second parameter of OnSelect
+will contain the input string. For an example, see the bank NPCs.
+You can use "<br/>" in message to create line breaks, if a function
+doesn't support dynamic line concatenation, like here.
+
+-----------------------------------------------------------------------------
+
 ** Select(<MabiClient:client>)
 
 Notifies the client that he can select something now. This should be send

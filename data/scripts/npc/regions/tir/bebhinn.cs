@@ -45,13 +45,22 @@ public class BebhinnScript : NPCScript
 		MsgSelect(c, "May I help you?", "Start Conversation", "@talk", "Open My Account", "@bank", "Redeem Coupon", "@redeem", "Shop", "@shop");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i)
 	{
 		switch (r)
 		{
 			case "@redeem":
-				Msg(c, "Are you here to redeem your coupon?",
-					"Please enter the coupon number you wish to redeem.");
+				MsgInput(c, "Are you here to redeem your coupon?<br/>Please enter the coupon number you wish to redeem.", "Exchange Coupon", "Enter your coupon number");
+				break;
+				
+			case "@input":
+				// Check code in "i"
+				Msg(c, "I checked the number at our Head Office, and they say this coupon does not exist.", "Please double check the coupon number.");
+				break;
+				
+			case "@cancel":
+				// Missing real response.
+				Msg(c, "Come back any time.");
 				break;
 				
 			case "@shop":

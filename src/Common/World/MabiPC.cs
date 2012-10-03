@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Common.Network;
+using Common.Constants;
 
 namespace Common.World
 {
@@ -38,6 +39,7 @@ namespace Common.World
 			return (byte)((this.DeletionTime <= DateTime.MinValue) ? 0 : ((this.DeletionTime >= DateTime.Now) ? 1 : 2));
 		}
 
+#pragma warning disable
 		public void AddPrivateEntityData(MabiPacket packet)
 		{
 			this.AddEntityData(packet, 2);
@@ -400,8 +402,8 @@ namespace Common.World
 			packet.PutByte(0);                   // IsUsingAdvancedPlay (old service)
 			packet.PutByte(0);                   // PremiumService 0
 			packet.PutByte(0);                   // PremiumService 1
-			packet.PutByte(1);                   // Premium gestures
-			packet.PutByte(0);					 // PremiumService 3
+			packet.PutByte(1);                   // Premium Gestures
+			packet.PutByte(0);					 
 			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutByte(0);
@@ -426,11 +428,15 @@ namespace Common.World
 			// --------------------------------------------------------------
 			if (Op.Version > 140400)
 			{
-				packet.PutLong(0);
+				// Style
+				packet.PutLong(DateTime.Now.AddMonths(1));
 				packet.PutShort(72);
+
+				// ?
 				packet.PutLong(0);
 				packet.PutShort(73);
 			}
 		}
 	}
+#pragma warning restore
 }

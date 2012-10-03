@@ -10,16 +10,16 @@ namespace Common.Constants
 		Glove = 2,
 		Shoe = 3,
 		Book = 4,
-		Gold = 5,
+		Currency = 5,
 		ItemBag = 6,
 		Weapon = 7,
-		Weapons2H = 8, // 2H, bows, tools, etc
+		Weapon2H = 8, // 2H, bows, tools, etc
 		Weapon2 = 9, // Ineffective Weapons? Signs, etc.
 		Instrument = 10,
 		Shield = 11,
 		Robe = 12,
 		Accessory = 13,
-		Arrow = 14,
+		SecondaryWeapon = 14,
 		MusicScroll = 15,
 		Manual = 16,
 		EnchantScroll = 17,
@@ -27,6 +27,12 @@ namespace Common.Constants
 		ShopLicense = 19,
 		FaliasTreasure = 20,
 		Kiosk = 21,
+		StyleArmor = 22,
+		StyleHeadgear = 23,
+		StyleGlove = 24,
+		StyleShoe = 25,
+		ComboCard = 27,
+		Unknown2 = 28,
 		Hair = 100,
 		Face = 101,
 		Usable = 501,
@@ -34,7 +40,7 @@ namespace Common.Constants
 		Usable2 = 503,
 		Unknown1 = 504,
 		Sac = 1000,
-		Misc = 1001, // ?
+		Misc = 1001,
 	}
 
 	public enum BundleType : byte
@@ -98,10 +104,19 @@ namespace Common.Constants
 		RobeStyle = 47,
 		PersonalInventory = 49,
 		VIPInventory = 50,
-		ExpandedInventory = 72,
 		FarmStone = 81,
 		Inventory2 = 100,
 
 		Max,
+	}
+
+	public static class PocketExtensions
+	{
+		public static bool IsEquip(this Pocket pocket)
+		{
+			if ((pocket >= Pocket.Face && pocket <= Pocket.Accessory2) || (pocket >= Pocket.ArmorStyle && pocket <= Pocket.RobeStyle))
+				return true;
+			return false;
+		}
 	}
 }

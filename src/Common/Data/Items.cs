@@ -13,9 +13,10 @@ using Common.Tools;
 
 namespace Common.Data
 {
-	public class ItemDbInfo
+	public class ItemInfo
 	{
 		public uint Id;
+		public uint Version;
 		public string Name, KorName;
 		public ushort Type;
 		public byte Width, Height;
@@ -38,20 +39,20 @@ namespace Common.Data
 		public float UsableToxic;
 	}
 
-	public class ItemDb : DataManager<ItemDbInfo>
+	public class ItemDb : DataManager<ItemInfo>
 	{
-		public ItemDbInfo Find(uint id)
+		public ItemInfo Find(uint id)
 		{
 			return this.Entries.FirstOrDefault(a => a.Id == id);
 		}
 
-		public ItemDbInfo Find(string name)
+		public ItemInfo Find(string name)
 		{
 			name = name.ToLower();
 			return this.Entries.FirstOrDefault(a => a.Name.ToLower() == name);
 		}
 
-		public List<ItemDbInfo> FindAll(string name)
+		public List<ItemInfo> FindAll(string name)
 		{
 			name = name.ToLower();
 			return this.Entries.FindAll(a => a.Name.ToLower().Contains(name));
@@ -63,7 +64,7 @@ namespace Common.Data
 			this.ReadCsv(filePath, 25);
 		}
 
-		protected override void CsvToEntry(ItemDbInfo info, List<string> csv, int currentLine)
+		protected override void CsvToEntry(ItemInfo info, List<string> csv, int currentLine)
 		{
 			var i = 0;
 			info.Id = Convert.ToUInt32(csv[i++]);
@@ -71,18 +72,29 @@ namespace Common.Data
 			if (this.Find(info.Id) != null)
 				Logger.Warning("Double item id: " + info.Id.ToString());
 
+			if (csv[i] != "000000")
+				info.Version = Convert.ToUInt32(csv[i]);
+			i++;
+
 			info.Name = csv[i++];
 			info.KorName = csv[i++];
 			info.Type = Convert.ToUInt16(csv[i++]);
 			info.StackType = Convert.ToUInt16(csv[i++]);
 			info.StackMax = Convert.ToUInt16(csv[i++]);
-			info.StackItem = Convert.ToUInt32(csv[i++]);
+
+			if (info.StackMax < 1)
+				info.StackMax = 1;
+
+			if (csv[i] != string.Empty)
+				info.StackItem = Convert.ToUInt32(csv[i]);
+			i++;
+
 			info.Width = Convert.ToByte(csv[i++]);
 			info.Height = Convert.ToByte(csv[i++]);
 			info.ColorMap1 = Convert.ToByte(csv[i++]);
 			info.ColorMap2 = Convert.ToByte(csv[i++]);
 			info.ColorMap3 = Convert.ToByte(csv[i++]);
-			info.ColorMode = Convert.ToByte(csv[i++]);
+			//info.ColorMode = Convert.ToByte(csv[i++]);
 			info.Price = Convert.ToUInt32(csv[i++]);
 			info.SellingPrice = (info.Id != 2000 ? (uint)(info.Price * 0.1f) : 1);
 			info.Durability = Convert.ToUInt32(csv[i++]);
@@ -103,7 +115,7 @@ namespace Common.Data
 				info.AttackSpeed = Convert.ToByte(csv[i++]);
 				info.KnockCount = Convert.ToByte(csv[i++]);
 			}
-			if (info.Type < 400 || info.Type > 503)
+			if ((info.Type < 400 || info.Type > 503) || info.Type == 502)
 			{
 				i += 15;
 			}

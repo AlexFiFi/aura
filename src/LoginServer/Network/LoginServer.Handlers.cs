@@ -51,6 +51,7 @@ namespace Login.Network
 			client.Send(response);
 		}
 
+#pragma warning disable
 		private void HandleLogin(LoginClient client, MabiPacket packet)
 		{
 			var loginType = packet.GetByte(); // Known: 0x00 (KR), 0x0C, 0x12 (EU) (Normal), 0x5 (New), 0x2 (Coming from channel)
@@ -334,6 +335,7 @@ namespace Login.Network
 
 			client.Send(response);
 		}
+#pragma warning restore
 
 		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, Banned = 101 }
 

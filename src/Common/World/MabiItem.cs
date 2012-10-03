@@ -22,7 +22,7 @@ namespace Common.World
 		public uint ColorA;
 		public uint ColorB;
 		public uint ColorC;
-		public ushort Bundle;
+		public ushort Amount;
 		private ushort __unknown7;
 		public uint Region;
 		public uint X;
@@ -92,11 +92,11 @@ namespace Common.World
 	{
 		public MabiItemInfo Info;
 		public MabiItemOptionInfo OptionInfo;
-		public ItemDbInfo DataInfo;
+		public ItemInfo DataInfo;
 
 		public ItemType Type = ItemType.Misc;
-		public BundleType BundleType;
-		public ushort BundleMax;
+		public BundleType StackType;
+		public ushort StackMax;
 		public uint StackItem;
 		public byte Width, Height;
 
@@ -123,8 +123,8 @@ namespace Common.World
 			this.OptionInfo = itemToCopy.OptionInfo;
 
 			this.Type = itemToCopy.Type;
-			this.BundleType = itemToCopy.BundleType;
-			this.BundleMax = itemToCopy.BundleMax;
+			this.StackType = itemToCopy.StackType;
+			this.StackMax = itemToCopy.StackMax;
 			this.StackItem = itemToCopy.StackItem;
 			this.Width = itemToCopy.Width;
 			this.Height = itemToCopy.Height;
@@ -158,16 +158,18 @@ namespace Common.World
 			get { return 80; }
 		}
 
-		public int Count { get { return this.Info.Bundle; } }
+		public int Count { get { return this.Info.Amount; } }
 
 		public static MabiItem operator +(MabiItem item, int val)
 		{
-			if (item.Info.Bundle + val < 0)
-				item.Info.Bundle = 0;
-			else if (item.Info.Bundle + val > ushort.MaxValue)
-				item.Info.Bundle = ushort.MaxValue;
+			if (item.Info.Amount + val < 0)
+				item.Info.Amount = 0;
+			else if (item.Info.Amount + val > ushort.MaxValue)
+				item.Info.Amount = ushort.MaxValue;
+			else if (item.Info.Amount + val > item.StackMax)
+				item.Info.Amount = item.StackMax;
 			else
-				item.Info.Bundle += (ushort)val;
+				item.Info.Amount += (ushort)val;
 			return item;
 		}
 
@@ -178,56 +180,48 @@ namespace Common.World
 
 		public void LoadDefault()
 		{
-			var dbInfo = MabiData.ItemDb.Find(this.Info.Class);
-			if (dbInfo != null)
+			this.DataInfo = MabiData.ItemDb.Find(this.Info.Class);
+			if (this.DataInfo != null)
 			{
-				this.DataInfo = dbInfo;
+				this.Info.KnockCount = this.DataInfo.KnockCount;
+				this.OptionInfo.KnockCount = this.DataInfo.KnockCount;
 
-				this.Info.KnockCount = dbInfo.KnockCount;
-				this.OptionInfo.KnockCount = dbInfo.KnockCount;
-
-				this.OptionInfo.Durability = dbInfo.Durability;
-				this.OptionInfo.DurabilityMax = dbInfo.Durability;
-				this.OptionInfo.DurabilityOriginal = dbInfo.Durability;
-				this.OptionInfo.AttackMin = dbInfo.AttackMin;
-				this.OptionInfo.AttackMax = dbInfo.AttackMax;
-				this.OptionInfo.Balance = dbInfo.Balance;
-				this.OptionInfo.Critical = dbInfo.Critical;
-				this.OptionInfo.Defense = dbInfo.Defense;
-				this.OptionInfo.Protection = dbInfo.Protection;
-				this.OptionInfo.Price = dbInfo.Price;
-				this.OptionInfo.SellingPrice = dbInfo.SellingPrice;
-				this.OptionInfo.WeaponType = dbInfo.WeaponType;
-				this.OptionInfo.AttackSpeed = dbInfo.AttackSpeed;
+				this.OptionInfo.Durability = this.DataInfo.Durability;
+				this.OptionInfo.DurabilityMax = this.DataInfo.Durability;
+				this.OptionInfo.DurabilityOriginal = this.DataInfo.Durability;
+				this.OptionInfo.AttackMin = this.DataInfo.AttackMin;
+				this.OptionInfo.AttackMax = this.DataInfo.AttackMax;
+				this.OptionInfo.Balance = this.DataInfo.Balance;
+				this.OptionInfo.Critical = this.DataInfo.Critical;
+				this.OptionInfo.Defense = this.DataInfo.Defense;
+				this.OptionInfo.Protection = this.DataInfo.Protection;
+				this.OptionInfo.Price = this.DataInfo.Price;
+				this.OptionInfo.SellingPrice = this.DataInfo.SellingPrice;
+				this.OptionInfo.WeaponType = this.DataInfo.WeaponType;
+				this.OptionInfo.AttackSpeed = this.DataInfo.AttackSpeed;
 
 				this.OptionInfo.Flag = 1;
 
-				this.BundleMax = dbInfo.StackMax;
-				this.BundleType = (BundleType)dbInfo.StackType;
-				this.Type = (ItemType)dbInfo.Type;
-				this.StackItem = dbInfo.StackItem;
-				this.Width = dbInfo.Width;
-				this.Height = dbInfo.Height;
+				this.Type = (ItemType)this.DataInfo.Type;
+				this.StackType = (BundleType)this.DataInfo.StackType;
+				this.StackMax = this.DataInfo.StackMax;
+				this.StackItem = this.DataInfo.StackItem;
+				this.Width = this.DataInfo.Width;
+				this.Height = this.DataInfo.Height;
 
-				if (this.BundleType != BundleType.Sac && this.Info.Bundle < 1)
-					this.Info.Bundle = 1;
-				if (this.BundleMax < 1)
-					this.BundleMax = 1;
-
-				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap1);
-				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap2);
-				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(dbInfo.ColorMap3);
-				//if (dbInfo.ColorMode == 6 || dbInfo.ColorMode == 8)
-				//{
-				//    this.Info.ColorA = ((this.Info.ColorA & 0xFF) << 16) + ((this.Info.ColorA >> 8 & 0xFF) << 8) + (this.Info.ColorA >> 16 & 0xFF);
-				//    this.Info.ColorB = ((this.Info.ColorB & 0xFF) << 16) + ((this.Info.ColorB >> 8 & 0xFF) << 8) + (this.Info.ColorB >> 16 & 0xFF);
-				//    this.Info.ColorC = ((this.Info.ColorC & 0xFF) << 16) + ((this.Info.ColorC >> 8 & 0xFF) << 8) + (this.Info.ColorC >> 16 & 0xFF);
-				//}
+				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap1);
+				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap2);
+				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap3);
 			}
 			else
 			{
 				Logger.Warning("Item '" + this.Info.Class.ToString() + "' couldn't be found in the database.");
 			}
+
+			if (this.StackType != BundleType.Sac && this.Info.Amount < 1)
+				this.Info.Amount = 1;
+			if (this.StackMax < 1)
+				this.StackMax = 1;
 		}
 
 		public bool IsEquipped()

@@ -515,25 +515,25 @@ namespace Common.World
 		{
 			foreach (var item in this.Items)
 			{
-				if ((item.Type == ItemType.Sac && item.StackItem == itemId) || (item.Info.Class == itemId && item.BundleType == BundleType.Stackable))
+				if ((item.Type == ItemType.Sac && item.StackItem == itemId) || (item.Info.Class == itemId && item.StackType == BundleType.Stackable))
 				{
-					if (item.Info.Bundle >= item.BundleMax)
+					if (item.Info.Amount >= item.StackMax)
 						continue;
 
-					var prev = item.Info.Bundle;
-					var diff = item.BundleMax - item.Info.Bundle;
+					var prev = item.Info.Amount;
+					var diff = item.StackMax - item.Info.Amount;
 					if (diff >= amount)
 					{
-						item.Info.Bundle += (ushort)amount;
+						item.Info.Amount += (ushort)amount;
 						amount = 0;
 					}
 					else
 					{
-						item.Info.Bundle = item.BundleMax;
+						item.Info.Amount = item.StackMax;
 						amount -= (uint)diff;
 					}
 
-					if (prev != item.Info.Bundle)
+					if (prev != item.Info.Amount)
 						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
 				}
 			}
@@ -541,16 +541,16 @@ namespace Common.World
 			while (amount > 0)
 			{
 				var item = new MabiItem(itemId);
-				ushort itemBundleMax = item.BundleMax > 1 ? item.BundleMax : (ushort)1; // This way, we can't drag the server into an infinate loop
-				if (amount <= itemBundleMax)
+				var max = Math.Max((ushort)1, item.StackMax); // This way, we can't drag the server into an infinate loop
+				if (amount <= max)
 				{
-					item.Info.Bundle = (ushort)amount;
+					item.Info.Amount = (ushort)amount;
 					amount = 0;
 				}
 				else
 				{
-					item.Info.Bundle = itemBundleMax;
-					amount -= itemBundleMax;
+					item.Info.Amount = max;
+					amount -= max;
 				}
 
 				var pocket = Pocket.Inventory;
@@ -583,21 +583,21 @@ namespace Common.World
 			{
 				if (item.Info.Class == 2000)
 				{
-					var prev = item.Info.Bundle;
-					if (amount <= item.Info.Bundle)
+					var prev = item.Info.Amount;
+					if (amount <= item.Info.Amount)
 					{
-						item.Info.Bundle -= (ushort)amount;
+						item.Info.Amount -= (ushort)amount;
 						amount = 0;
 					}
 					else
 					{
-						amount = amount - item.Info.Bundle;
-						item.Info.Bundle = 0;
+						amount = amount - item.Info.Amount;
+						item.Info.Amount = 0;
 					}
 
-					if (prev != item.Info.Bundle)
+					if (prev != item.Info.Amount)
 					{
-						if (item.BundleType != BundleType.Sac && item.Info.Bundle < 1)
+						if (item.StackType != BundleType.Sac && item.Info.Amount < 1)
 							toRemove.Add(item);
 						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
 					}
@@ -611,21 +611,21 @@ namespace Common.World
 				{
 					if (item.Type == ItemType.Sac && item.StackItem == 2000)
 					{
-						var prev = item.Info.Bundle;
-						if (amount <= item.Info.Bundle)
+						var prev = item.Info.Amount;
+						if (amount <= item.Info.Amount)
 						{
-							item.Info.Bundle -= (ushort)amount;
+							item.Info.Amount -= (ushort)amount;
 							amount = 0;
 						}
 						else
 						{
-							amount = amount - item.Info.Bundle;
-							item.Info.Bundle = 0;
+							amount = amount - item.Info.Amount;
+							item.Info.Amount = 0;
 						}
 
-						if (prev != item.Info.Bundle)
+						if (prev != item.Info.Amount)
 						{
-							if (item.BundleType != BundleType.Sac && item.Info.Bundle < 1)
+							if (item.StackType != BundleType.Sac && item.Info.Amount < 1)
 								toRemove.Add(item);
 							EntityEvents.Instance.OnCreatureItemUpdate(this, item);
 						}
@@ -668,7 +668,7 @@ namespace Common.World
 			foreach (var item in this.Items)
 			{
 				if (item.Info.Class == itemId || item.StackItem == itemId)
-					total += item.Info.Bundle;
+					total += item.Info.Amount;
 			}
 
 			return (total >= amount);
@@ -923,6 +923,7 @@ namespace Common.World
 			packet.PutInt(0);
 		}
 
+#pragma warning disable
 		// Playable characters overwrite this, applies to monsters and NPCs
 		public override void AddEntityData(MabiPacket packet)
 		{
@@ -1176,6 +1177,7 @@ namespace Common.World
 			if (Op.Version > 140400)
 				packet.PutByte(0);			         // BombEventState
 		}
+#pragma warning restore
 
 		public void AddEntityData(MabiPacket packet, byte attr)
 		{

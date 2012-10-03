@@ -74,10 +74,10 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.ChangeTitle, HandleTitleChange);
 			this.RegisterPacketHandler(Op.MailsRequest, HandleMailsRequest);
 			this.RegisterPacketHandler(Op.SosButton, HandleSosButton);
-			//this.RegisterPacketHandler(Op.MoonGateRequest, HandleMoonGateRequest);
+			this.RegisterPacketHandler(Op.MoonGateRequest, HandleMoonGateRequest);
 			this.RegisterPacketHandler(Op.UseGesture, HandleGesture);
 			this.RegisterPacketHandler(0x61A8, HandleIamWatchingYou);
-			this.RegisterPacketHandler(Op.AfterLogin, HandleAfterLogin);
+			this.RegisterPacketHandler(Op.HomesteadInfoRequest, HandleHomesteadInfo);
 
 			this.RegisterPacketHandler(Op.GMCPSummon, HandleGMCPSummon);
 			this.RegisterPacketHandler(Op.GMCPMoveToChar, HandleGMCPMoveToChar);
@@ -90,6 +90,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.GMCPNPCList, HandleGMCPListNPCs);
 		}
 
+#pragma warning disable
 		private void HandleLogin(WorldClient client, MabiPacket packet)
 		{
 			if (client.State != SessionState.Login)
@@ -155,6 +156,7 @@ namespace World.Network
 
 			ServerEvents.Instance.OnPlayerLogsIn(creature);
 		}
+#pragma warning restore
 
 		private void HandleDisconnect(WorldClient client, MabiPacket packet)
 		{
@@ -455,6 +457,7 @@ namespace World.Network
 
 			client.Send(PacketCreator.MsgBox(client.Character, "'" + targetName + "' has been kicked."));
 
+			// Better kill the connection, modders could bypass a dc request.
 			target.Client.Kill();
 		}
 
@@ -477,6 +480,7 @@ namespace World.Network
 
 			client.Send(PacketCreator.MsgBox(client.Character, "'" + targetName + "' has been banned till '" + end.ToString() + "'."));
 
+			// Better kill the connection, modders could bypass a dc request.
 			target.Client.Kill();
 		}
 
@@ -605,8 +609,15 @@ namespace World.Network
 				target.Script.OnEnd(client);
 				return;
 			}
-
-			target.Script.OnSelect(client, response);
+			else if (response.StartsWith("@input"))
+			{
+				var splitted = response.Split(':');
+				target.Script.OnSelect(client, splitted[0], splitted[1]);
+			}
+			else
+			{
+				target.Script.OnSelect(client, response);
+			}
 		}
 
 		private void HandleItemMove(WorldClient client, MabiPacket packet)
@@ -634,8 +645,6 @@ namespace World.Network
 			// --------------------------------------------------------------
 			if (target == Pocket.Cursor)
 			{
-				item.Move(target, targetX, targetY);
-
 				// Move
 				client.Send(
 					new MabiPacket(Op.ItemMoveInfo, creature.Id)
@@ -643,33 +652,12 @@ namespace World.Network
 					.PutByte(unk).PutBytes(0, 0)
 				);
 
-				// Update euip
-				if (source >= Pocket.Armor && source <= Pocket.Accessory2)
-					WorldManager.Instance.CreatureMoveEquip(creature, source, target);
+				item.Move(target, targetX, targetY);
+				this.CheckItemMove(creature, item, source);
 
-				// Check for moving second hand
-				if (source == Pocket.LeftHand1 || source == Pocket.LeftHand2)
-				{
-					var secSource = source + 2; // RightHand1/2
-					var secItem = creature.GetItemInPocket(secSource);
-					if (secItem != null || (secItem = creature.GetItemInPocket(secSource += 2)) != null)
-					{
-						var secTarget = Pocket.Inventory;
-						var free = creature.GetFreeItemSpace(secItem, secTarget);
-						if (free == null)
-						{
-							secTarget = Pocket.Temporary;
-							free = new MabiVertex(0, 0);
-						}
-						client.Send(
-							new MabiPacket(Op.ItemMoveInfo, creature.Id)
-							.PutLong(secItem.Id).PutBytes((byte)secSource, (byte)secTarget)
-							.PutByte(unk).PutBytes((byte)free.X, (byte)free.Y)
-						);
-						secItem.Move(secTarget, free.X, free.Y);
-						WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
-					}
-				}
+				// Update euip
+				//if (source >= Pocket.Armor && source <= Pocket.Accessory2)
+				//    WorldManager.Instance.CreatureUnequip(creature, source, target);
 
 				// Okay
 				client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
@@ -683,17 +671,17 @@ namespace World.Network
 			var collidingItem = creature.GetItemColliding(target, targetX, targetY, item);
 
 			// Is there a collision?
-			if (collidingItem != null && ((collidingItem.BundleType == BundleType.Sac && (collidingItem.StackItem == item.Info.Class || collidingItem.StackItem == item.StackItem)) || (item.BundleType == BundleType.Stackable && item.Info.Class == collidingItem.Info.Class)))
+			if (collidingItem != null && ((collidingItem.StackType == BundleType.Sac && (collidingItem.StackItem == item.Info.Class || collidingItem.StackItem == item.StackItem)) || (item.StackType == BundleType.Stackable && item.Info.Class == collidingItem.Info.Class)))
 			{
-				if (collidingItem.Info.Bundle < collidingItem.BundleMax)
+				if (collidingItem.Info.Amount < collidingItem.StackMax)
 				{
-					var diff = (ushort)(collidingItem.BundleMax - collidingItem.Info.Bundle);
+					var diff = (ushort)(collidingItem.StackMax - collidingItem.Info.Amount);
 
-					collidingItem.Info.Bundle += Math.Min(diff, item.Info.Bundle);
+					collidingItem.Info.Amount += Math.Min(diff, item.Info.Amount);
 					client.Send(PacketCreator.ItemAmount(creature, collidingItem));
 
-					item.Info.Bundle -= Math.Min(diff, item.Info.Bundle);
-					if (item.Info.Bundle > 0)
+					item.Info.Amount -= Math.Min(diff, item.Info.Amount);
+					if (item.Info.Amount > 0)
 					{
 						client.Send(PacketCreator.ItemAmount(creature, item));
 					}
@@ -729,11 +717,30 @@ namespace World.Network
 			}
 			client.Send(p);
 
+			item.Move(target, targetX, targetY);
+			this.CheckItemMove(creature, item, target);
+
+			// Update Equip
+			if (target.IsEquip())
+				WorldManager.Instance.CreatureEquip(creature, item);
+
+			client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
+		}
+
+		/// <summary>
+		/// Checks for moving second hand equipment and unequiping,
+		/// and sends the needed packets.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="item"></param>
+		/// <param name="pocket"></param>
+		// TODO: Move this to MabiCreature.
+		private void CheckItemMove(MabiCreature creature, MabiItem item, Pocket pocket)
+		{
 			// Check for moving second hand
-			// TODO: This should be done in item.Move or something, to get it DRY.
-			if (target == Pocket.LeftHand1 || target == Pocket.LeftHand2)
+			if (pocket == Pocket.LeftHand1 || pocket == Pocket.LeftHand2)
 			{
-				var secSource = target + 2; // RightHand1/2
+				var secSource = pocket + 2; // RightHand1/2
 				var secItem = creature.GetItemInPocket(secSource);
 				if (secItem != null || (secItem = creature.GetItemInPocket(secSource += 2)) != null)
 				{
@@ -744,23 +751,53 @@ namespace World.Network
 						secTarget = Pocket.Temporary;
 						free = new MabiVertex(0, 0);
 					}
-					client.Send(
+					creature.Client.Send(
 						new MabiPacket(Op.ItemMoveInfo, creature.Id)
 						.PutLong(secItem.Id).PutBytes((byte)secSource, (byte)secTarget)
-						.PutByte(unk).PutBytes((byte)free.X, (byte)free.Y)
+						.PutByte(2).PutBytes((byte)free.X, (byte)free.Y)
 					);
 					secItem.Move(secTarget, free.X, free.Y);
-					WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
+					WorldManager.Instance.CreatureUnequip(creature, secSource);
 				}
 			}
 
-			item.Move(target, targetX, targetY);
+			// Notify clients of equip change if equipment is being dropped
+			if (pocket.IsEquip())
+				WorldManager.Instance.CreatureUnequip(creature, pocket);
+		}
 
-			// Update Equip
-			if (target >= Pocket.Armor && target <= Pocket.Accessory2)
-				WorldManager.Instance.CreatureChangeEquip(creature, item);
+		private void HandleItemDrop(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
 
-			client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
+			var itemId = packet.GetLong();
+			var unk = packet.GetByte();
+
+			var item = creature.Items.FirstOrDefault(a => a.Id == itemId);
+			if (item == null || item.Type == ItemType.Hair || item.Type == ItemType.Face)
+				return;
+
+			var source = (Pocket)item.Info.Pocket;
+
+			creature.Items.Remove(item);
+			this.CheckItemMove(creature, item, source);
+			client.Send(PacketCreator.ItemRemove(creature, item));
+
+			// Drop it
+			var pos = creature.GetPosition();
+			item.Region = creature.Region;
+			item.Info.X = pos.X;
+			item.Info.Y = pos.Y;
+			item.Info.Pocket = 0;
+
+			WorldManager.Instance.AddItem(item);
+
+			// Done
+			var p = new MabiPacket(Op.ItemDropR, creature.Id);
+			p.PutByte(1);
+			client.Send(p);
 		}
 
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
@@ -776,18 +813,18 @@ namespace World.Network
 			var item = WorldManager.Instance.GetItemById(itemId);
 			if (item != null)
 			{
-				if (item.BundleType == BundleType.Stackable)// && item.Type == ItemType.Sac)
+				if (item.StackType == BundleType.Stackable)// && item.Type == ItemType.Sac)
 				{
 					foreach (var invItem in creature.Items)
 					{
 						if (item.Info.Class == invItem.Info.Class || item.Info.Class == invItem.StackItem)
 						{
-							if (invItem.Info.Bundle + item.Info.Bundle > invItem.BundleMax)
+							if (invItem.Info.Amount + item.Info.Amount > invItem.StackMax)
 							{
-								if (invItem.Info.Bundle < invItem.BundleMax)
+								if (invItem.Info.Amount < invItem.StackMax)
 								{
-									item.Info.Bundle -= (ushort)(invItem.BundleMax - invItem.Info.Bundle);
-									invItem.Info.Bundle = invItem.BundleMax;
+									item.Info.Amount -= (ushort)(invItem.StackMax - invItem.Info.Amount);
+									invItem.Info.Amount = invItem.StackMax;
 
 									client.Send(PacketCreator.ItemAmount(creature, invItem));
 
@@ -796,8 +833,8 @@ namespace World.Network
 							}
 							else
 							{
-								invItem.Info.Bundle += item.Info.Bundle;
-								item.Info.Bundle = 0;
+								invItem.Info.Amount += item.Info.Amount;
+								item.Info.Amount = 0;
 
 								WorldManager.Instance.RemoveItem(item);
 								client.Send(PacketCreator.ItemAmount(creature, invItem));
@@ -808,7 +845,7 @@ namespace World.Network
 					}
 				}
 
-				if (item.Info.Bundle > 0 || (item.Type == ItemType.Sac && item.BundleType == BundleType.Sac))
+				if (item.Info.Amount > 0 || (item.Type == ItemType.Sac && item.StackType == BundleType.Sac))
 				{
 					var pos = creature.GetFreeItemSpace(item, Pocket.Inventory);
 					if (pos != null)
@@ -832,67 +869,6 @@ namespace World.Network
 			var response = new MabiPacket(Op.ItemPickUpR, creature.Id);
 			response.PutByte(result);
 			client.Send(response);
-		}
-
-		private void HandleItemDrop(WorldClient client, MabiPacket packet)
-		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-			{
-				return;
-			}
-
-			var itemId = packet.GetLong();
-			var unk = packet.GetByte();
-
-			var item = creature.Items.FirstOrDefault(a => a.Id == itemId);
-			if (item == null || item.Type == ItemType.Hair || item.Type == ItemType.Face)
-				return;
-
-			// Notify clients of equip change if equipment is being dropped
-			var source = (Pocket)item.Info.Pocket;
-			if (source >= Pocket.Armor && source <= Pocket.Accessory2)
-				WorldManager.Instance.CreatureMoveEquip(creature, source, Pocket.None);
-
-			if (source == Pocket.LeftHand1 || source == Pocket.LeftHand2)
-			{
-				var secSource = source + 2; // RightHand1/2
-				var secItem = creature.GetItemInPocket(secSource);
-				if (secItem != null || (secItem = creature.GetItemInPocket(secSource += 2)) != null)
-				{
-					var secTarget = Pocket.Inventory;
-					var free = creature.GetFreeItemSpace(secItem, secTarget);
-					if (free == null)
-					{
-						secTarget = Pocket.Temporary;
-						free = new MabiVertex(0, 0);
-					}
-					client.Send(
-						new MabiPacket(Op.ItemMoveInfo, creature.Id)
-						.PutLong(secItem.Id).PutBytes((byte)secSource, (byte)secTarget)
-						.PutByte(unk).PutBytes((byte)free.X, (byte)free.Y)
-					);
-					secItem.Move(secTarget, free.X, free.Y);
-					WorldManager.Instance.CreatureMoveEquip(creature, secSource, secTarget);
-				}
-			}
-
-			creature.Items.Remove(item);
-			client.Send(PacketCreator.ItemRemove(creature, item));
-
-			// Drop it
-			var pos = creature.GetPosition();
-			item.Region = creature.Region;
-			item.Info.X = pos.X;
-			item.Info.Y = pos.Y;
-			item.Info.Pocket = 0;
-
-			WorldManager.Instance.AddItem(item);
-
-			// Done
-			var p = new MabiPacket(Op.ItemDropR, creature.Id);
-			p.PutByte(1);
-			client.Send(p);
 		}
 
 		public void HandleItemDestroy(WorldClient client, MabiPacket packet)
@@ -924,19 +900,19 @@ namespace World.Network
 			packet = new MabiPacket(Op.ItemSplitR, creature.Id);
 
 			var item = creature.GetItem(itemId);
-			if (item != null && item.BundleType != BundleType.None)
+			if (item != null && item.StackType != BundleType.None)
 			{
-				if (item.Info.Bundle < amount)
-					amount = item.Info.Bundle;
+				if (item.Info.Amount < amount)
+					amount = item.Info.Amount;
 
-				item.Info.Bundle -= amount;
+				item.Info.Amount -= amount;
 
 				MabiItem splitItem;
 				if (item.StackItem == 0)
 					splitItem = new MabiItem(item);
 				else
 					splitItem = new MabiItem(item.StackItem);
-				splitItem.Info.Bundle = amount;
+				splitItem.Info.Amount = amount;
 				splitItem.Move(Pocket.Cursor, 0, 0);
 				creature.Items.Add(splitItem);
 
@@ -944,7 +920,7 @@ namespace World.Network
 				client.Send(PacketCreator.ItemInfo(creature, splitItem));
 
 				// Update amount or remove
-				if (item.Info.Bundle > 0 || item.StackItem != 0)
+				if (item.Info.Amount > 0 || item.StackItem != 0)
 				{
 					client.Send(PacketCreator.ItemAmount(creature, item));
 				}
@@ -1003,7 +979,7 @@ namespace World.Network
 					if (item != null)
 					{
 						item.Info.FigureA = (byte)(item.Info.FigureA == 1 ? 0 : 1);
-						WorldManager.Instance.CreatureChangeEquip(creature, item);
+						WorldManager.Instance.CreatureEquip(creature, item);
 					}
 				}
 			}
@@ -1246,12 +1222,12 @@ namespace World.Network
 			switch ((SkillConst)skillId)
 			{
 				case SkillConst.HiddenResurrection:
-					if (creature.ActiveSkillItem == null || creature.ActiveSkillItem.Info.Bundle < 1)
+					if (creature.ActiveSkillItem == null || creature.ActiveSkillItem.Info.Amount < 1)
 						return;
 
 					if (creature.ActiveSkillTarget.IsDead())
 					{
-						creature.ActiveSkillItem.Info.Bundle--;
+						creature.ActiveSkillItem.Info.Amount--;
 						creature.Client.Send(PacketCreator.ItemAmount(creature, creature.ActiveSkillItem));
 
 						WorldManager.Instance.CreatureRevive(creature.ActiveSkillTarget);
@@ -1443,17 +1419,17 @@ namespace World.Network
 
 			var sellingPrice = item.OptionInfo.SellingPrice;
 
-			if (item.BundleType == BundleType.Sac)
+			if (item.StackType == BundleType.Sac)
 			{
 				var stackItem = MabiData.ItemDb.Find(item.StackItem);
 				if (stackItem != null)
 				{
-					sellingPrice += stackItem.SellingPrice * item.Info.Bundle;
+					sellingPrice += stackItem.SellingPrice * item.Info.Amount;
 				}
 			}
-			else if (item.BundleType == BundleType.Stackable)
+			else if (item.StackType == BundleType.Stackable)
 			{
-				sellingPrice *= item.Info.Bundle;
+				sellingPrice *= item.Info.Amount;
 			}
 
 			creature.GiveGold(sellingPrice);
@@ -1888,12 +1864,15 @@ namespace World.Network
 			// Something about the stun meter I guess.
 		}
 
-		public void HandleAfterLogin(WorldClient client, MabiPacket packet)
+		public void HandleHomesteadInfo(WorldClient client, MabiPacket packet)
 		{
-			// This seems to get send after the login (on a character),
-			// once the initial location notice fades away.
-			// Could be pretty much anything... but let us put our MOTD here for now^^
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null || creature.IsDead())
+				return;
 
+			client.Send(new MabiPacket(Op.HomesteadInfoRequestR, creature.Id).PutBytes(0, 0, 1));
+
+			// Seems to be only called on login, good place for the MOTD.
 			if (WorldConf.Motd != string.Empty)
 				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
 		}
@@ -1901,7 +1880,7 @@ namespace World.Network
 		public void HandleHitProp(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead())
+			if (creature == null || creature.IsDead())
 				return;
 
 			var targetId = packet.GetLong();
@@ -1913,6 +1892,15 @@ namespace World.Network
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.HittingProp, creature.Id).PutLong(targetId).PutInt(2000).PutFloat(pos.X).PutFloat(pos.Y), SendTargets.Region, creature);
 
 			client.Send(new MabiPacket(Op.HitPropR, creature.Id).PutByte(1));
+		}
+
+		public void HandleMoonGateRequest(WorldClient client, MabiPacket packet)
+		{
+			//001 [................]  String : _moongate_tara_west
+			//002 [................]  String : _moongate_tirchonaill
+
+			// Send no gates for now.
+			client.Send(new MabiPacket(Op.MoonGateRequestR, 0x3000000000000000));
 		}
 	}
 }
