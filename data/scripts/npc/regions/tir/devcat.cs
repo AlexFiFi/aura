@@ -29,7 +29,7 @@ public class DevcatScript : NPCScript
 		MsgSelect(c, "Meeeoow", "End Conversation", "@end");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

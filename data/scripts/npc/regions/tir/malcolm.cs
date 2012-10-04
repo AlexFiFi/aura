@@ -45,7 +45,7 @@ public class MalcolmScript : NPCScript
 		MsgSelect(c, "What can I do for you?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

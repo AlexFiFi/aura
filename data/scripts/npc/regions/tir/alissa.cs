@@ -44,7 +44,7 @@ public class AlissaScript : NPCScript
 		MsgSelect(c, "So, what can I do for you?", "Start Conversation", "@talk", "Operate the Windmill", "@windmill");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

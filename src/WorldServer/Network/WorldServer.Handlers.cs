@@ -198,9 +198,6 @@ namespace World.Network
 
 			if (creature.Owner != null)
 			{
-				var pos = creature.GetPosition();
-				WorldManager.Instance.Effect(creature, 29, creature.Region, pos.X, pos.Y);
-
 				if (creature.RaceInfo.VehicleType > 0)
 				{
 					WorldManager.Instance.VehicleUnbind(null, creature, true);
@@ -1485,8 +1482,10 @@ namespace World.Network
 			// Set pet position near the summoner
 			var pos = creature.GetPosition();
 			var rand = RandomProvider.Get();
+			pos.X = (uint)(pos.X + rand.Next(-400, 401));
+			pos.Y = (uint)(pos.Y + rand.Next(-400, 401));
+			pet.SetLocation(creature.Region, pos.X, pos.Y);
 			pet.Direction = (byte)rand.Next(255);
-			pet.SetLocation(creature.Region, (uint)(pos.X + rand.Next(-400, 401)), (uint)(pos.Y + rand.Next(-400, 401)));
 
 			pet.Owner = creature;
 			client.Creatures.Add(pet);
@@ -1496,7 +1495,7 @@ namespace World.Network
 			p = new MabiPacket(Op.PetRegister, creature.Id);
 			p.PutLong(pet.Id);
 			p.PutByte(2);
-			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+			client.Send(p);
 
 			p = new MabiPacket(Op.PetSummonR, creature.Id);
 			p.PutByte(1);
@@ -1509,6 +1508,8 @@ namespace World.Network
 			client.Send(p);
 
 			client.Send(PacketCreator.EnterRegionPermission(pet));
+
+			WorldManager.Instance.Effect(creature, 29, creature.Region, pos.X, pos.Y);
 		}
 
 		private void HandlePetUnsummon(WorldClient client, MabiPacket packet)

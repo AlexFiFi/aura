@@ -46,7 +46,7 @@ public class FerghusScript : NPCScript
 		MsgSelect(c, "Welcome to my Blacksmith's Shop", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair", "Upgrade Item", "@upgrade");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

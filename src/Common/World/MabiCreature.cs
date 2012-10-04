@@ -992,12 +992,13 @@ namespace Common.World
 			packet.PutLong((ulong)StatusEffects.C);
 			if (Op.Version > 140400)
 				packet.PutLong((ulong)StatusEffects.D);
-			if (Op.Version >= 170100)
-				packet.PutLong(0);
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt
 			//   packet.PutString
+
+			if (Op.Version >= 170100)
+				packet.PutLong(0);
 
 			// Guild
 			// --------------------------------------------------------------

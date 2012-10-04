@@ -54,7 +54,7 @@ public class TarlachBearScript : NPCScript
 		MsgSelect(c, "Grr...", "Start Conversation", "@talk");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

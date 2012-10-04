@@ -105,7 +105,7 @@ namespace World.Network
 			return Notice(GlobalBroadcastId, message, type, duration);
 		}
 
-        public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
+		public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
 		{
 			var p = new MabiPacket(Op.EntitiesSpawn, GlobalBroadcastId);
 

@@ -31,7 +31,7 @@ public class CommerceGoblinScript : NPCScript
 			"Trade", "@trade", "Repair Fomor Weapons", "@repair", "Commerce Explanation", "@explain", "Ducats", "@ducats", "End Conversation", "@end");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

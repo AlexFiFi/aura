@@ -32,7 +32,7 @@ public class CommerceOgreScript : NPCScript
 			"Repair Fomor Weapons", "@repair", "End Conversation", "@end");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

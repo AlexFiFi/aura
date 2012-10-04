@@ -45,7 +45,7 @@ public class DuncanScript : NPCScript
 		MsgSelect(c, "Please let me know if you need anything.", "Start Conversation", "@talk", "Shop", "@shop", "Retrive Lost Items", "@lostandfound");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

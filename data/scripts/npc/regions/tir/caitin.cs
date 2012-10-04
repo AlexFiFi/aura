@@ -45,7 +45,7 @@ public class CaitinScript : NPCScript
 		MsgSelect(c, "What can I do for you?", "Start Conversation", "@talk", "Shop", "@shop");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{

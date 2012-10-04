@@ -44,7 +44,7 @@ public class DilysScript : NPCScript
 		MsgSelect(c, "Welcome to the Healer's House", "Start Conversation", "@talk", "Shop", "@shop", "Get Treatment", "@heal", "Heal Pet", "@healpet");
 	}
 
-	public override void OnSelect(WorldClient c, string r)
+	public override void OnSelect(WorldClient c, string r, string i = null)
 	{
 		switch (r)
 		{
