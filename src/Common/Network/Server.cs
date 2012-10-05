@@ -301,13 +301,20 @@ namespace Common.Network
 
 					if (client.State < SessionState.Dead)
 						client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(OnReceive), client);
-					else
-						Logger.Warning("Bad client kill. Client attempted to send data after disconnect.");
 				}
 				catch (SocketException)
 				{
 					Logger.Info("Lost connection from " + client.Socket.RemoteEndPoint.ToString());
 					this.OnClientDisconnect(client);
+				}
+				catch (ObjectDisposedException)
+				{
+					if (client.State != SessionState.Dead)
+						Logger.Warning("Socket of '" + client.Socket.RemoteEndPoint.ToString() + "' was disposed unexpectedly.");
+				}
+				catch (Exception ex)
+				{
+					Logger.Exception(ex, "This shouldn't have happened, please report.", true);
 				}
 			}
 			catch (NullReferenceException)

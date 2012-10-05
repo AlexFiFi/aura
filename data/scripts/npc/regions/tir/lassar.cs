@@ -47,7 +47,7 @@ public class LassarScript : NPCScript
 		MsgSelect(c, "Is there anything I can help you with?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair", "Upgrade Item", "@upgrade");
 	}
 
-	public override void OnSelect(WorldClient c, string r, string i = null)
+	public override void OnSelect(WorldClient c, string r)
 	{
 		switch (r)
 		{

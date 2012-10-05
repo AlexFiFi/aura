@@ -85,7 +85,7 @@ namespace World.Scripting
 					npc.Script = script;
 					npc.ScriptPath = scriptPath;
 					script.NPC = npc;
-					script.LoadFlags = NPCLoadFlags.Real;
+					script.LoadType = NPCLoadType.Real;
 					script.OnLoad();
 					script.OnLoadDone();
 					npc.LoadDefault();
@@ -94,7 +94,7 @@ namespace World.Scripting
 				}
 				else
 				{
-					script.LoadFlags = NPCLoadFlags.Virtual;
+					script.LoadType = NPCLoadType.Virtual;
 				}
 
 				Interlocked.Increment(ref _loadedNpcs);

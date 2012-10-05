@@ -148,7 +148,7 @@
 440402,"White Tiger Cub","lion/none",0,0,0xA0000000,6,9,23002,16,50,170,0,1,0x03
 440501,"Bengal Tiger","pettiger/none",0,23,0xA0000000,4,6,23002,16,44,200,2,2,0x03
 440502,"Snow Tiger","pettiger/none",0,23,0xA0000000,4,7,23002,16,44,200,2,2,0x03
-//440514,"Phoenix","phoenix/none",0,37,0xA0000000,6,6,23002,20,28,150,2,1,0x03
+440514,"Phoenix","phoenix/none",0,37,0xA0000000,6,6,23002,20,28,150,2,1,0x03
 450101,"Spotted Deer","petdeer/none",0,0,0xA0000000,6,7,23002,12,16,170,0,2,0x03
 450201,"Short Horned Antelope","petdeer/none",0,0,0xA0000000,6,5,23002,12,16,170,0,2,0x03
 450601,"Crystal Deer","petcrystalrudolf/none",0,2,0xA0000000,6,10,23002,12,16,170,0,2,0x03

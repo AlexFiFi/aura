@@ -39,7 +39,7 @@ namespace Common.World
 			return (byte)((this.DeletionTime <= DateTime.MinValue) ? 0 : ((this.DeletionTime >= DateTime.Now) ? 1 : 2));
 		}
 
-#pragma warning disable
+#pragma warning disable 0162
 		public void AddPrivateEntityData(MabiPacket packet)
 		{
 			this.AddEntityData(packet, 2);
@@ -438,5 +438,5 @@ namespace Common.World
 			}
 		}
 	}
-#pragma warning restore
+#pragma warning restore 0162
 }

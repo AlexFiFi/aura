@@ -39,9 +39,9 @@ namespace Common.Data
 			info.Race = Convert.ToUInt32(csv[i++]);
 			info.ItemId = Convert.ToUInt32(csv[i++]);
 			info.Pocket = Convert.ToByte(csv[i++]);
-			info.Color1 = Convert.ToUInt32(csv[i++]);
-			info.Color2 = Convert.ToUInt32(csv[i++]);
-			info.Color3 = Convert.ToUInt32(csv[i++]);
+			if (csv[i] != "0") info.Color1 = Convert.ToUInt32(csv[i].Replace("0x", ""), 16); i++;
+			if (csv[i] != "0") info.Color2 = Convert.ToUInt32(csv[i].Replace("0x", ""), 16); i++;
+			if (csv[i] != "0") info.Color3 = Convert.ToUInt32(csv[i].Replace("0x", ""), 16); i++;
 		}
 	}
 }

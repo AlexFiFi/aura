@@ -15,12 +15,7 @@ using World.World;
 
 namespace World.Scripting
 {
-	[Flags]
-	public enum NPCLoadFlags
-	{
-		Real = 1 << 0,
-		Virtual = 1 << 1,
-	}
+	public enum NPCLoadType { Real = 1, Virtual = 2 }
 
 	public abstract class NPCScript : BaseScript
 	{
@@ -35,7 +30,7 @@ namespace World.Scripting
 		/// <summary>
 		/// Describes how the NPC was loaded
 		/// </summary>
-		public NPCLoadFlags LoadFlags { get; set; }
+		public NPCLoadType LoadType { get; set; }
 
 		public override void OnLoadDone()
 		{
@@ -46,7 +41,12 @@ namespace World.Scripting
 		{
 		}
 
-		public virtual void OnSelect(WorldClient client, string response, string input = null)
+		public virtual void OnSelect(WorldClient client, string response)
+		{
+			this.OnSelect(client, response, null);
+		}
+
+		public virtual void OnSelect(WorldClient client, string response, string input)
 		{
 			// TODO: I guess we need a check later, if the player actually has the keyword.
 			this.MsgSelect(client, "(Server: Unknown keyword.)");
@@ -54,9 +54,9 @@ namespace World.Scripting
 
 		public virtual void OnEnd(WorldClient client)
 		{
-			string properNPCname = NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
-			properNPCname = properNPCname.Substring(0, 1).ToUpper() + properNPCname.Substring(1);
-			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
+			var name = this.NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
+			name = name.Substring(0, 1).ToUpper() + name.Substring(1);
+			this.Close(client, "(You ended your conversation with " + name + ".)");
 		}
 
 		public override void Dispose()
@@ -285,6 +285,7 @@ namespace World.Scripting
 			WorldManager.Instance.CreatureTalk(this.NPC, message);
 		}
 
+#pragma warning disable 0162
 		protected virtual void OpenShop(WorldClient client)
 		{
 			var p = new MabiPacket(Op.ShopOpen, client.Character.Id);
@@ -296,7 +297,8 @@ namespace World.Scripting
 			for (var i = 0; i < this.Shop.Tabs.Count; ++i)
 			{
 				p.PutString("[" + i + "]" + this.Shop.Tabs[i].Name);
-				p.PutByte(0);
+				if (Op.Version >= 160200)
+					p.PutByte(0);
 				p.PutShort((ushort)this.Shop.Tabs[i].Items.Count);
 				foreach (var item in this.Shop.Tabs[i].Items)
 				{
@@ -305,6 +307,7 @@ namespace World.Scripting
 			}
 			client.Send(p);
 		}
+#pragma warning restore 0162
 
 		protected virtual void EquipItem(Pocket slot, uint itemClass, uint color1 = 0, uint color2 = 0, uint color3 = 0)
 		{

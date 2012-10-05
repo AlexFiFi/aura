@@ -38,11 +38,6 @@ namespace World.World
 			this.Auth = authority;
 			this.Func = func;
 		}
-
-		public Command(string name, byte authority, CommandFunc func)
-			: this(name, null, authority, func)
-		{
-		}
 	}
 
 	public class CommandHandler
@@ -65,19 +60,19 @@ namespace World.World
 			return ret;
 		}
 
-		public void AddCommand(Command command)
-		{
-			_commands.Add(command.Name, command);
-		}
-
 		public void AddCommand(string name, byte authority, CommandFunc func)
 		{
-			this.AddCommand(new Command(name, authority, func));
+			this.AddCommand(name, null, authority, func);
 		}
 
 		public void AddCommand(string name, string parameters, byte authority, CommandFunc func)
 		{
 			this.AddCommand(new Command(name, parameters, authority, func));
+		}
+
+		public void AddCommand(Command command)
+		{
+			_commands.Add(command.Name, command);
 		}
 
 		public void Load()
@@ -259,10 +254,17 @@ namespace World.World
 				itemId = newItemInfo[0].Id;
 			}
 
-			if (MabiData.ItemDb.Find(itemId) == null)
+			var info = MabiData.ItemDb.Find(itemId);
+			if (info == null)
 			{
 				client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemId + "' not found in database."));
 				return CommandResult.Fail;
+			}
+
+			if (info.Version > Op.Version)
+			{
+				// Only warn for now, while there aren't many items that actually use this.
+				Logger.Warning("Item '" + info.Id + "' is said to work only with version '" + info.Version + "' and above.");
 			}
 
 			var newItem = new MabiItem(itemId);

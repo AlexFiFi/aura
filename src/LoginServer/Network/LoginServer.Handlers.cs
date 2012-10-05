@@ -51,7 +51,7 @@ namespace Login.Network
 			client.Send(response);
 		}
 
-#pragma warning disable
+#pragma warning disable 0162
 		private void HandleLogin(LoginClient client, MabiPacket packet)
 		{
 			var loginType = packet.GetByte(); // Known: 0x00 (KR), 0x0C, 0x12 (EU) (Normal), 0x5 (New), 0x2 (Coming from channel)
@@ -335,7 +335,7 @@ namespace Login.Network
 
 			client.Send(response);
 		}
-#pragma warning restore
+#pragma warning restore 0162
 
 		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, Banned = 101 }
 
@@ -705,10 +705,10 @@ namespace Login.Network
 			response.PutString("");
 			response.PutString("");
 			response.PutInt(pet.Race);
-			response.PutByte(0);
-			response.PutByte(0);
-			response.PutByte(0);
-			response.PutByte(0);
+			response.PutByte(pet.SkinColor);
+			response.PutByte(pet.Eye);
+			response.PutByte(pet.EyeColor);
+			response.PutByte(pet.Lip);
 			response.PutInt(0);
 			response.PutFloat(pet.Height);
 			response.PutFloat(pet.Fat);
@@ -737,9 +737,8 @@ namespace Login.Network
 
 			response.PutByte(3);
 
-			// TODO: Can pets even have visible items?
 			response.PutInt((uint)pet.Items.Count);
-			foreach (MabiItem item in pet.Items)
+			foreach (var item in pet.Items)
 			{
 				response.PutLong(item.Id);
 				response.PutBin(item.Info);
@@ -827,12 +826,75 @@ namespace Login.Network
 			var lower = packet.GetFloat();
 			var personality = packet.GetInt();
 
-			MabiPacket response = new MabiPacket(Op.CreatePartnerR, 0x1000000000000010);
-			//response.PutString("Dear user, unfortunately the creation of partners is not implemented yet, please try again la-- ah wait, we can't give a reason, right. >_>");
-			response.PutByte(0);
-			client.Send(response);
+			var response = new MabiPacket(Op.PetCreated, 0x1000000000000010);
 
-			Logger.Unimplemented("Partners aren't implemented yet.");
+			// Check if the card is valid
+			var card = client.Account.PetCards.FirstOrDefault(a => a.Id == cardId);
+			if (card == null || !MabiDb.Instance.NameOkay(name, serverName))
+			{
+				// Fail
+				response.PutByte(0);
+				client.Send(response);
+				return;
+			}
+
+			// Remove card
+			if (LoginConf.ConsumeCards)
+			{
+				client.Account.PetCards.Remove(card);
+				MabiDb.Instance.SaveCards(client.Account);
+			}
+
+			// Create new pet
+			var newChar = new MabiPet();
+			newChar.Name = name;
+			newChar.Race = card.Race;
+			newChar.SkinColor = skinColor;
+			newChar.Eye = eye;
+			newChar.EyeColor = eyeColor;
+			newChar.Lip = lip;
+			newChar.Server = serverName;
+			newChar.Region = 1;
+			newChar.SetPosition(12800, 38100);
+			newChar.Level = 1;
+
+			newChar.CalculateBaseStats();
+			newChar.Height = height;
+
+			// Items
+			var faceItem = new MabiItem(face); faceItem.Info.Pocket = (byte)Pocket.Face; faceItem.Info.ColorA = skinColor;
+			var hairItem = new MabiItem(hair); hairItem.Info.Pocket = (byte)Pocket.Hair; hairItem.Info.ColorA = (uint)hairColor + 0x10000000;
+			newChar.Items.Add(faceItem);
+			newChar.Items.Add(hairItem);
+
+			uint setId = 0;
+			if(card.Race == 730201 ||card.Race == 730202 ||card.Race == 730204 ||card.Race == 730205)
+				setId = 1000;
+			else if(card.Race == 730203)
+				setId = 1001;
+			else if(card.Race == 730206)
+				setId = 1002;
+
+			if (setId > 0)
+			{
+				var setItems = MabiData.CharCardSetDb.Find(setId, card.Race);
+				foreach (var setItem in setItems)
+				{
+					newChar.Items.Add(new MabiItem(setItem));
+				}
+			}
+
+			// Skills
+			newChar.Skills.Add(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
+
+			MabiDb.Instance.SaveCharacter(client.Account, newChar);
+
+			client.Account.Pets.Add(newChar);
+
+			// Success
+			response.PutByte(1);
+			response.PutString(serverName);
+			response.PutLong(newChar.Id);
 
 			client.Send(response);
 		}

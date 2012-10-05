@@ -39,7 +39,7 @@ public class PiarasScript : NPCScript
 		MsgSelect(c, "Welcome to my Inn.", "Start Conversation", "@talk", "Shop", "@shop");
 	}
 
-	public override void OnSelect(WorldClient c, string r, string i = null)
+	public override void OnSelect(WorldClient c, string r)
 	{
 		switch (r)
 		{

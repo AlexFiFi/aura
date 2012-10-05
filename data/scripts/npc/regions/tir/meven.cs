@@ -43,7 +43,7 @@ public class MevenScript : NPCScript
 		MsgSelect(c, "Welcome to the Church of Lymilark.", "Start Conversation", "@talk");
 	}
 
-	public override void OnSelect(WorldClient c, string r, string i = null)
+	public override void OnSelect(WorldClient c, string r)
 	{
 		switch (r)
 		{

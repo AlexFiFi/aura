@@ -90,7 +90,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.GMCPNPCList, HandleGMCPListNPCs);
 		}
 
-#pragma warning disable
+#pragma warning disable 0162
 		private void HandleLogin(WorldClient client, MabiPacket packet)
 		{
 			if (client.State != SessionState.Login)
@@ -156,7 +156,7 @@ namespace World.Network
 
 			ServerEvents.Instance.OnPlayerLogsIn(creature);
 		}
-#pragma warning restore
+#pragma warning restore 0162
 
 		private void HandleDisconnect(WorldClient client, MabiPacket packet)
 		{
@@ -788,6 +788,7 @@ namespace World.Network
 			item.Info.X = pos.X;
 			item.Info.Y = pos.Y;
 			item.Info.Pocket = 0;
+			item.DisappearTime = DateTime.Now.AddSeconds(60);
 
 			WorldManager.Instance.AddItem(item);
 
@@ -795,6 +796,24 @@ namespace World.Network
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
+		}
+
+		public void HandleItemDestroy(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var itemId = packet.GetLong();
+			var item = creature.GetItem(itemId);
+			if (item == null || item.Type == ItemType.Hair || item.Type == ItemType.Face)
+				return;
+
+			creature.Items.Remove(item);
+			this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
+
+			client.Send(PacketCreator.ItemRemove(creature, item));
+			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
 		}
 
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
@@ -866,22 +885,6 @@ namespace World.Network
 			var response = new MabiPacket(Op.ItemPickUpR, creature.Id);
 			response.PutByte(result);
 			client.Send(response);
-		}
-
-		public void HandleItemDestroy(WorldClient client, MabiPacket packet)
-		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
-			var itemId = packet.GetLong();
-			var item = creature.GetItem(itemId);
-			if (item == null)
-				return;
-
-			creature.Items.Remove(item);
-			client.Send(PacketCreator.ItemRemove(creature, item));
-			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
 		}
 
 		private void HandleItemSplit(WorldClient client, MabiPacket packet)
@@ -1572,7 +1575,7 @@ namespace World.Network
 			MabiPacket p;
 
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == petId);
-			if (pet == null || pet.IsDead())
+			if (pet == null || pet.IsDead() || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17)
 			{
 				p = new MabiPacket(Op.PetMountR, creature.Id);
 				p.PutByte(0);

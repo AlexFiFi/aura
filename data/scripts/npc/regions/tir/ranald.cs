@@ -42,7 +42,7 @@ public class RanaldScript : NPCScript
 		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Modify Item", "@modify", "Get Ciar Beginner Dungeon Pass", "@pass");
 	}
 
-	public override void OnSelect(WorldClient c, string r, string i = null)
+	public override void OnSelect(WorldClient c, string r)
 	{
 		switch (r)
 		{

@@ -923,7 +923,7 @@ namespace Common.World
 			packet.PutInt(0);
 		}
 
-#pragma warning disable
+#pragma warning disable 0162
 		// Playable characters overwrite this, applies to monsters and NPCs
 		public override void AddEntityData(MabiPacket packet)
 		{
@@ -1131,10 +1131,13 @@ namespace Common.World
 
 			// NPC
 			// --------------------------------------------------------------
-			if (Op.Version > 140400 && this.EntityType == EntityType.NPC)
+			if (Op.Version > 140400)
 			{
-				packet.PutShort(0);		         // OnlyShowFilter
-				packet.PutShort(0);		         // HideFilter
+				if (this.EntityType == EntityType.NPC)
+				{
+					packet.PutShort(0);		         // OnlyShowFilter
+					packet.PutShort(0);		         // HideFilter
+				}
 			}
 
 			// Commerce
@@ -1178,7 +1181,7 @@ namespace Common.World
 			if (Op.Version > 140400)
 				packet.PutByte(0);			         // BombEventState
 		}
-#pragma warning restore
+#pragma warning restore 0162
 
 		public void AddEntityData(MabiPacket packet, byte attr)
 		{

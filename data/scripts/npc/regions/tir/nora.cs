@@ -45,7 +45,7 @@ public class NoraScript : NPCScript
 		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair");
 	}
 
-	public override void OnSelect(WorldClient c, string r, string i = null)
+	public override void OnSelect(WorldClient c, string r)
 	{
 		switch (r)
 		{

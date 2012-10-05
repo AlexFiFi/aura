@@ -38,7 +38,7 @@ public class EndelyonScript : NPCScript
 		MsgSelect(c, "May I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Modify", "@modify");
 	}
 
-	public override void OnSelect(WorldClient c, string r, string i = null)
+	public override void OnSelect(WorldClient c, string r)
 	{
 		switch (r)
 		{

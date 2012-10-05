@@ -42,7 +42,7 @@ public class ProffScript : NPCScript
         OnSelect(c, "@startingpoint");
     }
 
-	public override void OnSelect(WorldClient c, string r, string i = null)
+	public override void OnSelect(WorldClient c, string r)
 	{
 		switch (r)
 		{

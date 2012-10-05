@@ -213,7 +213,7 @@ namespace Common.Network
 		public readonly static uint Walking = 0x0FD13021;
 		public readonly static uint Walk = 0x0FF23431;
 
-#pragma warning disable
+#pragma warning disable 0162
 		static Op()
 		{
 			// EU
@@ -223,11 +223,12 @@ namespace Common.Network
 				Login = 0x0F010000;
 				Disconnect = 0x4B;
 				Run = 0x0F010300;
-				Walk = 0x0F010800;
 				Running = 0x0F0400A0;
+				Walk = 0x0F010800;
+				//Walking = 0x0F010800;
 				CombatAttack = 0x0FB10001;
 			}
 		}
-#pragma warning restore
+#pragma warning restore 0162
 	}
 }
