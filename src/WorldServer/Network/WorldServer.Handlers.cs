@@ -39,6 +39,7 @@ namespace World.Network
 
 			this.RegisterPacketHandler(Op.NPCTalkStart, HandleNPCTalkStart);
 			this.RegisterPacketHandler(Op.NPCTalkEnd, HandleNPCTalkEnd);
+			this.RegisterPacketHandler(Op.NPCTalkPartner, HandleNPCTalkPartner);
 			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
 			this.RegisterPacketHandler(Op.ShopBuyItem, HandleShopBuyItem);
@@ -485,13 +486,11 @@ namespace World.Network
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
-			{
 				return;
-			}
 
 			var npcId = packet.GetLong();
 
-			var target = (MabiNPC)WorldManager.Instance.GetCreatureById(npcId);
+			var target = WorldManager.Instance.GetCreatureById(npcId) as MabiNPC;
 			if (target == null)
 			{
 				Logger.Warning("Unknown NPC: " + npcId.ToString());
@@ -524,21 +523,55 @@ namespace World.Network
 			target.Script.OnTalk(client);
 		}
 
+		private void HandleNPCTalkPartner(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var id = packet.GetLong();
+
+			var target = client.Creatures.FirstOrDefault(a => a.Id == id);
+			if (target == null)
+			{
+				Logger.Warning("Talk to unspawned partner: " + id.ToString());
+			}
+
+			var npc = WorldManager.Instance.GetCreatureByName("_partnerdummy") as MabiNPC;
+			if (npc == null || npc.Script == null)
+			{
+				Logger.Warning("NPC or script of '_partnerdummy' is null.");
+				npc = null;
+			}
+
+			var p = new MabiPacket(Op.NPCTalkPartnerR, creature.Id);
+
+			if (target == null || npc == null)
+			{
+				p.PutByte(0);
+				client.Send(p);
+				return;
+			}
+
+			p.PutByte(1);
+			p.PutLong(id);
+			p.PutString(creature.Name + "'s " + target.Name);
+			p.PutString(creature.Name + "'s " + target.Name);
+			client.Send(p);
+
+			client.NPCSession.Start(npc);
+
+			npc.Script.OnTalk(client);
+		}
+
 		private void HandleNPCTalkEnd(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
-			{
 				return;
-			}
 
 			var npcId = packet.GetLong();
-			var target = (MabiNPC)WorldManager.Instance.GetCreatureById(npcId);
-			if (target == null || target.Script == null)
-			{
-				Logger.Warning("Script for '" + target.Name + "' is null.");
-				return;
-			}
+			var target = client.NPCSession.Target;
 
 			var p = new MabiPacket(Op.NPCTalkEndR, creature.Id);
 			p.PutByte(1);
@@ -546,7 +579,11 @@ namespace World.Network
 			p.PutString("");
 			client.Send(p);
 
-			target.Script.OnEnd(client);
+			// XXX: Should we check if the target is the same as at the start of the convo?
+			if (target == null || target.Script == null)
+				Logger.Warning("Ending empty NPC session.");
+			else
+				target.Script.OnEnd(client);
 
 			client.NPCSession.Clear();
 		}
@@ -1379,10 +1416,16 @@ namespace World.Network
 				}
 			}
 
+			// The client expects the price for a full stack to be sent,
+			// so we have to calculate the actual price here.
+			var price = newItem.OptionInfo.Price;
+			if (newItem.StackType == BundleType.Stackable)
+				price = (uint)(price / newItem.StackMax * newItem.Count);
+
 			var p = new MabiPacket(Op.ShopBuyItemR, creature.Id);
-			if (creature.HasGold(newItem.OptionInfo.Price) && newItem != null)
+			if (creature.HasGold(price) && newItem != null)
 			{
-				creature.RemoveGold(newItem.OptionInfo.Price);
+				creature.RemoveGold(price);
 
 				creature.Items.Add(newItem);
 				client.Send(PacketCreator.ItemInfo(creature, newItem));
@@ -1424,12 +1467,12 @@ namespace World.Network
 				var stackItem = MabiData.ItemDb.Find(item.StackItem);
 				if (stackItem != null)
 				{
-					sellingPrice += stackItem.SellingPrice * item.Info.Amount;
+					sellingPrice += (stackItem.SellingPrice / stackItem.StackMax) * item.Info.Amount;
 				}
 			}
 			else if (item.StackType == BundleType.Stackable)
 			{
-				sellingPrice *= item.Info.Amount;
+				sellingPrice = (uint)(sellingPrice / item.StackMax * item.Count);
 			}
 
 			creature.GiveGold(sellingPrice);

@@ -42,7 +42,7 @@ namespace Login.Tools
 			LoginConf.DatabaseHost = _conf.GetString("database_host", "localhost");
 			LoginConf.DatabaseUser = _conf.GetString("database_user", "root");
 			LoginConf.DatabasePass = _conf.GetString("database_pass", "");
-			LoginConf.DatabaseDb = _conf.GetString("database_database", "aura");
+			LoginConf.DatabaseDb = _conf.GetString("database_db", "aura");
 
 			LoginConf.ConsumeCards = _conf.GetBool("login_consumecards", true);
 			LoginConf.NewAccounts = _conf.GetBool("login_newaccounts", true);

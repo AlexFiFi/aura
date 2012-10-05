@@ -174,6 +174,15 @@ namespace Common.Database
 		}
 
 		/// <summary>
+		/// Returns a new usable partner Id.
+		/// </summary>
+		/// <returns></returns>
+		private ulong GetNewPartnerId()
+		{
+			return this.GetNewPoolId("partners", 0x10030000000001);
+		}
+
+		/// <summary>
 		/// Returns a new usable item Id.
 		/// </summary>
 		/// <returns></returns>
@@ -703,11 +712,14 @@ namespace Common.Database
 			var conn = this.GetConnection();
 			try
 			{
-				if (character.Id == 0)
+				if (character.Id <= 0x30000000000)
 				{
-					if (character is MabiCharacter) character.Id = this.GetNewCharacterId();
-					if (character is MabiPet) character.Id = this.GetNewPetId();
+					if (character is MabiCharacter)
+						character.Id = this.GetNewCharacterId();
+					else if (character is MabiPet)
+						character.Id = (character.Id == 0 ? this.GetNewPetId() : this.GetNewPartnerId());
 				}
+
 				var characterLocation = character.GetPosition();
 
 				var mc = new MySqlCommand(

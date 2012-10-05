@@ -164,8 +164,11 @@ namespace Common.Network
 			if (this.GetElementType() != ElementType.Float)
 				throw new Exception("Expected Float, got " + this.GetElementType() + ".");
 
-			_ptr += 5;
-			return BitConverter.ToSingle(_buffer, _ptr - 3);
+			_ptr += 1;
+			var val = BitConverter.ToSingle(_buffer, _ptr);
+			_ptr += 4;
+
+			return val;
 		}
 
 		public string GetString()

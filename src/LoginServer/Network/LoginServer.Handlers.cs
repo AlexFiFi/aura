@@ -558,6 +558,8 @@ namespace Login.Network
 			response.PutLong(newChar.Id);
 
 			client.Send(response);
+
+			Logger.Info("New character: " + newChar.Name);
 		}
 
 		private void HandleEnterGame(LoginClient client, MabiPacket packet)
@@ -805,6 +807,8 @@ namespace Login.Network
 			response.PutLong(newChar.Id);
 
 			client.Send(response);
+
+			Logger.Info("New pet: " + newChar.Name);
 		}
 
 		private void HandleCreatePartner(LoginClient client, MabiPacket packet)
@@ -847,6 +851,7 @@ namespace Login.Network
 
 			// Create new pet
 			var newChar = new MabiPet();
+			newChar.Id = 0x30000000000; // To let the db know this is a partner.
 			newChar.Name = name;
 			newChar.Race = card.Race;
 			newChar.SkinColor = skinColor;
@@ -868,11 +873,11 @@ namespace Login.Network
 			newChar.Items.Add(hairItem);
 
 			uint setId = 0;
-			if(card.Race == 730201 ||card.Race == 730202 ||card.Race == 730204 ||card.Race == 730205)
+			if (card.Race == 730201 || card.Race == 730202 || card.Race == 730204 || card.Race == 730205)
 				setId = 1000;
-			else if(card.Race == 730203)
+			else if (card.Race == 730203)
 				setId = 1001;
-			else if(card.Race == 730206)
+			else if (card.Race == 730206)
 				setId = 1002;
 
 			if (setId > 0)
@@ -897,6 +902,8 @@ namespace Login.Network
 			response.PutLong(newChar.Id);
 
 			client.Send(response);
+
+			Logger.Info("New partner: " + newChar.Name);
 		}
 
 		private void HandleDisconnect(LoginClient client, MabiPacket packet)

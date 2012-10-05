@@ -601,7 +601,14 @@ namespace World.World
 
 		private CommandResult Command_test(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			client.Disconnect(10);
+			var pos = creature.GetPosition();
+			client.Send(
+				new MabiPacket(Op.Effect, creature.Id)
+				.PutInt(uint.Parse(args[1]))
+				.PutInt(creature.Region)
+				.PutFloats(pos.X, pos.Y)
+				.PutByte(2)
+			);
 
 			return CommandResult.Okay;
 		}

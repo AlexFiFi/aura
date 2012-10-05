@@ -42,11 +42,15 @@ namespace Common.Data
 		/// <returns></returns>
 		public uint GetRandom(byte id)
 		{
+			return this.GetRandom(id, new Random((int)DateTime.Now.Ticks));
+		}
+
+		public uint GetRandom(byte id, Random rand)
+		{
 			var mapInfo = this.Find(id);
 			if (mapInfo == null)
 				return 0;
 
-			var rand = new Random(Environment.TickCount);
 			var color = mapInfo.ColorMap[rand.Next(mapInfo.ColorMap.Length)];
 			if (color >> 24 == 0)
 				color = ((color & 0xFF) << 16) + ((color >> 8 & 0xFF) << 8) + (color >> 16 & 0xFF);

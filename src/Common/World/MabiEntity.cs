@@ -7,10 +7,7 @@ using Common.Events;
 
 namespace Common.World
 {
-	public enum EntityType
-	{
-		Undefined, Character, Pet, Item, NPC, Prop
-	}
+	public enum EntityType { Undefined, Character, Pet, Item, NPC, Prop }
 
 	public abstract class MabiEntity : IDisposable
 	{

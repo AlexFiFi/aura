@@ -84,15 +84,11 @@ namespace World.World
 		{
 			if (price >= 0)
 			{
-				item.OptionInfo.Price = (uint)price;
-				if (item.OptionInfo.Price <= item.OptionInfo.SellingPrice)
-				{
+				item.OptionInfo.Price = (uint)price * item.StackMax;
+				item.OptionInfo.SellingPrice = (uint)(item.OptionInfo.Price * 0.1f);
+
+				if (item.OptionInfo.Price < item.OptionInfo.SellingPrice)
 					Logger.Warning(string.Format("Price for '{0}' is lower than the selling price. ({1} < {2})", item.Info.Class.ToString(), item.OptionInfo.Price, item.OptionInfo.SellingPrice));
-				}
-			}
-			if (amount > 1)
-			{
-				item.OptionInfo.Price *= amount;
 			}
 			this.AddItems(tab, item);
 		}

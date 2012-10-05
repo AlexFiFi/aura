@@ -14,10 +14,6 @@ public class GoroScript : NPCScript
 		SetBody(height: 0.3f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 32, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
 		EquipItem(Pocket.Shoe, 0x426D, 0x441A19, 0x695C66, 0xBADB);
 		EquipItem(Pocket.LeftHand1, 0x9C47, 0x405062, 0x7F7237, 0x729E);
 		EquipItem(Pocket.RightHand1, 0xB3B1, 0x4F4F4B, 0x746C54, 0x4D1D77);
@@ -31,7 +27,6 @@ public class GoroScript : NPCScript
 		Phrases.Add("Test your strength here, in Alby Arena!");
 		Phrases.Add("Wait, do not attack.");
 		Phrases.Add("We exchange Stars with Arena Coins.");
-
 	}
 
 	public override void OnTalk(WorldClient c)

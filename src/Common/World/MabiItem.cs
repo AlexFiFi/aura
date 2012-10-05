@@ -209,9 +209,10 @@ namespace Common.World
 				this.Width = this.DataInfo.Width;
 				this.Height = this.DataInfo.Height;
 
-				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap1);
-				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap2);
-				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap3);
+				var rand = RandomProvider.Get();
+				this.Info.ColorA = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap1, rand);
+				this.Info.ColorB = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap2, rand);
+				this.Info.ColorC = MabiData.ColorMapDb.GetRandom(this.DataInfo.ColorMap3, rand);
 			}
 			else
 			{

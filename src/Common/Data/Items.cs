@@ -96,7 +96,7 @@ namespace Common.Data
 			info.ColorMap3 = Convert.ToByte(csv[i++]);
 			//info.ColorMode = Convert.ToByte(csv[i++]);
 			info.Price = Convert.ToUInt32(csv[i++]);
-			info.SellingPrice = (info.Id != 2000 ? (uint)(info.Price * 0.1f) : 1);
+			info.SellingPrice = (info.Id != 2000 ? (uint)(info.Price * 0.1f) : 1000);
 			info.Durability = Convert.ToUInt32(csv[i++]);
 			info.Defense = Convert.ToUInt32(csv[i++]);
 			info.Protection = Convert.ToInt16(csv[i++]);

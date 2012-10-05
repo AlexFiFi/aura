@@ -218,6 +218,8 @@ and doesn't have to follow the other command.
 ** OpenShop(<MabiClient:client>)
 
 Opens the shop of the current NPC.
+Note: Not sending some kind of message before this will trap you in
+  the dialog.
 
 -----------------------------------------------------------------------------
 

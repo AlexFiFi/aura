@@ -94,6 +94,8 @@ namespace Common.Network
 		public readonly static uint NPCTalkStartR = 0x55F1;
 		public readonly static uint NPCTalkEnd = 0x55F2;
 		public readonly static uint NPCTalkEndR = 0x55F3;
+		public readonly static uint NPCTalkPartner = 0x55F8;
+		public readonly static uint NPCTalkPartnerR = 0x55F9;
 		public readonly static uint ItemMove = 0x59D8;
 		public readonly static uint ItemMoveR = 0x59D9;
 		public readonly static uint ItemPickUp = 0x59DA;
@@ -225,7 +227,7 @@ namespace Common.Network
 				Run = 0x0F010300;
 				Running = 0x0F0400A0;
 				Walk = 0x0F010800;
-				//Walking = 0x0F010800;
+				Walking = 0x0FA10020;
 				CombatAttack = 0x0FB10001;
 			}
 		}
