@@ -128,75 +128,71 @@ namespace World.Network
 			}
 
 			Logger.Info("Type 'help' for a list of console commands.");
-
-			var input = "";
-			var startTime = DateTime.Now;
-
-			do
-			{
-				input = Console.ReadLine();
-				var splitted = input.Split(' ');
-
-				switch (splitted[0])
-				{
-					case "help":
-						Logger.Info("Commands:");
-						Logger.Info("  status       Shows some status information about the channel");
-						Logger.Info("  shutdown     Annonuces and executes server shutdown");
-						Logger.Info("  auth         Sets the authority of the given user");
-						Logger.Info("  help         Shows this");
-						break;
-
-					case "status":
-						Logger.Info("Creatures: " + WorldManager.Instance.GetCreatureCount());
-						Logger.Info("Items: " + WorldManager.Instance.GetItemCount());
-						Logger.Info("Online time: " + (DateTime.Now - startTime).ToString(@"hh\:mm\:ss"));
-						break;
-
-					case "shutdown":
-						// take time parameter
-						// announce shutdown
-						// save chars
-						// exit
-						Logger.Info("Not implemented yet.");
-						break;
-
-					case "auth":
-						if (splitted.Length < 3)
-						{
-							Logger.Error("Usage: auth <user id> <auth level>");
-							break;
-						}
-
-						var accountId = splitted[1];
-						byte level = 0;
-						try
-						{
-							level = Convert.ToByte(splitted[2]);
-							if (MabiDb.Instance.SetAuthority(accountId, level))
-								Logger.Info("Done.");
-							else
-								Logger.Info("Account couldn't be found.");
-						}
-						catch
-						{
-							Logger.Error("Please specify an existing account and an authority level between 0 and 99.");
-						}
-
-						break;
-
-					case "":
-						break;
-
-					default:
-						Logger.Info("Unkown command.");
-						goto case "help";
-				}
-			}
-			while (input.Length > 0);
+			this.ReadCommands();
 		}
 
-		public void OncePerMinute(object sender, EventArgs args)
+		private Timer _shutdownTimer1, _shutdownTimer2;
+		protected override void ParseCommand(string[] args, string command)
+		{
+			switch (args[0])
+			{
+				case "help":
+					{
+						Logger.Info("Commands:");
+						Logger.Info("  status       Shows some status information about the channel");
+						Logger.Info("  shutdown     Announces and executes server shutdown");
+						Logger.Info("  help         Shows this");
+					}
+					break;
+
+				case "status":
+					{
+						Logger.Info("Creatures: " + WorldManager.Instance.GetCreatureCount());
+						Logger.Info("Items: " + WorldManager.Instance.GetItemCount());
+						Logger.Info("Online time: " + (DateTime.Now - _startTime).ToString(@"hh\:mm\:ss"));
+					}
+					break;
+
+				case "shutdown":
+					{
+						int exitSeconds = 60;
+						if (args.Length > 1)
+							int.TryParse(args[1], out exitSeconds);
+
+						int dcSeconds = 0;
+						if (exitSeconds > 60)
+							dcSeconds = dcSeconds = exitSeconds - 60;
+
+						int dcTimerSeconds = exitSeconds - (exitSeconds - dcSeconds);
+
+						// Broadcast a notice.
+						var notice = PacketCreator.Notice("The server will shutdown in " + exitSeconds + " seconds, please log out before that time, for your own safety.", NoticeType.TOP_RED);
+						WorldManager.Instance.Broadcast(notice, SendTargets.All, null);
+
+						// Set a timer when to dc all remaining players.
+						_shutdownTimer1 = new Timer((state) =>
+						{
+							var dc = new MabiPacket(Op.RequestClientDisconnect, 0x1000000000000001).PutSInt(dcSeconds * 1000);
+							WorldManager.Instance.Broadcast(dc, SendTargets.All, null);
+						}, null, dcTimerSeconds * 1000, Timeout.Infinite);
+
+						// Set a timer when to exit this server.
+						_shutdownTimer2 = new Timer((state) => { this.Exit(0, false); }, null, exitSeconds * 1000, Timeout.Infinite);
+
+						Logger.Info("Shutting down in " + exitSeconds + " seconds.");
+					}
+					break;
+
+				case "":
+					break;
+
+				default:
+					Logger.Info("Unkown command.");
+					goto case "help";
+			}
+		}
+
+		private void OncePerMinute(object sender, EventArgs args)
 		{
 			uint stress = WorldManager.Instance.GetCharactersCount();
 

@@ -6,37 +6,48 @@
 | Introduction                                                              |
 =============================================================================
 
-The world server supports some commands that can be executed directly from
+The servers support some commands that can be executed directly from
 the console window. Those can simply get typed in, and executed by pressing
 [Enter].
 
 =============================================================================
-| Commands                                                                  |
+| General Commands                                                          |
 =============================================================================
 
 ** help
 
-Displays some short information about the available commands.
+Displays short information about the available commands.
 
 -----------------------------------------------------------------------------
 
 ** status
 
-Displays some information about the channel, like number of creatures alive,
-number of items lying around, time the channel has been online, etc.
+Displays some information about the server, like number of creatures alive,
+number of items lying around, or time the server has been online.
 
------------------------------------------------------------------------------
+=============================================================================
+| World Commands                                                            |
+=============================================================================
 
-** shutdown <time> [reason]
+** shutdown <time>
 
-(Not implemented yet)
-Broadcasts a message that the server will shutdown for the given reason
-(optional) after x minutes, specified in time.
+Broadcasts a message that the channel will shutdown after x seconds,
+specified in time. Players will be automatically disconnected 60 seconds
+before the shutdown, or immediately, if time is less than 60.
 
------------------------------------------------------------------------------
+=============================================================================
+| Login Commands                                                            |
+=============================================================================
 
 ** auth <account id> <authority level>
 
 Changes the authority level for the given account. Please note that you have
-to relog for this to take effect, and you should log out before running this,
+to relog for this to take effect, and you should log out before running it,
 or it might get reset.
+
+-----------------------------------------------------------------------------
+
+** addcard <pet|character> <card id> <account id>
+
+Adds a card to an account. Shouldn't be used on accounts that are connected
+to a channel.

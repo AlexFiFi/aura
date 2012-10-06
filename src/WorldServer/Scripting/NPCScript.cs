@@ -23,7 +23,7 @@ namespace World.Scripting
 		public MabiShop Shop = new MabiShop();
 
 		public List<string> Phrases = new List<string>();
-		private int _timeToNextSpeak = 0;
+		private int _ticksTillNextPhrase = 0;
 
 		private string _dialogFace = null, _dialogName = null;
 
@@ -67,17 +67,13 @@ namespace World.Scripting
 
 		private void ErinnTimeTick(object sender, TimeEventArgs e)
 		{
-			if (--_timeToNextSpeak <= 0)
+			if (--_ticksTillNextPhrase <= 0)
 			{
-				this.Speak();
-				_timeToNextSpeak = RandomProvider.Get().Next(10, 30);
+				var rand = RandomProvider.Get();
+				if (this.Phrases.Count > 0)
+					this.Speak(Phrases[rand.Next(Phrases.Count)]);
+				_ticksTillNextPhrase = rand.Next(10, 30);
 			}
-		}
-
-		private void Speak()
-		{
-			if (this.Phrases.Count != 0)
-				this.Speak(Phrases[RandomProvider.Get().Next(Phrases.Count)]);
 		}
 
 		// Built in methods

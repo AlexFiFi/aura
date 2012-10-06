@@ -87,7 +87,98 @@ namespace Login.Network
 				this.Exit(1);
 			}
 
-			Console.ReadLine();
+			Logger.Info("Type 'help' for a list of console commands.");
+			this.ReadCommands();
+		}
+
+		protected override void ParseCommand(string[] args, string command)
+		{
+			switch (args[0])
+			{
+				case "help":
+					{
+						Logger.Info("Commands:");
+						Logger.Info("  status       Shows some status information about the channel");
+						Logger.Info("  auth         Sets the authority of the given user");
+						Logger.Info("  addcard      Adds the specified card to an account");
+						Logger.Info("  help         Shows this");
+					}
+					break;
+
+				case "status":
+					{
+						Logger.Info("Online time: " + (DateTime.Now - _startTime).ToString(@"hh\:mm\:ss"));
+					}
+					break;
+
+				case "auth":
+					{
+						if (args.Length < 3)
+						{
+							Logger.Error("Usage: auth <account id> <auth level>");
+							break;
+						}
+
+						var accountId = args[1];
+						byte level = 0;
+						try
+						{
+							level = Convert.ToByte(args[2]);
+							if (MabiDb.Instance.SetAuthority(accountId, level))
+								Logger.Info("Done.");
+							else
+								Logger.Info("Account couldn't be found.");
+						}
+						catch
+						{
+							Logger.Error("Please specify an existing account and an authority level between 0 and 99.");
+						}
+					}
+					break;
+
+				case "addcard":
+					{
+						if (args.Length < 4)
+						{
+							Logger.Info("Usage: addcard <pet|character> <card id> <account id>");
+							break;
+						}
+
+						var type = args[1];
+						var account = args[3];
+
+						int card = 0;
+						if (!int.TryParse(args[2], out card))
+						{
+							Logger.Error("Please specify a numeric card id.");
+							return;
+						}
+
+						if (!MabiDb.Instance.AccountExists(account))
+						{
+							Logger.Error("Please specify an existing account.");
+							return;
+						}
+
+						if (type != "character" && type != "pet")
+						{
+							Logger.Error("Please specify a valid card type (pet/character).");
+							return;
+						}
+
+						MabiDb.Instance.AddCard(type + "_cards", account, card);
+
+						Logger.Info("Card added.");
+					}
+					break;
+
+				case "":
+					break;
+
+				default:
+					Logger.Info("Unkown command.");
+					goto case "help";
+			}
 		}
 	}
 }

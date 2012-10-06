@@ -1528,8 +1528,8 @@ namespace World.Network
 			// Set pet position near the summoner
 			var pos = creature.GetPosition();
 			var rand = RandomProvider.Get();
-			pos.X = (uint)(pos.X + rand.Next(-400, 401));
-			pos.Y = (uint)(pos.Y + rand.Next(-400, 401));
+			pos.X = (uint)(pos.X + rand.Next(-350, 351));
+			pos.Y = (uint)(pos.Y + rand.Next(-350, 351));
 			pet.SetLocation(creature.Region, pos.X, pos.Y);
 			pet.Direction = (byte)rand.Next(255);
 
@@ -1682,7 +1682,7 @@ namespace World.Network
 			}
 			else
 			{
-				Logger.Warning("Unknown prop: " + portalId.ToString());
+				Logger.Unimplemented("Unknown prop: " + portalId.ToString());
 			}
 
 			var p = new MabiPacket(Op.TouchPropR, creature.Id);

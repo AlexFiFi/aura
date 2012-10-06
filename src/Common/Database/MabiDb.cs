@@ -696,10 +696,26 @@ namespace Common.Database
 					this.QueryI(string.Format("INSERT INTO character_cards (accountId, type) VALUES('{0}', {1});", account.Username, card.Race), conn);
 				}
 
-				foreach (MabiCard card in account.PetCards)
+				foreach (var card in account.PetCards)
 				{
 					this.QueryI(string.Format("INSERT INTO pet_cards (accountId, type) VALUES('{0}', {1});", account.Username, card.Race), conn);
 				}
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		public void AddCard(string table, string accountId, int cardId)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				var mc = new MySqlCommand("INSERT INTO " + table + " (accountId, type) VALUES(@account, @card)", conn);
+				mc.Parameters.AddWithValue("@account", accountId);
+				mc.Parameters.AddWithValue("@card", cardId);
+				mc.ExecuteNonQuery();
 			}
 			finally
 			{

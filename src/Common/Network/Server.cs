@@ -19,10 +19,12 @@ namespace Common.Network
 	{
 		protected Socket _serverSocket;
 
+		protected DateTime _startTime = DateTime.Now;
+
 		public delegate void PacketHandler(TClient client, MabiPacket packet);
 		protected Dictionary<uint, PacketHandler> _handlers = new Dictionary<uint, PacketHandler>();
 
-		protected List<TClient> _clients = new List<TClient>();
+		//protected List<TClient> _clients = new List<TClient>();
 
 		/// <summary>
 		/// Prints the standard header for the emulator.
@@ -55,10 +57,14 @@ namespace Common.Network
 		/// Waits for the return key, and closes the application afterwards.
 		/// </summary>
 		/// <param name="exitCode"></param>
-		protected void Exit(int exitCode = 0)
+		protected void Exit(int exitCode = 0, bool wait = true)
 		{
+			if (wait)
+			{
+				Logger.Info("Press Enter to exit.");
+				Console.ReadLine();
+			}
 			Logger.Info("Exiting...");
-			Console.ReadLine();
 			Environment.Exit(exitCode);
 		}
 
@@ -149,6 +155,28 @@ namespace Common.Network
 				Logger.Exception(ex, null, true);
 				this.Exit(1);
 			}
+		}
+
+		/// <summary>
+		/// Reads input from the console and passes it to ParseCommand,
+		/// which can be overriden by deriving servers.
+		/// </summary>
+		/// <param name="stopCommand"></param>
+		protected virtual void ReadCommands(string stopCommand = "")
+		{
+			var input = string.Empty;
+
+			do
+			{
+				input = Console.ReadLine();
+				var splitted = input.Split(' ');
+				this.ParseCommand(splitted, input);
+			}
+			while (input != stopCommand);
+		}
+
+		protected virtual void ParseCommand(string[] args, string command)
+		{
 		}
 
 		/// <summary>
