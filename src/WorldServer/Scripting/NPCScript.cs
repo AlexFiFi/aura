@@ -54,14 +54,23 @@ namespace World.Scripting
 
 		public virtual void OnEnd(WorldClient client)
 		{
-			var name = this.NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
-			name = name.Substring(0, 1).ToUpper() + name.Substring(1);
-			this.Close(client, "(You ended your conversation with " + name + ".)");
+			string properNPCname;
+			if (string.IsNullOrWhiteSpace(this._dialogName))
+			{
+				properNPCname = NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
+				properNPCname = properNPCname.Substring(0, 1).ToUpper() + properNPCname.Substring(1);
+			}
+			else
+			{
+				properNPCname = this._dialogName;
+			}
+			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
 		}
 
 		public override void Dispose()
 		{
 			ServerEvents.Instance.ErinnTimeTick -= ErinnTimeTick;
+			Shop.Dispose();
 			base.Dispose();
 		}
 

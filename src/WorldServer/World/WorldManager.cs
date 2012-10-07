@@ -24,6 +24,7 @@ namespace World.World
 			EntityEvents.Instance.CreatureLevelsUp += this.CreatureLevelsUp;
 			EntityEvents.Instance.CreatureStatUpdates += this.CreatureStatsUpdate;
 			EntityEvents.Instance.CreatureItemUpdate += this.CreatureItemUpdate;
+			EntityEvents.Instance.CreatureDropItem += this.CreatureDropItem;
 		}
 
 		private List<MabiCreature> _creatures = new List<MabiCreature>();
@@ -73,6 +74,11 @@ namespace World.World
 			{
 				ServerEvents.Instance.OnErinnDaytimeTick(this, args);
 				this.Broadcast(PacketCreator.Notice((args.IsNight ? "Eweca is rising.\nMana is starting to fill the air all around." : "Eweca has disappeared.\nThe surrounding Mana is starting to fade away."), NoticeType.MIDDLE_TOP), SendTargets.All, null);
+			}
+
+			if (erinnHour == 0 && erinnMinute == 0)
+			{
+				ServerEvents.Instance.OnErinnMidnightTick(this, args);
 			}
 
 			// Real time event, every Real minute
@@ -552,6 +558,23 @@ namespace World.World
 			p.PutByte(1);
 
 			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureDropItem(object sender, ItemEventArgs e)
+		{
+			var creature = sender as MabiCreature;
+			if (creature == null)
+				return;
+
+			var pos = creature.GetPosition();
+			var rand = RandomProvider.Get();
+			e.Item.Region = creature.Region;
+			e.Item.Info.X = (uint)(pos.X + rand.Next(-100, 101));
+			e.Item.Info.Y = (uint)(pos.Y + rand.Next(-100, 101));
+			e.Item.Info.Pocket = (byte)Pocket.None;
+			e.Item.DisappearTime = DateTime.Now.AddSeconds((int)Math.Max(60, (e.Item.OptionInfo.Price / 100) * 60));
+
+			WorldManager.Instance.AddItem(e.Item);
 		}
 
 		public void CreatureItemUpdate(object sender, ItemUpdateEventArgs ie)

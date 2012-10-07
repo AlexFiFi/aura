@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-using Common.Tools;
 
 namespace Common.Network
 {
@@ -35,7 +34,7 @@ namespace Common.Network
 		public MabiPacket(byte[] buffer, int length, bool includeOverall = true)
 		{
 			if (length < (includeOverall ? 21 : 15))
-				throw new Exception("Unsufficent amount of bytes.");
+				throw new Exception("Insufficent amount of bytes.");
 
 			_buffer = buffer;
 

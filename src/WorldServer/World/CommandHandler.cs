@@ -327,12 +327,7 @@ namespace World.World
 			{
 				// >drop
 
-				var pos = creature.GetPosition();
-				newItem.Info.Region = creature.Region;
-				newItem.Info.X = pos.X;
-				newItem.Info.Y = pos.Y;
-
-				WorldManager.Instance.AddItem(newItem);
+				WorldManager.Instance.CreatureDropItem(client.Character, new Common.Events.ItemEventArgs(newItem));
 			}
 			else
 			{

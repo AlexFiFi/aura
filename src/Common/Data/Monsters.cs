@@ -20,6 +20,7 @@ namespace Common.Data
 		public float Life;
 		public uint Exp;
 		public float Size;
+		public uint ColorA, ColorB, ColorC;
 
 		public int GoldMin, GoldMax;
 		public List<MonsterDropInfo> Drops = new List<MonsterDropInfo>();
@@ -55,32 +56,35 @@ namespace Common.Data
 		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
 			base.LoadFromCsv(filePath, reload);
-			this.ReadCsv(filePath, 9);
+			this.ReadCsv(filePath, 12);
 		}
 
 		protected override void CsvToEntry(MonsterInfo info, List<string> csv, int currentLine)
 		{
-			info.Id = Convert.ToUInt32(csv[0]);
-			info.Race = Convert.ToUInt32(csv[1]);
-			info.Name = csv[2];
-			info.AI = csv[3];
-			info.Life = float.Parse(csv[4], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
-			info.Exp = Convert.ToUInt32(csv[5]);
-			info.Size = float.Parse(csv[6], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
-			info.GoldMin = Convert.ToInt32(csv[7]);
-			info.GoldMax = Convert.ToInt32(csv[8]);
+			int j = 0;
+			info.Id = Convert.ToUInt32(csv[j++]);
+			info.Race = Convert.ToUInt32(csv[j++]);
+			info.Name = csv[j++];
+			info.ColorA = uint.Parse(csv[j++].Substring(2), NumberStyles.HexNumber, CultureInfo.GetCultureInfo("en-US"));
+			info.ColorB = uint.Parse(csv[j++].Substring(2), NumberStyles.HexNumber, CultureInfo.GetCultureInfo("en-US"));
+			info.ColorC = uint.Parse(csv[j++].Substring(2), NumberStyles.HexNumber, CultureInfo.GetCultureInfo("en-US"));
+			info.AI = csv[j++];
+			info.Life = float.Parse(csv[j++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.Exp = Convert.ToUInt32(csv[j++]);
+			info.Size = float.Parse(csv[j++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.GoldMin = Convert.ToInt32(csv[j++]);
+			info.GoldMax = Convert.ToInt32(csv[j++]);
 
-			var remaining = csv.Count - 9;
-			if (remaining % 2 != 0)
+			if ((csv.Count - j) % 2 != 0)
 			{
 				Logger.Warning("Missing drop id or chance on line " + currentLine + " in monsters.");
-				remaining = 0;
+				j = csv.Count;
 			}
-			for (int j = 0; j < remaining; ++j)
+			while(j < csv.Count)
 			{
 				var drop = new MonsterDropInfo();
-				drop.ItemId = Convert.ToUInt32(csv[9 + j]);
-				drop.Chance = float.Parse(csv[9 + j + 1], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+				drop.ItemId = Convert.ToUInt32(csv[j++]);
+				drop.Chance = float.Parse(csv[j++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 
 				drop.Chance /= 100;
 				if (drop.Chance > 1)
@@ -88,7 +92,7 @@ namespace Common.Data
 				else if (drop.Chance < 0)
 					drop.Chance = 0;
 
-				++j;
+				info.Drops.Add(drop);
 			}
 
 			info.Skills = MabiData.MonsterSkillDb.FindAll(info.Id);

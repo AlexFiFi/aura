@@ -2,12 +2,10 @@
 // For more information, see licence.txt in the main folder
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Xml;
-using System.Text;
 using System.IO.Compression;
+using System.Linq;
+using Common.Tools;
 
 namespace Common.Data
 {
@@ -42,7 +40,7 @@ namespace Common.Data
 		/// <returns></returns>
 		public uint GetRandom(byte id)
 		{
-			return this.GetRandom(id, new Random((int)DateTime.Now.Ticks));
+			return this.GetRandom(id, RandomProvider.Get());
 		}
 
 		public uint GetRandom(byte id, Random rand)

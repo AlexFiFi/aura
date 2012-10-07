@@ -1,9 +1,18 @@
 // Aura
 // Database file
 // 
+// "//FM" = Field Monster
+// "//DM" = "Dungeon Monster
 // Structure:
-// Id  RaceId  Name  AI  Life  Exp  Size  GoldMin  GoldMax  [DropItem  DropChance ...]
+// Id,  RaceId,  Name,  AI,  Color1,  Color2,  Color3,  Life,  Exp,  Size,  GoldMin,  GoldMax,  [DropItem,  DropChance ...]
 //---------------------------------------------------------------------------
 
-10001, 20001,  "Gray Wolf", "wolf", 90,30,1.0, 11,50, 50003,100,100,5
-10002, 360001, "Mammoth",   "none", 10,0,3.0,  1,1
+10001, 20001, "Gray Wolf", 0x808080, 0x808080, 0x808080, "wolf", 90,30,1.0, 11,50, 50003,100,100,5 //FM
+10002, 360001, "Mammoth", 0x808080, 0x808080, 0x808080,  "none", 10,0,3.0,  1,1 //FM
+//10003, 50001, "Brown Fox", 0x77464A, 0x77464A, 0x77464A,  "fox", 15,15,1.0,  8,10, 71021,15,52002,5 //FM
+//10004, 50007, "Young Brown Fox", 0x77464A, 0x77464A, 0x77464A, "fox", 15,15,0.5, 8,10, 71021,15,52002,5 //FM
+//10005, 30001, "White Spider", 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, "fieldspider", 20, 13, 1.0, 5, 10 //FM
+//10006, 30003, "Red Spider", 0xFF3000, 0xFF3000, 0xFF3000, "fieldspider", 190, 80, 1.0, 30, 60 //FM
+//10007, 20003, "White Wolf", 0xCCCCCC, 0xCCCCCC, 0xCCCCCC, "wolf", 160, 85, 1.0, 20, 80 //FM
+//10008, 20002, "Black Wolf", 0x111111, 0x111111, 0x111111, "wolf", 120, 70, 1.0, 15, 70 //FM
+//10009, 50002, "Red Fox", 0xb13a3f, 0xb13a3f, 0xb13a3f, "fox", 25, 15, 1.0, 5, 14 //FM

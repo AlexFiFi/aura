@@ -16,7 +16,7 @@ public class TarlachBearScript : NPCScript
 
 		SetLocation(region: 48, x: 11100, y: 30400);
 
-		ServerEvents.Instance.Erinn12HourTick += On12HrTick;
+		ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
 
 		SetDirection(167);
 
@@ -33,7 +33,7 @@ public class TarlachBearScript : NPCScript
 
 	public override void Dispose()
 	{
-		ServerEvents.Instance.Erinn12HourTick -= On12HrTick;
+		ServerEvents.Instance.ErinnDaytimeTick -= On12HrTick;
 		base.Dispose();
 	}
 

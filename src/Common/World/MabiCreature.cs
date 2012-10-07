@@ -511,7 +511,7 @@ namespace Common.World
 		/// </summary>
 		/// <param name="itemId"></param>
 		/// <param name="amount"></param>
-		public void GiveItem(uint itemId, uint amount, int color1 = 0, int color2 = 0, int color3 = 0)
+		public void GiveItem(uint itemId, uint amount, uint color1 = 0, uint color2 = 0, uint color3 = 0, bool useDBColors = true, bool drop = false)
 		{
 			foreach (var item in this.Items)
 			{
@@ -541,6 +541,12 @@ namespace Common.World
 			while (amount > 0)
 			{
 				var item = new MabiItem(itemId);
+				if (!useDBColors)
+				{
+					item.Info.ColorA = color1;
+					item.Info.ColorB = color2;
+					item.Info.ColorC = color3;
+				}
 				var max = Math.Max((ushort)1, item.StackMax); // This way, we can't drag the server into an infinate loop
 				if (amount <= max)
 				{
@@ -553,18 +559,25 @@ namespace Common.World
 					amount -= max;
 				}
 
-				var pocket = Pocket.Inventory;
-				var space = this.GetFreeItemSpace(item, pocket);
-				if (space == null)
+				if (drop)
 				{
-					pocket = Pocket.Temporary;
-					space = new MabiVertex(0, 0);
+					EntityEvents.Instance.OnCreatureDropItem(this, item);
 				}
+				else
+				{
+					var pocket = Pocket.Inventory;
+					var space = this.GetFreeItemSpace(item, pocket);
+					if (space == null)
+					{
+						pocket = Pocket.Temporary;
+						space = new MabiVertex(0, 0);
+					}
 
-				item.Move(pocket, space.X, space.Y);
-				this.Items.Add(item);
+					item.Move(pocket, space.X, space.Y);
+					this.Items.Add(item);
 
-				EntityEvents.Instance.OnCreatureItemUpdate(this, item, true);
+					EntityEvents.Instance.OnCreatureItemUpdate(this, item, true);
+				}
 			}
 		}
 

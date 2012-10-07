@@ -820,14 +820,7 @@ namespace World.Network
 			client.Send(PacketCreator.ItemRemove(creature, item));
 
 			// Drop it
-			var pos = creature.GetPosition();
-			item.Region = creature.Region;
-			item.Info.X = pos.X;
-			item.Info.Y = pos.Y;
-			item.Info.Pocket = 0;
-			item.DisappearTime = DateTime.Now.AddSeconds(60);
-
-			WorldManager.Instance.AddItem(item);
+			WorldManager.Instance.CreatureDropItem(creature, new ItemEventArgs(item));
 
 			// Done
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);

@@ -101,7 +101,7 @@ namespace Common.Data
 					catch (Exception ex)
 					{
 						Logger.Warning("Unable to read information on line " + (i + 1).ToString() + " in " + Path.GetFileName(filePath) + ", skipping.");
-						Logger.Warning("Problam: " + ex.Message);
+						Logger.Warning("Problem: " + ex.Message);
 						continue;
 					}
 				}

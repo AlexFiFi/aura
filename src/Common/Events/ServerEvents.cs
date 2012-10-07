@@ -22,7 +22,7 @@ namespace Common.Events
 		}
 
 		public EventHandler PlayerLogsIn;
-		public EventHandler<TimeEventArgs> ErinnTimeTick, RealTimeTick, Erinn12HourTick;
+		public EventHandler<TimeEventArgs> ErinnTimeTick, RealTimeTick, ErinnDaytimeTick, ErinnMidnightTick;
 		public EventHandler<EntityEventArgs> EntityEntersRegion, EntityLeavesRegion;
 		public EventHandler<MoveEventArgs> CreatureMoves;
 		public EventHandler<ChatEventArgs> CreatureTalks;
@@ -42,8 +42,14 @@ namespace Common.Events
 
 		public void OnErinnDaytimeTick(object sender, TimeEventArgs e)
 		{
-			if (Erinn12HourTick != null)
-				Erinn12HourTick(sender, e);
+			if (ErinnDaytimeTick != null)
+				ErinnDaytimeTick(sender, e);
+		}
+
+		public void OnErinnMidnightTick(object sender, TimeEventArgs e)
+		{
+			if (ErinnMidnightTick != null)
+				ErinnMidnightTick(sender, e);
 		}
 
 		public void OnRealTimeTick(object sender, TimeEventArgs e)

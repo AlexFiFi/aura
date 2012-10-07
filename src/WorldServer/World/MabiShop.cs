@@ -8,10 +8,11 @@ using Common.Tools;
 using Common.World;
 using Common.Data;
 using System;
+using Common.Events;
 
 namespace World.World
 {
-	public class MabiShop
+	public class MabiShop : IDisposable
 	{
 		public class MabiShopTab
 		{
@@ -25,6 +26,35 @@ namespace World.World
 		}
 
 		public List<MabiShopTab> Tabs = new List<MabiShopTab>();
+
+		public bool Disposed { get; private set; }
+
+		public MabiShop()
+		{
+			this.Disposed = false;
+			ServerEvents.Instance.ErinnMidnightTick += this.ChangeItemColors;
+		}
+
+		public virtual void Dispose()
+		{
+			if (Disposed)
+				return;
+			ServerEvents.Instance.ErinnMidnightTick -= this.ChangeItemColors;
+			Disposed = true;
+		}
+
+		private void ChangeItemColors(object sender, TimeEventArgs e)
+		{
+			var rand = RandomProvider.Get();
+
+			foreach (var tab in Tabs)
+				foreach (var item in tab.Items)
+				{
+					item.Info.ColorA = MabiData.ColorMapDb.GetRandom(item.DataInfo.ColorMap1, rand);
+					item.Info.ColorB = MabiData.ColorMapDb.GetRandom(item.DataInfo.ColorMap2, rand);
+					item.Info.ColorC = MabiData.ColorMapDb.GetRandom(item.DataInfo.ColorMap3, rand);
+				}
+		}
 
 		public void AddTabs(params string[] names)
 		{

@@ -226,7 +226,11 @@ namespace World.Scripting
 				var monster = new MabiNPC();
 				monster.SpawnId = info.Id;
 				monster.Name = monsterInfo.Name;
-				monster.SetLocation(info.Region, (uint)rand.Next(info.X1, info.X2), (uint)rand.Next(info.Y1, info.Y2));
+				var loc = info.GetRandomSpawnPoint(rand);
+				monster.SetLocation(info.Region, loc.X, loc.Y);
+				monster.ColorA = monsterInfo.ColorA;
+				monster.ColorB = monsterInfo.ColorB;
+				monster.ColorC = monsterInfo.ColorC;
 				monster.Height = monsterInfo.Size;
 				monster.LifeMaxBase = monsterInfo.Life;
 				monster.Life = monsterInfo.Life;
@@ -247,7 +251,6 @@ namespace World.Scripting
 
 				if (aiFilePath != null)
 				{
-					//monster.AIScript = (AIScript)CSScript.Load(aiFilePath).CreateObject("*");
 					monster.AIScript = (AIScript)CSScript.LoadCode(File.ReadAllText(aiFilePath)).CreateObject("*");
 					monster.AIScript.Creature = monster;
 					monster.AIScript.OnLoad();

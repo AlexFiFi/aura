@@ -81,14 +81,22 @@ namespace Common.Events
 		}
 	}
 
-	public class ItemUpdateEventArgs : EventArgs
+	public class ItemEventArgs : EventArgs
 	{
 		public MabiItem Item;
+		public ItemEventArgs(MabiItem item)
+		{
+			this.Item = item;
+		}
+	}
+
+	public class ItemUpdateEventArgs : ItemEventArgs
+	{
 		public bool New;
 
 		public ItemUpdateEventArgs(MabiItem item, bool isNew = false)
+			:base(item)
 		{
-			this.Item = item;
 			this.New = isNew;
 		}
 	}
