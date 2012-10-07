@@ -13,12 +13,8 @@ using System.Drawing.Drawing2D;
 
 namespace Common.Data
 {
-	public enum SpawnLocationType
-	{
-		Point,
-		Line,
-		Polygon
-	}
+	public enum SpawnLocationType { Point, Line, Polygon }
+
 	public class SpawnInfo
 	{
 		public uint Id;
@@ -36,6 +32,7 @@ namespace Common.Data
 		{
 			return this.GetRandomSpawnPoint(RandomProvider.Get());
 		}
+
 		public MabiVertex GetRandomSpawnPoint(Random rand)
 		{
 			uint x, y;
@@ -54,8 +51,10 @@ namespace Common.Data
 				{
 					x = (uint)rand.Next((int)this.SpawnPolyBounds.X, (int)(this.SpawnPolyBounds.X + this.SpawnPolyBounds.Width));
 					y = (uint)rand.Next((int)this.SpawnPolyBounds.Y, (int)(this.SpawnPolyBounds.Y + this.SpawnPolyBounds.Height));
-				} while (!SpawnPolyRegion.IsVisible(x, y));
+				}
+				while (!SpawnPolyRegion.IsVisible(x, y));
 			}
+
 			return new MabiVertex(x, y);
 		}
 
@@ -73,31 +72,31 @@ namespace Common.Data
 		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
 			base.LoadFromCsv(filePath, reload);
-			this.ReadCsv(filePath, 7);
+			this.ReadCsv(filePath, 5);
 		}
 
 		protected override void CsvToEntry(SpawnInfo info, List<string> csv, int currentLine)
 		{
 			if ((csv.Count - 3) % 2 != 0)
 			{
-				throw new InvalidDataException(); //TODO: better?
+				Logger.Warning("Incomplete area specification on line " + currentLine.ToString() + " in spawns, skipping.");
+				return;
 			}
+
 			var i = 0;
 			info.Id = _spawnId++;
 			info.MonsterId = Convert.ToUInt32(csv[i++]);
-			info.Region = Convert.ToUInt32(csv[i++]);
 			info.Amount = Convert.ToByte(csv[i++]);
-
-			List<Point> points = new List<Point>();
+			info.Region = Convert.ToUInt32(csv[i++]);
 
 			switch (csv.Count - i)
 			{
-				case 2: //Point
+				case 2: // Point
 					info.SpawnType = SpawnLocationType.Point;
 					info.SpawnPoint = new MabiVertex(Convert.ToUInt32(csv[i++]), Convert.ToUInt32(csv[i++]));
 					break;
 
-				case 4: //Line
+				case 4: // Line
 					info.SpawnType = SpawnLocationType.Line;
 					double x1 = Convert.ToDouble(csv[i++]), y1 = Convert.ToDouble(csv[i++]), x2 = Convert.ToDouble(csv[i++]), y2 = Convert.ToDouble(csv[i++]);
 					info.SpawnLineSlope = ((y2 - y1) / (x2 - x1)); // m = rise/run
@@ -106,13 +105,14 @@ namespace Common.Data
 					info.SpawnLineXEnd = (int)x2;
 					break;
 
-				default: //Polygon
+				default: // Polygon
 					info.SpawnType = SpawnLocationType.Polygon;
+
+					var points = new List<Point>();
 					while (i < csv.Count)
-					{
 						points.Add(new Point(Convert.ToInt32(csv[i++]), Convert.ToInt32(csv[i++])));
-					}
-					using (GraphicsPath p = new GraphicsPath())
+
+					using (var p = new GraphicsPath())
 					{
 						p.AddLines(points.ToArray());
 						p.CloseFigure();

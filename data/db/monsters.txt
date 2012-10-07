@@ -1,18 +1,22 @@
 // Aura
 // Database file
 // 
-// "//FM" = Field Monster
-// "//DM" = "Dungeon Monster
 // Structure:
-// Id,  RaceId,  Name,  AI,  Color1,  Color2,  Color3,  Life,  Exp,  Size,  GoldMin,  GoldMax,  [DropItem,  DropChance ...]
+// Id  RaceId  Name  AI  Color1  Color2  Color3  Life  Exp  Size  GoldMin  GoldMax  [DropItem  DropChance ...]
 //---------------------------------------------------------------------------
 
-10001, 20001, "Gray Wolf", 0x808080, 0x808080, 0x808080, "wolf", 90,30,1.0, 11,50, 50003,100,100,5 //FM
-10002, 360001, "Mammoth", 0x808080, 0x808080, 0x808080,  "none", 10,0,3.0,  1,1 //FM
-//10003, 50001, "Brown Fox", 0x77464A, 0x77464A, 0x77464A,  "fox", 15,15,1.0,  8,10, 71021,15,52002,5 //FM
-//10004, 50007, "Young Brown Fox", 0x77464A, 0x77464A, 0x77464A, "fox", 15,15,0.5, 8,10, 71021,15,52002,5 //FM
-//10005, 30001, "White Spider", 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, "fieldspider", 20, 13, 1.0, 5, 10 //FM
-//10006, 30003, "Red Spider", 0xFF3000, 0xFF3000, 0xFF3000, "fieldspider", 190, 80, 1.0, 30, 60 //FM
-//10007, 20003, "White Wolf", 0xCCCCCC, 0xCCCCCC, 0xCCCCCC, "wolf", 160, 85, 1.0, 20, 80 //FM
-//10008, 20002, "Black Wolf", 0x111111, 0x111111, 0x111111, "wolf", 120, 70, 1.0, 15, 70 //FM
-//10009, 50002, "Red Fox", 0xb13a3f, 0xb13a3f, 0xb13a3f, "fox", 25, 15, 1.0, 5, 14 //FM
+10001, 20001, "Gray Wolf", "wolf", 0x808080,0,0, 90,30,1.0, 11,50, 50003,100,100,5
+10002, 20003, "White Wolf", "wolf", 0xD0D0D0,0,0, 160,85,1.0, 20,80
+10003, 20002, "Black Wolf", "wolf", 0x303030,0,0, 120,70,1.0, 15,70
+10004, 20005, "Brown Dire Wolf", "wolf", 0x886655,0xFF2222,0, 200,90,1.0, 0,0
+10051, 20009, "Brown Dire Wolf Cub", "wolf", 0x886655,0xFF2222,0, 75,45,1.0, 0,0
+
+11001, 50001, "Brown Fox", "none", 0xA07070,0,0, 15,3,1.0, 8,10, 71021,15,52002,5
+11002, 50002, "Red Fox", "none", 0xE06060,0,0, 25,15,1.0, 5,14
+11003, 50003, "Gray Fox", "none", 0x8A8275,0,0, 30,20,1.0, 2,21
+11051, 50007, "Young Brown Fox", "none", 0xA07070,0,0, 10,75,0.5, 5,5, 71021,15,52002,5
+11052, 50005, "Young Red Fox", "none", 0xE06060,0,0, 20,12,1.0, 4,11
+11053, 50006, "Young Gray Fox", "none", 0x8A8275,0,0, 25,17,1.0, 6,6
+
+12001, 30001, "White Spider", "none", 0xC0C0C0,0,0, 20,13,1.0, 5,10
+12002, 30003, "Red Spider", "none", 0xE06060,0,0, 190,80,1.0, 30,60

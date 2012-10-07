@@ -3,11 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using Common.Tools;
 using Common.Data;
-using System.IO;
+using Common.Tools;
 
 namespace Common.Network
 {
@@ -351,4 +351,6 @@ namespace Common.Network
 			}
 		}
 	}
+
+	public enum DataLoad { Npcs = 0x01, Data = 0x02, All = 0xFFFF }
 }

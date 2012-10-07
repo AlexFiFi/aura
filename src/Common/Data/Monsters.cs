@@ -65,10 +65,10 @@ namespace Common.Data
 			info.Id = Convert.ToUInt32(csv[j++]);
 			info.Race = Convert.ToUInt32(csv[j++]);
 			info.Name = csv[j++];
-			info.ColorA = uint.Parse(csv[j++].Substring(2), NumberStyles.HexNumber, CultureInfo.GetCultureInfo("en-US"));
-			info.ColorB = uint.Parse(csv[j++].Substring(2), NumberStyles.HexNumber, CultureInfo.GetCultureInfo("en-US"));
-			info.ColorC = uint.Parse(csv[j++].Substring(2), NumberStyles.HexNumber, CultureInfo.GetCultureInfo("en-US"));
 			info.AI = csv[j++];
+			info.ColorA = Convert.ToUInt32(csv[j++].Replace("0x", ""), 16);
+			info.ColorB = Convert.ToUInt32(csv[j++].Replace("0x", ""), 16);
+			info.ColorC = Convert.ToUInt32(csv[j++].Replace("0x", ""), 16);
 			info.Life = float.Parse(csv[j++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.Exp = Convert.ToUInt32(csv[j++]);
 			info.Size = float.Parse(csv[j++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
@@ -80,7 +80,7 @@ namespace Common.Data
 				Logger.Warning("Missing drop id or chance on line " + currentLine + " in monsters.");
 				j = csv.Count;
 			}
-			while(j < csv.Count)
+			while (j < csv.Count)
 			{
 				var drop = new MonsterDropInfo();
 				drop.ItemId = Convert.ToUInt32(csv[j++]);

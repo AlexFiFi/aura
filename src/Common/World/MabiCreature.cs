@@ -278,6 +278,7 @@ namespace Common.World
 				{
 					throw new Exception("Unable to load race defaults, race not found.");
 				}
+				Logger.Warning("Race '" + this.Race.ToString() + "' not found, using human instead.");
 			}
 
 			this.RaceInfo = dbInfo;

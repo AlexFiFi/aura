@@ -99,7 +99,7 @@ namespace World.World
 				var weapon = (i == 1 ? rightHand : leftHand);
 
 				var rndBalance = source.GetBalance();
-				rndBalance *= ((1.0f - rndBalance) - ((1.0f - rndBalance) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
+				rndBalance += ((1.0f - rndBalance) - ((1.0f - rndBalance) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
 
 				float damage;
 				if (weapon != null)
@@ -108,7 +108,7 @@ namespace World.World
 				}
 				else
 				{
-					damage = 25 + 5 * rndBalance;
+					damage = source.RaceInfo.AttackMin + (source.RaceInfo.AttackMax - source.RaceInfo.AttackMin) * rndBalance;
 				}
 
 				// Crit

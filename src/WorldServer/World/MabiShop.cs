@@ -37,10 +37,11 @@ namespace World.World
 
 		public virtual void Dispose()
 		{
-			if (Disposed)
+			if (this.Disposed)
 				return;
+
 			ServerEvents.Instance.ErinnMidnightTick -= this.ChangeItemColors;
-			Disposed = true;
+			this.Disposed = true;
 		}
 
 		private void ChangeItemColors(object sender, TimeEventArgs e)
@@ -48,12 +49,14 @@ namespace World.World
 			var rand = RandomProvider.Get();
 
 			foreach (var tab in Tabs)
+			{
 				foreach (var item in tab.Items)
 				{
 					item.Info.ColorA = MabiData.ColorMapDb.GetRandom(item.DataInfo.ColorMap1, rand);
 					item.Info.ColorB = MabiData.ColorMapDb.GetRandom(item.DataInfo.ColorMap2, rand);
 					item.Info.ColorC = MabiData.ColorMapDb.GetRandom(item.DataInfo.ColorMap3, rand);
 				}
+			}
 		}
 
 		public void AddTabs(params string[] names)

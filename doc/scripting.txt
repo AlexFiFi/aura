@@ -50,12 +50,53 @@ All monsters are defined in 'data/db/monsters.txt'.
 All monster spawns are defined in 'data/db/spawns.txt'.
 
 Example:
-    The following entry specifies a spawn of 20 Gray Wolves (Monster 10001)
-    in Tir (Region 1) in the area X1/2-Y1/2. The spawn locations are
-	random.
-    { "MonsterId": 10001, "Region": 1, "X1": 4148, "Y1": 17021, "X2": 16689, "Y2": 24392, "Amount": 20 },
+    The following entry specifies a spawn of 15 Gray Wolves (Monster 10001)
+    in Tir (Region 1). The spawn locations are random, inside the specified
+	area.
+    10001, 15, 1, 4148,17021, 2989,22419, 11485,25677, 16145,21495, 14660,17278
 	
-To add a regular spawn at a fixed position, simply make the area smaller.
+The spawn area is specified with a series of coordinates. If only one point
+(1x X and Y) is specified, the monsters would spawn exactly there.
+
+X 100 Y 100
+ ___________
+|           |
+|     x     |
+|___________|
+
+With two points, they'd spawn somewhere along the line of those two points.
+
+X1 50  Y1 100
+X2 150 Y2 100
+ ___________
+|           |
+|  xxxxxxx  |
+|___________|
+
+With three points, they'd spawn somewhere inside the specified triangle.
+
+X1 50  Y1 50
+X2 150 Y2 100
+X3 50  Y3 150
+ ___________
+|           |
+|  xxxx     |
+|  xxxxxxx  |
+|  xxxx     |
+|___________|
+
+and so on.
+
+X1 50  Y1 50
+X2 150 Y2 150
+X3 50  Y3 150
+X4 150 Y4 50
+ ___________
+|           |
+|  xxxxxxx  |
+|  xxxxxxx  |
+|  xxxxxxx  |
+|___________|
 
 =============================================================================
 | Inheritance                                                               |

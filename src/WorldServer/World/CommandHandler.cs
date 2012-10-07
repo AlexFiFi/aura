@@ -16,6 +16,7 @@ using World.Tools;
 using Common.Data;
 using System.Text.RegularExpressions;
 using System.Text;
+using Common.Events;
 
 namespace World.World
 {
@@ -327,7 +328,7 @@ namespace World.World
 			{
 				// >drop
 
-				WorldManager.Instance.CreatureDropItem(client.Character, new Common.Events.ItemEventArgs(newItem));
+				WorldManager.Instance.CreatureDropItem(client.Character, new ItemEventArgs(newItem));
 			}
 			else
 			{

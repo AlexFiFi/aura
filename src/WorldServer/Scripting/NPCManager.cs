@@ -2,6 +2,7 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -9,11 +10,10 @@ using System.Threading;
 using Common.Constants;
 using Common.Data;
 using Common.Tools;
+using csscript;
 using CSScriptLibrary;
 using World.Tools;
 using World.World;
-using csscript;
-using System.CodeDom.Compiler;
 
 namespace World.Scripting
 {

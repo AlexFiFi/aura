@@ -22,6 +22,7 @@
 8002,"Giant","giant/male",2,5,0x00000000,6,10,23002,0,8,170,2,2,0x03
 
 // Pets
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttackSkill  AttMin  AttMax  Range  AttSpeed  KnockCount  Stand
 //---------------------------------------------------------------------------
 169,"Thoroughbred","pethorse/none",0,2,0xA0000000,5,7,23002,22,45,200,2,2,0x03
 110801,"Reindeer","reindeer/none",0,7,0xA0000000,6,7,23002,16,26,200,2,2,0x03
@@ -193,19 +194,24 @@
 736202,"Giant Male Partner","giant/male",2,5,0x00000000,6,10,23002,0,8,170,2,2,0x03
 
 // Enemies
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttackSkill  AttMin  AttMax  Range  AttSpeed  KnockCount  Stand
 //---------------------------------------------------------------------------
-20001,"Gray Wolf","wolf/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
-20002,"Black Wolf","wolf/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
-20003,"White Wolf","wolf/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
-20005,"Brown Dire Wolf","wolf/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
-50001,"Brown Fox","fox/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
-50002,"Red Fox","fox/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
-50003,"Gray Fox","fox/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
-50005,"Young Red Fox","fox/none",0,0,0x80000000,6,10,23002,0,0,160,2,2,0x03
-50006,"Young Gray Fox","fox/none",0,0,0x80000000,6,10,23002,0,0,160,2,2,0x03
-50007,"Young Brown Fox","fox/none",0,0,0x80000000,6,10,23002,0,0,160,2,2,0x03
+20001,"Gray Wolf","wolf/none",0,0,0x80000000,6,10,23002,12,17,200,2,2,0x03
+20002,"Black Wolf","wolf/none",0,0,0x80000000,6,10,23002,12,25,200,2,2,0x03
+20003,"White Wolf","wolf/none",0,0,0x80000000,6,10,23002,10,30,200,2,2,0x03
+20005,"Brown Dire Wolf","wolf/none",0,0,0x80000000,6,10,23002,15,35,200,2,2,0x03
+20009,"Brown Dire Wolf Cub","wolf/none",0,0,0x80000000,6,10,23002,19,30,200,2,2,0x03
+30001,"White Spider","spider/none",0,0,0x80000000,6,10,23002,5,10,170,1,1,0x03
+30003,"Red Spider","spider/none",0,0,0x80000000,6,10,23002,10,35,170,1,1,0x03
+50001,"Brown Fox","fox/none",0,0,0x80000000,6,10,23002,1,10,200,2,2,0x03
+50002,"Red Fox","fox/none",0,0,0x80000000,6,10,23002,5,10,200,2,2,0x03
+50003,"Gray Fox","fox/none",0,0,0x80000000,6,10,23002,5,15,200,2,2,0x03
+50005,"Young Red Fox","fox/none",0,0,0x80000000,6,10,23002,5,10,160,2,2,0x03
+50006,"Young Gray Fox","fox/none",0,0,0x80000000,6,10,23002,5,15,160,2,2,0x03
+50007,"Young Brown Fox","fox/none",0,0,0x80000000,6,10,23002,1,5,160,2,2,0x03
 
 // Field Bosses
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttackSkill  AttMin  AttMax  Range  AttSpeed  KnockCount  Stand
 //---------------------------------------------------------------------------
 100401,"Ifrit","ogre/ifrit",0,0,0x80000000,6,10,23002,0,0,250,4,0,0x03
 251402,"Giant Alligator","giantcrocodile/none",0,0,0x80000000,6,10,23002,0,0,1000,0,1,0x00

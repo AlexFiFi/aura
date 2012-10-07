@@ -55,14 +55,14 @@ namespace World.Scripting
 		public virtual void OnEnd(WorldClient client)
 		{
 			string properNPCname;
-			if (string.IsNullOrWhiteSpace(this._dialogName))
+			if (string.IsNullOrWhiteSpace(_dialogName))
 			{
 				properNPCname = NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
 				properNPCname = properNPCname.Substring(0, 1).ToUpper() + properNPCname.Substring(1);
 			}
 			else
 			{
-				properNPCname = this._dialogName;
+				properNPCname = _dialogName;
 			}
 			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
 		}
