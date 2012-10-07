@@ -11,6 +11,9 @@ using Common.Tools;
 
 namespace Common.Network
 {
+	public class DoNotCatchException : Exception { public DoNotCatchException(string msg) : base(msg) { } }
+
+
 	/// <summary>
 	/// Main class for Login and Channels to be derived from. Contains networking code and
 	/// some basic stuff that's shared between the servers.
@@ -193,6 +196,15 @@ namespace Common.Network
 			_serverSocket.BeginAccept(new AsyncCallback(OnAccept), _serverSocket);
 		}
 
+		/// <summary>
+		/// Tells the server to stop accepting new connections.
+		/// </summary>
+		protected void StopListening()
+		{
+			_serverSocket.Close();
+			Logger.Status("Server has stopped listening for new connections.");
+		}
+
 		protected virtual void OnClientAccepted(TClient client)
 		{
 
@@ -209,12 +221,21 @@ namespace Common.Network
 		/// <param name="result"></param>
 		protected void OnAccept(IAsyncResult result)
 		{
+
 			var client = new TClient();
 
 			try
 			{
 				client.Socket = ((Socket)result.AsyncState).EndAccept(result);
 
+			}
+			catch (ObjectDisposedException)
+			{
+				return;
+			}
+
+			try
+			{
 				this.OnClientAccepted(client);
 
 				client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(this.OnReceive), client);
@@ -312,6 +333,10 @@ namespace Common.Network
 									{
 										handler(client, packet);
 									}
+									catch (DoNotCatchException)
+									{
+										throw;
+									}
 									catch (Exception ex)
 									{
 										Logger.Exception(ex, "There has been a problem while handling '" + HexTool.ToString(packet.Op) + "'.", true);
@@ -329,6 +354,10 @@ namespace Common.Network
 
 					if (client.State < SessionState.Dead)
 						client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(OnReceive), client);
+				}
+				catch (DoNotCatchException)
+				{
+					throw;
 				}
 				catch (SocketException)
 				{

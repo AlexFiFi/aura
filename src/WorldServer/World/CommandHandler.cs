@@ -108,6 +108,9 @@ namespace World.World
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 
+			this.AddCommand("badbehavior", Authority.Admin, Command_crash); //Crashes the server
+			//Useful for imitating "exceptional" conditions
+
 			// Load script commands
 			var commandsPath = Path.Combine(WorldConf.ScriptPath, "command");
 			var scriptPaths = Directory.GetFiles(commandsPath);
@@ -148,6 +151,10 @@ namespace World.World
 						{
 							client.Send(PacketCreator.ServerMessage(creature, string.Format("Usage: {0} {1}", command.Name, command.Parameters)));
 						}
+					}
+					catch (DoNotCatchException)
+					{
+						throw; //We have to work hard to enable misbehavior
 					}
 					catch (Exception ex)
 					{
@@ -218,6 +225,11 @@ namespace World.World
 			}
 
 			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_crash(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			throw new DoNotCatchException("Barfing Raindows...");
 		}
 
 		private CommandResult Command_randomitem(WorldClient client, MabiCreature creature, string[] args, string msg)

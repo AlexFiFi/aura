@@ -1932,6 +1932,8 @@ namespace World.Network
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.HittingProp, creature.Id).PutLong(targetId).PutInt(2000).PutFloat(pos.X).PutFloat(pos.Y), SendTargets.Region, creature);
 
 			client.Send(new MabiPacket(Op.HitPropR, creature.Id).PutByte(1));
+
+			Logger.Unimplemented("Unknown prop ID: " + targetId);
 		}
 
 		public void HandleMoonGateRequest(WorldClient client, MabiPacket packet)

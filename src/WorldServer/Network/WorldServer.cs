@@ -27,6 +27,7 @@ namespace World.Network
 
 		public override void Run(string[] args)
 		{
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			this.WriteHeader("World Server", ConsoleColor.DarkGreen);
 
 			// Logger
@@ -131,6 +132,32 @@ namespace World.Network
 			this.ReadCommands();
 		}
 
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			try
+			{
+				Logger.Error("Oh no! Ferghus escaped his memory block and infected the rest of the server! We're going doooooooooooooooooooooown!!!!!! ...... Uh yeah, about that. Aura has encountered an unexpected and unrecoverable error. We're going to try to save as much as we can...");
+			}
+			catch { }
+			try
+			{
+				this.StopListening();
+			}
+			catch { }
+			try
+			{
+				WorldManager.Instance.EmergencyShutdown();
+			}
+			catch { }
+			try
+			{
+				Logger.Exception((Exception)e.ExceptionObject, null, true);
+				Logger.Status("Closing the server.");
+			}
+			catch { }
+			this.Exit(1, false);
+		}
+
 		private Timer _shutdownTimer1, _shutdownTimer2;
 		protected override void ParseCommand(string[] args, string command)
 		{
@@ -155,13 +182,14 @@ namespace World.Network
 
 				case "shutdown":
 					{
+						StopListening();
 						int exitSeconds = 60;
 						if (args.Length > 1)
 							int.TryParse(args[1], out exitSeconds);
 
 						int dcSeconds = 0;
 						if (exitSeconds > 60)
-							dcSeconds = dcSeconds = exitSeconds - 60;
+							dcSeconds = exitSeconds - 60;
 
 						int dcTimerSeconds = exitSeconds - (exitSeconds - dcSeconds);
 

@@ -30,8 +30,11 @@ namespace World.Network
 				if (this.Account != null)
 					MabiDb.Instance.SaveAccount(this.Account);
 
-				this.Socket.Shutdown(SocketShutdown.Both);
-				this.Socket.Close();
+				if (this.Socket != null)
+				{
+					this.Socket.Shutdown(SocketShutdown.Both);
+					this.Socket.Close();
+				}
 
 				this.State = SessionState.Dead;
 			}

@@ -397,17 +397,17 @@ namespace Common.World
 		/// <returns></returns>
 		//public ushort GetStunTime(bool half = false)
 		//{
-		//    if (this._stunLength == 0 || this._stunStart == null)
+		//    if (_stunLength == 0 || _stunStart == null)
 		//        return 0;
 
 		//    var now = DateTime.Now;
-		//    var passedTime = now.Subtract(this._stunStart);
+		//    var passedTime = now.Subtract(_stunStart);
 
 		//    if (half)
 		//        passedTime = TimeSpan.FromTicks((long)(passedTime.Ticks * 1.5f));
 
 		//    if (passedTime.TotalMilliseconds > _stunLength)
-		//        return (this._stunLength = 0);
+		//        return (_stunLength = 0);
 
 		//    return (ushort)(_stunLength - passedTime.TotalMilliseconds);
 		//}

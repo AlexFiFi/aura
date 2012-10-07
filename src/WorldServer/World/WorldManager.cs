@@ -12,6 +12,7 @@ using Common.World;
 using World.Network;
 using World.Scripting;
 using World.Tools;
+using Common.Database;
 
 namespace World.World
 {
@@ -176,6 +177,41 @@ namespace World.World
 				entity.PrevPosition.Y = pos.Y;
 			}
 		}
+
+
+		/// <summary>
+		/// This is Aura's Kernel Panic. Don't ever call it yourself unless you're stopping the server under extreme conditions.
+		/// </summary>
+		public void EmergencyShutdown()
+		{
+			//We need to be *very* careful in here, as we're most likely running under unstable/exceptional conditions.
+			try
+			{
+				Logger.Info("Salvaging and saving connected clients (" + _clients.Count + ")");
+			}
+			catch { }
+			for (int i = _clients.Count - 1; i >= 0; i--)
+			{
+				try
+				{
+					MabiDb.Instance.SaveAccount(_clients[i].Account); //Saving is more important than a clean disconnect.
+					_clients[i].Disconnect(0);
+				}
+				catch { }
+				try
+				{
+					Logger.ClearLine();
+					Logger.Info("Saved " + i+1);
+				}
+				catch { }
+			}
+			try
+			{
+				Logger.Info("All saved and disconnected.");
+			}
+			catch { }
+		}
+
 
 		// Is in range
 		// ==================================================================
