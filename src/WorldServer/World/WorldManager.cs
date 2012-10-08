@@ -144,21 +144,29 @@ namespace World.World
 						var creaturePos = creature.GetPosition();
 						var entityPos = entity.GetPosition();
 
-						// In sight range
+						var entityCreature = (entity as MabiCreature);
+
+						// In sight range...
 						if (InRange(creaturePos, entityPos))
 						{
-							// but previously not in sight range
-							if (!InRange(creature.PrevPosition, entity.PrevPosition))
+							// but previously not in sight range, or invisible.
+							if ((!InRange(creature.PrevPosition, entity.PrevPosition) && (entityCreature == null || !entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible))) || (entityCreature != null && !entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible) && entityCreature.PrevConditions.A.HasFlag(CreatureConditionA.Invisible)))
 							{
 								if (creature.Client != null)
 									creature.Client.Send(PacketCreator.EntityAppears(entity));
 							}
+							// Invisible now, but not before.
+							else if (entityCreature != null && entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible) && !entityCreature.PrevConditions.A.HasFlag(CreatureConditionA.Invisible))
+							{
+								if (creature.Client != null)
+									creature.Client.Send(PacketCreator.EntityLeaves(entity));
+							}
 						}
 
-						// Not in range
+						// Not in range...
 						else
 						{
-							// but was in range
+							// but was in range.
 							if (InRange(creature.PrevPosition, entity.PrevPosition))
 							{
 								if (creature.Client != null)
@@ -175,6 +183,9 @@ namespace World.World
 				var pos = entity.GetPosition();
 				entity.PrevPosition.X = pos.X;
 				entity.PrevPosition.Y = pos.Y;
+
+				if (entity is MabiCreature)
+					(entity as MabiCreature).PrevConditions = (entity as MabiCreature).Conditions;
 			}
 		}
 
@@ -684,10 +695,10 @@ namespace World.World
 		public void CreatureStatusEffectsChange(MabiCreature creature)
 		{
 			var p = new MabiPacket(Op.StatusEffectUpdate, creature.Id);
-			p.PutLong((ulong)creature.StatusEffects.A);
-			p.PutLong((ulong)creature.StatusEffects.B);
-			p.PutLong((ulong)creature.StatusEffects.C);
-			p.PutLong((ulong)creature.StatusEffects.D);
+			p.PutLong((ulong)creature.Conditions.A);
+			p.PutLong((ulong)creature.Conditions.B);
+			p.PutLong((ulong)creature.Conditions.C);
+			p.PutLong((ulong)creature.Conditions.D);
 			p.PutInt(0);
 
 			this.Broadcast(p, SendTargets.Range, creature);

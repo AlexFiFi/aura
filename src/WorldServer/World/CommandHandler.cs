@@ -90,7 +90,7 @@ namespace World.World
 			this.AddCommand("drop", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
 			this.AddCommand("iteminfo", "<item name>", Authority.GameMaster, Command_iteminfo);
 			this.AddCommand("ii", "<item name>", Authority.GameMaster, Command_iteminfo);
-			this.AddCommand("mi", "<item name>", Authority.GameMaster, Command_monsterinfo);
+			this.AddCommand("mi", "<monster name>", Authority.GameMaster, Command_monsterinfo);
 			this.AddCommand("goto", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("warp", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("jump", "<x> [y]", Authority.GameMaster, Command_jump);
@@ -597,10 +597,10 @@ namespace World.World
 			if (args.Length > 4)
 				val4 = ulong.Parse(args[4], System.Globalization.NumberStyles.HexNumber);
 
-			creature.StatusEffects.A = (CreatureConditionA)val1;
-			creature.StatusEffects.B = (CreatureConditionA)val2;
-			creature.StatusEffects.C = (CreatureConditionA)val3;
-			creature.StatusEffects.D = (CreatureConditionA)val4;
+			creature.Conditions.A = (CreatureConditionA)val1;
+			creature.Conditions.B = (CreatureConditionB)val2;
+			creature.Conditions.C = (CreatureConditionC)val3;
+			creature.Conditions.D = (CreatureConditionD)val4;
 
 			WorldManager.Instance.CreatureStatusEffectsChange(creature);
 

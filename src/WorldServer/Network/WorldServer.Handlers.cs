@@ -461,7 +461,7 @@ namespace World.Network
 				return;
 
 			var toggle = packet.GetByte();
-			creature.StatusEffects.A = toggle == 1 ? (creature.StatusEffects.A | CreatureConditionA.Invisible) : (creature.StatusEffects.A & ~CreatureConditionA.Invisible);
+			creature.Conditions.A = (toggle == 1 ? (creature.Conditions.A | CreatureConditionA.Invisible) : (creature.Conditions.A & ~CreatureConditionA.Invisible));
 			WorldManager.Instance.CreatureStatusEffectsChange(creature);
 
 			var p = new MabiPacket(Op.GMCPInvisibilityR, creature.Id);
@@ -1344,7 +1344,7 @@ namespace World.Network
 			switch ((SkillConst)skillId)
 			{
 				case SkillConst.ManaShield:
-					creature.StatusEffects.A |= CreatureConditionA.ManaShield;
+					creature.Conditions.A |= CreatureConditionA.ManaShield;
 					WorldManager.Instance.CreatureStatusEffectsChange(creature);
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(121), SendTargets.Range, creature);
 					break;

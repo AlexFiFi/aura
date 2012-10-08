@@ -240,34 +240,34 @@ namespace Common.Constants
 		Outraged = 0x0000000000000080,
 		Confused = 0x0000000000000100,
 		Combat2xExp = 0x0000000000000200,
-		// 0x0000000000000400 // ?
+		Slow = 0x0000000000000400,
 		Luck = 0x0000000000000800,
 		Misfortune = 0x0000000000001000,
-		// 0x0000000000002000 // ?
+		LeadersBlessing = 0x0000000000002000,
 		Explode1 = 0x0000000000004000,
 		Explode2 = 0x0000000000008000,
 		Mirage = 0x0000000000010000,
 		Weak = 0x0000000000020000,
 		PVPPenalty = 0x0000000000040000,
-		// 0x0000000000080000 // ?
+		Lethargic = 0x0000000000080000,
 		CancelDarkKnight = 0x0000000000100000,
 		Camouflage = 0x0000000000200000,
 		Blessed = 0x0000000000400000,
 		Invisible = 0x0000000000800000,
-		// 0x0000000001000000 // ?
-		// 0x0000000002000000 // ?
+		NoTrade = 0x0000000001000000,
+		Following = 0x0000000002000000,
 		ChatBanned = 0x0000000004000000,
-		ViewCutScene = 0x0000000008000000, //?
+		ViewCutScene = 0x0000000008000000,
 		Ensemble = 0x0000000010000000,
 		SharpAiming = 0x0000000020000000,
 		FastCasting = 0x0000000040000000,
-		// 0x0000000080000000 // ?
-		// 0x0000000100000000 // ? (Char laughing)
-		// 0x0000000200000000 // ?
-		// 0x0000000400000000 // ? (Various facial expressions)
-		// 0x0000000800000000 // ?
-		TheCourteous = 0x0000001000000000,
-		// 0x0000002000000000 // ?
+		Weaken = 0x0000000080000000,
+		MushroomCookie = 0x0000000100000000,
+		CryFood = 0x0000000200000000,
+		CrazyFood = 0x0000000400000000,
+		SelfPraiseFood = 0x0000000800000000,
+		HeartFood = 0x0000001000000000,
+		PoisonImmune = 0x0000002000000000,
 		PetrificationImmunity = 0x0000004000000000,
 		ManaUsageReduction = 0x0000008000000000,
 		StaminaUsageReduction = 0x0000010000000000,
@@ -275,37 +275,114 @@ namespace Common.Constants
 		StompImmunity = 0x0000040000000000,
 		ManaUsageIncrease = 0x0000080000000000,
 		StaminaUsageIncrease = 0x0000100000000000,
-		// 0x0000200000000000 // ?
+		ShareFood = 0x0000200000000000,
 		IceShield = 0x0000400000000000,
 		FireShield = 0x0000800000000000,
 		LightningShield = 0x0001000000000000,
 		NaturalShield = 0x0002000000000000,
-		StaminaUsageIncrease2 = 0x0004000000000000, // ?
-		// 0x0008000000000000 // ?
-		// 0x0010000000000000 // ?
+		MoveSlow = 0x0004000000000000,
+		FastGathering = 0x0008000000000000,
+		Charge = 0x0010000000000000,
 		AttackSpeed = 0x0020000000000000,
-		// 0x0040000000000000 // ? (Sparkles from below)
+		Moonlight = 0x0040000000000000,
 		SulfurPoison = 0x0080000000000000,
-		// 0x0100000000000000 // ? (Red-yellow flashing char)
-		// 0x0200000000000000 // ? (Frozen block around char)
-		// 0x0400000000000000 // ? (Heart effectbut with a star)
+		Burn = 0x0100000000000000,
+		Freeze = 0x0200000000000000,
+		StarFood = 0x0400000000000000,
 		ManaShield = 0x0800000000000000,
-		// 0x1000000000000000 // ? (Leafs around char)
-		// 0x2000000000000000 // ?
-		FastCasting2 = 0x4000000000000000, // ?
+		CherryTree = 0x1000000000000000,
+		Boose = 0x2000000000000000,
+		FastCasting2 = 0x4000000000000000,
 		WeaponAttackBoost = 0x8000000000000000,
 	}
+
+	public enum CreatureConditionB : ulong
+	{
+		Transparent = 0x0000000000000001,
+		CombatExpPlus1_1 = 0x0000000000000002,
+		CombatExpPlus2 = 0x0000000000000004,
+		Bewildered = 0x0000000000000008,
+		ElephantShower = 0x0000000000000010,
+		Curse = 0x0000000000000020,
+		Blind = 0x0000000000000040,
+		Ice = 0x0000000000000080,
+		ProductionRateChange = 0x0000000000000100,
+		ItemProfInc = 0x0000000000000200,
+		AlchemyCloud = 0x0000000000000400,
+		FailedBotCheck = 0x0000000000000800,
+		SnowStorm = 0x0000000000001000,
+		Doppelganger = 0x0000000000002000,
+		Demigod = 0x0000000000004000,
+		DoppelgangerLaugh = 0x0000000000008000,
+		DoppelgangerPain = 0x0000000000010000,
+		ValentineHappy = 0x0000000000020000,
+		ValentineUnhappy = 0x0000000000040000,
+		FashionShow = 0x0000000000080000,
+		LargeUpper = 0x0000000000100000,
+		DumbTalking = 0x0000000000200000,
+		LargeLower = 0x0000000000400000,
+		VeryBig = 0x0000000000800000,
+		VerySmall = 0x0000000001000000,
+		Blessed = 0x0000000002000000,
+		Outraged = 0x0000000004000000,
+		MiniPotion = 0x0000000008000000,
+		NoConsume = 0x0000000010000000,
+		StoneBarrier = 0x0000000020000000,
+		Discharge = 0x0000000040000000,
+		Stand = 0x0000000080000000,
+		LifeExpInc = 0x0000000100000000,
+		CombatExpInc = 0x0000000200000000,
+		MagicExpInc = 0x0000000400000000,
+		AlchemyExpInc = 0x0000000800000000,
+		NameColorChange = 0x0000001000000000,
+		TowerCylinder = 0x0000002000000000,
+		DemiStrInc = 0x0000004000000000,
+		DemiDexInc = 0x0000008000000000,
+		DemiWillInc = 0x0000010000000000,
+		DemiLuckInc = 0x0000020000000000,
+		DemiIntInc = 0x0000040000000000,
+		DemiFuryInc = 0x0000080000000000,
+		DemiSpearInc = 0x0000100000000000,
+		DemiShadowInc = 0x0000200000000000,
+		DemiDurationInc = 0x0000400000000000,
+		DemiCooldownDec = 0x0000800000000000,
+		DemiBrionacDmgInc = 0x0001000000000000,
+		DemiBrionacCritInc = 0x0002000000000000,
+		BardInc = 0x0004000000000000,
+		SpeedInc = 0x0008000000000000,
+		DemiImmune = 0x0010000000000000,
+		HeightChange = 0x0020000000000000,
+		RavenAttack = 0x0040000000000000,
+		NuadhaPhase = 0x0080000000000000,
+		MountAttack = 0x0100000000000000,
+		StatsDec = 0x0200000000000000,
+		ShadowBonus = 0x0400000000000000,
+		ItemDropInc = 0x0800000000000000,
+		ItemDropInc2 = 0x1000000000000000,
+		FishDropInc = 0x2000000000000000,
+		FishDropInc2 = 0x4000000000000000,
+		ChatColorChange = 0x8000000000000000,
+	}
+
+	public enum CreatureConditionC : ulong
+	{ }
+
+	public enum CreatureConditionD : ulong
+	{ }
 
 	public struct CreatureCondition
 	{
 		public CreatureConditionA A;
-		public CreatureConditionA B;
-		public CreatureConditionA C;
-		public CreatureConditionA D;
+		public CreatureConditionB B;
+		public CreatureConditionC C;
+		public CreatureConditionD D;
 
 		public void Clear()
 		{
-			A = B = C = D = 0;
+			A = 0;
+			B = 0;
+			C = 0;
+			D = 0;
 		}
 	}
 }

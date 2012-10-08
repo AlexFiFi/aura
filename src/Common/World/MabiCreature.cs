@@ -73,7 +73,8 @@ namespace Common.World
 
 		public CreatureStates Status;
 		public CreatureStatesEx StatusEx;
-		public CreatureCondition StatusEffects;
+		public CreatureCondition Conditions;
+		public CreatureCondition PrevConditions;
 
 		public byte RestPose = 4; // 0, 2, 4
 
@@ -1001,11 +1002,11 @@ namespace Common.World
 
 			// Statuses
 			// --------------------------------------------------------------
-			packet.PutLong((ulong)StatusEffects.A);
-			packet.PutLong((ulong)StatusEffects.B);
-			packet.PutLong((ulong)StatusEffects.C);
+			packet.PutLong((ulong)Conditions.A);
+			packet.PutLong((ulong)Conditions.B);
+			packet.PutLong((ulong)Conditions.C);
 			if (Op.Version > 140400)
-				packet.PutLong((ulong)StatusEffects.D);
+				packet.PutLong((ulong)Conditions.D);
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt

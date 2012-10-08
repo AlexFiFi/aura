@@ -10,6 +10,7 @@ using System.Threading;
 using Common.Constants;
 using Common.Data;
 using Common.Tools;
+using Common.World;
 using csscript;
 using CSScriptLibrary;
 using World.Tools;
@@ -244,14 +245,14 @@ namespace World.Scripting
 
 				foreach (var skill in monsterInfo.Skills)
 				{
-					monster.Skills.Add(new Common.World.MabiSkill(skill.SkillId, skill.Rank, monster.Race));
+					monster.Skills.Add(new MabiSkill(skill.SkillId, skill.Rank, monster.Race));
 				}
 
 				monster.LoadDefault();
 
 				if (aiFilePath != null)
 				{
-					monster.AIScript = (AIScript)CSScript.LoadCode(File.ReadAllText(aiFilePath)).CreateObject("*");
+					monster.AIScript = this.LoadScript(aiFilePath).CreateObject("*") as AIScript; // (AIScript)CSScript.LoadCode(File.ReadAllText(aiFilePath)).CreateObject("*");
 					monster.AIScript.Creature = monster;
 					monster.AIScript.OnLoad();
 				}
