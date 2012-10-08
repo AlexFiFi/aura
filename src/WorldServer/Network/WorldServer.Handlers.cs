@@ -77,8 +77,8 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.SosButton, HandleSosButton);
 			this.RegisterPacketHandler(Op.MoonGateRequest, HandleMoonGateRequest);
 			this.RegisterPacketHandler(Op.UseGesture, HandleGesture);
-			this.RegisterPacketHandler(0x61A8, HandleIamWatchingYou);
 			this.RegisterPacketHandler(Op.HomesteadInfoRequest, HandleHomesteadInfo);
+			this.RegisterPacketHandler(Op.OpenItemShop, HandleOpenItemShop);
 
 			this.RegisterPacketHandler(Op.GMCPSummon, HandleGMCPSummon);
 			this.RegisterPacketHandler(Op.GMCPMoveToChar, HandleGMCPMoveToChar);
@@ -89,6 +89,26 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.GMCPBan, HandleGMCPBan);
 			this.RegisterPacketHandler(Op.GMCPClose, (c, p) => { }); // TODO: Maybe add this to a gm log.
 			this.RegisterPacketHandler(Op.GMCPNPCList, HandleGMCPListNPCs);
+
+			// Temp/Unknown
+			// --------------------------------------------------------------
+
+			this.RegisterPacketHandler(0xA43D, (client, packet) =>
+			{
+				client.Send(new MabiPacket(0xA43E, client.Character.Id).PutByte(1));
+
+				// Requested/Sent on login?
+				// Alternative structure: (Conti and Nao warps)
+				// 001 [..............00]  Byte   : 0
+				// 002 [000039BA86EA43C0]  Long   : 000039BA86EA43C0 // 2012-May-22 15:30:00
+				// 003 [000039BA86FABE80]  Long   : 000039BA86FABE80 // 2012-May-22 15:48:00
+			});
+
+			this.RegisterPacketHandler(0x61A8, (client, packet) =>
+			{
+				// TODO: Send entities?
+				// NOTE: No idea what this does anymore...
+			});
 		}
 
 #pragma warning disable 0162
@@ -207,6 +227,15 @@ namespace World.Network
 				if (creature.IsDead())
 				{
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
+				}
+			}
+
+			if (creature == client.Character)
+			{
+				if (WorldConf.EnableItemShop)
+				{
+					// Button will be disabled if we don't send this packet.
+					client.Send(new MabiPacket(Op.ItemShopInfo, creature.Id).PutByte(0));
 				}
 			}
 		}
@@ -1591,7 +1620,7 @@ namespace World.Network
 			// Disappear
 			p = new MabiPacket(Op.Disappear, 0x1000000000000001);
 			p.PutLong(pet.Id);
-			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+			client.Send(p);
 
 			// Result
 			p = new MabiPacket(Op.PetUnsummonR, creature.Id);
@@ -1741,7 +1770,7 @@ namespace World.Network
 			if (creature.Vehicle != null)
 				creature = creature.Vehicle;
 
-			// TODO: Check if mount is able to attack anything?
+			// TODO: Check if mount is able to attack anything? (this is done with a status)
 
 			var attackResult = AttackResult.None;
 
@@ -1785,7 +1814,8 @@ namespace World.Network
 
 			client.Send(answer);
 
-			client.Send(new MabiPacket(Op.StunMeter, creature.Id).PutLong(target.Id).PutByte(1).PutFloat(target.Stun));
+			if (target != null)
+				client.Send(new MabiPacket(Op.StunMeter, creature.Id).PutLong(target.Id).PutByte(1).PutFloat(target.Stun));
 		}
 
 		public void HandleDeadMenu(WorldClient client, MabiPacket packet)
@@ -1853,12 +1883,6 @@ namespace World.Network
 
 			// Mails
 			// client.Send(new MabiPacket(0x7255, client.Character.Id).PutInt(3));
-		}
-
-		public void HandleIamWatchingYou(WorldClient client, MabiPacket packet)
-		{
-			// TODO : Send entities?
-			// NOTE: Don't use funny names, no idea what this does anymore...
 		}
 
 		public void HandleSosButton(WorldClient client, MabiPacket packet)
@@ -1943,6 +1967,12 @@ namespace World.Network
 
 			// Send no gates for now.
 			client.Send(new MabiPacket(Op.MoonGateRequestR, 0x3000000000000000));
+		}
+
+		public void HandleOpenItemShop(WorldClient client, MabiPacket packet)
+		{
+			// 1 = succes?, test = key passed to the url
+			client.Send(new MabiPacket(0xA44E, client.Character.Id).PutByte(1).PutString(client.Account.Username));
 		}
 	}
 }

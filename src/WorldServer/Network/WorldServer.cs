@@ -182,7 +182,7 @@ namespace World.Network
 
 				case "shutdown":
 					{
-						StopListening();
+						this.StopListening();
 						int exitSeconds = 60;
 						if (args.Length > 1)
 							int.TryParse(args[1], out exitSeconds);

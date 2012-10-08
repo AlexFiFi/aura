@@ -201,6 +201,7 @@ namespace Common.Network
 		/// </summary>
 		protected void StopListening()
 		{
+			_serverSocket.Shutdown(SocketShutdown.Both);
 			_serverSocket.Close();
 			Logger.Status("Server has stopped listening for new connections.");
 		}
@@ -221,13 +222,11 @@ namespace Common.Network
 		/// <param name="result"></param>
 		protected void OnAccept(IAsyncResult result)
 		{
-
 			var client = new TClient();
 
 			try
 			{
 				client.Socket = ((Socket)result.AsyncState).EndAccept(result);
-
 			}
 			catch (ObjectDisposedException)
 			{

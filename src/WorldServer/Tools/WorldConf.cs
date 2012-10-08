@@ -30,6 +30,7 @@ namespace World.Tools
 		public static string Motd;
 
 		public static uint SightRange;
+		public static bool EnableItemShop;
 
 		private static Configuration _conf;
 
@@ -60,10 +61,10 @@ namespace World.Tools
 			WorldConf.CommandPrefix = _conf.GetString("commands_prefix", ">")[0];
 
 			WorldConf.ScriptPath = _conf.GetString("script_path", "../../scripts");
+			WorldConf.DisableScriptCaching = _conf.GetBool("script_disable_cache", false);
 
 			WorldConf.SightRange = _conf.Get<uint>("world_sightrange", 3000);
-
-			WorldConf.DisableScriptCaching = _conf.GetBool("disable_cache", false);
+			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
 
 			try
 			{

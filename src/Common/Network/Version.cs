@@ -190,6 +190,8 @@ namespace Common.Network
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint MoonGateRequest = 0xA428;
 		public readonly static uint MoonGateRequestR = 0xA429;
+		public readonly static uint ItemShopInfo = 0xA436;
+		public readonly static uint OpenItemShop = 0xA44D;
 		public readonly static uint MailsRequest = 0xA898;
 		public readonly static uint MailsRequestR = 0xA899;
 		public readonly static uint SosButton = 0xA9A9;

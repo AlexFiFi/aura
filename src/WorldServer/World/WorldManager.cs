@@ -180,28 +180,31 @@ namespace World.World
 
 
 		/// <summary>
-		/// This is Aura's Kernel Panic. Don't ever call it yourself unless you're stopping the server under extreme conditions.
+		/// This is Aura's Kernel Panic. Don't ever call it yourself unless
+		/// you're stopping the server under extreme conditions.
 		/// </summary>
 		public void EmergencyShutdown()
 		{
-			//We need to be *very* careful in here, as we're most likely running under unstable/exceptional conditions.
+			// We need to be *very* careful in here, as we're most likely
+			// running under unstable/exceptional conditions.
 			try
 			{
-				Logger.Info("Salvaging and saving connected clients (" + _clients.Count + ")");
+				Logger.Info("Salvaging and saving connected clients (" + _clients.Count + ").");
 			}
 			catch { }
 			for (int i = _clients.Count - 1; i >= 0; i--)
 			{
 				try
 				{
-					MabiDb.Instance.SaveAccount(_clients[i].Account); //Saving is more important than a clean disconnect.
+					// Saving is more important than a clean disconnect.
+					MabiDb.Instance.SaveAccount(_clients[i].Account);
 					_clients[i].Disconnect(0);
 				}
 				catch { }
 				try
 				{
 					Logger.ClearLine();
-					Logger.Info("Saved " + i+1);
+					Logger.Info("Saved " + i + 1);
 				}
 				catch { }
 			}
@@ -295,7 +298,7 @@ namespace World.World
 			if (range < 1)
 				range = WorldConf.SightRange;
 
-			return _creatures.FindAll(a => a != entity && a.IsPlayer() && InRange(a, entity, range));
+			return _creatures.FindAll(a => a != entity && a.IsPlayer() && a.Region == entity.Region && InRange(a, entity, range));
 		}
 
 		public List<MabiItem> GetItemsInRegion(uint region)

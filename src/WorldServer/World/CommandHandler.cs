@@ -108,8 +108,8 @@ namespace World.World
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 
-			this.AddCommand("badbehavior", Authority.Admin, Command_crash); //Crashes the server
-			//Useful for imitating "exceptional" conditions
+			// Crashes the server, to simulate "exceptional" conditions.
+			this.AddCommand("badbehavior", Authority.Admin, Command_crash);
 
 			// Load script commands
 			var commandsPath = Path.Combine(WorldConf.ScriptPath, "command");
