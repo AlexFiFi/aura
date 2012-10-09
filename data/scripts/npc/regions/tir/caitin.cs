@@ -56,9 +56,9 @@ public class CaitinScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Nice to meet you.");
-				Disable(Options.Name);
+				Disable(c, Options.Name);
 				Msg(c, "(Caitin is looking in my direction.)");
-				Enable(Options.Name);
+				Enable(c, Options.Name);
 				ShowKeywords(c);
 				break;
 
@@ -66,9 +66,9 @@ public class CaitinScript : NPCScript
 				Msg(c, "My grandmother named me.", "I work here at the Grocery Store, so I know one important thing.", "You have to eat to survive!", "Food helps you regain your Stamina.");
 				Msg(c, "That doesn't mean you can eat just everything.", "You shouldn't have too much greasy food", "because you could gain a lot of weight.");
 				Msg(c, "Huh? You have food with your but don't know how to eat it?", "Okay, open the Inventory and right-click on the food.", "Then, click \"Use\" to eat.", "If you have bread in your Inventory, and your Stamina is low,", "try eating it now.");
-				Disable(Options.Name);
+				Disable(c, Options.Name);
 				Msg(c, "(That was a great conversation!)");
-				Enable(Options.Name);
+				Enable(c, Options.Name);
 				ShowKeywords(c);
 				break;
 

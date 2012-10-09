@@ -56,12 +56,13 @@ public class PartnerScript : NPCScript
 			case null:
 				Msg(c, "Hiya, boss! You don't mind if I call you boss, right?");
 				Msg(c, "I'm your new maid. Just don't ask me to work too hard,", "and we'll have a great time, I bet!", "In fact, I can already tell we'll be great friends!");
-				Disable(Options.Face | Options.Name);
+				Disable(c, Options.FaceAndName);
 				Msg(c, "(At least she's friendly...)");
-				Enable(Options.Face | Options.Name);
+				Enable(c, Options.FaceAndName);
 				goto case "#task";
 				
 			case "#task":
+				Disable(c, Options.FaceAndName);
 				MsgSelect(c, "(Choose a task.)",
 							 "Grant Favor", "@favor",
 							 "Gift", "@gift",

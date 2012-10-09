@@ -25,11 +25,11 @@ public class CommerceElephantScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Disable(Options.Face | Options.Name);
+		Disable(c, Options.FaceAndName);
 		Msg(c, "It has been trumpeting and shuffling non-stop.",
 			"As it stomps the ground with its giant feel, it bellows again.",
 			"Now, it stares softly at you with its two innocent eyes.");
-		Enable(Options.Face | Options.Name);
+		Enable(c, Options.FaceAndName);
 		Msg(c, "Boooo?", "Bhoo!");
 		Msg(c, "Bhooo!", "Bhoo, bhoooo!");
 	}

@@ -38,11 +38,11 @@ public class ProffScript : NPCScript
     
 	public override void OnTalk(WorldClient c)
 	{
-		Disable(Options.Face | Options.Name);
+		Disable(c, Options.FaceAndName);
 		Msg(c, "A handsome young man stands before you. He has an air of intelligence and sophistication about him.",
 			"His clear blue eyes are focused intently on the bottles in his hands, constantly pouring one into the other.",
 			"He glances at you as you approach.");
-		Enable(Options.Face | Options.Name);
+		Enable(c, Options.FaceAndName);
         OnSelect(c, "@startingpoint");
     }
 

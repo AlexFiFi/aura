@@ -3,13 +3,21 @@
 
 using Common.Tools;
 using World.World;
+using System;
 
 namespace World.Scripting
 {
+	[Flags]
+	public enum Options { None = 0, Face = 1, Name = 2, FaceAndName = 3 }
+
 	public class NPCSession
 	{
 		public MabiNPC Target = null;
 		public int SessionId = -1;
+
+		public Options Options = Options.FaceAndName;
+		public string DialogFace = null;
+		public string DialogName = null;
 
 		public int Start(MabiNPC target)
 		{
@@ -28,5 +36,4 @@ namespace World.Scripting
 			return (this.SessionId >= 0 && this.SessionId <= 5000);
 		}
 	}
-
 }

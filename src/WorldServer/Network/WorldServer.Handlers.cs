@@ -237,6 +237,11 @@ namespace World.Network
 					// Button will be disabled if we don't send this packet.
 					client.Send(new MabiPacket(Op.ItemShopInfo, creature.Id).PutByte(0));
 				}
+
+				if (WorldConf.AutoSendGMCP && client.Account.Authority >= WorldConf.MinimumGMCP)
+				{
+					client.Send(new MabiPacket(Op.GMCPOpen, creature.Id));
+				}
 			}
 		}
 
@@ -375,8 +380,11 @@ namespace World.Network
 
 		public void HandleGMCPMove(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < Authority.GameMaster)
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
 				return;
+			}
 
 			var region = packet.GetInt();
 			var x = packet.GetInt();
@@ -387,8 +395,11 @@ namespace World.Network
 
 		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < Authority.GameMaster)
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
 				return;
+			}
 
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName, false);
@@ -404,8 +415,11 @@ namespace World.Network
 
 		private void HandleGMCPRevive(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < Authority.GameMaster)
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
 				return;
+			}
 
 			var creature = WorldManager.Instance.GetCreatureById(packet.Id);
 			if (creature == null || !creature.IsDead())
@@ -428,8 +442,11 @@ namespace World.Network
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < Authority.GameMaster)
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
 				return;
+			}
 
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
@@ -448,13 +465,22 @@ namespace World.Network
 
 		private void HandleGMCPListNPCs(WorldClient client, MabiPacket packet)
 		{
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				return;
+			}
+
 			client.Send(PacketCreator.SystemMessage(client.Character, "Unimplimented at the moment!"));
 		}
 
 		private void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < Authority.GameMaster)
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
 				return;
+			}
 
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
@@ -471,8 +497,11 @@ namespace World.Network
 
 		private void HandleGMCPExpel(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < Authority.GameMaster)
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
 				return;
+			}
 
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
@@ -490,8 +519,11 @@ namespace World.Network
 
 		private void HandleGMCPBan(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < Authority.GameMaster)
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
 				return;
+			}
 
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
@@ -537,7 +569,14 @@ namespace World.Network
 
 			var p = new MabiPacket(Op.NPCTalkStartR, creature.Id);
 
-			p.PutByte((byte)(target != null ? 1 : 0));
+			if (target == null)
+			{
+				p.PutByte(0);
+				client.Send(p);
+				return;
+			}
+
+			p.PutByte(1);
 			p.PutLong(npcId);
 
 			client.Send(p);

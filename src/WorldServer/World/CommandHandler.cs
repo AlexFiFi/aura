@@ -196,8 +196,13 @@ namespace World.World
 
 		private CommandResult Command_gmcp(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			var p = new MabiPacket(Op.GMCPOpen, creature.Id);
-			client.Send(p);
+			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			{
+				client.Send(PacketCreator.SystemMessage(creature, "You're not authorized to use the GMCP."));
+				return CommandResult.Fail;
+			}
+
+			client.Send(new MabiPacket(Op.GMCPOpen, creature.Id));
 
 			return CommandResult.Okay;
 		}

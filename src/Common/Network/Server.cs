@@ -13,7 +13,6 @@ namespace Common.Network
 {
 	public class DoNotCatchException : Exception { public DoNotCatchException(string msg) : base(msg) { } }
 
-
 	/// <summary>
 	/// Main class for Login and Channels to be derived from. Contains networking code and
 	/// some basic stuff that's shared between the servers.
@@ -201,7 +200,7 @@ namespace Common.Network
 		/// </summary>
 		protected void StopListening()
 		{
-			_serverSocket.Shutdown(SocketShutdown.Both);
+			//_serverSocket.Shutdown(SocketShutdown.Both);
 			_serverSocket.Close();
 			Logger.Status("Server has stopped listening for new connections.");
 		}

@@ -16,13 +16,6 @@ using World.World;
 namespace World.Scripting
 {
 	public enum NPCLoadType { Real = 1, Virtual = 2 }
-	[Flags]
-	public enum Options
-	{
-		None = 0,
-		Face = 1 << 1,
-		Name = 1 << 2
-	}
 
 	public abstract class NPCScript : BaseScript
 	{
@@ -33,8 +26,6 @@ namespace World.Scripting
 		private int _ticksTillNextPhrase = 0;
 
 		private string _dialogFace = null, _dialogName = null;
-
-		private Options _options = Options.None;
 
 		/// <summary>
 		/// Describes how the NPC was loaded
@@ -94,17 +85,19 @@ namespace World.Scripting
 			}
 		}
 
-		protected void Enable(Options what)
+		protected void Enable(WorldClient client, Options what)
 		{
-			_options |= what;
+			client.NPCSession.Options |= what;
 		}
-		protected void Disable(Options what)
+
+		protected void Disable(WorldClient client, Options what)
 		{
-			_options &= ~what;
+			client.NPCSession.Options &= ~what;
 		}
-		protected bool IsEnabled(Options what)
+
+		protected bool IsEnabled(WorldClient client, Options what)
 		{
-			return (_options & what) == what;
+			return (client.NPCSession.Options & what) == what;
 		}
 
 		// Built in methods
@@ -200,18 +193,53 @@ namespace World.Scripting
 			client.Send(p);
 		}
 
+		protected string GetDialogFace(WorldClient client)
+		{
+			if (client.NPCSession.DialogFace != null)
+				return client.NPCSession.DialogFace;
+
+			return _dialogFace;
+		}
+
+		protected string GetDialogName(WorldClient client)
+		{
+			if (client.NPCSession.DialogName != null)
+				return client.NPCSession.DialogName;
+
+			return _dialogName;
+		}
+
 		protected virtual void Msg(WorldClient client, params string[] lines)
 		{
-			var message = string.Join("<br/>", lines);
+			// Concate the strings to one line with <br/>s in between,
+			// and replace \n with it as well.
+			var message = string.Join("<br/>", lines).Replace("\\n", "<br/>");
 
-			if (this.IsEnabled(Options.Face))
-				message = "<npcportrait name=\"" + this._dialogFace + "\"/>" + message;
-			if (this.IsEnabled(Options.Name))
-				message = "<title name=\"" + this._dialogName + "\"/>" + message;
+			// Check wheather a face tag has to be included, to disable the
+			// face/name, or activate a custom one.
+			if (this.IsEnabled(client, Options.Face))
+			{
+				var dval = this.GetDialogFace(client);
+				if (dval != null)
+					message = "<npcportrait name=\"" + _dialogFace + "\"/>" + message;
+			}
+			else
+				message = "<npcportrait name=\"NONE\"/>" + message;
 
+			if (this.IsEnabled(client, Options.Name))
+			{
+				var dval = this.GetDialogName(client);
+				if (dval != null)
+					message = "<title name=\"" + _dialogName + "\"/>" + message;
+			}
+			else
+				message = "<title name=\"NONE\"/>" + message;
+
+			// message is going to be inside an XML tag,
+			// get rid of special chars.
 			message = System.Web.HttpUtility.HtmlEncode(message);
 
-			string script = string.Format(
+			var script = string.Format(
 				"<call convention=\"thiscall\" syncmode=\"non-sync\">" +
 					"<this type=\"character\">{0}</this>" +
 					"<function>" +
@@ -229,11 +257,6 @@ namespace World.Scripting
 
 		protected virtual void MsgSelect(WorldClient client, string message, params string[] buttons)
 		{
-			if (this.IsEnabled(Options.Face))
-				message = "<npcportrait name=\"" + this._dialogFace + "\"/>" + message;
-			if (this.IsEnabled(Options.Name))
-				message = "<title name=\"" + this._dialogName + "\"/>" + message;
-
 			if (buttons.Length > 0 && buttons.Length % 2 == 0)
 			{
 				var sb = new StringBuilder();

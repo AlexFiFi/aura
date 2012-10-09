@@ -42,12 +42,12 @@ public class DeianScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Disable(Options.Name | Options.Face);
+		Disable(c, Options.Name | Options.Face);
 		Msg(c, "An adolescent boy carrying a shepherd's staff watches over a flock of sheep.",
 			"Now and then, he hollers at some sheep that've wandered too far, and his voice cracks every time.",
 			"His skin is tanned and his muscles are strong from his daily work.",
 			"Though he's young, he peers at you with so much confidence it almost seems like arrogance.");
-		Enable(Options.Name | Options.Face);
+		Enable(c, Options.Name | Options.Face);
 		MsgSelect(c, "What can I do for you?", "Start Conversation", "@talk", "Shop", "@shop", "Upgrade Item", "@upgrade");
 	}
 
@@ -64,9 +64,9 @@ public class DeianScript : NPCScript
 				Msg(c, "Nice to meet you, I am Deian.",
 					"You don't look that old, maybe a couple of years older than I am?",
 					"Let's just say we're the same age. You don't mind, do ya?");
-				Disable(Options.Name);
+				Disable(c, Options.Name);
 				Msg(c, "(Shepherd Boy Deian is paying attention to me.)");
-				Enable(Options.Name);
+				Enable(c, Options.Name);
 				ShowKeywords(c);
 				break;
 

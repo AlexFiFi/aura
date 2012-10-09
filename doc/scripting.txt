@@ -199,16 +199,14 @@ Sets the stand style for the NPC.
 
 === Communication ===========================================================
 
-** Msg(<MabiClient:client>[, <bool:show_face>, <bool:show_name>], {string:messages})
+** Msg(<MabiClient:client>, {string:messages})
 
 Sends the given message to the client. The messages will get concatenated,
 to form a text where every line is one string parameter.
-The 2 optional parameters specify if the npc portait and name should be
-displayed for this message.
 
 Examples:
-    Msg(c, "Line 1", "Line 2", "Line 3");                        // 3 line text
-	Msg(c, true, false, "(Caitin is looking in my direction.)"); // Displays the message, while hiding the NPC name
+    Msg(c, "Line 1", "Line 2", "Line 3");           // 3 line text
+	Msg(c, "(Caitin is looking in my direction.)"); // Displays the message
 	
 -----------------------------------------------------------------------------
 
@@ -225,14 +223,6 @@ Examples:
     MsgSelect(c, "Example Message");                  // Simple message with an [End] button
     MsgSelect(c, "Example Message", "Test", "@test"); // Message 1 button, saying "Test"
     MsgSelect(c, "Example Message", "Start Convorsation", "@talk", "Shop", "@shop");
-	
------------------------------------------------------------------------------
-
-** MsgFaceName(<MabiClient:client>, <string:face>, <string:name>, {string:messages})
-
-Similar to Msg, this function allows you to send a message to the client.
-You're able to specify a face and a name here though, to switch those
-on the fly during a conversation.
 
 -----------------------------------------------------------------------------
 
@@ -253,6 +243,32 @@ Notifies the client that he can select something now. This should be send
 after a message that contained buttons, so you can get some response.
 When using 'MsgSelect' or 'ShowKeywords', this is sent automatically,
 and doesn't have to follow the other command.
+	
+-----------------------------------------------------------------------------
+
+** Enable(<MabiClient:client>, {Options:what})
+** Disable(<MabiClient:client>, {Options:what})
+
+These command enable/disable the NPC portrait and/or name, until it's
+changed again. This is limited to the current session of the player.
+
+Examples:
+	Msg(c, "Hi there!");
+    Disable(c, Options.FaceAndName);
+	Msg(c, "(Caitin is looking in my direction.)");
+	...
+    Enable(c, Options.FaceAndName);
+	Msg(c, "This message has a face and name, the one before didn't.");
+
+Options:
+    Options.Face
+    Options.Name
+    Options.FaceAndName
+
+Being a bitmask, you can use bitwise operations on the options,
+if you want for some reason.
+
+    Options.Face | Options.Name
 
 === Shops ===================================================================
 

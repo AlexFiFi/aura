@@ -26,9 +26,9 @@ public class CommerceGoblinScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Disable(Options.Face | Options.Name);
+		Disable(c, Options.FaceAndName);
 		Msg(c, "Shuffling about with boxes and sacks of trade goods, this fellow seems too busy to bother with you.");
-		Enable(Options.Face | Options.Name);
+		Enable(c, Options.FaceAndName);
 		MsgSelect(c, "Money is something you can never have too much of.<br/>How much did you earn?",
 			"Trade", "@trade", "Repair Fomor Weapons", "@repair", "Commerce Explanation", "@explain", "Ducats", "@ducats", "End Conversation", "@end");
 	}

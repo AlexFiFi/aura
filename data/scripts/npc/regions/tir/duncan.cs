@@ -39,11 +39,11 @@ public class DuncanScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Disable(Options.Face | Options.Name);
+		Disable(c, Options.FaceAndName);
 		Msg(c, "An elderly man gazes softly at the world around him with a calm air of confidence.",
 			"Although his face appears weather-beaten, and his hair and beard are gray, his large beaming eyes make him look youthful somehow.",
 			"As he speaks, his voice resonates with a kind of gentle authority.");
-		Enable(Options.Face | Options.Name);
+		Enable(c, Options.FaceAndName);
 		MsgSelect(c, "Please let me know if you need anything.", "Start Conversation", "@talk", "Shop", "@shop", "Retrive Lost Items", "@lostandfound");
 	}
 
@@ -53,9 +53,9 @@ public class DuncanScript : NPCScript
 		{
 			case "@talk":
 				Msg(c, "What did you say your name was?", "Anyway, welcome.");
-				Disable(Options.Name);
+				Disable(c, Options.Name);
 				Msg(c, "(Duncan is waiting for me to say something.)");
-				Enable(Options.Name);
+				Enable(c, Options.Name);
 				ShowKeywords(c);
 				break;
 

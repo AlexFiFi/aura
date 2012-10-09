@@ -27,9 +27,9 @@ public class CommerceOgreScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Disable(Options.Face | Options.Name);
+		Disable(c, Options.FaceAndName);
 		Msg(c, "It has innocent eyes, but it's gobbling meat like a starving lion.");
-		Enable(Options.Face | Options.Name);
+		Enable(c, Options.FaceAndName);
 		MsgSelect(c, "I have a... H-handcart, and a Wagon.<br/>Oh, and a Pack Elephant, too!<br/>Ogre has big hands, but Ogre can repair also! Heh heh.",
 			"Repair Fomor Weapons", "@repair", "End Conversation", "@end");
 	}

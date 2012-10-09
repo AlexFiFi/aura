@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `lastip` varchar(16) NOT NULL DEFAULT '',
   `bannedreason` varchar(255) NOT NULL DEFAULT '',
   `bannedexpiration` datetime DEFAULT NULL,
-  `points` int(11) NOT DEFAULT '0',
+  `points` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

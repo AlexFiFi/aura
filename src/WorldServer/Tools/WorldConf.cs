@@ -31,6 +31,8 @@ namespace World.Tools
 
 		public static uint SightRange;
 		public static bool EnableItemShop;
+		public static bool AutoSendGMCP;
+		public static byte MinimumGMCP;
 
 		private static Configuration _conf;
 
@@ -65,6 +67,8 @@ namespace World.Tools
 
 			WorldConf.SightRange = _conf.Get<uint>("world_sightrange", 3000);
 			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
+			WorldConf.AutoSendGMCP = _conf.GetBool("world_auto_gmcp", false);
+			WorldConf.MinimumGMCP = _conf.Get<byte>("world_minimum_gmcp", 50);
 
 			try
 			{

@@ -37,12 +37,12 @@ public class DilysScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Disable(Options.Face | Options.Name);
+		Disable(c, Options.FaceAndName);
 		Msg(c, "A tall, slim lady tinkers with various ointments, herbs, and bandages.",
 			"She looks wise beyond her years, maybe because of the green healer dress she's wearing.",
 			"Her dark hair is neatly combed, and her gentle brown eyes puts everyone who speaks to her at ease.",
 			"She smiles faintly, waiting for you to speak.");
-		Enable(Options.Face | Options.Name);
+		Enable(c, Options.FaceAndName);
 		MsgSelect(c, "Welcome to the Healer's House", "Start Conversation", "@talk", "Shop", "@shop", "Get Treatment", "@heal", "Heal Pet", "@healpet");
 	}
 
@@ -126,9 +126,9 @@ public class DilysScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Welcome!");
-				Disable(Options.Name);
+				Disable(c, Options.Name);
 				Msg(c, "(Dilys is waiting for me to say something.)");
-				Enable(Options.Name);
+				Enable(c, Options.Name);
 				ShowKeywords(c);
 				break;
 				
