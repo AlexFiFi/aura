@@ -58,9 +58,11 @@ public class TarlachScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "A man wearing a light brown robe silently glares this way.", 
+		Disable(Options.Face | Options.Name);
+		Msg(c, "A man wearing a light brown robe silently glares this way.", 
 			"He has wavy blonde hair and white skin with a well defined chin that gives off a gentle impression.",
 			"Behind his thick glasses, however, are his cold emerald eyes filled with silent gloom.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "...Mmm...", "Start Conversation", "@talk");
 	}
 
@@ -70,7 +72,9 @@ public class TarlachScript : NPCScript
 		{
 			case "@talk":
 				Msg(c, "(Cough, Cough)...", "So you have made it through the barrier and have reached this desolate place.");
-				Msg(c, true, false, "(Tarlach is looking at me.)");
+				Disable(Options.Name);
+				Msg(c, "(Tarlach is looking at me.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 

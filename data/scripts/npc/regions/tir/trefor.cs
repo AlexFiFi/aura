@@ -43,9 +43,11 @@ public class DuncanScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "Quite a specimen of physical fitness appears before you wearing well-polished armor that fits closely the contours of his body.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "Quite a specimen of physical fitness appears before you wearing well-polished armor that fits closely the contours of his body.",
 			"A medium-length sword hangs delicately from the scabbard at his waist. While definitely a sight to behold, it's difficult to see much of his face because of his lowered visor, but one cannot help but notice the flash in his eyes occasionally catching the light between the slits on his helmet.",
 			"His tightly pursed lips seem to belie his desire to not shot any emotion.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Upgrade Item", "@upgrade", "Get Alby Beginner Dungeon Pass", "@pass");
 	}
 
@@ -55,7 +57,9 @@ public class DuncanScript : NPCScript
 		{
 			case "@talk":
 				Msg(c, "Hmm? Are you a new traveler?");
-				Msg(c, true, false, "(Trefor is waiting for me to say something.)");
+				Disable(Options.Name);
+				Msg(c, "(Trefor is waiting for me to say something.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 

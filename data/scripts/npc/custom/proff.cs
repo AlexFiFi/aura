@@ -38,7 +38,11 @@ public class ProffScript : NPCScript
     
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "A handsome young man stands before you. He has an air of intelligence and sophistication about him.", "His clear blue eyes are focused intently on the bottles in his hands, constantly pouring one into the other.", "He glances at you as you approach.");
+		Disable(Options.Face | Options.Name);
+		Msg(c, "A handsome young man stands before you. He has an air of intelligence and sophistication about him.",
+			"His clear blue eyes are focused intently on the bottles in his hands, constantly pouring one into the other.",
+			"He glances at you as you approach.");
+		Enable(Options.Face | Options.Name);
         OnSelect(c, "@startingpoint");
     }
 

@@ -38,10 +38,12 @@ public class NoraScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "A girl wearing a well-ironed green apron leans forward, gazing cheerfully at her sorroundings.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "A girl wearing a well-ironed green apron leans forward, gazing cheerfully at her sorroundings.",
 			"Her bright eyes are azure blue and a faint smile plays on her lips.",
 			"Cross-shaped earrings dangle from her ears, dancing playfully between her honey-blonde hair.",
 			"Her hands are always busy, as she engages in some chore or another, though she often looks into the distance as if deep in thought.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair");
 	}
 
@@ -57,7 +59,9 @@ public class NoraScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Welcome!");
-				Msg(c, true, false, "(Nora is looking in my direction.)");
+				Disable(Options.Name);
+				Msg(c, "(Nora is looking in my direction.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 

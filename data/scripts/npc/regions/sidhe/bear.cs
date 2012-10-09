@@ -47,10 +47,12 @@ public class TarlachBearScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, true, "The Brown Bear is stout and well built.",
+		Disable(Options.Name | Options.Face);
+		Msg(c, "The Brown Bear is stout and well built.",
 			"Standing solemnly in a white field of snow, it seems to be searching for something.",
 			"Steam flows out from the bear's mouth with every breath while the bear sniffs the ground from time to time, using its front paw to dig the grass.",
 			"It constantly looks around, seemingly watching out for some kind of threat or danger.");
+		Enable(Options.Name | Options.Face);
 		MsgSelect(c, "Grr...", "Start Conversation", "@talk");
 	}
 
@@ -60,7 +62,9 @@ public class TarlachBearScript : NPCScript
 		{
 			case "@talk":
 				Msg(c, "...");
-				Msg(c, true, false, "(Bear is waiting for me to say something.)");
+				Disable(Options.Name);
+				Msg(c, "(Bear is waiting for me to say something.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 			default:

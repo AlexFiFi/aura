@@ -34,8 +34,10 @@ public class PiarasScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "His straight posture gives him a strong, resolute impression even though he's only slightly taller than average height. Clean shaven, well groomed hair, spotless appearance and dark green vest make him look like a dandy.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "His straight posture gives him a strong, resolute impression even though he's only slightly taller than average height. Clean shaven, well groomed hair, spotless appearance and dark green vest make him look like a dandy.",
 			"His neat looks, dark and thick eyebrows and the strong jaw line harmonized with the deep baritone voice complete the impression of an affable gentleman.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "Welcome to my Inn.", "Start Conversation", "@talk", "Shop", "@shop");
 	}
 
@@ -50,7 +52,9 @@ public class PiarasScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Hello, nice to meet you.", "I am Piaras.");
-				Msg(c, true, false, "(Piaras is waiting for me to say something.)");
+				Disable(Options.Name);
+				Msg(c, "(Piaras is waiting for me to say something.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 				

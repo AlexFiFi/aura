@@ -16,6 +16,13 @@ using World.World;
 namespace World.Scripting
 {
 	public enum NPCLoadType { Real = 1, Virtual = 2 }
+	[Flags]
+	public enum Options
+	{
+		None = 0,
+		Face = 1 << 1,
+		Name = 1 << 2
+	}
 
 	public abstract class NPCScript : BaseScript
 	{
@@ -26,6 +33,8 @@ namespace World.Scripting
 		private int _ticksTillNextPhrase = 0;
 
 		private string _dialogFace = null, _dialogName = null;
+
+		private Options _options = Options.None;
 
 		/// <summary>
 		/// Describes how the NPC was loaded
@@ -83,6 +92,19 @@ namespace World.Scripting
 					this.Speak(Phrases[rand.Next(Phrases.Count)]);
 				_ticksTillNextPhrase = rand.Next(10, 30);
 			}
+		}
+
+		protected void Enable(Options what)
+		{
+			_options |= what;
+		}
+		protected void Disable(Options what)
+		{
+			_options &= ~what;
+		}
+		protected bool IsEnabled(Options what)
+		{
+			return (_options & what) == what;
 		}
 
 		// Built in methods
@@ -180,25 +202,12 @@ namespace World.Scripting
 
 		protected virtual void Msg(WorldClient client, params string[] lines)
 		{
-			this.Msg(client, true, true, lines);
-		}
-
-		protected virtual void Msg(WorldClient client, bool face, bool name, params string[] lines)
-		{
-			string faceStr = (!face ? "NONE" : (string.IsNullOrWhiteSpace(_dialogFace) ? null : _dialogFace));
-			string nameStr = (!name ? "NONE" : (string.IsNullOrWhiteSpace(_dialogName) ? null : _dialogName));
-
-			this.MsgFaceName(client, faceStr, nameStr, lines);
-		}
-
-		protected virtual void MsgFaceName(WorldClient client, string face, string name, params string[] lines)
-		{
 			var message = string.Join("<br/>", lines);
 
-			if (face != null)
-				message = "<npcportrait name=\"" + face + "\"/>" + message;
-			if (name != null)
-				message = "<title name=\"" + name + "\"/>" + message;
+			if (this.IsEnabled(Options.Face))
+				message = "<npcportrait name=\"" + this._dialogFace + "\"/>" + message;
+			if (this.IsEnabled(Options.Name))
+				message = "<title name=\"" + this._dialogName + "\"/>" + message;
 
 			message = System.Web.HttpUtility.HtmlEncode(message);
 
@@ -220,6 +229,11 @@ namespace World.Scripting
 
 		protected virtual void MsgSelect(WorldClient client, string message, params string[] buttons)
 		{
+			if (this.IsEnabled(Options.Face))
+				message = "<npcportrait name=\"" + this._dialogFace + "\"/>" + message;
+			if (this.IsEnabled(Options.Name))
+				message = "<title name=\"" + this._dialogName + "\"/>" + message;
+
 			if (buttons.Length > 0 && buttons.Length % 2 == 0)
 			{
 				var sb = new StringBuilder();

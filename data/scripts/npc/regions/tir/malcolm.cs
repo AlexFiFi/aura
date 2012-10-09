@@ -38,10 +38,12 @@ public class MalcolmScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "While his thin face makes him look weak,",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "While his thin face makes him look weak,",
 			"and his soft and delicate hands seem much too feminine,",
 			"his cool long blonde hair gives him a suave look.",
 			"He looks like he just came out of a workshop since he's wearing a heavy leather apron.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "What can I do for you?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair");
 	}
 
@@ -61,7 +63,9 @@ public class MalcolmScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Welcome to the General Shop. This must be your first visit here.");
-				Msg(c, true, false, "(Malcolm is waiting for me to say something.)");
+				Disable(Options.Name);
+				Msg(c, "(Malcolm is waiting for me to say something.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 				

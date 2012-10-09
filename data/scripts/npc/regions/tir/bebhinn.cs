@@ -39,9 +39,11 @@ public class BebhinnScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "A young lady is admiring her nails as you enter.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "A young lady is admiring her nails as you enter.",
 			"When she notices you, she looks up expectantly, as if waiting for you to liven things up.",
 			"Her big, blue eyes sparkle with charm and fun, and her subtle smile creates irresistable dimples.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "May I help you?", "Start Conversation", "@talk", "Open My Account", "@bank", "Redeem Coupon", "@redeem", "Shop", "@shop");
 	}
 
@@ -72,7 +74,9 @@ public class BebhinnScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Is this your first time here? Nice to meet you.");
-				Msg(c, true, false, "(Bebhinn is looking at me.)");
+				Disable(Options.Name);
+				Msg(c, "(Bebhinn is looking at me.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 				

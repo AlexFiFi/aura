@@ -36,9 +36,11 @@ public class RanaldScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "From his appearance and posture, there is no doubt that he is well into middle age, but he is surprisingly well-built and in good shape.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "From his appearance and posture, there is no doubt that he is well into middle age, but he is surprisingly well-built and in good shape.",
 			"Long fringes of hair cover half of his forehead and right cheek. A strong nose bridge stands high between his shining hawkish eyes.",
 			"His deep, low voice has the power to command other people's attention.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Modify Item", "@modify", "Get Ciar Beginner Dungeon Pass", "@pass");
 	}
 
@@ -69,7 +71,9 @@ public class RanaldScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Hmm...", "Nice to meet you.");
-				Msg(c, true, false, "(Ranald is paying attention to me.)");
+				Disable(Options.Name);
+				Msg(c, "(Ranald is paying attention to me.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 				

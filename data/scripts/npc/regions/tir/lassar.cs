@@ -41,9 +41,11 @@ public class LassarScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "Waves of her red hair come down to her shoulders.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "Waves of her red hair come down to her shoulders.",
 			"Judging by her somewhat small stature, well-proportioned body, and a neat two-piece school uniform, it isn't had to tell that she is a teacher.",
 			"The intelligent look in her eyes, the clear lip line and eyebrows present her as a charming lady.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "Is there anything I can help you with?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair", "Upgrade Item", "@upgrade");
 	}
 
@@ -68,7 +70,9 @@ public class LassarScript : NPCScript
 					"Excuse my laughing.",
 					"Good to meet you.",
 					"I am Lassar.");
-				Msg(c, true, false, "(Lassar is waiting for me to say something.)");
+				Disable(Options.Name);
+				Msg(c, "(Lassar is waiting for me to say something.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 

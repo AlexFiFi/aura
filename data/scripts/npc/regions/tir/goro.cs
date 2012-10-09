@@ -31,10 +31,12 @@ public class GoroScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "With his rough skin, menacing face, and his constant hard-breathing,",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "With his rough skin, menacing face, and his constant hard-breathing,",
 			"he has the sure look of a Goblin.",
 			"Yet, there is something different about this one.",
 			"Strangely, it appears to have a sense of noble demeanor that does not match its rugged looks.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop");
 	}
 
@@ -50,7 +52,9 @@ public class GoroScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Welcome, what a smart man you are.<br/>My name is Goro.<br/>Ah, do not be surprised. I have no intention of hurting you.");
-				Msg(c, true, false, "(Goro is looking at me)");
+				Disable(Options.Name);
+				Msg(c, "(Goro is looking at me)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 			default:

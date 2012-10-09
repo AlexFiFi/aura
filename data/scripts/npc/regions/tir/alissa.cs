@@ -37,10 +37,12 @@ public class AlissaScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "A young girl stands with her habds on her hips like she's a person of great importance.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "A young girl stands with her habds on her hips like she's a person of great importance.",
 			"She wears a worn out hat that frames her soft hair, round face, and button nose.",
 			"As she stands there, you notice that her apron is actually too big, and she's discreetly trying to keep it from slipping.",
 			"In spite of all that, her cherry eyes sparkle with curiosity.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "So, what can I do for you?", "Start Conversation", "@talk", "Operate the Windmill", "@windmill");
 	}
 
@@ -56,7 +58,9 @@ public class AlissaScript : NPCScript
 				Msg(c, "Hello, we haven't met. My name is Alissa. Your name is " + c.Character.Name + ", right?",
 					"How did I know?",
 					"Haha, it's written above your head. Don't tell me you don't see it?");
-				Msg(c, true, false, "(Alissa is looking at me.)");
+				Disable(Options.Name);
+				Msg(c, "(Alissa is looking at me.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 			case "@windmill":

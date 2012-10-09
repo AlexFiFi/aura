@@ -40,9 +40,11 @@ public class FerghusScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "His bronze complexion shines with the glow of vitality. His distinctive facial outline ends with a strong jaw line covered with dark beard.", 
+		Disable(Options.Face | Options.Name);
+		Msg(c, "His bronze complexion shines with the glow of vitality. His distinctive facial outline ends with a strong jaw line covered with dark beard.", 
 			"The first impression clearly shows he is a seasoned blacksmith with years of experience.",
 			"The wide-shouldered man keeps humming with a deep voice while his muscular torso swings gently to the rhythm of the tune.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "Welcome to my Blacksmith's Shop", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair", "Upgrade Item", "@upgrade");
 	}
 
@@ -74,7 +76,9 @@ public class FerghusScript : NPCScript
 
 			case "@talk":
 				Msg(c, "Are you new here? Good to see you.");
-				Msg(c, true, false, "(Ferghus is looking in my direction.)");
+				Disable(Options.Name);
+				Msg(c, "(Ferghus is looking in my direction.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 

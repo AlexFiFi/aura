@@ -56,7 +56,9 @@ public class PartnerScript : NPCScript
 			case null:
 				Msg(c, "Hiya, boss! You don't mind if I call you boss, right?");
 				Msg(c, "I'm your new maid. Just don't ask me to work too hard,", "and we'll have a great time, I bet!", "In fact, I can already tell we'll be great friends!");
-				Msg(c, false, false, "(At least she's friendly...)");
+				Disable(Options.Face | Options.Name);
+				Msg(c, "(At least she's friendly...)");
+				Enable(Options.Face | Options.Name);
 				goto case "#task";
 				
 			case "#task":

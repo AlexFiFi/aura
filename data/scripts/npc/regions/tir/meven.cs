@@ -37,9 +37,11 @@ public class MevenScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "Dressed in a robe, this composed man of moderate build maintains a very calm posture.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "Dressed in a robe, this composed man of moderate build maintains a very calm posture.",
 			"Every bit of his appearance and the air surrounding him show that he is unfailingly a man of the clergy.",
 			"Silvery hair frames his friendly face, and his gentle eyes suggest a rather quaint and quiet mood with flashes of hidden humor.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "Welcome to the Church of Lymilark.", "Start Conversation", "@talk");
 	}
 
@@ -49,7 +51,9 @@ public class MevenScript : NPCScript
 		{
 			case "@talk":
 				Msg(c, "It's nice to see you again.");
-				Msg(c, true, false, "(Meven is waiting for me to say something.)");
+				Disable(Options.Name);
+				Msg(c, "(Meven is waiting for me to say something.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 				

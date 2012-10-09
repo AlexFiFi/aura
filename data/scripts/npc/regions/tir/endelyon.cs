@@ -32,9 +32,11 @@ public class EndelyonScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
-		Msg(c, false, false, "An elegent young lady wears the simple black dress of a Lymilark priestess.",
+		Disable(Options.Face | Options.Name);
+		Msg(c, "An elegent young lady wears the simple black dress of a Lymilark priestess.",
 			"Her face is set in a calm, demur expression, and her eyes exude warmth.",
 			"A slight smile tugging at her lips hints at a strong will.");
+		Enable(Options.Face | Options.Name);
 		MsgSelect(c, "May I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Modify", "@modify");
 	}
 
@@ -58,7 +60,9 @@ public class EndelyonScript : NPCScript
 
 			case "@talk":
 				Msg(c, "I don't think we've ever met. Nice to meet you.");
-				Msg(c, true, false, "(Endelyon is looking in my direction.)");
+				Disable(Options.Name);
+				Msg(c, "(Endelyon is looking in my direction.)");
+				Enable(Options.Name);
 				ShowKeywords(c);
 				break;
 				
