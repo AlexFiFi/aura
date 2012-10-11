@@ -29,9 +29,9 @@ public class ProffScript : NPCScript
 		SetDirection(135);
 		SetStand("chapter4/human/anim/male_alchemists_stand_idle01.ani");
 		
-        Phrases.Add("Hello, there.");
+        Phrases.Add("Hello there.");
         Phrases.Add("Come with me... I shall show you a future in ruins.");
-        Phrases.Add("E = mc2 actually stands for Enjoyment = (Mod the Client)2");
+        Phrases.Add("E = mc^2 actually stands for Enjoyment = (Modifying the Client)^2");
         Phrases.Add("Hmm... I haven't checked in with FIONA lately...");
         Phrases.Add("My latest creation is almost ready!");
 	}

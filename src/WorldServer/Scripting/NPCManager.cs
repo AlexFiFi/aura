@@ -255,6 +255,7 @@ namespace World.Scripting
 					monster.AIScript = this.LoadScript(aiFilePath).CreateObject("*") as AIScript; // (AIScript)CSScript.LoadCode(File.ReadAllText(aiFilePath)).CreateObject("*");
 					monster.AIScript.Creature = monster;
 					monster.AIScript.OnLoad();
+					monster.AIScript.Activate(0); //AI is intially active
 				}
 
 				WorldManager.Instance.AddCreature(monster);

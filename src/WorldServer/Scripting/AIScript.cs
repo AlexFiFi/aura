@@ -2,7 +2,7 @@
 // For more information, see licence.txt in the main folder
 
 using System.Collections.Generic;
-using System.Threading;
+using System.Timers;
 using Common.Tools;
 using Common.World;
 using World.World;
@@ -91,8 +91,12 @@ namespace World.Scripting
 
 		public MabiCreature Creature;
 
+		public bool Active { get; protected set; }
+
+		public uint MinimumActiveBeats { get; protected set; }
+
 		private Timer _heartbeatTimer;
-		private int _heartbeat = 50;//ms
+		private int _heartbeat = 500;//ms
 
 		private AIState _prevState;
 
@@ -101,7 +105,9 @@ namespace World.Scripting
 		/// </summary>
 		public override void OnLoad()
 		{
-			_heartbeatTimer = new Timer(this.OnHearbeat, null, 5000, _heartbeat);
+			_heartbeatTimer = new Timer(500);
+			_heartbeatTimer.AutoReset = true;
+			_heartbeatTimer.Elapsed += new ElapsedEventHandler(OnHeartbeat);
 			this.Definition();
 		}
 
@@ -141,8 +147,11 @@ namespace World.Scripting
 		/// Called by the intern timer every 500ms.
 		/// </summary>
 		/// <param name="stateobj"></param>
-		public void OnHearbeat(object stateobj)
+		public void OnHeartbeat(object stateobj, ElapsedEventArgs e)
 		{
+			if (this.MinimumActiveBeats != 0)
+				this.MinimumActiveBeats--;
+
 			// TODO: try, catch, logging
 
 			// Stop if there are no actions or no creature
@@ -151,8 +160,11 @@ namespace World.Scripting
 
 			// Stop if there are no characters in range
 			var inSight = WorldManager.Instance.GetPlayersInRange(this.Creature, 2600);
-			if (inSight.Count < 1)
+			if (inSight.Count < 1 && MinimumActiveBeats == 0)
+			{
+				this.Deactivate();
 				return;
+			}
 
 			// Stop if creature is unable to do anything
 			if (this.Creature.IsDead() || this.Creature.IsStunned())
@@ -294,6 +306,23 @@ namespace World.Scripting
 			}
 
 			_prevState = curState;
+		}
+
+		public void Activate(uint timeTillArrive)
+		{
+			if (!this.Active)
+			{
+				this.Active = true;
+				_heartbeatTimer.Start();
+			}
+
+			this.MinimumActiveBeats = Math.Max(this.MinimumActiveBeats, timeTillArrive * (1000 / (uint)_heartbeatTimer.Interval));
+		}
+
+		public void Deactivate()
+		{
+			this.Active = false;
+			_heartbeatTimer.Stop();
 		}
 	}
 }

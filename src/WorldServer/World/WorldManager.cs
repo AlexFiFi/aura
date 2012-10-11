@@ -24,6 +24,7 @@ namespace World.World
 		{
 			EntityEvents.Instance.CreatureLevelsUp += this.CreatureLevelsUp;
 			EntityEvents.Instance.CreatureStatUpdates += this.CreatureStatsUpdate;
+			EntityEvents.Instance.CreatureStatusEffectUpdate += this.CreatureStatusEffectsChange;
 			EntityEvents.Instance.CreatureItemUpdate += this.CreatureItemUpdate;
 			EntityEvents.Instance.CreatureDropItem += this.CreatureDropItem;
 		}
@@ -215,7 +216,7 @@ namespace World.World
 				try
 				{
 					Logger.ClearLine();
-					Logger.Info("Saved " + i + 1);
+					Logger.Info("Saved " + (i + 1));
 				}
 				catch { }
 			}
@@ -339,6 +340,7 @@ namespace World.World
 				if (!_creatures.Contains(creature))
 				{
 					_creatures.Add(creature);
+					this.ActivateMobs(creature, creature.GetPosition(), creature.GetPosition());
 				}
 			}
 			if (creature.Client != null)
@@ -533,7 +535,70 @@ namespace World.World
 
 			this.Broadcast(p, SendTargets.Range, creature);
 
+			if (creature.Client != null)
+				ActivateMobs(creature, from, to);
+
 			ServerEvents.Instance.OnCreatureMoves(creature, new MoveEventArgs(from, to));
+		}
+
+		private void ActivateMobs(MabiCreature creature, MabiVertex from, MabiVertex to)
+		{
+			IEnumerable<MabiCreature> mobsInRange = _creatures.Where(c =>
+				c.Region == creature.Region
+				&& c is MabiNPC
+				&& ((MabiNPC)c).AIScript != null);
+
+			long leftX, rightX, topY, bottomY; //Bounding rectangle coordinates
+
+			if (from.X < to.X) //Moving right
+			{
+				leftX = from.X - 2600;
+				rightX = to.X + 2600;
+			}
+			else
+			{
+				leftX = to.X - 2600;
+				rightX = from.X + 2600;
+			}
+
+			if (from.Y < to.Y) //Moving up
+			{
+				bottomY = from.Y - 2600;
+				topY = to.Y + 2600;
+			}
+			else
+			{
+				bottomY = to.Y - 2600;
+				topY = from.Y + 2600;
+			}
+
+
+			//Linear movement equation
+			double slope;
+			if (to.Y == from.Y)
+			{
+				slope = .001; //double.MinValue produces infinity in B
+			}
+			else
+			{
+				slope = ((double)to.Y - from.Y) / ((double)to.X - from.X);
+			}
+			double b = from.Y - slope * from.X;
+
+			mobsInRange = mobsInRange.Where((c) =>
+			{
+				var pos = c.GetPosition();
+				return (leftX < pos.X && pos.X < rightX && bottomY < pos.Y && pos.Y < topY && (Math.Abs(pos.Y - (long)(slope * pos.X + b)) < 2600));
+			});
+
+			double dist = Math.Sqrt(((to.X - from.X) * (to.X - from.X)) + ((to.Y - from.Y) * (to.Y - from.Y)));
+
+			uint time = (uint)Math.Ceiling(dist / creature.GetSpeed());
+
+			foreach (var mob in mobsInRange)
+			{
+				((MabiNPC)mob).AIScript.Activate(time);
+			}
 		}
 
 		public void CreatureSwitchSet(MabiCreature creature)
@@ -692,8 +757,10 @@ namespace World.World
 			this.CreatureStatsUpdate(e.Entity as MabiCreature);
 		}
 
-		public void CreatureStatusEffectsChange(MabiCreature creature)
+		public void CreatureStatusEffectsChange(object sender, EntityEventArgs e)
 		{
+			var creature = e.Entity as MabiCreature;
+
 			var p = new MabiPacket(Op.StatusEffectUpdate, creature.Id);
 			p.PutLong((ulong)creature.Conditions.A);
 			p.PutLong((ulong)creature.Conditions.B);

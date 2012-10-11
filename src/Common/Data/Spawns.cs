@@ -3,16 +3,125 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Common.World;
-using Common.Tools;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using System.Linq;
+using Common.Tools;
+using Common.World;
 
 namespace Common.Data
 {
+	public class Line
+	{
+		public double Slope { get; protected set; }
+		public double B { get; protected set; }
+		public MabiVertex Point1 { get; protected set; }
+		public MabiVertex Point2 { get; protected set; }
+
+		public uint MinX { get; protected set; }
+		public uint MaxX { get; protected set; }
+
+		public Line(MabiVertex p1, MabiVertex p2)
+		{
+			if (p1.X == p2.X)
+				this.Slope = .001; //double.MinValue produdes a B of Infinity.
+			else
+				this.Slope = ((double)p2.Y - p1.Y) / ((double)p2.X - p1.X);
+
+			this.B = p1.Y - Slope * p1.X;
+
+			this.Point1 = p1;
+			this.Point2 = p2;
+
+			if (p1.X < p2.X)
+			{
+				this.MinX = p1.X;
+				this.MaxX = p2.X;
+			}
+			else
+			{
+				this.MinX = p2.X;
+				this.MaxX = p1.X;
+			}
+		}
+		public Line(Point p1, Point p2)
+			: this(new MabiVertex((uint)p1.X, (uint)p1.Y), new MabiVertex((uint)p2.X, (uint)p2.Y))
+		{
+
+		}
+
+		public bool InDomain(uint x)
+		{
+			return this.MinX <= x && x <= this.MaxX;
+		}
+
+		public uint Evaluate(uint x)
+		{
+			return (uint)(this.Slope * x + this.B);
+		}
+	}
+
+	public class SpawnRegion
+	{
+		private List<Line> _edges = new List<Line>();
+		private uint _minX, _maxX, _minY, _maxY;
+
+		public SpawnRegion(params MabiVertex[] points)
+		{
+			if (points.Length < 3)
+				throw new ArgumentException("A polygon must have a minimum of 3 verticies.");
+			for (int i = 1; i < points.Length; i++)
+			{
+				_edges.Add(new Line(points[i - 1], points[i]));
+
+				if (points[i].X < _minX)
+					_minX = points[i].X;
+				else if (points[i].X > _maxX)
+					_maxX = points[i].X;
+
+				if (points[i].Y < _minY)
+					_minY = points[i].Y;
+				else if (points[i].Y > _maxY)
+					_maxY = points[i].Y;
+			}
+			_edges.Add(new Line(points[points.Length - 1], points[0]));
+		}
+		public SpawnRegion(params Point[] points)
+		{
+			if (points.Length < 3)
+				throw new ArgumentException("A polygon must have a minimum of 3 verticies.");
+			for (int i = 1; i < points.Length; i++)
+			{
+				_edges.Add(new Line(points[i - 1], points[i]));
+
+				if (points[i].X < _minX)
+					_minX = (uint)points[i].X;
+				else if (points[i].X > _maxX)
+					_maxX = (uint)points[i].X;
+
+				if (points[i].Y < _minY)
+					_minY = (uint)points[i].Y;
+				else if (points[i].Y > _maxY)
+					_maxY = (uint)points[i].Y;
+			}
+			_edges.Add(new Line(points[points.Length - 1], points[0]));
+		}
+
+		public bool InRegion(MabiVertex point)
+		{
+			return this.InRegion(point.X, point.Y);
+		}
+
+		public bool InRegion(uint x, uint y)
+		{
+			return _edges.Count(l => l.InDomain(x) && l.Evaluate(x) > y) % 2 != 0;
+		}
+
+		public RectangleF GetBounds()
+		{
+			return new RectangleF(_minX, _minY, _maxX - _minX, _maxY - _minY);
+		}
+	}
+
 	public enum SpawnLocationType { Point, Line, Polygon }
 
 	public class SpawnInfo
@@ -22,9 +131,8 @@ namespace Common.Data
 		public uint Region;
 		public SpawnLocationType SpawnType;
 		public MabiVertex SpawnPoint;
-		public double SpawnLineSlope, SpawnLineB;
-		public int SpawnLineXStart, SpawnLineXEnd;
-		public Region SpawnPolyRegion;
+		public Line SpawnLine;
+		public SpawnRegion SpawnPolyRegion;
 		public RectangleF SpawnPolyBounds;
 		public byte Amount;
 
@@ -42,8 +150,8 @@ namespace Common.Data
 			}
 			else if (this.SpawnType == SpawnLocationType.Line)
 			{
-				x = (uint)rand.Next(this.SpawnLineXStart, this.SpawnLineXEnd);
-				y = (uint)(this.SpawnLineSlope * x + this.SpawnLineB);
+				x = (uint)rand.Next((int)this.SpawnLine.MinX, (int)this.SpawnLine.MaxX);
+				y = this.SpawnLine.Evaluate(x);
 			}
 			else
 			{
@@ -52,7 +160,7 @@ namespace Common.Data
 					x = (uint)rand.Next((int)this.SpawnPolyBounds.X, (int)(this.SpawnPolyBounds.X + this.SpawnPolyBounds.Width));
 					y = (uint)rand.Next((int)this.SpawnPolyBounds.Y, (int)(this.SpawnPolyBounds.Y + this.SpawnPolyBounds.Height));
 				}
-				while (!SpawnPolyRegion.IsVisible(x, y));
+				while (!SpawnPolyRegion.InRegion(x, y));
 			}
 
 			return new MabiVertex(x, y);
@@ -98,27 +206,19 @@ namespace Common.Data
 
 				case 4: // Line
 					info.SpawnType = SpawnLocationType.Line;
-					double x1 = Convert.ToDouble(csv[i++]), y1 = Convert.ToDouble(csv[i++]), x2 = Convert.ToDouble(csv[i++]), y2 = Convert.ToDouble(csv[i++]);
-					info.SpawnLineSlope = ((y2 - y1) / (x2 - x1)); // m = rise/run
-					info.SpawnLineB = y2 - (info.SpawnLineSlope * x1); // y = mx + b
-					info.SpawnLineXStart = (int)x1;
-					info.SpawnLineXEnd = (int)x2;
+					info.SpawnLine = new Line(new MabiVertex(Convert.ToUInt32(csv[i++]), Convert.ToUInt32(csv[i++])), new MabiVertex(Convert.ToUInt32(csv[i++]), Convert.ToUInt32(csv[i++])));
 					break;
 
 				default: // Polygon
 					info.SpawnType = SpawnLocationType.Polygon;
 
-					var points = new List<Point>();
+					var points = new List<MabiVertex>();
 					while (i < csv.Count)
-						points.Add(new Point(Convert.ToInt32(csv[i++]), Convert.ToInt32(csv[i++])));
+						points.Add(new MabiVertex(Convert.ToUInt32(csv[i++]), Convert.ToUInt32(csv[i++])));
 
-					using (var p = new GraphicsPath())
-					{
-						p.AddLines(points.ToArray());
-						p.CloseFigure();
-						info.SpawnPolyRegion = new Region(p);
-						info.SpawnPolyBounds = p.GetBounds();
-					}
+					info.SpawnPolyRegion = new SpawnRegion(points.ToArray());
+					info.SpawnPolyBounds = info.SpawnPolyRegion.GetBounds();
+
 					break;
 			}
 		}

@@ -488,7 +488,7 @@ namespace World.Network
 
 			var toggle = packet.GetByte();
 			creature.Conditions.A = (toggle == 1 ? (creature.Conditions.A | CreatureConditionA.Invisible) : (creature.Conditions.A & ~CreatureConditionA.Invisible));
-			WorldManager.Instance.CreatureStatusEffectsChange(creature);
+			WorldManager.Instance.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
 
 			var p = new MabiPacket(Op.GMCPInvisibilityR, creature.Id);
 			p.PutByte(1);
@@ -1384,7 +1384,7 @@ namespace World.Network
 			{
 				case SkillConst.ManaShield:
 					creature.Conditions.A |= CreatureConditionA.ManaShield;
-					WorldManager.Instance.CreatureStatusEffectsChange(creature);
+					WorldManager.Instance.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(121), SendTargets.Range, creature);
 					break;
 

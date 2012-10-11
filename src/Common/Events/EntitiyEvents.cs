@@ -16,6 +16,7 @@ namespace Common.Events
 
 		public EventHandler<EntityEventArgs> CreatureLevelsUp;
 		public EventHandler<EntityEventArgs> CreatureStatUpdates;
+		public EventHandler<EntityEventArgs> CreatureStatusEffectUpdate;
 		public EventHandler<ItemUpdateEventArgs> CreatureItemUpdate;
 		public EventHandler<ItemEventArgs> CreatureDropItem;
 
@@ -29,6 +30,12 @@ namespace Common.Events
 		{
 			if (CreatureStatUpdates != null)
 				CreatureStatUpdates(c, new EntityEventArgs(c));
+		}
+
+		public void OnCreatureStatusEffectUpdate(MabiCreature c)
+		{
+			if (CreatureStatusEffectUpdate != null)
+				CreatureStatusEffectUpdate(c, new EntityEventArgs(c));
 		}
 
 		public void OnCreatureItemUpdate(MabiCreature creature, MabiItem item, bool isNew = false)

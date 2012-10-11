@@ -1,4 +1,5 @@
 using Common.Constants;
+using Common.Events;
 using Common.World;
 using System;
 using World.Network;
@@ -57,7 +58,7 @@ public class DilysScript : NPCScript
 				}
 				else
 				{
-					Msg(c, "Goodness, " + c.Character.Name + "! Are you hurt? I must treat your wounds immediately.<br/>I can't understand why everyone gets injured so much around here...<br/>The fee is 90 Gold but don't think about money right now. What's important is that you get treated.",
+					MsgSelect(c, "Goodness, " + c.Character.Name + "! Are you hurt? I must treat your wounds immediately.<br/>I can't understand why everyone gets injured so much around here...<br/>The fee is 90 Gold but don't think about money right now. What's important is that you get treated.",
 						"Recieve Treatment", "@recieveheal", "Decline", "@end");
 				}
 				break;
@@ -90,7 +91,8 @@ public class DilysScript : NPCScript
 				{
 					c.Character.RemoveGold(90);
 					c.Character.Injuries = 0;
-					c.Character.Life = c.Character.Vehicle.LifeMax;
+					c.Character.Life = c.Character.LifeMax;
+                    EntityEvents.Instance.OnCreatureStatUpdates(c.Character);
 					Msg(c, "Good, I've put on some bandages and your treatment is done.",
 						"If you get injured again, don't hesitate to visit me.");
 				}
@@ -98,7 +100,7 @@ public class DilysScript : NPCScript
 				{
 					Msg(c, "Oh no, I don't think you have enough gold.",
 						"Hmmm... The gold covers the cost of the bandages and medicine...",
-						"HOw about doing a part-time job?");
+						"How about doing a part-time job?");
 				}
 				break;
 
@@ -108,6 +110,7 @@ public class DilysScript : NPCScript
 					c.Character.RemoveGold(180);
 					c.Character.Vehicle.Injuries = 0;
 					c.Character.Vehicle.Life = c.Character.Vehicle.LifeMax;
+                    EntityEvents.Instance.OnCreatureStatUpdates(c.Character.Vehicle);
 					Msg(c, "Okay, all bandaged up and ready to go!",
 						"If your dear animal friend gets hurt again, do not hesitate to visit me.");
 				}

@@ -138,6 +138,24 @@ namespace Common.World
 					_life = -this.LifeMax;
 				else
 					_life = value;
+
+				/* Bad server lagger here
+				if (_life < 0) //Todo: cache?
+				{
+					if ((this.Conditions.A & CreatureConditionA.Deadly) != CreatureConditionA.Deadly)
+					{
+						this.Conditions.A |= CreatureConditionA.Deadly; //Todo: What about prevCondition?
+						EntityEvents.Instance.OnCreatureStatUpdates(this);
+					}
+				}
+				else
+				{
+					if ((this.Conditions.A & CreatureConditionA.Deadly) == CreatureConditionA.Deadly)
+					{
+						this.Conditions.A &= ~CreatureConditionA.Deadly;
+						EntityEvents.Instance.OnCreatureStatUpdates(this);
+					}
+				}*/
 			}
 		}
 		public float Injuries
@@ -782,7 +800,7 @@ namespace Common.World
 		public void TakeDamage(float damage)
 		{
 			var hpBefore = this.Life;
-			if (hpBefore < 1)
+			if (hpBefore < 1 && !ShouldSurvive())
 			{
 				this.Die();
 				return;
@@ -791,10 +809,16 @@ namespace Common.World
 			var hp = Math.Max(-this.LifeMaxBase, hpBefore - damage);
 			this.Life = hp;
 
-			if (hp <= 0 && (hpBefore < this.LifeMax / 2))
+			if (hp <= 0)
 			{
-				this.Die();
+				if (!((this is MabiPC && (hpBefore > this.Life / 2)) || this.ShouldSurvive()))
+					this.Die();
 			}
+		}
+
+		public bool ShouldSurvive()
+		{
+			return ((this.Will * 10) + RandomProvider.Get().Next(1001)) > 999; //TODO: Actual, proper calculation here
 		}
 
 		public virtual void Die()

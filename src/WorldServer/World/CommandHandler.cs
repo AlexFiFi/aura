@@ -607,7 +607,7 @@ namespace World.World
 			creature.Conditions.C = (CreatureConditionC)val3;
 			creature.Conditions.D = (CreatureConditionD)val4;
 
-			WorldManager.Instance.CreatureStatusEffectsChange(creature);
+			WorldManager.Instance.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
 
 			return CommandResult.Okay;
 		}
