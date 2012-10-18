@@ -941,13 +941,14 @@ namespace World.World
 					}
 
 					var pos = action.Creature.GetPosition();
-					var enemyPos = action.Enemy.GetPosition();
+					MabiCreature Enemy = action.Target as MabiCreature;
+					var enemyPos = Enemy.GetPosition();
 
 					if (action.ActionType.HasFlag(CombatActionType.Defense))
 					{
 						WorldManager.Instance.CreatureSkillUseCancel(action.Creature);
 
-						actionPacket.PutLong(action.Enemy.Id);
+						actionPacket.PutLong(Enemy.Id);
 						actionPacket.PutInt(0);
 						actionPacket.PutByte(0);
 						actionPacket.PutByte(1);
@@ -970,23 +971,23 @@ namespace World.World
 
 					actionPacket.PutByte(action.GetDefenseOption());
 					actionPacket.PutInt(0);
-					actionPacket.PutLong(action.Enemy.Id);
+					actionPacket.PutLong(Enemy.Id);
 
 					if (action.Finish)
 					{
 						// Exp
-						if (action.Enemy.LevelingEnabled)
+						if (Enemy.LevelingEnabled)
 						{
 							// Give exp
 							var exp = action.Creature.BattleExp;
-							action.Enemy.GiveExp(exp);
+							Enemy.GiveExp(exp);
 
 							// If the creature is controlled by a client
 							// it probably wants to get some information.
-							if (action.Enemy.Client != null)
+							if (Enemy.Client != null)
 							{
-								var client = action.Enemy.Client;
-								client.Send(PacketCreator.CombatMessage(action.Enemy, "+" + exp.ToString() + " EXP"));
+								var client = Enemy.Client;
+								client.Send(PacketCreator.CombatMessage(Enemy, "+" + exp.ToString() + " EXP"));
 							}
 						}
 
@@ -1031,11 +1032,11 @@ namespace World.World
 
 						// Set finisher?
 						var finishPacket = new MabiPacket(Op.CombatSetFinisher, action.Creature.Id);
-						finishPacket.PutLong(action.Enemy.Id);
+						finishPacket.PutLong(Enemy.Id);
 						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
 
 						// Clear target
-						WorldManager.Instance.CreatureSetTarget(action.Enemy, null);
+						WorldManager.Instance.CreatureSetTarget(Enemy, null);
 
 						// Finish this finisher part?
 						finishPacket = new MabiPacket(Op.CombatSetFinisher2, action.Creature.Id);

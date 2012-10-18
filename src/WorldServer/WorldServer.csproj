@@ -60,6 +60,11 @@
     <Compile Include="Scripting\NPCManager.cs" />
     <Compile Include="Scripting\NPCScript.cs" />
     <Compile Include="Scripting\NPCSession.cs" />
+    <Compile Include="Skills\CombatSkills.cs" />
+    <Compile Include="Skills\HiddenSkills.cs" />
+    <Compile Include="Skills\LifeSkills.cs" />
+    <Compile Include="Skills\MagicSkills.cs" />
+    <Compile Include="Skills\Skills.cs" />
     <Compile Include="Tools\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
     <Compile Include="World\MabiCombat.cs" />
@@ -78,6 +83,7 @@
   <ItemGroup>
     <Content Include="mabioriginal.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

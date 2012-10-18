@@ -116,13 +116,17 @@ namespace Common.Events
 	[Flags]
 	public enum CombatActionType : byte { TakeDamage = 0x01, Hit = 0x02, /*? = 0x??,*/ Defense = 0x32, }
 
-	public class CombatAction
+	public class SkillAction
 	{
-		public MabiCreature Enemy, Creature;
+		public MabiEntity Target;
+		public MabiCreature Creature;
 		public ulong TargetId;
 
 		public MabiVertex OldPosition;
+	}
 
+	public class CombatAction : SkillAction
+	{
 		public CombatActionType ActionType;
 		public ushort StunTime;
 		public SkillConst SkillId;

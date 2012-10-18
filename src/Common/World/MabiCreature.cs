@@ -76,7 +76,7 @@ namespace Common.World
 		public CreatureCondition Conditions;
 		public CreatureCondition PrevConditions;
 
-		public byte RestPose = 4; // 0, 2, 4
+		public byte RestPose { get { return (byte)this.GetSkill(SkillConst.Rest).RankInfo.Var4; } } // 0, 2, 4, more?
 
 		public bool LevelingEnabled = false;
 
@@ -259,6 +259,46 @@ namespace Common.World
 		public int MinMeleeDamage { get { return Math.Min((int)(_minMeleeDamageBase + Str / 3f), MaxMeleeDamage); } }
 		public int MaxMeleeDamage { get { return (int)(_maxMeleeDamageBase + Str / 2.5f); } }
 
+		/// <summary>
+		/// Calculates the damage of left-and-right slots together
+		/// </summary>
+		/// <returns></returns>
+		public float GetDamage()
+		{
+			float bal = this.GetBalance();
+
+			return this.GetDamage(Pocket.LeftHand1, bal, false) + this.GetDamage(Pocket.RightHand1, bal, false); 
+		}
+
+		/// <summary>
+		/// Calculates the damage of a given slot
+		/// </summary>
+		/// <param name="slot"></param>
+		/// <returns></returns>
+		public float GetDamage(Pocket slot, float balance = float.NaN, bool includeBase = true)
+		{
+			if (float.IsNaN(balance))
+				balance = this.GetBalance();
+
+			int min = 0, max = 0;
+
+			if (includeBase)
+			{
+				min = this.MinMeleeDamage;
+				max = this.MaxMeleeDamage;
+			}
+
+			MabiItem slotItem = this.GetItemInPocket(slot);
+
+			if (slotItem != null && (slotItem.Type != ItemType.Weapon || slotItem.Type != ItemType.Weapon2))
+			{
+				min += slotItem.OptionInfo.AttackMin;
+				max += slotItem.OptionInfo.AttackMax;
+			}
+
+			return min + ((max - min) * balance);
+		}
+
 		public MabiCreature()
 		{
 		}
@@ -378,7 +418,10 @@ namespace Common.World
 
 		public float GetBalance()
 		{
-			return 0.8f;
+			float bal = 0.8f; // TODO: Proper value here
+			var rnd = RandomProvider.Get();
+			float rndBalance = ((1.0f - bal) - ((1.0f - bal) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
+			return Math.Min(0.8f, rndBalance);
 		}
 
 		public float GetCritical()

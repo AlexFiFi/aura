@@ -132,9 +132,9 @@ namespace Common.Network
 		public readonly static uint EnterRegionR = 0x659C;
 		public readonly static uint SkillInfo = 0x6979;
 		public readonly static uint SkillPrepare = 0x6982;
-		public readonly static uint SkillPrepared = 0x6983;
+		public readonly static uint SkillReady = 0x6983;
 		public readonly static uint SkillUse = 0x6986;
-		public readonly static uint SkillUsed = 0x6987;
+		public readonly static uint SkillComplete = 0x6987;
 		public readonly static uint SkillCancel = 0x6989;
 		public readonly static uint SkillStart = 0x698A;
 		public readonly static uint SkillStop = 0x698B;

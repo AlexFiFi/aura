@@ -647,7 +647,7 @@ namespace World.World
 			creature.Skills.Add(skill);
 
 			client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Info));
-			client.Send(PacketCreator.ServerMessage(creature, "Congratulations, you got skill '" + skillId + "'."));
+			client.Send(PacketCreator.ServerMessage(creature, "Congratulations, you got skill '" + ((SkillConst)skillId) + "'."));
 
 			return CommandResult.Okay;
 		}

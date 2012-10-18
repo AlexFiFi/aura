@@ -269,13 +269,13 @@ namespace World.Scripting
 
 					case AIAction.Attack:
 						{
-							var attackResult = MabiCombat.Attack(this.Creature, this.Creature.Target);
-							if (attackResult == AttackResult.OutOfRange)
+							var attackResult = MabiCombat.MeleeAttack(this.Creature, this.Creature.Target);
+							if ((attackResult & SkillResult.AttackOutOfRange) != 0)
 							{
 								var targetPos = this.Creature.Target.GetPosition();
 								this.Stack.Insert(0, new AIElement(AIState.Aggro, AIAction.Run, intVal1: (int)targetPos.X, intVal2: (int)targetPos.Y));
 							}
-							else if (attackResult == AttackResult.Okay)
+							else if ((attackResult & SkillResult.Okay) != 0)
 							{
 								this.Stack.RemoveAt(0);
 							}

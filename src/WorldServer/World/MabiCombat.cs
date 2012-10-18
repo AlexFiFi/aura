@@ -6,6 +6,7 @@ using Common.Constants;
 using Common.Tools;
 using Common.World;
 using Common.Events;
+using System.Collections.Generic;
 
 namespace World.World
 {
@@ -17,268 +18,50 @@ namespace World.World
 		private enum CombatStunNormalTarget { VeryFast = 1200, Fast = 1700, Normal = 2000, Slow = 2800, VerySlow = 3000 }
 
 		private enum CombatStunKnockbackSelf { VeryFast = 1200, Fast = 2500, Normal = 2500, Slow = 2500, VerySlow = 2500 }
-		private enum CombatStunKnockbackTarget { VeryFast = 2500, Fast = 2000, Normal = 2000, Slow = 2800, VerySlow = 3000 }
+		private enum CombatStunKnockbackTarget { VeryFast = 1500, Fast = 2000, Normal = 2000, Slow = 2800, VerySlow = 3000 }
 
-		private static uint _actionId = 1;
-
-		public static AttackResult Attack(MabiCreature source, MabiCreature target)
+		public static SkillResult MeleeAttack(MabiCreature source, MabiEntity targetEntity)
 		{
 			if (source.IsStunned())
-				return AttackResult.Stunned;
+				return SkillResult.AttackStunned;
 
-			var skillId = (SkillConst)(source.ActiveSkillId < 1 ? source.RaceInfo.AttackSkill : source.ActiveSkillId);
-			var skill = source.GetSkill(skillId);
-			if (skill == null)
+			MabiCreature target = targetEntity as MabiCreature;
+			if (target == null)
+				return SkillResult.None;
+
+			if (!WorldManager.InRange(source, target, (uint)(source.RaceInfo.AttackRange + 50)))
+				return SkillResult.AttackOutOfRange;
+
+			MabiSkill skill;
+
+			if (source.ActiveSkillId != 0)
+				skill = source.GetSkill(source.ActiveSkillId);
+			else
+				skill = source.GetSkill(SkillConst.MeleeCombatMastery);
+
+			var handler = Skills.GetSkillUsedHandler((SkillConst)skill.Info.Id);
+
+			if (handler == null)
 			{
-				Logger.Warning("What happened here? Missing skill '" + skillId.ToString() + "'.");
-				return AttackResult.None;
+				Logger.Unimplemented("Missing skill: " + skill.Info.Id);
+				return SkillResult.None;
 			}
 
 			var rightHand = source.GetItemInPocket(Pocket.LeftHand1);
 			var leftHand = source.GetItemInPocket(Pocket.RightHand1);
-			var magazine = source.GetItemInPocket(Pocket.Arrow1);
 
 			if (leftHand != null && (leftHand.Type != ItemType.Weapon && leftHand.Type != ItemType.Weapon2))
 				leftHand = null;
 
 			var sourceAction = new CombatAction();
 			sourceAction.ActionType = CombatActionType.Hit;
-			sourceAction.SkillId = skillId;
+			sourceAction.SkillId = (SkillConst)skill.Info.Id;
 			sourceAction.Creature = source;
 			sourceAction.TargetId = (target != null ? target.Id : 0);
 			sourceAction.DualWield = (rightHand != null && leftHand != null);
 
-			switch (skillId)
-			{
-				case SkillConst.MeleeCombatMastery: return Skill_CombatMastery(source, target, sourceAction, rightHand, leftHand, skill);
-				case SkillConst.Smash: return Skill_Smash(source, target, sourceAction, rightHand, leftHand, skill);
+			return handler(source, target, sourceAction, skill, 0, 0);
 
-				default:
-					Logger.Warning("Unsupported skill '" + skillId.ToString() + "'.");
-					return AttackResult.None;
-			}
-		}
-
-		private static AttackResult Skill_CombatMastery(MabiCreature source, MabiCreature target, CombatAction sourceAction, MabiItem rightHand, MabiItem leftHand, MabiSkill skill)
-		{
-			if (target == null)
-				return AttackResult.None;
-
-			if (!WorldManager.InRange(source, target, (uint)(source.RaceInfo.AttackRange + 50)))
-				return AttackResult.OutOfRange;
-
-			uint prevCombatActionId = 0;
-			var rnd = RandomProvider.Get();
-
-			source.StopMove();
-			target.StopMove();
-
-			// Aggro test
-			if (target.Target != source)
-			{
-				target.Target = source;
-				target.BattleState = 1;
-				WorldManager.Instance.CreatureChangeStance(target, 0);
-			}
-
-			// Do this for two weapons, break if there is no second hit.
-			for (int i = 1; i <= 2; ++i)
-			{
-				var combatArgs = new CombatEventArgs();
-				combatArgs.CombatActionId = _actionId++;
-				combatArgs.PrevCombatActionId = prevCombatActionId;
-				combatArgs.Hit = (byte)i;
-				combatArgs.HitsMax = (byte)(sourceAction.DualWield ? 2 : 1);
-
-				var targetAction = new CombatAction();
-				targetAction.Creature = target;
-				targetAction.Enemy = source;
-				targetAction.ActionType = CombatActionType.TakeDamage;
-				targetAction.SkillId = sourceAction.SkillId;
-
-				var weapon = (i == 1 ? rightHand : leftHand);
-
-				var rndBalance = source.GetBalance();
-				rndBalance += ((1.0f - rndBalance) - ((1.0f - rndBalance) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
-
-				float damage;
-				if (weapon != null)
-				{
-					damage = weapon.OptionInfo.AttackMin + (weapon.OptionInfo.AttackMax - weapon.OptionInfo.AttackMin) * rndBalance;
-				}
-				else
-				{
-					damage = source.RaceInfo.AttackMin + (source.RaceInfo.AttackMax - source.RaceInfo.AttackMin) * rndBalance;
-				}
-
-				// Crit
-				if (rnd.NextDouble() < source.GetCritical())
-				{
-					damage *= 1.5f; // R1
-					targetAction.Critical = true;
-				}
-
-				if (target.ActiveSkillId == (ushort)SkillConst.Defense)
-				{
-					damage *= 0.1f;
-					targetAction.ActionType |= CombatActionType.Defense;
-				}
-
-				targetAction.CombatDamage = damage;
-				target.TakeDamage(damage);
-				targetAction.Finish = target.IsDead();
-				sourceAction.Finish = target.IsDead();
-				// TODO: ... this looks redundant, what did I do here oO
-				if (target.IsDead())
-				{
-					targetAction.Finish = true;
-					sourceAction.Finish = true;
-				}
-
-				// Stuns
-				if (!targetAction.ActionType.HasFlag(CombatActionType.Defense))
-				{
-					var atkSpeed = (weapon == null ? source.RaceInfo.AttackSpeed : weapon.OptionInfo.AttackSpeed);
-					var downHitCount = (weapon == null ? source.RaceInfo.KnockCount : weapon.OptionInfo.KnockCount);
-					var targetStunTime = CalculateStunTarget(atkSpeed, targetAction.IsKnock());
-
-					sourceAction.StunTime = CalculateStunSource(atkSpeed, targetAction.IsKnock());
-					targetAction.StunTime = targetStunTime;
-
-					source.AddStun(sourceAction.StunTime, true);
-					target.AddStun(targetAction.StunTime, false);
-
-					// Knockback/down
-					if (target.Stun > (downHitCount * targetStunTime))
-					{
-						targetAction.Knockback = true;
-						sourceAction.Knockback = true;
-						sourceAction.StunTime = CalculateStunSource(atkSpeed, true);
-						targetAction.StunTime = CalculateStunTarget(atkSpeed, true);
-						source.AddStun(sourceAction.StunTime, true);
-						target.AddStun(targetAction.StunTime, true);
-					}
-				}
-				else
-				{
-					sourceAction.StunTime = 2500;
-					targetAction.StunTime = 1000;
-					source.AddStun(sourceAction.StunTime, true);
-					target.AddStun(targetAction.StunTime, true);
-					targetAction.SkillId = SkillConst.Defense;
-				}
-
-				if (targetAction.IsKnock())
-				{
-					targetAction.OldPosition = target.GetPosition().Copy();
-					var pos = CalculateKnockbackPos(source, target, 375);
-					target.SetPosition(pos.X, pos.Y);
-					targetAction.ActionType &= ~CombatActionType.Defense;
-				}
-
-				combatArgs.CombatActions.Add(sourceAction);
-				combatArgs.CombatActions.Add(targetAction);
-
-				if (targetAction.IsKnock())
-				{
-					combatArgs.HitsMax = combatArgs.Hit;
-				}
-
-				WorldManager.Instance.CreatureCombatAction(source, target, combatArgs);
-				WorldManager.Instance.CreatureCombatSubmit(source, combatArgs.CombatActionId);
-
-				WorldManager.Instance.CreatureStatsUpdate(source);
-				WorldManager.Instance.CreatureStatsUpdate(target);
-
-				if (combatArgs.Hit == combatArgs.HitsMax)
-					break;
-
-				prevCombatActionId = combatArgs.CombatActionId;
-			}
-
-			return AttackResult.Okay;
-		}
-
-		private static AttackResult Skill_Smash(MabiCreature source, MabiCreature target, CombatAction sourceAction, MabiItem rightHand, MabiItem leftHand, MabiSkill skill)
-		{
-			if (target == null)
-				return AttackResult.None;
-
-			if (!WorldManager.InRange(source, target, (uint)(source.RaceInfo.AttackRange + 50)))
-				return AttackResult.OutOfRange;
-
-			var rnd = RandomProvider.Get();
-
-			source.StopMove();
-			target.StopMove();
-
-			if (target.Target != source)
-			{
-				target.Target = source;
-				target.BattleState = 1;
-				WorldManager.Instance.CreatureChangeStance(target, 0);
-			}
-
-			var combatArgs = new CombatEventArgs();
-			combatArgs.CombatActionId = _actionId++;
-
-			var targetAction = new CombatAction();
-			targetAction.Creature = target;
-			targetAction.Enemy = source;
-			targetAction.ActionType = CombatActionType.TakeDamage;
-			targetAction.SkillId = sourceAction.SkillId;
-
-			var rndBalance = source.GetBalance();
-			rndBalance *= ((1.0f - rndBalance) - ((1.0f - rndBalance) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
-
-			float damage;
-			if (rightHand != null)
-			{
-				damage = rightHand.OptionInfo.AttackMin + (rightHand.OptionInfo.AttackMax - rightHand.OptionInfo.AttackMin) * rndBalance;
-				if (leftHand != null)
-					damage += leftHand.OptionInfo.AttackMin + (leftHand.OptionInfo.AttackMax - leftHand.OptionInfo.AttackMin) * rndBalance;
-			}
-			else
-			{
-				damage = 25 + 5 * rndBalance;
-			}
-
-			damage *= skill.RankInfo.Var1 / 100;
-
-			// Crit
-			if (rnd.NextDouble() < source.GetCritical())
-			{
-				damage *= 1.5f; // R1
-				targetAction.Critical = true;
-			}
-
-			targetAction.CombatDamage = damage;
-			target.TakeDamage(damage);
-			targetAction.Finish = sourceAction.Finish = target.IsDead();
-			if (target.IsDead())
-			{
-				targetAction.Finish = sourceAction.Finish = true;
-			}
-
-			targetAction.Knockdown = sourceAction.Knockdown = true;
-			targetAction.StunTime = sourceAction.StunTime = 3000;
-			source.AddStun(sourceAction.StunTime, true);
-			target.AddStun(targetAction.StunTime, true);
-
-			targetAction.OldPosition = target.GetPosition().Copy();
-			var pos = CalculateKnockbackPos(source, target, 375);
-			target.SetPosition(pos.X, pos.Y);
-
-			combatArgs.CombatActions.Add(sourceAction);
-			combatArgs.CombatActions.Add(targetAction);
-
-			WorldManager.Instance.CreatureCombatAction(source, target, combatArgs);
-			WorldManager.Instance.CreatureCombatSubmit(source, combatArgs.CombatActionId);
-
-			WorldManager.Instance.CreatureStatsUpdate(source);
-			WorldManager.Instance.CreatureStatsUpdate(target);
-
-			return AttackResult.Okay;
 		}
 
 		// Old ISNOGI code, that was extended till it got out of hand xD
@@ -567,7 +350,7 @@ namespace World.World
 		//    return AttackResult.Okay;
 		//}
 
-		private static ushort CalculateStunSource(int weaponSpeed, bool knockback)
+		public static ushort CalculateStunSource(int weaponSpeed, bool knockback)
 		{
 			if (knockback)
 			{
@@ -593,7 +376,7 @@ namespace World.World
 			}
 		}
 
-		private static ushort CalculateStunTarget(int weaponSpeed, bool knockback)
+		public static ushort CalculateStunTarget(int weaponSpeed, bool knockback)
 		{
 			if (knockback)
 			{
@@ -619,12 +402,12 @@ namespace World.World
 			}
 		}
 
-		private static MabiVertex CalculateKnockbackPos(MabiCreature source, MabiCreature target, uint distance)
+		public static MabiVertex CalculateKnockbackPos(MabiCreature source, MabiCreature target, uint distance)
 		{
 			return CalculateKnockbackPos(source.GetPosition(), target.GetPosition(), distance);
 		}
 
-		private static MabiVertex CalculateKnockbackPos(MabiVertex source, MabiVertex target, uint distance)
+		public static MabiVertex CalculateKnockbackPos(MabiVertex source, MabiVertex target, uint distance)
 		{
 			if (source.Equals(target))
 				return new MabiVertex(source.X + 1, source.Y + 1);

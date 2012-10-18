@@ -1,4 +1,4 @@
-// Aura
+﻿// Aura
 // Database file
 // 
 // Structure:
@@ -50,7 +50,6 @@
 //---------------------------------------------------------------------------
 20001,"Defense",10010
 20002,"Smash",10011
-20003,"Counterattack",10012
 20003,"Counterattack",10012
 20004,"Natural Shield",0
 20005,"Heavy Stander",0

@@ -54,9 +54,9 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.DeadMenu, HandleDeadMenu);
 
 			this.RegisterPacketHandler(Op.SkillPrepare, HandleSkillPrepare);
-			this.RegisterPacketHandler(Op.SkillPrepared, HandleSkillPrepared);
+			this.RegisterPacketHandler(Op.SkillReady, HandleSkillReady);
 			this.RegisterPacketHandler(Op.SkillUse, HandleSkillUse);
-			this.RegisterPacketHandler(Op.SkillUsed, HandleSkillUsed);
+			this.RegisterPacketHandler(Op.SkillComplete, HandleSkillComplete);
 			this.RegisterPacketHandler(Op.SkillCancel, HandleSkillCancel);
 			this.RegisterPacketHandler(Op.SkillStart, HandleSkillStart);
 			this.RegisterPacketHandler(Op.SkillStop, HandleSkillStop);
@@ -1167,26 +1167,21 @@ namespace World.Network
 
 			uint castTime = skill.RankInfo.LoadTime;
 
-			switch ((SkillConst)skillId)
+			SkillPrepareHandler handler = Skills.GetSkillPrepareHandler((SkillConst)skillId);
+
+			SkillResult res = SkillResult.Okay;
+
+			if (handler != null)
+				res = handler(creature, skill, parameters);
+
+			if ((res & SkillResult.Okay) == 0)
 			{
-				case SkillConst.Healing:
-					creature.Mana -= skill.RankInfo.ManaCost;
-					WorldManager.Instance.CreatureStatsUpdate(creature);
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString("healing"), SendTargets.Range, creature);
-					break;
-
-				case SkillConst.Windmill:
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString(""), SendTargets.Range, creature);
-					break;
-
-				case SkillConst.HiddenResurrection:
-					client.Send(new MabiPacket(Op.SkillPrepared, creature.Id).PutShort(skillId).PutString(parameters));
-					return;
-
-				default:
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString("flashing"), SendTargets.Range, creature);
-					break;
+				// TODO: barf?
+				return;
 			}
+
+			if ((res & SkillResult.SuppressFlash) == 0)
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString("flashing"), SendTargets.Range, creature);
 
 			var r = new MabiPacket(Op.SkillPrepare, creature.Id);
 			r.PutShort(skillId);
@@ -1199,7 +1194,7 @@ namespace World.Network
 			client.Send(r);
 		}
 
-		private void HandleSkillPrepared(WorldClient client, MabiPacket packet)
+		private void HandleSkillReady(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
@@ -1221,19 +1216,18 @@ namespace World.Network
 
 			client.Send(new MabiPacket(Op.SkillStackSet, creature.Id).PutBytes(creature.ActiveSkillStacks, creature.ActiveSkillStacks).PutShort(creature.ActiveSkillId));
 
-			switch ((SkillConst)skillId)
-			{
-				case SkillConst.Healing:
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(12).PutString("healing"), SendTargets.Range, creature);
-					break;
+			SkillResult res = SkillResult.Okay;
+			var handler = Skills.GetSkillReadyHandler((SkillConst)skillId);
+			if (handler != null)
+				res = handler(creature, skill, parameters);
 
-				case SkillConst.FinalHit:
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(69).PutBytes(1, 1), SendTargets.Range, creature);
-					break;
+			if ((res & SkillResult.Okay) == 0)
+			{
+				// TODO: barf?
+				return;
 			}
 
-			var r = new MabiPacket(Op.SkillPrepared, creature.Id);
+			var r = new MabiPacket(Op.SkillReady, creature.Id);
 			r.PutShort(creature.ActiveSkillId);
 			if (parameters.Length > 0)
 				r.PutString(parameters);
@@ -1258,41 +1252,13 @@ namespace World.Network
 				return;
 			}
 
-			switch ((SkillConst)skillId)
-			{
-				case SkillConst.Healing:
-					creature.Life += skill.RankInfo.Var1;
-					WorldManager.Instance.CreatureStatsUpdate(creature);
+			SkillResult res = SkillResult.Okay;
+			SkillUseHandler handler = Skills.GetSkillUsedHandler((SkillConst)skill.Info.Id);
+			if (handler != null)
+				res = handler(creature, WorldManager.Instance.GetCreatureById(targetId), null, skill, unk1, unk2);
 
-					creature.ActiveSkillStacks--;
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(14).PutString("healing").PutLong(targetId), SendTargets.Range, creature);
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
-					client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(creature.ActiveSkillStacks, 1, 0).PutShort(skillId));
-					break;
-
-				case SkillConst.Windmill:
-					WorldManager.Instance.CreatureUseMotion(creature, 8, 4);
-
-					if (MabiCombat.Attack(creature, null) != AttackResult.Okay)
-					{
-						client.Send(PacketCreator.Notice(creature, "Unable to use when there is no target.", NoticeType.MIDDLE));
-						client.Send(new MabiPacket(Op.SkillUnkown1, creature.Id));
-						return;
-					}
-					goto default;
-
-				case SkillConst.HiddenResurrection:
-					creature.ActiveSkillTarget = WorldManager.Instance.GetCreatureById(targetId);
-					if (creature.ActiveSkillTarget == null)
-						return;
-
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(14).PutString("healing_phoenix").PutLong(targetId), SendTargets.Range, creature);
-					break;
-
-				default:
-					client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(--creature.ActiveSkillStacks, 1, 0).PutShort(skillId));
-					break;
-			}
+			if ((res & SkillResult.Okay) == 0)
+				return;
 
 			var r = new MabiPacket(Op.SkillUse, creature.Id);
 			r.PutShort(skillId);
@@ -1302,7 +1268,7 @@ namespace World.Network
 			client.Send(r);
 		}
 
-		private void HandleSkillUsed(WorldClient client, MabiPacket packet)
+		private void HandleSkillComplete(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
@@ -1317,38 +1283,26 @@ namespace World.Network
 				return;
 			}
 
-			switch ((SkillConst)skillId)
-			{
-				case SkillConst.HiddenResurrection:
-					if (creature.ActiveSkillItem == null || creature.ActiveSkillItem.Info.Amount < 1)
-						return;
+			SkillResult res = SkillResult.Okay;
+			SkillCompletedHandler handler = Skills.GetSkillCompletedHandler((SkillConst)skill.Info.Id);
+			if (handler != null)
+				res = handler(creature, skill, "");
 
-					if (creature.ActiveSkillTarget.IsDead())
-					{
-						creature.ActiveSkillItem.Info.Amount--;
-						creature.Client.Send(PacketCreator.ItemAmount(creature, creature.ActiveSkillItem));
+			if ((res & SkillResult.Okay) == 0)
+				return;
 
-						WorldManager.Instance.CreatureRevive(creature.ActiveSkillTarget);
-
-						client.Send(new MabiPacket(Op.SkillUsed, creature.Id).PutShort(skillId).PutLong(creature.ActiveSkillTarget.Id).PutInts(0, 1));
-					}
-
-					creature.ActiveSkillId = 0;
-					creature.ActiveSkillTarget = null;
-					return;
-			}
-
-			var r = new MabiPacket(Op.SkillUsed, creature.Id);
+			var r = new MabiPacket(Op.SkillComplete, creature.Id);
 			r.PutShort(skillId);
 			client.Send(r);
 
 			if (creature.ActiveSkillStacks > 0 && skill.RankInfo.Stack > 1)
 			{
-				client.Send(new MabiPacket(Op.SkillPrepared, creature.Id).PutShort(creature.ActiveSkillId));
+				client.Send(new MabiPacket(Op.SkillReady, creature.Id).PutShort(creature.ActiveSkillId));
 			}
 			else
 			{
 				creature.ActiveSkillId = 0;
+				creature.ActiveSkillTarget = null;
 			}
 		}
 
@@ -1376,23 +1330,20 @@ namespace World.Network
 				return;
 
 			var skillId = packet.GetShort();
+
+			var skill = creature.GetSkill(skillId);
+
 			var parameters = "";
 			if (packet.GetElementType() == MabiPacket.ElementType.String)
 				parameters = packet.GetString();
 
-			switch ((SkillConst)skillId)
-			{
-				case SkillConst.ManaShield:
-					creature.Conditions.A |= CreatureConditionA.ManaShield;
-					WorldManager.Instance.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(121), SendTargets.Range, creature);
-					break;
+			SkillResult res = SkillResult.Okay;
+			SkillStartHandler handler = Skills.GetSkillStartHandler((SkillConst)skillId);
+			if (handler != null)
+				res = handler(creature, skill, parameters);
 
-				case SkillConst.Rest:
-					creature.Status |= CreatureStates.SitDown;
-					WorldManager.Instance.CreatureSitDown(creature);
-					break;
-			}
+			if ((res & SkillResult.Okay) == 0)
+				return;
 
 			var r = new MabiPacket(Op.SkillStart, creature.Id);
 			r.PutShort(skillId);
@@ -1407,15 +1358,20 @@ namespace World.Network
 				return;
 
 			var skillId = packet.GetShort();
-			//var parameters = packet.GetByte();
 
-			switch ((SkillConst)skillId)
-			{
-				case SkillConst.Rest:
-					creature.Status &= ~CreatureStates.SitDown;
-					WorldManager.Instance.CreatureStandUp(creature);
-					break;
-			}
+			var skill = creature.GetSkill(skillId);
+
+			var parameters = "";
+			if (packet.GetElementType() == MabiPacket.ElementType.String)
+				parameters = packet.GetString();
+
+			SkillResult res = SkillResult.Okay;
+			SkillStopHandler handler = Skills.GetSkillStopHandler((SkillConst)skillId);
+			if (handler != null)
+				res = handler(creature, skill, parameters);
+
+			if ((res & SkillResult.Okay) == 0)
+				return;
 
 			var r = new MabiPacket(Op.SkillStop, creature.Id);
 			r.PutShort(skillId);
@@ -1811,21 +1767,21 @@ namespace World.Network
 
 			// TODO: Check if mount is able to attack anything? (this is done with a status)
 
-			var attackResult = AttackResult.None;
+			var attackResult = SkillResult.None;
 
 			var target = WorldManager.Instance.GetCreatureById(packet.GetLong());
 			if (target != null)
 			{
-				attackResult = MabiCombat.Attack(creature, target);
+				attackResult = MabiCombat.MeleeAttack(creature, target);
 			}
 
 			var answer = new MabiPacket(Op.CombatAttackR, creature.Id);
 
-			if (attackResult == AttackResult.Okay)
+			if (attackResult == SkillResult.Okay)
 			{
 				answer.PutByte(1);
 			}
-			else if (attackResult == AttackResult.OutOfRange)
+			else if (attackResult == SkillResult.AttackOutOfRange)
 			{
 				var creaturePos = creature.GetPosition();
 				var targetPos = target.GetPosition();
@@ -1841,7 +1797,7 @@ namespace World.Network
 				answer.PutInt(targetPos.Y);
 				answer.PutString("");
 			}
-			else if (attackResult == AttackResult.None)
+			else if (attackResult == SkillResult.None)
 			{
 				client.Send(PacketCreator.SystemMessage(creature, "Something went wrong here, sry =/"));
 			}
