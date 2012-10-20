@@ -13,7 +13,7 @@ namespace Common.Data
 	{
 		public byte Age;
 		public ushort Race;
-		public Dictionary<string, byte> BaseStats = new Dictionary<string, byte>();
+		public byte AP, Life, Mana, Stamina, Str, Int, Dex, Will, Luck;
 	}
 
 	public class StatsBaseDb : DataManager<StatsBaseInfo>
@@ -41,15 +41,15 @@ namespace Common.Data
 		{
 			info.Age = Convert.ToByte(csv[0]);
 			info.Race = Convert.ToUInt16(csv[1]);
-			info.BaseStats["AP"] = Convert.ToByte(csv[2]);
-			info.BaseStats["Life"] = Convert.ToByte(csv[3]);
-			info.BaseStats["Mana"] = Convert.ToByte(csv[4]);
-			info.BaseStats["Stamina"] = Convert.ToByte(csv[5]);
-			info.BaseStats["Str"] = Convert.ToByte(csv[6]);
-			info.BaseStats["Int"] = Convert.ToByte(csv[7]);
-			info.BaseStats["Dex"] = Convert.ToByte(csv[8]);
-			info.BaseStats["Will"] = Convert.ToByte(csv[9]);
-			info.BaseStats["Luck"] = Convert.ToByte(csv[10]);
+			info.AP = Convert.ToByte(csv[2]);
+			info.Life = Convert.ToByte(csv[3]);
+			info.Mana = Convert.ToByte(csv[4]);
+			info.Stamina = Convert.ToByte(csv[5]);
+			info.Str = Convert.ToByte(csv[6]);
+			info.Int = Convert.ToByte(csv[7]);
+			info.Dex = Convert.ToByte(csv[8]);
+			info.Will = Convert.ToByte(csv[9]);
+			info.Luck = Convert.ToByte(csv[10]);
 		}
 	}
 }

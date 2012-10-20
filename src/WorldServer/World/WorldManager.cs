@@ -774,10 +774,50 @@ namespace World.World
 		public void CreatureLevelsUp(object sender, EntityEventArgs e)
 		{
 			var creature = e.Entity as MabiCreature;
+
 			var p = new MabiPacket(Op.LevelUp, creature.Id);
 			p.PutShort((ushort)creature.Level);
 
 			this.Broadcast(p, SendTargets.Range, creature);
+
+			var publ = new MabiPacket(Op.StatUpdatePublic, creature.Id);
+			publ.PutByte(4);
+			publ.PutInt(1);
+			publ.PutInt((uint)Stat.LifeMax);
+			publ.PutFloat(creature.LifeMax);
+			for (int i = 0; i < 7; ++i)
+				publ.PutInt(0);
+
+			this.Broadcast(publ, SendTargets.Range, creature);
+
+			if (creature.Client != null)
+			{
+				var priv = new MabiPacket(Op.StatUpdatePrivate, creature.Id);
+				priv.PutByte(3);
+				priv.PutInt(9);
+				priv.PutInt((uint)Stat.AbilityPoints);
+				priv.PutInt(creature.AbilityPoints);
+				priv.PutInt((uint)Stat.LifeMax);
+				priv.PutFloat(creature.LifeMax);
+				priv.PutInt((uint)Stat.ManaMax);
+				priv.PutFloat(creature.ManaMax);
+				priv.PutInt((uint)Stat.StaminaMax);
+				priv.PutFloat(creature.StaminaMax);
+				priv.PutInt((uint)Stat.Str);
+				priv.PutFloat(creature.StrBase);
+				priv.PutInt((uint)Stat.Int);
+				priv.PutFloat(creature.IntBase);
+				priv.PutInt((uint)Stat.Dex);
+				priv.PutFloat(creature.DexBase);
+				priv.PutInt((uint)Stat.Will);
+				priv.PutFloat(creature.WillBase);
+				priv.PutInt((uint)Stat.Luck);
+				priv.PutFloat(creature.LuckBase);
+				for (int i = 0; i < 7; ++i)
+					priv.PutInt(0);
+
+				creature.Client.Send(priv);
+			}
 		}
 
 		public void Effect(MabiCreature creature, uint effect, uint region, uint x, uint y)
@@ -941,14 +981,14 @@ namespace World.World
 					}
 
 					var pos = action.Creature.GetPosition();
-					MabiCreature Enemy = action.Target as MabiCreature;
-					var enemyPos = Enemy.GetPosition();
+					var enemy = action.Target as MabiCreature;
+					var enemyPos = enemy.GetPosition();
 
 					if (action.ActionType.HasFlag(CombatActionType.Defense))
 					{
 						WorldManager.Instance.CreatureSkillUseCancel(action.Creature);
 
-						actionPacket.PutLong(Enemy.Id);
+						actionPacket.PutLong(enemy.Id);
 						actionPacket.PutInt(0);
 						actionPacket.PutByte(0);
 						actionPacket.PutByte(1);
@@ -971,23 +1011,23 @@ namespace World.World
 
 					actionPacket.PutByte(action.GetDefenseOption());
 					actionPacket.PutInt(0);
-					actionPacket.PutLong(Enemy.Id);
+					actionPacket.PutLong(enemy.Id);
 
 					if (action.Finish)
 					{
 						// Exp
-						if (Enemy.LevelingEnabled)
+						if (enemy.LevelingEnabled)
 						{
 							// Give exp
-							var exp = action.Creature.BattleExp;
-							Enemy.GiveExp(exp);
+							var exp = action.Creature.BattleExp * WorldConf.ExpRate;
+							enemy.GiveExp((ulong)exp);
 
 							// If the creature is controlled by a client
 							// it probably wants to get some information.
-							if (Enemy.Client != null)
+							if (enemy.Client != null)
 							{
-								var client = Enemy.Client;
-								client.Send(PacketCreator.CombatMessage(Enemy, "+" + exp.ToString() + " EXP"));
+								var client = enemy.Client;
+								client.Send(PacketCreator.CombatMessage(enemy, "+" + exp.ToString() + " EXP"));
 							}
 						}
 
@@ -1032,11 +1072,11 @@ namespace World.World
 
 						// Set finisher?
 						var finishPacket = new MabiPacket(Op.CombatSetFinisher, action.Creature.Id);
-						finishPacket.PutLong(Enemy.Id);
+						finishPacket.PutLong(enemy.Id);
 						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
 
 						// Clear target
-						WorldManager.Instance.CreatureSetTarget(Enemy, null);
+						WorldManager.Instance.CreatureSetTarget(enemy, null);
 
 						// Finish this finisher part?
 						finishPacket = new MabiPacket(Op.CombatSetFinisher2, action.Creature.Id);

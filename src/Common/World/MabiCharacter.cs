@@ -33,20 +33,20 @@ namespace Common.World
 				return;
 			}
 
-			this.LifeMaxBase = ageInfo.BaseStats["Life"];
-			this.Life = ageInfo.BaseStats["Life"];
+			this.LifeMaxBase = ageInfo.Life;
+			this.Life = ageInfo.Life;
 
-			this.ManaMaxBase = ageInfo.BaseStats["Mana"];
-			this.Mana = ageInfo.BaseStats["Mana"];
+			this.ManaMaxBase = ageInfo.Mana;
+			this.Mana = ageInfo.Mana;
 
-			this.StaminaMaxBase = ageInfo.BaseStats["Stamina"];
-			this.Stamina = ageInfo.BaseStats["Stamina"];
+			this.StaminaMaxBase = ageInfo.Stamina;
+			this.Stamina = ageInfo.Stamina;
 
-			this.StrBase = ageInfo.BaseStats["Str"];
-			this.IntBase = ageInfo.BaseStats["Int"];
-			this.DexBase = ageInfo.BaseStats["Dex"];
-			this.WillBase = ageInfo.BaseStats["Will"];
-			this.LuckBase = ageInfo.BaseStats["Luck"];
+			this.StrBase = ageInfo.Str;
+			this.IntBase = ageInfo.Int;
+			this.DexBase = ageInfo.Dex;
+			this.WillBase = ageInfo.Will;
+			this.LuckBase = ageInfo.Luck;
 		}
 	}
 }

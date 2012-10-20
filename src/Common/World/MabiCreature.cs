@@ -71,8 +71,8 @@ namespace Common.World
 
 		public MabiCreature Owner, Vehicle;
 
-		public CreatureStates Status;
-		public CreatureStatesEx StatusEx;
+		public CreatureStates State;
+		public CreatureStatesEx StateEx;
 		public CreatureCondition Conditions;
 		public CreatureCondition PrevConditions;
 
@@ -866,14 +866,14 @@ namespace Common.World
 
 		public virtual void Die()
 		{
-			this.Status |= CreatureStates.Dead;
+			this.State |= CreatureStates.Dead;
 		}
 
 		public void Revive()
 		{
 			this.Injuries = 0;
 			this.Life = this.LifeInjured / 2;
-			this.Status &= ~CreatureStates.Dead;
+			this.State &= ~CreatureStates.Dead;
 		}
 
 		public void GiveExp(ulong val)
@@ -886,12 +886,21 @@ namespace Common.World
 			var max = ExpTable.GetMaxLevel();
 			var lvl = this.Level;
 
-			// TODO: var levelStats = MabiData.StatsLevel(this.Age, this.Race);
+			var levelStats = MabiData.StatsLevelUpDb.Find(this.Race, this.Age);
 
 			while (this.Level < max && this.Experience >= ExpTable.GetTotalForNextLevel(this.Level))
 			{
 				this.Level++;
-				this.AbilityPoints++;
+
+				this.AbilityPoints += levelStats.AP;
+				this.LifeMaxBase += levelStats.Life;
+				this.ManaMaxBase += levelStats.Mana;
+				this.StaminaMaxBase += levelStats.Stamina;
+				this.StrBase += levelStats.Str;
+				this.IntBase += levelStats.Int;
+				this.DexBase += levelStats.Dex;
+				this.WillBase += levelStats.Will;
+				this.LuckBase += levelStats.Luck;
 			}
 
 			if (lvl < this.Level)
@@ -904,7 +913,7 @@ namespace Common.World
 
 		public bool IsDead()
 		{
-			return this.Status.HasFlag(CreatureStates.Dead);
+			return this.State.HasFlag(CreatureStates.Dead);
 		}
 
 		public void AddPublicStatData(MabiPacket packet)
@@ -1281,10 +1290,10 @@ namespace Common.World
 			packet.PutByte(Eye);
 			packet.PutByte(EyeColor);
 			packet.PutByte(Lip);
-			packet.PutInt((uint)Status);
+			packet.PutInt((uint)State);
 			if (attr == 5)
 			{
-				packet.PutInt((uint)StatusEx);
+				packet.PutInt((uint)StateEx);
 			}
 			packet.PutFloat(this.Height);
 			packet.PutFloat(this.Fat);

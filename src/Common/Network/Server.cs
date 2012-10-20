@@ -119,6 +119,9 @@ namespace Common.Network
 					MabiData.StatsBaseDb.LoadFromCsv(dataPath + "/db/stats_base.txt", reload);
 					Logger.Info("Done loading " + MabiData.StatsBaseDb.Entries.Count + " entries from stats_base.txt.");
 
+					MabiData.StatsLevelUpDb.LoadFromCsv(dataPath + "/db/stats_levelup.txt", reload);
+					Logger.Info("Done loading " + MabiData.StatsLevelUpDb.Entries.Count + " entries from stats_levelup.txt.");
+
 					MabiData.MotionDb.LoadFromCsv(dataPath + "/db/motions.txt", reload);
 					Logger.Info("Done loading " + MabiData.MotionDb.Entries.Count + " entries from motions.txt.");
 

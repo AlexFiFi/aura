@@ -107,6 +107,7 @@ namespace World.World
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
+			this.AddCommand("reloadconf", Authority.Admin, Command_reloadconf);
 
 			// Crashes the server, to simulate "exceptional" conditions.
 			this.AddCommand("badbehavior", Authority.Admin, Command_crash);
@@ -679,6 +680,17 @@ namespace World.World
 			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Data, true);
 
 			this.Command_reloadnpcs(client, creature, null, null);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_reloadconf(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			client.Send(PacketCreator.ServerMessage(creature, "Reloading conf..."));
+
+			WorldConf.Load(new string[] { });
+
+			client.Send(PacketCreator.ServerMessage(creature, "done."));
 
 			return CommandResult.Okay;
 		}

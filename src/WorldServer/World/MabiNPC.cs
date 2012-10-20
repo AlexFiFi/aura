@@ -38,9 +38,9 @@ namespace World.World
 			this.LifeMaxBase = 1000;
 			this.Life = 1000;
 
-			this.Status |= CreatureStates.GoodNpc;
-			this.Status |= CreatureStates.NamedNpc;
-			this.Status |= CreatureStates.Npc;
+			this.State |= CreatureStates.GoodNpc;
+			this.State |= CreatureStates.NamedNpc;
+			this.State |= CreatureStates.Npc;
 		}
 
 		public override EntityType EntityType

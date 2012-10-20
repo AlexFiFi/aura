@@ -497,7 +497,7 @@ namespace Common.Database
 					character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
 					character.DeletionTime = reader["deletionTime"] as DateTime? ?? DateTime.MinValue;
-					character.Status = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
+					character.State = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
 
 					character.LoadDefault();
 				}
@@ -776,7 +776,7 @@ namespace Common.Database
 				mc.Parameters.AddWithValue("@eyeType", character.Eye);
 				mc.Parameters.AddWithValue("@eyeColor", character.EyeColor);
 				mc.Parameters.AddWithValue("@mouthType", character.Lip);
-				mc.Parameters.AddWithValue("@status", (uint)character.Status);
+				mc.Parameters.AddWithValue("@status", (uint)character.State);
 				mc.Parameters.AddWithValue("@height", character.Height);
 				mc.Parameters.AddWithValue("@fatness", character.Fat);
 				mc.Parameters.AddWithValue("@upper", character.Upper);

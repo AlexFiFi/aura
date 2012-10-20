@@ -61,7 +61,6 @@ namespace World.World
 			sourceAction.DualWield = (rightHand != null && leftHand != null);
 
 			return handler(source, target, sourceAction, skill, 0, 0);
-
 		}
 
 		// Old ISNOGI code, that was extended till it got out of hand xD

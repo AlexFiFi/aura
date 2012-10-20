@@ -238,7 +238,7 @@ namespace World.Scripting
 				monster.Race = monsterInfo.Race;
 				monster.BattleExp = monsterInfo.Exp;
 				monster.Direction = (byte)rand.Next(256);
-				monster.Status &= ~CreatureStates.GoodNpc; // Use race default?
+				monster.State &= ~CreatureStates.GoodNpc; // Use race default?
 				monster.GoldMin = monsterInfo.GoldMin;
 				monster.GoldMax = monsterInfo.GoldMax;
 				monster.Drops = monsterInfo.Drops;

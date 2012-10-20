@@ -236,7 +236,6 @@ namespace World.World
 
 		public static SkillResult WindmillUse(MabiCreature source, MabiEntity targetEntity, SkillAction skillSourceAction, MabiSkill skill, uint var1, uint var2)
 		{
-
 			var creaturesInRange = WorldManager.Instance.GetCreaturesInRange(source, 600); //Rank 1
 
 			// TODO: Filter out non-attackables

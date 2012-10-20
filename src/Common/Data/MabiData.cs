@@ -15,6 +15,7 @@ namespace Common.Data
 		public static ItemDb ItemDb = new ItemDb();
 		public static RaceDb RaceDb = new RaceDb();
 		public static StatsBaseDb StatsBaseDb = new StatsBaseDb();
+		public static StatsLevelUpDb StatsLevelUpDb = new StatsLevelUpDb();
 		public static CharCardDb CharCardDb = new CharCardDb();
 		public static CharCardSetDb CharCardSetDb = new CharCardSetDb();
 		public static MotionDb MotionDb = new MotionDb();

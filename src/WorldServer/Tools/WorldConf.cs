@@ -33,6 +33,7 @@ namespace World.Tools
 		public static bool EnableItemShop;
 		public static bool AutoSendGMCP;
 		public static byte MinimumGMCP;
+		public static float ExpRate;
 
 		private static Configuration _conf;
 
@@ -69,6 +70,7 @@ namespace World.Tools
 			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
 			WorldConf.AutoSendGMCP = _conf.GetBool("world_auto_gmcp", false);
 			WorldConf.MinimumGMCP = _conf.Get<byte>("world_minimum_gmcp", 50);
+			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100.0f) / 100.0f;
 
 			try
 			{
