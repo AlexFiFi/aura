@@ -16,7 +16,7 @@ namespace World.World
 	{
 		public static SkillResult CombatMasteryUse(MabiCreature source, MabiEntity targetEntity, SkillAction sourceSkillAction, MabiSkill skill, uint var1, uint var2)
 		{
-			MabiCreature target = targetEntity as MabiCreature;
+			var target = targetEntity as MabiCreature;
 			if (target == null)
 				return SkillResult.None;
 
@@ -57,21 +57,21 @@ namespace World.World
 				targetAction.ActionType = CombatActionType.TakeDamage;
 				targetAction.SkillId = sourceAction.SkillId;
 
-				var weaponPocket = (i == 1 ? Pocket.RightHand1 : Pocket.LeftHand1);
-
-				float damage = source.GetDamage(weaponPocket);
-
+				// TODO: We're getting the weapon twice =/ Maybe pass that to get damage.
+				var weaponPocket = (i == 1 ? Pocket.LeftHand1 : Pocket.RightHand1);
 				var weapon = source.GetItemInPocket(weaponPocket);
-				if (weapon != null && (weapon.Type != ItemType.Weapon && weapon.Type != ItemType.Weapon2))
-					weapon = null;
+				var damage = source.GetRndDamage(weaponPocket);
+				//if (weapon != null && (weapon.Type != ItemType.Weapon && weapon.Type != ItemType.Weapon2))
+				//    weapon = null;
 
-				// Crit
+				// Crit (temp)
 				if (rnd.NextDouble() < source.GetCritical())
 				{
 					damage *= 1.5f; // R1
 					targetAction.Critical = true;
 				}
 
+				// Def (temp)
 				if (target.ActiveSkillId == (ushort)SkillConst.Defense)
 				{
 					damage *= 0.1f;
@@ -188,7 +188,7 @@ namespace World.World
 
 			// TODO: Race
 
-			float damage = source.GetDamage();
+			float damage = source.GetWeaponDamage();
 
 			damage *= skill.RankInfo.Var1;
 
@@ -277,7 +277,7 @@ namespace World.World
 				targetAction.SkillId = SkillConst.Windmill;
 
 				// Damage Calculation
-				float damage = source.GetDamage();
+				float damage = source.GetWeaponDamage();
 
 				//Todo: Prot/def
 				damage *= skill.RankInfo.Var1 / 100;

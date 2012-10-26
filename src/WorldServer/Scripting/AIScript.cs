@@ -7,6 +7,7 @@ using Common.Tools;
 using Common.World;
 using World.World;
 using System;
+using World.Tools;
 
 namespace World.Scripting
 {
@@ -96,7 +97,7 @@ namespace World.Scripting
 		public uint MinimumActiveBeats { get; protected set; }
 
 		private Timer _heartbeatTimer;
-		private int _heartbeat = 500;//ms
+		private int _heartbeat = 50;//ms
 
 		private AIState _prevState;
 
@@ -105,7 +106,7 @@ namespace World.Scripting
 		/// </summary>
 		public override void OnLoad()
 		{
-			_heartbeatTimer = new Timer(500);
+			_heartbeatTimer = new Timer(_heartbeat);
 			_heartbeatTimer.AutoReset = true;
 			_heartbeatTimer.Elapsed += new ElapsedEventHandler(OnHeartbeat);
 			this.Definition();
@@ -159,7 +160,7 @@ namespace World.Scripting
 				return;
 
 			// Stop if there are no characters in range
-			var inSight = WorldManager.Instance.GetPlayersInRange(this.Creature, 2600);
+			var inSight = WorldManager.Instance.GetPlayersInRange(this.Creature, 2900);
 			if (inSight.Count < 1 && MinimumActiveBeats == 0)
 			{
 				this.Deactivate();

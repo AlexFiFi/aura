@@ -13,16 +13,12 @@ public class TarlachBearScript : NPCScript
 		SetName("_tarlachbear");
 		SetRace(70001);
 		SetBody(.8f);
+		SetColor(0x553A26, 0x0000FF00, 0x000000FF);
 
 		SetLocation(region: 48, x: 11100, y: 30400);
-
-		ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
-
 		SetDirection(167);
 
-		NPC.ColorA = 0x00553A26;
-		NPC.ColorB = 0x0000FF00;
-		NPC.ColorC = 0x000000FF;
+		ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
 
 		Phrases.Add("Growl...");
 		Phrases.Add("Rooooar...");

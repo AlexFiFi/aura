@@ -5,11 +5,11 @@ namespace Common.Network
 {
 	public static class Op
 	{
-		// NA:      160200
-		// TW:      170100 (not fully supported yet)
+		// NA:      170100
+		// TW:      170100
 		// KR test: 170300 (not fully supported yet)
 		// EU:      140400 (not fully supported yet)
-		public const uint Version = 160200;
+		public const uint Version = 170100;
 
 		// Login Server															
 		public readonly static uint ClientIdent = 0x0FD1020A;

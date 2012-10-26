@@ -253,54 +253,50 @@ namespace Common.World
 		private ulong _exp;
 		public ulong Experience { get { return _exp; } set { _exp = value; } }
 
-		private int _minMeleeDamageBase, _maxMeleeDamageBase;
-		public int MinMeleeDamageBase { get { return _minMeleeDamageBase; } set { _minMeleeDamageBase = value; } }
-		public int MaxMeleeDamageBase { get { return _maxMeleeDamageBase; } set { _maxMeleeDamageBase = value; } }
-		public int MinMeleeDamage { get { return Math.Min((int)(_minMeleeDamageBase + Str / 3f), MaxMeleeDamage); } }
-		public int MaxMeleeDamage { get { return (int)(_maxMeleeDamageBase + Str / 2.5f); } }
+		public MabiCreature()
+		{
+		}
 
 		/// <summary>
 		/// Calculates the damage of left-and-right slots together
 		/// </summary>
 		/// <returns></returns>
-		public float GetDamage()
+		public float GetWeaponDamage()
 		{
-			float bal = this.GetBalance();
-
-			return this.GetDamage(Pocket.LeftHand1, bal, false) + this.GetDamage(Pocket.RightHand1, bal, false); 
+			return (this.GetRndDamage(Pocket.LeftHand1) + this.GetRndDamage(Pocket.RightHand1));
 		}
 
 		/// <summary>
-		/// Calculates the damage of a given slot
+		/// Calculates randomized dmaage within the creature's possibilities.
 		/// </summary>
 		/// <param name="slot"></param>
 		/// <returns></returns>
-		public float GetDamage(Pocket slot, float balance = float.NaN, bool includeBase = true)
+		public float GetRndDamage(Pocket slot)
 		{
-			if (float.IsNaN(balance))
-				balance = this.GetBalance();
+			float min = 0, max = 0;
 
-			int min = 0, max = 0;
+			var weapon = this.GetItemInPocket(slot);
 
-			if (includeBase)
+			if (weapon != null) // && (slotItem.Type != ItemType.Weapon || slotItem.Type != ItemType.Weapon2))
 			{
-				min = this.MinMeleeDamage;
-				max = this.MaxMeleeDamage;
+				min += weapon.OptionInfo.AttackMin;
+				max += weapon.OptionInfo.AttackMax;
+			}
+			else
+			{
+				min = this.RaceInfo.AttackMin;
+				max = this.RaceInfo.AttackMax;
 			}
 
-			MabiItem slotItem = this.GetItemInPocket(slot);
+			min += this.Str / 3.0f;
+			max += this.Str / 2.5f;
 
-			if (slotItem != null && (slotItem.Type != ItemType.Weapon || slotItem.Type != ItemType.Weapon2))
-			{
-				min += slotItem.OptionInfo.AttackMin;
-				max += slotItem.OptionInfo.AttackMax;
-			}
+			if (min > max)
+				min = max;
+
+			var balance = this.GetRndBalance();
 
 			return min + ((max - min) * balance);
-		}
-
-		public MabiCreature()
-		{
 		}
 
 		public bool IsPlayer()
@@ -416,12 +412,18 @@ namespace Common.World
 			EntityEvents.Instance.OnCreatureStatUpdates(this);
 		}
 
-		public float GetBalance()
+		/// <summary>
+		/// Calculates random balance in range of the creature's possibilities.
+		/// </summary>
+		/// <returns></returns>
+		public float GetRndBalance()
 		{
-			float bal = 0.8f; // TODO: Proper value here
 			var rnd = RandomProvider.Get();
-			float rndBalance = ((1.0f - bal) - ((1.0f - bal) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
-			return Math.Min(0.8f, rndBalance);
+
+			var balance = 0.8f; // TODO: Proper base value here. We'll need the weapon.
+			balance += ((1.0f - balance) - ((1.0f - balance) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
+
+			return balance;
 		}
 
 		public float GetCritical()
@@ -843,7 +845,7 @@ namespace Common.World
 		public void TakeDamage(float damage)
 		{
 			var hpBefore = this.Life;
-			if (hpBefore < 1 && !ShouldSurvive())
+			if (hpBefore < 1)
 			{
 				this.Die();
 				return;
@@ -852,16 +854,16 @@ namespace Common.World
 			var hp = Math.Max(-this.LifeMaxBase, hpBefore - damage);
 			this.Life = hp;
 
-			if (hp <= 0)
-			{
-				if (!((this is MabiPC && (hpBefore > this.Life / 2)) || this.ShouldSurvive()))
-					this.Die();
-			}
+			if (hp > 0 || this.ShouldSurvive() || (this is MabiPC && hpBefore >= this.LifeMax / 2))
+				return;
+
+			this.Die();
 		}
 
 		public bool ShouldSurvive()
 		{
-			return ((this.Will * 10) + RandomProvider.Get().Next(1001)) > 999; //TODO: Actual, proper calculation here
+			// TODO: Actual, proper calculation.
+			return ((this.Will * 10) + RandomProvider.Get().Next(1001)) > 999;
 		}
 
 		public virtual void Die()

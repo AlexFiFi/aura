@@ -21,7 +21,7 @@ namespace Common.Data
 		public uint InvWidth, InvHeight;
 		public ushort AttackSkill;
 		public int AttackRange;
-		public uint AttackMin, AttackMax;
+		public int AttackMin, AttackMax;
 		public int AttackSpeed;
 		public int KnockCount;
 		public float SpeedRun, SpeedWalk;
@@ -59,8 +59,8 @@ namespace Common.Data
 			info.InvWidth = Convert.ToUInt32(csv[i++]);
 			info.InvHeight = Convert.ToUInt32(csv[i++]);
 			info.AttackSkill = Convert.ToUInt16(csv[i++]);
-			info.AttackMin = Convert.ToUInt32(csv[i++]);
-			info.AttackMax = Convert.ToUInt32(csv[i++]);
+			info.AttackMin = Convert.ToInt32(csv[i++]);
+			info.AttackMax = Convert.ToInt32(csv[i++]);
 			info.AttackRange = Convert.ToInt32(csv[i++]);
 			info.AttackSpeed = Convert.ToInt32(csv[i++]);
 			info.KnockCount = Convert.ToInt32(csv[i++]);

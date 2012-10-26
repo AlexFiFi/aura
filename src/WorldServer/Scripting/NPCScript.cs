@@ -37,6 +37,13 @@ namespace World.Scripting
 			ServerEvents.Instance.ErinnTimeTick += ErinnTimeTick;
 		}
 
+		public override void Dispose()
+		{
+			ServerEvents.Instance.ErinnTimeTick -= ErinnTimeTick;
+			Shop.Dispose();
+			base.Dispose();
+		}
+
 		public virtual void OnTalk(WorldClient client)
 		{
 		}
@@ -67,21 +74,16 @@ namespace World.Scripting
 			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
 		}
 
-		public override void Dispose()
-		{
-			ServerEvents.Instance.ErinnTimeTick -= ErinnTimeTick;
-			Shop.Dispose();
-			base.Dispose();
-		}
-
 		private void ErinnTimeTick(object sender, TimeEventArgs e)
 		{
-			if (--_ticksTillNextPhrase <= 0)
+			if (this.Phrases.Count > 0)
 			{
-				var rand = RandomProvider.Get();
-				if (this.Phrases.Count > 0)
+				if (--_ticksTillNextPhrase <= 0)
+				{
+					var rand = RandomProvider.Get();
 					this.Speak(Phrases[rand.Next(Phrases.Count)]);
-				_ticksTillNextPhrase = rand.Next(10, 30);
+					_ticksTillNextPhrase = rand.Next(10, 30);
+				}
 			}
 		}
 
