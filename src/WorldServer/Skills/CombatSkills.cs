@@ -60,7 +60,7 @@ namespace World.World
 				// TODO: We're getting the weapon twice =/ Maybe pass that to get damage.
 				var weaponPocket = (i == 1 ? Pocket.LeftHand1 : Pocket.RightHand1);
 				var weapon = source.GetItemInPocket(weaponPocket);
-				var damage = source.GetRndDamage(weaponPocket);
+				var damage = source.GetDamage(weaponPocket);
 				//if (weapon != null && (weapon.Type != ItemType.Weapon && weapon.Type != ItemType.Weapon2))
 				//    weapon = null;
 
@@ -188,11 +188,12 @@ namespace World.World
 
 			// TODO: Race
 
-			float damage = source.GetWeaponDamage();
+			float damage = source.GetSmashDamage();
 
 			damage *= skill.RankInfo.Var1;
 
-			if (source.GetItemInPocket(Pocket.LeftHand1).OptionInfo.WeaponType == (byte)ItemType.Weapon2H)
+			MabiItem weapon = source.GetItemInPocket(Pocket.LeftHand1);
+			if (weapon != null && weapon.OptionInfo.WeaponType == (byte)ItemType.Weapon2H)
 				damage *= 1.2f;
 
 			damage /= 100;
@@ -206,7 +207,6 @@ namespace World.World
 
 			targetAction.CombatDamage = damage;
 			target.TakeDamage(damage);
-			targetAction.Finish = sourceAction.Finish = target.IsDead();
 			if (target.IsDead())
 			{
 				targetAction.Finish = sourceAction.Finish = true;
@@ -277,7 +277,7 @@ namespace World.World
 				targetAction.SkillId = SkillConst.Windmill;
 
 				// Damage Calculation
-				float damage = source.GetWeaponDamage();
+				float damage = source.GetSmashDamage();
 
 				//Todo: Prot/def
 				damage *= skill.RankInfo.Var1 / 100;

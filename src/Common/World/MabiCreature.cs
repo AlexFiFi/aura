@@ -261,17 +261,20 @@ namespace Common.World
 		/// Calculates the damage of left-and-right slots together
 		/// </summary>
 		/// <returns></returns>
-		public float GetWeaponDamage()
+		public float GetSmashDamage()
 		{
-			return (this.GetRndDamage(Pocket.LeftHand1) + this.GetRndDamage(Pocket.RightHand1));
+			var balance = this.GetRndBalance();
+			return (this.GetDamage(Pocket.LeftHand1, balance) + this.GetDamage(Pocket.RightHand1, balance));
 		}
 
 		/// <summary>
-		/// Calculates randomized dmaage within the creature's possibilities.
+		/// Calculates damage within the creature's possibilities.
 		/// </summary>
-		/// <param name="slot"></param>
+		/// <param name="slot">The slot to use while calculating damage.</param>
+		/// <param name="balance">The balance value to use, or NaN to generate one.</param>
 		/// <returns></returns>
-		public float GetRndDamage(Pocket slot)
+		public float GetDamage(Pocket slot, float balance = float.NaN)
+
 		{
 			float min = 0, max = 0;
 
@@ -294,7 +297,8 @@ namespace Common.World
 			if (min > max)
 				min = max;
 
-			var balance = this.GetRndBalance();
+			if (float.IsNaN(balance))
+				balance = this.GetRndBalance();
 
 			return min + ((max - min) * balance);
 		}
@@ -496,10 +500,9 @@ namespace Common.World
 			return this.HasSkill((ushort)id);
 		}
 
-		public MabiItem GetItemInPocket(Pocket slot)
+		public MabiItem GetItemInPocket(Pocket slot, bool correctForWeaponSet = true)
 		{
-			// Maybe it would make more sense to really switch the pocket on toggling the set.
-			if (slot == Pocket.LeftHand1 || slot == Pocket.RightHand1 || slot == Pocket.Arrow1)
+			if (correctForWeaponSet && (slot == Pocket.LeftHand1 || slot == Pocket.RightHand1 || slot == Pocket.Arrow1))
 				slot += this.WeaponSet;
 
 			return this.GetItemInPocket((byte)slot);
@@ -889,6 +892,11 @@ namespace Common.World
 			var lvl = this.Level;
 
 			var levelStats = MabiData.StatsLevelUpDb.Find(this.Race, this.Age);
+			if (levelStats == null)
+			{
+				Logger.Unimplemented("Level up stats are not available for creature \"" + this.Name + "\"");
+				return;
+			}
 
 			while (this.Level < max && this.Experience >= ExpTable.GetTotalForNextLevel(this.Level))
 			{
