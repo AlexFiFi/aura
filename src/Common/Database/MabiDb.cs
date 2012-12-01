@@ -889,9 +889,27 @@ namespace Common.Database
 
 			try
 			{
-				this.QueryN("DELETE FROM items WHERE characterId = " + character.Id.ToString(), conn);
-
 				transaction = conn.BeginTransaction();
+
+				var delmc = new MySqlCommand("DELETE FROM items WHERE characterId = @id", conn);
+				delmc.Transaction = transaction;
+				delmc.Parameters.AddWithValue("@id", character.Id);
+				delmc.ExecuteNonQuery();
+
+				var mc = new MySqlCommand(
+					"INSERT INTO items"
+					+ " (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos_y`, `varint`, `color_01`, `color_02`, `color_03`, `price`, `bundle`,"
+					+ " `linked_pocket`, `figure`, `flag`, `durability`, `durability_max`, `origin_durability_max`, `attack_min`, `attack_max`,"
+					+ " `wattack_min`, `wattack_max`, `balance`, `critical`, `defence`, `protect`, `effective_range`, `attack_speed`,"
+					+ " `experience`, `exp_point`, `upgraded`, `upgraded_max`, `grade`, `prefix`, `suffix`, `data`, `option`, `sellingprice`, `expiration`, `update_time`)"
+
+					+ " VALUES (@characterId, @itemID, @class, @pocketId, @pos_x, @pos_y, @varint, @color_01, @color_02, @color_03, @price, @bundle,"
+					+ " @linked_pocket, @figure, @flag, @durability, @durability_max, @origin_durability_max, @attack_min, @attack_max,"
+					+ " @wattack_min, @wattack_max, @balance, @critical, @defence, @protect, @effective_range, @attack_speed,"
+					+ " @experience, @exp_point, @upgraded, @upgraded_max, @grade, @prefix, @suffix, @data, @option, @sellingprice, @expiration, @update_time)"
+				, conn);
+
+				mc.Transaction = transaction;
 
 				foreach (var item in character.Items)
 				{
@@ -900,21 +918,6 @@ namespace Common.Database
 					{
 						item.Id = this.GetNewItemId();
 					}
-
-					var mc = new MySqlCommand(
-						"INSERT INTO items"
-						+ " (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos_y`, `varint`, `color_01`, `color_02`, `color_03`, `price`, `bundle`,"
-						+ " `linked_pocket`, `figure`, `flag`, `durability`, `durability_max`, `origin_durability_max`, `attack_min`, `attack_max`,"
-						+ " `wattack_min`, `wattack_max`, `balance`, `critical`, `defence`, `protect`, `effective_range`, `attack_speed`,"
-						+ " `experience`, `exp_point`, `upgraded`, `upgraded_max`, `grade`, `prefix`, `suffix`, `data`, `option`, `sellingprice`, `expiration`, `update_time`)"
-
-						+ " VALUES (@characterId, @itemID, @class, @pocketId, @pos_x, @pos_y, @varint, @color_01, @color_02, @color_03, @price, @bundle,"
-						+ " @linked_pocket, @figure, @flag, @durability, @durability_max, @origin_durability_max, @attack_min, @attack_max,"
-						+ " @wattack_min, @wattack_max, @balance, @critical, @defence, @protect, @effective_range, @attack_speed,"
-						+ " @experience, @exp_point, @upgraded, @upgraded_max, @grade, @prefix, @suffix, @data, @option, @sellingprice, @expiration, @update_time)"
-					, conn);
-
-					mc.Transaction = transaction;
 
 					mc.Parameters.Clear();
 					mc.Parameters.AddWithValue("@characterId", character.Id);

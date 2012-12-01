@@ -35,6 +35,8 @@ namespace World.Tools
 		public static byte MinimumGMCP;
 		public static float ExpRate;
 
+		public static bool EnableVisual;
+
 		private static Configuration _conf;
 
 		public static void Load(string[] args)
@@ -71,6 +73,8 @@ namespace World.Tools
 			WorldConf.AutoSendGMCP = _conf.GetBool("world_auto_gmcp", false);
 			WorldConf.MinimumGMCP = _conf.Get<byte>("world_minimum_gmcp", 50);
 			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100.0f) / 100.0f;
+
+			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
 
 			try
 			{

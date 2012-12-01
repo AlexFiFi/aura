@@ -1,0 +1,50 @@
+// Aura
+// Visual Chat documentation file
+//---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+Visual Chat is a feature enabled in only some official Mabinogi servers.
+It allows you to draw little images, that are displayed in a chat bubble,
+like a chat message.
+
+=============================================================================
+| How to use it in Aura                                                     |
+=============================================================================
+
+(1)
+First you have to make the client support this feature. This is done by
+changing the features.xml, that can be found in the package files.
+Actually the full name is features.xml.compiled, since it has been
+"encrypted" for quite some time now, to prevent edits. Fortunatelly
+someone has created a simple little tool that enables us to do that anyway
+easily. For more information, go here:
+http://dev.mabinoger.com/forum/index.php/topic/211-feature-settings/
+The setting you're looking for is "8a124e66", and all you have to do is to
+enable it for your region, or just for every region by default:
+Default="G10S2" Enable="" Disable=""
+
+(2)
+The second edit required is the addition/edit of the script URL the image
+is sent to. This can be found in "data/db/urls.xml". Look for your local,
+for example:
+Locale="usa"
+and check if there's a "UploadVisualChatPage" parameter. If there is,
+edit it, if not, add it. The URL that goes here depends on where you put
+your image script. If you don't want to host the images yourself, you can use
+the script we've set up on our server:
+UploadVisualChatPage="http://dev.mabinoger.com/visualchat/upload.php"
+
+(3, optional)
+The last step, if you want to host the images yourself, is to set up the PHP
+upload script, found in "aura/web/visualchat". Now, I won't explain in detail
+how to set up a web server here. So, just some guidelines:
+- "upload.php" is the main script, that takes the images from the client. The
+  URL to that file goes into "urls.xml".
+- The script automatically tries to create a folder named "img" if it doesn't
+  exist, where the images go. Don't forget this folder has to exist and be
+  writable, or the upload script will silently fail.
+- Probably the easiest way to make the script available from your web server
+  is to make a symbolic link from it to Aura's "web" folder.

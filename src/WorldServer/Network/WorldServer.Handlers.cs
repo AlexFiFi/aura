@@ -28,6 +28,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.Run, HandleMove);
 			this.RegisterPacketHandler(Op.Chat, HandleChat);
 			this.RegisterPacketHandler(Op.WhisperChat, HandleWhisperChat);
+			this.RegisterPacketHandler(Op.VisualChat, HandleVisualChat);
 
 			this.RegisterPacketHandler(Op.ItemMove, HandleItemMove);
 			this.RegisterPacketHandler(Op.ItemPickUp, HandleItemPickUp);
@@ -1998,6 +1999,24 @@ namespace World.Network
 		{
 			// 1 = succes?, test = key passed to the url
 			client.Send(new MabiPacket(0xA44E, client.Character.Id).PutByte(1).PutString(client.Account.Username));
+		}
+
+		public void HandleVisualChat(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null || !WorldConf.EnableVisual)
+				return;
+
+			var url = packet.GetString();
+			var width = packet.GetShort();
+			var height = packet.GetShort();
+
+			var p = new MabiPacket(Op.VisualChat, creature.Id);
+			p.PutString(creature.Name);
+			p.PutString(url);
+			p.PutShorts(width, height);
+			p.PutByte(0);
+			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
 		}
 	}
 }
