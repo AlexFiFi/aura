@@ -27,6 +27,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.Walk, HandleMove);
 			this.RegisterPacketHandler(Op.Run, HandleMove);
 			this.RegisterPacketHandler(Op.Chat, HandleChat);
+			this.RegisterPacketHandler(Op.WhisperChat, HandleWhisperChat);
 
 			this.RegisterPacketHandler(Op.ItemMove, HandleItemMove);
 			this.RegisterPacketHandler(Op.ItemPickUp, HandleItemPickUp);
@@ -108,6 +109,11 @@ namespace World.Network
 			{
 				// TODO: Send entities?
 				// NOTE: No idea what this does anymore...
+			});
+
+			this.RegisterPacketHandler(0xAAE6, (client, packet) =>
+			{
+				// Sent when ESC is pressed? (Noticed in G17)
 			});
 		}
 
@@ -267,6 +273,24 @@ namespace World.Network
 			WorldManager.Instance.CreatureTalk(creature, message, type);
 		}
 
+		private void HandleWhisperChat(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var target = WorldManager.Instance.GetCharacterByName(packet.GetString());
+			if (target == null)
+			{
+				PacketCreator.SystemMessage(creature, "The target character does not exist.").SendTo(client);
+				return;
+			}
+
+			var msg = packet.GetString();
+			PacketCreator.Whisper(creature, creature.Name, msg).SendTo(client);
+			PacketCreator.Whisper(target, creature.Name, msg).SendTo(target.Client);
+		}
+
 		private void HandleGesture(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -281,7 +305,13 @@ namespace World.Network
 			if (info != null)
 			{
 				result = 1;
-				WorldManager.Instance.CreatureUseMotion(creature, info.Category, info.Type, false);
+
+				// TODO: Temp fix, add information to motion list.
+				var loop = false;
+				if (info.Name == "listen_music")
+					loop = true;
+
+				WorldManager.Instance.CreatureUseMotion(creature, info.Category, info.Type, loop);
 			}
 
 			var p = new MabiPacket(Op.UseGestureR, creature.Id);

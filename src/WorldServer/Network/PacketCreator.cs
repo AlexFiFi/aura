@@ -105,6 +105,13 @@ namespace World.Network
 			return Notice(GlobalBroadcastId, message, type, duration);
 		}
 
+		public static MabiPacket Whisper(MabiCreature target, string sender, string msg)
+		{
+			var p = new MabiPacket(Op.WhisperChat, target.Id);
+			p.PutStrings(sender, msg);
+			return p;
+		}
+
 		public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
 		{
 			var p = new MabiPacket(Op.EntitiesSpawn, GlobalBroadcastId);

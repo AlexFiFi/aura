@@ -81,6 +81,7 @@ namespace World.World
 			this.AddCommand("where", Authority.Player, Command_where);
 			this.AddCommand("info", Authority.Player, Command_info);
 			this.AddCommand("motion", "<category> <motion>", Authority.Player, Command_motion);
+			this.AddCommand("gesture", "<gesture>", Authority.Player, Command_gesture);
 			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
 
 			this.AddCommand("go", "<destination>", Authority.VIP, Command_go);
@@ -556,6 +557,24 @@ namespace World.World
 				return CommandResult.WrongParameter;
 
 			WorldManager.Instance.CreatureUseMotion(creature, ushort.Parse(args[1]), ushort.Parse(args[2]), true);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_gesture(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			var info = MabiData.MotionDb.Find(args[1]);
+			if (info != null)
+			{
+				WorldManager.Instance.CreatureUseMotion(creature, info.Category, info.Type, false);
+			}
+			else
+			{
+				PacketCreator.ServerMessage(creature, "Unknown gesture.").SendTo(client);
+			}
 
 			return CommandResult.Okay;
 		}

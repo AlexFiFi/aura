@@ -103,4 +103,13 @@ namespace Common.Network
 			this.State = SessionState.Dead;
 		}
 	}
+
+	public static class ClientExtenstion
+	{
+		public static void SendTo(this MabiPacket p, params Client[] clients)
+		{
+			foreach (var client in clients)
+				client.Send(p);
+		}
+	}
 }

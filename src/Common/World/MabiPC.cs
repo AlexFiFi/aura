@@ -358,16 +358,16 @@ namespace Common.World
 			// --------------------------------------------------------------
 			if (Op.Version > 140400)
 			{
-				packet.PutByte(1);					 // IsInCommerceCombat
-				packet.PutLong(0);					 // TransportCharacterId
-				packet.PutFloat(1);					 // ScaleHeight
+				packet.PutByte(1);               // IsInCommerceCombat
+				packet.PutLong(0);               // TransportCharacterId
+				packet.PutFloat(1);              // ScaleHeight
 			}
 
-			// ?
+			// Talents?
 			// --------------------------------------------------------------
 			if (Op.Version >= 170100)
 			{
-				packet.PutShort(0);
+				packet.PutShort(0);              // Selected Talent Title
 				packet.PutByte(255);
 				packet.PutInt(0);
 				packet.PutInt(0);
@@ -386,7 +386,11 @@ namespace Common.World
 				packet.PutInt(0);
 				packet.PutInt(0);
 				packet.PutInt(0);
-				packet.PutByte(0);
+
+				// Talent titles
+				// ----------------------------------------------------------
+				packet.PutByte(0);               // Count
+				//packet.PutShort(id);
 			}
 
 			// 
@@ -403,7 +407,7 @@ namespace Common.World
 			packet.PutByte(0);                   // PremiumService 0
 			packet.PutByte(0);                   // PremiumService 1
 			packet.PutByte(1);                   // Premium Gestures
-			packet.PutByte(0);					 
+			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutByte(0);

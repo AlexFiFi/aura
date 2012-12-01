@@ -43,3 +43,22 @@ disregard,14,14
 victory,82,0
 proposal1,53,46
 proposal2,53,47
+
+// G17
+// Commented ones don't seem to work (yet).
+// ---------------------------------------------------------------------------
+//head_shake,53,48
+blow_away,53,49
+cold,53,50
+fold_arms,53,51
+gaze_around,53,52
+jump,53,53
+//politely_greeting,53,54
+revolution,53,55
+side_die,53,56
+surprise2,53,57
+trip,53,58
+offer,53,59
+//cuite,53,60
+//tarzan,53,61
+psydance,53,62
