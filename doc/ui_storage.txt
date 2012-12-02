@@ -1,0 +1,35 @@
+// Aura
+// UI storage documentation file
+//---------------------------------------------------------------------------
+
+=============================================================================
+| Introduction                                                              |
+=============================================================================
+
+The UI storage is a collection of XML files, that contain window and hotkey
+settings. The files are loaded upon login, and saved on logout.
+
+=============================================================================
+| How to use it in Aura                                                     |
+=============================================================================
+
+(1)
+You have to edit the URL the client is using to load and save the files.
+It can be found in "data/db/urls.xml". Look for your local, for example:
+Locale="usa"
+, and the parameters "UploadUIPage" and "DownloadUIAddress".
+Change those to point to your script and the storage folder. For example:
+UploadUIPage="http://localhost/aura/ui/upload.php"
+DownloadUIAddress="http://localhost/aura/ui/storage/"
+
+(2)
+The second step is to set up the PHP upload script, found in
+"aura/web/ui". Now, I won't explain in detail how to set up a web server here.
+So, just some guidelines:
+- "upload.php" is the main script, that takes the files from the client.
+- The script automatically tries to create the folder structure needed for the
+  files, if they don't exist (storage/<server>/<id>/). Don't forget these
+  folders have to exist and be writable, or the upload script will silently
+  fail, if it isn't able to create them itself.
+- Probably the easiest way to make the script available from your web server
+  is to make a symbolic link from it to Aura's "web" folder.

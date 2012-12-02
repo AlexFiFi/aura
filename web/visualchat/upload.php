@@ -30,7 +30,7 @@ if($conf['auto_delete'] > 0 && is_dir('img'))
 	}
 }
 
-if(empty($_POST) || empty($_FILES))
+if(empty($_POST) || empty($_FILES) || !isset($_FILES['filename']))
 	exit;
 
 // Only allow png files, named 'visualchat.png'.
@@ -47,9 +47,15 @@ if(($size = @getimagesize($tmpfile)) === false || $size[0] > 256 || $size[1] > 9
 if(!is_dir('img') && (!mkdir('img') || !touch('img/index.php')))
 	exit;
 
+$charname = $_POST['charname'];
+
+// Check paramters.
+if(!preg_match('~[0-9a-z_ ]~i', $charname))
+	exit;
+
 // Try to move file (file name format expected by the client:
 // chat_<date:yyyymmdd_hhmmss>_<charname>.png)
-$filepath = sprintf('img/chat_%s_%s.png', date('Ymd_His'), $_POST['charname']);
+$filepath = sprintf('img/chat_%s_%s.png', date('Ymd_His'), $charname);
 if(!@move_uploaded_file($tmpfile, $filepath))
 	exit;
 	

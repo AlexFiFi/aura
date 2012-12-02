@@ -45,6 +45,7 @@ how to set up a web server here. So, just some guidelines:
   URL to that file goes into "urls.xml".
 - The script automatically tries to create a folder named "img" if it doesn't
   exist, where the images go. Don't forget this folder has to exist and be
-  writable, or the upload script will silently fail.
+  writable, or the upload script will silently fail, if it isn't able
+  to create the folder itself.
 - Probably the easiest way to make the script available from your web server
   is to make a symbolic link from it to Aura's "web" folder.
