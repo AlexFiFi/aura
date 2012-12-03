@@ -73,6 +73,19 @@ namespace Login.Network
 			Logger.Info("Loading data files...");
 			this.LoadData(LoginConf.DataPath);
 
+			// Configuration 2
+			// --------------------------------------------------------------
+			Logger.Info("Loading run-time configuration...");
+			try
+			{
+				LoginConf.LoadRound2();
+			}
+			catch (Exception ex)
+			{
+				Logger.Warning("There has been a problem while reading the remaining conf options.");
+				Logger.Exception(ex);
+			}
+
 			// Starto
 			// --------------------------------------------------------------
 			try

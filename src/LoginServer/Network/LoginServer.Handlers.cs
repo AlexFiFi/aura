@@ -469,9 +469,10 @@ namespace Login.Network
 			newChar.Lip = lip;
 			newChar.Age = age;
 			newChar.Server = serverName;
-			newChar.Region = 1;
-			newChar.SetPosition(12800, 38100);
 			newChar.Level = 1;
+
+			newChar.Region = LoginConf.SpawnRegion;
+			newChar.SetPosition(LoginConf.SpawnX, LoginConf.SpawnY);
 
 			newChar.CalculateBaseStats();
 

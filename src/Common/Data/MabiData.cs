@@ -25,5 +25,6 @@ namespace Common.Data
 		public static MonsterSkillDb MonsterSkillDb = new MonsterSkillDb();
 		public static MonsterDb MonsterDb = new MonsterDb();
 		public static SpawnDb SpawnDb = new SpawnDb();
+		public static MapDb MapDb = new MapDb();
 	}
 }

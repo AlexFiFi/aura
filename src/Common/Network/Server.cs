@@ -138,6 +138,9 @@ namespace Common.Network
 					MabiData.SkillRankDb.LoadFromCsv(dataPath + "/db/skill_ranks.txt", reload);
 					MabiData.SkillDb.LoadFromCsv(dataPath + "/db/skills.txt", reload);
 					Logger.Info("Done loading " + MabiData.SkillDb.Entries.Count + " entries from skills.txt.");
+
+					MabiData.MapDb.LoadFromCsv(dataPath + "/db/maps.txt", reload);
+					Logger.Info("Done loading " + MabiData.MapDb.Entries.Count + " entries from maps.txt.");
 				}
 
 				if (toLoad.HasFlag(DataLoad.Npcs))

@@ -480,8 +480,21 @@ namespace World.World
 			if (args.Length < 2)
 				return CommandResult.WrongParameter;
 
-			MabiVertex pos = creature.GetPosition();
-			uint region = uint.Parse(args[1]);
+			var pos = creature.GetPosition();
+
+			uint region = 0;
+			if (!uint.TryParse(args[1], out region))
+			{
+				var mapInfo = MabiData.MapDb.Find(args[1]);
+				if (mapInfo != null)
+					region = mapInfo.Id;
+				else
+				{
+					PacketCreator.ServerMessage(creature, "Map '" + args[1] + "' not found.").SendTo(client);
+					return CommandResult.Fail;
+				}
+			}
+
 			uint x = pos.X, y = pos.Y;
 
 			if (args.Length > 2)

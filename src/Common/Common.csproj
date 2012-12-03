@@ -87,6 +87,7 @@
     <Compile Include="Constants\Items.cs" />
     <Compile Include="Constants\Skills.cs" />
     <Compile Include="Database\MabiDb.cs" />
+    <Compile Include="Data\Maps.cs" />
     <Compile Include="Data\StatsLevelUp.cs" />
     <Compile Include="Data\MonsterSkills.cs" />
     <Compile Include="Data\SkillRanks.cs" />

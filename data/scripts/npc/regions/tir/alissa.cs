@@ -20,7 +20,7 @@ public class AlissaScript : NPCScript
 		EquipItem(Pocket.Shoe, 0x4274, 0x693F1E, 0x0, 0x0);
 		EquipItem(Pocket.Head, 0x47E6, 0xDECDB0, 0x0, 0x0);
 
-		SetLocation(region: 1, x: 15765, y: 31015);
+		SetLocation(region: "tir", x: 15765, y: 31015);
 
 		SetDirection(120);
 		SetStand("human/female/anim/female_natural_stand_npc_alissa");

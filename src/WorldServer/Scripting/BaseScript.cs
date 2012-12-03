@@ -7,6 +7,9 @@ namespace World.Scripting
 {
 	public class BaseScript : IDisposable
 	{
+		public string ScriptPath { get; set; }
+		public string ScriptName { get; set; }
+
 		public bool Disposed { get; protected set; }
 
 		public virtual void OnLoad()

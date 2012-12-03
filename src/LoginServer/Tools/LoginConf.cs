@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common.Tools;
+using Common.Data;
 
 namespace Login.Tools
 {
@@ -22,6 +23,8 @@ namespace Login.Tools
 
 		public static bool ConsumeCards;
 		public static bool NewAccounts;
+
+		public static uint SpawnRegion, SpawnX, SpawnY;
 
 		private static Configuration _conf;
 
@@ -46,6 +49,44 @@ namespace Login.Tools
 
 			LoginConf.ConsumeCards = _conf.GetBool("login_consumecards", true);
 			LoginConf.NewAccounts = _conf.GetBool("login_newaccounts", true);
+		}
+
+
+		/// <summary>
+		/// Option parsing that has to be done after data loading.
+		/// </summary>
+		public static void LoadRound2()
+		{
+			// Spawn point
+			// Default: Tir square
+			LoginConf.SpawnRegion = 1;
+			LoginConf.SpawnX = 12800;
+			LoginConf.SpawnY = 38100;
+
+			var spawn = _conf.GetString("login_spawn").Split(',');
+			if (spawn.Length == 3)
+			{
+				uint region = 0;
+
+				if (!uint.TryParse(spawn[0], out region))
+				{
+					// Not numeric, check map names
+					var mapInfo = MabiData.MapDb.Find(spawn[0]);
+					if (mapInfo != null)
+						region = mapInfo.Id;
+					else
+						Logger.Warning("login_spawn : Map '" + spawn[0] + "' not found.");
+				}
+
+				if (region > 0)
+				{
+					LoginConf.SpawnRegion = region;
+					if (!uint.TryParse(spawn[1], out LoginConf.SpawnX))
+						Logger.Warning("login_spawn : Invalid format for 'X'.");
+					if (!uint.TryParse(spawn[2], out LoginConf.SpawnY))
+						Logger.Warning("login_spawn : Invalid format for 'Y'.");
+				}
+			}
 		}
 	}
 }

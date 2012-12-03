@@ -147,6 +147,23 @@ namespace World.Scripting
 			this.NPC.Race = race;
 		}
 
+		protected virtual void SetLocation(string region, uint x, uint y)
+		{
+			uint regionid = 0;
+			if (!uint.TryParse(region, out regionid))
+			{
+				var mapInfo = MabiData.MapDb.Find(region);
+				if (mapInfo != null)
+					regionid = mapInfo.Id;
+				else
+				{
+					Logger.Warning(this.ScriptName + " : Map '" + region + "' not found.");
+				}
+			}
+
+			this.SetLocation(regionid, x, y);
+		}
+
 		protected virtual void SetLocation(uint region, uint x, uint y)
 		{
 			this.NPC.Region = region;
