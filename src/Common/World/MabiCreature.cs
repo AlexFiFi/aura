@@ -52,7 +52,8 @@ namespace Common.World
 		public MabiItem ActiveSkillItem;
 		public MabiCreature ActiveSkillTarget;
 		public byte ActiveSkillStacks;
-		public DateTime ActiveSkillLoadTime;
+		public DateTime ActiveSkillPrepareEnd;
+		//public MabiSkill ActiveSkill;
 
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
@@ -261,10 +262,10 @@ namespace Common.World
 		/// Calculates the damage of left-and-right slots together
 		/// </summary>
 		/// <returns></returns>
-		public float GetSmashDamage()
+		public float GetWeaponDamage()
 		{
 			var balance = this.GetRndBalance();
-			return (this.GetDamage(Pocket.LeftHand1, balance) + this.GetDamage(Pocket.RightHand1, balance));
+			return (this.GetRndDamage(Pocket.LeftHand1, balance) + this.GetRndDamage(Pocket.RightHand1, balance));
 		}
 
 		/// <summary>
@@ -273,12 +274,14 @@ namespace Common.World
 		/// <param name="slot">The slot to use while calculating damage.</param>
 		/// <param name="balance">The balance value to use, or NaN to generate one.</param>
 		/// <returns></returns>
-		public float GetDamage(Pocket slot, float balance = float.NaN)
+		public float GetRndDamage(Pocket slot, float balance = float.NaN)
+		{
+			return this.GetRndDamage(this.GetItemInPocket(slot));
+		}
 
+		public float GetRndDamage(MabiItem weapon, float balance = float.NaN)
 		{
 			float min = 0, max = 0;
-
-			var weapon = this.GetItemInPocket(slot);
 
 			if (weapon != null) // && (slotItem.Type != ItemType.Weapon || slotItem.Type != ItemType.Weapon2))
 			{
@@ -302,7 +305,6 @@ namespace Common.World
 
 			return min + ((max - min) * balance);
 		}
-
 		public bool IsPlayer()
 		{
 			return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet);
@@ -502,7 +504,7 @@ namespace Common.World
 
 		public MabiItem GetItemInPocket(Pocket slot, bool correctForWeaponSet = true)
 		{
-			if (correctForWeaponSet && (slot == Pocket.LeftHand1 || slot == Pocket.RightHand1 || slot == Pocket.Arrow1))
+			if (correctForWeaponSet && (slot == Pocket.RightHand1 || slot == Pocket.LeftHand1 || slot == Pocket.Arrow1))
 				slot += this.WeaponSet;
 
 			return this.GetItemInPocket((byte)slot);
@@ -766,6 +768,23 @@ namespace Common.World
 			return this.HasItem(2000, amount);
 		}
 
+		/// <summary>
+		/// Decrements item amount by one and sends update packets.
+		/// </summary>
+		/// <param name="item"></param>
+		public void DecItem(MabiItem item)
+		{
+			if (!this.Items.Contains(item))
+				return;
+
+			item.Info.Amount--;
+
+			if (item.StackType != BundleType.Sac && item.Info.Amount < 1)
+				this.Items.Remove(item);
+
+			EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+		}
+
 		public float GetSpeed()
 		{
 			if (this.Vehicle == null)
@@ -892,25 +911,28 @@ namespace Common.World
 			var lvl = this.Level;
 
 			var levelStats = MabiData.StatsLevelUpDb.Find(this.Race, this.Age);
-			if (levelStats == null)
-			{
-				Logger.Unimplemented("Level up stats are not available for creature \"" + this.Name + "\"");
-				return;
-			}
 
 			while (this.Level < max && this.Experience >= ExpTable.GetTotalForNextLevel(this.Level))
 			{
 				this.Level++;
 
-				this.AbilityPoints += levelStats.AP;
-				this.LifeMaxBase += levelStats.Life;
-				this.ManaMaxBase += levelStats.Mana;
-				this.StaminaMaxBase += levelStats.Stamina;
-				this.StrBase += levelStats.Str;
-				this.IntBase += levelStats.Int;
-				this.DexBase += levelStats.Dex;
-				this.WillBase += levelStats.Will;
-				this.LuckBase += levelStats.Luck;
+				// For now we'll let pets level up, even without stat update.
+				if (levelStats != null)
+				{
+					this.AbilityPoints += levelStats.AP;
+					this.LifeMaxBase += levelStats.Life;
+					this.ManaMaxBase += levelStats.Mana;
+					this.StaminaMaxBase += levelStats.Stamina;
+					this.StrBase += levelStats.Str;
+					this.IntBase += levelStats.Int;
+					this.DexBase += levelStats.Dex;
+					this.WillBase += levelStats.Will;
+					this.LuckBase += levelStats.Luck;
+				}
+				else
+				{
+					Logger.Unimplemented("Level up stats missing for race '" + this.Race.ToString() + "'.");
+				}
 			}
 
 			if (lvl < this.Level)
@@ -972,52 +994,86 @@ namespace Common.World
 		public void AddPrivateStatData(MabiPacket packet)
 		{
 			// Number of stats get inserted later
+			uint num = 0;
 
 			packet.PutInt((uint)Stat.Life);
 			packet.PutFloat(this.Life);
+			num++;
 
 			packet.PutInt((uint)Stat.LifeInjured);
 			packet.PutFloat(this.LifeInjured);
+			num++;
 
 			packet.PutInt((uint)Stat.LifeMax);
 			packet.PutFloat(this.LifeMaxBase);
+			num++;
 
 			packet.PutInt((uint)Stat.LifeMaxMod);
 			packet.PutFloat(this.LifeMaxMod);
+			num++;
 
 			packet.PutInt((uint)Stat.Mana);
 			packet.PutFloat(this.Mana);
+			num++;
 
 			packet.PutInt((uint)Stat.ManaMax);
 			packet.PutFloat(this.ManaMaxBase);
+			num++;
 
 			packet.PutInt((uint)Stat.ManaMaxMod);
 			packet.PutFloat(this.ManaMaxMod);
+			num++;
 
 			packet.PutInt((uint)Stat.Stamina);
 			packet.PutFloat(this.Stamina);
+			num++;
 
 			packet.PutInt((uint)Stat.Food);
 			packet.PutFloat(this.StaminaHunger);
+			num++;
 
 			packet.PutInt((uint)Stat.StaminaMax);
 			packet.PutFloat(this.StaminaMaxBase);
+			num++;
 
 			packet.PutInt((uint)Stat.StaminaMaxFood);
 			packet.PutFloat(this.Hunger);
+			num++;
 
 			// TODO: Only update required stats.
 
 			packet.PutInt((uint)Stat.Level);
 			packet.PutInt(this.Level);
+			num++;
 
 			//packet.PutInt((uint)Stat.LevelTotal);
 			//packet.PutInt(this.LevelTotal);
 
 			packet.PutInt((uint)Stat.Experience);
 			packet.PutLong(ExpTable.CalculateRemaining(this.Level, this.Experience) * 1000);
+			num++;
 
-			packet.Put<uint>(11 + 2, 1);
+			packet.PutInt((uint)Stat.StrMod);
+			packet.PutFloat(this.StrMod);
+			num++;
+
+			packet.PutInt((uint)Stat.DexMod);
+			packet.PutFloat(this.DexMod);
+			num++;
+
+			packet.PutInt((uint)Stat.IntMod);
+			packet.PutFloat(this.IntMod);
+			num++;
+
+			packet.PutInt((uint)Stat.LuckMod);
+			packet.PutFloat(this.LuckMod);
+			num++;
+
+			packet.PutInt((uint)Stat.WillMod);
+			packet.PutFloat(this.WillMod);
+			num++;
+
+			packet.Put<uint>(num, 1);
 
 			packet.PutInt(0);
 			packet.PutInt(0);

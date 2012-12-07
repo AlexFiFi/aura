@@ -77,12 +77,19 @@ namespace Common.Constants
 		Shoe = 7,
 		Head = 8,
 		Robe = 9,
-		LeftHand1 = 10,
-		LeftHand2 = 11,
-		RightHand1 = 12,
-		RightHand2 = 13,
+
+		// Actual RIGHT hand (left side in inv).
+		RightHand1 = 10,
+		RightHand2 = 11,
+
+		// Actual LEFT hand (right side in inv).
+		LeftHand1 = 12,
+		LeftHand2 = 13,
+
+		// Arrows go here, not in the left hand.
 		Arrow1 = 14,
 		Arrow2 = 15,
+
 		Accessory1 = 16,
 		Accessory2 = 17,
 		Trade = 19,

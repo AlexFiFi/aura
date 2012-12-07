@@ -1,10 +1,16 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+// Uncomment to get test packets when dropping an item and clicking on the
+// following downstairs portal. Current test packet is based on Alby normal,
+// props and entities (stairs, stautes, doors, ...) aren't sent.
+//#define DUNGEON_TEST
+
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Common.Constants;
+using Common.Data;
 using Common.Database;
 using Common.Events;
 using Common.Network;
@@ -12,7 +18,7 @@ using Common.Tools;
 using Common.World;
 using World.Tools;
 using World.World;
-using Common.Data;
+using World.Skills;
 
 namespace World.Network
 {
@@ -202,7 +208,7 @@ namespace World.Network
 			p.PutString("");
 			client.Send(p);
 
-			p = new MabiPacket(Op.LoginWLock, creature.Id);
+			p = new MabiPacket(Op.CharacterLock, creature.Id);
 			p.PutInt(0xEFFFFFFE);
 			p.PutInt(0);
 			client.Send(p);
@@ -312,13 +318,13 @@ namespace World.Network
 			var target = WorldManager.Instance.GetCharacterByName(packet.GetString());
 			if (target == null)
 			{
-				PacketCreator.SystemMessage(creature, "The target character does not exist.").SendTo(client);
+				client.Send(PacketCreator.SystemMessage(creature, "The target character does not exist."));
 				return;
 			}
 
 			var msg = packet.GetString();
-			PacketCreator.Whisper(creature, creature.Name, msg).SendTo(client);
-			PacketCreator.Whisper(target, creature.Name, msg).SendTo(target.Client);
+			client.Send(PacketCreator.Whisper(creature, creature.Name, msg));
+			target.Client.Send(PacketCreator.Whisper(target, creature.Name, msg));
 		}
 
 		private void HandleGesture(WorldClient client, MabiPacket packet)
@@ -422,16 +428,7 @@ namespace World.Network
 					return;
 			}
 
-			item -= 1;
-			if (item.Count > 0)
-			{
-				client.Send(PacketCreator.ItemAmount(creature, item));
-			}
-			else
-			{
-				creature.Items.Remove(item);
-				client.Send(PacketCreator.ItemRemove(creature, item));
-			}
+			creature.DecItem(item);
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
@@ -531,7 +528,7 @@ namespace World.Network
 				return;
 			}
 
-			client.Send(PacketCreator.SystemMessage(client.Character, "Unimplimented at the moment!"));
+			client.Send(PacketCreator.SystemMessage(client.Character, "Unimplimented."));
 		}
 
 		private void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
@@ -800,7 +797,7 @@ namespace World.Network
 				return;
 
 			// Stop moving when changing weapons
-			if ((target >= Pocket.LeftHand1 && target <= Pocket.Arrow2) || (source >= Pocket.LeftHand1 && source <= Pocket.Arrow2))
+			if ((target >= Pocket.RightHand1 && target <= Pocket.Arrow2) || (source >= Pocket.RightHand1 && source <= Pocket.Arrow2))
 				creature.StopMove();
 
 			// Inv -> Cursor
@@ -900,7 +897,7 @@ namespace World.Network
 		private void CheckItemMove(MabiCreature creature, MabiItem item, Pocket pocket)
 		{
 			// Check for moving second hand
-			if (pocket == Pocket.LeftHand1 || pocket == Pocket.LeftHand2)
+			if (pocket == Pocket.RightHand1 || pocket == Pocket.RightHand2)
 			{
 				var secSource = pocket + 2; // RightHand1/2
 				var secItem = creature.GetItemInPocket(secSource);
@@ -947,6 +944,7 @@ namespace World.Network
 			this.CheckItemMove(creature, item, source);
 			client.Send(PacketCreator.ItemRemove(creature, item));
 
+#if !DUNGEON_TEST
 			// Drop it
 			WorldManager.Instance.CreatureDropItem(creature, new ItemEventArgs(item));
 
@@ -954,6 +952,45 @@ namespace World.Network
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
+#else
+			client.Send(PacketCreator.Lock(creature));
+
+			// Done
+			var p = new MabiPacket(Op.ItemDropR, creature.Id);
+			p.PutByte(1);
+			client.Send(p);
+
+			WorldManager.Instance.CreatureLeaveRegion(creature);
+			creature.SetLocation(10022, 3262, 3139);
+
+			var dunp = new MabiPacket(0x9470, 0x3000000000000000);
+			dunp.PutLong(creature.Id);
+			dunp.PutLong(0x01000000000005CD);
+			dunp.PutByte(1);
+			dunp.PutString("tircho_alby_dungeon"); // dungeon name (dungeondb.xml)
+			dunp.PutInt(item.Info.Class);
+			dunp.PutInt(938735421);
+			dunp.PutInt(0);
+			dunp.PutInt(2); // count?
+			dunp.PutInt(10022); // imaginary entrance region id?
+			dunp.PutInt(10032); // imaginary dungeon region id?
+			dunp.PutString("");
+			dunp.PutInt(1);
+			dunp.PutInt(4); // 0 = client crash
+			dunp.PutByte(4); // 0 adds another room
+			dunp.PutByte(0);
+			dunp.PutByte(1);
+			dunp.PutByte(1);
+			dunp.PutByte(3);
+			dunp.PutByte(2);
+			dunp.PutByte(1);
+			dunp.PutByte(4);
+			dunp.PutInt(0);
+			dunp.PutInt(1);
+			dunp.PutSInt(-1212925688);
+			dunp.PutInt(0);
+			client.Send(dunp);
+#endif
 		}
 
 		public void HandleItemDestroy(WorldClient client, MabiPacket packet)
@@ -1108,6 +1145,7 @@ namespace World.Network
 
 			creature.StopMove();
 
+			// TODO: Check this, GetItemInPocket doesn't return the correct stuff.
 			creature.WeaponSet = set;
 			WorldManager.Instance.CreatureSwitchSet(creature);
 
@@ -1159,7 +1197,7 @@ namespace World.Network
 
 			MabiPacket p;
 
-			p = new MabiPacket(Op.LoginWUnlock, creature.Id);
+			p = new MabiPacket(Op.CharacterUnlock, creature.Id);
 			p.PutInt(0xEFFFFFFE);
 			client.Send(p);
 
@@ -1198,9 +1236,7 @@ namespace World.Network
 				return;
 
 			var skillId = packet.GetShort();
-			var parameters = "";
-			if (packet.GetElementType() == MabiPacket.ElementType.String)
-				parameters = packet.GetString();
+			var parameters = packet.GetStringOrEmpty();
 
 			if (parameters.Length > 0)
 			{
@@ -1216,41 +1252,56 @@ namespace World.Network
 				}
 			}
 
-			var skill = creature.GetSkill(skillId);
-			if (skill == null)
+			MabiSkill skill; SkillHandler handler;
+			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
+			if (skill == null || handler == null)
 			{
-				Logger.Warning(creature.Name + " tried to use skill '" + skillId.ToString() + "', which (s)he doesn't have.");
+				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
 				return;
 			}
 
-			creature.ActiveSkillId = skillId;
+			var castTime = skill.RankInfo.LoadTime;
+			creature.ActiveSkillPrepareEnd = DateTime.Now.AddMilliseconds(castTime);
 
-			uint castTime = skill.RankInfo.LoadTime;
-
-			SkillPrepareHandler handler = Skills.GetSkillPrepareHandler((SkillConst)skillId);
-
-			SkillResult res = SkillResult.Okay;
-
-			if (handler != null)
-				res = handler(creature, skill, parameters);
-
-			if ((res & SkillResult.Okay) == 0)
+			// Check Mana
+			if (skill.RankInfo.ManaCost > 0)
 			{
-				// TODO: barf?
-				return;
+				if (creature.Mana < skill.RankInfo.ManaCost)
+				{
+					client.Send(PacketCreator.SystemMessage(creature, "Insufficient Mana"));
+					client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+					return;
+				}
+
+				creature.Mana -= skill.RankInfo.ManaCost;
+				WorldManager.Instance.CreatureStatsUpdate(creature);
 			}
 
-			if ((res & SkillResult.SuppressFlash) == 0)
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(11).PutString("flashing"), SendTargets.Range, creature);
+			// Check Stamina
+			if (skill.RankInfo.StaminaCost > 0)
+			{
+				if (creature.Stamina < skill.RankInfo.StaminaCost)
+				{
+					client.Send(PacketCreator.SystemMessage(creature, "Insufficient Stamina"));
+					client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+					return;
+				}
+
+				creature.Stamina -= skill.RankInfo.StaminaCost;
+				WorldManager.Instance.CreatureStatsUpdate(creature);
+			}
+
+			var result = handler.Prepare(creature, skill);
+
+			if ((result & SkillResults.Okay) == 0 || (result & SkillResults.NoReply) != 0)
+				return;
 
 			var r = new MabiPacket(Op.SkillPrepare, creature.Id);
 			r.PutShort(skillId);
-
 			if (parameters.Length > 0)
 				r.PutString(parameters);
 			else
 				r.PutInt(castTime);
-
 			client.Send(r);
 		}
 
@@ -1261,31 +1312,17 @@ namespace World.Network
 				return;
 
 			var skillId = packet.GetShort();
-			var parameters = "";
-			if (packet.GetElementType() == MabiPacket.ElementType.String)
-				parameters = packet.GetString();
+			var parameters = packet.GetStringOrEmpty();
 
-			var skill = creature.GetSkill(skillId);
-			if (skill == null)
-			{
-				Logger.Warning(creature.Name + " tried to use skill '" + skillId.ToString() + "', which (s)he doesn't have.");
+			MabiSkill skill; SkillHandler handler;
+			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
+			if (skill == null || handler == null)
 				return;
-			}
 
-			creature.ActiveSkillStacks = skill.RankInfo.Stack;
+			var result = handler.Ready(creature, skill);
 
-			client.Send(new MabiPacket(Op.SkillStackSet, creature.Id).PutBytes(creature.ActiveSkillStacks, creature.ActiveSkillStacks).PutShort(creature.ActiveSkillId));
-
-			SkillResult res = SkillResult.Okay;
-			var handler = Skills.GetSkillReadyHandler((SkillConst)skillId);
-			if (handler != null)
-				res = handler(creature, skill, parameters);
-
-			if ((res & SkillResult.Okay) == 0)
-			{
-				// TODO: barf?
+			if ((result & SkillResults.Okay) == 0)
 				return;
-			}
 
 			var r = new MabiPacket(Op.SkillReady, creature.Id);
 			r.PutShort(creature.ActiveSkillId);
@@ -1305,26 +1342,54 @@ namespace World.Network
 			var unk1 = packet.GetInt();
 			var unk2 = packet.GetInt();
 
-			var skill = creature.GetSkill(skillId);
-			if (skill == null)
+			MabiCreature target = null;
+			// Windmill sends a huge nr as target id... a sign!? O___O
+			if (targetId < 0x3000000000000000)
 			{
-				Logger.Warning(creature.Name + " tried to use skill '" + skillId.ToString() + "', which (s)he doesn't have.");
-				return;
+				if (targetId != creature.Id)
+					target = WorldManager.Instance.GetCreatureById(targetId);
+				else
+					target = creature;
+
+				if (target == null)
+				{
+					client.Send(PacketCreator.SystemMessage(creature, "Invalid target"));
+					client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(0));
+					return;
+				}
 			}
 
-			SkillResult res = SkillResult.Okay;
-			SkillUseHandler handler = Skills.GetSkillUsedHandler((SkillConst)skill.Info.Id);
-			if (handler != null)
-				res = handler(creature, WorldManager.Instance.GetCreatureById(targetId), null, skill, unk1, unk2);
+			creature.ActiveSkillTarget = target;
 
-			if ((res & SkillResult.Okay) == 0)
+			MabiSkill skill; SkillHandler handler;
+			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
+			if (skill == null || handler == null)
 				return;
+
+			var result = handler.Use(creature, target, skill);
+
+			if ((result & SkillResults.InsufficientStamina) != 0)
+				client.Send(PacketCreator.SystemMessage(creature, "Insufficient Stamina"));
+
+			if ((result & SkillResults.InvalidTarget) != 0)
+				client.Send(PacketCreator.SystemMessage(creature, "Invalid target"));
+
+			if ((result & SkillResults.Okay) == 0 && (result & SkillResults.NoReply) == 0)
+			{
+				client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(0));
+				return;
+			}
 
 			var r = new MabiPacket(Op.SkillUse, creature.Id);
 			r.PutShort(skillId);
 			r.PutLong(targetId);
 			r.PutInt(unk1);
 			r.PutInt(unk2);
+			client.Send(r);
+
+			r = new MabiPacket(0x6992, creature.Id);
+			r.PutBytes(0, 1, 0);
+			r.PutShort(skillId);
 			client.Send(r);
 		}
 
@@ -1336,19 +1401,14 @@ namespace World.Network
 
 			var skillId = packet.GetShort();
 
-			var skill = creature.GetSkill(skillId);
-			if (skill == null)
-			{
-				Logger.Warning(creature.Name + " tried to use skill '" + skillId.ToString() + "', which (s)he doesn't have.");
+			MabiSkill skill; SkillHandler handler;
+			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
+			if (skill == null || handler == null)
 				return;
-			}
 
-			SkillResult res = SkillResult.Okay;
-			SkillCompletedHandler handler = Skills.GetSkillCompletedHandler((SkillConst)skill.Info.Id);
-			if (handler != null)
-				res = handler(creature, skill, "");
+			var result = handler.Complete(creature, skill);
 
-			if ((res & SkillResult.Okay) == 0)
+			if ((result & SkillResults.Okay) == 0)
 				return;
 
 			var r = new MabiPacket(Op.SkillComplete, creature.Id);
@@ -1357,6 +1417,7 @@ namespace World.Network
 
 			if (creature.ActiveSkillStacks > 0 && skill.RankInfo.Stack > 1)
 			{
+				// Send new ready packet if there are stacks left.
 				client.Send(new MabiPacket(Op.SkillReady, creature.Id).PutShort(creature.ActiveSkillId));
 			}
 			else
@@ -1372,15 +1433,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			var unk1 = packet.GetByte();
-			var unk2 = packet.GetByte();
-
 			WorldManager.Instance.CreatureSkillCancel(creature);
-
-			//var r = new MabiPacket(0x6989, creature.Id);
-			//r.PutByte(unk1);
-			//r.PutByte(unk2);
-			//client.Send(r);
 		}
 
 		private void HandleSkillStart(WorldClient client, MabiPacket packet)
@@ -1390,19 +1443,19 @@ namespace World.Network
 				return;
 
 			var skillId = packet.GetShort();
+			var parameters = packet.GetStringOrEmpty();
 
-			var skill = creature.GetSkill(skillId);
+			MabiSkill skill; SkillHandler handler;
+			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
+			if (skill == null || handler == null)
+			{
+				client.Send(new MabiPacket(Op.SkillStart, creature.Id).PutShort(skillId));
+				return;
+			}
 
-			var parameters = "";
-			if (packet.GetElementType() == MabiPacket.ElementType.String)
-				parameters = packet.GetString();
+			var result = handler.Start(creature, skill);
 
-			SkillResult res = SkillResult.Okay;
-			SkillStartHandler handler = Skills.GetSkillStartHandler((SkillConst)skillId);
-			if (handler != null)
-				res = handler(creature, skill, parameters);
-
-			if ((res & SkillResult.Okay) == 0)
+			if ((result & SkillResults.Okay) == 0)
 				return;
 
 			var r = new MabiPacket(Op.SkillStart, creature.Id);
@@ -1418,20 +1471,17 @@ namespace World.Network
 				return;
 
 			var skillId = packet.GetShort();
+			var parameters = packet.GetStringOrEmpty();
 
-			var skill = creature.GetSkill(skillId);
-
-			var parameters = "";
-			if (packet.GetElementType() == MabiPacket.ElementType.String)
-				parameters = packet.GetString();
-
-			SkillResult res = SkillResult.Okay;
-			SkillStopHandler handler = Skills.GetSkillStopHandler((SkillConst)skillId);
-			if (handler != null)
-				res = handler(creature, skill, parameters);
-
-			if ((res & SkillResult.Okay) == 0)
+			MabiSkill skill; SkillHandler handler;
+			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
+			if (skill == null || handler == null)
 				return;
+
+			var result = handler.Stop(creature, skill);
+
+			//if ((result & SkillResults.Okay) == 0)
+			//    return;
 
 			var r = new MabiPacket(Op.SkillStop, creature.Id);
 			r.PutShort(skillId);
@@ -1625,7 +1675,7 @@ namespace World.Network
 			p.PutLong(petId);
 			client.Send(p);
 
-			p = new MabiPacket(Op.LoginWLock, petId);
+			p = new MabiPacket(Op.CharacterLock, petId);
 			p.PutInt(0xEFFFFFFE);
 			p.PutInt(0);
 			client.Send(p);
@@ -1760,6 +1810,19 @@ namespace World.Network
 			else
 			{
 				Logger.Unimplemented("Unknown prop: " + portalId.ToString());
+#if DUNGEON_TEST
+				var pos = creature.GetPosition();
+				//client.Send(new MabiPacket(Op.WARP_ENTER, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
+				//
+				//
+				WorldManager.Instance.CreatureLeaveRegion(creature);
+				client.Send(new MabiPacket(Op.CharacterLock, creature.Id).PutInts(0xEFFFFFFE, 0));
+
+				creature.SetLocation(10032, 5992, 5614);
+				client.Send(PacketCreator.EnterRegionPermission(creature));
+
+				success = 1;
+#endif
 			}
 
 			var p = new MabiPacket(Op.TouchPropR, creature.Id);
@@ -1827,22 +1890,28 @@ namespace World.Network
 
 			// TODO: Check if mount is able to attack anything? (this is done with a status)
 
-			var attackResult = SkillResult.None;
+			var attackResult = SkillResults.Failure;
+			var targetId = packet.GetLong();
 
-			var target = WorldManager.Instance.GetCreatureById(packet.GetLong());
+			var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery);
+			if (handler == null)
+				return;
+
+			var target = WorldManager.Instance.GetCreatureById(targetId);
 			if (target != null)
 			{
-				attackResult = MabiCombat.MeleeAttack(creature, target);
+				attackResult = handler.Use(creature, target, null); // MabiCombat.MeleeAttack(creature, target);
 			}
 
 			var answer = new MabiPacket(Op.CombatAttackR, creature.Id);
 
-			if (attackResult == SkillResult.Okay)
+			if (attackResult == SkillResults.Okay)
 			{
 				answer.PutByte(1);
 			}
-			else if (attackResult == SkillResult.AttackOutOfRange)
+			else if (attackResult == SkillResults.OutOfRange)
 			{
+				// Let the creature run to the target.
 				var creaturePos = creature.GetPosition();
 				var targetPos = target.GetPosition();
 
@@ -1857,13 +1926,14 @@ namespace World.Network
 				answer.PutInt(targetPos.Y);
 				answer.PutString("");
 			}
-			else if (attackResult == SkillResult.None)
+			else if (attackResult == SkillResults.Failure)
 			{
+				// No target, no skill, message should be more clear.
 				client.Send(PacketCreator.SystemMessage(creature, "Something went wrong here, sry =/"));
 			}
 			else
 			{
-				// Stunned
+				// Stunned, missing handler, failure, should be more clear.
 				answer.PutByte(0);
 			}
 

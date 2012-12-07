@@ -160,23 +160,33 @@ namespace Common.World
 
 		public int Count { get { return this.Info.Amount; } }
 
-		public static MabiItem operator +(MabiItem item, int val)
-		{
-			if (item.Info.Amount + val < 0)
-				item.Info.Amount = 0;
-			else if (item.Info.Amount + val > ushort.MaxValue)
-				item.Info.Amount = ushort.MaxValue;
-			else if (item.Info.Amount + val > item.StackMax)
-				item.Info.Amount = item.StackMax;
-			else
-				item.Info.Amount += (ushort)val;
-			return item;
-		}
+		//public static MabiItem operator +(MabiItem item, int val)
+		//{
+		//    if (item.Info.Amount + val < 0)
+		//        item.Info.Amount = 0;
+		//    else if (item.Info.Amount + val > ushort.MaxValue)
+		//        item.Info.Amount = ushort.MaxValue;
+		//    else if (item.Info.Amount + val > item.StackMax)
+		//        item.Info.Amount = item.StackMax;
+		//    else
+		//        item.Info.Amount += (ushort)val;
+		//    return item;
+		//}
 
-		public static MabiItem operator -(MabiItem item, int val)
-		{
-			return item += -val;
-		}
+		//public static MabiItem operator -(MabiItem item, int val)
+		//{
+		//    return item += -val;
+		//}
+
+		//public static MabiItem operator ++(MabiItem item)
+		//{
+		//    return item += 1;
+		//}
+
+		//public static MabiItem operator --(MabiItem item)
+		//{
+		//    return item += -1;
+		//}
 
 		public void LoadDefault()
 		{
@@ -235,10 +245,10 @@ namespace Common.World
 				case Pocket.Accessory2:
 				case Pocket.Head:
 				case Pocket.Armor:
-				case Pocket.LeftHand1:
-				case Pocket.LeftHand2:
 				case Pocket.RightHand1:
 				case Pocket.RightHand2:
+				case Pocket.LeftHand1:
+				case Pocket.LeftHand2:
 				case Pocket.Shoe:
 				case Pocket.Glove:
 				case Pocket.Robe:

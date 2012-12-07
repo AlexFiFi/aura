@@ -174,7 +174,7 @@ namespace Common.Network
 		public string GetString()
 		{
 			if (this.GetElementType() != ElementType.String)
-				throw new Exception("Expected String, got " + this.GetElementType() + ".");
+				throw new ArgumentException("Expected String, got " + this.GetElementType() + ".");
 
 			_ptr += 3;
 			var sb = new StringBuilder();
@@ -186,6 +186,23 @@ namespace Common.Network
 			_ptr++;
 
 			return sb.ToString();
+		}
+
+		/// <summary>
+		/// Returns string from packet, or "" if next element isn't a string.
+		/// Doesn't jump to next element if "".
+		/// </summary>
+		/// <returns></returns>
+		public string GetStringOrEmpty()
+		{
+			try
+			{
+				return this.GetString();
+			}
+			catch (ArgumentException)
+			{
+				return "";
+			}
 		}
 
 		public byte[] GetBin()
@@ -411,6 +428,70 @@ namespace Common.Network
 			}
 
 			_ptr = savPtr;
+
+			return result.ToString();
+		}
+
+		// tmp
+		public string ToStringFromElements()
+		{
+			var result = new StringBuilder();
+
+			result.Append("Op: " + this.Op.ToString("X").PadLeft(8, '0') + ", Id: " + this.Id.ToString("X").PadLeft(16, '0') + "\n");
+
+			uint i = 1;
+			foreach (var el in _elements)
+			{
+				if (el is byte)
+				{
+					var data = (byte)el;
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Byte   : " + data);
+				}
+				else if (el is ushort)
+				{
+					var data = (ushort)el;
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Short  : " + data);
+				}
+				else if (el is uint)
+				{
+					var data = (uint)el;
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Int    : " + data);
+				}
+				else if (el is ulong)
+				{
+					var data = (ulong)el;
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Long   : " + data);
+				}
+				else if (el is float)
+				{
+					var data = (float)el;
+					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString().PadLeft(16, '.') + "] Float  : " + data);
+				}
+				else if (el is string)
+				{
+					var data = (string)el;
+					result.Append(i.ToString().PadLeft(3, '0') + " [................] String : " + data);
+				}
+				else if (el is byte[])
+				{
+					var data = BitConverter.ToString((byte[])el);
+					var splitted = data.Split('-');
+
+					result.Append(i.ToString().PadLeft(3, '0') + " [................] Bin    : ");
+					for (var j = 1; j <= splitted.Length; ++j)
+					{
+						result.Append(splitted[j - 1]);
+						if (j < splitted.Length)
+							if (j % 16 == 0)
+								result.Append("\n".PadRight(33, ' '));
+							else
+								result.Append(' ');
+					}
+				}
+				result.Append("\n");
+
+				i++;
+			}
 
 			return result.ToString();
 		}

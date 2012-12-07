@@ -43,6 +43,13 @@ namespace Common.World
 
 		private readonly uint _race;
 
+		public SkillConst Id { get { return (SkillConst)this.Info.Id; } }
+		public SkillRank Rank { get { return (SkillRank)this.Info.Rank; } }
+
+		//public MabiItem ActiveItem { get; set; }
+		//public MabiCreature ActiveTarget { get; set; }
+		//public byte ActiveStacks { get; set; }
+
 		public MabiSkill(ushort skillId, byte rank, uint race = 10001)
 		{
 			this.Info.Id = skillId;

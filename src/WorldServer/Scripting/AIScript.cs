@@ -1,13 +1,14 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
 using System.Collections.Generic;
 using System.Timers;
 using Common.Tools;
 using Common.World;
 using World.World;
-using System;
-using World.Tools;
+using World.Skills;
+using Common.Constants;
 
 namespace World.Scripting
 {
@@ -97,7 +98,11 @@ namespace World.Scripting
 		public uint MinimumActiveBeats { get; protected set; }
 
 		private Timer _heartbeatTimer;
-		private int _heartbeat = 50;//ms
+
+		// This controls the "speed" at which the AI can think.
+		// If it's too long things like following a target becomes choppy,
+		// because changing direction takes longer.
+		private const int _heartbeat = 50;//ms
 
 		private AIState _prevState;
 
@@ -175,6 +180,7 @@ namespace World.Scripting
 				return;
 			}
 
+			// TODO: Proper randomization, the mobs seem to be random walking at the exact same time.
 			var rand = RandomProvider.Get();
 
 			var inRange = WorldManager.Instance.GetPlayersInRange(this.Creature, 1500); // TODO: Use race default
@@ -270,13 +276,18 @@ namespace World.Scripting
 
 					case AIAction.Attack:
 						{
-							var attackResult = MabiCombat.MeleeAttack(this.Creature, this.Creature.Target);
-							if ((attackResult & SkillResult.AttackOutOfRange) != 0)
+							SkillResults attackResult = SkillResults.Failure;
+
+							var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery);
+							if (handler != null)
+								attackResult = handler.Use(this.Creature, this.Creature.Target, null); // MabiCombat.MeleeAttack(this.Creature, this.Creature.Target);
+
+							if ((attackResult & SkillResults.OutOfRange) != 0)
 							{
 								var targetPos = this.Creature.Target.GetPosition();
 								this.Stack.Insert(0, new AIElement(AIState.Aggro, AIAction.Run, intVal1: (int)targetPos.X, intVal2: (int)targetPos.Y));
 							}
-							else if ((attackResult & SkillResult.Okay) != 0)
+							else if ((attackResult & SkillResults.Okay) != 0)
 							{
 								this.Stack.RemoveAt(0);
 							}

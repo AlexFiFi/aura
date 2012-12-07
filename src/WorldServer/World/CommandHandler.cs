@@ -76,6 +76,15 @@ namespace World.World
 			_commands.Add(command.Name, command);
 		}
 
+		public void AddAlias(string command, params string[] aliases)
+		{
+			if (!_commands.ContainsKey(command))
+				return;
+
+			foreach (var alias in aliases)
+				_commands.Add(alias, _commands[command]);
+		}
+
 		public void Load()
 		{
 			this.AddCommand("where", Authority.Player, Command_where);
@@ -88,30 +97,35 @@ namespace World.World
 
 			this.AddCommand("gmcp", Authority.GameMaster, Command_gmcp);
 			this.AddCommand("item", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
-			this.AddCommand("drop", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
 			this.AddCommand("iteminfo", "<item name>", Authority.GameMaster, Command_iteminfo);
-			this.AddCommand("ii", "<item name>", Authority.GameMaster, Command_iteminfo);
-			this.AddCommand("mi", "<monster name>", Authority.GameMaster, Command_monsterinfo);
+			this.AddCommand("monsterinfo", "<monster name>", Authority.GameMaster, Command_monsterinfo);
 			this.AddCommand("goto", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("warp", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("jump", "<x> [y]", Authority.GameMaster, Command_jump);
 			this.AddCommand("clean", Authority.GameMaster, Command_clean);
 			this.AddCommand("statuseffect", Authority.GameMaster, Command_statuseffect);
-			this.AddCommand("se", Authority.GameMaster, Command_statuseffect);
+			this.AddCommand("effect", "<id> {(b|i|s:parameter)|me}", Authority.GameMaster, Command_effect);
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
 			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
 			this.AddCommand("ri", Authority.GameMaster, Command_randomitem);
 			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
-			// GMCP
-			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 			this.AddCommand("reloadconf", Authority.Admin, Command_reloadconf);
 
+			// Commands issued from the GMCP
+			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
+
 			// Crashes the server, to simulate "exceptional" conditions.
 			this.AddCommand("badbehavior", Authority.Admin, Command_crash);
+
+			// Aliases
+			this.AddAlias("item", "drop");
+			this.AddAlias("iteminfo", "ii");
+			this.AddAlias("monsterinfo", "mi");
+			this.AddAlias("statuseffect", "se");
 
 			// Load script commands
 			var commandsPath = Path.Combine(WorldConf.ScriptPath, "command");
@@ -151,7 +165,7 @@ namespace World.World
 						var result = command.Func(client, creature, args, msg);
 						if (result == CommandResult.WrongParameter)
 						{
-							client.Send(PacketCreator.ServerMessage(creature, string.Format("Usage: {0} {1}", command.Name, command.Parameters)));
+							client.Send(PacketCreator.ServerMessage(creature, "Usage: {0} {1}", args[0], command.Parameters));
 						}
 					}
 					catch (DoNotCatchException)
@@ -181,7 +195,7 @@ namespace World.World
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var pos = creature.GetPosition();
-			client.Send(PacketCreator.ServerMessage(creature, "  Region: " + creature.Region + ", X: " + pos.X + ", Y: " + pos.Y + ", Direction: " + creature.Direction));
+			client.Send(PacketCreator.ServerMessage(creature, "  Region: {0}, X: {1}, Y: {2}, Direction: {3}", creature.Region, pos.X, pos.Y, creature.Direction));
 
 			return CommandResult.Okay;
 		}
@@ -190,8 +204,8 @@ namespace World.World
 		{
 			MabiVertex pos = creature.GetPosition();
 			client.Send(PacketCreator.ServerMessage(creature, "Welcome to Aura!"));
-			client.Send(PacketCreator.ServerMessage(creature, string.Format("Creatures in world : {0}, items in world : {1}", WorldManager.Instance.GetCreatureCount(), WorldManager.Instance.GetItemCount())));
-			client.Send(PacketCreator.ServerMessage(creature, "You are at pos@" + creature.Region + "," + pos.X + "," + pos.Y));
+			client.Send(PacketCreator.ServerMessage(creature, "Creatures in world : {0}, items in world : {1}", WorldManager.Instance.GetCreatureCount(), WorldManager.Instance.GetItemCount()));
+			client.Send(PacketCreator.ServerMessage(creature, "You are at pos@{0},{1},{2}", creature.Region, pos.X, pos.Y));
 
 			return CommandResult.Okay;
 		}
@@ -490,7 +504,7 @@ namespace World.World
 					region = mapInfo.Id;
 				else
 				{
-					PacketCreator.ServerMessage(creature, "Map '" + args[1] + "' not found.").SendTo(client);
+					client.Send(PacketCreator.ServerMessage(creature, "Map '" + args[1] + "' not found."));
 					return CommandResult.Fail;
 				}
 			}
@@ -586,7 +600,7 @@ namespace World.World
 			}
 			else
 			{
-				PacketCreator.ServerMessage(creature, "Unknown gesture.").SendTo(client);
+				client.Send(PacketCreator.ServerMessage(creature, "Unknown gesture."));
 			}
 
 			return CommandResult.Okay;
@@ -645,16 +659,69 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
+		private CommandResult Command_effect(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			var p = new MabiPacket(Op.Effect, creature.Id);
+
+			uint id;
+			if (!uint.TryParse(args[1], out id))
+				return CommandResult.WrongParameter;
+
+			p.PutInt(id);
+
+			for (int i = 2; i < args.Length; ++i)
+			{
+				var splitted = args[i].Split(':');
+
+				if (splitted[0] == "me")
+				{
+					p.PutLong(creature.Id);
+					continue;
+				}
+
+				if (splitted.Length < 2)
+					continue;
+
+				splitted[0] = splitted[0].Trim();
+				splitted[1] = splitted[1].Trim();
+
+				switch (splitted[0])
+				{
+					case "b":
+						{
+							byte val;
+							if (!byte.TryParse(splitted[1], out val))
+								return CommandResult.WrongParameter;
+							p.PutByte(val);
+							break;
+						}
+					case "i":
+						{
+							uint val;
+							if (!uint.TryParse(splitted[1], out val))
+								return CommandResult.WrongParameter;
+							p.PutInt(val);
+							break;
+						}
+					case "s":
+						{
+							p.PutString(splitted[1]);
+							break;
+						}
+				}
+			}
+
+			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+
+			return CommandResult.Okay;
+		}
+
 		private CommandResult Command_test(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			var pos = creature.GetPosition();
-			client.Send(
-				new MabiPacket(Op.Effect, creature.Id)
-				.PutInt(uint.Parse(args[1]))
-				.PutInt(creature.Region)
-				.PutFloats(pos.X, pos.Y)
-				.PutByte(2)
-			);
+			client.Send(PacketCreator.SystemMessage(creature, "Nothing to see here, move along."));
 
 			return CommandResult.Okay;
 		}
@@ -720,7 +787,7 @@ namespace World.World
 		{
 			client.Send(PacketCreator.ServerMessage(creature, "Reloading conf..."));
 
-			WorldConf.Load(new string[] { });
+			WorldConf.Load(null);
 
 			client.Send(PacketCreator.ServerMessage(creature, "done."));
 

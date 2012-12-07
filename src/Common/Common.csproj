@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\Effects.cs" />
     <Compile Include="Constants\ExpTable.cs" />
     <Compile Include="Constants\Items.cs" />
     <Compile Include="Constants\Skills.cs" />

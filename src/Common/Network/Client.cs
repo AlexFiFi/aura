@@ -69,6 +69,7 @@ namespace Common.Network
 
 		public void Send(MabiPacket packet)
 		{
+			//Logger.Debug(packet.ToStringFromElements());
 			this.Send(packet.Build());
 		}
 
@@ -106,10 +107,12 @@ namespace Common.Network
 
 	public static class ClientExtenstion
 	{
-		public static void SendTo(this MabiPacket p, params Client[] clients)
-		{
-			foreach (var client in clients)
-				client.Send(p);
-		}
+		// Could be useful to send a packet to several clients,
+		// disabled for now, client.Send should be the primary way to send.
+		//public static void SendTo(this MabiPacket p, params Client[] clients)
+		//{
+		//    foreach (var client in clients)
+		//        client.Send(p);
+		//}
 	}
 }

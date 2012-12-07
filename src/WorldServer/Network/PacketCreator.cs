@@ -20,13 +20,14 @@ namespace World.Network
 	public static class PacketCreator
 	{
 		public const long GlobalBroadcastId = 0x3000000000000000;
-		public static MabiPacket SystemMessage(MabiCreature target, string from, string message)
+
+		public static MabiPacket SystemMessage(MabiCreature target, string from, string message, params object[] args)
 		{
 			var p = new MabiPacket(Op.Chat, target.Id);
 
 			p.PutByte(0);
 			p.PutString(from);
-			p.PutString(message);
+			p.PutString(args.Length < 1 ? message : string.Format(message, args));
 			p.PutByte(1);
 			p.PutSInt(-32640);
 			p.PutInt(0);
@@ -35,17 +36,17 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket SystemMessage(MabiCreature target, string message)
+		public static MabiPacket SystemMessage(MabiCreature target, string message, params object[] args)
 		{
-			return PacketCreator.SystemMessage(target, "<SYSTEM>", message);
+			return PacketCreator.SystemMessage(target, "<SYSTEM>", message, args);
 		}
 
-		public static MabiPacket ServerMessage(MabiCreature target, string message)
+		public static MabiPacket ServerMessage(MabiCreature target, string message, params object[] args)
 		{
-			return PacketCreator.SystemMessage(target, "<SERVER>", message);
+			return PacketCreator.SystemMessage(target, "<SERVER>", message, args);
 		}
 
-		public static MabiPacket CombatMessage(MabiCreature target, string message)
+		public static MabiPacket CombatMessage(MabiCreature target, string message, params object[] args)
 		{
 			return PacketCreator.SystemMessage(target, "<COMBAT>", message);
 		}
@@ -213,5 +214,31 @@ namespace World.Network
 			p.PutByte(2);
 			return p;
 		}
+
+		public static MabiPacket Lock(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.CharacterLock, creature.Id);
+			p.PutInt(0xEFFFFFFE);
+			p.PutInt(0);
+			return p;
+		}
+
+		public static MabiPacket Unlock(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.CharacterUnlock, creature.Id);
+			p.PutInt(0xEFFFFFFE);
+			return p;
+		}
+
+		//public static MabiPacket Effect(MabiCreature creature, uint id, params object[] args)
+		//{
+		//    var p = new MabiPacket(Op.Effect, creature.Id);
+		//    p.PutInt(id);
+
+		//    foreach (var arg in args)
+		//        p.Put(arg);
+
+		//    return p;
+		//}
 	}
 }

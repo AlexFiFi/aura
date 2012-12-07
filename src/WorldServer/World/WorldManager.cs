@@ -13,6 +13,7 @@ using World.Network;
 using World.Scripting;
 using World.Tools;
 using Common.Database;
+using World.Skills;
 
 namespace World.World
 {
@@ -303,6 +304,14 @@ namespace World.World
 				range = WorldConf.SightRange;
 
 			return _creatures.FindAll(a => a != entity && InRange(a, entity, range));
+		}
+
+		public List<MabiCreature> GetAttackableCreaturesInRange(MabiEntity entity, uint range = 0)
+		{
+			if (range < 1)
+				range = WorldConf.SightRange;
+
+			return _creatures.FindAll(a => a != entity && a is MabiNPC && ((a as MabiNPC).State & CreatureStates.GoodNpc) == 0 && !a.IsDead() && InRange(a, entity, range));
 		}
 
 		public List<MabiCreature> GetPlayersInRange(MabiEntity entity, uint range = 0)
@@ -703,17 +712,17 @@ namespace World.World
 				// Update or remove, depending on type and amount
 				if (ie.Item.StackType == BundleType.Sac || ie.Item.Info.Amount > 0)
 				{
-					(creature.Client as WorldClient).Send(PacketCreator.ItemAmount(creature, ie.Item));
+					creature.Client.Send(PacketCreator.ItemAmount(creature, ie.Item));
 				}
 				else
 				{
-					(creature.Client as WorldClient).Send(PacketCreator.ItemRemove(creature, ie.Item));
+					creature.Client.Send(PacketCreator.ItemRemove(creature, ie.Item));
 				}
 			}
 			else
 			{
 				// Send info about a new item
-				(creature.Client as WorldClient).Send(PacketCreator.ItemInfo(creature, ie.Item));
+				creature.Client.Send(PacketCreator.ItemInfo(creature, ie.Item));
 			}
 		}
 
@@ -769,6 +778,11 @@ namespace World.World
 			p.PutInt(0);
 
 			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureStatusEffectsChange(MabiCreature creature)
+		{
+			this.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
 		}
 
 		public void CreatureLevelsUp(object sender, EntityEventArgs e)
@@ -892,44 +906,20 @@ namespace World.World
 
 		public void CreatureSkillCancel(MabiCreature creature)
 		{
-			if (creature.Client != null)
+			if (creature.ActiveSkillId > 0)
 			{
-				switch ((SkillConst)creature.ActiveSkillId)
-				{
-					case SkillConst.Healing:
-						creature.Client.Send(new MabiPacket(Op.Effect, creature.Id).PutInt(13).PutString("healing_stack").PutBytes(0, 0));
-						goto default;
+				MabiSkill skill; SkillHandler handler;
+				SkillManager.CheckOutSkill(creature, creature.ActiveSkillId, out skill, out handler);
+				if (skill == null || handler == null)
+					return;
 
-					default:
-						creature.Client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(0, 1, 0).PutShort(0));
-						break;
-				}
+				var result = handler.Cancel(creature, skill);
 
-				creature.Client.Send(new MabiPacket(Op.SkillCancel, creature.Id).PutBytes(1, 1));
-			}
+				if ((result & SkillResults.Okay) == 0)
+					return;
 
-			creature.ActiveSkillId = 0;
-			creature.ActiveSkillStacks = 0;
-		}
-
-		public void CreatureSkillUseCancel(MabiCreature creature)
-		{
-			if (creature.Client != null)
-			{
-				switch ((SkillConst)creature.ActiveSkillId)
-				{
-					case SkillConst.Smash:
-						creature.Client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(creature.ActiveSkillId).PutInts(600, 1));
-						goto default;
-
-					case SkillConst.Defense:
-						creature.Client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(creature.ActiveSkillId).PutInts(1000, 1));
-						goto default;
-
-					default:
-						creature.Client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(0, 1, 0).PutShort(creature.ActiveSkillId));
-						break;
-				}
+				creature.Client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(0, 1, 0).PutShort(creature.ActiveSkillId));
+				creature.Client.Send(new MabiPacket(Op.SkillCancel, creature.Id).PutBytes(0, 1));
 			}
 
 			creature.ActiveSkillId = 0;
@@ -940,11 +930,8 @@ namespace World.World
 		{
 			creature.Revive();
 
-			var alive = new MabiPacket(Op.BackFromTheDead1, creature.Id);
-			WorldManager.Instance.Broadcast(alive, SendTargets.Range, creature);
-
-			var standUp = new MabiPacket(Op.BackFromTheDead2, creature.Id);
-			WorldManager.Instance.Broadcast(standUp, SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead1, creature.Id), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead2, creature.Id), SendTargets.Range, creature);
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 		}
@@ -986,7 +973,7 @@ namespace World.World
 
 					if (action.ActionType.HasFlag(CombatActionType.Defense))
 					{
-						WorldManager.Instance.CreatureSkillUseCancel(action.Creature);
+						this.CreatureSkillCancel(action.Creature);
 
 						actionPacket.PutLong(enemy.Id);
 						actionPacket.PutInt(0);
@@ -1010,7 +997,7 @@ namespace World.World
 					}
 
 					actionPacket.PutByte(action.GetDefenseOption());
-					actionPacket.PutInt(0);
+					actionPacket.PutInt(action.ReactionDelay);
 					actionPacket.PutLong(enemy.Id);
 
 					if (action.Finish)
@@ -1096,8 +1083,7 @@ namespace World.World
 
 						if (action.Creature.ActiveSkillId > 0)
 						{
-							Console.WriteLine(action.Creature.ActiveSkillId);
-							WorldManager.Instance.CreatureSkillCancel(action.Creature);
+							this.CreatureSkillCancel(action.Creature);
 						}
 
 						if (action.Creature.Owner != null)
@@ -1121,7 +1107,7 @@ namespace World.World
 
 					if (action.Creature.ActiveSkillId > 0)
 					{
-						this.CreatureSkillUseCancel(action.Creature);
+						this.CreatureSkillCancel(action.Creature);
 					}
 				}
 

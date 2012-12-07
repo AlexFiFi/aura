@@ -20,8 +20,8 @@ namespace Common.Data
 		public float Cp;
 		public byte Stack;
 		public uint LoadTime, NewLoadTime, CoolDown;
-		public float StaminaCost, StaminaPrepare, StaminaLoad, StaminaUse;
-		public float ManaCost, ManaPrepare, ManaLoad, ManaUse;
+		public float StaminaCost, StaminaPrepare, StaminaWait, StaminaUse;
+		public float ManaCost, ManaPrepare, ManaWait, ManaUse;
 		public float Life, Mana, Stamina, Str, Int, Dex, Will, Luck;
 		public float Var1, Var2, Var3, Var4, Var5, Var6, Var7, Var8, Var9;
 	}
@@ -53,11 +53,11 @@ namespace Common.Data
 			info.CoolDown = Convert.ToUInt32(csv[i++]);
 			info.StaminaCost = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.StaminaPrepare = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
-			info.StaminaLoad = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.StaminaWait = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.StaminaUse = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.ManaCost = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.ManaPrepare = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
-			info.ManaLoad = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.ManaWait = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.ManaUse = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.Life = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.Mana = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));

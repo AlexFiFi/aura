@@ -655,6 +655,8 @@ namespace Login.Network
 					// TODO: This should be configurable.
 					character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(7, 0, 0));
 				}
+
+				MabiDb.Instance.SaveCharacter(client.Account, character);
 			}
 
 			client.Send(response);

@@ -96,7 +96,6 @@ namespace Common.Tools
 
 			lock (Console.Out)
 			{
-
 				switch (lvl)
 				{
 					case LogLevel.Info: Console.ForegroundColor = ConsoleColor.White; break;

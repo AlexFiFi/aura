@@ -265,7 +265,7 @@ namespace Common.Constants
 		UseManaForming = 50033,
 
 		// Transformation
-		SpiritofOrder = 40001,
+		SpiritOfOrder = 40001,
 		PowerofOrder = 40002,
 		EyeofOrder = 40003,
 		SwordofOrder = 40004,
@@ -282,7 +282,7 @@ namespace Common.Constants
 		DarkManaRefractor = 41023,
 		RaceTransform = 42001,
 		WindMillTrans = 42002,
-		FuryofConnous = 43001,
+		FuryOfConnous = 43001,
 		ElvenMagicMissile = 43002,
 		ArmorofConnous = 43011,
 		MindofConnous = 43012,

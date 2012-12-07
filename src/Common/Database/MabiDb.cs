@@ -490,11 +490,11 @@ namespace Common.Database
 					character.WillBase = reader.GetFloat("will");
 					character.LuckBase = reader.GetFloat("luck");
 					character.AbilityPoints = reader.GetUInt16("abilityPoints");
-					character.StrMod = reader.GetFloat("strBoost");
-					character.DexMod = reader.GetFloat("dexBoost");
-					character.IntMod = reader.GetFloat("intBoost");
-					character.WillMod = reader.GetFloat("willBoost");
-					character.LuckMod = reader.GetFloat("luckBoost");
+					//character.StrMod = reader.GetFloat("strBoost");
+					//character.DexMod = reader.GetFloat("dexBoost");
+					//character.IntMod = reader.GetFloat("intBoost");
+					//character.WillMod = reader.GetFloat("willBoost");
+					//character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
 					character.DeletionTime = reader["deletionTime"] as DateTime? ?? DateTime.MinValue;
 					character.State = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
@@ -744,7 +744,8 @@ namespace Common.Database
 					+ " `status`, `height`, `fatness`, `upper`, `lower`, `region`, `x`, `y`, `direction`, `battleState`, `weaponSet`,"
 					+ " `life`, `injuries`, `lifeMax`, `mana`, `manaMax`, `stamina`, `staminaMax`, `food`, `level`, `totalLevel`,"
 					+ " `experience`, `age`, `strength`, `dexterity`, `intelligence`, `will`, `luck`, `abilityPoints`, `attackMin`, `attackMax`,"
-					+ " `wattackMin`, `wattackMax`, `critical`, `protect`, `defense`, `rate`, `strBoost`, `dexBoost`, `intBoost`, `willBoost`, `luckBoost`,"
+					+ " `wattackMin`, `wattackMax`, `critical`, `protect`, `defense`, `rate`,"
+					+ " `strBoost`, `dexBoost`, `intBoost`, `willBoost`, `luckBoost`,"
 					+ " `lastTown`, `lastDungeon`, `birthday`, `title`, `deletionTime`, `maxLevel`, `rebirthCount`, `jobId`) "
 
 					+ " VALUES"
@@ -752,7 +753,8 @@ namespace Common.Database
 					+ " @status, @height, @fatness, @upper, @lower, @region, @x, @y, @direction, @battleState, @weaponSet,"
 					+ " @life, @injuries, @lifeMax, @mana, @manaMax, @stamina, @staminaMax, @food, @level, @totalLevel,"
 					+ " @experience, @age, @strength, @dexterity, @intelligence, @will, @luck, @abilityPoints, @attackMin, @attackMax,"
-					+ " @wattackMin, @wattackMax, @critical, @protect, @defense, @rate, @strBoost, @dexBoost, @intBoost, @willBoost, @luckBoost,"
+					+ " @wattackMin, @wattackMax, @critical, @protect, @defense, @rate,"
+					+ " @strBoost, @dexBoost, @intBoost, @willBoost, @luckBoost,"
 					+ " @lastTown, @lastDungeon, @birthday, @title, @deletionTime, @maxLevel, @rebirthCount, @jobId) "
 
 					+ " ON DUPLICATE KEY UPDATE"
@@ -813,11 +815,16 @@ namespace Common.Database
 				mc.Parameters.AddWithValue("@protect", 0);
 				mc.Parameters.AddWithValue("@defense", 0);
 				mc.Parameters.AddWithValue("@rate", 0);
-				mc.Parameters.AddWithValue("@strBoost", character.StrMod);
-				mc.Parameters.AddWithValue("@dexBoost", character.DexMod);
-				mc.Parameters.AddWithValue("@intBoost", character.IntMod);
-				mc.Parameters.AddWithValue("@willBoost", character.WillMod);
-				mc.Parameters.AddWithValue("@luckBoost", character.LuckMod);
+				//mc.Parameters.AddWithValue("@strBoost", character.StrMod);
+				//mc.Parameters.AddWithValue("@dexBoost", character.DexMod);
+				//mc.Parameters.AddWithValue("@intBoost", character.IntMod);
+				//mc.Parameters.AddWithValue("@willBoost", character.WillMod);
+				//mc.Parameters.AddWithValue("@luckBoost", character.LuckMod);
+				mc.Parameters.AddWithValue("@strBoost", 0);
+				mc.Parameters.AddWithValue("@dexBoost", 0);
+				mc.Parameters.AddWithValue("@intBoost", 0);
+				mc.Parameters.AddWithValue("@willBoost", 0);
+				mc.Parameters.AddWithValue("@luckBoost", 0);
 				mc.Parameters.AddWithValue("@lastTown", "");
 				mc.Parameters.AddWithValue("@lastDungeon", "");
 				mc.Parameters.AddWithValue("@birthday", DateTime.MinValue);

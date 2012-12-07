@@ -139,7 +139,7 @@ namespace Common.Network
 		public readonly static uint SkillCancel = 0x6989;
 		public readonly static uint SkillStart = 0x698A;
 		public readonly static uint SkillStop = 0x698B;
-		public readonly static uint SkillUnkown1 = 0x698D;
+		public readonly static uint SkillInstructCancel = 0x698D;
 		public readonly static uint SkillStackSet = 0x6991;
 		public readonly static uint SkillStackUpdate = 0x6992;
 		public readonly static uint Motions = 0x6D62;
@@ -152,8 +152,8 @@ namespace Common.Network
 		public readonly static uint ChangesStance = 0x6E2A;
 
 		public readonly static uint BackFromTheDead2 = 0x701D;
-		public readonly static uint LoginWLock = 0x701E;
-		public readonly static uint LoginWUnlock = 0x701F;
+		public readonly static uint CharacterLock = 0x701E;
+		public readonly static uint CharacterUnlock = 0x701F;
 		public readonly static uint ShopBuyItem = 0x7150;
 		public readonly static uint ShopBuyItemR = 0x7151;
 		public readonly static uint ShopSellItem = 0x7152;
@@ -189,6 +189,7 @@ namespace Common.Network
 		public readonly static uint Effect = 0x9090;
 
 		public readonly static uint StatusEffectUpdate = 0xA028;
+		public readonly static uint Transformation = 0xA41C;
 		public readonly static uint MoonGateRequest = 0xA428;
 		public readonly static uint MoonGateRequestR = 0xA429;
 		public readonly static uint ItemShopInfo = 0xA436;

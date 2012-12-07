@@ -95,7 +95,7 @@ namespace Common.Events
 		public bool New;
 
 		public ItemUpdateEventArgs(MabiItem item, bool isNew = false)
-			:base(item)
+			: base(item)
 		{
 			this.New = isNew;
 		}
@@ -140,12 +140,17 @@ namespace Common.Events
 		public bool Finish;
 		public bool DualWield;
 
+		// Noticed in WM, seems to delay the knock back.
+		public uint ReactionDelay;
+
 		public uint GetAttackOption()
 		{
 			uint result = 0x20;
 
 			if (ActionType.HasFlag(CombatActionType.TakeDamage))
 			{
+				// WM kill: 0x111C
+
 				if (Critical) result += 0x01;
 				if (CleanHit) result += 0x04;
 				if (FirstAttack) result += 0x08;
@@ -155,6 +160,8 @@ namespace Common.Events
 			}
 			else if (ActionType.HasFlag(CombatActionType.Hit))
 			{
+				// WM kill: 0x22
+
 				if (Finish) result += 0x06;
 				else if (IsKnock()) result += 0x04;
 				else if (DualWield) result += 0x40;

@@ -43,7 +43,9 @@ namespace World.Tools
 		{
 			_conf = new Configuration();
 			_conf.ReadFile("../../conf/world.conf");
-			_conf.ReadArguments(args, "../../");
+
+			if (args != null)
+				_conf.ReadArguments(args, "../../");
 
 			WorldConf.ConsoleFilter = (Logger.LogLevel)_conf.GetInt("world_consolefilter", 0);
 #if DEBUG

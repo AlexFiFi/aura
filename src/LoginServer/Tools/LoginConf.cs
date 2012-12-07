@@ -32,7 +32,9 @@ namespace Login.Tools
 		{
 			_conf = new Configuration();
 			_conf.ReadFile("../../conf/login.conf");
-			_conf.ReadArguments(args, "../../");
+
+			if (args != null)
+				_conf.ReadArguments(args, "../../");
 
 			LoginConf.ConsoleFilter = (Logger.LogLevel)_conf.GetInt("login_consolefilter", 0);
 #if DEBUG

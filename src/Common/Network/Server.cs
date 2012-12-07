@@ -332,7 +332,7 @@ namespace Common.Network
 								var handler = this.GetPacketHandler(packet.Op);
 								if (handler != null)
 								{
-									//Logger.Debug("Handling packet: " + HexTool.ToString(packet.Op));
+									//Logger.Debug(packet.ToString());
 									try
 									{
 										handler(client, packet);
