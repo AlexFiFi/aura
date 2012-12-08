@@ -26,6 +26,8 @@ namespace Login.Tools
 
 		public static uint SpawnRegion, SpawnX, SpawnY;
 
+		public static int DeletionWait;
+
 		private static Configuration _conf;
 
 		public static void Load(string[] args)
@@ -51,6 +53,13 @@ namespace Login.Tools
 
 			LoginConf.ConsumeCards = _conf.GetBool("login_consumecards", true);
 			LoginConf.NewAccounts = _conf.GetBool("login_newaccounts", true);
+
+			LoginConf.DeletionWait = _conf.Get<int>("login_deletewait", 107);
+			if (LoginConf.DeletionWait < 0 || (LoginConf.DeletionWait > 23 && LoginConf.DeletionWait < 100) || LoginConf.DeletionWait > 123)
+			{
+				Logger.Warning("Invalid format for 'login_deletewait', setting to 0.");
+				LoginConf.DeletionWait = 0;
+			}
 		}
 
 

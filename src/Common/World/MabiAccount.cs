@@ -27,7 +27,7 @@ namespace Common.World
 		public DateTime LastLogin;
 		public string LastIp;
 
-		public string BannedReason;
+		public string BannedReason = "";
 		public DateTime BannedExpiration;
 
 		public List<MabiCharacter> Characters = new List<MabiCharacter>();

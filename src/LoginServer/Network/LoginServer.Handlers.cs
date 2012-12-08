@@ -155,8 +155,10 @@ namespace Login.Network
 					{
 						Logger.Info("Logging in as '" + account.Username + "'.");
 						account.LoggedIn = true;
-						account.LastIp = client.Socket.RemoteEndPoint.ToString();
 						account.LastLogin = DateTime.Now;
+						account.LastIp = client.Socket.RemoteEndPoint.ToString();
+						if (account.LastIp.IndexOf(':') > 0)
+							account.LastIp = account.LastIp.Split(':')[0];
 
 						// Add free cards if there are none.
 						// If you don't have chars and char cards, you get a new free card,
@@ -652,11 +654,13 @@ namespace Login.Network
 				else // Op.DeleteCharRequest || Op.DeletePetRequest || Error?
 				{
 					// Set time at which the character can be deleted for good.
-					// TODO: This should be configurable.
-					character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(7, 0, 0));
+					if (LoginConf.DeletionWait > 100)
+						character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(LoginConf.DeletionWait - 100, 0, 0));
+					else
+						character.DeletionTime = DateTime.Now.AddHours(LoginConf.DeletionWait);
 				}
 
-				MabiDb.Instance.SaveCharacter(client.Account, character);
+				character.Save = true;
 			}
 
 			client.Send(response);
@@ -918,7 +922,7 @@ namespace Login.Network
 
 			Logger.Info("'" + accountName + "' is closing the connection.");
 
-			//MabiDb.Instance.SaveAccount(client.Account);
+			MabiDb.Instance.SaveAccount(client.Account);
 		}
 
 		private void HandleEnterPetCreation(LoginClient client, MabiPacket packet)

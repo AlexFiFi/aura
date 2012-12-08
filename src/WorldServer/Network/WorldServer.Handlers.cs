@@ -44,6 +44,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.SwitchSet, HandleSwitchSet);
 			this.RegisterPacketHandler(Op.ItemStateChange, HandleItemStateChange);
 			this.RegisterPacketHandler(Op.ItemUse, HandleItemUse);
+			this.RegisterPacketHandler(Op.ViewEquipment, HandleViewEquipment);
 
 			this.RegisterPacketHandler(Op.NPCTalkStart, HandleNPCTalkStart);
 			this.RegisterPacketHandler(Op.NPCTalkEnd, HandleNPCTalkEnd);
@@ -2116,6 +2117,34 @@ namespace World.Network
 			p.PutShorts(width, height);
 			p.PutByte(0);
 			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void HandleViewEquipment(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var p = new MabiPacket(Op.ViewEquipmentR, client.Character.Id);
+
+			var targetID = packet.GetLong();
+			var target = WorldManager.Instance.GetCreatureById(targetID);
+			if (target == null /* || TODO: Check visibility. */)
+			{
+				p.PutByte(0);
+				client.Send(p);
+				return;
+			}
+
+			var items = target.Items.FindAll(a => a.IsEquipped() && a.Type != ItemType.Hair && a.Type != ItemType.Face);
+
+			p.PutByte(1);
+			p.PutLong(targetID);
+			p.PutInt((ushort)items.Count);
+			foreach (var item in items)
+				item.AddPrivateEntityData(p);
+
+			client.Send(p);
 		}
 	}
 }

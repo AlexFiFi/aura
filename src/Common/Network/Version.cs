@@ -123,6 +123,8 @@ namespace Common.Network
 		public readonly static uint ItemStateChange = 0x5BD0;
 		public readonly static uint ItemStateChangeR = 0x5BD1;
 		public readonly static uint ItemStateChanged = 0x5BD9;
+		public readonly static uint ViewEquipment = 0x5BDF;
+		public readonly static uint ViewEquipmentR = 0x5BE0;
 		public readonly static uint NPCTalkKeyword = 0x5DC4;
 		public readonly static uint NPCTalkKeywordR = 0x5DC5;
 
