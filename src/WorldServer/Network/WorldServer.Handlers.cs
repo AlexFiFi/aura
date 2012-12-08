@@ -1375,7 +1375,10 @@ namespace World.Network
 			if ((result & SkillResults.InvalidTarget) != 0)
 				client.Send(PacketCreator.SystemMessage(creature, "Invalid target"));
 
-			if ((result & SkillResults.Okay) == 0 && (result & SkillResults.NoReply) == 0)
+			if ((result & SkillResults.NoReply) != 0)
+				return;
+
+			if ((result & SkillResults.Okay) == 0)
 			{
 				client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(0));
 				return;

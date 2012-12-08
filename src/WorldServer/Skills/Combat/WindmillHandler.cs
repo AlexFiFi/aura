@@ -44,11 +44,7 @@ namespace World.Skills
 		public override SkillResults Use(MabiCreature creature, MabiCreature target, MabiSkill skill)
 		{
 			// Determine range, doesn't seem to be included in rank info.
-			uint range = 300;
-			if (skill.Rank >= SkillRank.R5)
-				range += 100;
-			if (skill.Rank == SkillRank.R1)
-				range += 100;
+			uint range = this.GetRange(skill);
 
 			var enemies = WorldManager.Instance.GetAttackableCreaturesInRange(creature, range);
 			if (enemies.Count < 1)
@@ -56,7 +52,7 @@ namespace World.Skills
 				if (creature.Client != null)
 				{
 					creature.Client.Send(PacketCreator.Notice("Unable to use when there is no target."));
-					//creature.Client.Send(new MabiPacket(Op.SkillInstructCancel, creature.Id));
+					creature.Client.Send(new MabiPacket(Op.SkillSilentCancel, creature.Id));
 				}
 				return SkillResults.OutOfRange | SkillResults.NoReply;
 			}
@@ -136,6 +132,28 @@ namespace World.Skills
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
 			return SkillResults.Okay;
+		}
+
+		protected virtual uint GetRange(MabiSkill skill)
+		{
+			uint range = 300;
+			if (skill.Rank >= SkillRank.R5)
+				range += 100;
+			if (skill.Rank == SkillRank.R1)
+				range += 100;
+			return range;
+		}
+	}
+
+	/// <summary>
+	/// The GM skill has 2 vars, 1000 and 1500, we'll asume it never cost HP,
+	/// var 1 is still the damage, and var 2 is here the range.
+	/// </summary>
+	public class SuperWindmillHandler : WindmillHandler
+	{
+		protected override uint GetRange(MabiSkill skill)
+		{
+			return (uint)skill.RankInfo.Var2;
 		}
 	}
 }

@@ -134,6 +134,7 @@ namespace Common.Network
 		public readonly static uint WarpRegion = 0x6599;
 		public readonly static uint EnterRegionR = 0x659C;
 		public readonly static uint SkillInfo = 0x6979;
+		public readonly static uint SkillUpdate = 0x697F;
 		public readonly static uint SkillPrepare = 0x6982;
 		public readonly static uint SkillReady = 0x6983;
 		public readonly static uint SkillUse = 0x6986;
@@ -141,12 +142,13 @@ namespace Common.Network
 		public readonly static uint SkillCancel = 0x6989;
 		public readonly static uint SkillStart = 0x698A;
 		public readonly static uint SkillStop = 0x698B;
-		public readonly static uint SkillInstructCancel = 0x698D;
+		public readonly static uint SkillSilentCancel = 0x698D;
 		public readonly static uint SkillStackSet = 0x6991;
 		public readonly static uint SkillStackUpdate = 0x6992;
 		public readonly static uint Motions = 0x6D62;
 		public readonly static uint MotionCancel = 0x6D65;
 		public readonly static uint LevelUp = 0x6D69;
+		public readonly static uint RankUp = 0x6D6A;
 		public readonly static uint Resting = 0x6D6C;
 		public readonly static uint StandUp = 0x6D6D;
 		public readonly static uint ChangeStance = 0x6E28;

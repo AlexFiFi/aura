@@ -34,6 +34,9 @@ namespace World.Skills
 			_handlers.Add(SkillConst.SpiritOfOrder, new SpiritOfOrderHandler());
 			_handlers.Add(SkillConst.SoulOfChaos, new SoulOfChaosHandler());
 			_handlers.Add(SkillConst.FuryOfConnous, new FuryOfConnousHandler());
+
+			// GM
+			_handlers.Add(SkillConst.SuperWindmill, new SuperWindmillHandler());
 		}
 
 		private static Dictionary<SkillConst, SkillHandler> _handlers = new Dictionary<SkillConst, SkillHandler>();

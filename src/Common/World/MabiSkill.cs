@@ -67,7 +67,7 @@ namespace Common.World
 		{
 		}
 
-		private void LoadRankInfo()
+		public void LoadRankInfo()
 		{
 			var skillInfo = MabiData.SkillDb.Find(this.Info.Id);
 			if (skillInfo == null)
@@ -79,8 +79,13 @@ namespace Common.World
 			var rankInfo = skillInfo.GetRankInfo(this.Info.Rank, _race);
 			if (rankInfo == null)
 			{
-				Logger.Warning("Unable to find level info for skill '" + this.Info.Id.ToString() + "', level '" + this.Info.Rank.ToString() + "'.");
-				return;
+				Logger.Warning("Unable to find info for skill '" + this.Info.Id.ToString() + "', rank '" + this.Info.Rank.ToString() + "'.");
+
+				if (skillInfo.RankInfo.Count < 1)
+					return;
+
+				rankInfo = skillInfo.RankInfo[0];
+				Logger.Warning("Using the first found rank info instead.");
 			}
 
 			this.RankInfo = rankInfo;

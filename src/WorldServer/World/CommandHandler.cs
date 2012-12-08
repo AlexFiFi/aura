@@ -739,15 +739,7 @@ namespace World.World
 			if (args.Length > 2 && !byte.TryParse(args[2], out rank))
 				return CommandResult.Fail;
 
-			MabiSkill skill = creature.Skills.FirstOrDefault(a => a.Info.Id == skillId);
-			if (skill != null)
-				creature.Skills.Remove(skill);
-
-			skill = new MabiSkill(skillId, rank, creature.Race);
-			creature.Skills.Add(skill);
-
-			client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Info));
-			client.Send(PacketCreator.ServerMessage(creature, "Congratulations, you got skill '" + ((SkillConst)skillId) + "'."));
+			creature.GiveSkill(skillId, rank);
 
 			return CommandResult.Okay;
 		}

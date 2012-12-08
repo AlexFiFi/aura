@@ -92,12 +92,24 @@ namespace Common.Events
 
 	public class ItemUpdateEventArgs : ItemEventArgs
 	{
-		public bool New;
+		public bool IsNew;
 
 		public ItemUpdateEventArgs(MabiItem item, bool isNew = false)
 			: base(item)
 		{
-			this.New = isNew;
+			this.IsNew = isNew;
+		}
+	}
+
+	public class SkillUpdateEventArgs : EventArgs
+	{
+		public MabiSkill Skill;
+		public bool IsNew;
+
+		public SkillUpdateEventArgs(MabiSkill skill, bool isNew = false)
+		{
+			this.Skill = skill;
+			this.IsNew = isNew;
 		}
 	}
 

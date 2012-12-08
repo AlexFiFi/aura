@@ -460,38 +460,6 @@ namespace Common.World
 			return (this.Stun > 0);
 		}
 
-		/// <summary>
-		/// Returns the remaining stun time. See IsStunned for more info.
-		/// </summary>
-		/// <param name="half"></param>
-		/// <returns></returns>
-		//public ushort GetStunTime(bool half = false)
-		//{
-		//    if (_stunLength == 0 || _stunStart == null)
-		//        return 0;
-
-		//    var now = DateTime.Now;
-		//    var passedTime = now.Subtract(_stunStart);
-
-		//    if (half)
-		//        passedTime = TimeSpan.FromTicks((long)(passedTime.Ticks * 1.5f));
-
-		//    if (passedTime.TotalMilliseconds > _stunLength)
-		//        return (_stunLength = 0);
-
-		//    return (ushort)(_stunLength - passedTime.TotalMilliseconds);
-		//}
-
-		public MabiSkill GetSkill(ushort id)
-		{
-			return this.Skills.FirstOrDefault(a => a.Info.Id == id);
-		}
-
-		public MabiSkill GetSkill(SkillConst id)
-		{
-			return this.GetSkill((ushort)id);
-		}
-
 		public bool HasSkill(ushort id)
 		{
 			return this.Skills.Exists(a => a.Info.Id == id);
@@ -783,6 +751,38 @@ namespace Common.World
 				this.Items.Remove(item);
 
 			EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+		}
+
+		public void GiveSkill(ushort skillId, byte rank)
+		{
+			this.GiveSkill((SkillConst)skillId, (SkillRank)rank);
+		}
+
+		public void GiveSkill(SkillConst skillId, SkillRank rank)
+		{
+			var skill = this.GetSkill(skillId);
+			if (skill == null)
+			{
+				skill = new MabiSkill(skillId, rank, this.Race);
+				this.Skills.Add(skill);
+				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, true);
+			}
+			else
+			{
+				skill.Info.Rank = (byte)rank;
+				skill.LoadRankInfo();
+				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, false);
+			}
+		}
+
+		public MabiSkill GetSkill(SkillConst skillId)
+		{
+			return this.GetSkill((ushort)skillId);
+		}
+
+		public MabiSkill GetSkill(ushort skillId)
+		{
+			return this.Skills.FirstOrDefault(a => a.Info.Id == skillId);
 		}
 
 		public float GetSpeed()

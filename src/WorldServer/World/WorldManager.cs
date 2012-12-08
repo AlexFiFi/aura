@@ -28,6 +28,7 @@ namespace World.World
 			EntityEvents.Instance.CreatureStatusEffectUpdate += this.CreatureStatusEffectsChange;
 			EntityEvents.Instance.CreatureItemUpdate += this.CreatureItemUpdate;
 			EntityEvents.Instance.CreatureDropItem += this.CreatureDropItem;
+			EntityEvents.Instance.CreatureSkillUpdate += this.CreatureSkillUpdate;
 		}
 
 		private List<MabiCreature> _creatures = new List<MabiCreature>();
@@ -707,7 +708,7 @@ namespace World.World
 			if (creature.Client == null)
 				return;
 
-			if (!ie.New)
+			if (!ie.IsNew)
 			{
 				// Update or remove, depending on type and amount
 				if (ie.Item.StackType == BundleType.Sac || ie.Item.Info.Amount > 0)
@@ -723,6 +724,21 @@ namespace World.World
 			{
 				// Send info about a new item
 				creature.Client.Send(PacketCreator.ItemInfo(creature, ie.Item));
+			}
+		}
+
+		public void CreatureSkillUpdate(object sender, SkillUpdateEventArgs args)
+		{
+			var creature = sender as MabiCreature;
+			if (args.IsNew && creature.Client != null)
+			{
+				creature.Client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(args.Skill.Info));
+			}
+			else
+			{
+				if (creature.Client != null)
+					creature.Client.Send(new MabiPacket(Op.SkillUpdate, creature.Id).PutByte(1).PutBin(args.Skill.Info).PutFloat(0));
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, creature.Id).PutShorts(args.Skill.Info.Id, 1), SendTargets.Range, creature);
 			}
 		}
 
