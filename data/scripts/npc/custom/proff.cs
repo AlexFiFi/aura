@@ -31,7 +31,7 @@ public class ProffScript : NPCScript
 		
         Phrases.Add("Hello there.");
         Phrases.Add("Come with me... I shall show you a future in ruins.");
-        Phrases.Add("E = mc^2 actually stands for Enjoyment = (Modifying the Client)^2");
+        Phrases.Add("E = mc² actually stands for Enjoyment = (Modifying the Client)²");
         Phrases.Add("Hmm... I haven't checked in with FIONA lately...");
         Phrases.Add("My latest creation is almost ready!");
 	}

@@ -44,7 +44,7 @@ namespace World.Skills
 			// TODO: Add actual transform level from rank info.
 			// intVal1 = look, intVal2 = titleId
 			var p = new MabiPacket(0xA41C, creature.Id);
-			p.PutByte((byte)(transforming ? this.TransformId : 0));
+			p.PutByte((byte)(transforming ? this.TransformId : (byte)0));
 			p.PutShort((ushort)(transforming ? 15 : 0));
 			p.PutShort((ushort)(transforming ? ((skill.Info.Rank + 1) / 4) : 0));
 			p.PutByte(1);
