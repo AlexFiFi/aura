@@ -134,5 +134,17 @@ namespace World.Skills
 				WorldManager.Instance.CreatureChangeStance(target, 0);
 			}
 		}
+
+		protected void GiveSkillExp(MabiCreature creature, MabiSkill skill, float exp)
+		{
+			if (skill.Info.Experience < 100000)
+			{
+				skill.Info.Experience += (int)exp * 1000;
+				if (skill.IsRankable)
+					skill.Info.Flag |= (ushort)SkillFlags.Rankable;
+				if (creature.Client != null)
+					creature.Client.Send(new MabiPacket(0x697C, creature.Id).PutBin(skill.Info).PutFloat(exp).PutByte(1).PutString("" /* (Specialized Skill Bonus: x2) */));
+			}
+		}
 	}
 }

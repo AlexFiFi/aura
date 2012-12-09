@@ -131,6 +131,8 @@ namespace World.Skills
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
+			this.GiveSkillExp(creature, skill, 20);
+
 			return SkillResults.Okay;
 		}
 

@@ -6,6 +6,7 @@ using Common.World;
 using World.World;
 using Common.Events;
 using Common.Tools;
+using Common.Network;
 
 namespace World.Skills
 {
@@ -41,7 +42,7 @@ namespace World.Skills
 			sourceAction.Creature = creature;
 			sourceAction.TargetId = (target != null ? target.Id : 0);
 
-			return handler.UseCombat(creature, target, sourceAction, skill); // handler(creature, target, sourceAction, skill, 0, 0);
+			return handler.UseCombat(creature, target, sourceAction, skill);
 		}
 
 		public override SkillResults UseCombat(MabiCreature creature, MabiCreature target, CombatAction sourceAction, MabiSkill skill)
@@ -165,6 +166,8 @@ namespace World.Skills
 
 				prevCombatActionId = combatArgs.CombatActionId;
 			}
+
+			this.GiveSkillExp(creature, skill, 20);
 
 			return SkillResults.Okay;
 		}

@@ -1,0 +1,1 @@
+ALTER TABLE `skills` ADD `exp` INT NOT NULL DEFAULT '0'

@@ -50,12 +50,33 @@ namespace Common.World
 		//public MabiCreature ActiveTarget { get; set; }
 		//public byte ActiveStacks { get; set; }
 
+		public bool IsRankable
+		{
+			get
+			{
+				return this.Info.Experience >= 100000;
+			}
+		}
+
 		public MabiSkill(ushort skillId, byte rank, uint race = 10001)
 		{
 			this.Info.Id = skillId;
 			this.Info.Rank = rank;
 			this.Info.MaxRank = (byte)SkillRank.R1;
-			this.Info.Flag = 0xFF80 | (ushort)SkillStatus.Shown;
+			this.Info.Flag = (ushort)(SkillFlags.Default | SkillFlags.Shown);
+
+			// Set to 1, so we don't get the perfect training msg
+			// all the time. Calculated in reverse, count is set to
+			// the max training and reduced afterwards (good idea devCat...).
+			this.Info.ConditionCount1 = 1;
+			this.Info.ConditionCount2 = 1;
+			this.Info.ConditionCount3 = 1;
+			this.Info.ConditionCount4 = 1;
+			this.Info.ConditionCount5 = 1;
+			this.Info.ConditionCount6 = 1;
+			this.Info.ConditionCount7 = 1;
+			this.Info.ConditionCount8 = 1;
+			this.Info.ConditionCount9 = 1;
 
 			_race = 10001;
 

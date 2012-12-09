@@ -69,6 +69,7 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.SkillCancel, HandleSkillCancel);
 			this.RegisterPacketHandler(Op.SkillStart, HandleSkillStart);
 			this.RegisterPacketHandler(Op.SkillStop, HandleSkillStop);
+			this.RegisterPacketHandler(Op.SkillAdvance, HandleSkillAdvance);
 
 			this.RegisterPacketHandler(Op.PetSummon, HandlePetSummon);
 			this.RegisterPacketHandler(Op.PetUnsummon, HandlePetUnsummon);
@@ -2148,6 +2149,20 @@ namespace World.Network
 				item.AddPrivateEntityData(p);
 
 			client.Send(p);
+		}
+
+		public void HandleSkillAdvance(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var skillId = packet.GetShort();
+			var skill = creature.GetSkill(skillId);
+			if (skill == null || !skill.IsRankable)
+				return;
+
+			creature.GiveSkill(skill.Id, skill.Rank + 1);
 		}
 	}
 }

@@ -721,7 +721,37 @@ namespace World.World
 
 		private CommandResult Command_test(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			client.Send(PacketCreator.SystemMessage(creature, "Nothing to see here, move along."));
+			//client.Send(PacketCreator.SystemMessage(creature, "Nothing to see here, move along."));
+
+			var targets = WorldManager.Instance.GetCreaturesInRange(creature, 400);
+			if (targets.Count > 0)
+			{
+				if ((targets[0].State & CreatureStates.SitDown) == 0)
+				{
+					targets[0].State |= CreatureStates.SitDown;
+					WorldManager.Instance.CreatureSitDown(targets[0]);
+				}
+				else
+				{
+					targets[0].State &= ~CreatureStates.SitDown;
+					WorldManager.Instance.CreatureStandUp(targets[0]);
+
+					client.Send(
+						new MabiPacket(0x00007532, targets[0].Id)
+						.PutByte(4)
+						.PutInt(0)
+
+						.PutInt(0)
+						.PutInt(1)
+						.PutInt(33)
+						.PutInt(0)
+						.PutInt(0)
+						.PutInt(1)
+						.PutInt(33)
+						.PutInt(0)
+					);
+				}
+			}
 
 			return CommandResult.Okay;
 		}

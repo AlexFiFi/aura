@@ -5,6 +5,7 @@ using Common.Constants;
 using Common.World;
 using World.World;
 using Common.Network;
+using Common.Tools;
 
 namespace World.Skills
 {
@@ -21,8 +22,9 @@ namespace World.Skills
 			//creature.Client.Send(new MabiPacket(0x9091, creature.Id).PutInts(6500, 58).PutShort(40011));
 			//creature.Client.Send(new MabiPacket(0x9091, creature.Id).PutInts(8000, 58).PutShort(40012));
 
-			creature.StrMod += 999;
-			creature.DexMod += 999;
+			this.AddStatBonus(creature, skill);
+
+			creature.FullHeal();
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
 			return SkillResults.Okay;
@@ -32,11 +34,29 @@ namespace World.Skills
 		{
 			WorldManager.Instance.Broadcast(GetPacket(creature, skill, false), SendTargets.Range, creature);
 
-			creature.StrMod -= 999;
-			creature.DexMod -= 999;
+			this.RemoveStatBonus(creature, skill);
+
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
 			return SkillResults.Okay;
+		}
+
+		public virtual void AddStatBonus(MabiCreature creature, MabiSkill skill)
+		{
+			creature.LifeMaxMod += skill.RankInfo.Var1;
+			creature.ManaMaxMod += skill.RankInfo.Var2;
+			creature.StaminaMaxMod += skill.RankInfo.Var3;
+			creature.StrMod += 100 + 10 * skill.Info.Rank;
+			creature.DexMod += 100 + 10 * skill.Info.Rank;
+		}
+
+		public virtual void RemoveStatBonus(MabiCreature creature, MabiSkill skill)
+		{
+			creature.LifeMaxMod -= skill.RankInfo.Var1;
+			creature.ManaMaxMod -= skill.RankInfo.Var2;
+			creature.StaminaMaxMod -= skill.RankInfo.Var3;
+			creature.StrMod -= 100 + 10 * skill.Info.Rank;
+			creature.DexMod -= 100 + 10 * skill.Info.Rank;
 		}
 
 		private MabiPacket GetPacket(MabiCreature creature, MabiSkill skill, bool transforming)
@@ -57,6 +77,27 @@ namespace World.Skills
 	public class SoulOfChaosHandler : SpiritOfOrderHandler
 	{
 		protected override byte TransformId { get { return 2; } }
+
+		// Bonuses must be stored somewhere, to properly remove them again.
+		//public override void AddStatBonus(MabiCreature creature, MabiSkill skill)
+		//{
+		//    var rnd = RandomProvider.Get();
+
+		//    creature.LifeMaxMod += rnd.Next((int)skill.RankInfo.Var1, (int)skill.RankInfo.Var1 * 2 + 1);
+		//    creature.ManaMaxMod += rnd.Next((int)skill.RankInfo.Var2, (int)skill.RankInfo.Var2 * 2 + 1);
+		//    creature.StaminaMaxMod += rnd.Next((int)skill.RankInfo.Var1 / 2, (int)skill.RankInfo.Var1 * 2 + 1); // < wrong
+		//    creature.StrMod += 999;
+		//    creature.DexMod += 999;
+		//}
+
+		//public override void RemoveStatBonus(MabiCreature creature, MabiSkill skill)
+		//{
+		//    creature.LifeMaxMod -= skill.RankInfo.Var1;
+		//    creature.ManaMaxMod -= skill.RankInfo.Var2;
+		//    creature.StaminaMaxMod -= skill.RankInfo.Var3;
+		//    creature.StrMod -= 999;
+		//    creature.DexMod -= 999;
+		//}
 	}
 
 	public class FuryOfConnousHandler : SpiritOfOrderHandler

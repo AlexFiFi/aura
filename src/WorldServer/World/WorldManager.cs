@@ -622,7 +622,7 @@ namespace World.World
 		public void CreatureSitDown(MabiCreature creature)
 		{
 			var p = new MabiPacket(Op.Resting, creature.Id);
-			p.PutByte((byte)(creature.RestPose + (creature.RaceInfo.Gender == 2 ? 0 : 1)));
+			p.PutByte(creature.RestPose);
 
 			this.Broadcast(p, SendTargets.Range, creature);
 		}
@@ -737,7 +737,7 @@ namespace World.World
 			else
 			{
 				if (creature.Client != null)
-					creature.Client.Send(new MabiPacket(Op.SkillUpdate, creature.Id).PutByte(1).PutBin(args.Skill.Info).PutFloat(0));
+					creature.Client.Send(new MabiPacket(Op.SkillRankUp, creature.Id).PutByte(1).PutBin(args.Skill.Info).PutFloat(0));
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, creature.Id).PutShorts(args.Skill.Info.Id, 1), SendTargets.Range, creature);
 			}
 		}

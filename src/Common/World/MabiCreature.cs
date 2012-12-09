@@ -77,7 +77,23 @@ namespace Common.World
 		public CreatureCondition Conditions;
 		public CreatureCondition PrevConditions;
 
-		public byte RestPose { get { return (byte)this.GetSkill(SkillConst.Rest).RankInfo.Var4; } } // 0, 2, 4, more?
+		public byte RestPose
+		{
+			get
+			{
+				var skill = this.GetSkill(SkillConst.Rest);
+				if (skill == null)
+					return 0;
+
+				byte pose = 0;
+				if (skill.Rank >= SkillRank.R9)
+					pose = 4;
+				if (skill.Rank >= SkillRank.R1)
+					pose = 5;
+
+				return pose;
+			}
+		}
 
 		public bool LevelingEnabled = false;
 
@@ -769,6 +785,8 @@ namespace Common.World
 			}
 			else
 			{
+				skill.Info.Experience = 0;
+
 				skill.Info.Rank = (byte)rank;
 				skill.LoadRankInfo();
 				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, false);
@@ -1033,12 +1051,16 @@ namespace Common.World
 			num++;
 
 			packet.PutInt((uint)Stat.StaminaMax);
-			packet.PutFloat(this.StaminaMaxBase);
+			packet.PutFloat(this.StaminaMax);
 			num++;
 
 			packet.PutInt((uint)Stat.StaminaMaxFood);
 			packet.PutFloat(this.Hunger);
 			num++;
+
+			//packet.PutInt((uint)Stat.StaminaMaxMod);
+			//packet.PutFloat(this.StaminaMaxMod);
+			//num++;
 
 			// TODO: Only update required stats.
 

@@ -13,6 +13,9 @@ namespace World.Skills
 		{
 			creature.State |= CreatureStates.SitDown;
 			WorldManager.Instance.CreatureSitDown(creature);
+
+			this.GiveSkillExp(creature, skill, 20);
+
 			return SkillResults.Okay;
 		}
 

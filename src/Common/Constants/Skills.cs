@@ -6,19 +6,21 @@ using System;
 namespace Common.Constants
 {
 	[Flags]
-	public enum SkillStatus : ushort
+	public enum SkillFlags : ushort
 	{
 		Shown = 0x01,
 		CountType = 0x02,
 		ToggleOn = 0x04,
-		LevelUpEnabled = 0x08,
+		Rankable = 0x08,
 		PassiveApplied = 0x10,
-		// ConditionVisibleFlag = 0xFF80, // ?
+		Default = 0xFF80,
 	}
 
+	// The client calculates the Dan based on the rank id.
+	// 19 = Dan4, 30 = Dan15, etc.
 	public enum SkillRank : byte
 	{
-		Novice = 0, RF, RE, RD, RC, RB, RA, R9, R8, R7, R6, R5, R4, R3, R2, R1 = 15
+		Novice = 0, RF = 1, RE = 2, RD = 3, RC = 4, RB = 5, RA = 6, R9 = 7, R8 = 8, R7 = 9, R6 = 10, R5 = 11, R4 = 12, R3 = 13, R2 = 14, R1 = 15, Dan1 = 16, Dan2 = 17, Dan3 = 18
 	}
 
 	public enum SkillConst : ushort

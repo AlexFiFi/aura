@@ -538,11 +538,14 @@ namespace Common.Database
 			var conn = this.GetConnection();
 			try
 			{
-				using (var reader = this.Query("SELECT skillId, rank FROM skills WHERE characterId = " + character.Id.ToString(), conn))
+				using (var reader = this.Query("SELECT skillId, rank, exp FROM skills WHERE characterId = " + character.Id.ToString(), conn))
 				{
 					while (reader.Read())
 					{
 						var skill = new MabiSkill(reader.GetUInt16("skillId"), reader.GetByte("rank"), character.Race);
+						skill.Info.Experience = reader.GetInt32("exp");
+						if (skill.IsRankable)
+							skill.Info.Flag |= (ushort)SkillFlags.Rankable;
 						character.Skills.Add(skill);
 					}
 				}
@@ -874,11 +877,12 @@ namespace Common.Database
 			{
 				foreach (var skill in character.Skills)
 				{
-					var mc = new MySqlCommand("REPLACE INTO skills VALUES (@skillId, @characterId, @rank)", conn);
+					var mc = new MySqlCommand("REPLACE INTO skills VALUES (@skillId, @characterId, @rank, @exp)", conn);
 
 					mc.Parameters.AddWithValue("@skillId", skill.Info.Id);
 					mc.Parameters.AddWithValue("@characterId", character.Id);
 					mc.Parameters.AddWithValue("@rank", skill.Info.Rank);
+					mc.Parameters.AddWithValue("@exp", skill.Info.Experience);
 
 					mc.ExecuteNonQuery();
 				}

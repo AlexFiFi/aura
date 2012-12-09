@@ -75,6 +75,8 @@ namespace World.Skills
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.HealingMotion).PutString("healing").PutLong(target.Id), SendTargets.Range, creature);
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StackUpdate).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
 
+			this.GiveSkillExp(creature, skill, 20);
+
 			return SkillResults.Okay;
 		}
 

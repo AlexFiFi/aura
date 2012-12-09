@@ -134,7 +134,9 @@ namespace Common.Network
 		public readonly static uint WarpRegion = 0x6599;
 		public readonly static uint EnterRegionR = 0x659C;
 		public readonly static uint SkillInfo = 0x6979;
-		public readonly static uint SkillUpdate = 0x697F;
+		public readonly static uint SkillTrainingUp = 0x697C;
+		public readonly static uint SkillAdvance = 0x697E;
+		public readonly static uint SkillRankUp = 0x697F;
 		public readonly static uint SkillPrepare = 0x6982;
 		public readonly static uint SkillReady = 0x6983;
 		public readonly static uint SkillUse = 0x6986;
