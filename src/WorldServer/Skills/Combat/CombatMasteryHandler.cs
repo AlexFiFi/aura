@@ -101,10 +101,17 @@ namespace World.Skills
 					targetAction.ActionType |= CombatActionType.Defense;
 				}
 
+				// Counter
+				if (target.ActiveSkillId == (ushort)SkillConst.MeleeCounterattack)
+				{
+					sourceAction.ActionType = CombatActionType.TakeDamage;
+					targetAction.ActionType = CombatActionType.Counter;
+				}
+
 				targetAction.CombatDamage = damage;
 				target.TakeDamage(damage);
 				targetAction.Finish = target.IsDead();
-				sourceAction.Finish = target.IsDead();
+				sourceAction.Finish = targetAction.Finish;
 
 				// Stuns
 				if (!targetAction.ActionType.HasFlag(CombatActionType.Defense))
@@ -142,7 +149,7 @@ namespace World.Skills
 				if (targetAction.IsKnock())
 				{
 					targetAction.OldPosition = target.GetPosition().Copy();
-					var pos = MabiCombat.CalculateKnockbackPos(creature, target, 375);
+					var pos = WorldManager.CalculatePosOnLine(creature, target, 375);
 					target.SetPosition(pos.X, pos.Y);
 					targetAction.ActionType &= ~CombatActionType.Defense;
 				}

@@ -258,6 +258,34 @@ namespace World.World
 			return ((Math.Pow(((double)x1 - (double)x2), 2) + Math.Pow(((double)y1 - (double)y2), 2)) <= Math.Pow(range, 2));
 		}
 
+		/// <summary>
+		/// Calculates a position on the line between source and target.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="target"></param>
+		/// <param name="distance"></param>
+		/// <returns></returns>
+		public static MabiVertex CalculatePosOnLine(MabiCreature source, MabiCreature target, int distance)
+		{
+			return CalculatePosOnLine(source.GetPosition(), target.GetPosition(), distance);
+		}
+
+		public static MabiVertex CalculatePosOnLine(MabiVertex source, MabiVertex target, int distance)
+		{
+			if (source.Equals(target))
+				return new MabiVertex(source.X + 1, source.Y + 1);
+
+			var deltaX = (double)target.X - source.X;
+			var deltaY = (double)target.Y - source.Y;
+
+			var deltaXY = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
+
+			var newX = target.X + (distance / deltaXY) * (deltaX);
+			var newY = target.Y + (distance / deltaXY) * (deltaY);
+
+			return new MabiVertex((uint)newX, (uint)newY);
+		}
+
 		// Entity Management
 		// ==================================================================
 
@@ -1071,6 +1099,10 @@ namespace World.World
 									this.AddItem(item);
 								}
 							}
+
+							// Shadow Bunshin soul counter
+							if (action.SkillId != SkillConst.ShadowBunshin)
+								enemy.SoulCount++;
 						}
 
 						// Set finisher?

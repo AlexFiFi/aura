@@ -10,7 +10,7 @@ namespace Common.Constants
 	{
 		Shown = 0x01,
 		CountType = 0x02,
-		ToggleOn = 0x04,
+		InUse = 0x04,
 		Rankable = 0x08,
 		PassiveApplied = 0x10,
 		Default = 0xFF80,

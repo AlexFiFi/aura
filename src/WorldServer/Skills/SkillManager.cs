@@ -3,9 +3,8 @@
 
 using System.Collections.Generic;
 using Common.Constants;
-using Common.World;
-using World.World;
 using Common.Tools;
+using Common.World;
 using World.Network;
 
 namespace World.Skills
@@ -19,6 +18,8 @@ namespace World.Skills
 			_handlers.Add(SkillConst.Smash, new SmashHandler());
 			_handlers.Add(SkillConst.Defense, new DefenseHandler());
 			_handlers.Add(SkillConst.Windmill, new WindmillHandler());
+			//_handlers.Add(SkillConst.MeleeCounterattack, new CounterHandler());
+			_handlers.Add(SkillConst.ShadowBunshin, new ShadowBunshinHandler());
 
 			// Life
 			_handlers.Add(SkillConst.Rest, new RestHandler());

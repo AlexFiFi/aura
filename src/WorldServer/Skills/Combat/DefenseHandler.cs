@@ -35,4 +35,8 @@ namespace World.Skills
 			return SkillResults.Okay;
 		}
 	}
+
+	public class CounterHandler : DefenseHandler
+	{
+	}
 }

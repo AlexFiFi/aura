@@ -393,6 +393,23 @@ namespace Common.World
 				//packet.PutShort(id);
 			}
 
+			// ?
+			// --------------------------------------------------------------
+			if (Op.Version >= 170300)
+			{
+				packet.PutInt(0);               // Count
+				//    packet.PutInt             // 1, 2, 3, ...
+				//    packet.PutByte			// 1 | 2 | 3
+				//    packet.PutByte			// 1 | 2 | 3
+			}
+
+			// ?
+			// --------------------------------------------------------------
+			if (Op.Version >= 170300)
+			{
+				packet.PutInt(0);
+			}
+
 			// 
 			// --------------------------------------------------------------
 			packet.PutByte(0);					 // IsGhost

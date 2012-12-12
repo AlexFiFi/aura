@@ -37,6 +37,8 @@ namespace World.Tools
 
 		public static bool EnableVisual;
 
+		public static bool BunshinSouls;
+
 		private static Configuration _conf;
 
 		public static void Load(string[] args)
@@ -77,6 +79,8 @@ namespace World.Tools
 			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100.0f) / 100.0f;
 
 			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
+
+			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
 
 			try
 			{

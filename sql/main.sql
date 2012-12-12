@@ -175,6 +175,7 @@ CREATE TABLE IF NOT EXISTS `skills` (
   `skillId` smallint(5) unsigned NOT NULL,
   `characterId` bigint(20) unsigned NOT NULL,
   `rank` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `exp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`skillId`,`characterId`),
   KEY `skills_ibfk_1` (`characterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -78,26 +78,5 @@ namespace World.World
 				}
 			}
 		}
-
-		public static MabiVertex CalculateKnockbackPos(MabiCreature source, MabiCreature target, uint distance)
-		{
-			return CalculateKnockbackPos(source.GetPosition(), target.GetPosition(), distance);
-		}
-
-		public static MabiVertex CalculateKnockbackPos(MabiVertex source, MabiVertex target, uint distance)
-		{
-			if (source.Equals(target))
-				return new MabiVertex(source.X + 1, source.Y + 1);
-
-			double deltax = (double)target.X - source.X;
-			double deltay = (double)target.Y - source.Y;
-
-			double deltaxy = Math.Sqrt(Math.Pow(deltax, 2) + Math.Pow(deltay, 2));
-
-			double nx = target.X + (distance / deltaxy) * (deltax);
-			double ny = target.Y + (distance / deltaxy) * (deltay);
-
-			return new MabiVertex((uint)nx, (uint)ny);
-		}
 	}
 }

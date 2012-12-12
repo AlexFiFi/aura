@@ -62,6 +62,7 @@
     <Compile Include="Scripting\NPCSession.cs" />
     <Compile Include="Skills\Combat\DefenseHandler.cs" />
     <Compile Include="Skills\Combat\CombatMasteryHandler.cs" />
+    <Compile Include="Skills\Combat\ShadowBunshinHandler.cs" />
     <Compile Include="Skills\Combat\WindmillHandler.cs" />
     <Compile Include="Skills\Combat\SmashHandler.cs" />
     <Compile Include="Skills\HiddenSkillHandlers.cs" />

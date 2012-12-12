@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Constants;
 using Common.Network;
-using System.Timers;
 using Common.Events;
 using Common.Tools;
 using Common.Data;
+using System.Threading;
 
 namespace Common.World
 {
@@ -54,6 +54,7 @@ namespace Common.World
 		public byte ActiveSkillStacks;
 		public DateTime ActiveSkillPrepareEnd;
 		//public MabiSkill ActiveSkill;
+		public uint SoulCount;
 
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
@@ -866,6 +867,10 @@ namespace Common.World
 			return pos;
 		}
 
+		/// <summary>
+		/// Stops calculation of movement, doesn't actually stop movement
+		/// on the client side.
+		/// </summary>
 		public void StopMove()
 		{
 			var pos = this.GetPosition();
@@ -963,7 +968,7 @@ namespace Common.World
 
 		public bool IsDead()
 		{
-			return this.State.HasFlag(CreatureStates.Dead);
+			return ((this.State & CreatureStates.Dead) != 0);
 		}
 
 		public void AddPublicStatData(MabiPacket packet)

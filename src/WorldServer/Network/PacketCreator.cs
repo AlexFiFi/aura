@@ -240,5 +240,17 @@ namespace World.Network
 
 		//    return p;
 		//}
+
+		public static MabiPacket TurnTo(MabiEntity creature, MabiEntity target)
+		{
+			var cpos = creature.GetPosition();
+			var tpos = target.GetPosition();
+
+			var p = new MabiPacket(Op.TurnTo, creature.Id);
+			p.PutFloat((float)tpos.X - (float)cpos.X);
+			p.PutFloat((float)tpos.Y - (float)cpos.Y);
+
+			return p;
+		}
 	}
 }

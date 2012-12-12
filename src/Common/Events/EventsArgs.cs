@@ -126,7 +126,7 @@ namespace Common.Events
 	}
 
 	[Flags]
-	public enum CombatActionType : byte { TakeDamage = 0x01, Hit = 0x02, /*? = 0x??,*/ Defense = 0x32, }
+	public enum CombatActionType : byte { TakeDamage = 0x01, Hit = 0x02, /*? = 0x??,*/ Counter = 0x13, Defense = 0x32/*+1*/, ShadowBunshin = 0x42 }
 
 	public class SkillAction
 	{

@@ -7,8 +7,8 @@ namespace Common.Network
 	{
 		// NA:      170100
 		// TW:      170100
-		// KR test: 170300 (not fully supported yet)
-		// EU:      140400 (not fully supported yet)
+		// KR test: 170300
+		// EU:      140400
 		public const uint Version = 170100;
 
 		// Login Server															
@@ -128,7 +128,8 @@ namespace Common.Network
 		public readonly static uint NPCTalkKeyword = 0x5DC4;
 		public readonly static uint NPCTalkKeywordR = 0x5DC5;
 
-		public readonly static uint WARP_ENTER = 0x6594;
+		public readonly static uint Jump = 0x6594;
+		public readonly static uint TurnTo = 0x6596;
 		public readonly static uint EnterRegionPermission = 0x6597;
 		public readonly static uint EnterRegion = 0x6598;
 		public readonly static uint WarpRegion = 0x6599;
@@ -174,6 +175,7 @@ namespace Common.Network
 		public readonly static uint CombatAction = 0x7924;
 		public readonly static uint CombatActionEnd = 0x7925;
 		public readonly static uint CombatActionBundle = 0x7926;
+		//public readonly static uint CombatUsedSkill = 0x7927; // ?
 		public readonly static uint CombatAttackR = 0x7D01;
 
 		public readonly static uint ChangeTitle = 0x8FC4;
@@ -193,6 +195,7 @@ namespace Common.Network
 		public readonly static uint TouchProp = 0x908B;
 		public readonly static uint TouchPropR = 0x908C;
 		public readonly static uint Effect = 0x9090;
+		public readonly static uint Effect2 = 0x9091; // Delayed?
 
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint Transformation = 0xA41C;
@@ -213,6 +216,7 @@ namespace Common.Network
 		public readonly static uint NPCTalkSelectable = 0x13882;
 		public readonly static uint NPCTalkSelect = 0x13883;
 
+		public readonly static uint Weather = 0x1ADB0; // ?
 		public readonly static uint PetMount = 0x1FBD0;
 		public readonly static uint PetMountR = 0x1FBD1;
 		public readonly static uint PetUnmount = 0x1FBD2;

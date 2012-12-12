@@ -109,7 +109,7 @@ namespace World.Skills
 				enemy.AddStun(targetAction.StunTime, true);
 
 				targetAction.OldPosition = enemy.GetPosition().Copy();
-				var pos = MabiCombat.CalculateKnockbackPos(creature, enemy, 375);
+				var pos = WorldManager.CalculatePosOnLine(creature, enemy, 375);
 				enemy.SetPosition(pos.X, pos.Y);
 
 				targetAction.ReactionDelay = (uint)rnd.Next(300, 351);

@@ -90,7 +90,7 @@ namespace World.Skills
 			target.AddStun(targetAction.StunTime, true);
 
 			targetAction.OldPosition = target.GetPosition().Copy();
-			var pos = MabiCombat.CalculateKnockbackPos(creature, target, 375);
+			var pos = WorldManager.CalculatePosOnLine(creature, target, 375);
 			target.SetPosition(pos.X, pos.Y);
 
 			combatArgs.CombatActions.Add(sourceAction);

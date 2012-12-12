@@ -1266,34 +1266,40 @@ namespace World.Network
 			creature.ActiveSkillPrepareEnd = DateTime.Now.AddMilliseconds(castTime);
 
 			// Check Mana
+			if (creature.Mana < skill.RankInfo.ManaCost)
+			{
+				client.Send(PacketCreator.SystemMessage(creature, "Insufficient Mana"));
+				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+				return;
+			}
+
+			// Check Stamina
+			if (creature.Stamina < skill.RankInfo.StaminaCost)
+			{
+				client.Send(PacketCreator.SystemMessage(creature, "Insufficient Stamina"));
+				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+				return;
+			}
+
+			var result = handler.Prepare(creature, skill);
+
+			if ((result & SkillResults.Failure) != 0)
+			{
+				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+				return;
+			}
+
 			if (skill.RankInfo.ManaCost > 0)
 			{
-				if (creature.Mana < skill.RankInfo.ManaCost)
-				{
-					client.Send(PacketCreator.SystemMessage(creature, "Insufficient Mana"));
-					client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
-					return;
-				}
-
 				creature.Mana -= skill.RankInfo.ManaCost;
 				WorldManager.Instance.CreatureStatsUpdate(creature);
 			}
 
-			// Check Stamina
 			if (skill.RankInfo.StaminaCost > 0)
 			{
-				if (creature.Stamina < skill.RankInfo.StaminaCost)
-				{
-					client.Send(PacketCreator.SystemMessage(creature, "Insufficient Stamina"));
-					client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
-					return;
-				}
-
 				creature.Stamina -= skill.RankInfo.StaminaCost;
 				WorldManager.Instance.CreatureStatsUpdate(creature);
 			}
-
-			var result = handler.Prepare(creature, skill);
 
 			if ((result & SkillResults.Okay) == 0 || (result & SkillResults.NoReply) != 0)
 				return;
@@ -1341,8 +1347,11 @@ namespace World.Network
 
 			var skillId = packet.GetShort();
 			var targetId = packet.GetLong();
-			var unk1 = packet.GetInt();
-			var unk2 = packet.GetInt();
+			uint unk1 = 0, unk2 = 0;
+			if (packet.GetElementType() == MabiPacket.ElementType.Int)
+				unk1 = packet.GetInt();
+			if (packet.GetElementType() == MabiPacket.ElementType.Int)
+				unk2 = packet.GetInt();
 
 			MabiCreature target = null;
 			// Windmill sends a huge nr as target id... a sign!? O___O
