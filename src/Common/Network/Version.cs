@@ -80,6 +80,8 @@ namespace Common.Network
 		public readonly static uint WhisperChat = 0x5273;
 		public readonly static uint BeginnerChat = 0x5275;
 		public readonly static uint VisualChat = 0x527A;
+		public readonly static uint PropAppears = 0x52D0;
+		public readonly static uint PropDisappears = 0x52D1;
 		public readonly static uint EntitiesSpawn = 0x5334;
 		public readonly static uint EntitiesDisappear = 0x5335;
 		public readonly static uint BackFromTheDead1 = 0x53FD;

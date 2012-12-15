@@ -965,7 +965,7 @@ namespace World.Network
 			WorldManager.Instance.CreatureLeaveRegion(creature);
 			creature.SetLocation(10022, 3262, 3139);
 
-			var dunp = new MabiPacket(0x9470, 0x3000000000000000);
+			var dunp = new MabiPacket(0x9470, PacketCreator.GlobalBroadcastId);
 			dunp.PutLong(creature.Id);
 			dunp.PutLong(0x01000000000005CD);
 			dunp.PutByte(1);
@@ -1355,7 +1355,7 @@ namespace World.Network
 
 			MabiCreature target = null;
 			// Windmill sends a huge nr as target id... a sign!? O___O
-			if (targetId < 0x3000000000000000)
+			if (targetId < PacketCreator.GlobalBroadcastId)
 			{
 				if (targetId != creature.Id)
 					target = WorldManager.Instance.GetCreatureById(targetId);
@@ -2105,7 +2105,7 @@ namespace World.Network
 			//002 [................]  String : _moongate_tirchonaill
 
 			// Send no gates for now.
-			client.Send(new MabiPacket(Op.MoonGateRequestR, 0x3000000000000000));
+			client.Send(new MabiPacket(Op.MoonGateRequestR, PacketCreator.GlobalBroadcastId));
 		}
 
 		public void HandleOpenItemShop(WorldClient client, MabiPacket packet)

@@ -102,7 +102,6 @@ namespace World.World
 			lock (_creatures)
 				entities.AddRange(_creatures);
 			entities.AddRange(_items);
-			entities.AddRange(_props);
 
 			// Remove dead entites
 			var toRemove = new List<MabiEntity>();
@@ -486,7 +485,7 @@ namespace World.World
 		}
 
 		/// <summary>
-		/// Adds an item to the world, and raises the EnterRegion event,
+		/// Adds an item to the world and raises the EnterRegion event
 		/// to notify clients about it.
 		/// </summary>
 		/// <param name="item"></param>
@@ -495,7 +494,7 @@ namespace World.World
 			lock (_items)
 				_items.Add(item);
 
-			var appears = new MabiPacket(Op.ItemAppears, 0x3000000000000000);
+			var appears = new MabiPacket(Op.ItemAppears, PacketCreator.GlobalBroadcastId);
 			appears.PutLong(item.Id);
 			appears.PutByte(1);
 			appears.PutBin(item.Info);
@@ -506,7 +505,23 @@ namespace World.World
 		}
 
 		/// <summary>
-		/// Removes an item from the world, and raises the LeaveRegion event,
+		/// Adds a prop to the world and raises the EnterRegion event
+		/// </summary>
+		/// <param name="prop"></param>
+		public void AddProp(MabiProp prop)
+		{
+			lock (_props)
+				_props.Add(prop);
+
+			var appears = new MabiPacket(Op.PropAppears, PacketCreator.GlobalBroadcastId);
+			prop.AddEntityData(appears);
+
+			this.Broadcast(appears, SendTargets.Region, prop);
+			ServerEvents.Instance.OnEntityEntersRegion(prop);
+		}
+
+		/// <summary>
+		/// Removes an item from the world and raises the LeaveRegion event
 		/// to notify clients about it.
 		/// </summary>
 		/// <param name="item"></param>
@@ -515,13 +530,27 @@ namespace World.World
 			lock (_items)
 				_items.Remove(item);
 
-			var disappears = new MabiPacket(Op.ItemDisappears, 0x3000000000000000);
+			var disappears = new MabiPacket(Op.ItemDisappears, PacketCreator.GlobalBroadcastId);
 			disappears.PutLong(item.Id);
 			this.Broadcast(disappears, SendTargets.Range, item);
 
 			ServerEvents.Instance.OnEntityLeavesRegion(item);
 
 			item.Dispose();
+		}
+
+		public void RemoveProp(MabiProp prop)
+		{
+			lock (_props)
+				_props.Remove(prop);
+
+			var disappears = new MabiPacket(Op.PropDisappears, PacketCreator.GlobalBroadcastId);
+			disappears.PutLong(prop.Id);
+			this.Broadcast(disappears, SendTargets.Region, prop);
+
+			ServerEvents.Instance.OnEntityLeavesRegion(prop);
+
+			prop.Dispose();
 		}
 
 		/// <summary>
@@ -982,7 +1011,7 @@ namespace World.World
 
 		public void CreatureCombatAction(MabiCreature source, MabiCreature target, CombatEventArgs combatArgs)
 		{
-			var combatPacket = new MabiPacket(Op.CombatActionBundle, 0x3000000000000000);
+			var combatPacket = new MabiPacket(Op.CombatActionBundle, PacketCreator.GlobalBroadcastId);
 			combatPacket.PutInt(combatArgs.CombatActionId);
 			combatPacket.PutInt(combatArgs.PrevCombatActionId);
 			combatPacket.PutByte(combatArgs.Hit);
@@ -1169,7 +1198,7 @@ namespace World.World
 
 		public void CreatureCombatSubmit(MabiCreature source, uint actionId)
 		{
-			var p = new MabiPacket(Op.CombatActionEnd, 0x3000000000000000);
+			var p = new MabiPacket(Op.CombatActionEnd, PacketCreator.GlobalBroadcastId);
 			p.PutInt(actionId);
 
 			this.Broadcast(p, SendTargets.Range, source);

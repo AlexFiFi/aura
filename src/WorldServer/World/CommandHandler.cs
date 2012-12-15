@@ -107,7 +107,8 @@ namespace World.World
 			this.AddCommand("statuseffect", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("effect", "<id> {(b|i|s:parameter)|me}", Authority.GameMaster, Command_effect);
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
-			this.AddCommand("spawn", Authority.GameMaster, Command_spawn);
+			this.AddCommand("spawn", "<race>", Authority.GameMaster, Command_spawn);
+			this.AddCommand("prop", "<class>", Authority.GameMaster, Command_prop);
 			this.AddCommand("ri", Authority.GameMaster, Command_randomitem);
 			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
 
@@ -435,14 +436,35 @@ namespace World.World
 
 		private CommandResult Command_spawn(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			//if (args.Length < 2)
-			//    return CommandResult.WrongParameter;
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
 
-			//uint monsterId = 0;
-			//if (!uint.TryParse(args[1], out monsterId))
-			//    return CommandResult.Fail;
+			uint monsterId = 0;
+			if (!uint.TryParse(args[1], out monsterId))
+				return CommandResult.Fail;
 
-			// TODO: Move some stuff around in NPCManager and add a monster spawn from here.
+			var spawn = new SpawnInfo();
+			spawn.Amount = 1;
+			spawn.MonsterId = monsterId;
+			spawn.SpawnPoint = creature.GetPosition();
+			spawn.Region = creature.Region;
+			spawn.SpawnType = SpawnLocationType.Point;
+			NPCManager.Instance.Spawn(spawn);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_prop(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length != 2)
+				return CommandResult.WrongParameter;
+
+			uint propClass = 0;
+			if (!uint.TryParse(args[1], out propClass))
+				return CommandResult.Fail;
+
+			var pos = creature.GetPosition();
+			WorldManager.Instance.AddProp(new MabiProp() { PropType = propClass, Region = creature.Region, LocX = pos.X, LocY = pos.Y });
 
 			return CommandResult.Okay;
 		}

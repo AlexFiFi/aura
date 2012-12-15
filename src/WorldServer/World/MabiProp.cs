@@ -14,6 +14,7 @@ namespace World.World
 		public uint LocX;
 		public uint LocY;
 		public uint[] Colors;
+		public string GuildName;
 
 		private static UInt64 _propIdIndex = 0;
 
@@ -26,6 +27,7 @@ namespace World.World
 		{
 			_baseId = assignPropId();
 			Colors = new uint[] { 0xFF808080, 0xFF808080, 0xFF808080, 0xFF808080, 0xFF808080, 0xFF808080, 0xFF808080, 0xFF808080, 0xFF808080 };
+			GuildName = "";
 		}
 
 		public override EntityType EntityType
@@ -79,7 +81,7 @@ namespace World.World
 			packet.PutLong(Id);
 			packet.PutInt(PropType);
 			packet.PutString(""); // ?
-			packet.PutString(""); // Guild Name
+			packet.PutString(GuildName); // Guild Name
 
 			/*
 			 * 119D0000 TYPE
