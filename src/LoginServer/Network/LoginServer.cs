@@ -71,7 +71,7 @@ namespace Login.Network
 			// Data
 			// --------------------------------------------------------------
 			Logger.Info("Loading data files...");
-			this.LoadData(LoginConf.DataPath);
+			this.LoadData(LoginConf.DataPath, DataLoad.Data);
 
 			// Configuration 2
 			// --------------------------------------------------------------

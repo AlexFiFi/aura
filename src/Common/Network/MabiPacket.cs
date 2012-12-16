@@ -12,42 +12,66 @@ namespace Common.Network
 	public class MabiPacket
 	{
 		public enum ElementType : byte { None = 0, Byte, Short, Int, Long, Float, String, Bin, Ptr }
+		public enum PacketType : byte { Normal, Chat }
 
 		private List<object> _elements = new List<object>();
 
 		private byte[] _buffer;
 		private int _ptr;
 
+		private bool _new = false;
+
 		public uint Op;
 		public ulong Id;
 
-		public MabiPacket()
-		{
-		}
+		public PacketType Type = PacketType.Normal;
 
-		public MabiPacket(uint op, ulong id)
+		public MabiPacket(uint op, ulong id = 0)
 		{
 			this.Op = op;
 			this.Id = id;
+			_new = true;
+
+			if (op >= 0xC000 && op < 0xD000)
+				this.Type = PacketType.Chat;
 		}
 
-		public MabiPacket(byte[] buffer, int length, bool includeOverall = true)
+		public MabiPacket(byte[] buffer, int length, bool isChat = false)
 		{
-			if (length < (includeOverall ? 21 : 15))
-				throw new Exception("Insufficent amount of bytes.");
+			if (isChat)
+				this.Type = PacketType.Chat;
 
 			_buffer = buffer;
+			_ptr = 0;
 
-			_ptr = (includeOverall ? 6 : 0);
+			// Set start of actual packet
+			if (this.Type == PacketType.Normal)
+				_ptr = 6;
+			else if (this.Type == PacketType.Chat)
+			{
+				_ptr = 3;
+				while (_ptr < length)
+				{ if (_buffer[++_ptr] == 0) break; }
+			}
 
+			// Read header data
 			this.Op = (uint)IPAddress.HostToNetworkOrder(BitConverter.ToInt32(_buffer, _ptr));
 			this.Id = (ulong)IPAddress.HostToNetworkOrder(BitConverter.ToInt64(_buffer, _ptr + 4));
 			_ptr += 12;
 
-			for (int i = 0; i < 6 && _buffer[++_ptr - 1] != 0x00 && _ptr < length; ++i) { }
-			//do { _ptr++; } while (_buffer[_ptr - 1] != 0x00 && _ptr < length);
+			while (_ptr < length)
+			{ if (_buffer[++_ptr - 1] == 0) break; }
 		}
 
+		public ElementType GetElementType()
+		{
+			if (_ptr + 2 > _buffer.Length)
+				return 0;
+			return (ElementType)_buffer[_ptr];
+		}
+
+		// Setters
+		// ------------------------------------------------------------------
 		public MabiPacket Put<T>(T val)
 		{
 			_elements.Add(val);
@@ -58,13 +82,6 @@ namespace Common.Network
 		{
 			_elements.Insert(index, val);
 			return this;
-		}
-
-		public ElementType GetElementType()
-		{
-			if (_ptr + 2 > _buffer.Length)
-				return 0;
-			return (ElementType)_buffer[_ptr];
 		}
 
 		public MabiPacket PutByte(byte val) { return this.Put(val); }
@@ -92,8 +109,8 @@ namespace Common.Network
 
 		public MabiPacket PutString(string val) { return this.Put(val); }
 		public MabiPacket PutStrings(params string[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
-		public MabiPacket PutBin(byte[] val) { return this.Put(val); }
 
+		public MabiPacket PutBin(byte[] val) { return this.Put(val); }
 		public MabiPacket PutBin(object obj)
 		{
 			int size = Marshal.SizeOf(obj);
@@ -107,6 +124,8 @@ namespace Common.Network
 			return this.PutBin(arr);
 		}
 
+		// Getters
+		// ------------------------------------------------------------------
 		public byte GetByte()
 		{
 			if (this.GetElementType() != ElementType.Byte)
@@ -224,273 +243,304 @@ namespace Common.Network
 
 		public byte[] Build(bool includeOverallHeader = true)
 		{
-			var header = new byte[30];
+			var ptr = 0;
+
+			var header = new byte[20];
 			var headerLen = 12;
+
 			var body = new byte[4096];
 			var bodyLen = 0;
 			var bodyCount = 0;
-			var ptr = 0;
 
-			// Body
-			foreach (var element in _elements)
+			// Packet body
 			{
-				// Resize if we need more space
-				if (ptr + 2048 > body.Length)
+				foreach (var element in _elements)
 				{
-					Array.Resize(ref body, body.Length + 512);
-				}
+					// Resize if we need more space
+					if (ptr + 2048 > body.Length)
+					{
+						Array.Resize(ref body, body.Length + 512);
+					}
 
-				if (element is byte)
-				{
-					body[ptr++] = 1;
-					Array.Copy(BitConverter.GetBytes((byte)element), 0, body, ptr, 1);
-					ptr += 1;
-					bodyLen += 2;
-				}
-				else if (element is ushort)
-				{
-					body[ptr++] = 2;
-					Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((short)(ushort)element)), 0, body, ptr, 2);
-					ptr += 2;
-					bodyLen += 3;
-				}
-				else if (element is uint)
-				{
-					body[ptr++] = 3;
-					Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((int)(uint)element)), 0, body, ptr, 4);
-					ptr += 4;
-					bodyLen += 5;
-				}
-				else if (element is ulong)
-				{
-					body[ptr++] = 4;
-					Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((long)(ulong)element)), 0, body, ptr, 8);
-					ptr += 8;
-					bodyLen += 9;
-				}
-				else if (element is float)
-				{
-					body[ptr++] = 5;
-					Array.Copy(BitConverter.GetBytes((float)element), 0, body, ptr, 4);
-					ptr += 4;
-					bodyLen += 5;
-				}
-				else if (element is string)
-				{
-					var val = (element as string) + '\0';
-					var len = (short)(val.Length);
+					if (element is byte)
+					{
+						body[ptr++] = 1;
+						Array.Copy(BitConverter.GetBytes((byte)element), 0, body, ptr, 1);
+						ptr += 1;
+						bodyLen += 2;
+					}
+					else if (element is ushort)
+					{
+						body[ptr++] = 2;
+						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((short)(ushort)element)), 0, body, ptr, 2);
+						ptr += 2;
+						bodyLen += 3;
+					}
+					else if (element is uint)
+					{
+						body[ptr++] = 3;
+						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((int)(uint)element)), 0, body, ptr, 4);
+						ptr += 4;
+						bodyLen += 5;
+					}
+					else if (element is ulong)
+					{
+						body[ptr++] = 4;
+						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((long)(ulong)element)), 0, body, ptr, 8);
+						ptr += 8;
+						bodyLen += 9;
+					}
+					else if (element is float)
+					{
+						body[ptr++] = 5;
+						Array.Copy(BitConverter.GetBytes((float)element), 0, body, ptr, 4);
+						ptr += 4;
+						bodyLen += 5;
+					}
+					else if (element is string)
+					{
+						var val = (element as string) + '\0';
+						var len = (short)(val.Length);
 
-					body[ptr++] = 6;
-					Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder(len)), 0, body, ptr, 2);
-					ptr += 2;
-					Array.Copy(Encoding.ASCII.GetBytes(val), 0, body, ptr, len);
-					ptr += len;
-					bodyLen += len + 3;
-				}
-				else if (element is byte[])
-				{
-					var len = (short)((element as byte[]).Length);
+						body[ptr++] = 6;
+						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder(len)), 0, body, ptr, 2);
+						ptr += 2;
+						Array.Copy(Encoding.ASCII.GetBytes(val), 0, body, ptr, len);
+						ptr += len;
+						bodyLen += len + 3;
+					}
+					else if (element is byte[])
+					{
+						var len = (short)((element as byte[]).Length);
 
-					body[ptr++] = 7;
-					Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder(len)), 0, body, ptr, 2);
-					ptr += 2;
-					Array.Copy((element as byte[]), 0, body, ptr, len);
-					ptr += len;
-					bodyLen += len + 3;
+						body[ptr++] = 7;
+						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder(len)), 0, body, ptr, 2);
+						ptr += 2;
+						Array.Copy((element as byte[]), 0, body, ptr, len);
+						ptr += len;
+						bodyLen += len + 3;
+					}
+					else
+					{
+						throw new Exception("Unsupported variable type. (" + element.GetType() + ")");
+					}
+
+					bodyCount++;
+				}
+			}
+
+			// Packet header
+			{
+				ptr = 0;
+
+				// Op + Id
+				Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((int)this.Op)), 0, header, ptr, 4);
+				Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((long)this.Id)), 0, header, ptr + 4, 8);
+				ptr = 12;
+
+				// Body len
+				int n = bodyLen;
+				do
+				{
+					header[ptr++] = (byte)(n > 0x7F ? (0x80 | (n & 0xFF)) : n & 0xFF);
+					n >>= 7;
+					headerLen++;
+				}
+				while (n != 0);
+
+				// Element amount
+				n = bodyCount;
+				do
+				{
+					header[ptr++] = (byte)(n > 0x7F ? (0x80 | (n & 0xFF)) : n & 0xFF);
+					n >>= 7;
+					headerLen++;
+				}
+				while (n != 0);
+
+				header[ptr++] = 0;
+				headerLen++;
+			}
+
+			byte[] result = null;
+
+			// Combine + overall header
+			{
+				ptr = 0;
+
+				// Add overall
+				if (includeOverallHeader)
+				{
+					if (this.Type == PacketType.Normal)
+					{
+						result = new byte[6 + headerLen + bodyLen];
+						result[ptr++] = 0x88;
+						Array.Copy(BitConverter.GetBytes(result.Length), 0, result, ptr, 4);
+						ptr += 4;
+						result[ptr++] = 0;
+					}
+					else if (this.Type == PacketType.Chat)
+					{
+						var overall = new byte[10];
+						var overallLen = ptr = 3;
+
+						overall[0] = 0x55;
+						overall[1] = 0x12;
+						overall[2] = 0x00;
+
+						var n = bodyLen + headerLen;
+						do
+						{
+							overall[ptr++] = (byte)(n > 0x7F ? (0x80 | (n & 0xFF)) : n & 0xFF);
+							n >>= 7;
+							overallLen++;
+						}
+						while (n != 0);
+
+						result = new byte[overallLen + headerLen + bodyLen];
+						Array.Copy(overall, 0, result, 0, overallLen);
+						ptr = overallLen;
+					}
 				}
 				else
 				{
-					throw new Exception("Unsupported variable type. (" + element.GetType() + ")");
+					result = new byte[headerLen + bodyLen];
 				}
 
-				bodyCount++;
+				// Add header and body
+				Array.Copy(header, 0, result, ptr, headerLen);
+				ptr += headerLen;
+				Array.Copy(body, 0, result, ptr, bodyLen);
 			}
-
-			// Header
-			ptr = 0;
-
-			Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((int)this.Op)), 0, header, ptr, 4);
-			Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((long)this.Id)), 0, header, ptr + 4, 8);
-			ptr = 12;
-
-			int n = bodyLen;
-			do
-			{
-				header[ptr++] = (byte)(n > 0x7F ? (0x80 | (n & 0xFF)) : n & 0xFF);
-				n >>= 7;
-				headerLen++;
-			}
-			while (n != 0);
-
-			n = bodyCount;
-			do
-			{
-				header[ptr++] = (byte)(n > 0x7F ? (0x80 | (n & 0xFF)) : n & 0xFF);
-				n >>= 7;
-				headerLen++;
-			}
-			while (n != 0);
-
-			header[ptr++] = 0;
-			headerLen++;
-
-			// Combine
-			ptr = 0;
-
-			byte[] result;
-
-			if (includeOverallHeader)
-			{
-				result = new byte[6 + headerLen + bodyLen];
-				result[ptr++] = 0x88;
-				Array.Copy(BitConverter.GetBytes(result.Length), 0, result, ptr, 4);
-				ptr += 4;
-				result[ptr++] = 0;
-			}
-			else
-			{
-				result = new byte[headerLen + bodyLen];
-			}
-
-			Array.Copy(header, 0, result, ptr, headerLen);
-			ptr += headerLen;
-			Array.Copy(body, 0, result, ptr, bodyLen);
 
 			return result;
 		}
 
 		/// <summary>
-		/// Prints packets from buffer in a readable format.
-		/// Only use on received packets, before "Get"ting anything.
+		/// Prints packet in a readable format.
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString()
 		{
 			var result = new StringBuilder();
 
-			var savPtr = _ptr;
-
 			result.Append("Op: " + this.Op.ToString("X").PadLeft(8, '0') + ", Id: " + this.Id.ToString("X").PadLeft(16, '0') + "\n");
 
 			uint i = 1;
-			ElementType type;
-			while ((type = this.GetElementType()) != ElementType.None)
+			if (!_new)
 			{
-				if (type == ElementType.Byte)
-				{
-					var data = this.GetByte();
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Byte   : " + data);
-				}
-				else if (type == ElementType.Short)
-				{
-					var data = this.GetShort();
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Short  : " + data);
-				}
-				else if (type == ElementType.Int)
-				{
-					var data = this.GetInt();
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Int    : " + data);
-				}
-				else if (type == ElementType.Long)
-				{
-					var data = this.GetLong();
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Long   : " + data);
-				}
-				else if (type == ElementType.Float)
-				{
-					var data = this.GetFloat();
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Float  : " + data);
-				}
-				else if (type == ElementType.String)
-				{
-					var data = this.GetString();
-					result.Append(i.ToString().PadLeft(3, '0') + " [................] String : " + data);
-				}
-				else if (type == ElementType.Bin)
-				{
-					var data = BitConverter.ToString(this.GetBin());
-					var splitted = data.Split('-');
+				var savPtr = _ptr;
 
-					result.Append(i.ToString().PadLeft(3, '0') + " [................] Bin    : ");
-					for (var j = 1; j <= splitted.Length; ++j)
+				ElementType type;
+				while ((type = this.GetElementType()) != ElementType.None)
+				{
+					if (type == ElementType.Byte)
 					{
-						result.Append(splitted[j - 1]);
-						if (j < splitted.Length)
-							if (j % 16 == 0)
-								result.Append("\n".PadRight(33, ' '));
-							else
-								result.Append(' ');
+						var data = this.GetByte();
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X02").PadLeft(16, '.') + "] Byte   : " + data);
 					}
-				}
-				result.Append("\n");
+					else if (type == ElementType.Short)
+					{
+						var data = this.GetShort();
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X04").PadLeft(16, '.') + "] Short  : " + data);
+					}
+					else if (type == ElementType.Int)
+					{
+						var data = this.GetInt();
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X08").PadLeft(16, '.') + "] Int    : " + data);
+					}
+					else if (type == ElementType.Long)
+					{
+						var data = this.GetLong();
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X16").PadLeft(16, '.') + "] Long   : " + data);
+					}
+					else if (type == ElementType.Float)
+					{
+						var data = this.GetFloat();
+						result.Append(i.ToString().PadLeft(3, '0') + " [................] Float  : " + data);
+					}
+					else if (type == ElementType.String)
+					{
+						var data = this.GetString();
+						result.Append(i.ToString().PadLeft(3, '0') + " [................] String : " + data);
+					}
+					else if (type == ElementType.Bin)
+					{
+						var data = BitConverter.ToString(this.GetBin());
+						var splitted = data.Split('-');
 
-				i++;
+						result.Append(i.ToString().PadLeft(3, '0') + " [................] Bin    : ");
+						for (var j = 1; j <= splitted.Length; ++j)
+						{
+							result.Append(splitted[j - 1]);
+							if (j < splitted.Length)
+								if (j % 16 == 0)
+									result.Append("\n".PadRight(33, ' '));
+								else
+									result.Append(' ');
+						}
+					}
+					result.Append("\n");
+
+					i++;
+				}
+
+				_ptr = savPtr;
 			}
-
-			_ptr = savPtr;
-
-			return result.ToString();
-		}
-
-		// tmp
-		public string ToStringFromElements()
-		{
-			var result = new StringBuilder();
-
-			result.Append("Op: " + this.Op.ToString("X").PadLeft(8, '0') + ", Id: " + this.Id.ToString("X").PadLeft(16, '0') + "\n");
-
-			uint i = 1;
-			foreach (var el in _elements)
+			else
 			{
-				if (el is byte)
+				foreach (var el in _elements)
 				{
-					var data = (byte)el;
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Byte   : " + data);
-				}
-				else if (el is ushort)
-				{
-					var data = (ushort)el;
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Short  : " + data);
-				}
-				else if (el is uint)
-				{
-					var data = (uint)el;
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Int    : " + data);
-				}
-				else if (el is ulong)
-				{
-					var data = (ulong)el;
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X").PadLeft(16, '.') + "] Long   : " + data);
-				}
-				else if (el is float)
-				{
-					var data = (float)el;
-					result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString().PadLeft(16, '.') + "] Float  : " + data);
-				}
-				else if (el is string)
-				{
-					var data = (string)el;
-					result.Append(i.ToString().PadLeft(3, '0') + " [................] String : " + data);
-				}
-				else if (el is byte[])
-				{
-					var data = BitConverter.ToString((byte[])el);
-					var splitted = data.Split('-');
-
-					result.Append(i.ToString().PadLeft(3, '0') + " [................] Bin    : ");
-					for (var j = 1; j <= splitted.Length; ++j)
+					if (el is byte)
 					{
-						result.Append(splitted[j - 1]);
-						if (j < splitted.Length)
-							if (j % 16 == 0)
-								result.Append("\n".PadRight(33, ' '));
-							else
-								result.Append(' ');
+						var data = (byte)el;
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X02").PadLeft(16, '.') + "] Byte   : " + data);
 					}
-				}
-				result.Append("\n");
+					else if (el is ushort)
+					{
+						var data = (ushort)el;
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X04").PadLeft(16, '.') + "] Short  : " + data);
+					}
+					else if (el is uint)
+					{
+						var data = (uint)el;
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X08").PadLeft(16, '.') + "] Int    : " + data);
+					}
+					else if (el is ulong)
+					{
+						var data = (ulong)el;
+						result.Append(i.ToString().PadLeft(3, '0') + " [" + data.ToString("X16").PadLeft(16, '.') + "] Long   : " + data);
+					}
+					else if (el is float)
+					{
+						var data = (float)el;
+						result.Append(i.ToString().PadLeft(3, '0') + " [................] Float  : " + data);
+					}
+					else if (el is string)
+					{
+						var data = (string)el;
+						result.Append(i.ToString().PadLeft(3, '0') + " [................] String : " + data);
+					}
+					else if (el is byte[])
+					{
+						var data = BitConverter.ToString((byte[])el);
+						var splitted = data.Split('-');
 
-				i++;
+						result.Append(i.ToString().PadLeft(3, '0') + " [................] Bin    : ");
+						for (var j = 1; j <= splitted.Length; ++j)
+						{
+							result.Append(splitted[j - 1]);
+							if (j < splitted.Length)
+								if (j % 16 == 0)
+									result.Append("\n".PadRight(33, ' '));
+								else
+									result.Append(' ');
+						}
+					}
+					result.Append("\n");
+
+					i++;
+				}
 			}
 
 			return result.ToString();

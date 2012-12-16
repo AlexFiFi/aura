@@ -213,7 +213,8 @@ namespace Common.Network
 
 		protected virtual void OnClientAccepted(TClient client)
 		{
-
+			// Send seed
+			client.Socket.Send(BitConverter.GetBytes(client.Seed));
 		}
 
 		protected virtual void OnClientDisconnect(TClient client)
@@ -240,12 +241,9 @@ namespace Common.Network
 
 			try
 			{
-				this.OnClientAccepted(client);
-
 				client.Socket.BeginReceive(client.Buffer.Front, 0, client.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(this.OnReceive), client);
 
-				// Send seed
-				client.Socket.Send(BitConverter.GetBytes(client.Seed));
+				this.OnClientAccepted(client);
 
 				Logger.Info("Connection established from " + client.Socket.RemoteEndPoint.ToString());
 			}
@@ -287,13 +285,7 @@ namespace Common.Network
 					{
 						// New packet
 						if (client.Buffer.Remaining < 1)
-						{
-							client.Buffer.Remaining =
-								(client.Buffer.Front[bytesRead + 1] << 0) +
-								(client.Buffer.Front[bytesRead + 2] << 8) +
-								(client.Buffer.Front[bytesRead + 3] << 16) +
-								(client.Buffer.Front[bytesRead + 4] << 24);
-						}
+							client.Buffer.Remaining = this.ReadRemainingLength(client.Buffer.Front, bytesRead);
 
 						// Copy to back buffer
 						client.Buffer.Back[client.Buffer.Ptr++] = client.Buffer.Front[bytesRead++];
@@ -303,55 +295,9 @@ namespace Common.Network
 							continue;
 
 						// Prepare buffer, cut the appended 4 bytes
-						int len = client.Buffer.Ptr - 4;
-						var buffer = new byte[len];
-						Array.Copy(client.Buffer.Back, buffer, len);
-						BitConverter.GetBytes(len).CopyTo(buffer, 1);
+						var buffer = this.PrepareBuffer(client.Buffer.Back, client.Buffer.Ptr);
 
-						client.Crypto.DecodePacket(buffer);
-
-						if (buffer[5] == 0x01)
-						{
-							client.Crypto.EncodePacket(buffer);
-							client.Socket.Send(buffer);
-						}
-						else
-						{
-							// Challenge
-							if (client.State == SessionState.ClientCheck)
-							{
-								client.Send(new byte[] { 0x88, 0x07, 0x00, 0x00, 0x00, 0x00, 0x07 });
-
-								client.State = SessionState.Login;
-							}
-							// Actual packets
-							else
-							{
-								var packet = new MabiPacket(buffer, (ushort)len);
-
-								var handler = this.GetPacketHandler(packet.Op);
-								if (handler != null)
-								{
-									//Logger.Debug(packet.ToString());
-									try
-									{
-										handler(client, packet);
-									}
-									catch (DoNotCatchException)
-									{
-										throw;
-									}
-									catch (Exception ex)
-									{
-										Logger.Exception(ex, "There has been a problem while handling '" + HexTool.ToString(packet.Op) + "'.", true);
-									}
-								}
-								else
-								{
-									Logger.Unimplemented("Unhandled packet: " + HexTool.ToString(packet.Op));
-								}
-							}
-						}
+						this.HandleBuffer(client, buffer);
 
 						client.Buffer.InitBB();
 					}
@@ -381,6 +327,76 @@ namespace Common.Network
 			catch (NullReferenceException)
 			{
 				Logger.Warning("Something went wrong in the recieve!");
+			}
+		}
+
+		protected virtual int ReadRemainingLength(byte[] buffer, int start)
+		{
+			return
+				(buffer[start + 1] << 0) +
+				(buffer[start + 2] << 8) +
+				(buffer[start + 3] << 16) +
+				(buffer[start + 4] << 24);
+		}
+
+		protected virtual byte[] PrepareBuffer(byte[] buffer, int ptr)
+		{
+			ptr -= 4;
+			var result = new byte[ptr];
+			Array.Copy(buffer, result, ptr);
+			BitConverter.GetBytes(ptr).CopyTo(result, 1);
+
+			return result;
+		}
+
+		protected virtual void HandleBuffer(TClient client, byte[] buffer)
+		{
+			client.Crypto.DecodePacket(buffer);
+
+			if (buffer[5] == 0x01)
+			{
+				client.Crypto.EncodePacket(buffer);
+				client.Socket.Send(buffer);
+			}
+			else
+			{
+				// Challenge
+				if (client.State == SessionState.ClientCheck)
+				{
+					client.Send(new byte[] { 0x88, 0x07, 0x00, 0x00, 0x00, 0x00, 0x07 });
+
+					client.State = SessionState.Login;
+				}
+				// Actual packets
+				else
+				{
+					var packet = new MabiPacket(buffer, (ushort)buffer.Length);
+					this.HandlePacket(client, packet);
+				}
+			}
+		}
+
+		protected virtual void HandlePacket(TClient client, MabiPacket packet)
+		{
+			var handler = this.GetPacketHandler(packet.Op);
+			if (handler != null)
+			{
+				try
+				{
+					handler(client, packet);
+				}
+				catch (DoNotCatchException)
+				{
+					throw;
+				}
+				catch (Exception ex)
+				{
+					Logger.Exception(ex, "There has been a problem while handling '" + HexTool.ToString(packet.Op) + "'.", true);
+				}
+			}
+			else
+			{
+				Logger.Unimplemented("Unhandled packet: " + HexTool.ToString(packet.Op));
 			}
 		}
 	}

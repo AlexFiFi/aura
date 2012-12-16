@@ -5,11 +5,11 @@ namespace Common.Network
 {
 	public static class Op
 	{
-		// NA:      170100
-		// TW:      170100
+		// NA:      170200
+		// TW:      170200
 		// KR test: 170300
 		// EU:      140400
-		public const uint Version = 170100;
+		public const uint Version = 170200;
 
 		// Login Server															
 		public readonly static uint ClientIdent = 0x0FD1020A;
@@ -230,6 +230,60 @@ namespace Common.Network
 		public readonly static uint CombatAttack = 0x0FCC3231;
 		public readonly static uint Walking = 0x0FD13021;
 		public readonly static uint Walk = 0x0FF23431;
+
+		// Messenger Server
+		public static class Msgr
+		{
+			public readonly static uint Login = 0xC350;
+			public readonly static uint LoginR = 0xC351;
+			public readonly static uint FriendInvite = 0xC352;
+			public readonly static uint FriendInviteR = 0xC353;
+			public readonly static uint FriendConfirm = 0xC354;
+			public readonly static uint FriendReply = 0xC355;
+			public readonly static uint ChatInvite = 0xC356;
+			public readonly static uint FriendList = 0xC358;
+			public readonly static uint FriendListR = 0xC359;
+			public readonly static uint FriendBlock = 0xC35A;
+			public readonly static uint FriendBlockR = 0xC35B;
+			public readonly static uint FriendUnblock = 0xC35C;
+			public readonly static uint FriendUnblockR = 0xC35D;
+			public readonly static uint FriendOnline = 0xC35E;
+			public readonly static uint FriendOffline = 0xC35F;
+
+			public readonly static uint ChatBegin = 0xC360;
+			public readonly static uint ChatBeginR = 0xC361;
+			public readonly static uint ChatEnd = 0xC362;
+			public readonly static uint ChatInviteR = 0xC366;
+			public readonly static uint ChatLeave = 0xC367;
+			public readonly static uint Chat = 0xC368;
+			public readonly static uint ChatR = 0xC36A;
+			public readonly static uint FriendDelete = 0xC36B;
+			public readonly static uint ChatJoin = 0xC36C;
+			public readonly static uint GuildChat = 0xC36E;
+			public readonly static uint GuildChatR = 0xC36F;
+
+			public readonly static uint ChangeOption = 0xC370;
+			public readonly static uint ChangeOptionR = 0xC371;
+			public readonly static uint FriendOptionChanged = 0xC372;
+			public readonly static uint GroupList = 0xC376;
+			public readonly static uint NoteSend = 0xC37E;
+			public readonly static uint NoteSendR = 0xC37F;
+
+			public readonly static uint NoteList = 0xC380;
+			public readonly static uint NoteListR = 0xC381;
+			public readonly static uint NoteDelete = 0xC382;
+			public readonly static uint Refresh = 0xC384;
+			public readonly static uint YouGotNote = 0xC385;
+			public readonly static uint NoteRead = 0xC386;
+			public readonly static uint NoteReadR = 0xC387;
+			public readonly static uint ChangeChannel = 0xC389;
+			public readonly static uint FriendChannelChanged = 0xC38A;
+			public readonly static uint GuildMemberList = 0xC38B;
+			public readonly static uint GuildMemberListR = 0xC38C;
+			public readonly static uint GuildMemberState = 0xC38D;
+
+			public readonly static uint PlayerBlock = 0xC392;
+		}
 
 #pragma warning disable 0162
 		static Op()

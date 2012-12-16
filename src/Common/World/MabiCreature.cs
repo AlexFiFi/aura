@@ -354,7 +354,7 @@ namespace Common.World
 				dbInfo = MabiData.RaceDb.Find(10000);
 				if (dbInfo == null)
 				{
-					throw new Exception("Unable to load race defaults, race not found.");
+					throw new Exception("Unable to load race defaults, race '" + this.Race.ToString() + "' not found.");
 				}
 				Logger.Warning("Race '" + this.Race.ToString() + "' not found, using human instead.");
 			}

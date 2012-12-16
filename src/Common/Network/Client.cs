@@ -54,8 +54,7 @@ namespace Common.Network
 			if (this.State == SessionState.Dead)
 				return;
 
-			if (raw[5] != 0x03)
-				this.Crypto.EncodePacket(raw);
+			this.CheckEncoding(raw);
 
 			try
 			{
@@ -67,9 +66,14 @@ namespace Common.Network
 			}
 		}
 
+		public virtual void CheckEncoding(byte[] raw)
+		{
+			if (raw[5] != 0x03)
+				this.Crypto.EncodePacket(raw);
+		}
+
 		public void Send(MabiPacket packet)
 		{
-			//Logger.Debug(packet.ToStringFromElements());
 			this.Send(packet.Build());
 		}
 

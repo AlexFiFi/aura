@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\Common\Common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldServer", "src\WorldServer\WorldServer.csproj", "{B3884A3B-7595-4F32-85AB-D3C2E265FFC8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{316D292F-8527-4EA3-B24A-BB16929821A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsgrServer", "src\MsgrServer\MsgrServer.csproj", "{DD57F63B-E4ED-44E1-9455-902E529F0C1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,9 +63,26 @@ Global
 		{B3884A3B-7595-4F32-85AB-D3C2E265FFC8}.Release|Win32.ActiveCfg = Release|x86
 		{B3884A3B-7595-4F32-85AB-D3C2E265FFC8}.Release|x86.ActiveCfg = Release|x86
 		{B3884A3B-7595-4F32-85AB-D3C2E265FFC8}.Release|x86.Build.0 = Release|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Debug|Win32.ActiveCfg = Debug|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Debug|x86.ActiveCfg = Debug|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Debug|x86.Build.0 = Debug|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Release|Any CPU.ActiveCfg = Release|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Release|Win32.ActiveCfg = Release|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Release|x86.ActiveCfg = Release|x86
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3884A3B-7595-4F32-85AB-D3C2E265FFC8} = {316D292F-8527-4EA3-B24A-BB16929821A4}
+		{5192E012-5EA2-471A-831F-1E82B3635242} = {316D292F-8527-4EA3-B24A-BB16929821A4}
+		{DD57F63B-E4ED-44E1-9455-902E529F0C1A} = {316D292F-8527-4EA3-B24A-BB16929821A4}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\WorldServer\WorldServer.csproj

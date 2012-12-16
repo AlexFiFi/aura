@@ -266,6 +266,27 @@ namespace Common.Database
 			}
 		}
 
+		public bool AccountHasCharacter(string accountName, string charName)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				var mc = new MySqlCommand("SELECT characterId FROM characters WHERE accountId = @acc AND name = @name", conn);
+				mc.Parameters.AddWithValue("@acc", accountName);
+				mc.Parameters.AddWithValue("@name", charName);
+
+				var reader = mc.ExecuteReader();
+				bool result = reader.Read();
+				reader.Close();
+
+				return result;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
 		/// <summary>
 		/// Sets the  authority for the given account.
 		/// </summary>
