@@ -32,8 +32,8 @@ number of items lying around, or time the server has been online.
 ** shutdown <time>
 
 Broadcasts a message that the channel will shutdown after x seconds,
-specified in time. Players will be automatically disconnected 60 seconds
-before the shutdown, or immediately, if time is less than 60.
+specified in time. Clients will get told to disconnect 10 seconds before the
+specified time, and the channel will close 30 seconds afterwards.
 
 =============================================================================
 | Login Commands                                                            |

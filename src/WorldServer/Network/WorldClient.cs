@@ -10,6 +10,7 @@ using Common.Tools;
 using Common.World;
 using World.Scripting;
 using World.World;
+using Common.Constants;
 
 namespace World.Network
 {
@@ -46,7 +47,7 @@ namespace World.Network
 
 		public void Disconnect(int seconds = 5)
 		{
-			this.Send(new MabiPacket(Op.RequestClientDisconnect, 0x1000000000000001).PutSInt(seconds * 1000));
+			this.Send(new MabiPacket(Op.RequestClientDisconnect, Id.World).PutSInt(seconds * 1000));
 		}
 
 		public void Warp(uint region, uint x, uint y)

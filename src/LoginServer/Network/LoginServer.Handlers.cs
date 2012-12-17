@@ -43,7 +43,7 @@ namespace Login.Network
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)
 		{
-			var response = new MabiPacket(Op.ClientIdentR, 0x1000000000000010);
+			var response = new MabiPacket(Op.ClientIdentR, Id.Login);
 
 			response.PutByte(1);
 			response.PutLong(0x49534E4F47493A5D); // time?
@@ -59,7 +59,7 @@ namespace Login.Network
 			var password = "";
 			ulong sessionKey = 0;
 
-			var response = new MabiPacket(Op.LoginR, 0x1000000000000010);
+			var response = new MabiPacket(Op.LoginR, Id.Login);
 
 			// Normal login, MD5 password
 			if (loginType == 0x0C || loginType == 0x12 || loginType == 0x00)
@@ -346,7 +346,7 @@ namespace Login.Network
 			var serverName = packet.GetString();
 			var id = packet.GetLong();
 
-			var response = new MabiPacket(Op.CharInfo, 0x1000000000000010);
+			var response = new MabiPacket(Op.CharInfo, Id.Login);
 
 			var player = client.Account.Characters.FirstOrDefault(a => a.Id == id);
 			if (player == null)
@@ -427,7 +427,7 @@ namespace Login.Network
 			var lip = packet.GetByte();
 			var face = packet.GetInt();
 
-			var response = new MabiPacket(Op.CharacterCreated, 0x1000000000000010);
+			var response = new MabiPacket(Op.CharacterCreated, Id.Login);
 
 			// Check if account has this card
 			var card = client.Account.CharacterCards.FirstOrDefault(a => a.Id == cardId);
@@ -586,7 +586,7 @@ namespace Login.Network
 				}
 			}
 
-			var response = new MabiPacket(Op.ChannelInfo, 0x1000000000000001);
+			var response = new MabiPacket(Op.ChannelInfo, Id.World);
 
 			if (channel == null)
 			{
@@ -626,7 +626,7 @@ namespace Login.Network
 			// The response op is always +1.
 			uint op = packet.Op + 1;
 
-			var response = new MabiPacket(op, 0x1000000000000010);
+			var response = new MabiPacket(op, Id.Login);
 
 			if (character == null || ((op == Op.DeleteCharR || op == Op.DeletePetR) && character.DeletionTime > DateTime.Now))
 			{
@@ -671,7 +671,7 @@ namespace Login.Network
 			var server = packet.GetString();
 			var name = packet.GetString();
 
-			MabiPacket response = new MabiPacket(Op.NameCheckR, 0x1000000000000010);
+			MabiPacket response = new MabiPacket(Op.NameCheckR, Id.Login);
 
 			if (MabiDb.Instance.NameOkay(name, server))
 			{
@@ -694,7 +694,7 @@ namespace Login.Network
 			var serverName = packet.GetString();
 			var id = packet.GetLong();
 
-			var response = new MabiPacket(Op.PetInfo, 0x1000000000000010);
+			var response = new MabiPacket(Op.PetInfo, Id.Login);
 
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == id);
 			if (pet == null)
@@ -765,8 +765,11 @@ namespace Login.Network
 			var serverName = packet.GetString();
 			var cardId = packet.GetLong();
 			var name = packet.GetString();
+			var color1 = packet.GetInt();
+			var color2 = packet.GetInt();
+			var color3 = packet.GetInt();
 
-			MabiPacket response = new MabiPacket(Op.PetCreated, 0x1000000000000010);
+			MabiPacket response = new MabiPacket(Op.PetCreated, Id.Login);
 
 			// Check if the card is valid
 			MabiCard card = null;
@@ -798,6 +801,12 @@ namespace Login.Network
 			newChar.Server = serverName;
 			newChar.Region = 1;
 			newChar.SetPosition(12800, 38100);
+			if (color1 > 0 || color2 > 0 || color3 > 0)
+			{
+				newChar.ColorA = color1;
+				newChar.ColorB = color2;
+				newChar.ColorC = color3;
+			}
 
 			newChar.CalculateBaseStats();
 
@@ -837,7 +846,7 @@ namespace Login.Network
 			var lower = packet.GetFloat();
 			var personality = packet.GetInt();
 
-			var response = new MabiPacket(Op.PetCreated, 0x1000000000000010);
+			var response = new MabiPacket(Op.PetCreated, Id.Login);
 
 			// Check if the card is valid
 			var card = client.Account.PetCards.FirstOrDefault(a => a.Id == cardId);

@@ -9,18 +9,16 @@ using System;
 
 namespace World.Network
 {
-	public enum MsgBoxTitle { NOTICE, INFO, WARNING, CONFIRM }
-	public enum MsgBoxButtons { NONE, CLOSE, OK_CANCEL, YES_NO_CANCEL }
-	public enum MsgBoxAlign { LEFT, CENTER }
-	public enum NoticeType { TOP = 1, TOP_RED, MIDDLE_TOP, MIDDLE, LEFT, TOP_GREEN, MIDDLE_SYSTEM, SYSTEM, MIDDLE_LOWER }
+	public enum MsgBoxTitle { Notice, Info, Warning, Confirm }
+	public enum MsgBoxButtons { None, Close, OkCancel, YesNoCancel }
+	public enum MsgBoxAlign { Left, Center }
+	public enum NoticeType { Top = 1, TopRed, MiddleTop, Middle, Left, TopGreen, MiddleSystem, System, MiddleLower }
 
 	/// <summary>
 	/// Packet creator for often used packets
 	/// </summary>
 	public static class PacketCreator
 	{
-		public const long GlobalBroadcastId = 0x3000000000000000;
-
 		public static MabiPacket SystemMessage(MabiCreature target, string from, string message, params object[] args)
 		{
 			var p = new MabiPacket(Op.Chat, target.Id);
@@ -51,7 +49,7 @@ namespace World.Network
 			return PacketCreator.SystemMessage(target, "<COMBAT>", message);
 		}
 
-		public static MabiPacket MsgBox(MabiCreature target, string message, MsgBoxTitle title = MsgBoxTitle.NOTICE, MsgBoxButtons buttons = MsgBoxButtons.CLOSE, MsgBoxAlign align = MsgBoxAlign.CENTER)
+		public static MabiPacket MsgBox(MabiCreature target, string message, MsgBoxTitle title = MsgBoxTitle.Notice, MsgBoxButtons buttons = MsgBoxButtons.Close, MsgBoxAlign align = MsgBoxAlign.Center)
 		{
 			var p = new MabiPacket(Op.MsgBox, target.Id);
 
@@ -63,7 +61,7 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket MsgBox(MabiCreature target, string message, string title, MsgBoxButtons buttons = MsgBoxButtons.CLOSE, MsgBoxAlign align = MsgBoxAlign.CENTER)
+		public static MabiPacket MsgBox(MabiCreature target, string message, string title, MsgBoxButtons buttons = MsgBoxButtons.Close, MsgBoxAlign align = MsgBoxAlign.Center)
 		{
 			var p = new MabiPacket(Op.MsgBox, target.Id);
 
@@ -75,7 +73,7 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket Notice(ulong Id, string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
+		public static MabiPacket Notice(ulong Id, string message, NoticeType type = NoticeType.Middle, uint duration = 0)
 		{
 			var p = new MabiPacket(Op.Notice, Id);
 
@@ -89,7 +87,7 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket Notice(MabiCreature target, string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
+		public static MabiPacket Notice(MabiCreature target, string message, NoticeType type = NoticeType.Middle, uint duration = 0)
 		{
 			return Notice(target.Id, message, type, duration);
 		}
@@ -101,9 +99,9 @@ namespace World.Network
 		/// <param name="type"></param>
 		/// <param name="duration"></param>
 		/// <returns></returns>
-		public static MabiPacket Notice(string message, NoticeType type = NoticeType.MIDDLE, uint duration = 0)
+		public static MabiPacket Notice(string message, NoticeType type = NoticeType.Middle, uint duration = 0)
 		{
-			return Notice(GlobalBroadcastId, message, type, duration);
+			return Notice(Id.Broadcast, message, type, duration);
 		}
 
 		public static MabiPacket Whisper(MabiCreature target, string sender, string msg)
@@ -115,14 +113,14 @@ namespace World.Network
 
 		public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
 		{
-			var p = new MabiPacket(Op.EntitiesSpawn, GlobalBroadcastId);
+			var p = new MabiPacket(Op.EntitiesSpawn, Id.Broadcast);
 
 			p.PutShort((ushort)entities.Count);
 			foreach (var entity in entities)
 			{
 				var data = new MabiPacket(0, 0);
 				entity.AddEntityData(data);
-				byte[] dataBytes = data.Build(false);
+				var dataBytes = data.Build(false);
 
 				p.PutShort(entity.DataType);
 				p.PutInt((uint)dataBytes.Length);
@@ -134,18 +132,18 @@ namespace World.Network
 
 		public static MabiPacket EntityAppears(MabiEntity entity)
 		{
-			uint op = Op.EntityAppears;
+			var op = Op.EntityAppears;
 			if (entity is MabiItem)
 				op = Op.ItemAppears;
 
-			var p = new MabiPacket(op, GlobalBroadcastId);
+			var p = new MabiPacket(op, Id.Broadcast);
 			entity.AddEntityData(p);
 			return p;
 		}
 
 		public static MabiPacket EntitiesLeave(List<MabiEntity> entities)
 		{
-			var p = new MabiPacket(Op.EntitiesDisappear, GlobalBroadcastId);
+			var p = new MabiPacket(Op.EntitiesDisappear, Id.Broadcast);
 
 			p.PutShort((ushort)entities.Count);
 			foreach (var entity in entities)
@@ -163,7 +161,7 @@ namespace World.Network
 			if (entity is MabiItem)
 				op = Op.ItemDisappears;
 
-			var p = new MabiPacket(op, GlobalBroadcastId);
+			var p = new MabiPacket(op, Id.Broadcast);
 			p.PutLong(entity.Id);
 			p.PutByte(0);
 
@@ -172,7 +170,7 @@ namespace World.Network
 
 		public static MabiPacket EnterRegionPermission(MabiEntity entity, bool permission = true)
 		{
-			var p = new MabiPacket(Op.EnterRegionPermission, 0x1000000000000001);
+			var p = new MabiPacket(Op.EnterRegionPermission, Id.World);
 			var pos = entity.GetPosition();
 
 			p.PutLong(entity.Id);

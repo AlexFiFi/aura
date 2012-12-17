@@ -161,7 +161,7 @@ namespace Common.Database
 		/// <returns></returns>
 		private ulong GetNewCharacterId()
 		{
-			return this.GetNewPoolId("characters", 0x10000000000001);
+			return this.GetNewPoolId("characters", Id.Characters);
 		}
 
 		/// <summary>
@@ -170,7 +170,7 @@ namespace Common.Database
 		/// <returns></returns>
 		private ulong GetNewPetId()
 		{
-			return this.GetNewPoolId("pets", 0x10010000000001);
+			return this.GetNewPoolId("pets", Id.Pets);
 		}
 
 		/// <summary>
@@ -179,7 +179,7 @@ namespace Common.Database
 		/// <returns></returns>
 		private ulong GetNewPartnerId()
 		{
-			return this.GetNewPoolId("partners", 0x10030000000001);
+			return this.GetNewPoolId("partners", Id.Partners);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace Common.Database
 		/// <returns></returns>
 		private ulong GetNewItemId()
 		{
-			return this.GetNewPoolId("items", 0x50000000000001);
+			return this.GetNewPoolId("items", Id.Items);
 		}
 
 		/// <summary>
@@ -517,6 +517,9 @@ namespace Common.Database
 					//character.WillMod = reader.GetFloat("willBoost");
 					//character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
+					character.ColorA = reader.GetUInt32("color1");
+					character.ColorB = reader.GetUInt32("color2");
+					character.ColorC = reader.GetUInt32("color3");
 					character.DeletionTime = reader["deletionTime"] as DateTime? ?? DateTime.MinValue;
 					character.State = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
 
@@ -770,6 +773,7 @@ namespace Common.Database
 					+ " `experience`, `age`, `strength`, `dexterity`, `intelligence`, `will`, `luck`, `abilityPoints`, `attackMin`, `attackMax`,"
 					+ " `wattackMin`, `wattackMax`, `critical`, `protect`, `defense`, `rate`,"
 					+ " `strBoost`, `dexBoost`, `intBoost`, `willBoost`, `luckBoost`,"
+					+ " `color1`, `color2`, `color3`,"
 					+ " `lastTown`, `lastDungeon`, `birthday`, `title`, `deletionTime`, `maxLevel`, `rebirthCount`, `jobId`) "
 
 					+ " VALUES"
@@ -779,6 +783,7 @@ namespace Common.Database
 					+ " @experience, @age, @strength, @dexterity, @intelligence, @will, @luck, @abilityPoints, @attackMin, @attackMax,"
 					+ " @wattackMin, @wattackMax, @critical, @protect, @defense, @rate,"
 					+ " @strBoost, @dexBoost, @intBoost, @willBoost, @luckBoost,"
+					+ " @color1, @color2, @color3,"
 					+ " @lastTown, @lastDungeon, @birthday, @title, @deletionTime, @maxLevel, @rebirthCount, @jobId) "
 
 					+ " ON DUPLICATE KEY UPDATE"
@@ -788,6 +793,7 @@ namespace Common.Database
 					+ " `mana` = @mana, `manaMax` = @manaMax,"
 					+ " `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food,"
 					+ " `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age, `race` = @race,"
+					+ " `color1` = @color1, `color2` = @color2, `color3` = @color3,"
 					+ " `strength` = @strength, `dexterity` = @dexterity, `intelligence` = @intelligence, `will` = @will, `luck` = @luck,"
 					+ " `abilityPoints` = @abilityPoints"
 				, conn);
@@ -857,6 +863,9 @@ namespace Common.Database
 				mc.Parameters.AddWithValue("@maxLevel", 200);
 				mc.Parameters.AddWithValue("@rebirthCount", character.RebirthCount);
 				mc.Parameters.AddWithValue("@jobId", 0);
+				mc.Parameters.AddWithValue("@color1", character.ColorA);
+				mc.Parameters.AddWithValue("@color2", character.ColorB);
+				mc.Parameters.AddWithValue("@color3", character.ColorC);
 
 				mc.ExecuteNonQuery();
 

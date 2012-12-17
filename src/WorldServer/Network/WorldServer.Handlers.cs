@@ -202,7 +202,7 @@ namespace World.Network
 			//p.PutInt(0);
 			//client.Send(p);
 
-			p = new MabiPacket(Op.LoginWR, 0x1000000000000001);
+			p = new MabiPacket(Op.LoginWR, Id.World);
 			p.PutByte(1);
 			p.PutLong(creature.Id);
 			p.PutLong(DateTime.Now);
@@ -240,14 +240,14 @@ namespace World.Network
 			client.Character = null;
 			client.Account = null;
 
-			var p = new MabiPacket(Op.DisconnectWR, 0x1000000000000001);
+			var p = new MabiPacket(Op.DisconnectWR, Id.World);
 			p.PutByte(0);
 			client.Send(p);
 		}
 
 		private void HandleCharacterInfoRequest(WorldClient client, MabiPacket packet)
 		{
-			var p = new MabiPacket(Op.CharInfoRequestWR, 0x1000000000000001);
+			var p = new MabiPacket(Op.CharInfoRequestWR, Id.World);
 
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
@@ -300,9 +300,8 @@ namespace World.Network
 
 			if (message[0] == WorldConf.CommandPrefix)
 			{
-				message = message.ToLower();
-
 				var args = message.Substring(1).Split(' ');
+				args[0] = args[0].ToLower();
 
 				if (CommandHandler.Instance.Handle(client, creature, args, message))
 					return;
@@ -965,7 +964,7 @@ namespace World.Network
 			WorldManager.Instance.CreatureLeaveRegion(creature);
 			creature.SetLocation(10022, 3262, 3139);
 
-			var dunp = new MabiPacket(0x9470, PacketCreator.GlobalBroadcastId);
+			var dunp = new MabiPacket(0x9470, Ids.Broadcast);
 			dunp.PutLong(creature.Id);
 			dunp.PutLong(0x01000000000005CD);
 			dunp.PutByte(1);
@@ -1203,7 +1202,7 @@ namespace World.Network
 			p.PutInt(0xEFFFFFFE);
 			client.Send(p);
 
-			p = new MabiPacket(Op.EnterRegionR, 0x1000000000000001);
+			p = new MabiPacket(Op.EnterRegionR, Id.World);
 			p.PutByte(1);
 			p.PutLong(creature.Id);
 			p.PutLong(DateTime.Now);
@@ -1355,7 +1354,7 @@ namespace World.Network
 
 			MabiCreature target = null;
 			// Windmill sends a huge nr as target id... a sign!? O___O
-			if (targetId < PacketCreator.GlobalBroadcastId)
+			if (targetId < Id.Broadcast)
 			{
 				if (targetId != creature.Id)
 					target = WorldManager.Instance.GetCreatureById(targetId);
@@ -1737,7 +1736,7 @@ namespace World.Network
 			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
 
 			// Disappear
-			p = new MabiPacket(Op.Disappear, 0x1000000000000001);
+			p = new MabiPacket(Op.Disappear, Id.World);
 			p.PutLong(pet.Id);
 			client.Send(p);
 
@@ -2105,7 +2104,7 @@ namespace World.Network
 			//002 [................]  String : _moongate_tirchonaill
 
 			// Send no gates for now.
-			client.Send(new MabiPacket(Op.MoonGateRequestR, PacketCreator.GlobalBroadcastId));
+			client.Send(new MabiPacket(Op.MoonGateRequestR, Id.Broadcast));
 		}
 
 		public void HandleOpenItemShop(WorldClient client, MabiPacket packet)

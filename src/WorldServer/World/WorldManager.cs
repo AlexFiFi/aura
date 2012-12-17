@@ -77,7 +77,7 @@ namespace World.World
 			if (((erinnHour == 6 || erinnHour == 18) && erinnMinute == 0) || _lastRlHour == -1) //LastRLHour is so we *always* run it on server startup.
 			{
 				ServerEvents.Instance.OnErinnDaytimeTick(this, args);
-				this.Broadcast(PacketCreator.Notice((args.IsNight ? "Eweca is rising.\nMana is starting to fill the air all around." : "Eweca has disappeared.\nThe surrounding Mana is starting to fade away."), NoticeType.MIDDLE_TOP), SendTargets.All, null);
+				this.Broadcast(PacketCreator.Notice((args.IsNight ? "Eweca is rising.\nMana is starting to fill the air all around." : "Eweca has disappeared.\nThe surrounding Mana is starting to fade away."), NoticeType.MiddleTop), SendTargets.All, null);
 			}
 
 			if (erinnHour == 0 && erinnMinute == 0)
@@ -494,7 +494,7 @@ namespace World.World
 			lock (_items)
 				_items.Add(item);
 
-			var appears = new MabiPacket(Op.ItemAppears, PacketCreator.GlobalBroadcastId);
+			var appears = new MabiPacket(Op.ItemAppears, Id.Broadcast);
 			appears.PutLong(item.Id);
 			appears.PutByte(1);
 			appears.PutBin(item.Info);
@@ -513,7 +513,7 @@ namespace World.World
 			lock (_props)
 				_props.Add(prop);
 
-			var appears = new MabiPacket(Op.PropAppears, PacketCreator.GlobalBroadcastId);
+			var appears = new MabiPacket(Op.PropAppears, Id.Broadcast);
 			prop.AddEntityData(appears);
 
 			this.Broadcast(appears, SendTargets.Region, prop);
@@ -530,7 +530,7 @@ namespace World.World
 			lock (_items)
 				_items.Remove(item);
 
-			var disappears = new MabiPacket(Op.ItemDisappears, PacketCreator.GlobalBroadcastId);
+			var disappears = new MabiPacket(Op.ItemDisappears, Id.Broadcast);
 			disappears.PutLong(item.Id);
 			this.Broadcast(disappears, SendTargets.Range, item);
 
@@ -544,7 +544,7 @@ namespace World.World
 			lock (_props)
 				_props.Remove(prop);
 
-			var disappears = new MabiPacket(Op.PropDisappears, PacketCreator.GlobalBroadcastId);
+			var disappears = new MabiPacket(Op.PropDisappears, Id.Broadcast);
 			disappears.PutLong(prop.Id);
 			this.Broadcast(disappears, SendTargets.Region, prop);
 
@@ -1011,7 +1011,7 @@ namespace World.World
 
 		public void CreatureCombatAction(MabiCreature source, MabiCreature target, CombatEventArgs combatArgs)
 		{
-			var combatPacket = new MabiPacket(Op.CombatActionBundle, PacketCreator.GlobalBroadcastId);
+			var combatPacket = new MabiPacket(Op.CombatActionBundle, Id.Broadcast);
 			combatPacket.PutInt(combatArgs.CombatActionId);
 			combatPacket.PutInt(combatArgs.PrevCombatActionId);
 			combatPacket.PutByte(combatArgs.Hit);
@@ -1198,13 +1198,13 @@ namespace World.World
 
 		public void CreatureCombatSubmit(MabiCreature source, uint actionId)
 		{
-			var p = new MabiPacket(Op.CombatActionEnd, PacketCreator.GlobalBroadcastId);
+			var p = new MabiPacket(Op.CombatActionEnd, Id.Broadcast);
 			p.PutInt(actionId);
 
 			this.Broadcast(p, SendTargets.Range, source);
 		}
 
-		public void Broadcast(MabiPacket packet, SendTargets targets, MabiEntity source, uint range = 0)
+		public void Broadcast(MabiPacket packet, SendTargets targets, MabiEntity source = null, uint range = 0)
 		{
 			if (range < 1)
 				range = WorldConf.SightRange;

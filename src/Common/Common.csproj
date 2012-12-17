@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Constants\Effects.cs" />
     <Compile Include="Constants\ExpTable.cs" />
+    <Compile Include="Constants\Ids.cs" />
     <Compile Include="Constants\Items.cs" />
     <Compile Include="Constants\Skills.cs" />
     <Compile Include="Database\MabiDb.cs" />

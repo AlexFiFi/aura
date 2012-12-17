@@ -116,6 +116,7 @@ namespace World.World
 			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 			this.AddCommand("reloadconf", Authority.Admin, Command_reloadconf);
+			this.AddCommand("addcard", "<pet|character> <card id> <character>", Authority.Admin, Command_addcard);
 
 			// Commands issued from the GMCP
 			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
@@ -173,7 +174,7 @@ namespace World.World
 					}
 					catch (DoNotCatchException)
 					{
-						throw; //We have to work hard to enable misbehavior
+						throw; // We have to work hard to enable misbehavior
 					}
 					catch (Exception ex)
 					{
@@ -808,6 +809,54 @@ namespace World.World
 			client.Send(PacketCreator.ServerMessage(creature, "done."));
 
 			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_addcard(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 3)
+				return CommandResult.WrongParameter;
+
+			uint cardId = 0;
+			if (!uint.TryParse(args[2], out cardId))
+			{
+				client.Send(PacketCreator.ServerMessage(creature, "Invalid card id."));
+				return CommandResult.Fail;
+			}
+
+			MabiCreature target = null;
+			if (args.Length < 4)
+				target = creature;
+			else
+			{
+				var characterName = args[3];
+
+				target = WorldManager.Instance.GetCharacterByName(characterName);
+				if (target == null)
+				{
+					client.Send(PacketCreator.ServerMessage(creature, "Character '" + characterName + "' not found."));
+					return CommandResult.Fail;
+				}
+			}
+
+			if (target != null && target.Client != null)
+			{
+				var type = args[1];
+
+				if (type == "character")
+					target.Client.Account.CharacterCards.Add(new MabiCard(cardId));
+				else if (type == "pet")
+					target.Client.Account.PetCards.Add(new MabiCard(cardId));
+				else
+				{
+					client.Send(PacketCreator.ServerMessage(creature, "Invalid card type."));
+					return CommandResult.WrongParameter;
+				}
+
+				client.Send(PacketCreator.ServerMessage(creature, "Card added."));
+				return CommandResult.Okay;
+			}
+
+			return CommandResult.Fail;
 		}
 	}
 }

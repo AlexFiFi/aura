@@ -14,6 +14,7 @@ using World.Scripting;
 using World.Tools;
 using World.World;
 using Common.Data;
+using Common.Constants;
 
 namespace World.Network
 {
@@ -183,30 +184,37 @@ namespace World.Network
 				case "shutdown":
 					{
 						this.StopListening();
-						int exitSeconds = 60;
+
+						// Seconds till players are dced, 10s min.
+						int dcSeconds = 10;
 						if (args.Length > 1)
-							int.TryParse(args[1], out exitSeconds);
+							int.TryParse(args[1], out dcSeconds);
+						if (dcSeconds < 10)
+							dcSeconds = 10;
 
-						int dcSeconds = 0;
-						if (exitSeconds > 60)
-							dcSeconds = exitSeconds - 60;
-
-						int dcTimerSeconds = exitSeconds - (exitSeconds - dcSeconds);
+						// Seconds till the server shuts down.
+						int exitSeconds = dcSeconds + 30;
 
 						// Broadcast a notice.
-						var notice = PacketCreator.Notice("The server will shutdown in " + exitSeconds + " seconds, please log out before that time, for your own safety.", NoticeType.TOP_RED);
-						WorldManager.Instance.Broadcast(notice, SendTargets.All, null);
+						WorldManager.Instance.Broadcast(PacketCreator.Notice("The server will shutdown in " + dcSeconds + " seconds, please log out before that time, for your own safety.", NoticeType.TopRed), SendTargets.All);
 
-						// Set a timer when to dc all remaining players.
-						_shutdownTimer1 = new Timer((state) =>
-						{
-							var dc = new MabiPacket(Op.RequestClientDisconnect, 0x1000000000000001).PutSInt(dcSeconds * 1000);
-							WorldManager.Instance.Broadcast(dc, SendTargets.All, null);
-						}, null, dcTimerSeconds * 1000, Timeout.Infinite);
+						// Set a timer when to send the dc request all remaining players.
+						_shutdownTimer1 = new Timer(_ =>
+							{
+								var dc = new MabiPacket(Op.RequestClientDisconnect, Id.World).PutSInt((dcSeconds - (dcSeconds - 10)) * 1000);
+								WorldManager.Instance.Broadcast(dc, SendTargets.All, null);
+							},
+							null, (dcSeconds - 10) * 1000, Timeout.Infinite
+						);
+						Logger.Info("Disconnecting players in " + dcSeconds + " seconds.");
 
 						// Set a timer when to exit this server.
-						_shutdownTimer2 = new Timer((state) => { this.Exit(0, false); }, null, exitSeconds * 1000, Timeout.Infinite);
-
+						_shutdownTimer2 = new Timer(_ =>
+							{
+								this.Exit(0, false);
+							},
+							null, exitSeconds * 1000, Timeout.Infinite
+						);
 						Logger.Info("Shutting down in " + exitSeconds + " seconds.");
 					}
 					break;

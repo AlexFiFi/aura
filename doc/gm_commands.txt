@@ -140,3 +140,24 @@ Drops a random item from the database, with a completely random color.
 
 Lists all players online in the specified region, or on the server, if region
 is omitted.
+
+-----------------------------------------------------------------------------
+
+** effect <id> {(b|i|s:parameter)|me}
+
+Test command for effects that are used in various places, like skills.
+Since the paramters of the effect packet are variable, you have to specify
+them explicitly, incl. their type (byte, int, string). "me" is a special
+paramter that becomes a long with your character's id.
+
+Examples:
+    effect 122 .............. // Mana Shield
+    effect 27 i:1000 i:0 .... // 1s flash
+    effect 14 s:healing me .. // Healing motion with char as target
+
+-----------------------------------------------------------------------------
+
+** addcard <pet|character> <card id> <character>
+
+Adds a card to the account of the character. Only works on characters
+that are online.

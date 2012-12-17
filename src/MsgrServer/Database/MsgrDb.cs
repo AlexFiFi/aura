@@ -26,14 +26,14 @@ namespace Msgr.Database
 				mc.Parameters.AddWithValue("@name", name);
 				mc.Parameters.AddWithValue("@server", server);
 
+				var contact = new Contact();
+				contact.Id = 0;
+				contact.Name = name;
+				contact.Server = server;
+				contact.FullName = name + "@" + server;
+
 				using (var reader = mc.ExecuteReader())
 				{
-					var contact = new Contact();
-					contact.Id = 0;
-					contact.Name = name;
-					contact.Server = server;
-					contact.FullName = name + "@" + server;
-
 					if (reader.Read())
 					{
 						contact.Id = reader.GetUInt32("contactId");
@@ -41,18 +41,17 @@ namespace Msgr.Database
 						// load groups, friends, notes
 
 						contact.Notes = GetNotes(contact.Id);
+						return contact;
 					}
-					else
-					{
-						// Create new contact
-						mc = new MySqlCommand("INSERT INTO contacts (characterId) VALUES (@characterId)", conn);
-						mc.Parameters.AddWithValue("@characterId", characterId);
-						mc.ExecuteNonQuery();
-						contact.Id = (uint)mc.LastInsertedId;
-					}
-
-					return contact;
 				}
+
+				// Create new contact
+				mc = new MySqlCommand("INSERT INTO contacts (characterId) VALUES (@characterId)", conn);
+				mc.Parameters.AddWithValue("@characterId", characterId);
+				mc.ExecuteNonQuery();
+				contact.Id = (uint)mc.LastInsertedId;
+
+				return contact;
 			}
 			finally
 			{
