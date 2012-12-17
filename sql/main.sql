@@ -95,9 +95,9 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `maxLevel` smallint(5) unsigned NOT NULL,
   `rebirthCount` smallint(5) unsigned NOT NULL,
   `jobId` tinyint(3) unsigned NOT NULL,
-  `color1` int(10) unsigned NOT NULL DEFAULT '0',
-  `color2` int(10) unsigned NOT NULL DEFAULT '0',
-  `color3` int(10) unsigned NOT NULL DEFAULT '0',
+  `color1` int(10) unsigned NOT NULL DEFAULT '8421504',
+  `color2` int(10) unsigned NOT NULL DEFAULT '8421504',
+  `color3` int(10) unsigned NOT NULL DEFAULT '8421504',
   PRIMARY KEY (`characterId`),
   KEY `account` (`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
