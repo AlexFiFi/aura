@@ -312,7 +312,7 @@ namespace World.World
 				result.AddRange(_items.FindAll(a => a.Region == region && InRange(a, x, y, range)));
 
 			lock (_props)
-				result.AddRange(_props.FindAll(a => a.Region == region && InRange(a, x, y, range)));
+				result.AddRange(_props.FindAll(a => a.Region == region /*&& InRange(a, x, y, range)*/));
 
 			return result;
 		}
@@ -377,7 +377,8 @@ namespace World.World
 				if (!_creatures.Contains(creature))
 				{
 					_creatures.Add(creature);
-					this.ActivateMobs(creature, creature.GetPosition(), creature.GetPosition());
+					if (creature.Client != null)
+						this.ActivateMobs(creature, creature.GetPosition(), creature.GetPosition());
 				}
 			}
 			if (creature.Client != null)
@@ -505,22 +506,6 @@ namespace World.World
 		}
 
 		/// <summary>
-		/// Adds a prop to the world and raises the EnterRegion event
-		/// </summary>
-		/// <param name="prop"></param>
-		public void AddProp(MabiProp prop)
-		{
-			lock (_props)
-				_props.Add(prop);
-
-			var appears = new MabiPacket(Op.PropAppears, Id.Broadcast);
-			prop.AddEntityData(appears);
-
-			this.Broadcast(appears, SendTargets.Region, prop);
-			ServerEvents.Instance.OnEntityEntersRegion(prop);
-		}
-
-		/// <summary>
 		/// Removes an item from the world and raises the LeaveRegion event
 		/// to notify clients about it.
 		/// </summary>
@@ -537,20 +522,6 @@ namespace World.World
 			ServerEvents.Instance.OnEntityLeavesRegion(item);
 
 			item.Dispose();
-		}
-
-		public void RemoveProp(MabiProp prop)
-		{
-			lock (_props)
-				_props.Remove(prop);
-
-			var disappears = new MabiPacket(Op.PropDisappears, Id.Broadcast);
-			disappears.PutLong(prop.Id);
-			this.Broadcast(disappears, SendTargets.Region, prop);
-
-			ServerEvents.Instance.OnEntityLeavesRegion(prop);
-
-			prop.Dispose();
 		}
 
 		/// <summary>
@@ -570,6 +541,36 @@ namespace World.World
 		public int GetItemCount()
 		{
 			return _items.Count();
+		}
+
+		/// <summary>
+		/// Adds a prop to the world and raises the EnterRegion event
+		/// </summary>
+		/// <param name="prop"></param>
+		public void AddProp(MabiProp prop)
+		{
+			lock (_props)
+				_props.Add(prop);
+
+			var appears = new MabiPacket(Op.PropAppears, Id.Broadcast);
+			prop.AddEntityData(appears);
+
+			this.Broadcast(appears, SendTargets.Region, prop);
+			ServerEvents.Instance.OnEntityEntersRegion(prop);
+		}
+
+		public void RemoveProp(MabiProp prop)
+		{
+			lock (_props)
+				_props.Remove(prop);
+
+			var disappears = new MabiPacket(Op.PropDisappears, Id.Broadcast);
+			disappears.PutLong(prop.Id);
+			this.Broadcast(disappears, SendTargets.Region, prop);
+
+			ServerEvents.Instance.OnEntityLeavesRegion(prop);
+
+			prop.Dispose();
 		}
 
 		// Broadcasting
@@ -1209,21 +1210,22 @@ namespace World.World
 			if (range < 1)
 				range = WorldConf.SightRange;
 
-			bool excludeSender = targets.HasFlag(SendTargets.ExcludeSender);
+			var excludeSender = ((targets & SendTargets.ExcludeSender) != 0);
 			WorldClient sourceClient = null;
 			if (source != null && source is MabiCreature)
-				sourceClient = (WorldClient)((MabiCreature)source).Client;
+				sourceClient = (source as MabiCreature).Client as WorldClient;
+
 			lock (_clients)
 			{
-				if (targets.HasFlag(SendTargets.All))
+				if ((targets & SendTargets.All) != 0)
 				{
 					foreach (var client in _clients)
 					{
-						if (!(excludeSender && client == sourceClient)) //Don't send if we're excluding the sender AND the sender is the client
+						if (!(excludeSender && client == sourceClient))
 							client.Send(packet);
 					}
 				}
-				else if (targets.HasFlag(SendTargets.Region))
+				else if ((targets & SendTargets.Region) != 0)
 				{
 					var region = source.Region;
 					foreach (var client in _clients)
@@ -1233,7 +1235,7 @@ namespace World.World
 								client.Send(packet);
 					}
 				}
-				else if (targets.HasFlag(SendTargets.Range))
+				else if ((targets & SendTargets.Range) != 0)
 				{
 					foreach (var client in _clients)
 					{

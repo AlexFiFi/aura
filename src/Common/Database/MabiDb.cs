@@ -955,7 +955,7 @@ namespace Common.Database
 				foreach (var item in character.Items)
 				{
 					// If item has a temporary Id
-					if (item.Id >= 0x0050F00000000001)
+					if (item.Id >= Id.TmpItems)
 					{
 						item.Id = this.GetNewItemId();
 					}

@@ -27,7 +27,7 @@ namespace Msgr.Tools
 			MsgrConf.ConsoleFilter = (Logger.LogLevel)_conf.GetInt("msgr_consolefilter", 0);
 #if DEBUG
 			// Enable debug regardless of configuration in debug builds.
-			LoginConf.ConsoleFilter &= ~Logger.LogLevel.Debug;
+			MsgrConf.ConsoleFilter &= ~Logger.LogLevel.Debug;
 #endif
 
 			MsgrConf.DatabaseHost = _conf.GetString("database_host", "localhost");

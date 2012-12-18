@@ -457,7 +457,7 @@ namespace World.World
 
 		private CommandResult Command_prop(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			if (args.Length != 2)
+			if (args.Length < 2)
 				return CommandResult.WrongParameter;
 
 			uint propClass = 0;
@@ -465,7 +465,13 @@ namespace World.World
 				return CommandResult.Fail;
 
 			var pos = creature.GetPosition();
-			WorldManager.Instance.AddProp(new MabiProp() { PropType = propClass, Region = creature.Region, LocX = pos.X, LocY = pos.Y });
+
+			var prop = new MabiProp();
+			prop.Info.Class = propClass;
+			prop.Region = creature.Region;
+			prop.Info.X = pos.X;
+			prop.Info.Y = pos.Y;
+			WorldManager.Instance.AddProp(prop);
 
 			return CommandResult.Okay;
 		}

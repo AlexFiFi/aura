@@ -392,5 +392,35 @@ namespace World.Scripting
 
 			this.EquipItem(slot, dbInfo.Id, color1, color2, color3);
 		}
+
+		protected virtual void SpawnProp(uint propClass, string region, uint x, uint y, float scale = 1, float direction = 1)
+		{
+			uint regionid = 0;
+			if (!uint.TryParse(region, out regionid))
+			{
+				var mapInfo = MabiData.MapDb.Find(region);
+				if (mapInfo != null)
+					regionid = mapInfo.Id;
+				else
+				{
+					Logger.Warning(this.ScriptName + " : Map '" + region + "' not found.");
+				}
+			}
+
+			this.SpawnProp(propClass, regionid, x, y, scale, direction);
+		}
+
+		protected virtual void SpawnProp(uint propClass, uint region, uint x, uint y, float scale = 1, float direction = 1)
+		{
+			var prop = new MabiProp();
+			prop.Info.Class = propClass;
+			prop.Region = region;
+			prop.Info.X = x;
+			prop.Info.Y = y;
+			prop.Info.Scale = scale;
+			prop.Info.Direction = direction;
+
+			WorldManager.Instance.AddProp(prop);
+		}
 	}
 }

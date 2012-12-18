@@ -300,3 +300,13 @@ Takes a variable amount of tab names, and adds them to the shop.
 
 Examples:
     Shop.AddTabs("Grocery", "Gift", "Quest", "Event");
+
+=== Props ===================================================================
+
+** SpawnProp(<uint:prop_class>, <uint:region>, <uint:x>, <uint:y>[, <float:scale>[, <float:direction>]])
+** SpawnProp(<uint:prop_class>, <string:region>, <uint:x>, <uint:y>[, <float:scale>[, <float:direction>]])
+
+Adds a new prop to the world at the specified location.
+
+Examples:
+    SpawnProp(1, "tir", 13000, 37000); // Tree near Tir square

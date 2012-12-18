@@ -17,6 +17,7 @@ namespace Common.Constants
 		public const ulong Pets = 0x10010000000001;
 		public const ulong Partners = 0x10030000000001;
 		public const ulong Items = 0x50000000000001;
-		public const ulong Prop = 0x00A1000000000000;
+		public const ulong TmpItems = 0x0050F00000000001;
+		public const ulong Props = 0x00A1000100000000;
 	}
 }

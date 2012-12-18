@@ -15,6 +15,8 @@ using csscript;
 using CSScriptLibrary;
 using World.Tools;
 using World.World;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace World.Scripting
 {
@@ -80,6 +82,8 @@ namespace World.Scripting
 			try
 			{
 				var script = this.LoadScript(scriptPath).CreateObject("*") as NPCScript;
+				script.ScriptPath = scriptPath;
+				script.ScriptName = Path.GetFileName(scriptPath);
 				if (!virtualLoad)
 				{
 					var npc = new MabiNPC();
@@ -89,7 +93,10 @@ namespace World.Scripting
 					script.LoadType = NPCLoadType.Real;
 					script.OnLoad();
 					script.OnLoadDone();
-					npc.LoadDefault();
+
+					// Only load defaults with race set.
+					if (npc.Race != 0 && npc.Race != uint.MaxValue)
+						npc.LoadDefault();
 
 					WorldManager.Instance.AddCreature(npc);
 				}
@@ -136,7 +143,7 @@ namespace World.Scripting
 		/// </summary>
 		/// <param name="scriptPath"></param>
 		/// <returns></returns>
-		private Assembly LoadScript(string scriptPath)
+		public Assembly LoadScript(string scriptPath)
 		{
 			var compiledPath = this.GetCompiledPath(scriptPath);
 
@@ -147,7 +154,7 @@ namespace World.Scripting
 			}
 			else
 			{
-				asm = CSScript.LoadCode(File.ReadAllText(scriptPath));
+				asm = CSScript.LoadCode(this.ReadScriptFile(scriptPath));
 				if (!WorldConf.DisableScriptCaching)
 				{
 					try
@@ -174,6 +181,35 @@ namespace World.Scripting
 			}
 
 			return asm;
+		}
+
+		private string ReadScriptFile(string filePath)
+		{
+			var file = File.ReadAllText(filePath);
+			var sb = new StringBuilder();
+
+			// Usings
+			{
+				// Default:
+				// using System;
+				// using Common.Constants;
+				// using Common.World;
+				// using World.Network;
+				// using World.Scripting;
+				// using World.World;
+
+				//if (!Regex.Match(file, @"(^|;)\s*using System;").Success) sb.Append("using System;");
+				//if (!Regex.Match(file, @"(^|;)\s*using Common.Constants;").Success) sb.Append("using Common.Constants;");
+				//if (!Regex.Match(file, @"(^|;)\s*using Common.World;").Success) sb.Append("using Common.World;");
+				//if (!Regex.Match(file, @"(^|;)\s*using World.Network;").Success) sb.Append("using World.Network;");
+				//if (!Regex.Match(file, @"(^|;)\s*using World.Scripting;").Success) sb.Append("using World.Scripting;");
+				//if (!Regex.Match(file, @"(^|;)\s*using World.World;").Success) sb.Append("using World.World;");
+			}
+
+			// Append the actual file
+			sb.Append(file);
+
+			return sb.ToString();
 		}
 
 		public void LoadSpawns()

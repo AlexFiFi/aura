@@ -100,7 +100,7 @@ namespace Common.World
 		public uint StackItem;
 		public byte Width, Height;
 
-		private static ulong _worldItemIndex = 0x0050F00000000001;
+		private static ulong _worldItemIndex = Common.Constants.Id.TmpItems;
 
 		public MabiItem(uint itemClass, bool worldId = true)
 		{
