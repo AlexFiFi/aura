@@ -127,7 +127,7 @@ namespace Common.Data
 	public class SpawnInfo
 	{
 		public uint Id;
-		public uint MonsterId;
+		public uint RaceId;
 		public uint Region;
 		public SpawnLocationType SpawnType;
 		public MabiVertex SpawnPoint;
@@ -193,7 +193,7 @@ namespace Common.Data
 
 			var i = 0;
 			info.Id = _spawnId++;
-			info.MonsterId = Convert.ToUInt32(csv[i++]);
+			info.RaceId = Convert.ToUInt32(csv[i++]);
 			info.Amount = Convert.ToByte(csv[i++]);
 			info.Region = Convert.ToUInt32(csv[i++]);
 

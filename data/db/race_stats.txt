@@ -1,0 +1,24 @@
+// Aura
+// Database file
+// 
+// Structure:
+// Id  RaceId  Name  AI  Color1  Color2  Color3  Life  Exp  Size  GoldMin  GoldMax  [DropItem  DropChance ...]
+//---------------------------------------------------------------------------
+
+20001, "Gray Wolf", "wolf", 0x808080,0,0, 90,30,1.0, 11,50, 50003,100
+20003, "White Wolf", "wolf", 0xD0D0D0,0,0, 160,85,1.0, 20,80
+20002, "Black Wolf", "wolf", 0x303030,0,0, 120,70,1.0, 15,70
+20005, "Brown Dire Wolf", "wolf", 0x886655,0xFF2222,0, 200,90,1.0, 0,0
+20009, "Brown Dire Wolf Cub", "wolf", 0x886655,0xFF2222,0, 75,45,1.0, 0,0
+
+50001, "Brown Fox", "none", 0xA07070,0,0, 15,3,1.0, 8,10, 71021,15,52002,5
+50002, "Red Fox", "none", 0xE06060,0,0, 25,15,1.0, 5,14
+50003, "Gray Fox", "none", 0x8A8275,0,0, 30,20,1.0, 2,21
+50007, "Young Brown Fox", "none", 0xA07070,0,0, 10,75,0.5, 5,5, 71021,15,52002,5
+50005, "Young Red Fox", "none", 0xE06060,0,0, 20,12,1.0, 4,11
+50006, "Young Gray Fox", "none", 0x8A8275,0,0, 25,17,1.0, 6,6
+
+30001, "White Spider", "none", 0xC0C0C0,0,0, 20,13,1.0, 5,10
+30003, "Red Spider", "none", 0xE06060,0,0, 190,80,1.0, 30,60
+
+160003, "Light Gargoyle", "wolf", 0xFFFFFF,0xFFFFFF,0xFFFFFF, 600,400,1.0, 100,300

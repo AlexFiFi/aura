@@ -91,7 +91,7 @@
     <Compile Include="Database\MabiDb.cs" />
     <Compile Include="Data\Maps.cs" />
     <Compile Include="Data\StatsLevelUp.cs" />
-    <Compile Include="Data\MonsterSkills.cs" />
+    <Compile Include="Data\RaceSkills.cs" />
     <Compile Include="Data\SkillRanks.cs" />
     <Compile Include="Data\Speeds.cs" />
     <Compile Include="Data\CharCardSets.cs" />
@@ -101,7 +101,7 @@
     <Compile Include="Data\DataManager.cs" />
     <Compile Include="Data\Items.cs" />
     <Compile Include="Data\MabiData.cs" />
-    <Compile Include="Data\Monsters.cs" />
+    <Compile Include="Data\RaceStats.cs" />
     <Compile Include="Data\Motions.cs" />
     <Compile Include="Data\Portals.cs" />
     <Compile Include="Data\Races.cs" />

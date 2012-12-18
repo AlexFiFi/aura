@@ -99,7 +99,7 @@ namespace World.World
 			this.AddCommand("gmcp", Authority.GameMaster, Command_gmcp);
 			this.AddCommand("item", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
 			this.AddCommand("iteminfo", "<item name>", Authority.GameMaster, Command_iteminfo);
-			this.AddCommand("monsterinfo", "<monster name>", Authority.GameMaster, Command_monsterinfo);
+			this.AddCommand("raceinfo", "<race name>", Authority.GameMaster, Command_raceinfo);
 			this.AddCommand("goto", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("warp", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("jump", "<x> [y]", Authority.GameMaster, Command_jump);
@@ -107,9 +107,9 @@ namespace World.World
 			this.AddCommand("statuseffect", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("effect", "<id> {(b|i|s:parameter)|me}", Authority.GameMaster, Command_effect);
 			this.AddCommand("skill", Authority.GameMaster, Command_skill);
-			this.AddCommand("spawn", "<race>", Authority.GameMaster, Command_spawn);
+			this.AddCommand("spawn", "<race id> [amount]", Authority.GameMaster, Command_spawn);
 			this.AddCommand("prop", "<class>", Authority.GameMaster, Command_prop);
-			this.AddCommand("ri", Authority.GameMaster, Command_randomitem);
+			this.AddCommand("ritem", Authority.GameMaster, Command_randomitem);
 			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
@@ -127,7 +127,7 @@ namespace World.World
 			// Aliases
 			this.AddAlias("item", "drop");
 			this.AddAlias("iteminfo", "ii");
-			this.AddAlias("monsterinfo", "mi");
+			this.AddAlias("raceinfo", "ri");
 			this.AddAlias("statuseffect", "se");
 			this.AddAlias("test", "t");
 
@@ -404,14 +404,14 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
-		private CommandResult Command_monsterinfo(WorldClient client, MabiCreature creature, string[] args, string msg)
+		private CommandResult Command_raceinfo(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			if (args.Length < 2)
 				return CommandResult.WrongParameter;
 
 			var monsterName = msg.Substring(args[0].Length + 2).Replace('_', ' ');
 
-			var infos = MabiData.MonsterDb.FindAll(monsterName);
+			var infos = MabiData.RaceDb.FindAll(monsterName);
 			if (infos.Count < 1)
 			{
 				client.Send(PacketCreator.ServerMessage(creature, "No monsters found."));
@@ -420,17 +420,18 @@ namespace World.World
 
 			for (int i = 0; i < infos.Count && i < 20; ++i)
 			{
-				client.Send(PacketCreator.ServerMessage(creature, infos[i].Id.ToString() + ": " + infos[i].Name));
+				client.Send(PacketCreator.ServerMessage(creature, "{0}: {1}", infos[i].Id, infos[i].Name));
 
-				string drops = "";
+				var drops = "None.";
 				foreach (var drop in infos[i].Drops)
 				{
-					drops += drop.ItemId.ToString() + " (" + (drop.Chance * 100).ToString() + "),";
+					drops += drop.ItemId.ToString() + " (" + (drop.Chance * 100).ToString() + "%),";
 				}
-				client.Send(PacketCreator.ServerMessage(creature, "Drops: " + drops));
+				client.Send(PacketCreator.ServerMessage(creature, "Drops: " + drops.TrimEnd(',')));
+				client.Send(PacketCreator.ServerMessage(creature, "----------"));
 			}
 
-			client.Send(PacketCreator.ServerMessage(creature, "Results: " + infos.Count.ToString() + " (Max. 20 shown)"));
+			client.Send(PacketCreator.ServerMessage(creature, "Results: {0} (Max. 20 shown)", infos.Count));
 
 			return CommandResult.Okay;
 		}
@@ -440,13 +441,25 @@ namespace World.World
 			if (args.Length < 2)
 				return CommandResult.WrongParameter;
 
-			uint monsterId = 0;
-			if (!uint.TryParse(args[1], out monsterId))
+			uint raceId = 0;
+			if (!uint.TryParse(args[1], out raceId))
 				return CommandResult.Fail;
 
+			byte amount = 1;
+			if (args.Length > 2)
+			{
+				if (!byte.TryParse(args[2], out amount))
+					return CommandResult.Fail;
+
+				if (amount < 1)
+					amount = 1;
+				else if (amount > 100)
+					amount = 100;
+			}
+
 			var spawn = new SpawnInfo();
-			spawn.Amount = 1;
-			spawn.MonsterId = monsterId;
+			spawn.Amount = amount;
+			spawn.RaceId = raceId;
 			spawn.SpawnPoint = creature.GetPosition();
 			spawn.Region = creature.Region;
 			spawn.SpawnType = SpawnLocationType.Point;

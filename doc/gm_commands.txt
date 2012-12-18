@@ -129,7 +129,7 @@ Gives the skill with the specified Id to the character. "rank" ranges from
 
 -----------------------------------------------------------------------------
 
-** ri
+** ritem
 
 Drops a random item from the database, with a completely random color.
 (Will mostly result in flashies.)

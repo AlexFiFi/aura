@@ -241,18 +241,22 @@ namespace World.Scripting
 
 			var rand = RandomProvider.Get();
 
-			var monsterInfo = MabiData.MonsterDb.Find(info.MonsterId);
-			if (monsterInfo == null)
+			var raceInfo = MabiData.RaceDb.Find(info.RaceId);
+			if (raceInfo == null)
 			{
-				Logger.Warning("Monster not found: " + info.MonsterId.ToString());
+				Logger.Warning("Race not found: " + info.RaceId.ToString());
 				return 0;
 			}
 
-			var aiFilePath = Path.Combine(WorldConf.ScriptPath, "ai", monsterInfo.AI + ".cs");
-			if (!File.Exists(aiFilePath))
+			string aiFilePath = null;
+			if (!string.IsNullOrEmpty(raceInfo.AI))
 			{
-				Logger.Warning("AI script '" + monsterInfo.AI + ".cs' couldn't be found.");
-				aiFilePath = null;
+				aiFilePath = Path.Combine(WorldConf.ScriptPath, "ai", raceInfo.AI + ".cs");
+				if (!File.Exists(aiFilePath))
+				{
+					Logger.Warning("AI script '" + raceInfo.AI + ".cs' couldn't be found.");
+					aiFilePath = null;
+				}
 			}
 
 			if (amount == 0)
@@ -262,24 +266,24 @@ namespace World.Scripting
 			{
 				var monster = new MabiNPC();
 				monster.SpawnId = info.Id;
-				monster.Name = monsterInfo.Name;
+				monster.Name = raceInfo.Name;
 				var loc = info.GetRandomSpawnPoint(rand);
 				monster.SetLocation(info.Region, loc.X, loc.Y);
-				monster.ColorA = monsterInfo.ColorA;
-				monster.ColorB = monsterInfo.ColorB;
-				monster.ColorC = monsterInfo.ColorC;
-				monster.Height = monsterInfo.Size;
-				monster.LifeMaxBase = monsterInfo.Life;
-				monster.Life = monsterInfo.Life;
-				monster.Race = monsterInfo.Race;
-				monster.BattleExp = monsterInfo.Exp;
+				monster.ColorA = raceInfo.ColorA;
+				monster.ColorB = raceInfo.ColorB;
+				monster.ColorC = raceInfo.ColorC;
+				monster.Height = raceInfo.Size;
+				monster.LifeMaxBase = raceInfo.Life;
+				monster.Life = raceInfo.Life;
+				monster.Race = raceInfo.Id;
+				monster.BattleExp = raceInfo.Exp;
 				monster.Direction = (byte)rand.Next(256);
 				monster.State &= ~CreatureStates.GoodNpc; // Use race default?
-				monster.GoldMin = monsterInfo.GoldMin;
-				monster.GoldMax = monsterInfo.GoldMax;
-				monster.Drops = monsterInfo.Drops;
+				monster.GoldMin = raceInfo.GoldMin;
+				monster.GoldMax = raceInfo.GoldMax;
+				monster.Drops = raceInfo.Drops;
 
-				foreach (var skill in monsterInfo.Skills)
+				foreach (var skill in raceInfo.Skills)
 				{
 					monster.Skills.Add(new MabiSkill(skill.SkillId, skill.Rank, monster.Race));
 				}
@@ -288,10 +292,10 @@ namespace World.Scripting
 
 				if (aiFilePath != null)
 				{
-					monster.AIScript = this.LoadScript(aiFilePath).CreateObject("*") as AIScript; // (AIScript)CSScript.LoadCode(File.ReadAllText(aiFilePath)).CreateObject("*");
+					monster.AIScript = this.LoadScript(aiFilePath).CreateObject("*") as AIScript;
 					monster.AIScript.Creature = monster;
 					monster.AIScript.OnLoad();
-					monster.AIScript.Activate(0); //AI is intially active
+					monster.AIScript.Activate(0); // AI is intially active
 				}
 
 				WorldManager.Instance.AddCreature(monster);

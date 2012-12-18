@@ -22,8 +22,8 @@ namespace Common.Data
 		public static PortalDb PortalDb = new PortalDb();
 		public static SkillDb SkillDb = new SkillDb();
 		public static SkillRankDb SkillRankDb = new SkillRankDb();
-		public static MonsterSkillDb MonsterSkillDb = new MonsterSkillDb();
-		public static MonsterDb MonsterDb = new MonsterDb();
+		internal static RaceSkillDb RaceSkillDb = new RaceSkillDb();
+		internal static RaceStatDb RaceStatDb = new RaceStatDb();
 		public static SpawnDb SpawnDb = new SpawnDb();
 		public static MapDb MapDb = new MapDb();
 	}

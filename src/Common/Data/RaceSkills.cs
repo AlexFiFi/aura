@@ -3,24 +3,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Globalization;
-using Common.Tools;
 
 namespace Common.Data
 {
-	public class MonsterSkillInfo
+	public class RaceSkillInfo
 	{
 		public uint MonsterId;
 		public ushort SkillId;
 		public byte Rank;
 	}
 
-	public class MonsterSkillDb : DataManager<MonsterSkillInfo>
+	internal class RaceSkillDb : DataManager<RaceSkillInfo>
 	{
-		public List<MonsterSkillInfo> FindAll(uint id)
+		public List<RaceSkillInfo> FindAll(uint id)
 		{
 			return this.Entries.FindAll(a => a.MonsterId == id);
 		}
@@ -31,7 +26,7 @@ namespace Common.Data
 			this.ReadCsv(filePath, 2);
 		}
 
-		protected override void CsvToEntry(MonsterSkillInfo info, List<string> csv, int currentLine)
+		protected override void CsvToEntry(RaceSkillInfo info, List<string> csv, int currentLine)
 		{
 			info.MonsterId = Convert.ToUInt32(csv[0]);
 			info.SkillId = Convert.ToUInt16(csv[1]);

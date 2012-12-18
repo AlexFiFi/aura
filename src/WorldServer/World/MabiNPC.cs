@@ -20,7 +20,7 @@ namespace World.World
 
 		public uint SpawnId = 0;
 		public int GoldMin, GoldMax;
-		public List<MonsterDropInfo> Drops = new List<MonsterDropInfo>();
+		public List<DropInfo> Drops = new List<DropInfo>();
 
 		public MabiNPC()
 		{

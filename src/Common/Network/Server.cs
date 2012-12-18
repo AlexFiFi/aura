@@ -107,8 +107,20 @@ namespace Common.Network
 		{
 			try
 			{
+				if (toLoad.HasFlag(DataLoad.Npcs))
+				{
+					MabiData.SpawnDb.LoadFromCsv(dataPath + "/db/spawns.txt", reload);
+					Logger.Info("Done loading " + MabiData.SpawnDb.Entries.Count + " entries from spawns.txt.");
+				}
+
 				if (toLoad.HasFlag(DataLoad.Data))
 				{
+					MabiData.RaceSkillDb.LoadFromCsv(dataPath + "/db/race_skills.txt", reload);
+					Logger.Info("Done loading " + MabiData.RaceSkillDb.Entries.Count + " entries from race_skills.txt.");
+
+					MabiData.RaceStatDb.LoadFromCsv(dataPath + "/db/race_stats.txt", reload);
+					Logger.Info("Done loading " + MabiData.RaceStatDb.Entries.Count + " entries from race_stats.txt.");
+
 					MabiData.SpeedDb.LoadFromCsv(dataPath + "/db/speed.txt", reload);
 					MabiData.RaceDb.LoadFromCsv(dataPath + "/db/races.txt", reload);
 					Logger.Info("Done loading " + MabiData.RaceDb.Entries.Count + " entries from races.txt.");
@@ -141,16 +153,6 @@ namespace Common.Network
 
 					MabiData.MapDb.LoadFromCsv(dataPath + "/db/maps.txt", reload);
 					Logger.Info("Done loading " + MabiData.MapDb.Entries.Count + " entries from maps.txt.");
-				}
-
-				if (toLoad.HasFlag(DataLoad.Npcs))
-				{
-					MabiData.MonsterSkillDb.LoadFromCsv(dataPath + "/db/monster_skills.txt", reload);
-					MabiData.MonsterDb.LoadFromCsv(dataPath + "/db/monsters.txt", reload);
-					Logger.Info("Done loading " + MabiData.MonsterDb.Entries.Count + " entries from monsters.txt.");
-
-					MabiData.SpawnDb.LoadFromCsv(dataPath + "/db/spawns.txt", reload);
-					Logger.Info("Done loading " + MabiData.SpawnDb.Entries.Count + " entries from spawns.txt.");
 				}
 			}
 			catch (FileNotFoundException ex)

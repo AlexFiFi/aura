@@ -26,6 +26,18 @@ namespace Common.Data
 		public int KnockCount;
 		public float SpeedRun, SpeedWalk;
 		public int Stand;
+
+		// v-- Race stat info
+		public string AI;
+		public float Life;
+		public uint Exp;
+		public float Size;
+		public uint ColorA, ColorB, ColorC;
+
+		public int GoldMin, GoldMax;
+		public List<DropInfo> Drops = new List<DropInfo>();
+
+		public List<RaceSkillInfo> Skills = new List<RaceSkillInfo>();
 	}
 
 	public class RaceDb : DataManager<RaceInfo>
@@ -39,6 +51,12 @@ namespace Common.Data
 		public RaceInfo Find(uint id)
 		{
 			return this.Entries.FirstOrDefault(a => a.Id == id);
+		}
+
+		public List<RaceInfo> FindAll(string name)
+		{
+			name = name.ToLower();
+			return this.Entries.FindAll(a => a.Name.ToLower() == name);
 		}
 
 		public override void LoadFromCsv(string filePath, bool reload = false)
@@ -88,6 +106,25 @@ namespace Common.Data
 				info.SpeedRun = actionInfo.Speed;
 			else
 				info.SpeedRun = 373.850647f;
+
+			var statInfo = MabiData.RaceStatDb.Find(info.Id);
+			if (statInfo == null)
+			{
+				return;
+			}
+
+			// Maybe not the most elegant way...
+			info.AI = statInfo.AI;
+			info.Life = statInfo.Life;
+			info.Exp = statInfo.Exp;
+			info.Size = statInfo.Size;
+			info.ColorA = statInfo.ColorA;
+			info.ColorB = statInfo.ColorB;
+			info.ColorC = statInfo.ColorC;
+			info.GoldMin = statInfo.GoldMin;
+			info.GoldMax = statInfo.GoldMax;
+			info.Drops = statInfo.Drops;
+			info.Skills = statInfo.Skills;
 		}
 	}
 }

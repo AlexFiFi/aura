@@ -3,19 +3,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Linq;
 using Common.Tools;
 
 namespace Common.Data
 {
-	public class MonsterInfo
+	internal class RaceStatInfo
 	{
-		public uint Id;
+		public uint RaceId;
 		public string Name;
-		public uint Race;
 		public string AI;
 		public float Life;
 		public uint Exp;
@@ -23,31 +20,31 @@ namespace Common.Data
 		public uint ColorA, ColorB, ColorC;
 
 		public int GoldMin, GoldMax;
-		public List<MonsterDropInfo> Drops = new List<MonsterDropInfo>();
+		public List<DropInfo> Drops = new List<DropInfo>();
 
-		public List<MonsterSkillInfo> Skills = new List<MonsterSkillInfo>();
+		public List<RaceSkillInfo> Skills = new List<RaceSkillInfo>();
 	}
 
-	public class MonsterDropInfo
+	public class DropInfo
 	{
 		public uint ItemId;
 		public float Chance;
 	}
 
-	public class MonsterDb : DataManager<MonsterInfo>
+	internal class RaceStatDb : DataManager<RaceStatInfo>
 	{
-		public MonsterInfo Find(uint id)
+		public RaceStatInfo Find(uint id)
 		{
-			return this.Entries.FirstOrDefault(a => a.Id == id);
+			return this.Entries.FirstOrDefault(a => a.RaceId == id);
 		}
 
-		public MonsterInfo Find(string name)
+		public RaceStatInfo Find(string name)
 		{
 			name = name.ToLower();
 			return this.Entries.FirstOrDefault(a => a.Name.ToLower() == name);
 		}
 
-		public List<MonsterInfo> FindAll(string name)
+		public List<RaceStatInfo> FindAll(string name)
 		{
 			name = name.ToLower();
 			return this.Entries.FindAll(a => a.Name.ToLower() == name);
@@ -56,14 +53,13 @@ namespace Common.Data
 		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
 			base.LoadFromCsv(filePath, reload);
-			this.ReadCsv(filePath, 12);
+			this.ReadCsv(filePath, 11);
 		}
 
-		protected override void CsvToEntry(MonsterInfo info, List<string> csv, int currentLine)
+		protected override void CsvToEntry(RaceStatInfo info, List<string> csv, int currentLine)
 		{
 			int j = 0;
-			info.Id = Convert.ToUInt32(csv[j++]);
-			info.Race = Convert.ToUInt32(csv[j++]);
+			info.RaceId = Convert.ToUInt32(csv[j++]);
 			info.Name = csv[j++];
 			info.AI = csv[j++];
 			info.ColorA = Convert.ToUInt32(csv[j++].Replace("0x", ""), 16);
@@ -82,7 +78,7 @@ namespace Common.Data
 			}
 			while (j < csv.Count)
 			{
-				var drop = new MonsterDropInfo();
+				var drop = new DropInfo();
 				drop.ItemId = Convert.ToUInt32(csv[j++]);
 				drop.Chance = float.Parse(csv[j++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 
@@ -95,7 +91,7 @@ namespace Common.Data
 				info.Drops.Add(drop);
 			}
 
-			info.Skills = MabiData.MonsterSkillDb.FindAll(info.Id);
+			info.Skills = MabiData.RaceSkillDb.FindAll(info.RaceId);
 		}
 	}
 }
