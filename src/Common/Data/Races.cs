@@ -25,6 +25,7 @@ namespace Common.Data
 		public int AttackSpeed;
 		public int KnockCount;
 		public float SpeedRun, SpeedWalk;
+		public FlightInfo FlightInfo;
 		public int Stand;
 
 		// v-- Race stat info
@@ -107,11 +108,14 @@ namespace Common.Data
 			else
 				info.SpeedRun = 373.850647f;
 
+			info.FlightInfo = MabiData.FlightDb.Find(info.Id);
+
 			var statInfo = MabiData.RaceStatDb.Find(info.Id);
 			if (statInfo == null)
 			{
 				return;
 			}
+
 
 			// Maybe not the most elegant way...
 			info.AI = statInfo.AI;

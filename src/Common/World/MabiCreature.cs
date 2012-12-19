@@ -42,6 +42,7 @@ namespace Common.World
 
 		public byte WeaponSet;
 		public byte BattleState;
+		public byte Flying;
 
 		public List<MabiItem> Items = new List<MabiItem>();
 
@@ -59,6 +60,8 @@ namespace Common.World
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
 		public readonly MabiVertex _destination = new MabiVertex(0, 0);
+		public float FlyingHeight;
+		public float DestinationFlyingHeight;
 		private DateTime _moveStartTime;
 		private double _movementX, _movementY;
 		private double _moveDuration;
@@ -807,9 +810,13 @@ namespace Common.World
 		public float GetSpeed()
 		{
 			if (this.Vehicle == null)
-				return (!_moveIsWalk ? this.RaceInfo.SpeedRun : this.RaceInfo.SpeedWalk);
+				return (this.Flying == 0
+					? (!_moveIsWalk ? this.RaceInfo.SpeedRun : this.RaceInfo.SpeedWalk)
+					: this.RaceInfo.FlightInfo.FlightSpeed);
 			else
-				return (!_moveIsWalk ? this.Vehicle.RaceInfo.SpeedRun : this.Vehicle.RaceInfo.SpeedWalk);
+				return (this.Vehicle.Flying == 0
+					? (!_moveIsWalk ? this.Vehicle.RaceInfo.SpeedRun : this.Vehicle.RaceInfo.SpeedWalk)
+					: this.Vehicle.RaceInfo.FlightInfo.FlightSpeed);
 		}
 
 		public void SetLocation(uint region, uint x, uint y)
@@ -1244,7 +1251,7 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(0);					 // IsAviating
+			packet.PutByte(0);//packet.PutByte(this.Flying);					 // IsAviating
 			// loop
 			//   packet.PutFloat				 // FromX
 			//   packet.PutFloat

@@ -213,18 +213,18 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket Lock(MabiCreature creature)
+		public static MabiPacket Lock(MabiCreature creature, uint LockType = 0xEFFFFFFE)
 		{
 			var p = new MabiPacket(Op.CharacterLock, creature.Id);
-			p.PutInt(0xEFFFFFFE);
+			p.PutInt(LockType);
 			p.PutInt(0);
 			return p;
 		}
 
-		public static MabiPacket Unlock(MabiCreature creature)
+		public static MabiPacket Unlock(MabiCreature creature, uint LockType = 0xEFFFFFFE)
 		{
 			var p = new MabiPacket(Op.CharacterUnlock, creature.Id);
-			p.PutInt(0xEFFFFFFE);
+			p.PutInt(LockType);
 			return p;
 		}
 

@@ -122,6 +122,7 @@ namespace Common.Network
 					Logger.Info("Done loading " + MabiData.RaceStatDb.Entries.Count + " entries from race_stats.txt.");
 
 					MabiData.SpeedDb.LoadFromCsv(dataPath + "/db/speed.txt", reload);
+					MabiData.FlightDb.LoadFromCsv(dataPath + "/db/flight.txt", reload);
 					MabiData.RaceDb.LoadFromCsv(dataPath + "/db/races.txt", reload);
 					Logger.Info("Done loading " + MabiData.RaceDb.Entries.Count + " entries from races.txt.");
 

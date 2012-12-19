@@ -11,6 +11,7 @@ namespace Common.Data
 	public static class MabiData
 	{
 		public static SpeedDb SpeedDb = new SpeedDb();
+		public static FlightDb FlightDb = new FlightDb();
 		public static ColorMapDb ColorMapDb = new ColorMapDb();
 		public static ItemDb ItemDb = new ItemDb();
 		public static RaceDb RaceDb = new RaceDb();

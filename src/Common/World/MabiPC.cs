@@ -258,13 +258,13 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(0);					 // IsAviating
+			packet.PutByte(0);//packet.PutByte(this.Flying);					 // IsAviating
 			// loop
 			//   packet.PutFloat				 // FromX
-			//   packet.PutFloat
+			//   packet.PutFloat				 // FromHeight
 			//   packet.PutFloat				 // FromY
 			//   packet.PutFloat				 // ToX
-			//   packet.PutFloat
+			//   packet.PutFloat				 // ToHeight
 			//   packet.PutFloat				 // ToY
 			//   packet.PutFloat				 // Direction
 

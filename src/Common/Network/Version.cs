@@ -136,6 +136,14 @@ namespace Common.Network
 		public readonly static uint EnterRegion = 0x6598;
 		public readonly static uint WarpRegion = 0x6599;
 		public readonly static uint EnterRegionR = 0x659C;
+		public readonly static uint TakeOff = 0x65A8;
+		public readonly static uint TakingOff = 0x65A9;
+		public readonly static uint CanFly = 0x65AA;
+		public readonly static uint FlyTo = 0x65AE;
+		public readonly static uint FlyingTo = 0x65AF;
+		public readonly static uint Land = 0x65AB;
+		public readonly static uint Landing = 0x65AC;
+		public readonly static uint CanLand = 0x65AD;
 		public readonly static uint SkillInfo = 0x6979;
 		public readonly static uint SkillTrainingUp = 0x697C;
 		public readonly static uint SkillAdvance = 0x697E;

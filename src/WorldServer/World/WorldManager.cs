@@ -155,7 +155,9 @@ namespace World.World
 							if ((!InRange(creature.PrevPosition, entity.PrevPosition) && (entityCreature == null || !entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible))) || (entityCreature != null && !entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible) && entityCreature.PrevConditions.A.HasFlag(CreatureConditionA.Invisible)))
 							{
 								if (creature.Client != null)
+								{
 									creature.Client.Send(PacketCreator.EntityAppears(entity));
+								}
 							}
 							// Invisible now, but not before.
 							else if (entityCreature != null && entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible) && !entityCreature.PrevConditions.A.HasFlag(CreatureConditionA.Invisible))
@@ -940,7 +942,7 @@ namespace World.World
 
 			this.Broadcast(bind1, SendTargets.Range, creature);
 			this.Broadcast(bind2, SendTargets.Range, vehicle);
-			//WorldManager.Instance.CreatureUseMotion(pet, 30, 0, false, false);
+			//WorldManager.Instance.CreatureUseMotion(vehicle, 30, 0, false, false);
 			//WorldManager.Instance.CreatureUseMotion(creature, 90, 0, false, false);
 			this.Broadcast(bind1, SendTargets.Range, creature);
 			this.Broadcast(bind2, SendTargets.Range, vehicle);
