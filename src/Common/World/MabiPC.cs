@@ -123,6 +123,16 @@ namespace Common.World
 			packet.PutInt(0);                    // PenaltyPoint
 			packet.PutByte(1);					 // IsCommonPVP
 
+			// Apperantly added in 170400, new PvP data maybe?
+			if (Op.Version >= 170400)
+			{
+				packet.PutByte(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+			}
+
 			// Statuses
 			// --------------------------------------------------------------
 			packet.PutLong((ulong)Conditions.A);
@@ -305,6 +315,13 @@ namespace Common.World
 			// packet.PutInt					 // HitPoint
 			// packet.PutInt					 // MaxHitPoint
 
+			// Apperantly added in 170400
+			if (Op.Version >= 170400)
+			{
+				packet.PutString("");
+				packet.PutByte(0);
+			}
+
 			// Heartstickers
 			// --------------------------------------------------------------
 			packet.PutShort(0);
@@ -405,8 +422,9 @@ namespace Common.World
 
 			// ?
 			// --------------------------------------------------------------
-			if (Op.Version >= 170300)
+			if (Op.Version >= 170300 && Op.Version < 170400)
 			{
+				// Needed for KR test 170300, but not for 170400?
 				packet.PutInt(0);
 			}
 

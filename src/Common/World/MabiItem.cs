@@ -101,6 +101,7 @@ namespace Common.World
 		public byte Width, Height;
 
 		private static ulong _worldItemIndex = Common.Constants.Id.TmpItems;
+		public static ulong NewItemId { get { return _worldItemIndex++; } }
 
 		public MabiItem(uint itemClass, bool worldId = true)
 		{
@@ -108,7 +109,7 @@ namespace Common.World
 			this.LoadDefault();
 
 			if (worldId)
-				this.Id = _worldItemIndex++;
+				this.Id = MabiItem.NewItemId;
 		}
 
 		public MabiItem(uint itemClass, ulong id)
@@ -129,7 +130,7 @@ namespace Common.World
 			this.Width = itemToCopy.Width;
 			this.Height = itemToCopy.Height;
 
-			this.Id = _worldItemIndex++;
+			this.Id = MabiItem.NewItemId;
 		}
 
 		public MabiItem(CharCardSetInfo cardItem)

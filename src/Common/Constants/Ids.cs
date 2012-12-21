@@ -13,10 +13,10 @@ namespace Common.Constants
 		public const ulong Broadcast = 0x3000000000000000;
 
 		// Id range starts
-		public const ulong Characters = 0x10000000000001;
-		public const ulong Pets = 0x10010000000001;
-		public const ulong Partners = 0x10030000000001;
-		public const ulong Items = 0x50000000000001;
+		public const ulong Characters = 0x0010000000000001;
+		public const ulong Pets = 0x0010010000000001;
+		public const ulong Partners = 0x0010030000000001;
+		public const ulong Items = 0x0050000000000001;
 		public const ulong TmpItems = 0x0050F00000000001;
 		public const ulong Props = 0x00A1000100000000;
 	}

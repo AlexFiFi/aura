@@ -1176,6 +1176,16 @@ namespace Common.World
 			packet.PutInt(0);                    // PenaltyPoint
 			packet.PutByte(1);					 // IsCommonPVP
 
+			// Apperantly added in 170400
+			if (Op.Version >= 170400)
+			{
+				packet.PutByte(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+			}
+
 			// Statuses
 			// --------------------------------------------------------------
 			packet.PutLong((ulong)Conditions.A);
@@ -1276,8 +1286,10 @@ namespace Common.World
 
 			// Farming
 			// --------------------------------------------------------------
-			if (Op.Version > 140400)
+			if (Op.Version > 140400 && Op.Version < 170400)
 			{
+				// This seems to be missing in 170400
+
 				packet.PutLong(0);			     // FarmId
 				//   packet.PutLong
 				//   packet.PutLong
@@ -1300,6 +1312,13 @@ namespace Common.World
 			packet.PutByte(0);				     // TeamId
 			// packet.PutInt					 // HitPoint
 			// packet.PutInt					 // MaxHitPoint
+
+			// Apperantly added in 170400, new event?
+			if (Op.Version >= 170400)
+			{
+				packet.PutString("");
+				packet.PutByte(0);
+			}
 
 			// Joust
 			// --------------------------------------------------------------
@@ -1340,6 +1359,27 @@ namespace Common.World
 				packet.PutFloat(1);					 // ScaleHeight
 			}
 
+			// Apperantly added in 170400
+			if (Op.Version >= 170400)
+			{
+				packet.PutLong(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutFloat(1);
+				packet.PutLong(0);
+				packet.PutShort(0);
+				packet.PutByte(255);
+				packet.PutInt(0);
+				packet.PutByte(0);
+				packet.PutInt(0);
+				packet.PutFloat(1);
+				packet.PutInt(8421504);
+				packet.PutInt(8421504);
+				packet.PutInt(8421504);
+				packet.PutByte(0);
+				packet.PutByte(0);
+			}
+
 			// Character
 			// --------------------------------------------------------------
 			packet.PutLong(0);			         // AimingTarget
@@ -1366,11 +1406,15 @@ namespace Common.World
 
 			if (this.EntityType == EntityType.NPC)
 			{
-				packet.PutString(StandStyleTalk);	         // NPC_TALKING_MOTION
+				packet.PutString(StandStyleTalk);
 			}
 
 			if (Op.Version > 140400)
-				packet.PutByte(0);			         // BombEventState
+				packet.PutByte(0);			     // BombEventState
+
+			// Apperantly added in 170400... or has it always been there?
+			if (Op.Version >= 170400)
+				packet.PutByte(0);
 		}
 #pragma warning restore 0162
 

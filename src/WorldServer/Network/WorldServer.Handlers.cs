@@ -950,6 +950,7 @@ namespace World.Network
 
 #if !DUNGEON_TEST
 			// Drop it
+			item.Id = MabiItem.NewItemId;
 			WorldManager.Instance.CreatureDropItem(creature, new ItemEventArgs(item));
 
 			// Done
@@ -1949,7 +1950,7 @@ namespace World.Network
 					, SendTargets.Range, creature);
 
 
-			creature.Direction =(byte)dir;
+			creature.Direction = (byte)dir;
 			creature.StartMove(new MabiVertex((uint)toX, (uint)toY));
 
 			if (creature.Owner != null)
