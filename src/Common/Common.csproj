@@ -113,6 +113,7 @@
     <Compile Include="Events\EntitiyEvents.cs" />
     <Compile Include="Network\Version.cs" />
     <Compile Include="Tools\BCrypt.cs" />
+    <Compile Include="World\MabiMail.cs" />
     <Compile Include="World\MabiServers.cs" />
     <Compile Include="Network\Client.cs" />
     <Compile Include="Network\MabiCrypto.cs" />

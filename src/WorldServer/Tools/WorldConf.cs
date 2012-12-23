@@ -39,6 +39,8 @@ namespace World.Tools
 
 		public static bool BunshinSouls;
 
+		public static int MailExpires;
+
 		private static Configuration _conf;
 
 		public static void Load(string[] args)
@@ -81,6 +83,8 @@ namespace World.Tools
 			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
 
 			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
+
+			WorldConf.MailExpires = _conf.GetInt("world_mail_expires", 30);
 
 			try
 			{

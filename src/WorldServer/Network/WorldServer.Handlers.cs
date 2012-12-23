@@ -56,6 +56,14 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
 			this.RegisterPacketHandler(Op.ShopBuyItem, HandleShopBuyItem);
 			this.RegisterPacketHandler(Op.ShopSellItem, HandleShopSellItem);
+			this.RegisterPacketHandler(Op.GetMails, HandleGetMails);
+			this.RegisterPacketHandler(Op.ConfirmMailRecipent, HandleConfirmMailRecipient);
+			this.RegisterPacketHandler(Op.SendMail, HandleSendMail);
+			this.RegisterPacketHandler(Op.MarkMailRead, HandleMarkMailRead);
+			this.RegisterPacketHandler(Op.ReturnMail, HandleReturnMail);
+			this.RegisterPacketHandler(Op.RecallMail, HandleRecallMail);
+			this.RegisterPacketHandler(Op.RecieveMailItem, HandleRecieveMailItem);
+			this.RegisterPacketHandler(Op.DeleteMail, HandleDeleteMail);
 
 			this.RegisterPacketHandler(Op.ChangeStance, HandleChangeStance);
 			this.RegisterPacketHandler(Op.CombatSetTarget, HandleCombatSetTarget);
@@ -279,6 +287,8 @@ namespace World.Network
 
 			if (creature == client.Character)
 			{
+				client.Send(new MabiPacket(Op.UnreadMailCount, creature.Id).PutInt((uint)MabiMail.GetUnreadCount(creature)));
+
 				if (WorldConf.EnableItemShop)
 				{
 					// Button will be disabled if we don't send this packet.
@@ -780,6 +790,238 @@ namespace World.Network
 			else
 			{
 				target.Script.OnSelect(client, response);
+			}
+		}
+
+		private void HandleGetMails(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var p = new MabiPacket(Op.GetMailsR, creature.Id);
+
+			var toReturn = new System.Collections.Generic.List<MabiMail>();
+
+			foreach (var m in MabiDb.Instance.GetRecievedMail(creature.Id))
+			{
+				if (WorldConf.MailExpires > 0 && (DateTime.Today - m.Sent).Days > WorldConf.MailExpires)
+					toReturn.Add(m);
+				else
+					m.AddEntityData(p, creature);
+			}
+
+			foreach (var m in MabiDb.Instance.GetSentMail(creature.Id))
+			{
+				if (WorldConf.MailExpires > 0 && (DateTime.Today - m.Sent).Days > WorldConf.MailExpires)
+					toReturn.Add(m);
+				else
+					m.AddEntityData(p, creature);
+			}
+
+			foreach (var m in toReturn)
+				m.Return("Mail is valid for " + WorldConf.MailExpires + " days, and the mail's valid period has expired. The mail has been returned to its sender.");
+
+			p.PutLong(0);
+			client.Send(p);
+		}
+
+		private void HandleConfirmMailRecipient(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			ulong recipId;
+
+			if (MabiDb.Instance.IsValidMailRecpient(packet.GetString(), out recipId))
+			{
+				client.Send(new MabiPacket(Op.ConfirmMailRecipentR, creature.Id).PutByte(1).PutLong(recipId));
+			}
+			else
+			{
+				client.Send(new MabiPacket(Op.ConfirmMailRecipentR, creature.Id).PutByte(0));
+			}
+		}
+
+		private void HandleSendMail(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+			var mail = new MabiMail();
+			mail.RecipientName = packet.GetString();
+
+			if (!MabiDb.Instance.IsValidMailRecpient(mail.RecipientName, out mail.RecipientId))
+			{
+				client.Send(PacketCreator.MsgBox(creature, "Invaild recipient"),
+					new MabiPacket(Op.SendMailR, creature.Id).PutByte(0));
+				return;
+			}
+
+			mail.Text = packet.GetString();
+			mail.ItemId = packet.GetLong();
+
+			if (mail.ItemId == 0)
+			{
+				mail.Type = (byte)MailTypes.Normal;
+			}
+			else
+			{
+				mail.Type = (byte)MailTypes.Item;
+				var item = creature.Items.Find(i => i.Id == mail.ItemId);
+
+				if (item == null)
+				{
+					client.Send(PacketCreator.MsgBox(creature, "You can't send an item you don't have!"),
+						new MabiPacket(Op.SendMailR, creature.Id).PutByte(0));
+					return;
+				}
+				else
+				{
+					client.Send(PacketCreator.ItemRemove(creature, item));
+					creature.Items.Remove(item);
+					MabiDb.Instance.SaveMailItem(item, null);
+				}
+			}
+			mail.COD = packet.GetInt();
+
+			mail.SenderName = creature.Name;
+			mail.SenderId = creature.Id;
+
+			mail.Save(true);
+
+			var p = new MabiPacket(Op.SendMailR, creature.Id);
+			p.PutByte(1);
+			mail.AddEntityData(p, creature);
+
+			client.Send(p);
+		}
+
+		private void HandleMarkMailRead(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var m = MabiDb.Instance.GetMail(packet.GetLong());
+
+			var p = new MabiPacket(Op.MarkMailReadR, creature.Id);
+			if (m != null)
+			{
+				p.PutByte(1);
+				p.PutLong(m.MessageId);
+
+				m.Read = 2;
+
+				m.Save(false);
+			}
+			else
+				p.PutByte(0);
+
+			client.Send(p);
+		}
+
+		private void HandleReturnMail(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var m = MabiDb.Instance.GetMail(packet.GetLong());
+
+			if (m != null)
+			{
+				m.Return(packet.GetString());
+
+				client.Send(new MabiPacket(Op.ReturnMailR, creature.Id).PutByte(1).PutLong(m.MessageId));
+			}
+			else
+			{
+				client.Send(new MabiPacket(Op.ReturnMailR, creature.Id).PutByte(0));
+			}
+		}
+
+		private void HandleRecallMail(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var m = MabiDb.Instance.GetMail(packet.GetLong());
+
+			if (m != null && m.ItemId != 0)
+			{
+				var item = MabiDb.Instance.GetItem(m.ItemId);
+
+				m.Delete();
+
+				item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
+
+				MabiDb.Instance.SaveMailItem(item, creature);
+
+				creature.Items.Add(item);
+
+				client.Send(PacketCreator.ItemInfo(creature, item));
+
+				client.Send(new MabiPacket(Op.RecallMailR, creature.Id).PutByte(1).PutLong(m.MessageId));
+
+			}
+			else
+			{
+				client.Send(new MabiPacket(Op.RecallMailR, creature.Id).PutByte(0));
+			}
+		}
+
+		private void HandleRecieveMailItem(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var m = MabiDb.Instance.GetMail(packet.GetLong());
+
+			if (m != null && m.ItemId != 0)
+			{
+
+				//TODO: COD
+					var item = MabiDb.Instance.GetItem(m.ItemId);
+
+					m.Delete();
+
+					item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
+
+					MabiDb.Instance.SaveMailItem(item, creature);
+
+					creature.Items.Add(item);
+
+					client.Send(PacketCreator.ItemInfo(creature, item));
+
+					client.Send(new MabiPacket(Op.RecieveMailItemR, creature.Id).PutByte(1).PutLong(m.MessageId));
+			}
+			else
+			{
+				client.Send(new MabiPacket(Op.RecieveMailItemR, creature.Id).PutByte(0));
+			}
+		}
+
+		private void HandleDeleteMail(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var m = MabiDb.Instance.GetMail(packet.GetLong());
+
+			if (m != null)
+			{
+				m.Delete();
+
+				client.Send(new MabiPacket(Op.DeleteMailR, creature.Id).PutByte(1).PutLong(m.MessageId));
+			}
+			else
+			{
+				client.Send(new MabiPacket(Op.DeleteMailR, creature.Id).PutByte(0));
 			}
 		}
 

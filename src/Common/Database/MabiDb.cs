@@ -337,6 +337,36 @@ namespace Common.Database
 			}
 		}
 
+		public bool IsValidMailRecpient(string name, out ulong id) //TODO: Server
+		{
+			id = 0;
+			if (!(new Regex(@"^[a-zA-Z0-9]{3,15}$")).IsMatch(name))
+				return false;
+
+			var conn = this.GetConnection();
+			try
+			{
+				name = MySqlHelper.EscapeString(name);
+
+				using (var reader = this.Query("SELECT characterId FROM characters WHERE name = '" + name + "'" /*AND server = '" + server + "'"*/, conn))
+				{
+					if (reader.HasRows)
+					{
+						reader.Read();
+						id = reader.GetUInt64(0);
+						return true;
+					}
+					else
+						return false;
+				}
+			}
+			finally
+			{
+				conn.Close();
+			}
+
+		}
+
 		/// <summary>
 		/// Reads a full account, incl. characters, cards, etc. from the database and returns it.
 		/// </summary>
@@ -596,49 +626,212 @@ namespace Common.Database
 				{
 					while (reader.Read())
 					{
-						var item = new MabiItem(reader.GetUInt32("class"), reader.GetUInt64("itemId"));
-						item.Info.Pocket = reader.GetByte("pocketId");
-						item.Info.X = reader.GetUInt32("pos_x");
-						item.Info.Y = reader.GetUInt32("pos_y");
-						item.Info.ColorA = reader.GetUInt32("color_01");
-						item.Info.ColorB = reader.GetUInt32("color_02");
-						item.Info.ColorC = reader.GetUInt32("color_03");
-						item.OptionInfo.Price = reader.GetUInt32("price");
-						item.Info.Amount = reader.GetUInt16("bundle");
-						item.OptionInfo.LinkedPocketId = reader.GetUInt32("linked_pocket");
-						item.Info.FigureA = (byte)reader.GetUInt32("figure");
-						item.OptionInfo.Flag = reader.GetByte("flag");
-						item.OptionInfo.Durability = reader.GetUInt32("durability");
-						item.OptionInfo.DurabilityMax = reader.GetUInt32("durability_max");
-						item.OptionInfo.DurabilityOriginal = reader.GetUInt32("origin_durability_max");
-						item.OptionInfo.AttackMin = reader.GetUInt16("attack_min");
-						item.OptionInfo.AttackMax = reader.GetUInt16("attack_max");
-						item.OptionInfo.WAttackMin = reader.GetUInt16("wattack_min");
-						item.OptionInfo.WAttackMax = reader.GetUInt16("wattack_max");
-						item.OptionInfo.Balance = reader.GetByte("balance");
-						item.OptionInfo.Critical = reader.GetByte("critical");
-						item.OptionInfo.Defense = reader.GetUInt32("defence");
-						item.OptionInfo.Protection = reader.GetInt16("protect");
-						item.OptionInfo.EffectiveRange = reader.GetUInt16("effective_range");
-						//item.ItemOptionInfo.AttackSpeed = reader.GetByte("attack_speed");
-						//item.OptionInfo.DownHitCount = reader.GetByte("down_hit_count");
-						item.OptionInfo.Experience = reader.GetUInt16("experience");
-						//0 = reader.GetUInt32("exp_point"); // ?
-						item.OptionInfo.Upgraded = reader.GetByte("upgraded");
-						item.OptionInfo.UpgradeMax = reader.GetByte("upgraded");
-						item.OptionInfo.Grade = reader.GetUInt32("grade");
-						item.OptionInfo.Prefix = reader.GetUInt16("prefix");
-						item.OptionInfo.Suffix = reader.GetUInt16("suffix");
-						//mc.Parameters.AddWithValue("@data", "");
-						//mc.Parameters.AddWithValue("@option", "");
-						item.OptionInfo.SellingPrice = reader.GetUInt32("sellingprice");
-						//DateTime.Now = reader.GetUInt32("update_time");
+						var item = GetItem(reader);
 
 						character.Items.Add(item);
 					}
 
 					reader.Close();
 				}
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		public MabiItem GetItem(ulong Id)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				using (var reader = this.Query("SELECT * FROM items WHERE itemId = " + Id.ToString(), conn))
+				{
+					if (!reader.HasRows)
+						return null;
+					reader.Read();
+					return GetItem(reader);
+				}
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		private MabiItem GetItem(MySqlDataReader reader)
+		{
+			var item = new MabiItem(reader.GetUInt32("class"), reader.GetUInt64("itemId"));
+			item.Info.Pocket = reader.GetByte("pocketId");
+			item.Info.X = reader.GetUInt32("pos_x");
+			item.Info.Y = reader.GetUInt32("pos_y");
+			item.Info.ColorA = reader.GetUInt32("color_01");
+			item.Info.ColorB = reader.GetUInt32("color_02");
+			item.Info.ColorC = reader.GetUInt32("color_03");
+			item.OptionInfo.Price = reader.GetUInt32("price");
+			item.Info.Amount = reader.GetUInt16("bundle");
+			item.OptionInfo.LinkedPocketId = reader.GetUInt32("linked_pocket");
+			item.Info.FigureA = (byte)reader.GetUInt32("figure");
+			item.OptionInfo.Flag = reader.GetByte("flag");
+			item.OptionInfo.Durability = reader.GetUInt32("durability");
+			item.OptionInfo.DurabilityMax = reader.GetUInt32("durability_max");
+			item.OptionInfo.DurabilityOriginal = reader.GetUInt32("origin_durability_max");
+			item.OptionInfo.AttackMin = reader.GetUInt16("attack_min");
+			item.OptionInfo.AttackMax = reader.GetUInt16("attack_max");
+			item.OptionInfo.WAttackMin = reader.GetUInt16("wattack_min");
+			item.OptionInfo.WAttackMax = reader.GetUInt16("wattack_max");
+			item.OptionInfo.Balance = reader.GetByte("balance");
+			item.OptionInfo.Critical = reader.GetByte("critical");
+			item.OptionInfo.Defense = reader.GetUInt32("defence");
+			item.OptionInfo.Protection = reader.GetInt16("protect");
+			item.OptionInfo.EffectiveRange = reader.GetUInt16("effective_range");
+			//item.ItemOptionInfo.AttackSpeed = reader.GetByte("attack_speed");
+			//item.OptionInfo.DownHitCount = reader.GetByte("down_hit_count");
+			item.OptionInfo.Experience = reader.GetUInt16("experience");
+			//0 = reader.GetUInt32("exp_point"); // ?
+			item.OptionInfo.Upgraded = reader.GetByte("upgraded");
+			item.OptionInfo.UpgradeMax = reader.GetByte("upgraded");
+			item.OptionInfo.Grade = reader.GetUInt32("grade");
+			item.OptionInfo.Prefix = reader.GetUInt16("prefix");
+			item.OptionInfo.Suffix = reader.GetUInt16("suffix");
+			//mc.Parameters.AddWithValue("@data", "");
+			//mc.Parameters.AddWithValue("@option", "");
+			item.OptionInfo.SellingPrice = reader.GetUInt32("sellingprice");
+			//DateTime.Now = reader.GetUInt32("update_time");
+			return item;
+		}
+
+		public List<MabiMail> GetSentMail(ulong senderId)
+		{
+			var conn = this.GetConnection();
+			var messages = new List<MabiMail>();
+
+			try
+			{
+				var reader = this.Query("SELECT * FROM mail WHERE senderId = " + senderId, conn);
+				while (reader.Read())
+					messages.Add(GetMail(reader));
+			}
+			finally
+			{
+				conn.Close();
+			}
+
+			return messages.Where(m => m.Type != (byte)MailTypes.Return).ToList();
+		}
+
+		public List<MabiMail> GetRecievedMail(ulong recipientId)
+		{
+			var conn = this.GetConnection();
+			var messages = new List<MabiMail>();
+
+			try
+			{
+				var reader = this.Query("SELECT * FROM mail WHERE recipientId = " + recipientId, conn);
+				while (reader.Read())
+					messages.Add(GetMail(reader));
+			}
+			finally
+			{
+				conn.Close();
+			}
+
+			return messages;
+		}
+
+		public MabiMail GetMail(ulong mailId)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				var reader = this.Query("SELECT * FROM mail WHERE messageId = " + mailId, conn);
+				if (!reader.Read())
+					return null;
+				return GetMail(reader);
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		private MabiMail GetMail(MySqlDataReader reader)
+		{
+			MabiMail mail = new MabiMail();
+			mail.MessageId = reader.GetUInt64("messageId");
+			mail.SenderId = reader.GetUInt64("senderId");
+			mail.SenderName = reader.GetString("senderName");
+			mail.RecipientId = reader.GetUInt64("recipientId");
+			mail.RecipientName = reader.GetString("recipientName");
+			mail.Text = reader.GetString("text");
+			mail.ItemId = reader.GetUInt64("itemId");
+			mail.COD = reader.GetUInt32("cashOnDemand");
+			mail.Sent = reader.GetDateTime("dateSent");
+			mail.Read = reader.GetByte("read");
+			mail.Type = reader.GetByte("type");
+
+			return mail;
+		}
+
+		public void SaveMail(MabiMail mail)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				if (mail.MessageId == 0)
+				{
+					var mc = new MySqlCommand(
+						"INSERT INTO `mail`"
+						+ " (`senderId`, `senderName`, `recipientId`, `recipientName`,"
+						+ " `text`, `itemId`, `cashOnDemand`, `dateSent`, `read`, `type`) "
+						+ " VALUES (@senderId, @senderName, @recipientId, @recipientName,"
+						+ " @text, @itemId, @cashOnDemand, @dateSent, @read, @type) ", conn); //Only update read, because in all other instances, the mail is deleted
+
+					mc.Parameters.AddWithValue("@messageId", mail.MessageId);
+					mc.Parameters.AddWithValue("@senderId", mail.SenderId);
+					mc.Parameters.AddWithValue("@senderName", mail.SenderName);
+					mc.Parameters.AddWithValue("@recipientId", mail.RecipientId);
+					mc.Parameters.AddWithValue("@recipientName", mail.RecipientName);
+					mc.Parameters.AddWithValue("@text", mail.Text);
+					mc.Parameters.AddWithValue("@itemId", mail.ItemId);
+					mc.Parameters.AddWithValue("@cashOnDemand", mail.COD);
+					mc.Parameters.AddWithValue("@dateSent", mail.Sent);
+					mc.Parameters.AddWithValue("@read", mail.Read);
+					mc.Parameters.AddWithValue("@type", mail.Type);
+
+					mc.ExecuteNonQuery();
+
+					var r = this.Query("SELECT LAST_INSERT_ID()", conn);
+					try
+					{
+						r.Read();
+
+						mail.MessageId = r.GetUInt64(0);
+					}
+					finally
+					{
+						r.Close();
+					}
+				}
+				else
+				{
+					//Only update read because in all other instances, mail is deleted
+					this.QueryN("UPDATE mail SET `read` = " + Convert.ToByte(mail.Read) + " WHERE `messageId` = " + mail.MessageId, conn);
+				}
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		public void DeleteMail(ulong mailId)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				var mc = new MySqlCommand("DELETE FROM mail WHERE messageId = " + mailId, conn);
+				mc.ExecuteNonQuery();
 			}
 			finally
 			{
@@ -916,6 +1109,94 @@ namespace Common.Database
 
 					mc.ExecuteNonQuery();
 				}
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		/// <summary>
+		/// Handles transferring mailed items between mail system and players
+		/// </summary>
+		/// <param name="item">Item to transfer</param>
+		/// <param name="giveTo">Player to give it to, or NULL to give it to the mail system.</param>
+		public void SaveMailItem(MabiItem item, MabiCreature giveTo)
+		{
+			var conn = this.GetConnection();
+			MySqlTransaction transaction = null;
+			try
+			{
+				transaction = conn.BeginTransaction();
+
+				var delmc = new MySqlCommand("DELETE FROM items WHERE `itemID` = @id", conn);
+				delmc.Transaction = transaction;
+				delmc.Parameters.AddWithValue("@id", item.Id);
+				delmc.ExecuteNonQuery();
+
+				var mc = new MySqlCommand(
+					"INSERT INTO items"
+					+ " (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos_y`, `varint`, `color_01`, `color_02`, `color_03`, `price`, `bundle`,"
+					+ " `linked_pocket`, `figure`, `flag`, `durability`, `durability_max`, `origin_durability_max`, `attack_min`, `attack_max`,"
+					+ " `wattack_min`, `wattack_max`, `balance`, `critical`, `defence`, `protect`, `effective_range`, `attack_speed`,"
+					+ " `experience`, `exp_point`, `upgraded`, `upgraded_max`, `grade`, `prefix`, `suffix`, `data`, `option`, `sellingprice`, `expiration`, `update_time`)"
+
+					+ " VALUES (@characterId, @itemID, @class, @pocketId, @pos_x, @pos_y, @varint, @color_01, @color_02, @color_03, @price, @bundle,"
+					+ " @linked_pocket, @figure, @flag, @durability, @durability_max, @origin_durability_max, @attack_min, @attack_max,"
+					+ " @wattack_min, @wattack_max, @balance, @critical, @defence, @protect, @effective_range, @attack_speed,"
+					+ " @experience, @exp_point, @upgraded, @upgraded_max, @grade, @prefix, @suffix, @data, @option, @sellingprice, @expiration, @update_time)"
+				, conn);
+
+				mc.Transaction = transaction;
+
+				if (giveTo == null)
+					mc.Parameters.AddWithValue("@characterId", 1); //Mail System ID
+				else
+					mc.Parameters.AddWithValue("@characterId", giveTo.Id);
+
+				mc.Parameters.AddWithValue("@itemID", item.Id);
+				mc.Parameters.AddWithValue("@class", item.Info.Class);
+				mc.Parameters.AddWithValue("@pocketId", item.Info.Pocket);
+				mc.Parameters.AddWithValue("@pos_x", item.Info.X);
+				mc.Parameters.AddWithValue("@pos_y", item.Info.Y);
+				mc.Parameters.AddWithValue("@varint", 0); // ???
+				mc.Parameters.AddWithValue("@color_01", item.Info.ColorA);
+				mc.Parameters.AddWithValue("@color_02", item.Info.ColorB);
+				mc.Parameters.AddWithValue("@color_03", item.Info.ColorC);
+				mc.Parameters.AddWithValue("@price", item.OptionInfo.Price);
+				mc.Parameters.AddWithValue("@bundle", item.Info.Amount);
+				mc.Parameters.AddWithValue("@linked_pocket", item.OptionInfo.LinkedPocketId);
+				mc.Parameters.AddWithValue("@figure", item.Info.FigureA);
+				mc.Parameters.AddWithValue("@flag", item.OptionInfo.Flag);
+				mc.Parameters.AddWithValue("@durability", item.OptionInfo.Durability);
+				mc.Parameters.AddWithValue("@durability_max", item.OptionInfo.DurabilityMax);
+				mc.Parameters.AddWithValue("@origin_durability_max", item.OptionInfo.DurabilityOriginal);
+				mc.Parameters.AddWithValue("@attack_min", item.OptionInfo.AttackMin);
+				mc.Parameters.AddWithValue("@attack_max", item.OptionInfo.AttackMax);
+				mc.Parameters.AddWithValue("@wattack_min", item.OptionInfo.WAttackMin);
+				mc.Parameters.AddWithValue("@wattack_max", item.OptionInfo.WAttackMax);
+				mc.Parameters.AddWithValue("@balance", item.OptionInfo.Balance);
+				mc.Parameters.AddWithValue("@critical", item.OptionInfo.Critical);
+				mc.Parameters.AddWithValue("@defence", item.OptionInfo.Defense);
+				mc.Parameters.AddWithValue("@protect", item.OptionInfo.Protection);
+				mc.Parameters.AddWithValue("@effective_range", item.OptionInfo.EffectiveRange);
+				mc.Parameters.AddWithValue("@attack_speed", item.OptionInfo.AttackSpeed);
+				mc.Parameters.AddWithValue("@experience", item.OptionInfo.Experience);
+				mc.Parameters.AddWithValue("@exp_point", 0); // ?
+				mc.Parameters.AddWithValue("@upgraded", item.OptionInfo.Upgraded);
+				mc.Parameters.AddWithValue("@upgraded_max", item.OptionInfo.UpgradeMax);
+				mc.Parameters.AddWithValue("@grade", item.OptionInfo.Grade);
+				mc.Parameters.AddWithValue("@prefix", item.OptionInfo.Prefix);
+				mc.Parameters.AddWithValue("@suffix", item.OptionInfo.Suffix);
+				mc.Parameters.AddWithValue("@data", "");
+				mc.Parameters.AddWithValue("@option", "");
+				mc.Parameters.AddWithValue("@sellingprice", item.OptionInfo.SellingPrice);
+				mc.Parameters.AddWithValue("@expiration", item.OptionInfo.ExpireTime);
+				mc.Parameters.AddWithValue("@update_time", DateTime.Now);
+
+				mc.ExecuteNonQuery();
+
+				transaction.Commit();
 			}
 			finally
 			{

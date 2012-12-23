@@ -1,0 +1,32 @@
+using Common.Constants;
+using Common.World;
+using System;
+using World.Network;
+using World.Scripting;
+using World.World;
+
+public class NerysScript : NPCScript
+{
+	public override void OnLoad()
+	{
+		SetName("_nerys");
+		SetRace(10001);
+		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 1f);
+		SetFace(skin: 16, eye: 4, eyeColor: 31, lip: 0);
+
+		NPC.ColorA = 0x0;
+		NPC.ColorB = 0x0;
+		NPC.ColorC = 0x0;		
+
+		EquipItem(Pocket.Face, 0xF3C, 0xF79E59, 0xF79D38, 0x573295);
+		EquipItem(Pocket.Hair, 0xBCF, 0x994433, 0x994433, 0x994433);
+		EquipItem(Pocket.Armor, 0x3AC3, 0x94C1C5, 0x6C9D9A, 0xBE8C92);
+		EquipItem(Pocket.Glove, 0x3E88, 0x818775, 0x117C7D, 0xA3DC);
+		EquipItem(Pocket.Shoe, 0x4269, 0x823021, 0x82C991, 0xF2597B);
+
+		SetLocation(region: 14, x: 44229, y: 35842);
+
+		SetDirection(139);
+		SetStand("human/female/anim/female_natural_stand_npc_Nerys");
+	}
+}

@@ -46,6 +46,7 @@ namespace World.Scripting
 
 		public virtual void OnTalk(WorldClient client)
 		{
+			this.MsgSelect(client, "I don't feel like taking now. Please come back later!", "End Conversation", "@end");
 		}
 
 		public virtual void OnSelect(WorldClient client, string response)
