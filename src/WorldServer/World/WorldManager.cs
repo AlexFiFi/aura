@@ -99,8 +99,7 @@ namespace World.World
 		{
 			// TODO: Not good... >_>
 			var entities = new List<MabiEntity>();
-			lock (_creatures)
-				entities.AddRange(_creatures);
+			entities.AddRange(_creatures);
 			entities.AddRange(_items);
 
 			// Remove dead entites
@@ -133,49 +132,42 @@ namespace World.World
 				entities.Remove(entity);
 			}
 
-			// Update visible creatures
-			lock (_creatures)
+			var clients = new List<WorldClient>();
+			clients.AddRange(_clients);
+
+			foreach (var client in clients)
 			{
-				foreach (var creature in _creatures)
+				var creaturePos = client.Character.GetPosition();
+				foreach (var entity in entities)
 				{
-					foreach (var entity in entities)
+					if (client.Character.Region != entity.Region)
+						continue;
+					if (client.Character == entity)
+						continue;
+
+					var entityPos = entity.GetPosition();
+
+					var entityCreature = entity as MabiCreature;
+
+					if (InRange(creaturePos, entityPos))
 					{
-						if (creature == entity)
-							continue;
-
-						var creaturePos = creature.GetPosition();
-						var entityPos = entity.GetPosition();
-
-						var entityCreature = (entity as MabiCreature);
-
-						// In sight range...
-						if (InRange(creaturePos, entityPos))
+						//Wasn't in range before or was invisible
+						if (!InRange(client.Character.PrevPosition, entity.PrevPosition) || (entityCreature != null && ( ((entityCreature.Conditions.A & CreatureConditionA.Invisible) == 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) != 0) )))
 						{
-							// but previously not in sight range, or invisible.
-							if ((!InRange(creature.PrevPosition, entity.PrevPosition) && (entityCreature == null || !entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible))) || (entityCreature != null && !entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible) && entityCreature.PrevConditions.A.HasFlag(CreatureConditionA.Invisible)))
-							{
-								if (creature.Client != null)
-								{
-									creature.Client.Send(PacketCreator.EntityAppears(entity));
-								}
-							}
-							// Invisible now, but not before.
-							else if (entityCreature != null && entityCreature.Conditions.A.HasFlag(CreatureConditionA.Invisible) && !entityCreature.PrevConditions.A.HasFlag(CreatureConditionA.Invisible))
-							{
-								if (creature.Client != null)
-									creature.Client.Send(PacketCreator.EntityLeaves(entity));
-							}
+							client.Send(PacketCreator.EntityAppears(entity));
 						}
-
-						// Not in range...
-						else
+						else if (entityCreature != null && ((entityCreature.Conditions.A & CreatureConditionA.Invisible) != 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) == 0))
 						{
-							// but was in range.
-							if (InRange(creature.PrevPosition, entity.PrevPosition))
-							{
-								if (creature.Client != null)
-									creature.Client.Send(PacketCreator.EntityLeaves(entity));
-							}
+							// Invisible now, but not before.
+							client.Send(PacketCreator.EntityLeaves(entity));
+						}
+					}
+					else
+					{
+						//Not in range now
+						if (InRange(client.Character.PrevPosition, entity.PrevPosition)) //Was before
+						{
+							client.Send(PacketCreator.EntityLeaves(entity));
 						}
 					}
 				}
