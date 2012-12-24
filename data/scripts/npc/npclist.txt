@@ -9,6 +9,7 @@ virtual: commerce/goblin_base.cs
 virtual: commerce/ogre_base.cs
 virtual: commerce/elephant_base.cs
 virtual: global/mailbox.cs
+virtual: regions/abb/abbneagh_horse_base.cs
 
 //===========================================================================
 // Global                                                                  |
@@ -19,6 +20,18 @@ global/partner.cs
 //===========================================================================
 // Regions                                                                  |
 //===========================================================================
+// Regions\abb
+//---------------------------------------------------------------------------
+regions/abb/abbneagh_horse.cs
+regions/abb/abbneagh_horse2.cs
+regions/abb/ailla.cs
+regions/abb/art.cs
+regions/abb/austell.cs
+regions/abb/cailean.cs
+regions/abb/hameln.cs
+regions/abb/tegau.cs
+regions/abb/yvona.cs
+
 // Regions\abb_residential
 //---------------------------------------------------------------------------
 regions/abb_residential/mailbox.cs

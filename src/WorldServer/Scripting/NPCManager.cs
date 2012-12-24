@@ -17,6 +17,7 @@ using World.Tools;
 using World.World;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace World.Scripting
 {
@@ -56,39 +57,61 @@ namespace World.Scripting
 
 			var scriptFiles = npcListContents.ToArray();
 
+			List<string> regulars = new List<string>();
+
 			foreach (var line in scriptFiles)
 			{
-				var file = line;
-				bool virt = false;
-				if (file.StartsWith("virtual:"))
+				if (line.StartsWith("virtual:"))
 				{
-					virt = true;
-					file = file.Replace("virtual:", "").Trim();
+					LoadNPC(new NPCLoadInfo(line.Replace("virtual:", "").Trim(), true));
 				}
-				LoadNPC(Path.Combine(WorldConf.ScriptPath, "npc", file), virt);
+				else
+					regulars.Add(line);
 			}
 
-			Logger.Info("Done loading " + _loadedNpcs + " NPCs.");
+			Task[] tasks = new Task[regulars.Count];
+
+			for (int i = 0; i < regulars.Count; i++)
+			{
+				tasks[i] = Task.Factory.StartNew(LoadNPC, new NPCLoadInfo(regulars[i], false));
+			}
+
+			Task.WaitAll(tasks);
+
+			Logger.Info("Done loading " + _loadedNpcs + " NPCs");
 			if (!WorldConf.DisableScriptCaching)
 				Logger.Info("Cached " + _cached + " NPC scripts.");
+		}
+
+		private class NPCLoadInfo
+		{
+			public string Path;
+			public bool Virt;
+			public NPCLoadInfo(string p, bool v)
+			{
+				Path = p;
+				Virt = v;
+			}
 		}
 
 		/// <summary>
 		/// Loads the script file at the given path and adds the NPC to the world.
 		/// </summary>
 		/// <param name="path"></param>
-		private void LoadNPC(string scriptPath, bool virtualLoad = false)
+		private void LoadNPC(object args)
 		{
+			NPCLoadInfo load = args as NPCLoadInfo;
+			load.Path = Path.Combine(WorldConf.ScriptPath, "npc", load.Path);
 			try
 			{
-				var script = this.LoadScript(scriptPath).CreateObject("*") as NPCScript;
-				script.ScriptPath = scriptPath;
-				script.ScriptName = Path.GetFileName(scriptPath);
-				if (!virtualLoad)
+				var script = this.LoadScript(load.Path).CreateObject("*") as NPCScript;
+				script.ScriptPath = load.Path;
+				script.ScriptName = Path.GetFileName(load.Path);
+				if (!load.Virt)
 				{
 					var npc = new MabiNPC();
 					npc.Script = script;
-					npc.ScriptPath = scriptPath;
+					npc.ScriptPath = load.Path;
 					script.NPC = npc;
 					script.LoadType = NPCLoadType.Real;
 					script.OnLoad();
@@ -111,7 +134,7 @@ namespace World.Scripting
 			{
 				var errors = ex.Data["Errors"] as CompilerErrorCollection;
 
-				Logger.Error("In " + scriptPath + ":");
+				Logger.Error("In " + load.Path + ":");
 				foreach (CompilerError err in errors)
 					Logger.Error("  Line " + err.Line.ToString() + ": " + err.ErrorText);
 			}
@@ -119,10 +142,10 @@ namespace World.Scripting
 			{
 				try
 				{
-					File.Delete(this.GetCompiledPath(scriptPath));
+					File.Delete(this.GetCompiledPath(load.Path));
 				}
 				catch { }
-				Logger.Error("While processing: " + scriptPath + " ... " + ex.Message);
+				Logger.Error("While processing: " + load.Path + " ... " + ex.Message);
 			}
 		}
 
