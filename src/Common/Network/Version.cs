@@ -162,6 +162,7 @@ namespace Common.Network
 		public readonly static uint SkillStackUpdate = 0x6992;
 		public readonly static uint Motions = 0x6D62;
 		public readonly static uint MotionCancel = 0x6D65;
+		public readonly static uint MotionCancel2 = 0x6D66; //Delayed?
 		public readonly static uint LevelUp = 0x6D69;
 		public readonly static uint RankUp = 0x6D6A;
 		public readonly static uint Resting = 0x6D6C;
@@ -173,6 +174,8 @@ namespace Common.Network
 		public readonly static uint BackFromTheDead2 = 0x701D;
 		public readonly static uint CharacterLock = 0x701E;
 		public readonly static uint CharacterUnlock = 0x701F;
+		public readonly static uint OpenUmbrella = 0x7025;
+		public readonly static uint CloseUmbrella = 0x7026;
 		public readonly static uint ShopBuyItem = 0x7150;
 		public readonly static uint ShopBuyItemR = 0x7151;
 		public readonly static uint ShopSellItem = 0x7152;
@@ -237,6 +240,9 @@ namespace Common.Network
 		public readonly static uint OpenItemShop = 0xA44D;
 		public readonly static uint MailsRequest = 0xA898;
 		public readonly static uint MailsRequestR = 0xA899;
+		public readonly static uint UmbrellaJump = 0xA8E0;
+		public readonly static uint UmbrellaJumpR = 0xA8E1;
+		public readonly static uint UmbrellaLand = 0xA8E2;
 		public readonly static uint SosButton = 0xA9A9;
 		public readonly static uint SosButtonR = 0xA9AA;
 		public readonly static uint SubsribeStun = 0xAA1C; // ?

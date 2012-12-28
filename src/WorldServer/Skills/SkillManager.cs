@@ -28,6 +28,9 @@ namespace World.Skills
 			_handlers.Add(SkillConst.ManaShield, new ManaShieldHandler());
 			_handlers.Add(SkillConst.Healing, new HealingHandler());
 
+			// Action
+			_handlers.Add(SkillConst.UseUmbrella, new UmbrellaSkillHandler());
+
 			// Hidden
 			_handlers.Add(SkillConst.HiddenResurrection, new HiddenResurrectionHandler());
 

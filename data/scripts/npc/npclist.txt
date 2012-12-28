@@ -68,7 +68,6 @@ regions/bangor/gilmore.cs
 regions/bangor/ibbie.cs
 regions/bangor/jenifer.cs
 regions/bangor/mailbox.cs
-regions/bangor/price.cs
 regions/bangor/riocard.cs
 regions/bangor/sion.cs
 

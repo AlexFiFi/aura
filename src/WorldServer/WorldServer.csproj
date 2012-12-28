@@ -60,6 +60,7 @@
     <Compile Include="Scripting\NPCManager.cs" />
     <Compile Include="Scripting\NPCScript.cs" />
     <Compile Include="Scripting\NPCSession.cs" />
+    <Compile Include="Skills\ActionSkillHandlers.cs" />
     <Compile Include="Skills\Combat\DefenseHandler.cs" />
     <Compile Include="Skills\Combat\CombatMasteryHandler.cs" />
     <Compile Include="Skills\Combat\ShadowBunshinHandler.cs" />

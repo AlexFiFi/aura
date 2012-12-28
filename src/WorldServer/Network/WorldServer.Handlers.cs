@@ -48,6 +48,8 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.ItemStateChange, HandleItemStateChange);
 			this.RegisterPacketHandler(Op.ItemUse, HandleItemUse);
 			this.RegisterPacketHandler(Op.ViewEquipment, HandleViewEquipment);
+			this.RegisterPacketHandler(Op.UmbrellaJump, HandleUmbrellaJump);
+			this.RegisterPacketHandler(Op.UmbrellaLand, HandleUmbrellaLand);
 
 			this.RegisterPacketHandler(Op.NPCTalkStart, HandleNPCTalkStart);
 			this.RegisterPacketHandler(Op.NPCTalkEnd, HandleNPCTalkEnd);
@@ -1127,7 +1129,25 @@ namespace World.Network
 
 			// Update Equip
 			if (target.IsEquip())
+			{
 				WorldManager.Instance.CreatureEquip(creature, item);
+				switch (item.Info.Class)
+				{
+					// Umbrella Skill
+					case 41021:
+					case 41022:
+					case 41023:
+					case 41025:
+					case 41026:
+					case 41027:
+					case 41061:
+					case 41062:
+					case 41063:
+						if (!creature.HasSkill(SkillConst.UseUmbrella))
+							creature.GiveSkill(SkillConst.UseUmbrella, SkillRank.Novice);
+						break;
+				}
+			}
 
 			client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
 		}
@@ -2531,6 +2551,26 @@ namespace World.Network
 				return;
 
 			creature.GiveSkill(skill.Id, skill.Rank + 1);
+		}
+
+		private void HandleUmbrellaJump(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			uint height = (uint)packet.GetFloat(), x = (uint)packet.GetFloat(), y = (uint)packet.GetFloat();
+
+			creature.SetPosition(x, y);
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.UmbrellaJumpR, creature.Id).PutByte(2), SendTargets.Range, creature); // TODO: What's this byte?
+		}
+		private void HandleUmbrellaLand(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.MotionCancel2, creature.Id).PutByte(0), SendTargets.Range, creature); // TODO: What's this byte?
 		}
 	}
 }
