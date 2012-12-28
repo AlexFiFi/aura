@@ -9,6 +9,7 @@ public class CollenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_collen");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1.2f, upper: 1f, lower: 1f);
@@ -28,5 +29,12 @@ public class CollenScript : NPCScript
 
 		SetDirection(115);
 		SetStand("chapter3/human/male/anim/male_c3_npc_collen");
+        
+		Phrases.Add("Alchemy, too, must be a part of Lymilark's will.");
+		Phrases.Add("At times, religion dictates that we take a conservative stance.");
+		Phrases.Add("May Lymilark's blessing be upon you...");
+		Phrases.Add("May the blessings of Lymilark fall graciously upon you.");
+		Phrases.Add("The letter has finally arrived from the Pontiff's Court.");
+		Phrases.Add("There are times when I realize that I am human being before I am a priest.");
 	}
 }

@@ -9,6 +9,7 @@ public class AilionoaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ailionoa");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,20 @@ public class AilionoaScript : NPCScript
 
 		SetDirection(131);
 		SetStand("human/female/anim/female_natural_stand_npc_03");
+        
+		Phrases.Add("...Annoying.");
+		Phrases.Add("...No...Nothing.");
+		Phrases.Add("Am I missing something...?");
+		Phrases.Add("But...");
+		Phrases.Add("I think I've forgot something...");
+		Phrases.Add("It doesn't look good...");
+		Phrases.Add("No way...");
+		Phrases.Add("Not yet...");
+		Phrases.Add("That's your problem...");
+		Phrases.Add("There's no point in talking like that...");
+		Phrases.Add("This should be it...");
+		Phrases.Add("What should I do?");
+		Phrases.Add("What's wrong with them?");
+		Phrases.Add("Why...");
 	}
 }

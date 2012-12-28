@@ -9,6 +9,7 @@ public class HansScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_hans");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);

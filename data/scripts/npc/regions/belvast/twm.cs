@@ -9,6 +9,7 @@ public class TwmScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_twm");
 		SetRace(144);
 		SetBody(height: 0.1f, fat: 1.2f, upper: 1.3f, lower: 1.1f);
@@ -28,5 +29,11 @@ public class TwmScript : NPCScript
 
 		SetDirection(63);
 		SetStand("chapter4/human/female/anim/female_c4_npc_lonnie_stand2");
+
+		Phrases.Add("Everyone retreat!");
+		Phrases.Add("Hyah! Bring it on!");
+		Phrases.Add("I'll take over this area next! Mwahahaha!");
+		Phrases.Add("Shh, please keep this a secret.");
+		Phrases.Add("Stop right there!");
 	}
 }

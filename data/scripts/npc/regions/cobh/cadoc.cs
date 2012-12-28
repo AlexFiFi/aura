@@ -9,6 +9,7 @@ public class CadocScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_cadoc");
 		SetRace(8002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1.3f, lower: 1.2f);
@@ -29,5 +30,15 @@ public class CadocScript : NPCScript
 
 		SetDirection(3);
 		SetStand("chapter4/giant/male/anim/giant_npc_cadoc");
+        
+		Phrases.Add("(Shrugs shoulders.)");
+		Phrases.Add("A real man has real muscles!");
+		Phrases.Add("Admiral Owen is a role model for real men!");
+		Phrases.Add("Breathe in, breathe out.");
+		Phrases.Add("Fish for sale! Fish for sale!");
+		Phrases.Add("Hahah! Bam bam!");
+		Phrases.Add("Hmm... Do you envy my muscles?");
+		Phrases.Add("Men these days are weaklings.");
+		Phrases.Add("Whenever I see a log, I test my stength by picking it up swinging it.");
 	}
 }

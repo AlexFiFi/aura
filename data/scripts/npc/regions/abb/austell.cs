@@ -9,6 +9,7 @@ public class AustellScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_austell");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -28,5 +29,11 @@ public class AustellScript : NPCScript
 
 		SetDirection(52);
 		SetStand("human/anim/tool/female_tool_Bhand_M01_playing_lute_01");
+        
+		Phrases.Add("Hello!");
+		Phrases.Add("Is this your first time here?");
+		Phrases.Add("Nice to meet you.");
+		Phrases.Add("Welcome.");
+		Phrases.Add("What can I help you with?");
 	}
 }

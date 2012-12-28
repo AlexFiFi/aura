@@ -9,6 +9,7 @@ public class GoroScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_goro");
 		SetRace(10105);
 		SetBody(height: 0.3f, fat: 1f, upper: 1f, lower: 1f);

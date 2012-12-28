@@ -5,10 +5,11 @@ using World.Network;
 using World.Scripting;
 using World.World;
 
-public class Beanrua02Script : NPCScript
+public class Beanrua02Script : Beanrua_baseScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_beanrua02");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);

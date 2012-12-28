@@ -5,18 +5,14 @@ using World.Network;
 using World.Scripting;
 using World.World;
 
-public class Courcleinhabitant5Script : NPCScript
+public class Courcleinhabitant5Script : Courcleinhabitant_baseScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_courcleinhabitant5");
 		SetRace(10002);
-		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 27, eye: 5, eyeColor: 23, lip: 2);
-
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
 
 		EquipItem(Pocket.Face, 0x1324, 0x5D29, 0xF28FB2, 0x7B16A);
 		EquipItem(Pocket.Hair, 0xFF9, 0xFFD7B5, 0xFFD7B5, 0xFFD7B5);
@@ -25,6 +21,5 @@ public class Courcleinhabitant5Script : NPCScript
 		SetLocation(region: 3300, x: 252714, y: 184405);
 
 		SetDirection(99);
-		SetStand("");
 	}
 }

@@ -9,8 +9,12 @@ public class CommerceGoblinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetRace(348);
 		SetBody(height: 0.7f, fat: 1f, upper: 1f, lower: 1f);
+        
+        EquipItem(Pocket.RightHand1, 0x9DF4, 0x808080, 0x808080, 0x808080);
+		EquipItem(Pocket.LeftHand1, 0xB3C7, 0x808080, 0x808080, 0x808080);
 
 		SetStand("chapter4/monster/anim/goblin/mon_c4_goblin_commerce", "chapter4/monster/anim/goblin/mon_c4_goblin_commerce_talk");
 	
@@ -38,7 +42,7 @@ public class CommerceGoblinScript : NPCScript
 		switch (r)
 		{
 			case "@ducats":
-				Msg(c, "You do know that Gold is not the currence that we use, right?",
+				Msg(c, "You do know that Gold is not the currency that we use, right?",
 					"The kingdom came up with Ducats for commerce transactions.",
 					"Use what you earn to purchase new items from the Imp.");
 				break;

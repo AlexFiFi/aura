@@ -9,6 +9,7 @@ public class RiocardScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_riocard");
 		SetRace(10002);
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,15 @@ public class RiocardScript : NPCScript
 
 		SetDirection(136);
 		SetStand("human/male/anim/male_natural_stand_npc_riocard");
+        
+		Phrases.Add("I could use a good story right about now.");
+		Phrases.Add("I guess taking it easy every now and then isn't such a  bad idea.");
+		Phrases.Add("I'm getting bored...");
+		Phrases.Add("It's been a while since I started working here.");
+		Phrases.Add("Let's see. What should I do now?");
+		Phrases.Add("Phew... It's dusty already.");
+		Phrases.Add("There is no end to this mess.");
+		Phrases.Add("Well, work is work.");
+		Phrases.Add("Why should I clean up everyone's mess?");
 	}
 }

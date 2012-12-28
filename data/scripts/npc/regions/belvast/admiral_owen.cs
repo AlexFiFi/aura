@@ -9,6 +9,7 @@ public class Admiral_owenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_admiral_owen");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,13 @@ public class Admiral_owenScript : NPCScript
 
 		SetDirection(0);
 		SetStand("chapter4/human/male/anim/male_c4_npc_owen");
+
+		Phrases.Add("Hmm...this is going to take more work.");
+		Phrases.Add("How many ships are coming in today?");
+		Phrases.Add("I think a storm may be heading our way.");
+		Phrases.Add("Let's handle the important matters first.");
+		Phrases.Add("Perhaps, if we were to...");
+		Phrases.Add("There's not a cloud in the sky.");
+		Phrases.Add("This is a dangerous area. Stay alert.");
 	}
 }

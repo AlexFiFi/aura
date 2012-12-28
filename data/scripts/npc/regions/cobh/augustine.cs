@@ -9,6 +9,7 @@ public class AugustineScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_augustine");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,18 @@ public class AugustineScript : NPCScript
 
 		SetDirection(245);
 		SetStand("chapter4/human/male/anim/male_c4_npc_augustine");
+        
+		Phrases.Add("(Flinches)");
+		Phrases.Add("All these people come here to ride the ship, so I'm busy during the day.");
+		Phrases.Add("Hmm... That's funny.");
+		Phrases.Add("Let's see... maybe they'll leave soon...");
+		Phrases.Add("Oh... I can't stand this boredom...");
+		Phrases.Add("Oh... So fun.");
+		Phrases.Add("Should I try hiring a Goblin as a clerk? That should stop people from coming.");
+		Phrases.Add("That person looks poor...");
+		Phrases.Add("There are no other officials who are as reliable as Admiral Owen.");
+		Phrases.Add("These days, I just stand here without doing anything!");
+		Phrases.Add("Tsk. I just got a perm yesterday, but I don't like it.");
+		Phrases.Add("Yawn... I'm so sleepy.");
 	}
 }

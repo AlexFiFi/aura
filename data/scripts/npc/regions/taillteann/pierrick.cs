@@ -9,6 +9,7 @@ public class PierrickScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_pierrick");
 		SetRace(47);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,14 @@ public class PierrickScript : NPCScript
 
 		SetDirection(216);
 		SetStand("");
+        
+		Phrases.Add("Did I remember to feed the pigs?");
+		Phrases.Add("I don't even feel like doing my rose trick since I don't have an audience.");
+		Phrases.Add("I haven't seen Brenda all day today.");
+		Phrases.Add("I really need to take a trip somewhere.");
+		Phrases.Add("The glow of the sunset tonight indicates a clear day for tommorow!");
+		Phrases.Add("The halo in the western sky must mean it's going to rain tomorrow!");
+		Phrases.Add("The people in Taillteann just don't seem to care about looking good. I can't understand it!");
+
 	}
 }

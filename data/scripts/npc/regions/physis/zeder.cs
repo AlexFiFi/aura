@@ -9,6 +9,7 @@ public class ZederScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_zeder");
 		SetRace(8002);
 		SetBody(height: 0.6f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,18 @@ public class ZederScript : NPCScript
 
 		SetDirection(235);
 		SetStand("giant/male/anim/giant_npc_zeder");
+        
+		Phrases.Add("A sword that suits me... Hmm... Taunes' sword, Vastian, would do...");
+		Phrases.Add("I really hate being cold.");
+		Phrases.Add("I shouldn't be sitting here like this...");
+		Phrases.Add("I want to go dragon hunting, too!");
+		Phrases.Add("It's about time I grew a beard...");
+		Phrases.Add("Just wait, Weide, you crusty, old jerk! Every day, I sharpen my sword of revenge!");
+		Phrases.Add("My name is Zeder. I'm the greatest Giant in all of Physis and Iria, with the quickest feet and power that no one can match!");
+		Phrases.Add("Oh, it's time for a new shipment already. Ugh, I hate this.");
+		Phrases.Add("Psh! Meriel, that little brat. Talking down to me just 'cause she's older than me!");
+		Phrases.Add("This is slavery. Someone please help me!");
+		Phrases.Add("What kind of beard would suit me?");
+		Phrases.Add("Wow! I want a tattoo, too. Although, old Weide would kill me...");
 	}
 }

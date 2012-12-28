@@ -9,6 +9,7 @@ public class KelpieScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_kelpie");
 		SetRace(10010);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,5 +27,12 @@ public class KelpieScript : NPCScript
 
 		SetDirection(186);
 		SetStand("human/male/anim/male_natural_stand_npc_bryce");
+        
+		Phrases.Add("As long as I'm alive, there's hope.");
+		Phrases.Add("Be careful of the Wyverns.");
+		Phrases.Add("Most of my memories have disappeared.");
+		Phrases.Add("The Blue Dragon, Legatus, saved my life.");
+		Phrases.Add("The Hot-Air Balloon has been useful for the explorations.");
+		Phrases.Add("You don't think I've lost all my memories, do you?");
 	}
 }

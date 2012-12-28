@@ -9,6 +9,7 @@ public class TracyScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tracy");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1.5f, upper: 2f, lower: 1f);
@@ -30,5 +31,16 @@ public class TracyScript : NPCScript
 
 		SetDirection(56);
 		SetStand("");
+        
+		Phrases.Add("*Yawn*");
+		Phrases.Add("Gee, it's hot...");
+		Phrases.Add("I tire out so easily these days...");
+		Phrases.Add("It's so dull here...");
+		Phrases.Add("Man, I'm so sweaty...");
+		Phrases.Add("Oh, my arm...");
+		Phrases.Add("Oh, my leg...");
+		Phrases.Add("Oww, my muscles are sore all over.");
+		Phrases.Add("Phew. Alright. Time to rest!");
+		Phrases.Add("Should I take a break now?");
 	}
 }

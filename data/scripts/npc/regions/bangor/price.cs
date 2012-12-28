@@ -9,6 +9,7 @@ public class PriceScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_price");
 		SetRace(10002);
 		SetBody(height: 1.29f, fat: 1.12f, upper: 1.32f, lower: 1.06f);

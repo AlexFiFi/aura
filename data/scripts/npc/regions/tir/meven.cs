@@ -9,6 +9,7 @@ public class MevenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_meven");
 		SetRace(10002);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);

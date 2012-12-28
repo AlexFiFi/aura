@@ -9,6 +9,7 @@ public class AlexinaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_alexina");
 		SetRace(10001);
 		SetBody(height: 1.13f, fat: 1f, upper: 1.1f, lower: 1f);
@@ -26,5 +27,12 @@ public class AlexinaScript : NPCScript
 
 		SetDirection(65);
 		SetStand("human/female/anim/female_stand_npc_emain_06");
+        
+		Phrases.Add("Hmmm... I've never seen such artifacts before.");
+		Phrases.Add("I can't give up like this, though. The adventures will continue.");
+		Phrases.Add("I feel a bit sore from not working out for a few days.");
+		Phrases.Add("I think I should do some tuning on my excavation tools.");
+		Phrases.Add("If you have a dream, you're sure to see a future.");
+		Phrases.Add("Our exploration is not done as of yet. It's just the beginning, you know.");
 	}
 }

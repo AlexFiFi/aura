@@ -9,6 +9,7 @@ public class MuroScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_muro");
 		SetRace(10105);
 		SetBody(height: 0.3f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,5 +27,15 @@ public class MuroScript : NPCScript
 
 		SetDirection(159);
 		SetStand("");
+
+		Phrases.Add("...Am I bothering you? Am I?");
+		Phrases.Add("...Are you gonig to hit me?");
+		Phrases.Add("Ah...Humans. I like watching Humans!");
+		Phrases.Add("Hehe... It's a Human! A Human!");
+		Phrases.Add("Humans. Passing me by...");
+		Phrases.Add("Humans...have...no fear, as I suspected... Not at all...");
+		Phrases.Add("I miss female Goblins!");
+		Phrases.Add("Make me laugh... give it your best shot...");
+		Phrases.Add("Murrrrrrrrr....");
 	}
 }

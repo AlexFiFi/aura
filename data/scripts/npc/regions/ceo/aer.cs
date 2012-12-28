@@ -9,6 +9,7 @@ public class AerScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_aer");
 		SetRace(19);
 		SetBody(height: 1.3f, fat: 1f, upper: 1f, lower: 1.2f);
@@ -18,11 +19,15 @@ public class AerScript : NPCScript
 		NPC.ColorB = 0x808080;
 		NPC.ColorC = 0x808080;		
 
-
-
 		SetLocation(region: 68, x: 5599, y: 8550);
 
 		SetDirection(192);
 		SetStand("");
+
+		Phrases.Add(".....");
+		Phrases.Add("How do I look...?");
+		Phrases.Add("I hear the water's grieving...");
+		Phrases.Add("This place is pretty cozy...for a spirit...");
+		Phrases.Add("Why do people...");
 	}
 }

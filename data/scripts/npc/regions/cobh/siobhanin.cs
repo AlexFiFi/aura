@@ -9,6 +9,7 @@ public class SiobhaninScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_siobhanin");
 		SetRace(9002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,14 @@ public class SiobhaninScript : NPCScript
 
 		SetDirection(37);
 		SetStand("chapter4/elf/male/anim/elf_npc_siobhanin");
+        
+		Phrases.Add("Admiral Owen really is quite an amazing person!");
+		Phrases.Add("Don't worry about buying something. You can look all you want.");
+		Phrases.Add("Ha-ha!");
+		Phrases.Add("I'll give you 4 for 30 Gold!");
+		Phrases.Add("My back is getting tired from standing here.");
+		Phrases.Add("Sigh...");
+		Phrases.Add("That one is 50 Gold.");
+		Phrases.Add("What brings you here?");
 	}
 }

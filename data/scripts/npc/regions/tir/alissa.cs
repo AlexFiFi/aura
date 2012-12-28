@@ -9,6 +9,7 @@ public class AlissaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_alissa");
 		SetRace(10001);
 		SetBody(height: 0.1f, fat: 1.3f, upper: 1.3f, lower: 1.4f);

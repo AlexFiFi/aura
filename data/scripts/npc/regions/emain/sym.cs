@@ -9,6 +9,7 @@ public class SymScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_sym");
 		SetRace(10002);
 		SetBody(height: 0.1000001f, fat: 1.2f, upper: 1.3f, lower: 1.1f);
@@ -27,5 +28,10 @@ public class SymScript : NPCScript
 
 		SetDirection(110);
 		SetStand("chapter4/human/male/anim/male_c4_npc_cry_boy");
+        
+		Phrases.Add("(He thrashes about on the floor.)");
+		Phrases.Add("I want it I want it I WANT IT!!");
+		Phrases.Add("Waah! Waah!");
+		Phrases.Add("Waah!!");
 	}
 }

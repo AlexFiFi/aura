@@ -9,6 +9,7 @@ public class KirineScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_kirine");
 		SetRace(27);
 		SetBody(height: 2.5f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,19 @@ public class KirineScript : NPCScript
 
 		SetDirection(82);
 		SetStand("giant/female/anim/giant_npc_kirine");
+        
+		Phrases.Add("A legacy that will last an eternity.");
+		Phrases.Add("A mirror that reflects the sun will never show the shadow of darkness.");
+		Phrases.Add("Do you think we can start another war?");
+		Phrases.Add("Ha, if you don't have bread, eat meat.");
+		Phrases.Add("Haha, this is my secret recipe, poison mushroom stew.");
+		Phrases.Add("I am greedier than you think.");
+		Phrases.Add("I don't even know who I am.");
+		Phrases.Add("I want to leave a legacy behind.");
+		Phrases.Add("If the moon is too bright, you can't see the surrounding stars.");
+		Phrases.Add("Seemingly insignificant events will eventually decide one's fate.");
+		Phrases.Add("There's nothing more honest than a mirror.");
+		Phrases.Add("You can't satisfy me with that.");
+		Phrases.Add("You only get one chance to make a first impression.");
 	}
 }

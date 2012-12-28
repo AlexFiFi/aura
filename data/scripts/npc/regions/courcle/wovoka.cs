@@ -9,6 +9,7 @@ public class WovokaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_wovoka");
 		SetRace(10002);
 		SetBody(height: 1.3f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,14 @@ public class WovokaScript : NPCScript
 
 		SetDirection(189);
 		SetStand("human/male/anim/male_natural_stand_npc_yoff");
+        
+		Phrases.Add("I can't skip archery practice, not even for one day.");
+		Phrases.Add("I fight for the honor of my tribe and the Great Spirit.");
+		Phrases.Add("I want to become a great warrior.");
+		Phrases.Add("I want to become strong.");
+		Phrases.Add("I'm Waboka, the Courcle Warrior.");
+		Phrases.Add("Jackals never lose their calm, even if they're ambushed by enemies.");
+		Phrases.Add("May the Great Spirit of Irinid be with you.");
+		Phrases.Add("Warriors must know what to do in the critical moment of battle.");
 	}
 }

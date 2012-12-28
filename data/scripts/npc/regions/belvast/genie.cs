@@ -9,6 +9,7 @@ public class GenieScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_genie");
 		SetRace(145);
 		SetBody(height: 0.3f, fat: 1.1f, upper: 1.1f, lower: 1.1f);
@@ -28,5 +29,12 @@ public class GenieScript : NPCScript
 
 		SetDirection(63);
 		SetStand("chapter4/human/female/anim/female_c4_npc_lonnie_stand");
+
+		Phrases.Add("Ha ha, how exciting!");
+		Phrases.Add("I'm going to become a great warrior!");
+		Phrases.Add("I'm practicing fencing right now.");
+		Phrases.Add("We're gonna get in trouble again...let's be careful.");
+		Phrases.Add("Whew, this sure is hard.");
+		Phrases.Add("You want to try fighting me?");
 	}
 }

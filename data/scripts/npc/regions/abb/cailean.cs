@@ -9,6 +9,7 @@ public class CaileanScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_cailean");
 		SetRace(10002);
 		SetBody(height: 0.1000001f, fat: 1.2f, upper: 1.3f, lower: 1.1f);
@@ -27,5 +28,10 @@ public class CaileanScript : NPCScript
 
 		SetDirection(105);
 		SetStand("chapter4/human/female/anim/female_c4_npc_lonnie_stand3");
+        
+		Phrases.Add("I want a puppy...");
+		Phrases.Add("I'm bored!");
+		Phrases.Add("Woo-hoo! Run!");
+		Phrases.Add("Yeah?");
 	}
 }

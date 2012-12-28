@@ -9,6 +9,7 @@ public class GlewyasScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_glewyas");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,21 @@ public class GlewyasScript : NPCScript
 
 		SetDirection(230);
 		SetStand("human/male/anim/male_stand_Tarlach_anguish");
+
+		Phrases.Add("A stew must boil to get the flavor into all the meat.");
+		Phrases.Add("Ah, today's produce is fresh and crisp. Simply divine.");
+		Phrases.Add("Arzhela, your hair glows like lightly sauteed potatoes!");
+		Phrases.Add("Come to me, all ye who are hungry, and I shall make your taste buds sing!");
+		Phrases.Add("Cooking a rare and sumptuous recipe is worth any sacrifice!");
+		Phrases.Add("Cooking is like a competitive sport!");
+		Phrases.Add("Don't live a medium rare life.");
+		Phrases.Add("Eeeeeek! Rat!!");
+		Phrases.Add("Eh? What's this I smell?");
+		Phrases.Add("I'm actually hungry. How ironic.");
+		Phrases.Add("Oh, Azrhela, my goddess!");
+		Phrases.Add("Perhaps I should get a cat...");
+		Phrases.Add("Real men like it RAW!");
+		Phrases.Add("What shall I whip up for tomorrow's party?");
+		Phrases.Add("With an open heart and an empty stomach, I say unto you: Allez Cuisine!");
 	}
 }

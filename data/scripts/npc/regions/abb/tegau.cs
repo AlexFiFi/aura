@@ -9,6 +9,7 @@ public class TegauScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tegau");
 		SetRace(10001);
 		SetBody(height: 0.8000003f, fat: 0.5f, upper: 1.4f, lower: 1.2f);
@@ -28,5 +29,11 @@ public class TegauScript : NPCScript
 
 		SetDirection(113);
 		SetStand("human/male/anim/male_natural_stand_npc_gilmore");
+        
+		Phrases.Add("Listen closely, and you can hear the whispers of the stars.");
+		Phrases.Add("My back hurts...or does it?");
+		Phrases.Add("My, oh my, oh my...");
+		Phrases.Add("No one can see the future...or can they?");
+		Phrases.Add("Speak up, dear.");
 	}
 }

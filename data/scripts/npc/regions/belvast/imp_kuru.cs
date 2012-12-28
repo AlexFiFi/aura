@@ -9,6 +9,7 @@ public class Imp_kuruScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_imp_kuru");
 		SetRace(321);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,11 @@ public class Imp_kuruScript : NPCScript
 
 		SetDirection(104);
 		SetStand("chapter4/monster/anim/imp/imp_c4_npc_diet");
+
+		Phrases.Add("*Pants* Oh...this is hard.");
+		Phrases.Add("Flabby stomach...away with you!");
+		Phrases.Add("I can't become fat, like the Ogres!");
+		Phrases.Add("One-two, one-two!");
+		Phrases.Add("One-two, one-two... Gotta get buff!");
 	}
 }

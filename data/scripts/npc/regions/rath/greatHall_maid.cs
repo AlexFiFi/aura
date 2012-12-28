@@ -9,6 +9,7 @@ public class GreatHall_maidScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_greatHall_maid");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -30,5 +31,9 @@ public class GreatHall_maidScript : NPCScript
 
 		SetDirection(163);
 		SetStand("human/male/anim/male_stand_Tarlach_anguish");
+
+		Phrases.Add("I want to hang MY picture here too... I'm prettier...");
+		Phrases.Add("Look at all this dust!");
+		Phrases.Add("When will my day end?");
 	}
 }

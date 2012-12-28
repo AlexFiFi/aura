@@ -9,6 +9,7 @@ public class BekardScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_bekard");
 		SetRace(9002);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,12 @@ public class BekardScript : NPCScript
 
 		SetDirection(82);
 		SetStand("");
+
+		Phrases.Add("Begone.");
+		Phrases.Add("Do you not know who I am? I'm a Royal Alchemist!");
+		Phrases.Add("On your knees.");
+		Phrases.Add("The arrogance!");
+		Phrases.Add("Ugh...disgusting.");
+		Phrases.Add("Who do you think you are?");
 	}
 }

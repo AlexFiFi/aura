@@ -9,6 +9,7 @@ public class AranwenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_aranwen");
 		SetRace(10001);
 		SetBody(height: 1.15f, fat: 0.9f, upper: 1.1f, lower: 0.8f);
@@ -29,5 +30,16 @@ public class AranwenScript : NPCScript
 
 		SetDirection(125);
 		SetStand("");
+        
+        Phrases.Add("...");
+		Phrases.Add("A sword does not betray its own will.");
+		Phrases.Add("A sword is not a stick. I don't feel any tension from you!");
+		Phrases.Add("Aren't you well?");
+		Phrases.Add("Focus when you're practicing.");
+		Phrases.Add("Hahaha.");
+		Phrases.Add("If you're done resting, let's keep practicing!");
+		Phrases.Add("It's those people who really need to learn swordsmanship.");
+		Phrases.Add("Put more into the wrists!");
+		Phrases.Add("That student may need to rest a while.");
 	}
 }

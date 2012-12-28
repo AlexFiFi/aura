@@ -9,6 +9,7 @@ public class SeananScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_seanan");
 		SetRace(10002);
 		SetBody(height: 0.65f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,17 @@ public class SeananScript : NPCScript
 
 		SetDirection(59);
 		SetStand("");
+        
+		Phrases.Add("Hey, watch out!");
+		Phrases.Add("I hate gusts of wind!");
+		Phrases.Add("I want to ride on the ship!!");
+		Phrases.Add("Is there anyone here that gets seasick?");
+		Phrases.Add("Let's go let's go!");
+		Phrases.Add("Okay, line up line up");
+		Phrases.Add("Shall I go fishing?");
+		Phrases.Add("Should I practice weaving?");
+		Phrases.Add("What would tomorrow's weather be like?");
+		Phrases.Add("When's the captain coming?");
+		Phrases.Add("Wow, this is sooo boring");
 	}
 }

@@ -9,6 +9,7 @@ public class OdranScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_odran");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -27,5 +28,11 @@ public class OdranScript : NPCScript
 
 		SetDirection(54);
 		SetStand("elf/male/anim/elf_npc_hagel_stand_friendly");
+
+		Phrases.Add("...");
+		Phrases.Add("Damn it.");
+		Phrases.Add("Damn.");
+		Phrases.Add("Shut up.");
+		Phrases.Add("Time to send a patrol out.");
 	}
 }

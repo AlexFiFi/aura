@@ -9,6 +9,7 @@ public class CobhworkerScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_cobhworker");
 		SetRace(123);
 		SetBody(height: 1f, fat: 1.1f, upper: 1.1f, lower: 1f);
@@ -28,5 +29,16 @@ public class CobhworkerScript : NPCScript
 
 		SetDirection(5);
 		SetStand("");
+        
+		Phrases.Add("I need to find a way to make some money...");
+		Phrases.Add("I need to work hard and save up...");
+		Phrases.Add("I should be able to get a job once the dock is open, right?");
+		Phrases.Add("I used to be really successful... Then the pirates came.");
+		Phrases.Add("I want to set sail on the sea...");
+		Phrases.Add("I'm not scared of those ruddy pirates!");
+		Phrases.Add("The weather is so nice!");
+		Phrases.Add("Those blasted pirates!");
+		Phrases.Add("Unemployment is so frustrating!");
+		Phrases.Add("When will the construction at the dock end?");
 	}
 }

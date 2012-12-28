@@ -9,6 +9,7 @@ public class GeralltScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_gerallt");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,11 @@ public class GeralltScript : NPCScript
 
 		SetDirection(126);
 		SetStand("chapter4/human/anim/cutscene3/noble_boo03");
+        
+		Phrases.Add("(He grumbles to himself.)");
+		Phrases.Add("Harumph!");
+		Phrases.Add("Such terrible service!");
+		Phrases.Add("The puppets are all so dirty.");
+		Phrases.Add("There's nothing special here. Hmph!");
 	}
 }

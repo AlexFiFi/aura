@@ -9,6 +9,7 @@ public class MacaulayScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_macaulay");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1.3f, upper: 1f, lower: 1f);
@@ -29,5 +30,12 @@ public class MacaulayScript : NPCScript
 
 		SetDirection(62);
 		SetStand("chapter4/human/male/anim/male_c4_npc_dollmaker");
+        
+		Phrases.Add("A fine job, if I do say so myself.");
+		Phrases.Add("A little more here, and...");
+		Phrases.Add("Boss? Hey, boss? Here we go again...");
+		Phrases.Add("Hm. That's not quite right.");
+		Phrases.Add("That ought to do it.");
+		Phrases.Add("Where'd I put those boards?");
 	}
 }

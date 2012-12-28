@@ -9,6 +9,7 @@ public class LennoxScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_lennox");
 		SetRace(103);
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,12 @@ public class LennoxScript : NPCScript
 
 		SetDirection(106);
 		SetStand("human/male/anim/male_stand_Tarlach_anguish");
+
+		Phrases.Add("...");
+		Phrases.Add("Hm, how old is Leymore this year?");
+		Phrases.Add("Hmm...");
+		Phrases.Add("My vision is getting fuzzy. I need some rest.");
+		Phrases.Add("Oh my, how time flies.");
+		Phrases.Add("The study of alchemy never ends...");
 	}
 }

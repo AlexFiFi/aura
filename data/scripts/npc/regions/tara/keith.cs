@@ -9,6 +9,7 @@ public class KeithScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_keith");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,5 +27,14 @@ public class KeithScript : NPCScript
 
 		SetDirection(196);
 		SetStand("human/male/anim/male_natural_stand_npc_Duncan");
+
+		Phrases.Add("(Ding! Ding!) Can't that be changed to a more pleasant sound?");
+		Phrases.Add("Aah, another weary day has started!");
+		Phrases.Add("At this rate, I'm going to end up being late to the ball.");
+		Phrases.Add("Do people understand that having too much money can make life boring?");
+		Phrases.Add("Errr....Must the president of the bank be doing this...?");
+		Phrases.Add("Haha, don't tell me you've fallen in love with my style?");
+		Phrases.Add("Haha, welcome to the head office of Erskin Bank!");
+		Phrases.Add("Should I lower the bank fee while I'm at it?");
 	}
 }

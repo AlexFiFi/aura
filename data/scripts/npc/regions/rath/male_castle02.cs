@@ -9,6 +9,7 @@ public class Male_castle02Script : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_male_castle02");
 		SetRace(10002);
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 0.9f);

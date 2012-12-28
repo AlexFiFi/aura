@@ -9,6 +9,7 @@ public class StewartScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_stewart");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,15 @@ public class StewartScript : NPCScript
 
 		SetDirection(99);
 		SetStand("");
+        
+		Phrases.Add("Hmm... I'll have to talk with Kristell about this.");
+		Phrases.Add("Hmm... There aren't enough textbooks available.");
+		Phrases.Add("I wonder if Aeira has prepared all the books.");
+		Phrases.Add("It's not going to work like this.");
+		Phrases.Add("Maybe I should ask Aranwen...");
+		Phrases.Add("More and more people are not showing up...");
+		Phrases.Add("Oh dear! I've already run out of magic materials.");
+		Phrases.Add("Perhaps there's something wrong with my lecture?");
+
 	}
 }

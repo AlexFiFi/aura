@@ -9,6 +9,7 @@ public class AusteynScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_austeyn");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -27,5 +28,19 @@ public class AusteynScript : NPCScript
 
 		SetDirection(251);
 		SetStand("");
+        
+        Phrases.Add("*Doze off*");
+		Phrases.Add("*Yawn*");
+		Phrases.Add("Ah... How boring...");
+		Phrases.Add("Come to think of it, it's been a while since my last hair cut.");
+		Phrases.Add("It's boring during the day with everyone attending school.");
+		Phrases.Add("Let's see... That fellow should be coming to the Bank soon.");
+		Phrases.Add("Mmm... I must have dozed off.");
+		Phrases.Add("Mmm... I'm tired...");
+		Phrases.Add("My body's not like it used be... Hahaha.");
+		Phrases.Add("Oops. The mistakes have been getting more frequent lately.");
+		Phrases.Add("Perhaps I should hire a cute office assistant. Who knows? Maybe that will bring in more business.");
+		Phrases.Add("That fellow looks like he might have some Gold on him...");
+
 	}
 }

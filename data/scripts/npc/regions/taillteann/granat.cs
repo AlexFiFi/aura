@@ -9,6 +9,7 @@ public class GranatScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_granat");
 		SetRace(9002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -29,5 +30,13 @@ public class GranatScript : NPCScript
 
 		SetDirection(150);
 		SetStand("chapter3/elf/male/anim/elf_c3_npc_granat");
+        
+		Phrases.Add("Elves are the best friends of Humans.");
+		Phrases.Add("Have we come too far from the Memory Tower?");
+		Phrases.Add("Supply Guards must pay extra heed to taking care of our equipment.");
+		Phrases.Add("The Elves of Connous will protect you from the threat of the Shadow Realm.");
+		Phrases.Add("This weather is difficult for Desert Elves to get used to.");
+		Phrases.Add("We are preparing for a Shadow Realm expedition.");
+		Phrases.Add("What is impossible, if only Elves and Humans work together?");
 	}
 }

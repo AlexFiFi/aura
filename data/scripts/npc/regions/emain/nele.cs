@@ -9,6 +9,7 @@ public class NeleScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_nele");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 1.2f, lower: 1.2f);
@@ -25,10 +26,24 @@ public class NeleScript : NPCScript
 		EquipItem(Pocket.Head, 0x467D, 0x45250C, 0x0, 0xFEF1CB);
 		EquipItem(Pocket.Robe, 0x4A3C, 0xFDE8B7, 0x539540, 0x6A8C91);
 		EquipItem(Pocket.RightHand1, 0x9C51, 0x67974, 0x31150F, 0x1D5567);
+        
+        NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
 
 		SetLocation(region: 52, x: 40527, y: 41230);
 
 		SetDirection(217);
 		SetStand("");
+        
+        Phrases.Add("A great day to listen to music, don't you think...?");
+		Phrases.Add("Everyone. Please hear my music.");
+		Phrases.Add("Hmm... I'm hungry... Hahaha...");
+		Phrases.Add("Hmm... I've just thought of something...");
+		Phrases.Add("Hmm... should I use this song... or that...");
+		Phrases.Add("I need to fix this lute...");
+		Phrases.Add("Maybe I should write a new song...");
+		Phrases.Add("Mmm... nothing like a cool breeze...");
+		Phrases.Add("Nice weather...");
+		Phrases.Add("That water makes such a pleasant sound...");
+		Phrases.Add("The sky is the roof, and the land is my bed...");
 	}
 }

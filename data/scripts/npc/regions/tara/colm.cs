@@ -9,6 +9,7 @@ public class ColmScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_colm");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,7 @@ public class ColmScript : NPCScript
 
 		SetDirection(161);
 		SetStand("human/male/anim/male_natural_stand_npc_Duncan");
+
+		Phrases.Add("If you are looking for weapons or armors, come speak to me.");
 	}
 }

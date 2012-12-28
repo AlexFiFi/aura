@@ -9,6 +9,7 @@ public class Giantguard_belfast_02Script : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_giantguard_belfast_02");
 		SetRace(8002);
 		SetBody(height: 1.6f, fat: 1f, upper: 1.3f, lower: 1.2f);
@@ -31,5 +32,9 @@ public class Giantguard_belfast_02Script : NPCScript
 
 		SetDirection(0);
 		SetStand("");
+
+		Phrases.Add("Good job getting here.");
+		Phrases.Add("The admiral is inside.");
+		Phrases.Add("What is this about?");
 	}
 }

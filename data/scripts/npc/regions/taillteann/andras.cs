@@ -9,6 +9,7 @@ public class AndrasScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_andras");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,13 @@ public class AndrasScript : NPCScript
 
 		SetDirection(200);
 		SetStand("chapter3/human/female/anim/female_c3_npc_andras");
+        
+		Phrases.Add("A new mission has arrived.");
+		Phrases.Add("For King Ethur Mac Cuill!");
+		Phrases.Add("I hope the soldiers don't get injured during this mission...");
+		Phrases.Add("Something is amiss in the Shadow Realm.");
+		Phrases.Add("Supply Guard, we need more equipment.");
+		Phrases.Add("The supplies should arrive soon...");
+		Phrases.Add("There's been an increase in volunteer soldiers with alchemist backgrounds. Interesting...");
 	}
 }

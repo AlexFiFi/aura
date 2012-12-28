@@ -9,6 +9,7 @@ public class VoightScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_voight");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,14 @@ public class VoightScript : NPCScript
 
 		SetDirection(236);
 		SetStand("");
+        
+		Phrases.Add("Aww... I think I drank too much last night...");
+		Phrases.Add("Did you just ask when I close the bank? Well, I don't close it, ever.");
+		Phrases.Add("Even garbage is recyclable nowadays. Why not life?");
+		Phrases.Add("Jeez, it's so hot in this jungle.");
+		Phrases.Add("Man, those creditors! There's no end to their hassling!");
+		Phrases.Add("Pay me if you want my appraisal service.");
+		Phrases.Add("Yeah, I'm too old to be told that I'm cute.");
+		Phrases.Add("Yeah, this is real snake skin.");
 	}
 }

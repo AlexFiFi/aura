@@ -9,6 +9,7 @@ public class DelScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_del");
 		SetRace(10001);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1.1f, lower: 1f);
@@ -27,5 +28,17 @@ public class DelScript : NPCScript
 
 		SetDirection(38);
 		SetStand("human/female/anim/female_natural_stand_npc_01");
+        
+		Phrases.Add("Do you need flowers?");
+		Phrases.Add("Flowers for beautiful ladies!");
+		Phrases.Add("Flowers make a perfect gift for a romantic date.");
+		Phrases.Add("Fresh flowers!");
+		Phrases.Add("Hey! I got flowers.");
+		Phrases.Add("Hi. Take a look at these gorgeous flowers!");
+		Phrases.Add("How are you doing?");
+		Phrases.Add("Look at these beautiful flowers. Choose one!");
+		Phrases.Add("Smell these fresh flowers.");
+		Phrases.Add("What kinds of flowers are you looking for?");
+		Phrases.Add("What's wrong with today's customers...?");
 	}
 }

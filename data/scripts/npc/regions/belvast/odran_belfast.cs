@@ -9,6 +9,7 @@ public class Odran_belfastScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_odran_belfast");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);

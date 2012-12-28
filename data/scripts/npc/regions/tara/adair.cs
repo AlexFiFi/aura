@@ -9,6 +9,7 @@ public class AdairScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_adair");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 0.1f, upper: 1f, lower: 0.85f);
@@ -30,5 +31,9 @@ public class AdairScript : NPCScript
 
 		SetDirection(43);
 		SetStand("");
+
+		Phrases.Add("Do knights train these days?");
+		Phrases.Add("Do you even know how to hold a lance?");
+		Phrases.Add("Where is all the talent?");
 	}
 }

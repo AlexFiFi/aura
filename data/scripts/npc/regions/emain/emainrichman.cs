@@ -9,6 +9,7 @@ public class EmainrichmanScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_emainrichman");
 		SetRace(10002);
 		SetBody(height: 0.9400001f, fat: 1.58f, upper: 1f, lower: 1f);
@@ -29,5 +30,15 @@ public class EmainrichmanScript : NPCScript
 
 		SetDirection(92);
 		SetStand("");
+        
+		Phrases.Add("Do I have to carry around only traveler's checks...?");
+		Phrases.Add("Hmmm hmmm");
+		Phrases.Add("I should get a bigger wallet");
+		Phrases.Add("Is this town full of beggars...?");
+		Phrases.Add("Money's flowing everywhere...");
+		Phrases.Add("Oh no, I dropped the money again");
+		Phrases.Add("Oh, I dropped a coin");
+		Phrases.Add("Oh, the change fell out");
+		Phrases.Add("Why does money keep falling out of my pocket?");
 	}
 }

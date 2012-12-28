@@ -9,6 +9,7 @@ public class BarryScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_barry");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,14 @@ public class BarryScript : NPCScript
 
 		SetDirection(21);
 		SetStand("chapter4/human/male/anim/male_c4_npc_drink");
+
+		Phrases.Add("Do you think I'm joking...? Yeah, I'm joking. Heh.");
+		Phrases.Add("Don't put words into my mouth.");
+		Phrases.Add("I'm not scary. I'm not. I'm NOT.");
+		Phrases.Add("Stay away from my daughter.");
+		Phrases.Add("Watch what you say...");
+		Phrases.Add("Welcome to Barry's Pub! I'm Barry.");
+		Phrases.Add("What did you just say?");
+		Phrases.Add("What would you like to drink?");
 	}
 }

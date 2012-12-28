@@ -9,6 +9,7 @@ public class WyllowScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_wyllow");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 0.1f, upper: 0.94f, lower: 0.83f);
@@ -28,5 +29,11 @@ public class WyllowScript : NPCScript
 
 		SetDirection(76);
 		SetStand("");
+        
+		Phrases.Add("Bow down to the Lord...");
+		Phrases.Add("Hmmm...");
+		Phrases.Add("Let us pray...");
+		Phrases.Add("Lord Lymilark...");
+		Phrases.Add("These days, people just don't have that much faith...");
 	}
 }

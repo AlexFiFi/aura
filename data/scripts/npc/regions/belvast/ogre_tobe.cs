@@ -9,6 +9,7 @@ public class Ogre_tobeScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ogre_tobe");
 		SetRace(323);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,12 @@ public class Ogre_tobeScript : NPCScript
 
 		SetDirection(76);
 		SetStand("chapter4/monster/anim/ogre/ogre_c4_npc_health");
+
+		Phrases.Add("Beautiful muscles, everyone love!");
+		Phrases.Add("Gonna arm-wrestle like a pro!");
+		Phrases.Add("Mmm... hmm... Muscles, so beautiful.");
+		Phrases.Add("My muscles are the best.");
+		Phrases.Add("My muscles, they are awesome.");
+		Phrases.Add("The world is beautiful. My muscles are beautiful. World beautiful like muscles.");
 	}
 }

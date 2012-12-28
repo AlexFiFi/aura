@@ -9,6 +9,7 @@ public class AnnestScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_annest");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,11 @@ public class AnnestScript : NPCScript
 
 		SetDirection(4);
 		SetStand("chapter4/human/female/anim/female_c4_npc_annest");
+
+		Phrases.Add("Admiral Owen is busy right now. Please speak to me.");
+		Phrases.Add("Entrance to Admiral Owen's mansion is restricted.");
+		Phrases.Add("Tell me anything you want Admiral Owen to hear.");
+		Phrases.Add("Welcome.");
+		Phrases.Add("What can I do for you?");
 	}
 }

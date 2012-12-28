@@ -9,6 +9,7 @@ public class HooligerScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_hooliger");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1.3f, upper: 1.1f, lower: 1.1f);
@@ -29,5 +30,8 @@ public class HooligerScript : NPCScript
 
 		SetDirection(31);
 		SetStand("");
+
+		Phrases.Add("I called it!");
+		Phrases.Add("Whoooooooa!");
 	}
 }

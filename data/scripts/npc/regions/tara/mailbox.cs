@@ -9,6 +9,7 @@ public class MailBox_TaraScript : Mailbox
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_MailBox_Tara");
 		SetRace(990019);
 

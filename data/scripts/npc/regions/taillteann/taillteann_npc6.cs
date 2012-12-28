@@ -5,18 +5,14 @@ using World.Network;
 using World.Scripting;
 using World.World;
 
-public class Taillteann_npc6Script : NPCScript
+public class Taillteann_npc6Script : Taillteann_npc_baseScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_taillteann_npc6");
 		SetRace(10001);
-		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 7, eyeColor: 0, lip: 24);
-
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
 
 		EquipItem(Pocket.Face, 0xF3C, 0x6F6C6E, 0x714856, 0x3AB5C);
 		EquipItem(Pocket.Hair, 0xBD8, 0x9C5D42, 0x9C5D42, 0x9C5D42);
@@ -26,6 +22,5 @@ public class Taillteann_npc6Script : NPCScript
 		SetLocation(region: 300, x: 213822, y: 196933);
 
 		SetDirection(121);
-		SetStand("");
 	}
 }

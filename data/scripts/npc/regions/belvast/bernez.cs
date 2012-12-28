@@ -9,6 +9,7 @@ public class BernezScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_bernez");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,11 @@ public class BernezScript : NPCScript
 
 		SetDirection(180);
 		SetStand("chapter4/human/male/anim/male_c4_npc_priest");
+
+		Phrases.Add("A sincere heart is more important than a big church.");
+		Phrases.Add("Darkness and Light have always co-existed.");
+		Phrases.Add("It is our dream to share the Light will all Fomors.");
+		Phrases.Add("May the blessing of God be upon you.");
+		Phrases.Add("One day, we will share the Light with them...");
 	}
 }

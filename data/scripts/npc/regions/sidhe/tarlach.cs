@@ -10,6 +10,7 @@ public class TarlachScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tarlach");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 0.9f, upper: 0.4f, lower: 0.6f);
@@ -51,9 +52,9 @@ public class TarlachScript : NPCScript
 	private void On12HrTick(object sender, TimeEventArgs e)
 	{
 		if (e.Hour >= 18 || e.Hour < 6) //Nighttime
-			SetLocation(region: 48, x: 11100, y: 30400);
+			Warp(region: 48, x: 11100, y: 30400);
 		else
-			SetLocation(region: 15, x: 0, y: 0);
+			Warp(region: 15, x: 0, y: 0);
 	}
 
 	public override void OnTalk(WorldClient c)

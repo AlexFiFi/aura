@@ -9,6 +9,7 @@ public class Imp_kinuScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_imp_kinu");
 		SetRace(321);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,11 @@ public class Imp_kinuScript : NPCScript
 
 		SetDirection(238);
 		SetStand("chapter4/monster/anim/imp/mon_c4_imp_commerce");
+
+		Phrases.Add("Even that Ogre can't hurt me now!");
+		Phrases.Add("I'll work hard today, too!");
+		Phrases.Add("I'm a strong Imp!");
+		Phrases.Add("Money is the best.");
+		Phrases.Add("You can do anything with money.");
 	}
 }

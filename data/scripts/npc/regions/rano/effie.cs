@@ -9,6 +9,7 @@ public class EffieScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_effie");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 0.1f, upper: 1f, lower: 0.85f);
@@ -27,5 +28,14 @@ public class EffieScript : NPCScript
 
 		SetDirection(213);
 		SetStand("human/female/anim/female_stand_npc_iria_01");
+        
+		Phrases.Add("...");
+		Phrases.Add("Am I missing anything...");
+		Phrases.Add("Are you looking at some of the merchandise?...");
+		Phrases.Add("I guess a lot of people will be leaving... for expeditions soon...");
+		Phrases.Add("I wonder if the ship has docked yet...");
+		Phrases.Add("I wonder where it is...");
+		Phrases.Add("The wind is...");
+		Phrases.Add("Welcome...");
 	}
 }

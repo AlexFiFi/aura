@@ -9,6 +9,7 @@ public class RumonScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_rumon");
 		SetRace(10002);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,11 @@ public class RumonScript : NPCScript
 
 		SetDirection(192);
 		SetStand("");
+        
+		Phrases.Add("I wonder how Edana is doing.");
+		Phrases.Add("I wonder if I could ever become a Wine Hero.");
+		Phrases.Add("I wonder what caused Lezarro and Eluned to have such a bad relationship.");
+		Phrases.Add("So many people are suddenly interested in wine.");
+		Phrases.Add("This year's grapes are really looking good.");
 	}
 }

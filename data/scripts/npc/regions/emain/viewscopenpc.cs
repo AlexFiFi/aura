@@ -9,6 +9,7 @@ public class ViewscopenpcScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_viewscopenpc");
 		SetRace(990004);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);

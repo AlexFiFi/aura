@@ -9,6 +9,7 @@ public class LileasScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_lileas");
 		SetRace(10001);
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,17 @@ public class LileasScript : NPCScript
 
 		SetDirection(96);
 		SetStand("human/female/anim/female_natural_stand_npc_01");
+
+		Phrases.Add("Drink it! Lileas's Honey Drink!");
+		Phrases.Add("Gulp gulp!");
+		Phrases.Add("Haha! I'm excited about today's match.");
+		Phrases.Add("Here, here! Get in line. I said a line!");
+		Phrases.Add("I really need to sell more drinks today...");
+		Phrases.Add("I wonder which players are competing today?");
+		Phrases.Add("Lileas's Honey Drink!");
+		Phrases.Add("Now, now, if you want to join the Jousting Tournament, come this way!");
+		Phrases.Add("Oh my!");
+		Phrases.Add("One shot!");
+		Phrases.Add("So another day starts.");
 	}
 }

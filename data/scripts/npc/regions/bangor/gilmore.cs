@@ -9,6 +9,7 @@ public class GilmoreScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_gilmore");
 		SetRace(10002);
 		SetBody(height: 0.8000003f, fat: 0.4f, upper: 1f, lower: 1f);
@@ -28,5 +29,16 @@ public class GilmoreScript : NPCScript
 
 		SetDirection(224);
 		SetStand("human/male/anim/male_natural_stand_npc_gilmore");
+        
+		Phrases.Add("Business is slow nowadays. Perhaps I should raise the rent.");
+		Phrases.Add("Cheap stuff means cheap quality.");
+		Phrases.Add("Get lost unless you are going to buy something!");
+		Phrases.Add("I have plenty of goods. As long as you have the Gold.");
+		Phrases.Add("If you don't like me, you can buy goods somewhere else.");
+		Phrases.Add("My goods don't just grow on trees.");
+		Phrases.Add("So you think you can buy goods somewhere else?");
+		Phrases.Add("They are so much trouble. Those thieving jerks...");
+		Phrases.Add("What a pain. More kids just keep coming to the store.");
+		Phrases.Add("Why should I put up with criticism from people who are not even my customers?");
 	}
 }

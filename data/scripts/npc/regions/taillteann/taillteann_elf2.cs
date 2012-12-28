@@ -5,18 +5,14 @@ using World.Network;
 using World.Scripting;
 using World.World;
 
-public class Taillteann_elf2Script : NPCScript
+public class Taillteann_elf2Script : Taillteann_elf_baseScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_taillteann_elf2");
-		SetRace(9002);
-		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
-		SetFace(skin: 18, eye: 43, eyeColor: 31, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetFace(skin: 18, eye: 43, eyeColor: 31, lip: 0);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x55146B, 0x7B344A, 0x8D0058);
 		EquipItem(Pocket.Hair, 0x1775, 0xFFC7C6, 0xFFC7C6, 0xFFC7C6);

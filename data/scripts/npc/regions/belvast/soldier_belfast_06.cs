@@ -5,10 +5,11 @@ using World.Network;
 using World.Scripting;
 using World.World;
 
-public class Soldier_belfast_06Script : NPCScript
+public class Soldier_belfast_06Script : Soldier_Belfast_BaseScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_soldier_belfast_06");
 		SetRace(10001);
 		SetBody(height: 0.8500001f, fat: 0.95f, upper: 1.1f, lower: 0.9f);

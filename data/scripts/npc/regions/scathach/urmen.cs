@@ -9,6 +9,7 @@ public class UrmenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_urmen");
 		SetRace(8002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,13 @@ public class UrmenScript : NPCScript
 
 		SetDirection(198);
 		SetStand("chapter4/giant/male/anim/giant_c4_npc_urmen");
+
+		Phrases.Add("(He tempers an old sword.)");
+		Phrases.Add("I couldn't have made a better sword myself. Wait, I DID make this sword myself!");
+		Phrases.Add("Royal, shmoyal! All alchemists are the same.");
+		Phrases.Add("Sieve needs to get lost...");
+		Phrases.Add("That Sieve...!");
+		Phrases.Add("Umph!");
+		Phrases.Add("We believe in you, Odran!");
 	}
 }

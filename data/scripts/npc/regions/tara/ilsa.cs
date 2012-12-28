@@ -9,6 +9,7 @@ public class IlsaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ilsa");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,10 @@ public class IlsaScript : NPCScript
 
 		SetDirection(225);
 		SetStand("human/female/anim/female_stand_npc_emain_Rua");
+
+		Phrases.Add("I was popular, too, when I was younger.");
+		Phrases.Add("Now that I think about it, Arenen was a great person.");
+		Phrases.Add("Should I, or should I not go on a date with that gentlemen who stopped by yesterday?");
+		Phrases.Add("Why are you looking at me like that? Do you know who I am?");
 	}
 }

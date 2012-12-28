@@ -12,6 +12,7 @@ public class ProffScript : NPCScript
     
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_<mini>NPC</mini> The Proffessor");
 		SetDialogName("The Proffessor");
 		SetRace(10002);

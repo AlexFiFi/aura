@@ -5,18 +5,14 @@ using World.Network;
 using World.Scripting;
 using World.World;
 
-public class Beanrua03Script : NPCScript
+public class Beanrua03Script : Beanrua_baseScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_beanrua03");
-		SetRace(10001);
 		SetBody(height: 0.97f, fat: 0.97f, upper: 1.09f, lower: 1f);
 		SetFace(skin: 15, eye: 3, eyeColor: 113, lip: 1);
-
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
 
 		EquipItem(Pocket.Face, 0xF3C, 0xF39E36, 0x1048, 0x8A3D);
 		EquipItem(Pocket.Hair, 0xBD0, 0x980A0A, 0x980A0A, 0x980A0A);

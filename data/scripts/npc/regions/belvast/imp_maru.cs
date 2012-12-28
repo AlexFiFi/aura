@@ -9,6 +9,7 @@ public class Imp_maruScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_imp_maru");
 		SetRace(321);
 		SetBody(height: 0.8f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,10 @@ public class Imp_maruScript : NPCScript
 
 		SetDirection(53);
 		SetStand("chapter4/monster/anim/imp/imp_c4_npc_shy");
+
+		Phrases.Add("Ah... I want to fall in love...");
+		Phrases.Add("If you know anyone, introduce her to me.");
+		Phrases.Add("I'm not too shabby in the looks department, you know.");
+		Phrases.Add("Will that kind of love come to me also?");
 	}
 }

@@ -9,6 +9,7 @@ public class BelitaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_belita");
 		SetRace(10001);
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,11 @@ public class BelitaScript : NPCScript
 
 		SetDirection(172);
 		SetStand("human/female/anim/female_natural_stand_npc_Eavan");
+        
+		Phrases.Add("Hmm...");
+		Phrases.Add("Hmm... The wind's direction is somewhat strange today.");
+		Phrases.Add("Hmm... When it comes to men, I don't completely despise them.");
+		Phrases.Add("My name is Belita.");
+		Phrases.Add("Yes, the world is changing.");
 	}
 }

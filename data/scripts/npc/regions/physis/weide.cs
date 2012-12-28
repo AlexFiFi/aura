@@ -9,6 +9,7 @@ public class WeideScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_weide");
 		SetRace(29);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,18 @@ public class WeideScript : NPCScript
 
 		SetDirection(225);
 		SetStand("giant/male/anim/giant_npc_weide");
+        
+		Phrases.Add("Every effect has a cause that goes before it.");
+		Phrases.Add("I am giving my all for the Seebarsch royal family.");
+		Phrases.Add("I feel like I'm losing hair these days...");
+		Phrases.Add("I forgot to shave my beard in honor of the Seebarsch royal family.");
+		Phrases.Add("I'm too old now to pick up a sword and fight.");
+		Phrases.Add("In difficult times like this, only purebred Physis Giants can help.");
+		Phrases.Add("Kirine...so superficial...");
+		Phrases.Add("My eyesight is getting so bad. Maybe it's time for me to retire...");
+		Phrases.Add("That brat Zeder must be talking about me again.");
+		Phrases.Add("The older you get, the harder it is to adjust to new things.");
+		Phrases.Add("There was a time when I was on the front lines.");
+		Phrases.Add("You didn't get the numbers wrong again, did you?");
 	}
 }

@@ -9,6 +9,7 @@ public class BrendaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_brenda");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,16 @@ public class BrendaScript : NPCScript
 
 		SetDirection(68);
 		SetStand("chapter3/human/female/anim/female_c3_npc_brenda");
+        
+		Phrases.Add("A shipment of beautiful new clothing is arriving today! Ah, ecstasy...");
+		Phrases.Add("I need to change the display window. But I feel so lazy today...");
+		Phrases.Add("I think I'm gaining weight! I better eat only berries today.");
+		Phrases.Add("I wonder if there are any parties tonight?");
+		Phrases.Add("I'm exhausted from dancing all night. The things I have to do to appease my adoring public!");
+		Phrases.Add("I've seen a lot of people wearing star-patterned clothes recently. Hmm...");
+		Phrases.Add("I've slacked on my Lute lessons for far too long, sigh...");
+		Phrases.Add("Maybe I should get some sparkly clothes for the store. Sequins? Glitter? Gems? Hmm!");
+		Phrases.Add("Where oh where could my Prince Charming be?");
+		Phrases.Add("Why am I so beautiful? Sigh, popularity can be tiring sometimes.");
 	}
 }

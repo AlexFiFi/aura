@@ -9,6 +9,7 @@ public class ArnengScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_arneng");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,12 @@ public class ArnengScript : NPCScript
 
 		SetDirection(178);
 		SetStand("human/male/anim/male_natural_stand_npc_yoff");
+        
+		Phrases.Add("If I could get paid for it, I would've sold my soul a long time ago.");
+		Phrases.Add("I'm so tired of not being able to sleep");
+		Phrases.Add("There are those who come here to hand in their will before they meet the dragon.");
+		Phrases.Add("This is the end. The end of the world...");
+		Phrases.Add("You can say that this is like the final page in the world.");
+		Phrases.Add("You know, right? This place is the end of the world.");
 	}
 }

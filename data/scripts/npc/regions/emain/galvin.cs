@@ -9,6 +9,7 @@ public class GalvinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_galvin");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 1.1f, lower: 1f);
@@ -28,5 +29,13 @@ public class GalvinScript : NPCScript
 
 		SetDirection(61);
 		SetStand("human/male/anim/male_natural_stand_npc_Piaras");
+        
+		Phrases.Add("(*Scratch*)");
+		Phrases.Add("Hahaha!");
+		Phrases.Add("Hee! Ha! Hee!");
+		Phrases.Add("Hello, sir! Right here!");
+		Phrases.Add("Hello, there!");
+		Phrases.Add("Hey there, cool guy!");
+		Phrases.Add("Hey! How you doing there?");
 	}
 }

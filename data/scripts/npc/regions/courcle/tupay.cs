@@ -9,6 +9,7 @@ public class TupayScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tupay");
 		SetRace(10002);
 		SetBody(height: 0.2f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,5 +27,16 @@ public class TupayScript : NPCScript
 
 		SetDirection(115);
 		SetStand("");
+        
+		Phrases.Add("*Howl* Arooo!");
+		Phrases.Add("How many nights do I have to spend before Wolf Mommy comes to pick me up?");
+		Phrases.Add("Kusina is like my Wolf Mommy.");
+		Phrases.Add("Tupai can smell delicious things just like elephants do.");
+		Phrases.Add("Tupai have itchy feet like wolves.");
+		Phrases.Add("Tupai likes sticking out his tongue like a wolf.");
+		Phrases.Add("Tupai likes talking in the Wolf language.");
+		Phrases.Add("Tupai makes bait.");
+		Phrases.Add("Tupai sleeps like a wolf.");
+		Phrases.Add("Tupai wants to tame a fire-breathing dragon.");
 	}
 }

@@ -9,6 +9,7 @@ public class Castle_alchemistScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_castle_alchemist");
 		SetRace(10002);
 		SetBody(height: 0.9f, fat: 1.3f, upper: 1.2f, lower: 1f);
@@ -28,5 +29,9 @@ public class Castle_alchemistScript : NPCScript
 
 		SetDirection(164);
 		SetStand("human/male/anim/male_stand_Tarlach_anguish");
+
+		Phrases.Add("Such stubborness.");
+		Phrases.Add("Talking seems to be getting us nowhere.");
+		Phrases.Add("You should be ashamed of veiling your threats in the name of the Gods...");
 	}
 }

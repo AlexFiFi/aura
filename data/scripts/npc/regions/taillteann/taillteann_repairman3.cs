@@ -9,6 +9,7 @@ public class Taillteann_repairman3Script : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_taillteann_repairman3");
 		SetRace(8002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,7 @@ public class Taillteann_repairman3Script : NPCScript
 
 		SetDirection(73);
 		SetStand("");
+        
+		Phrases.Add("Do you need a weapon for Giants?");
 	}
 }

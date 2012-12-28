@@ -10,6 +10,7 @@ public class Mailbox : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 0, eye: 0, eyeColor: 0, lip: 0);
 

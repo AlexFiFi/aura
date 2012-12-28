@@ -225,6 +225,7 @@ namespace Common.Network
 		public readonly static uint HittingProp = 0x908A;
 		public readonly static uint TouchProp = 0x908B;
 		public readonly static uint TouchPropR = 0x908C;
+		public readonly static uint PlaySound = 0x908F;
 		public readonly static uint Effect = 0x9090;
 		public readonly static uint Effect2 = 0x9091; // Delayed?
 

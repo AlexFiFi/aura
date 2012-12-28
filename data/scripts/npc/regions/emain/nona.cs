@@ -9,6 +9,7 @@ public class NonaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_nona");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,11 @@ public class NonaScript : NPCScript
 
 		SetDirection(123);
 		SetStand("chapter4/human/female/anim/female_c4_npc_wildwoman_talk");
+        
+		Phrases.Add("Oh, this one's pretty.");
+		Phrases.Add("So hard to choose just one!");
+		Phrases.Add("So many puppets!");
+		Phrases.Add("Ugh, souvenir shopping...");
+		Phrases.Add("What would make a good gift...?");
 	}
 }

@@ -9,6 +9,7 @@ public class LonnieScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_lonnie");
 		SetRace(124);
 		SetBody(height: 0f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,18 @@ public class LonnieScript : NPCScript
 
 		SetDirection(127);
 		SetStand("");
+        
+		Phrases.Add("I can't wait 'till I can to go sailing!");
+		Phrases.Add("I hear Madoc is a bad guy... What do you think?");
+		Phrases.Add("I wanna see a HUGE ship!");
+		Phrases.Add("I'm going to be the best captain in the world, ever.");
+		Phrases.Add("I'm not a little kid anymore!!");
+		Phrases.Add("Isn't Tamon amazing?");
+		Phrases.Add("It's so nice today, isn't it?");
+		Phrases.Add("I've wanted to board a ship my WHOLE life.");
+		Phrases.Add("Let's get those pirates! Yar!");
+		Phrases.Add("Today is the perfect day for sailing!");
+		Phrases.Add("Was Annick a scary pirate too?");
+		Phrases.Add("When do you think we'll have people going in and out of the dock?");
 	}
 }

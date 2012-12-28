@@ -9,6 +9,7 @@ public class Carasek_cobh_modelScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_carasek_cobh_model");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.29f, lower: 1f);

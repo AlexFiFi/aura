@@ -9,6 +9,7 @@ public class MalcolmScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_malcolm");
 		SetRace(10002);
 		SetBody(height: 1.22f, fat: 1f, upper: 1f, lower: 1f);

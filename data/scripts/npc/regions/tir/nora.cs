@@ -9,6 +9,7 @@ public class NoraScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_nora");
 		SetRace(10001);
 		SetBody(height: .85f);

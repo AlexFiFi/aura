@@ -9,6 +9,7 @@ public class KarpfenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_karpfen");
 		SetRace(44);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,11 @@ public class KarpfenScript : NPCScript
 
 		SetDirection(7);
 		SetStand("chapter3/giant/female/anim/giant_female_c3_npc_karpfen");
+        
+		Phrases.Add("Everything in Uladh is so...small.");
+		Phrases.Add("Hahaha, who would dare get in my way?");
+		Phrases.Add("My beauty and strength transcend race!");
+		Phrases.Add("Taillteann is so dull compared to Physis.");
+
 	}
 }

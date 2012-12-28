@@ -9,6 +9,7 @@ public class Aven_madamScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_aven_madam");
 		SetRace(10001);
 		SetBody(height: 0.9f, fat: 1.1f, upper: 0.9f, lower: 1.1f);
@@ -28,5 +29,11 @@ public class Aven_madamScript : NPCScript
 
 		SetDirection(114);
 		SetStand("human/anim/tool/female_tool_Bhand_M01_playing_lute_01");
+
+		Phrases.Add("Ha ha!");
+		Phrases.Add("How was the piece I just played?");
+		Phrases.Add("Oh dear, something like that really happened?");
+		Phrases.Add("Thank you for the entertaining story!");
+		Phrases.Add("Times like this call for good music!");
 	}
 }

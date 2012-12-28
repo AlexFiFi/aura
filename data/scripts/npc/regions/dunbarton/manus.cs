@@ -9,6 +9,7 @@ public class ManusScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_manus");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,16 @@ public class ManusScript : NPCScript
 
 		SetDirection(0);
 		SetStand("");
+        
+		Phrases.Add("A healthy body for a healthy mind!");
+		Phrases.Add("Alright! Here we go! Woo-hoo!");
+		Phrases.Add("Come! A special potion concocted by Manus for sale now!");
+		Phrases.Add("Here, let's have a look.");
+		Phrases.Add("I wish there was something I could spend this extra energy on...");
+		Phrases.Add("Perhaps Stewart could tell me about this...");
+		Phrases.Add("There's nothing like a massage for relief when your muscles are tight! Hahaha!");
+		Phrases.Add("Why did you let it go this bad?!");
+		Phrases.Add("You should exercise more. You're so thin.");
+
 	}
 }

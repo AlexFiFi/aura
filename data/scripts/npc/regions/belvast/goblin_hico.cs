@@ -9,6 +9,7 @@ public class Goblin_hicoScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_goblin_hico");
 		SetRace(322);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,14 @@ public class Goblin_hicoScript : NPCScript
 
 		SetDirection(216);
 		SetStand("");
+
+		Phrases.Add("Dishes made by Vanalen are quite delicious...");
+		Phrases.Add("Hmm, yes...vegetables are a must for diets.");
+		Phrases.Add("How come I never get fat?");
+		Phrases.Add("I'll make you the greatest diet menu...");
+		Phrases.Add("I'm currently learning how to cook.");
+		Phrases.Add("I'm gonna cook for my friends.");
+		Phrases.Add("Let's do this diet, everyone!");
+		Phrases.Add("Living with humans is so difficult...");
 	}
 }

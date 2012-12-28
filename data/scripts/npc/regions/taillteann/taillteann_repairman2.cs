@@ -9,6 +9,7 @@ public class Taillteann_repairman2Script : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_taillteann_repairman2");
 		SetRace(9001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,7 @@ public class Taillteann_repairman2Script : NPCScript
 
 		SetDirection(78);
 		SetStand("");
+        
+		Phrases.Add("Please let me know if you want to purchase Elf weapons.");
 	}
 }

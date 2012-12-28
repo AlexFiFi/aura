@@ -9,6 +9,7 @@ public class CaitinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_caitin");
 		SetRace(10001);
 		SetBody(height: 1.3f);

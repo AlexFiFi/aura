@@ -9,6 +9,7 @@ public class Castle_churchScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_castle_church");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1.2f, upper: 1f, lower: 1f);
@@ -27,5 +28,9 @@ public class Castle_churchScript : NPCScript
 
 		SetDirection(29);
 		SetStand("");
+
+		Phrases.Add("Are you disrespecting Lymilark?");
+		Phrases.Add("Such thoughts are vile and do not do anyone justice.");
+		Phrases.Add("That is blasphemy.");
 	}
 }

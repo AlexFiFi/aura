@@ -9,6 +9,7 @@ public class MonatScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_monat");
 		SetRace(8002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1.3f);
@@ -31,5 +32,15 @@ public class MonatScript : NPCScript
 
 		SetDirection(214);
 		SetStand("chapter4/giant/male/anim/giant_c4_npc_baggagehandler");
+
+		Phrases.Add("Ah...working is tough.");
+		Phrases.Add("All right, just a little more!");
+		Phrases.Add("Be careful with that!");
+		Phrases.Add("Did we get everything?");
+		Phrases.Add("Hmm...");
+		Phrases.Add("Is this one...not ours?");
+		Phrases.Add("Move it here!");
+		Phrases.Add("Please leave that here.");
+		Phrases.Add("You little runts!");
 	}
 }

@@ -9,6 +9,7 @@ public class BanhallenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_banhallen");
 		SetRace(10001);
 		SetBody(height: 0.5f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,19 @@ public class BanhallenScript : NPCScript
 
 		SetDirection(12);
 		SetStand("chapter4/human/female/anim/female_c4_npc_banallen");
+
+		Phrases.Add("Hey! Stop by and say hello!");
+		Phrases.Add("I can get whatever you need!");
+		Phrases.Add("I can make any fish taste great!");
+		Phrases.Add("I think I’ve come up with a new bisque!");
+		Phrases.Add("I’m just the cook!");
+		Phrases.Add("I'd love to travel the world one day.");
+		Phrases.Add("Maybe you should slow down on the drinks.");
+		Phrases.Add("My dad has got to be the best dad ever!");
+		Phrases.Add("My dad wouldn't hurt a sandflea.");
+		Phrases.Add("My General Store is open for business!");
+		Phrases.Add("There’s no place in the world better than Belvast Island.");
+		Phrases.Add("Welcome to the best pub in town!");
+		Phrases.Add("Why are all these guys scared of my dad?");
 	}
 }

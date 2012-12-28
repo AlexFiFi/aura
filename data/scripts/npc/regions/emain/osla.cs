@@ -9,6 +9,7 @@ public class OslaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_osla");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,21 @@ public class OslaScript : NPCScript
 
 		SetDirection(28);
 		SetStand("human/male/anim/male_natural_stand_npc_bryce");
+        
+		Phrases.Add("...Ahhh... What's wrong with me...");
+		Phrases.Add("...But I guess it's okay since I'm prettty...");
+		Phrases.Add("Ahhh... I forgoooot.");
+		Phrases.Add("Ahhh... I wrote it down somewhere");
+		Phrases.Add("Hmm... where's my knight in shining armor?");
+		Phrases.Add("Hmm...I don't look that bad...not bad at all...");
+		Phrases.Add("I keep getting the numbers wrong...");
+		Phrases.Add("I wonder where my prince charming is...");
+		Phrases.Add("I wonder why I'm so out of it these days...");
+		Phrases.Add("It's a problem if I have too many customers to take care of...");
+		Phrases.Add("Narrrr....");
+		Phrases.Add("Oh no... another bounced check...");
+		Phrases.Add("What was I thinking...");
+		Phrases.Add("Why do I keep forgetting things...");
+		Phrases.Add("Your item is repaired! Please take it.");
 	}
 }

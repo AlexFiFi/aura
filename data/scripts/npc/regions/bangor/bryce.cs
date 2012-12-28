@@ -9,6 +9,7 @@ public class BryceScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_bryce");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 1.5f, lower: 1f);
@@ -27,5 +28,19 @@ public class BryceScript : NPCScript
 
 		SetDirection(0);
 		SetStand("human/male/anim/male_natural_stand_npc_bryce");
+        
+		Phrases.Add("*Cough* There's just too much dust in here.");
+		Phrases.Add("Anyway, where did Ibbie go again?");
+		Phrases.Add("Have my eyes really become this bad?");
+		Phrases.Add("I don't even have time to read a book these days.");
+		Phrases.Add("I'll just have to fight through it.");
+		Phrases.Add("It's about the time Ibbie returned.");
+		Phrases.Add("It's almost time.");
+		Phrases.Add("Mmm... Up to where did I calculate?");
+		Phrases.Add("Sion, you little punk... You'll pay if you bully my Ibbie.");
+		Phrases.Add("Tomorrow will be better than today.");
+		Phrases.Add("Well, cheer up!");
+		Phrases.Add("What should I buy Ibbie today?");
+		Phrases.Add("When was I supposed to be contacted from Dunbarton?");
 	}
 }

@@ -9,6 +9,7 @@ public class Ogre_lafScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ogre_laf");
 		SetRace(323);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,11 @@ public class Ogre_lafScript : NPCScript
 
 		SetDirection(0);
 		SetStand("chapter4/monster/anim/ogre/ogre_c4_npc_diet");
+
+		Phrases.Add("(Stomach growls.)");
+		Phrases.Add("*Sniff sniff* I smell meat...");
+		Phrases.Add("I'm hungry... *sniff sniff*");
+		Phrases.Add("Meat... Give me meat...");
+		Phrases.Add("My meat! Ah... Dream...");
 	}
 }

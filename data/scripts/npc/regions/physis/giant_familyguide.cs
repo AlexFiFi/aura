@@ -9,6 +9,7 @@ public class Giant_familyguideScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_giant_familyguide");
 		SetRace(8002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);

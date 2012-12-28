@@ -9,6 +9,7 @@ public class Party_male06Script : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_party_male06");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,7 @@ public class Party_male06Script : NPCScript
 
 		SetDirection(197);
 		SetStand("chapter4/elf/male/anim/elf_npc_siobhanin");
+
+		Phrases.Add("Welcome to Rath Royal Castle.");
 	}
 }

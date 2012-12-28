@@ -1,4 +1,5 @@
 using Common.Constants;
+using Common.Events;
 using Common.World;
 using System;
 using World.Network;
@@ -9,6 +10,7 @@ public class Skatha_peopleScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_skatha_people");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,6 +28,27 @@ public class Skatha_peopleScript : NPCScript
 		SetLocation(region: 4015, x: 32951, y: 40325);
 
 		SetDirection(194);
+        
+        ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
+        
 		SetStand("chapter4/human/female/anim/female_c4_npc_skatha_human_stand");
+        
+        Phrases.Add("I'll miss the sounds of the ocean...");
+        Phrases.Add("Owen, I miss you.");
+        Phrases.Add("You don't have to fear me. Really!");
+
+	}
+	public override void Dispose()
+	{
+		ServerEvents.Instance.ErinnDaytimeTick -= On12HrTick;
+		base.Dispose();
+	}
+    
+    private void On12HrTick(object sender, TimeEventArgs e)
+	{
+		if (e.Hour >= 6 && e.Hour < 18) //Daytime
+			Warp(region: 15, x: 100, y: 0);
+		else
+            Warp(region: 4015, x: 32951, y: 40325);
 	}
 }

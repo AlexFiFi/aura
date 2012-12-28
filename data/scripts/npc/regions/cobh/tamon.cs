@@ -9,6 +9,7 @@ public class TamonScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tamon");
 		SetRace(128);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,17 @@ public class TamonScript : NPCScript
 
 		SetDirection(173);
 		SetStand("");
+        
+		Phrases.Add("Be careful around Madoc. He's a thief.");
+		Phrases.Add("Being in a storm at sea is a feeling beyond words.");
+		Phrases.Add("Have you heard anything about my ship?");
+		Phrases.Add("I'd like to teach those brigands a lesson!");
+		Phrases.Add("If you're selling, I'm buying!");
+		Phrases.Add("Madoc is a swindler.");
+		Phrases.Add("My ship should be safe.");
+		Phrases.Add("My ship should be safe... right?");
+		Phrases.Add("Pirates make me so nervous.");
+		Phrases.Add("Pirates need to just vanish from the seas.");
+		Phrases.Add("That's very expensive, so keep it safe.");
 	}
 }

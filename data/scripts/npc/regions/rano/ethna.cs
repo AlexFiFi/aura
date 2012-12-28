@@ -9,6 +9,7 @@ public class EthnaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ethna");
 		SetRace(10001);
 		SetBody(height: 0.7099999f, fat: 1f, upper: 1.02f, lower: 1f);
@@ -27,5 +28,9 @@ public class EthnaScript : NPCScript
 
 		SetDirection(9);
 		SetStand("human/female/anim/female_natural_stand_npc_Nora");
+        
+		Phrases.Add("Alright! It's you against me!");
+		Phrases.Add("And if he's a customer, it's all about guts!");
+		Phrases.Add("It's all about your spirit! Spirit! Use your spirit to make things happen! Push! Push to save!");
 	}
 }

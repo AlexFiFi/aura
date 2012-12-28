@@ -9,6 +9,7 @@ public class Goblin_tacoScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_goblin_taco");
 		SetRace(322);
 		SetBody(height: 0.5f, fat: 1f, upper: 1.2f, lower: 1.1f);
@@ -24,5 +25,9 @@ public class Goblin_tacoScript : NPCScript
 
 		SetDirection(133);
 		SetStand("chapter4/human/female/anim/female_c4_npc_cordelia");
+
+		Phrases.Add("...");
+		Phrases.Add("Everyone will pay for their actions someday.");
+		Phrases.Add("Let's all be nice to each other.");
 	}
 }

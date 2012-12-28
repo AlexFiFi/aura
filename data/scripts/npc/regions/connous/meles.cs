@@ -9,6 +9,7 @@ public class MelesScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_meles");
 		SetRace(9001);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,14 @@ public class MelesScript : NPCScript
 
 		SetDirection(205);
 		SetStand("elf/female/anim/elf_npc_meles_stand_friendly");
+        
+		Phrases.Add("I wonder how it feels to be old?");
+		Phrases.Add("If you think about it, I think there is meaning in everything in the world.");
+		Phrases.Add("Is it that I'm maturing?");
+		Phrases.Add("I've heard stories about Karu Forest.");
+		Phrases.Add("One can be really sharp and yet turn thick-skinned over time.");
+		Phrases.Add("The Tikka tree I saw in my dreams...");
+		Phrases.Add("To know the sharpness of a blade, I'll have to learn about wounds.");
+		Phrases.Add("Weapons are made for causing injuries.");
 	}
 }

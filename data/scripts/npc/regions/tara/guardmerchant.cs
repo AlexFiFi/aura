@@ -9,6 +9,7 @@ public class GuardmerchantScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_guardmerchant");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,5 +27,10 @@ public class GuardmerchantScript : NPCScript
 
 		SetDirection(118);
 		SetStand("");
+
+		Phrases.Add("... I want some more sleep.");
+		Phrases.Add("Are you here to purchase a weapon?");
+		Phrases.Add("I'm going to be an awesome soldier like Padan.");
+		Phrases.Add("Yaaawwn. Is it morning already?");
 	}
 }

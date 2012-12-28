@@ -9,6 +9,7 @@ public class Cordelia_madamScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_cordelia_madam");
 		SetRace(10001);
 		SetBody(height: 0.9f, fat: 1.1f, upper: 0.9f, lower: 1.1f);
@@ -27,5 +28,11 @@ public class Cordelia_madamScript : NPCScript
 
 		SetDirection(9);
 		SetStand("chapter4/human/female/anim/female_c4_npc_cordelia");
+
+		Phrases.Add("Ho ho, how fun!");
+		Phrases.Add("I just heard something amazing!");
+		Phrases.Add("Is there any interesting gossip?");
+		Phrases.Add("Shh, don't go telling others about this!");
+		Phrases.Add("We will continue with the next part of the story this time tomorrow!");
 	}
 }

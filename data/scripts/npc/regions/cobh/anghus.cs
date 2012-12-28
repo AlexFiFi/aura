@@ -9,6 +9,7 @@ public class AnghusScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_anghus");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,14 @@ public class AnghusScript : NPCScript
 
 		SetDirection(133);
 		SetStand("");
+        
+		Phrases.Add("I salute to you, Admiral Owen!");
+		Phrases.Add("I want to wipe out the pirates again.");
+		Phrases.Add("I wonder how Admiral Owen is doing.");
+		Phrases.Add("It's a nice day out. Admiral Owen would like it.");
+		Phrases.Add("Morning exercise is a must for a soldier.");
+		Phrases.Add("Once a pirate, always a pirate, Annick!");
+		Phrases.Add("Only if I were a little younger...");
+		Phrases.Add("Why is Annick here? She's a pirate! Humph.");
 	}
 }

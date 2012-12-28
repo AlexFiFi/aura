@@ -9,6 +9,7 @@ public class AlpinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_alpin");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,14 @@ public class AlpinScript : NPCScript
 
 		SetDirection(147);
 		SetStand("human/male/anim/male_natural_stand_npc_Malcolm");
+
+		Phrases.Add("Another blister on my finger? Wonder how I get so many of these.");
+		Phrases.Add("Hmm, those bushes need to be trimmed. I'll do it tomorrow.");
+		Phrases.Add("Now, where did I put that fertilizer?");
+		Phrases.Add("Oh no! Insects!");
+		Phrases.Add("Oh, almost forgot about Sinead's favor!");
+		Phrases.Add("Shh, if you listen closely, you can hear the trees whispering to each other.");
+		Phrases.Add("This would be a great gift for Sinead!");
+		Phrases.Add("Today wasn't too bad.");
 	}
 }

@@ -75,7 +75,7 @@ namespace World.Scripting
 			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
 		}
 
-		private void ErinnTimeTick(object sender, TimeEventArgs e)
+		protected virtual void ErinnTimeTick(object sender, TimeEventArgs e)
 		{
 			if (this.Phrases.Count > 0)
 			{
@@ -169,6 +169,23 @@ namespace World.Scripting
 		{
 			this.NPC.Region = region;
 			this.NPC.SetPosition(x, y);
+		}
+
+		protected void Warp(uint region, uint x, uint y, bool flash = true)
+		{
+			if (flash)
+			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(27, 3000, 0), SendTargets.Range, this.NPC);
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
+			}
+			WorldManager.Instance.CreatureLeaveRegion(this.NPC);
+			SetLocation(region, x, y);
+			if (flash)
+			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(27, 3000, 0), SendTargets.Range, this.NPC);
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
+			}
+			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(this.NPC), SendTargets.Range, this.NPC);
 		}
 
 		protected virtual void SetBody(float height = 1.0f, float fat = 1.0f, float lower = 1.0f, float upper = 1.0f)

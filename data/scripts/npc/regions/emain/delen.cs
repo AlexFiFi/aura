@@ -9,6 +9,7 @@ public class DelenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_delen");
 		SetRace(10001);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1.1f, lower: 1f);
@@ -27,5 +28,17 @@ public class DelenScript : NPCScript
 
 		SetDirection(94);
 		SetStand("human/female/anim/female_natural_stand_npc_01");
+        
+		Phrases.Add("Am I doing something wrong...?");
+		Phrases.Add("Flowers are a must if you're wooing a lady!");
+		Phrases.Add("Flowers!");
+		Phrases.Add("Fresh flowers!");
+		Phrases.Add("Hi there! Check out these flowers!");
+		Phrases.Add("Look at these flowers! They are gorgeous!");
+		Phrases.Add("Need flowers?");
+		Phrases.Add("Pretty flowers! Pick all you want!");
+		Phrases.Add("Surprise your beloved with these beautiful flowers.");
+		Phrases.Add("These flowers smell so good!");
+		Phrases.Add("What kind of flowers are you looking for?");
 	}
 }

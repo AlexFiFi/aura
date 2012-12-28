@@ -9,6 +9,7 @@ public class EdanaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_edana");
 		SetRace(10001);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,11 @@ public class EdanaScript : NPCScript
 
 		SetDirection(43);
 		SetStand("human/female/anim/female_natural_stand_npc_Lassar");
+        
+		Phrases.Add("I better finish cleaning before Eluned returns.");
+		Phrases.Add("I wonder how Rumon is doing.");
+		Phrases.Add("I wonder if there really is such a thing as the Goddess Water.");
+		Phrases.Add("She must have fought with Lezarro again.");
+		Phrases.Add("So, this day passes by once again like any other.");
 	}
 }

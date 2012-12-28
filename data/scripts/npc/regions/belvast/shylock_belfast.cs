@@ -9,6 +9,7 @@ public class Shylock_belfastScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_shylock_belfast");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 0.8f, upper: 0.8f, lower: 0.8f);

@@ -9,6 +9,7 @@ public class AeiraScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_aeira");
 		SetRace(10001);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,17 @@ public class AeiraScript : NPCScript
 
 		SetDirection(158);
 		SetStand("human/female/anim/female_natural_stand_npc_Aeira");
+        
+        Phrases.Add("*cough* The books are too dusty...");
+		Phrases.Add("*Whistle*");
+		Phrases.Add("Hahaha.");
+		Phrases.Add("Hmm. I can't really see...");
+		Phrases.Add("Hmm. The Bookstore is kind of small.");
+		Phrases.Add("I wonder if this book would sell?");
+		Phrases.Add("I wonder what Stewart is up to?");
+		Phrases.Add("Kristell... She's unfair.");
+		Phrases.Add("Oh, hello!");
+		Phrases.Add("Umm... So...");
+		Phrases.Add("Whew... I should just finish up the transcription.");
 	}
 }

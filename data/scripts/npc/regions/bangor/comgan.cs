@@ -9,6 +9,7 @@ public class ComganScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_comgan");
 		SetRace(10002);
 		SetBody(height: 0.6000001f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,18 @@ public class ComganScript : NPCScript
 
 		SetDirection(154);
 		SetStand("human/male/anim/male_natural_stand_npc_Duncan");
+        
+		Phrases.Add("...");
+		Phrases.Add("I guess only people like me would understand what I'm saying...");
+		Phrases.Add("I need to build a Church soon...");
+		Phrases.Add("Lord Lymilark...");
+		Phrases.Add("Oh Lymilark, please provide me with strength and courage... Like you did that day...");
+		Phrases.Add("Selling gifts to build a church would be... Is that feasible?");
+		Phrases.Add("There are more important things in life than what we merely see...");
+		Phrases.Add("What must I do...");
+		Phrases.Add("What should I do to convert more people?");
+		Phrases.Add("What should I do...");
+		Phrases.Add("Why do people ignore what I say...");
+
 	}
 }

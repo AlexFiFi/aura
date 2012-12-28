@@ -9,6 +9,7 @@ public class MyrddinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_myrddin");
 		SetRace(10002);
 		SetBody(height: 1.03f, fat: 1f, upper: 1.03f, lower: 1f);
@@ -28,5 +29,18 @@ public class MyrddinScript : NPCScript
 
 		SetDirection(9);
 		SetStand("human/male/anim/male_natural_stand_npc_Ranald");
+        
+		Phrases.Add("Ahhhhh, are you gonna be working late again tonight?");
+		Phrases.Add("All preparations for departure are in order.");
+		Phrases.Add("Could you please check on your equipment? Check the bathroom and everywhere else...");
+		Phrases.Add("Gosh, I should've plucked my eyebrows a bit when I had the time...");
+		Phrases.Add("Hello, I'm First Officer Myrddin. Our first-class service will usher in a new era of hope!");
+		Phrases.Add("I hope you brought your fishing rod since you'll be on a boat.");
+		Phrases.Add("I thought the sunscreen was here somewhere...");
+		Phrases.Add("If you want to know about fishing grounds, the captain will be answer your questions better than I.");
+		Phrases.Add("I'm assuming you have brought your fishing rod?");
+		Phrases.Add("Please don't use your owl when leaving or entering the Port. Those pests are a danger to the ship!");
+		Phrases.Add("Should I tie my hair in a ponytail?");
+		Phrases.Add("Well, I had a face mask on last night, and then I kind of fell asleep...");
 	}
 }

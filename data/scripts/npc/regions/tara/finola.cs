@@ -9,6 +9,7 @@ public class FinolaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_finola");
 		SetRace(10001);
 		SetBody(height: 0.6000001f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,9 @@ public class FinolaScript : NPCScript
 
 		SetDirection(21);
 		SetStand("human/female/anim/female_natural_stand_npc_Lassar");
+
+		Phrases.Add("Mana Crystallization looks fun too... Err, I should focus.");
+		Phrases.Add("My Potion Making skill will go up faster since I've been making Mana Potions.");
+		Phrases.Add("Ugh, there's no end to magic training.");
 	}
 }

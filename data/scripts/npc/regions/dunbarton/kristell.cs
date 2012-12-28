@@ -9,6 +9,7 @@ public class KristellScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_kristell");
 		SetRace(10001);
 		SetBody(height: 0.97f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,14 @@ public class KristellScript : NPCScript
 
 		SetDirection(0);
 		SetStand("human/female/anim/female_natural_stand_npc_Kristell");
+        
+		Phrases.Add("...");
+		Phrases.Add("I wish there was someone who could ring the bell on time...");
+		Phrases.Add("In the name of Lymilark...");
+		Phrases.Add("It's too much to go up and down these stairs to get here...");
+		Phrases.Add("The Church duties just keep coming. What should I do?");
+		Phrases.Add("The donations have decreased a little...");
+		Phrases.Add("There should be a message from the Pontiff's Office any day now.");
+		Phrases.Add("Why do these villagers obsess so much over their current lives?");
 	}
 }

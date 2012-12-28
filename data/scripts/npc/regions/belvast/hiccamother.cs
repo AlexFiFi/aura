@@ -9,6 +9,7 @@ public class HiccamotherScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_hiccamother");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1.1f, upper: 1.3f, lower: 1.1f);
@@ -27,5 +28,14 @@ public class HiccamotherScript : NPCScript
 
 		SetDirection(65);
 		SetStand("");
+
+		Phrases.Add("Don't think about useless things!");
+		Phrases.Add("I'm against it!");
+		Phrases.Add("Just bring home a pretty wife.");
+		Phrases.Add("Not everyone can become a hero.");
+		Phrases.Add("What in the world are you talking about?");
+		Phrases.Add("Why don't you listen to your mother?");
+		Phrases.Add("You should think it over.");
+		Phrases.Add("You want to be like your father also?");
 	}
 }

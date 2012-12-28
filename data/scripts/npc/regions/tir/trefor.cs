@@ -9,6 +9,7 @@ public class DuncanScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_trefor");
 		SetRace(10002);
 		SetBody(height: 1.35f);

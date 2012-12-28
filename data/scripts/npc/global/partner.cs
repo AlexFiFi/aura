@@ -9,6 +9,7 @@ public class PartnerScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_partnerdummy");
 		SetRace(10000);
 		SetLocation(region: 22, x: 6118, y: 5519);

@@ -9,6 +9,7 @@ public class CorentinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_corentin");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,15 @@ public class CorentinScript : NPCScript
 
 		SetDirection(117);
 		SetStand("human/anim/uni_natural_stand_straight");
+
+		Phrases.Add("Hm...");
+		Phrases.Add("I am Corentin, Chamberlain of the Pontiff's Court.");
+		Phrases.Add("May the light of Lymilark be upon you always.");
+		Phrases.Add("My prayer is that the hearts of all believers shall feel the warmth of Lymilark's holy fire.");
+		Phrases.Add("Oh? Is the donation box full already?");
+		Phrases.Add("Please join us in supporting the Church of Lymilark.");
+		Phrases.Add("The light of Lymilark has led you here.");
+		Phrases.Add("This is holy ground, upon which the light of Lymilark shines.");
+		Phrases.Add("Will you heed the call of Lymilark?");
 	}
 }

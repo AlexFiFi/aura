@@ -9,6 +9,7 @@ public class GordonScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_gordon");
 		SetRace(10002);
 		SetBody(height: 1.3f, fat: 1f, upper: 1.5f, lower: 1.1f);
@@ -29,5 +30,16 @@ public class GordonScript : NPCScript
 
 		SetDirection(10);
 		SetStand("human/male/anim/male_natural_stand_npc_Ranald");
+        
+		Phrases.Add("Being a cook is similar to being a Druid!");
+		Phrases.Add("Cooking is an art! And art is spirit! Spirit is dedication and soul!");
+		Phrases.Add("Do as I tell you!");
+		Phrases.Add("Do you know how to cook the kind of unforgettable dishes that impress the customers?");
+		Phrases.Add("Fraser, you moron! What are you thinking!");
+		Phrases.Add("Measuring is everything!");
+		Phrases.Add("Shena, there are customers here.");
+		Phrases.Add("The customer is always right!");
+		Phrases.Add("Tsk Tsk...");
+		Phrases.Add("You moron! You call yourself a Chef?");
 	}
 }

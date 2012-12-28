@@ -9,6 +9,7 @@ public class GlenScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_glen");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,12 @@ public class GlenScript : NPCScript
 
 		SetDirection(214);
 		SetStand("chapter3/human/male/anim/male_c3_npc_leymore");
+        
+		Phrases.Add("Do you know how hard it was to make that?");
+		Phrases.Add("Don't touch that!");
+		Phrases.Add("Look into my puppet's eyes and fall in love!");
+		Phrases.Add("My puppets are almost as beautiful as me!");
+		Phrases.Add("Oh no. No. No no no!");
+		Phrases.Add("Tsk, tsk. Oh dear!");
 	}
 }

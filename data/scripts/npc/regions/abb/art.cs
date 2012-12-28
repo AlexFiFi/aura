@@ -9,6 +9,7 @@ public class ArtScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_art");
 		SetRace(8002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -28,5 +29,12 @@ public class ArtScript : NPCScript
 
 		SetDirection(64);
 		SetStand("");
+        
+		Phrases.Add("Hahaha!");
+		Phrases.Add("No fish today...");
+		Phrases.Add("Seize the day!");
+		Phrases.Add("Strings or percussion, I'll fix any instrument.");
+		Phrases.Add("Time to find something to eat.");
+		Phrases.Add("What's this?");
 	}
 }

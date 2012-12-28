@@ -9,6 +9,7 @@ public class Giant_weddingguideScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_giant_weddingguide");
 		SetRace(8002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);

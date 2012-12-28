@@ -9,6 +9,7 @@ public class Male_castle01Script : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_male_castle01");
 		SetRace(10002);
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 0.9f);
@@ -27,5 +28,9 @@ public class Male_castle01Script : NPCScript
 
 		SetDirection(226);
 		SetStand("human/male/anim/male_stand_Tarlach_anguish");
+
+		Phrases.Add("Ah, a lonely life.");
+		Phrases.Add("Life and death are both meaningless...");
+		Phrases.Add("This won't make her come back...");
 	}
 }

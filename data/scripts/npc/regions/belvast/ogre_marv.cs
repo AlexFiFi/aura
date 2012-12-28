@@ -9,6 +9,7 @@ public class Ogre_marvScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ogre_marv");
 		SetRace(323);
 		SetBody(height: 0.8f, fat: 1f, upper: 1f, lower: 1f);
@@ -24,5 +25,12 @@ public class Ogre_marvScript : NPCScript
 
 		SetDirection(181);
 		SetStand("chapter4/monster/anim/ogre/ogre_c4_npc_health");
+
+		Phrases.Add("I lost a little weight");
+		Phrases.Add("I'm getting more popular.");
+		Phrases.Add("I'm hungry, but I will be strong.");
+		Phrases.Add("Muscles. Awesome.");
+		Phrases.Add("Must eat vegetables.");
+		Phrases.Add("My stomach went in.");
 	}
 }

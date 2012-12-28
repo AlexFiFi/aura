@@ -9,6 +9,7 @@ public class TibbieScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tibbie");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,11 @@ public class TibbieScript : NPCScript
 
 		SetDirection(208);
 		SetStand("chapter4/human/anim/cutscene2/3act/3act2ch_juliet_sad");
+        
+		Phrases.Add("(She glances around nervously.)");
+		Phrases.Add("I-if you don't stop, I'll give you a spanking!");
+		Phrases.Add("I'll march you right home if you don't calm down!");
+		Phrases.Add("Oh, my head...");
+		Phrases.Add("Shh! You're embarrassing mama!");
 	}
 }

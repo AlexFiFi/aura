@@ -9,6 +9,7 @@ public class LeryScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_lery");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,12 @@ public class LeryScript : NPCScript
 
 		SetDirection(164);
 		SetStand("");
+        
+		Phrases.Add("(He gazes off into space.)");
+		Phrases.Add("*Yawn!*");
+		Phrases.Add("Duty's duty, I suppose.");
+		Phrases.Add("Is it time for a part-time job yet?");
+		Phrases.Add("So! Bored!");
+		Phrases.Add("Someday, this assignment will end...");
 	}
 }

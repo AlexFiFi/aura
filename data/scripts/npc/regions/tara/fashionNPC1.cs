@@ -9,6 +9,7 @@ public class FashionNPC1Script : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_fashionNPC1");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,9 @@ public class FashionNPC1Script : NPCScript
 
 		SetDirection(31);
 		SetStand("human/female/anim/female_natural_stand_npc_Eavan");
+
+		Phrases.Add("Enter the Fashion Contest Preliminary.");
+		Phrases.Add("Enter the Preliminary and qualify for the Final!");
+		Phrases.Add("Showcase your fashion sense to everyone!");
 	}
 }

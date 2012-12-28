@@ -126,6 +126,11 @@ namespace World.Scripting
 					File.Delete(this.GetCompiledPath(scriptPath));
 				}
 				catch { }
+				try
+				{
+					new FileInfo(scriptPath).LastWriteTime = DateTime.Now; // "Touch" the file, to mark it for recompilation (due to type load errors with inherited scripts) 
+				}
+				catch { }
 				Logger.Error("While processing: " + scriptPath + " ... " + ex.Message);
 			}
 		}
@@ -154,11 +159,15 @@ namespace World.Scripting
 			Assembly asm;
 			if (!WorldConf.DisableScriptCaching && File.Exists(compiledPath) && File.GetLastWriteTime(compiledPath) >= File.GetLastWriteTime(scriptPath))
 			{
+				Logger.Info("Loading NPC: " + Path.GetFileNameWithoutExtension(scriptPath), false);
 				asm = Assembly.LoadFrom(compiledPath);
+				Logger.ClearLine();
 			}
 			else
 			{
+				Logger.Info("Compiling NPC: " + Path.GetFileNameWithoutExtension(scriptPath), false);
 				asm = CSScript.LoadCode(this.ReadScriptFile(scriptPath));
+				Logger.ClearLine();
 				if (!WorldConf.DisableScriptCaching)
 				{
 					try

@@ -9,6 +9,7 @@ public class KawsayScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_kawsay");
 		SetRace(10002);
 		SetBody(height: 1.15f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,14 @@ public class KawsayScript : NPCScript
 
 		SetDirection(213);
 		SetStand("human/male/anim/male_natural_stand_npc_kawsay");
+        
+		Phrases.Add("Admire the grandeur of the nature that surrounds and dwarfs us.");
+		Phrases.Add("Always be thankful for the blessings of Great Spirit of Irinid.");
+		Phrases.Add("Dear the Great Spirit of Irinid, please listen to my prayer. Show me your grace through your silent blue sky.");
+		Phrases.Add("Death is where life begins.");
+		Phrases.Add("Everything comes and goes, and nothing lives forever.");
+		Phrases.Add("Frogs never drink up all the water where they dwell.");
+		Phrases.Add("Mother Nature doesn't discriminate anyone; the sun shines and rain showers on both good and evil.");
+		Phrases.Add("We Humans are ants to the mountains, and are as mountains to the ants.");
 	}
 }

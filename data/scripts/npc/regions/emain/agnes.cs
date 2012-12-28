@@ -9,6 +9,7 @@ public class AgnesScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_agnes");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,18 @@ public class AgnesScript : NPCScript
 
 		SetDirection(244);
 		SetStand("human/female/anim/female_natural_stand_npc_01");
+        
+		Phrases.Add("...");
+		Phrases.Add("Ah... I'm bored...");
+		Phrases.Add("Hmm...we are out of herbal medicine...");
+		Phrases.Add("I need to get out of this routine.");
+		Phrases.Add("I'm bored...");
+		Phrases.Add("Isn't there something fun to do...?");
+		Phrases.Add("Maybe I should take care of this another time...");
+		Phrases.Add("Next customer!");
+		Phrases.Add("Should I clean up...?");
+		Phrases.Add("Should I hire an employee...?");
+		Phrases.Add("This isn't good...");
+		Phrases.Add("This should do it...");
 	}
 }

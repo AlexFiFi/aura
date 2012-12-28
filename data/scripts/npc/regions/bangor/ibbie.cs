@@ -9,6 +9,7 @@ public class IbbieScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ibbie");
 		SetRace(10001);
 		SetBody(height: 0f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,20 @@ public class IbbieScript : NPCScript
 
 		SetDirection(197);
 		SetStand("human/anim/female_natural_sit_02");
+        
+		Phrases.Add("*Cough* *Cough*");
+		Phrases.Add("Are you... lonely, too?");
+		Phrases.Add("Daddy...");
+		Phrases.Add("I think I have a fever...");
+		Phrases.Add("I wish I can gain some weight, too...");
+		Phrases.Add("I'm lonely...");
+		Phrases.Add("I'm tired of being sick...");
+		Phrases.Add("Maybe I messed up on this one...");
+		Phrases.Add("Mom...");
+		Phrases.Add("Sigh...");
+		Phrases.Add("There are so many people with such mysterious items...");
+		Phrases.Add("What does the afterlife look like...? I wish I had a friend...");
+		Phrases.Add("Where is Sion?");
+
 	}
 }

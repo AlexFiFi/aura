@@ -9,6 +9,7 @@ public class EndelyonScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_endelyon");
 		SetRace(10001);
 		SetBody(height: 1.06f, fat: 1f, upper: 1f, lower: 1f);

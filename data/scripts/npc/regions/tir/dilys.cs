@@ -10,6 +10,7 @@ public class DilysScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_dilys");
 		SetRace(10001);
 		SetBody(height: 0.9f, fat: 1f, upper: 1.2f, lower: 1f);

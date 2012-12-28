@@ -9,11 +9,11 @@ public class CommerceOgreScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetRace(323);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
-		SetFace(skin: 205, eye: 0, eyeColor: 0, lip: 0);
 
-		EquipItem(Pocket.LeftHand1, 0xA03B, 0x808080, 0x808080, 0x808080);
+		EquipItem(Pocket.RightHand1, 0xA03B, 0x808080, 0x808080, 0x808080);
 
 		Phrases.Add("Belly hunger!");
 		Phrases.Add("Hungry, hungry Ogre!");

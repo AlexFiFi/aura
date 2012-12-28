@@ -9,6 +9,7 @@ public class AsconScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ascon");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 0.7f, upper: 0.7f, lower: 0.7f);
@@ -26,5 +27,13 @@ public class AsconScript : NPCScript
 
 		SetDirection(101);
 		SetStand("chapter4/human/male/anim/male_c4_npc_ascon");
+        
+		Phrases.Add("I still remember it vividly like it was yesterday.");
+		Phrases.Add("In the end, we all die alone.");
+		Phrases.Add("It's a bit chilly...");
+		Phrases.Add("No matter how much this world changes, beautiful memories will live on.");
+		Phrases.Add("No, Arranz! Don't leave!");
+		Phrases.Add("There is no better motivation to live than the memories of happier times.");
+		Phrases.Add("What I'd do to hold those hands again...");
 	}
 }

@@ -9,6 +9,7 @@ public class PencastScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_pencast");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,11 @@ public class PencastScript : NPCScript
 
 		SetDirection(255);
 		SetStand("human/male/anim/male_natural_stand_npc_Duncan");
+
+		Phrases.Add("Hello. My name is Cardinal Pencast.");
+		Phrases.Add("I forgot to prepare the Blessing Water.");
+		Phrases.Add("May the blessings of Lymilark be with you.");
+		Phrases.Add("Oh no, I forgot my prayer time... I must be getting old.");
+		Phrases.Add("May the light of Lymilark be with you.");
 	}
 }

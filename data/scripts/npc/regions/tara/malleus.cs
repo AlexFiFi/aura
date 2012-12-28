@@ -9,6 +9,7 @@ public class MalleusScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_malleus");
 		SetRace(8002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.1f, lower: 1f);
@@ -29,5 +30,9 @@ public class MalleusScript : NPCScript
 
 		SetDirection(43);
 		SetStand("");
+
+		Phrases.Add("Could I interrupt you for a moment?");
+		Phrases.Add("For the honor of Giants!");
+		Phrases.Add("My name is Melor.");
 	}
 }

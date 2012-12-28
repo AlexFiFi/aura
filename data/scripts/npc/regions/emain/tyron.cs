@@ -9,6 +9,7 @@ public class TyronScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tyron");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 0.97f, upper: 1.2f, lower: 1.03f);
@@ -29,5 +30,14 @@ public class TyronScript : NPCScript
 
 		SetDirection(155);
 		SetStand("human/anim/male_natural_sit_02.ani");
+        
+		Phrases.Add("Ahh, my back!");
+		Phrases.Add("Hey boss, can I rest for a second?");
+		Phrases.Add("I need to fix my armor...");
+		Phrases.Add("One, Two! One, Two!");
+		Phrases.Add("Should I go hunt down Kobold Miners again?");
+		Phrases.Add("Training is the only way!");
+		Phrases.Add("Why are my sword skills not improving...");
+		Phrases.Add("Yes, I am training!");
 	}
 }

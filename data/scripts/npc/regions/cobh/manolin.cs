@@ -9,6 +9,7 @@ public class ManolinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_manolin");
 		SetRace(9002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,14 @@ public class ManolinScript : NPCScript
 
 		SetDirection(4);
 		SetStand("human/anim/tool/Bhand_E/uni_tool_Bhand_E01_fishing_waiting_02");
+        
+		Phrases.Add("Even if the weather is bad, I HAVE to fish.");
+		Phrases.Add("I think of my father every time I catch a Mako Shark.");
+		Phrases.Add("I'm almost out of bait.");
+		Phrases.Add("I'm going to get my revenge on that shark.");
+		Phrases.Add("I'm not having the best day for fishing today.");
+		Phrases.Add("I've been fishing for about 20 years now.");
+		Phrases.Add("My father wanted to catch a Striped Marlin.");
+		Phrases.Add("Today feels like a good day for Mako hunting...");
 	}
 }

@@ -9,6 +9,7 @@ public class Carys_to_iria_modelScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_carys_to_iria_model");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1.2f, upper: 1.1f, lower: 1.25f);

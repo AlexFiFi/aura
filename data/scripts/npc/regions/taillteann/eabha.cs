@@ -9,6 +9,7 @@ public class EabhaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_eabha");
 		SetRace(10002);
 		SetBody(height: 0.2f, fat: 1f, upper: 1f, lower: 1f);

@@ -9,6 +9,7 @@ public class FerghusScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ferghus");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 1.4f, lower: 1.1f);

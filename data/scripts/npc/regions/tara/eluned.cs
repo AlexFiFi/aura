@@ -9,6 +9,7 @@ public class ElunedScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_eluned");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,5 +27,13 @@ public class ElunedScript : NPCScript
 
 		SetDirection(230);
 		SetStand("chapter3/human/female/anim/female_c3_npc_eluned");
+		Phrases.Add("Erskin Emporium is the best in Tara, no, the best in all of Erinn!");
+		Phrases.Add("Fashion is my life and my love.");
+		Phrases.Add("Hehehe...");
+		Phrases.Add("I don't know if it's due to age, but I'm not interested in just pretty or chic clothing anymore.");
+		Phrases.Add("I wonder which fashion style will be in this Samhain?");
+		Phrases.Add("These stray cats are driving me crazy. I can't stand them anymore.");
+		Phrases.Add("You can have 99 colors, but if you're missing one, it's all useless...");
+		Phrases.Add("Young girls these days don't know how to recognize a good man.");
 	}
 }

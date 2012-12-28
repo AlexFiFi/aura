@@ -9,6 +9,7 @@ public class GornevesScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_gorneves");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 0.1f, upper: 1f, lower: 0.85f);
@@ -30,5 +31,9 @@ public class GornevesScript : NPCScript
 
 		SetDirection(43);
 		SetStand("");
+
+		Phrases.Add("...Hehe.");
+		Phrases.Add("Don't get nervous.");
+		Phrases.Add("You're lacking energy.");
 	}
 }

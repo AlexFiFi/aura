@@ -9,6 +9,7 @@ public class MadocScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_madoc");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1.5f, upper: 1f, lower: 1.5f);
@@ -28,5 +29,16 @@ public class MadocScript : NPCScript
 
 		SetDirection(193);
 		SetStand("");
+        
+		Phrases.Add("Don't you want to give it to me for free? Heh heh...");
+		Phrases.Add("Have you heard what happened to Tamon's ship? *Chuckles*");
+		Phrases.Add("Hey you. Get me something to eat will ya?");
+		Phrases.Add("I'm no swindler.");
+		Phrases.Add("I'm not worried about my ship.");
+		Phrases.Add("It looks like a storm coming this way.");
+		Phrases.Add("Nothing in this life is free.");
+		Phrases.Add("Pirates are paying customers too.");
+		Phrases.Add("Please, don't tell Tamon I said that...");
+		Phrases.Add("This is the way all businesses should be run.");
 	}
 }

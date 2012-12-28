@@ -9,6 +9,7 @@ public class HiccaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_hicca");
 		SetRace(10002);
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -30,5 +31,12 @@ public class HiccaScript : NPCScript
 
 		SetDirection(200);
 		SetStand("");
+
+		Phrases.Add("Admiral Owen is a really great man!");
+		Phrases.Add("I want my dream to come true!");
+		Phrases.Add("I want to go on an adventure.");
+		Phrases.Add("I'm going to become a great hero!");
+		Phrases.Add("I'm going to grow up to be just like Admiral Owen!");
+		Phrases.Add("Mom, help me fulfill my dream!");
 	}
 }

@@ -9,6 +9,7 @@ public class WalterScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_walter");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1.2f, upper: 1f, lower: 1.2f);
@@ -27,5 +28,17 @@ public class WalterScript : NPCScript
 
 		SetDirection(252);
 		SetStand("");
+        
+        Phrases.Add("Ahem!");
+		Phrases.Add("Ahem... Ow...my throat...");
+		Phrases.Add("Hello there!");
+		Phrases.Add("Hmm...");
+		Phrases.Add("Is there any specific item you're looking for?");
+		Phrases.Add("Please don't touch that.");
+		Phrases.Add("That one is 20 Gold.");
+		Phrases.Add("That's 30 Gold for four.");
+		Phrases.Add("That's 50 Gold for three.");
+		Phrases.Add("What are you looking for?");
+		Phrases.Add("What do you need?");
 	}
 }

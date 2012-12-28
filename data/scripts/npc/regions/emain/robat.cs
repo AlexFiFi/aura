@@ -9,6 +9,7 @@ public class RobatScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_robat");
 		SetRace(8002);
 		SetBody(height: 0.9999999f, fat: 1.3f, upper: 1.2f, lower: 1f);
@@ -28,5 +29,12 @@ public class RobatScript : NPCScript
 
 		SetDirection(123);
 		SetStand("chapter4/giant/male/anim/giant_c4_npc_guest");
+        
+		Phrases.Add("(He glances over his shoulder.)");
+		Phrases.Add("Hmm...");
+		Phrases.Add("Is this a new model...?");
+		Phrases.Add("Let's see...");
+		Phrases.Add("Mmm...");
+		Phrases.Add("Very nice, very nice.");
 	}
 }

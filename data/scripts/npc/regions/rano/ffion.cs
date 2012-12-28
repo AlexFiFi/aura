@@ -9,6 +9,7 @@ public class FfionScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ffion");
 		SetRace(10001);
 		SetBody(height: 0.1899999f, fat: 1f, upper: 1.12f, lower: 1.2f);

@@ -9,6 +9,7 @@ public class FraserScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_fraser");
 		SetRace(10002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.3f, lower: 1f);
@@ -28,5 +29,16 @@ public class FraserScript : NPCScript
 
 		SetDirection(232);
 		SetStand("human/male/anim/male_natural_stand_npc_Piaras");
+        
+		Phrases.Add("Ah, my legs are sore.");
+		Phrases.Add("Ha! I'm a genius!");
+		Phrases.Add("I gotta make sure I keep track of the time on the oven.");
+		Phrases.Add("Let's eat first, I'm hungry.");
+		Phrases.Add("Mmm, smells good.");
+		Phrases.Add("Next time, I'll try using flowers for decoration...");
+		Phrases.Add("This should be good enough for the whip cream...");
+		Phrases.Add("Time to eat!");
+		Phrases.Add("What! I'm out of fruit!");
+		Phrases.Add("What's the next step?");
 	}
 }

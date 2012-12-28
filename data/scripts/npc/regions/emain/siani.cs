@@ -9,6 +9,7 @@ public class SianiScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_siani");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,12 @@ public class SianiScript : NPCScript
 
 		SetDirection(197);
 		SetStand("chapter4/human/male/anim/male_c4_npc_dollmaker02");
+        
+		Phrases.Add("Aren't the puppets wonderful?");
+		Phrases.Add("Huw is a genius...");
+		Phrases.Add("Huw's the best!");
+		Phrases.Add("I hope the old boss gets well soon.");
+		Phrases.Add("If only I could make puppets all day long...");
+		Phrases.Add("Someday I'll be able to make puppets like this!");
 	}
 }

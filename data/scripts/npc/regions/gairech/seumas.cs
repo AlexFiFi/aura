@@ -9,6 +9,7 @@ public class SeumasScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_seumas");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -30,5 +31,17 @@ public class SeumasScript : NPCScript
 
 		SetDirection(238);
 		SetStand("human/anim/tool/Rhand_A/female_tool_Rhand_A02_mining");
+        
+		Phrases.Add("(gasp, gasp))");
+		Phrases.Add("75... 76... 77...");
+		Phrases.Add("A little bit more... A little bit more and I'll rest...");
+		Phrases.Add("I keep getting stuck on these rocks...");
+		Phrases.Add("La la la!");
+		Phrases.Add("Let's go! Let's do it!");
+		Phrases.Add("Oh, no! I forgot.");
+		Phrases.Add("Start all over again!");
+		Phrases.Add("This is nothing!");
+		Phrases.Add("We'd better hurry.");
+		Phrases.Add("Yo-ho! Yo-ho!");
 	}
 }

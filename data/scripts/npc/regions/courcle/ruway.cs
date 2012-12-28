@@ -9,6 +9,7 @@ public class RuwayScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ruway");
 		SetRace(32);
 		SetBody(height: 0.6f, fat: 1f, upper: 1f, lower: 1f);
@@ -19,10 +20,14 @@ public class RuwayScript : NPCScript
 		NPC.ColorC = 0xFF5837;		
 
 
-
 		SetLocation(region: 3300, x: 257130, y: 183500);
 
 		SetDirection(103);
 		SetStand("");
+        
+		Phrases.Add("Kkyrrng Kkyrrng");
+		Phrases.Add("Kkyrrr.");
+		Phrases.Add("Kyrr.");
+		Phrases.Add("Kyrrrr.");
 	}
 }

@@ -9,6 +9,7 @@ public class AillaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ailla");
 		SetRace(9018);
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -27,5 +28,12 @@ public class AillaScript : NPCScript
 
 		SetDirection(20);
 		SetStand("human/anim/emotion/female_natural_emotion_dance01");
+        
+		Phrases.Add("Hmph.");
+		Phrases.Add("I missed you, Milletian!");
+		Phrases.Add("La la la...");
+		Phrases.Add("What's going on here?");
+		Phrases.Add("Where's my love?");
+
 	}
 }

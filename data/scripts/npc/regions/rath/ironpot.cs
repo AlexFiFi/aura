@@ -9,6 +9,7 @@ public class IronpotScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ironpot");
 		SetRace(990027);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);

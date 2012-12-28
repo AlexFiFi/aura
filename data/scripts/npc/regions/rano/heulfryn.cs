@@ -9,6 +9,7 @@ public class HeulfrynScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_heulfryn");
 		SetRace(10002);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,13 @@ public class HeulfrynScript : NPCScript
 
 		SetDirection(144);
 		SetStand("human/male/anim/male_natural_stand_npc_Duncan");
+        
+		Phrases.Add("And if you need some healing, just let me know.");
+		Phrases.Add("I hope the good weather continues...");
+		Phrases.Add("I sell magic items too.");
+		Phrases.Add("I'm gonna have to find some part-time help...");
+		Phrases.Add("Maybe I should send home a letter today...");
+		Phrases.Add("No matter where you are, you can always use a little blessing");
+		Phrases.Add("The mana's effects in this land...");
 	}
 }

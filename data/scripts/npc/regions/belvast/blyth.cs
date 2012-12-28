@@ -9,6 +9,7 @@ public class BlythScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_blyth");
 		SetRace(25);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
@@ -29,5 +30,13 @@ public class BlythScript : NPCScript
 
 		SetDirection(4);
 		SetStand("chapter4/human/male/anim/male_c4_npc_weapon");
+
+		Phrases.Add("*Shhkkkk shhkkk*");
+		Phrases.Add("*Shhkkkk*");
+		Phrases.Add("...");
+		Phrases.Add("I will have my revenge...");
+		Phrases.Add("I'll never let these blades dull...");
+		Phrases.Add("I'm glad you appreciate my work.");
+		Phrases.Add("What is it?");
 	}
 }

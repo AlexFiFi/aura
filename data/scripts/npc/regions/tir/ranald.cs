@@ -9,6 +9,7 @@ public class RanaldScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_ranald");
 		SetRace(10002);
 		SetBody(height: 1f, fat: 1f, upper: 1.1f, lower: 1f);

@@ -9,6 +9,7 @@ public class JocelinScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_jocelin");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,25 @@ public class JocelinScript : NPCScript
 
 		SetDirection(121);
 		SetStand("");
+        
+		Phrases.Add("*Sigh*...");
+		Phrases.Add("...");
+		Phrases.Add("Everyone's busy...");
+		Phrases.Add("Good. Done.");
+		Phrases.Add("I cannot let this one get away...");
+		Phrases.Add("I can't believe that Sign Board...");
+		Phrases.Add("I'm waiting...");
+		Phrases.Add("Laziness is your worst enemy.");
+		Phrases.Add("Maybe another time.");
+		Phrases.Add("Maybe everyone's busy...");
+		Phrases.Add("Nope. Not yet...");
+		Phrases.Add("So how come there's no report?");
+		Phrases.Add("That's just wrong... How come nobody talked to me about that signboard...?");
+		Phrases.Add("This is not enough.");
+		Phrases.Add("This should be it.");
+		Phrases.Add("We can't waste any time...");
+		Phrases.Add("What's going on?");
+		Phrases.Add("Why now...");
+
 	}
 }

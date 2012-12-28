@@ -9,6 +9,7 @@ public class CommerceElephantScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetRace(377);
 
 		SetBody(height: 2f, fat: 1f, upper: 1f, lower: 1f);

@@ -9,6 +9,7 @@ public class NessaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_nessa");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,10 @@ public class NessaScript : NPCScript
 
 		SetDirection(247);
 		SetStand("human/female/anim/female_stand_npc_emain_Rua_02");
+
+		Phrases.Add("I need to get more herbs.");
+		Phrases.Add("I need to trim my hair.");
+		Phrases.Add("I'm done organizing all the First Aid Kits and Bandages!");
+		Phrases.Add("There seems to be a lot of people who've fallen down today.");
 	}
 }

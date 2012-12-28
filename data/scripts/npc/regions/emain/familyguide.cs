@@ -9,6 +9,7 @@ public class FamilyguideScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_familyguide");
 		SetRace(10002);
 		SetBody(height: 0.7699999f, fat: 1.02f, upper: 1f, lower: 1.02f);

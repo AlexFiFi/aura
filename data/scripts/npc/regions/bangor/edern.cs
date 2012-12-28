@@ -9,6 +9,7 @@ public class EdernScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_edern");
 		SetRace(10002);
 		SetBody(height: 1.3f, fat: 1.4f, upper: 2f, lower: 1.4f);
@@ -29,5 +30,19 @@ public class EdernScript : NPCScript
 
 		SetDirection(76);
 		SetStand("human/male/anim/male_natural_stand_npc_edern");
+        
+		Phrases.Add("A true blacksmith never complains.");
+		Phrases.Add("Hahaha...");
+		Phrases.Add("Hey! Don't just stand there and make me nervous. If you've got something to say, say it!");
+		Phrases.Add("Hey, you! You there! Don't just snoop around. Come in!");
+		Phrases.Add("How I wish for a hard-working young man or woman to help...");
+		Phrases.Add("I hope Elen learns all my trade skills soon...");
+		Phrases.Add("I'll have to have some food first.");
+		Phrases.Add("Kids nowadays don't want to do hard work... Grrr...");
+		Phrases.Add("Let's see... Elen's mom was supposed to come in sometime.");
+		Phrases.Add("So many lazy kids. That's a problem.");
+		Phrases.Add("So many people underestimate blacksmith work.");
+		Phrases.Add("The town is lively as usual.");
+		Phrases.Add("Yes... This is the true scent of metal.");
 	}
 }

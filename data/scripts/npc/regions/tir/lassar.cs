@@ -9,6 +9,7 @@ public class LassarScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_lassar");
 		SetRace(10001);
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);

@@ -9,6 +9,7 @@ public class LepusScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_lepus");
 		SetRace(9002);
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,13 @@ public class LepusScript : NPCScript
 
 		SetDirection(200);
 		SetStand("elf/male/anim/elf_npc_lepus_stand_friendly");
+        
+		Phrases.Add("I don't know if you'd like this but I made it myself.");
+		Phrases.Add("I should be getting used to it by now.");
+		Phrases.Add("I'm generally quite shy.");
+		Phrases.Add("The clouds are looking so pretty today.");
+		Phrases.Add("The spinning wheel is turning and turning.");
+		Phrases.Add("What's there to think about?");
+		Phrases.Add("When the sun is out and it's warm, I feel much better.");
 	}
 }

@@ -9,6 +9,7 @@ public class MailBox_IriaRanoScript : Mailbox
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_MailBox_IriaRano");
 		SetRace(990021);
 

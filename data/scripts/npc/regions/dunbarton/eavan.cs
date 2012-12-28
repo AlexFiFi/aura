@@ -9,6 +9,7 @@ public class EavanScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_eavan");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 0.7f, upper: 0.7f, lower: 0.7f);
@@ -28,5 +29,16 @@ public class EavanScript : NPCScript
 
 		SetDirection(192);
 		SetStand("human/female/anim/female_natural_stand_npc_Eavan");
+        
+        Phrases.Add("*Sigh* Back to work.");
+		Phrases.Add("Hmm. This letter is fairly well done. B+.");
+		Phrases.Add("Next person please!");
+		Phrases.Add("Next, please!");
+		Phrases.Add("Registration is this way!");
+		Phrases.Add("Teehee... Another love letter.");
+		Phrases.Add("The Adventurers' Association is this way!");
+		Phrases.Add("Ugh. I wish I could take a breather...");
+		Phrases.Add("What's with this letter? How unpleasant!");
+		Phrases.Add("Whew. I want to take a break...");
 	}
 }

@@ -9,6 +9,7 @@ public class ClionaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_cliona");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
@@ -26,5 +27,11 @@ public class ClionaScript : NPCScript
 
 		SetDirection(194);
 		SetStand("human/female/anim/female_natural_stand_npc_Dilys");
+
+		Phrases.Add("A new day to start off productively!");
+		Phrases.Add("Hopefully, by next year, I'll be able to move to a bigger house.");
+		Phrases.Add("I hope I can sell it at a higher price.");
+		Phrases.Add("My body is sore from the exercise I did yesterday.");
+		Phrases.Add("When is the book I ordered from Buchanan going to arrive?");
 	}
 }

@@ -9,6 +9,7 @@ public class SionScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_sion");
 		SetRace(10002);
 		SetBody(height: 0.1000001f, fat: 1f, upper: 1.3f, lower: 1.3f);
@@ -30,5 +31,18 @@ public class SionScript : NPCScript
 
 		SetDirection(184);
 		SetStand("human/anim/tool/Rhand_A/female_tool_Rhand_A02_stand_friendly");
+        
+		Phrases.Add("Dad should be coming any minute now...");
+		Phrases.Add("I want to grow up quickly and be an adult soon.");
+		Phrases.Add("I wonder what's for dinner. *Gulp*");
+		Phrases.Add("Ibbie... I miss you...");
+		Phrases.Add("If you want to activate the switch by the Watermill, let me know!");
+		Phrases.Add("If you want to make an ingot, talk to me first!");
+		Phrases.Add("If you want to refine ore, you have to come talk to me!");
+		Phrases.Add("The Watermill never gets boring...");
+		Phrases.Add("The way Gilmore talks is too hard to understand.");
+		Phrases.Add("To fire up the furnace, come talk to me!");
+		Phrases.Add("Why does Bryce not like me?");
+		Phrases.Add("You have to pay. You have to pay to activate the switch!");
 	}
 }

@@ -9,6 +9,7 @@ public class SibScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_sib");
 		SetRace(9001);
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
@@ -27,5 +28,13 @@ public class SibScript : NPCScript
 
 		SetDirection(95);
 		SetStand("chapter4/human/female/anim/female_c4_npc_sive_stand");
+
+		Phrases.Add("Hey! Does that hurt?");
+		Phrases.Add("I wish I was out there, fighting!");
+		Phrases.Add("I'm getting a lot fewer patients these days.");
+		Phrases.Add("Is this how you tie a bandage? No, that can't be right...");
+		Phrases.Add("So boring...");
+		Phrases.Add("Welcome to Sieve's Healer's House!");
+		Phrases.Add("Yes, yes, I can heal you!");
 	}
 }

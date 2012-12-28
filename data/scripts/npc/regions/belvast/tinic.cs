@@ -9,6 +9,7 @@ public class TinicScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_tinic");
 		SetRace(146);
 		SetBody(height: 0.1f, fat: 1.4f, upper: 1.3f, lower: 1.1f);
@@ -29,5 +30,12 @@ public class TinicScript : NPCScript
 
 		SetDirection(4);
 		SetStand("chapter4/human/female/anim/female_c4_npc_lonnie_stand3");
+
+		Phrases.Add("Everyone retreat!");
+		Phrases.Add("Haha, catch me if you can!");
+		Phrases.Add("Hyah! Bring it on!");
+		Phrases.Add("I'll take over this area next! Mwahahaha!");
+		Phrases.Add("Shh, please keep this a secret.");
+		Phrases.Add("Stop right there!");
 	}
 }

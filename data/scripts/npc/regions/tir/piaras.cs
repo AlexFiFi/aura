@@ -9,6 +9,7 @@ public class PiarasScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_piaras");
 		SetRace(10002);
 		SetBody(height: 1.28f, fat: 0.9f, upper: 1.2f, lower: 1f);

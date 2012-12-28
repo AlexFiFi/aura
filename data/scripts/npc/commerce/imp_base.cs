@@ -9,6 +9,7 @@ public class CommerceImpScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetRace(321);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 

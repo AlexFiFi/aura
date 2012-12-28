@@ -9,6 +9,7 @@ public class NerysScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_nerys");
 		SetRace(10001);
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 1f);
@@ -28,5 +29,14 @@ public class NerysScript : NPCScript
 
 		SetDirection(139);
 		SetStand("human/female/anim/female_natural_stand_npc_Nerys");
+        
+        Phrases.Add("At this rate, I won't have enough arrows next month...");
+		Phrases.Add("Do you need something else?");
+		Phrases.Add("I should have gone on the trip myself...");
+		Phrases.Add("Manus is showing off his muscles again...");
+		Phrases.Add("See something you like?");
+		Phrases.Add("There are so many weapon repair requests this month.");
+		Phrases.Add("This way, people. This way.");
+		Phrases.Add("Wait, I shouldn't be doing this right now.");
 	}
 }

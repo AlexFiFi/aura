@@ -9,6 +9,7 @@ public class CraigScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_craig");
 		SetRace(10002);
 		SetBody(height: 1.29f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -27,5 +28,10 @@ public class CraigScript : NPCScript
 
 		SetDirection(125);
 		SetStand("monster/anim/ghostarmor/Tequip_C/ghostarmor_Tequip_C01_stand_friendly");
+        
+		Phrases.Add("...");
+		Phrases.Add("I can't believe those guys...");
+		Phrases.Add("These trainees aren't nearly as good as they used to be...");
+		Phrases.Add("They certainly don't live up to their name as the \"Mighty Knights\"...");
 	}
 }

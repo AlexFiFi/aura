@@ -9,6 +9,7 @@ public class KaynaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_kayna");
 		SetRace(10001);
 		SetBody(height: 0.9999999f, fat: 1.4f, upper: 1.4f, lower: 1f);
@@ -27,5 +28,16 @@ public class KaynaScript : NPCScript
 
 		SetDirection(227);
 		SetStand("chapter4/human/female/anim/female_c4_npc_kayna");
+        
+		Phrases.Add("Do you see anything you like?");
+		Phrases.Add("Hey there! Come on over!");
+		Phrases.Add("I don't like the look on that person's face.");
+		Phrases.Add("If things keep on like this, I'm going to run out of space for arrows.");
+		Phrases.Add("If you need anything, just let ole' Kayna know.");
+		Phrases.Add("Look at those muscles. Cadoc is a hunk!");
+		Phrases.Add("Oh my, I forgot to do something.");
+		Phrases.Add("There haven't been that many customers this month.");
+		Phrases.Add("Time is passing so slowly...");
+		Phrases.Add("Welcome!");
 	}
 }

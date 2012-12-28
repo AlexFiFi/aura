@@ -9,6 +9,7 @@ public class DeianScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_deian");
 		SetRace(10002);
 		SetBody(height: .85f);

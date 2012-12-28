@@ -9,6 +9,7 @@ public class RotaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_rota");
 		SetRace(9001);
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1.1f);
@@ -30,5 +31,9 @@ public class RotaScript : NPCScript
 
 		SetDirection(43);
 		SetStand("");
+
+		Phrases.Add("Ah...men! Hehe.");
+		Phrases.Add("Brace yourself, it might hurt a bit.");
+		Phrases.Add("Hehe, don't be afraid.");
 	}
 }

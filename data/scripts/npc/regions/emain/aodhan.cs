@@ -9,6 +9,7 @@ public class AodhanScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_aodhan");
 		SetRace(10002);
 		SetBody(height: 1.3f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -27,5 +28,14 @@ public class AodhanScript : NPCScript
 
 		SetDirection(225);
 		SetStand("monster/anim/ghostarmor/Tequip_C/ghostarmor_Tequip_C01_stand_friendly");
+        
+        Phrases.Add("...");
+		Phrases.Add("......Did the patrol officer come back?");
+		Phrases.Add("Another peaceful day.");
+		Phrases.Add("Is the quality of the trainees getting worse...?");
+		Phrases.Add("No monsters in sight, Sir.");
+		Phrases.Add("This seems too easy...");
+		Phrases.Add("We should make night training twice as hard.");
+		Phrases.Add("You need to get permission in order to enter the castle.");
 	}
 }

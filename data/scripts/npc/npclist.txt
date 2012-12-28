@@ -4,12 +4,31 @@
 // All NPCs listed here will be loaded.
 //---------------------------------------------------------------------------
 
+virtual: commerce/elephant_base.cs
+virtual: commerce/horse_base.cs
 virtual: commerce/imp_base.cs
 virtual: commerce/goblin_base.cs
 virtual: commerce/ogre_base.cs
-virtual: commerce/elephant_base.cs
+virtual: global/castle_guard_base.cs
 virtual: global/mailbox.cs
 virtual: regions/abb/abbneagh_horse_base.cs
+virtual: regions/belvast/sailor_belfast_base.cs
+virtual: regions/belvast/soldier_belfast_base.cs
+virtual: regions/belvast/worker_belfast_base.cs
+virtual: regions/courcle/courcleinhabitant_base.cs
+virtual: regions/courcle/docknpc_base.cs
+virtual: regions/emain/emain_guardsman_base.cs
+virtual: regions/emain/beanrua_base.cs
+virtual: regions/emain/beanruaguard_base.cs
+virtual: regions/rath/evidence_base.cs
+virtual: regions/scathach/scathach_alchemist_base.cs
+virtual: regions/scathach/wardens_base.cs
+virtual: regions/taillteann/taillteann_elf_base.cs
+virtual: regions/taillteann/taillteann_giant_base.cs
+virtual: regions/taillteann/taillteann_royalguard_base.cs
+virtual: regions/taillteann/taillteann_npc_base.cs
+virtual: regions/taillteann/taillteann_watchman_base.cs
+virtual: regions/tara/tara_guard_base.cs
 
 //===========================================================================
 // Global                                                                  |
@@ -38,6 +57,9 @@ regions/abb_residential/mailbox.cs
 
 // Regions\bangor
 //---------------------------------------------------------------------------
+regions/bangor/bangor_goblin.cs
+regions/bangor/bangor_imp.cs
+regions/bangor/bangor_ogre.cs
 regions/bangor/bryce.cs
 regions/bangor/comgan.cs
 regions/bangor/edern.cs
@@ -62,6 +84,9 @@ regions/belvast/aven_madam.cs
 regions/belvast/banhallen.cs
 regions/belvast/barry.cs
 regions/belvast/bassanio_belfast.cs
+regions/belvast/belfast_goblin.cs
+regions/belvast/belfast_imp.cs
+regions/belvast/belfast_ogre.cs
 regions/belvast/bernez.cs
 regions/belvast/blyth.cs
 regions/belvast/carasek_belfast_model.cs
@@ -123,6 +148,7 @@ regions/ceo/muro.cs
 // Regions\cobh
 //---------------------------------------------------------------------------
 regions/cobh/anghus.cs
+regions/cobh/annick.cs
 regions/cobh/ascon.cs
 regions/cobh/augustine.cs
 regions/cobh/cadoc.cs
@@ -152,6 +178,9 @@ regions/connous/hagel.cs
 regions/connous/lepus.cs
 regions/connous/mailbox.cs
 regions/connous/meles.cs
+regions/connous/portia_bedroom.cs
+regions/connous/portia_epilogue.cs
+regions/connous/portia_livingroom.cs
 regions/connous/yoff.cs
 
 // Regions\courcle
@@ -173,6 +202,7 @@ regions/courcle/kawsay.cs
 regions/courcle/kusina.cs
 regions/courcle/mailbox.cs
 regions/courcle/ruway.cs
+regions/courcle/shamala.cs
 regions/courcle/tupay.cs
 regions/courcle/voight.cs
 regions/courcle/wovoka.cs
@@ -186,12 +216,17 @@ regions/cuilin_residential/mailbox.cs
 regions/dunbarton/aeira.cs
 regions/dunbarton/aranwen.cs
 regions/dunbarton/austeyn.cs
+regions/dunbarton/dunbarton_goblin.cs
+regions/dunbarton/dunbarton_horse.cs
+regions/dunbarton/dunbarton_imp.cs
+regions/dunbarton/dunbarton_ogre.cs
 regions/dunbarton/eavan.cs
 regions/dunbarton/glenis.cs
 regions/dunbarton/kristell.cs
 regions/dunbarton/mailbox.cs
 regions/dunbarton/manus.cs
 regions/dunbarton/nerys.cs
+regions/dunbarton/simon.cs
 regions/dunbarton/stewart.cs
 regions/dunbarton/walter.cs
 
@@ -214,9 +249,14 @@ regions/emain/beanrua03.cs
 regions/emain/beanrua04.cs
 regions/emain/beanruaguard01.cs
 regions/emain/beanruaguard02.cs
+regions/emain/emainbeggar.cs
 regions/emain/craig.cs
 regions/emain/del.cs
 regions/emain/delen.cs
+regions/emain/emain_elephant.cs
+regions/emain/emain_goblin.cs
+regions/emain/emain_imp.cs
+regions/emain/emain_ogre.cs
 regions/emain/emainrichman.cs
 regions/emain/familyguide.cs
 regions/emain/fraser.cs
@@ -235,6 +275,8 @@ regions/emain/guardsman15.cs
 regions/emain/guardsman16.cs
 regions/emain/guardsman51.cs
 regions/emain/guardsman52.cs
+regions/emain/hywel.cs
+regions/emain/james.cs
 regions/emain/jocelin.cs
 regions/emain/lery.cs
 regions/emain/lucas.cs
@@ -246,6 +288,7 @@ regions/emain/osla.cs
 regions/emain/promotionnpc.cs
 regions/emain/robat.cs
 regions/emain/rua.cs
+regions/emain/shena.cs
 regions/emain/siani.cs
 regions/emain/sym.cs
 regions/emain/telescopenpc.cs
@@ -282,6 +325,7 @@ regions/rano/heulfryn.cs
 regions/rano/mailbox.cs
 regions/rano/myrddin.cs
 regions/rano/nicca.cs
+regions/rano/petra.cs
 
 // Regions\rath
 //---------------------------------------------------------------------------
@@ -298,12 +342,14 @@ regions/rath/evidence_02.cs
 regions/rath/evidence_03.cs
 regions/rath/evidence_04.cs
 regions/rath/evidence_05.cs
+regions/rath/gallant_sister.cs
 regions/rath/glewyas.cs
 regions/rath/greatHall_maid.cs
 regions/rath/ironpot.cs
 regions/rath/lennox.cs
 regions/rath/male_castle02.cs
 regions/rath/party_male06.cs
+regions/rath/scolding_sister.cs
 regions/rath/sinead.cs
 
 // Regions\scathach
@@ -363,21 +409,25 @@ regions/taillteann/taillteann_elf1.cs
 regions/taillteann/taillteann_elf2.cs
 regions/taillteann/taillteann_giant1.cs
 regions/taillteann/taillteann_giant2.cs
+regions/taillteann/taillteann_goblin.cs
 regions/taillteann/taillteann_healer.cs
-regions/taillteann/taillteann_human1.cs
-regions/taillteann/taillteann_human2.cs
-regions/taillteann/taillteann_human3.cs
-regions/taillteann/taillteann_human4.cs
-regions/taillteann/taillteann_human5.cs
-regions/taillteann/taillteann_human6.cs
-regions/taillteann/taillteann_human7.cs
-regions/taillteann/taillteann_human8.cs
+regions/taillteann/taillteann_horse.cs
+regions/taillteann/taillteann_royalguard_1.cs
+regions/taillteann/taillteann_royalguard_2.cs
+regions/taillteann/taillteann_watchman_3.cs
+regions/taillteann/taillteann_watchman_4.cs
+regions/taillteann/taillteann_watchman_5.cs
+regions/taillteann/taillteann_watchman_6.cs
+regions/taillteann/taillteann_watchman_7.cs
+regions/taillteann/taillteann_watchman_8.cs
+regions/taillteann/taillteann_imp.cs
 regions/taillteann/taillteann_npc1.cs
 regions/taillteann/taillteann_npc2.cs
 regions/taillteann/taillteann_npc3.cs
 regions/taillteann/taillteann_npc4.cs
 regions/taillteann/taillteann_npc5.cs
 regions/taillteann/taillteann_npc6.cs
+regions/taillteann/taillteann_ogre.cs
 regions/taillteann/taillteann_repairman1.cs
 regions/taillteann/taillteann_repairman2.cs
 regions/taillteann/taillteann_repairman3.cs
@@ -386,6 +436,7 @@ regions/taillteann/taillteann_repairman3.cs
 //---------------------------------------------------------------------------
 regions/tara/adair.cs
 regions/tara/alpin.cs
+regions/tara/casanova_partner.cs
 regions/tara/castle_alchemist.cs
 regions/tara/castle_church.cs
 regions/tara/castle_guard1.cs
@@ -398,10 +449,10 @@ regions/tara/corentin.cs
 regions/tara/eluned.cs
 regions/tara/fashionNPC1.cs
 regions/tara/finola.cs
-regions/tara/gallant_sister.cs
 regions/tara/gorneves.cs
 regions/tara/guardmerchant.cs
 regions/tara/hans.cs
+regions/tara/heledd.cs
 regions/tara/hooliger.cs
 regions/tara/ilsa.cs
 regions/tara/keith.cs
@@ -414,11 +465,14 @@ regions/tara/nessa.cs
 regions/tara/padan.cs
 regions/tara/pencast.cs
 regions/tara/rota.cs
-regions/tara/scolding_sister.cs
+regions/tara/tara_goblin.cs
 regions/tara/tara_guard.cs
 regions/tara/tara_guard1.cs
 regions/tara/tara_guard2.cs
 regions/tara/tara_guard3.cs
+regions/tara/tara_imp.cs
+regions/tara/tara_ogre.cs
+regions/tara/young_casanova.cs
 
 // Regions\tir
 //---------------------------------------------------------------------------
@@ -454,6 +508,11 @@ regions/zardine/legatus.cs
 regions/zardine/mailbox.cs
 
 
+//===========================================================================
+// Roaming                                                                  |
+//===========================================================================
+
+roaming/price.cs
 
 //===========================================================================
 // Custom                                                                   |

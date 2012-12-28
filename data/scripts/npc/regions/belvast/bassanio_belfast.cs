@@ -9,6 +9,7 @@ public class Bassanio_belfastScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_bassanio_belfast");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 0.9f, lower: 0.9f);

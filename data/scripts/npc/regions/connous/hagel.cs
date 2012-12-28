@@ -9,6 +9,7 @@ public class HagelScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_hagel");
 		SetRace(9002);
 		SetBody(height: 1.3f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -28,5 +29,15 @@ public class HagelScript : NPCScript
 
 		SetDirection(218);
 		SetStand("elf/male/anim/elf_npc_hagel_stand_friendly");
+        
+		Phrases.Add("Dangers lurk everywhere. It should be accepted.");
+		Phrases.Add("Every job yields a reward.");
+		Phrases.Add("Hope is all about persistently working on yourself.");
+		Phrases.Add("If you have any courage left, just keep challenging yourself!");
+		Phrases.Add("Just like the hidden artifacts underneath the desert sand, the secret will be revealed one day.");
+		Phrases.Add("No matter where you are, it's important not to lose your sense of direction.");
+		Phrases.Add("The thing that bothers me is the sand stuck inside your shoes...");
+		Phrases.Add("The truth will be revealed one day.");
+		Phrases.Add("When will the sand dust settle down...");
 	}
 }

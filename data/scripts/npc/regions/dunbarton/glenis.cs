@@ -9,6 +9,7 @@ public class GlenisScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_glenis");
 		SetRace(10001);
 		SetBody(height: 0.8000003f, fat: 0.3f, upper: 1.4f, lower: 1.2f);
@@ -27,5 +28,15 @@ public class GlenisScript : NPCScript
 
 		SetDirection(129);
 		SetStand("human/female/anim/female_natural_stand_npc_Glenis");
+        
+		Phrases.Add("Come buy your food here.");
+		Phrases.Add("Flora! Are the ingredients ready?");
+		Phrases.Add("Have a nice day today!");
+		Phrases.Add("Please come again!");
+		Phrases.Add("Thank you for coming!");
+		Phrases.Add("This is Glenis' Restaurant.");
+		Phrases.Add("This is today's special! Mushroom soup!");
+		Phrases.Add("We are serving breakfast now.");
+		Phrases.Add("Welcome!");
 	}
 }

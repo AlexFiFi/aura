@@ -9,6 +9,7 @@ public class YvonaScript : NPCScript
 {
 	public override void OnLoad()
 	{
+		base.OnLoad();
 		SetName("_yvona");
 		SetRace(9001);
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1.2f, lower: 1f);
@@ -32,5 +33,11 @@ public class YvonaScript : NPCScript
 
 		SetDirection(170);
 		SetStand("darkknight/anim/tool/Bhand_M/darkknight_Bhand_M03_stand_friendly");
+        
+		Phrases.Add("Can't they leave me alone...?");
+		Phrases.Add("He got the theory, but he his music had no soul...");
+		Phrases.Add("I knew a guy like that.");
+		Phrases.Add("It's not like they're getting paid. Why do they work so hard?");
+		Phrases.Add("Tough...");
 	}
 }
