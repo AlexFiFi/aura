@@ -479,9 +479,8 @@ namespace World.World
 
 			var pos = creature.GetPosition();
 
-			var prop = new MabiProp();
+			var prop = new MabiProp(creature.Region, creature.Area);
 			prop.Info.Class = propClass;
-			prop.Region = creature.Region;
 			prop.Info.X = pos.X;
 			prop.Info.Y = pos.Y;
 			WorldManager.Instance.AddProp(prop);

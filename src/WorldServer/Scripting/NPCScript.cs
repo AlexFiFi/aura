@@ -411,7 +411,7 @@ namespace World.Scripting
 			this.EquipItem(slot, dbInfo.Id, color1, color2, color3);
 		}
 
-		protected virtual void SpawnProp(uint propClass, string region, uint x, uint y, float scale = 1, float direction = 1)
+		protected virtual void SpawnProp(uint propClass, string region, uint x, uint y, uint area = 0, float scale = 1, float direction = 1)
 		{
 			uint regionid = 0;
 			if (!uint.TryParse(region, out regionid))
@@ -425,14 +425,13 @@ namespace World.Scripting
 				}
 			}
 
-			this.SpawnProp(propClass, regionid, x, y, scale, direction);
+			this.SpawnProp(propClass, regionid, x, y, area, scale, direction);
 		}
 
-		protected virtual void SpawnProp(uint propClass, uint region, uint x, uint y, float scale = 1, float direction = 1)
+		protected virtual void SpawnProp(uint propClass, uint region, uint x, uint y, uint area = 0, float scale = 1, float direction = 1)
 		{
-			var prop = new MabiProp();
+			var prop = new MabiProp(region, area);
 			prop.Info.Class = propClass;
-			prop.Region = region;
 			prop.Info.X = x;
 			prop.Info.Y = y;
 			prop.Info.Scale = scale;

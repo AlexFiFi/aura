@@ -39,10 +39,14 @@ namespace World.World
 
 		private static ulong _propIndex = Common.Constants.Id.Props;
 
-		public MabiProp()
+		public MabiProp(uint region = 0, uint area = 0)
 		{
-			this.Id = ++_propIndex;
 			this.Title = "";
+			this.Region = region;
+
+			this.Id = ++_propIndex;
+			this.Id += (ulong)region << 32;
+			this.Id += area << 16;
 
 			this.Info.Scale = 1f;
 			this.Info.Color1 =
@@ -54,16 +58,6 @@ namespace World.World
 			this.Info.Color7 =
 			this.Info.Color8 =
 			this.Info.Color9 = 0xFF808080;
-		}
-
-		public ulong _id;
-		public override ulong Id
-		{
-			get
-			{
-				return (_id + this.Info.Region * (ulong)0x100000000);
-			}
-			set { _id = value; }
 		}
 
 		public override EntityType EntityType
@@ -89,8 +83,6 @@ namespace World.World
 
 		public override void AddEntityData(MabiPacket packet)
 		{
-			//Common.Tools.Logger.Debug(this.Id.ToString("X"));
-
 			packet.PutLong(this.Id);
 			packet.PutInt(this.Info.Class);
 			packet.PutString("");

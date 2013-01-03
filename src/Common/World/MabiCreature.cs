@@ -81,6 +81,8 @@ namespace Common.World
 		public CreatureCondition Conditions;
 		public CreatureCondition PrevConditions;
 
+		public uint Area = 0;
+
 		public byte RestPose
 		{
 			get

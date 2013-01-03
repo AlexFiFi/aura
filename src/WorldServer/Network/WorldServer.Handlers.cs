@@ -987,19 +987,19 @@ namespace World.Network
 			{
 
 				//TODO: COD
-					var item = MabiDb.Instance.GetItem(m.ItemId);
+				var item = MabiDb.Instance.GetItem(m.ItemId);
 
-					m.Delete();
+				m.Delete();
 
-					item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
+				item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
 
-					MabiDb.Instance.SaveMailItem(item, creature);
+				MabiDb.Instance.SaveMailItem(item, creature);
 
-					creature.Items.Add(item);
+				creature.Items.Add(item);
 
-					client.Send(PacketCreator.ItemInfo(creature, item));
+				client.Send(PacketCreator.ItemInfo(creature, item));
 
-					client.Send(new MabiPacket(Op.RecieveMailItemR, creature.Id).PutByte(1).PutLong(m.MessageId));
+				client.Send(new MabiPacket(Op.RecieveMailItemR, creature.Id).PutByte(1).PutLong(m.MessageId));
 			}
 			else
 			{
@@ -2414,6 +2414,9 @@ namespace World.Network
 			var unk1 = packet.GetLong(); // 00B000010003007C ?
 			var unk2 = packet.GetInt(); // Area?
 			var unk3 = packet.GetString();
+
+			// 0x00B000010003007C --> 0x030000 --> 0x03
+			client.Character.Area = ((uint)unk1 & 0x00000000FF0000) >> 16;
 
 			// TODO: Do something with this?
 		}
