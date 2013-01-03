@@ -303,10 +303,12 @@ Examples:
 
 === Props ===================================================================
 
-** SpawnProp(<uint:prop_class>, <uint:region>, <uint:x>, <uint:y>[, <float:scale>[, <float:direction>]])
-** SpawnProp(<uint:prop_class>, <string:region>, <uint:x>, <uint:y>[, <float:scale>[, <float:direction>]])
+** SpawnProp(<uint:prop_class>, <uint:region>, <uint:x>, <uint:y>[, <uint:area>[, <float:scale>[, <float:direction>]]])
+** SpawnProp(<uint:prop_class>, <string:region>, <uint:x>, <uint:y>[, <uint:area>[, <float:scale>[, <float:direction>]]])
 
-Adds a new prop to the world at the specified location.
+Adds a new prop to the world at the specified location. If area isn't
+specified, the prop will not work properly, use gm command "where" to get the
+area you're currently at.
 
 Examples:
-    SpawnProp(1, "tir", 13000, 37000); // Tree near Tir square
+    SpawnProp(1, "tir", 13000, 37000, 9); // Tree near Tir square

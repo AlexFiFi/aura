@@ -199,7 +199,7 @@ namespace World.World
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var pos = creature.GetPosition();
-			client.Send(PacketCreator.ServerMessage(creature, "  Region: {0}, X: {1}, Y: {2}, Direction: {3}", creature.Region, pos.X, pos.Y, creature.Direction));
+			client.Send(PacketCreator.ServerMessage(creature, "  Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}", creature.Region, pos.X, pos.Y, creature.Area, creature.Direction));
 
 			return CommandResult.Okay;
 		}
