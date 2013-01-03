@@ -72,7 +72,7 @@ public class RuaScript : NPCScript
         else
             Warp(region: 15, x: 200, y: 0);
             
-        Logger.Info("Rua changed to " + (next ? "working" : "resting"));
+        //Logger.Info("Rua changed to " + (next ? "working" : "resting"));
     }
 
     private bool IsWorking(DateTime serverTime)

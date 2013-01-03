@@ -45,15 +45,25 @@ namespace World.World
 			this.Title = "";
 
 			this.Info.Scale = 1f;
-			this.Info.Color1 = 0xFF808080;
-			this.Info.Color2 = 0xFF808080;
-			this.Info.Color3 = 0xFF808080;
-			this.Info.Color4 = 0xFF808080;
-			this.Info.Color5 = 0xFF808080;
-			this.Info.Color6 = 0xFF808080;
-			this.Info.Color7 = 0xFF808080;
-			this.Info.Color8 = 0xFF808080;
+			this.Info.Color1 =
+			this.Info.Color2 =
+			this.Info.Color3 =
+			this.Info.Color4 =
+			this.Info.Color5 =
+			this.Info.Color6 =
+			this.Info.Color7 =
+			this.Info.Color8 =
 			this.Info.Color9 = 0xFF808080;
+		}
+
+		public ulong _id;
+		public override ulong Id
+		{
+			get
+			{
+				return (_id + this.Info.Region * (ulong)0x100000000);
+			}
+			set { _id = value; }
 		}
 
 		public override EntityType EntityType
@@ -79,6 +89,8 @@ namespace World.World
 
 		public override void AddEntityData(MabiPacket packet)
 		{
+			//Common.Tools.Logger.Debug(this.Id.ToString("X"));
+
 			packet.PutLong(this.Id);
 			packet.PutInt(this.Info.Class);
 			packet.PutString("");

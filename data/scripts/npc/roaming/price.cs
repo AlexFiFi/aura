@@ -86,7 +86,7 @@ public class PriceScript : NPCScript
         
         Warp(region: next.Item1, x: next.Item2, y: next.Item3);
         
-        Logger.Info("Price has moved to " + next.Item4);
+        //Logger.Info("Price has moved to " + next.Item4);
     }
     
     private Tuple<uint, uint, uint, string> GetLocation(DateTime serverTime)

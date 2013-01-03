@@ -57,7 +57,7 @@ namespace World.Scripting
 
 			// Info if most if not all scripts have to be cached first.
 			var cacheDir = Path.Combine(WorldConf.ScriptPath, "cache", "npc");
-			if (!Directory.Exists(cacheDir) || Directory.GetFiles(Path.Combine(WorldConf.ScriptPath, "cache", "npc"), "*.compiled", SearchOption.AllDirectories).Length < scriptFiles.Length / 2)
+			if (!Directory.Exists(cacheDir) || (scriptFiles.Length - Directory.GetFiles(Path.Combine(WorldConf.ScriptPath, "cache", "npc"), "*.compiled", SearchOption.AllDirectories).Length > 50))
 				Logger.Info("Caching the scripts may take a few minutes initially.");
 
 			foreach (var line in scriptFiles)
@@ -159,15 +159,11 @@ namespace World.Scripting
 			Assembly asm;
 			if (!WorldConf.DisableScriptCaching && File.Exists(compiledPath) && File.GetLastWriteTime(compiledPath) >= File.GetLastWriteTime(scriptPath))
 			{
-				Logger.Info("Loading NPC: " + Path.GetFileNameWithoutExtension(scriptPath), false);
 				asm = Assembly.LoadFrom(compiledPath);
-				Logger.ClearLine();
 			}
 			else
 			{
-				Logger.Info("Compiling NPC: " + Path.GetFileNameWithoutExtension(scriptPath), false);
 				asm = CSScript.LoadCode(this.ReadScriptFile(scriptPath));
-				Logger.ClearLine();
 				if (!WorldConf.DisableScriptCaching)
 				{
 					try

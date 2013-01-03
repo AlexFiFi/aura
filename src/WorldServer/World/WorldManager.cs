@@ -151,8 +151,8 @@ namespace World.World
 
 					if (InRange(creaturePos, entityPos))
 					{
-						//Wasn't in range before or was invisible
-						if (!InRange(client.Character.PrevPosition, entity.PrevPosition) || (entityCreature != null && ( ((entityCreature.Conditions.A & CreatureConditionA.Invisible) == 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) != 0) )))
+						// Wasn't in range before or was invisible
+						if (!InRange(client.Character.PrevPosition, entity.PrevPosition) || (entityCreature != null && (((entityCreature.Conditions.A & CreatureConditionA.Invisible) == 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) != 0))))
 						{
 							client.Send(PacketCreator.EntityAppears(entity));
 						}
@@ -164,7 +164,7 @@ namespace World.World
 					}
 					else
 					{
-						//Not in range now
+						// Not in range now
 						if (InRange(client.Character.PrevPosition, entity.PrevPosition)) //Was before
 						{
 							client.Send(PacketCreator.EntityLeaves(entity));

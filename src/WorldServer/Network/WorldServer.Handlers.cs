@@ -1230,7 +1230,7 @@ namespace World.Network
 			WorldManager.Instance.CreatureLeaveRegion(creature);
 			creature.SetLocation(10022, 3262, 3139);
 
-			var dunp = new MabiPacket(0x9470, Ids.Broadcast);
+			var dunp = new MabiPacket(0x9470, Id.Broadcast);
 			dunp.PutLong(creature.Id);
 			dunp.PutLong(0x01000000000005CD);
 			dunp.PutByte(1);

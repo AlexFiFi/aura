@@ -74,10 +74,7 @@ regions/bangor/sion.cs
 // Regions\belvast
 //---------------------------------------------------------------------------
 regions/belvast/admiral_owen.cs
-regions/belvast/admiral_owen_belfast_02.cs
 regions/belvast/annest.cs
-regions/belvast/antonio_belfast1.cs
-regions/belvast/antonio_belfast2.cs
 regions/belvast/arzul.cs
 regions/belvast/aven_madam.cs
 regions/belvast/banhallen.cs
@@ -90,9 +87,6 @@ regions/belvast/bernez.cs
 regions/belvast/blyth.cs
 regions/belvast/carasek_belfast_model.cs
 regions/belvast/cordelia_madam.cs
-regions/belvast/eremon_belfast_01.cs
-regions/belvast/eremon_belfast_02.cs
-regions/belvast/eremon_belfast_03.cs
 regions/belvast/genie.cs
 regions/belvast/giantguard_belfast_01.cs
 regions/belvast/giantguard_belfast_02.cs
