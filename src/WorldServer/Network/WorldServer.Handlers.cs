@@ -1462,38 +1462,43 @@ namespace World.Network
 
 			// TODO: Maybe check if this action is valid.
 
-			MabiPacket p;
+			client.Send(PacketCreator.Unlock(creature));
 
-			p = new MabiPacket(Op.CharacterUnlock, creature.Id);
-			p.PutInt(0xEFFFFFFE);
-			client.Send(p);
-
-			p = new MabiPacket(Op.EnterRegionR, Id.World);
-			p.PutByte(1);
-			p.PutLong(creature.Id);
-			p.PutLong(DateTime.Now);
-			client.Send(p);
-
+			// Sent on log in, but not when switching regions?
+			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(DateTime.Now));
 			WorldManager.Instance.AddCreature(creature);
 
-			// Player logs in
 			if (creature == client.Character)
 			{
-				// List of all entities in range
 				var entities = WorldManager.Instance.GetEntitiesInRange(creature);
-				if (entities.Count > 0)
+
+				if (entities.Count != 0)
 				{
 					client.Send(PacketCreator.EntitiesAppear(entities));
 				}
-
-				p = new MabiPacket(Op.WarpRegion, creature.Id);
-				var pos = creature.GetPosition();
-				p.PutByte(1);
-				p.PutInt(creature.Region);
-				p.PutInt(pos.X);
-				p.PutInt(pos.Y);
-				client.Send(p);
 			}
+
+			var pos = creature.GetPosition();
+			client.Send(new MabiPacket(Op.WarpRegion, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
+
+			// Send Conformation?
+			client.Send(new MabiPacket(0xA925, Id.Broadcast).PutInts(creature.Region, 0));
+
+			if (creature == client.Character)
+			{
+				foreach (var rider in creature.Riders.Where(c => c.Client != client))
+					((WorldClient)rider.Client).Warp(creature.Region, pos.X, pos.Y);
+			}
+
+			if (creature.Pet != null)
+			{
+				creature.Pet.SetLocation(creature.Region, pos.X, pos.Y);
+				client.Send(PacketCreator.EnterRegionPermission(creature.Pet));
+
+				foreach (var rider in creature.Pet.Riders.Where(c => c.Client != client))
+					((WorldClient)rider.Client).Warp(creature.Region, pos.X, pos.Y);
+			}
+
 		}
 
 		private void HandleSkillPrepare(WorldClient client, MabiPacket packet)
@@ -1784,12 +1789,12 @@ namespace World.Network
 			creature.BattleState = mode;
 			WorldManager.Instance.CreatureChangeStance(creature);
 
-			if (creature.Vehicle != null)
+			if (creature.Vehicle != null && creature == creature.Vehicle.Owner)
 			{
 				creature.Vehicle.BattleState = mode;
 				WorldManager.Instance.CreatureChangeStance(creature.Vehicle);
 			}
-			if (creature.Owner != null)
+			if (creature.Owner != null && creature.Riders.Contains(creature.Owner))
 			{
 				creature.Owner.BattleState = mode;
 				WorldManager.Instance.CreatureChangeStance(creature.Owner);
@@ -1953,6 +1958,7 @@ namespace World.Network
 			pet.Direction = (byte)rand.Next(255);
 
 			pet.Owner = creature;
+			creature.Pet = pet;
 			client.Creatures.Add(pet);
 
 			pet.Save = true;
@@ -2004,18 +2010,31 @@ namespace World.Network
 			WorldManager.Instance.Effect(pet, 29, pet.Region, pos.X, pos.Y);
 			WorldManager.Instance.RemoveCreature(pet);
 
-			if (pet.Owner.Vehicle == pet)
+			if (pet.Riders.Count != 0)
 			{
 				if (pet.Flying == 1)
 				{
 					client.Send(PacketCreator.Unlock(pet, 0xFFFFBDFF));
-					client.Send(PacketCreator.Unlock(pet.Owner, 0xFFFFBDFF));
+					foreach (var c in pet.Riders)
+						c.Client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
 					pet.Flying = 0;
 				}
-				WorldManager.Instance.VehicleUnbind(pet.Owner, pet);
-				pet.Owner.StopMove();
-				pet.Owner.Vehicle = null;
+				foreach (var c in pet.Riders)
+				{
+					c.Vehicle = null;
+					WorldManager.Instance.VehicleUnbind(c, pet);
+					c.StopMove();
+				}
+				pet.Riders.Clear();
 			}
+
+			if (pet.Owner != null)
+			{
+				if (pet.Owner.Pet != null)
+					pet.Owner.Pet = null;
+				pet.Owner = null;
+			}
+
 
 			// ?
 			p = new MabiPacket(Op.PetUnRegister, creature.Id);
@@ -2054,7 +2073,7 @@ namespace World.Network
 			}
 
 			creature.Vehicle = pet;
-			pet.Owner = creature;
+			pet.Riders.Add(creature);
 
 			WorldManager.Instance.VehicleBind(creature, pet);
 
@@ -2071,7 +2090,7 @@ namespace World.Network
 
 			MabiPacket p;
 
-			if (creature.Vehicle == null)
+			if (creature.Vehicle == null || !creature.Vehicle.Riders.Contains(creature) || creature.Vehicle.Flying == 1)
 			{
 				p = new MabiPacket(Op.PetUnmountR, creature.Id);
 				p.PutByte(0);
@@ -2085,7 +2104,7 @@ namespace World.Network
 
 			creature.SetPosition(pos.X, pos.Y);
 
-			creature.Vehicle.Owner = null;
+			creature.Vehicle.Riders.Remove(creature);
 			creature.Vehicle = null;
 
 			p = new MabiPacket(Op.PetUnmountR, creature.Id);
@@ -2173,19 +2192,23 @@ namespace World.Network
 			//Todo: Check if can fly
 			if (creature.Flying == 1)
 			{
-				client.Send(new MabiPacket(Op.CanFly, packet.Id).PutByte(0));
+				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(0));
 				return;
 			}
 
 			float ascentTime = packet.GetFloat();
 
 			client.Send(PacketCreator.Lock(creature, 0xFFFFBDFF));
-			if (creature.Owner != null)
-				client.Send(PacketCreator.Lock(creature.Owner, 0xFFFFBDFF));
+			foreach (var c in creature.Riders)
+				c.Client.Send(PacketCreator.Lock(c, 0xFFFFBDFF));
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.TakingOff, packet.Id).PutFloat(ascentTime), SendTargets.Range, creature);
 
-			client.Send(new MabiPacket(Op.CanFly, packet.Id).PutByte(1));
+			client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(1));
+
+			var pos = creature.GetPosition();
+
+			creature.SetPosition(pos.X, pos.Y, 10000);
 
 			creature.Flying = 1;
 		}
@@ -2200,7 +2223,7 @@ namespace World.Network
 				return;
 
 			float toX = packet.GetFloat();
-			float toHeight = creature.DestinationFlyingHeight = packet.GetFloat();
+			float toH = packet.GetFloat();
 			float toY = packet.GetFloat();
 			float dir = packet.GetFloat();
 
@@ -2208,17 +2231,17 @@ namespace World.Network
 
 			WorldManager.Instance.Broadcast(
 				new MabiPacket(Op.FlyingTo, packet.Id)
-					.PutFloats(toX, toHeight, toY, dir, pos.X, creature.FlyingHeight, pos.Y)
+					.PutFloats(toX, toH, toY, dir, pos.X, pos.H, pos.Y)
 					, SendTargets.Range, creature);
 
 
 			creature.Direction = (byte)dir;
-			creature.StartMove(new MabiVertex((uint)toX, (uint)toY));
+			creature.StartMove(new MabiVertex((uint)toX, (uint)toY, (uint)toH));
 
-			if (creature.Owner != null)
+			foreach (var c in creature.Riders)
 			{
-				creature.Owner.Direction = creature.Direction;
-				creature.Owner.StartMove(new MabiVertex((uint)toX, (uint)toY));
+				c.Direction = creature.Direction;
+				c.StartMove(new MabiVertex((uint)toX, (uint)toY));
 			}
 		}
 
@@ -2235,14 +2258,16 @@ namespace World.Network
 			}
 
 			client.Send(PacketCreator.Unlock(creature, 0xFFFFBDFF));
-			if (creature.Owner != null)
-				client.Send(PacketCreator.Unlock(creature.Owner, 0xFFFFBDFF));
+			foreach (var c in creature.Riders)
+				c.Client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
 
 			var pos = creature.GetPosition(); //Todo: angled decent
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Landing, packet.Id).PutFloats(pos.X, pos.Y).PutByte(0), SendTargets.Range, creature);
 
 			client.Send(new MabiPacket(Op.CanLand, packet.Id).PutByte(1));
+
+			creature.SetPosition(pos.X, pos.Y, 0);
 
 			creature.Flying = 0;
 		}

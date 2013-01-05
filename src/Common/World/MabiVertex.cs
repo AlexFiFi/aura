@@ -5,12 +5,13 @@ namespace Common.World
 {
 	public class MabiVertex
 	{
-		public uint X, Y;
+		public uint X, Y, H;
 
-		public MabiVertex(uint x, uint y)
+		public MabiVertex(uint x, uint y, uint h = 0)
 		{
 			this.X = x;
 			this.Y = y;
+			this.H = h;
 		}
 
 		public override bool Equals(object obj)
@@ -22,7 +23,7 @@ namespace Common.World
 			if (pos == null)
 				return false;
 
-			return (this.X == pos.X && this.Y == pos.Y);
+			return (this.X == pos.X && this.Y == pos.Y && this.H == pos.H);
 		}
 
 		public override int GetHashCode()
@@ -32,17 +33,17 @@ namespace Common.World
 
 		public override string ToString()
 		{
-			return (this.X.ToString() + "/" + this.Y.ToString());
+			return (this.X.ToString() + "/" + this.Y.ToString() + " @ " + this.H.ToString());
 		}
 
 		public MabiVertex Copy()
 		{
-			return new MabiVertex(this.X, this.Y);
+			return new MabiVertex(this.X, this.Y, this.H);
 		}
 
 		public static MabiVertex operator -(MabiVertex v1, MabiVertex v2)
 		{
-			return new MabiVertex(v1.X - v2.X, v1.Y - v2.Y);
+			return new MabiVertex(v1.X - v2.X, v1.Y - v2.Y, v1.H - v2.H);
 		}
 	}
 }

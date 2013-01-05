@@ -58,6 +58,7 @@ namespace Common.Network
 		public readonly static uint RequestClientDisconnect = 0x4E26;
 		public readonly static uint Disappear = 0x4E2A;
 		//public readonly static uint GoRebirth = 0x4E32;
+		public readonly static uint WarpUkn1 = 0x4E39;
 		public readonly static uint GMCPOpen = 0x4EE9;
 		public readonly static uint GMCPClose = 0x4EEA;
 		public readonly static uint GMCPSummon = 0x4EEB;
@@ -78,6 +79,7 @@ namespace Common.Network
 		public readonly static uint ItemDisappears = 0x5212;
 		public readonly static uint Chat = 0x526C;
 		public readonly static uint Notice = 0x526D;
+		public readonly static uint WarpUkn2 = 0x526E;
 		public readonly static uint MsgBox = 0x526F;
 		public readonly static uint WhisperChat = 0x5273;
 		public readonly static uint BeginnerChat = 0x5275;
@@ -132,7 +134,7 @@ namespace Common.Network
 		public readonly static uint NPCTalkKeyword = 0x5DC4;
 		public readonly static uint NPCTalkKeywordR = 0x5DC5;
 
-		public readonly static uint Jump = 0x6594;
+		public readonly static uint SetLocation = 0x6594;
 		public readonly static uint TurnTo = 0x6596;
 		public readonly static uint EnterRegionPermission = 0x6597;
 		public readonly static uint EnterRegion = 0x6598;
@@ -140,7 +142,7 @@ namespace Common.Network
 		public readonly static uint EnterRegionR = 0x659C;
 		public readonly static uint TakeOff = 0x65A8;
 		public readonly static uint TakingOff = 0x65A9;
-		public readonly static uint CanFly = 0x65AA;
+		public readonly static uint TakeOffR = 0x65AA;
 		public readonly static uint FlyTo = 0x65AE;
 		public readonly static uint FlyingTo = 0x65AF;
 		public readonly static uint Land = 0x65AB;
@@ -240,6 +242,7 @@ namespace Common.Network
 		public readonly static uint OpenItemShop = 0xA44D;
 		public readonly static uint MailsRequest = 0xA898;
 		public readonly static uint MailsRequestR = 0xA899;
+		public readonly static uint WarpUkn3 = 0xA8AF;
 		public readonly static uint UmbrellaJump = 0xA8E0;
 		public readonly static uint UmbrellaJumpR = 0xA8E1;
 		public readonly static uint UmbrellaLand = 0xA8E2;

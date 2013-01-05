@@ -93,7 +93,7 @@ namespace World.Skills
 			var toPos = WorldManager.CalculatePosOnLine(creature, target, -(int)Radius);
 			creature.SetPosition(toPos.X, toPos.Y);
 			WorldManager.Instance.Broadcast(
-				new MabiPacket(Op.Jump, creature.Id)
+				new MabiPacket(Op.SetLocation, creature.Id)
 				.PutByte(0)
 				.PutInt(toPos.X)
 				.PutInt(toPos.Y)

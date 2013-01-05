@@ -4,6 +4,7 @@
 using Common.World;
 using Common.Network;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Constants;
 using System;
 
@@ -111,11 +112,11 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket EntitiesAppear(List<MabiEntity> entities)
+		public static MabiPacket EntitiesAppear(IEnumerable<MabiEntity> entities)
 		{
 			var p = new MabiPacket(Op.EntitiesSpawn, Id.Broadcast);
 
-			p.PutShort((ushort)entities.Count);
+			p.PutShort((ushort)entities.Count());
 			foreach (var entity in entities)
 			{
 				var data = new MabiPacket(0, 0);
@@ -141,11 +142,11 @@ namespace World.Network
 			return p;
 		}
 
-		public static MabiPacket EntitiesLeave(List<MabiEntity> entities)
+		public static MabiPacket EntitiesLeave(IEnumerable<MabiEntity> entities)
 		{
 			var p = new MabiPacket(Op.EntitiesDisappear, Id.Broadcast);
 
-			p.PutShort((ushort)entities.Count);
+			p.PutShort((ushort)entities.Count());
 			foreach (var entity in entities)
 			{
 				p.PutShort(entity.DataType);

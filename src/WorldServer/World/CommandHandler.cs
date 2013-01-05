@@ -483,6 +483,7 @@ namespace World.World
 			prop.Info.Class = propClass;
 			prop.Info.X = pos.X;
 			prop.Info.Y = pos.Y;
+			prop.Info.Direction = creature.Direction;
 			WorldManager.Instance.AddProp(prop);
 
 			return CommandResult.Okay;

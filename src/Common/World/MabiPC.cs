@@ -268,15 +268,18 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(0);//packet.PutByte(this.Flying);					 // IsAviating
-			// loop
-			//   packet.PutFloat				 // FromX
-			//   packet.PutFloat				 // FromHeight
-			//   packet.PutFloat				 // FromY
-			//   packet.PutFloat				 // ToX
-			//   packet.PutFloat				 // ToHeight
-			//   packet.PutFloat				 // ToY
-			//   packet.PutFloat				 // Direction
+			packet.PutByte(this.Flying);					 // IsAviating
+			if (this.Flying == 1)
+			{
+				var pos = this.GetPosition();
+				packet.PutFloat(pos.X);
+				packet.PutFloat(pos.H);
+				packet.PutFloat(pos.Y);
+				packet.PutFloat(_destination.X);
+				packet.PutFloat(_destination.H);
+				packet.PutFloat(_destination.Y);
+				packet.PutFloat(Direction);
+			}
 
 			// Skiing
 			// --------------------------------------------------------------

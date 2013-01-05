@@ -60,10 +60,8 @@ namespace Common.World
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
 		public readonly MabiVertex _destination = new MabiVertex(0, 0);
-		public float FlyingHeight;
-		public float DestinationFlyingHeight;
 		private DateTime _moveStartTime;
-		private double _movementX, _movementY;
+		private double _movementX, _movementY, _movementH;
 		private double _moveDuration;
 		private bool _moveIsWalk;
 
@@ -74,7 +72,9 @@ namespace Common.World
 
 		public DateTime CreationTime;
 
-		public MabiCreature Owner, Vehicle;
+		public MabiCreature Owner, Pet, Vehicle;
+
+		public readonly List<MabiCreature> Riders = new List<MabiCreature>();
 
 		public CreatureStates State;
 		public CreatureStatesEx StateEx;
@@ -827,10 +827,11 @@ namespace Common.World
 			this.SetPosition(x, y);
 		}
 
-		public MabiVertex SetPosition(uint x, uint y)
+		public MabiVertex SetPosition(uint x, uint y, uint h = 0)
 		{
 			_position.X = _destination.X = x;
 			_position.Y = _destination.Y = y;
+			_position.H = _destination.H = h;
 
 			return _position.Copy();
 		}
@@ -843,12 +844,17 @@ namespace Common.World
 			var passed = (DateTime.Now - _moveStartTime).TotalSeconds;
 			if (passed >= _moveDuration)
 				//return this.SetPosition(_destination.X, _destination.Y);
-				return new MabiVertex(_destination.X, _destination.Y);
+				return new MabiVertex(_destination.X, _destination.Y, _destination.H);
 
 			var xt = _position.X + (_movementX * passed);
 			var yt = _position.Y + (_movementY * passed);
+			var ht = 0.0;
+			if (this.Flying == 1)
+				ht = _position.H + (_movementH < 0 ?
+					Math.Max(_movementH * passed, _destination.H) :
+					Math.Min(_movementH * passed, _destination.H));
 
-			return new MabiVertex((uint)xt, (uint)yt);
+			return new MabiVertex((uint)xt, (uint)yt, (uint)ht);
 		}
 
 		public MabiVertex StartMove(MabiVertex dest, bool walk = false)
@@ -857,9 +863,11 @@ namespace Common.World
 
 			_position.X = pos.X;
 			_position.Y = pos.Y;
+			_position.H = pos.H;
 
 			_destination.X = dest.X;
 			_destination.Y = dest.Y;
+			_destination.H = dest.H;
 
 			_moveStartTime = DateTime.Now;
 			_moveIsWalk = walk;
@@ -867,9 +875,15 @@ namespace Common.World
 			var diffX = (int)dest.X - (int)pos.X;
 			var diffY = (int)dest.Y - (int)pos.Y;
 			_moveDuration = Math.Sqrt(diffX * diffX + diffY * diffY) / this.GetSpeed();
-
 			_movementX = diffX / _moveDuration;
 			_movementY = diffY / _moveDuration;
+			_movementH = 0;
+
+			if (this.Flying == 1)
+			{
+				_movementH = (pos.H < dest.H ? this.RaceInfo.FlightInfo.DecentSpeed : this.RaceInfo.FlightInfo.AscentSpeed);
+				_moveDuration = Math.Max(_moveDuration, Math.Abs((int)dest.H - (int)pos.H) / _movementH);
+			}
 
 			this.Direction = (byte)(Math.Floor(Math.Atan2(_movementY, _movementX) / 0.02454369260617026));
 
@@ -883,7 +897,7 @@ namespace Common.World
 		public void StopMove()
 		{
 			var pos = this.GetPosition();
-			this.SetPosition(pos.X, pos.Y);
+			this.SetPosition(pos.X, pos.Y, pos.H);
 		}
 
 		public bool IsMoving()
@@ -1263,15 +1277,18 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(0);//packet.PutByte(this.Flying);					 // IsAviating
-			// loop
-			//   packet.PutFloat				 // FromX
-			//   packet.PutFloat
-			//   packet.PutFloat				 // FromY
-			//   packet.PutFloat				 // ToX
-			//   packet.PutFloat
-			//   packet.PutFloat				 // ToY
-			//   packet.PutFloat				 // Direction
+			packet.PutByte(this.Flying);					 // IsAviating
+			if (this.Flying == 1)
+			{
+				var pos = this.GetPosition();
+				packet.PutFloat(pos.X);
+				packet.PutFloat(pos.H);
+				packet.PutFloat(pos.Y);
+				packet.PutFloat(_destination.X);
+				packet.PutFloat(_destination.H);
+				packet.PutFloat(_destination.Y);
+				packet.PutFloat(Direction);
+			}
 
 			// Skiing
 			// --------------------------------------------------------------
