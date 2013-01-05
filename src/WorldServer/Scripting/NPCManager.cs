@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Common.Constants;
 using Common.Data;
@@ -29,12 +30,12 @@ namespace World.Scripting
 
 		public void LoadNPCs()
 		{
-			Logger.Info("Loading NPCs...");
+			Logger.Info("Loading scripts...");
 
 			_loadedNpcs = _cached = 0;
 
 			// NPCs
-			var listPath = Path.Combine(Path.Combine(WorldConf.ScriptPath, "npc"), "npclist.txt");
+			var listPath = Path.Combine(WorldConf.ScriptPath, "scripts.txt");
 			var npcListContents = new List<string>();
 
 			if (File.Exists(listPath))
@@ -50,16 +51,21 @@ namespace World.Scripting
 			}
 			else
 			{
-				Logger.Warning("Unable to find NPC list '" + listPath + "'.");
+				Logger.Warning("Unable to find script list at '" + listPath + "'.");
 			}
 
 			var scriptFiles = npcListContents.ToArray();
 
-			// Info if most if not all scripts have to be cached first.
 			var cacheDir = Path.Combine(WorldConf.ScriptPath, "cache", "npc");
-			if (!Directory.Exists(cacheDir) || (scriptFiles.Length - Directory.GetFiles(Path.Combine(WorldConf.ScriptPath, "cache", "npc"), "*.compiled", SearchOption.AllDirectories).Length > 50))
+			int cached = 0;
+			if (Directory.Exists(cacheDir))
+				cached = Directory.GetFiles(Path.Combine(WorldConf.ScriptPath, "cache", "npc"), "*.compiled", SearchOption.AllDirectories).Length;
+			int notCached = scriptFiles.Length - cached;
+
+			if (notCached > 30)
 				Logger.Info("Caching the scripts may take a few minutes initially.");
 
+			int loaded = 0;
 			foreach (var line in scriptFiles)
 			{
 				var file = line;
@@ -69,12 +75,23 @@ namespace World.Scripting
 					virt = true;
 					file = file.Replace("virtual:", "").Trim();
 				}
-				LoadNPC(Path.Combine(WorldConf.ScriptPath, "npc", file), virt);
+				this.LoadNPC(Path.Combine(WorldConf.ScriptPath, file), virt);
+
+				// Don't print for every single NPC, so much flickering.
+				if (++loaded % 5 == 0 || loaded == 1 || loaded >= scriptFiles.Length)
+				{
+					int loadPercBar = (int)(20f / scriptFiles.Length * loaded);
+					var bar = "[" + "".PadLeft(loadPercBar, '#') + "".PadLeft(20 - loadPercBar, '.') + "]";
+
+					Logger.Info(string.Format("{1} {0,6:0.0}%", 100f / scriptFiles.Length * loaded, bar), false);
+					Logger.RLine(); // Move cursor to pos 0, so error msgs can overwrite this line.
+				}
 			}
 
-			Logger.Info("Done loading " + _loadedNpcs + " NPCs.");
+			Logger.ClearLine();
+			Logger.Info("Done loading " + _loadedNpcs + " scripts.");
 			if (!WorldConf.DisableScriptCaching)
-				Logger.Info("Cached " + _cached + " NPC scripts.");
+				Logger.Info("Cached " + _cached + " scripts.");
 		}
 
 		/// <summary>
@@ -85,28 +102,46 @@ namespace World.Scripting
 		{
 			try
 			{
-				var script = this.LoadScript(scriptPath).CreateObject("*") as NPCScript;
-				script.ScriptPath = scriptPath;
-				script.ScriptName = Path.GetFileName(scriptPath);
-				if (!virtualLoad)
+				var scriptObj = this.LoadScript(scriptPath).CreateObject("*");
+
+				// Check if the object is derived from NPCScript. Needed to
+				// allow simpler scripts that only derive from BaseScript.
+				if (scriptObj is NPCScript)
 				{
-					var npc = new MabiNPC();
-					npc.Script = script;
-					npc.ScriptPath = scriptPath;
-					script.NPC = npc;
-					script.LoadType = NPCLoadType.Real;
-					script.OnLoad();
-					script.OnLoadDone();
+					var script = scriptObj as NPCScript;
+					script.ScriptPath = scriptPath;
+					script.ScriptName = Path.GetFileName(scriptPath);
+					if (!virtualLoad)
+					{
+						var npc = new MabiNPC();
+						npc.Script = script;
+						npc.ScriptPath = scriptPath;
+						script.NPC = npc;
+						script.LoadType = NPCLoadType.Real;
+						script.OnLoad();
+						script.OnLoadDone();
 
-					// Only load defaults with race set.
-					if (npc.Race != 0 && npc.Race != uint.MaxValue)
-						npc.LoadDefault();
+						// Only load defaults with race set.
+						if (npc.Race != 0 && npc.Race != uint.MaxValue)
+							npc.LoadDefault();
 
-					WorldManager.Instance.AddCreature(npc);
+						WorldManager.Instance.AddCreature(npc);
+					}
+					else
+					{
+						script.LoadType = NPCLoadType.Virtual;
+					}
 				}
 				else
 				{
-					script.LoadType = NPCLoadType.Virtual;
+					// Script that doesn't use an NPC, like prop scripts and stuff.
+
+					var script = scriptObj as BaseScript;
+					script.ScriptPath = scriptPath;
+					script.ScriptName = Path.GetFileName(scriptPath);
+
+					script.OnLoad();
+					script.OnLoadDone();
 				}
 
 				Interlocked.Increment(ref _loadedNpcs);
@@ -215,7 +250,18 @@ namespace World.Scripting
 				//if (!Regex.Match(file, @"(^|;)\s*using World.World;").Success) sb.Append("using World.World;");
 			}
 
-			// Append the actual file
+			// Wait, End
+			{
+				// [var] <variable> = Wait();
+				// --> [var] <variable>Object = new Response(); yield return <variable>Object; [var] <variable> = <variable>Object.Value;
+				file = Regex.Replace(file, @"\s*(?:(var )|(?:[^\s]+ ))?\s*([^\s\)]*)\s*=\s*Wait\s*\(\s*\)\s*;", "$1$2Object = new Response(); yield return $2Object; $1$2 = $2Object.Value;", RegexOptions.Compiled);
+
+				// End();
+				// --> yield break;
+				file = Regex.Replace(file, @"End\s*\(\s*\)\s*;", "yield break;", RegexOptions.Compiled);
+			}
+
+			// Append the (changed) file
 			sb.Append(file);
 
 			return sb.ToString();

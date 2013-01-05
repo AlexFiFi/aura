@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Globalization;
+using Common.Tools;
 
 namespace Common.Data
 {
@@ -25,6 +26,23 @@ namespace Common.Data
 		public MapInfo Find(string name)
 		{
 			return this.Entries.FirstOrDefault(a => a.Name == name);
+		}
+
+		public uint TryGetRegionId(string region, string errorLocation = null)
+		{
+			uint regionId = 0;
+			if (!uint.TryParse(region, out regionId))
+			{
+				var mapInfo = MabiData.MapDb.Find(region);
+				if (mapInfo != null)
+					regionId = mapInfo.Id;
+				else
+				{
+					Logger.Warning((errorLocation != null ? errorLocation + " : " : "") + "Map '" + region + "' not found.");
+				}
+			}
+
+			return regionId;
 		}
 
 		public override void LoadFromCsv(string filePath, bool reload = false)

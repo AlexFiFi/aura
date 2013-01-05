@@ -162,9 +162,18 @@ Sets the race of the NPC.
 
 -----------------------------------------------------------------------------
 
-** SetLocation(<uint:region>, <uint:x>, <uint:y>)
+** SetLocation(<uint:region>, <uint:x>, <uint:y>[, <byte:direction>])
 
-Sets the region and position of the NPC.
+Sets the region and position of the NPC. Optionally the direction can be set
+here as well, instead of calling SetDirection as well.
+
+-----------------------------------------------------------------------------
+
+** SetDirection(<byte:direction>)
+
+Sets the direction the NPC looks at.
+Since this function takes a byte, it ranges from 0 to 255,
+0 being east, 127 west, etc.
 
 -----------------------------------------------------------------------------
 
@@ -176,14 +185,6 @@ Examples:
     SetBody(1.3f, 1.0f, 1.0f, 1.0f); // Sets all
     SetBody(1.3f);                   // Sets only height, default for others
     SetBody(lower : 1.3f);           // Sets only lower, default for others (Named parameter)
-
------------------------------------------------------------------------------
-
-** SetDirection(<byte:direction>)
-
-Sets the direction the NPC looks at.
-Since this function takes a byte, it ranges from 0 to 255,
-0 being east, 127 west, etc.
 
 -----------------------------------------------------------------------------
 
@@ -200,9 +201,20 @@ Sets the stand style for the NPC.
 === Communication ===========================================================
 
 ** Msg(<MabiClient:client>, {string:messages})
+** Msg(<MabiClient:client>, <Options:disable>, {string:messages})
 
 Sends the given message to the client. The messages will get concatenated,
 to form a text where every line is one string parameter.
+Alternatively a line break in the message is possible with '<br/>' or '\n'.
+
+Using the second parameter for options enables you to save the addictional
+calls to 'Disable' and 'Enable' before and after the message. They are called
+automatically with the given parameter, eg:
+    Msg(c, Options.Face, "Example Message");
+becomes
+	Disable(Options.Face);
+    Msg(c, "Example Message");
+	Enable(Options.Face);
 
 Examples:
     Msg(c, "Line 1", "Line 2", "Line 3");           // 3 line text
@@ -217,7 +229,7 @@ Unlike 'Msg', this takes only one string as the message
 and the remaining ones as buttons, that are appended to the message
 to create clickable buttons. You always need 2 paramters per button,
 the button text, and the keyword.
-A line break in the message is possible by using '<br/>'.
+A line break in the message is possible by using '<br/>' or '\n'.
 
 Examples:
     MsgSelect(c, "Example Message");                  // Simple message with an [End] button
@@ -305,10 +317,28 @@ Examples:
 
 ** SpawnProp(<uint:prop_class>, <uint:region>, <uint:x>, <uint:y>[, <uint:area>[, <float:scale>[, <float:direction>]]])
 ** SpawnProp(<uint:prop_class>, <string:region>, <uint:x>, <uint:y>[, <uint:area>[, <float:scale>[, <float:direction>]]])
+** SpawnProp(<uint:prop_class>, <uint:region>, <uint:x>, <uint:y>, <uint:area>, <float:scale>, <float:direction>, <function(client,creature,prop):behavior>)
+** SpawnProp(<uint:prop_class>, <string:region>, <uint:x>, <uint:y>, <uint:area>, <float:scale>, <float:direction>, <function(client,creature,prop):behavior>)
 
 Adds a new prop to the world at the specified location. If area isn't
 specified, the prop will not work properly, use gm command "where" to get the
 area you're currently at.
 
+The last argument, can be used to specify what happens if you touch or hit
+(unimplemented) the prop. Warps and be shortened, by using an action specifier
+with some specific arguments. For examples see the Tir portal scripts. 
+
 Examples:
     SpawnProp(1, "tir", 13000, 37000, 9); // Tree near Tir square
+
+-----------------------------------------------------------------------------
+
+** DefineProp(<ulong:prop_id>, <uint:region>, <uint:x>, <uint:y>, <function(client,creature,prop):behavior>)
+** DefineProp(<ulong:prop_id>, <string:region>, <uint:x>, <uint:y>, <function(client,creature,prop):behavior>)
+
+Adds behavior for the prop with the given id. This function is for client
+sided, non-custom, props, like portals. The location has to be specified as
+well, because we have to be able to check it against the player's locations.
+Use SpawnProp to actually create and spawn custom props (including portals).
+See SpawnProp for more information, and the various portal scripts for
+examples.

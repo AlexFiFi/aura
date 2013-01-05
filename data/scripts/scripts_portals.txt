@@ -1,0 +1,19 @@
+// Aura
+// NPC list file
+//
+// All NPCs listed here will be loaded.
+//---------------------------------------------------------------------------
+
+portal/tir.cs
+portal/dunbarton.cs
+portal/bangor.cs
+portal/taillteann.cs
+portal/tara.cs
+
+portal/rano.cs
+portal/connous.cs
+portal/physis.cs
+portal/zardine.cs
+portal/courcle.cs
+
+portal/unsorted.cs

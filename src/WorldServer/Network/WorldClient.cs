@@ -12,6 +12,7 @@ using Common.World;
 using World.Scripting;
 using World.World;
 using Common.Constants;
+using Common.Data;
 
 namespace World.Network
 {
@@ -51,12 +52,19 @@ namespace World.Network
 			this.Send(new MabiPacket(Op.RequestClientDisconnect, Id.World).PutSInt(seconds * 1000));
 		}
 
+		public void Warp(string region, uint x, uint y)
+		{
+			var regionId = MabiData.MapDb.TryGetRegionId(region);
+			if (regionId > 0)
+				this.Warp(regionId, x, y);
+		}
+
 		public void Warp(uint region, uint x, uint y)
 		{
 			var pos = this.Character.GetPosition();
 			this.Send(new MabiPacket(Op.SetLocation, this.Character.Id).PutByte(1).PutInts(this.Character.Region, pos.X, pos.Y));
-			this.Send(new MabiPacket(Op.WarpUkn1, this.Character.Id));
-			this.Send(new MabiPacket(Op.WarpUkn2, this.Character.Id).PutByte(11));
+			this.Send(new MabiPacket(Op.WarpUnk1, this.Character.Id));
+			this.Send(new MabiPacket(Op.WarpUnk2, this.Character.Id).PutByte(11));
 
 			WorldManager.Instance.CreatureLeaveRegion(this.Character);
 
@@ -74,7 +82,7 @@ namespace World.Network
 				this.Send(PacketCreator.Lock(c));
 			}
 
-			this.Send(new MabiPacket(Op.WarpUkn3, this.Character.Id).PutLong(0).PutInt(0));
+			this.Send(new MabiPacket(Op.WarpUnk3, this.Character.Id).PutLong(0).PutInt(0));
 		}
 	}
 }

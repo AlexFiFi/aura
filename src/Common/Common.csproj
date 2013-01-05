@@ -104,7 +104,6 @@
     <Compile Include="Data\MabiData.cs" />
     <Compile Include="Data\RaceStats.cs" />
     <Compile Include="Data\Motions.cs" />
-    <Compile Include="Data\Portals.cs" />
     <Compile Include="Data\Races.cs" />
     <Compile Include="Data\Skills.cs" />
     <Compile Include="Data\Spawns.cs" />

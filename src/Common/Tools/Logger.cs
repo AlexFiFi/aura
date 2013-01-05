@@ -133,5 +133,10 @@ namespace Common.Tools
 		{
 			Console.Write("\r                                                                              \r");
 		}
+
+		public static void RLine()
+		{
+			Console.Write("\r");
+		}
 	}
 }

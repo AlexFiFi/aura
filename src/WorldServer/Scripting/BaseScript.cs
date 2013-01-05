@@ -2,6 +2,9 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using Common.Data;
+using Common.Tools;
+using World.World;
 
 namespace World.Scripting
 {
@@ -29,5 +32,120 @@ namespace World.Scripting
 		{
 			this.Disposed = true;
 		}
+
+		// Built in methods
+		// ------------------------------------------------------------------
+
+		/// <summary>
+		/// Shortcut for warps, using region names.
+		/// </summary>
+		protected void SpawnProp(uint propClass, string region, uint x, uint y, uint area, float scale, float direction, PropAction action, string tregion, uint tx, uint ty)
+		{
+			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			uint tregionId = MabiData.MapDb.TryGetRegionId(tregion, this.ScriptName);
+			this.SpawnProp(propClass, regionId, x, y, area, scale, direction, action, tregionId, tx, ty);
+		}
+
+		/// <summary>
+		/// Shortcut for warps, using region ids.
+		/// </summary>
+		protected void SpawnProp(uint propClass, uint region, uint x, uint y, uint area, float scale, float direction, PropAction action, uint tregion, uint tx, uint ty)
+		{
+			MabiPropFunc behavior = (client, creature, prop) => { client.Warp(tregion, tx, ty); };
+			this.SpawnProp(propClass, region, x, y, area, scale, direction, behavior);
+		}
+
+		/// <summary>
+		/// Spawns prop with the specified behavior, using the region name.
+		/// </summary>
+		protected void SpawnProp(uint propClass, string region, uint x, uint y, uint area, float scale, float direction, MabiPropFunc behavior)
+		{
+			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			this.SpawnProp(propClass, regionId, x, y, area, scale, direction, behavior);
+		}
+
+		/// <summary>
+		/// Spawns prop with the specified behavior, using the region id.
+		/// </summary>
+		protected void SpawnProp(uint propClass, uint region, uint x, uint y, uint area, float scale, float direction, MabiPropFunc behavior)
+		{
+			var prop = this.SpawnProp(propClass, region, x, y, area, scale, direction);
+			this.DefineProp(prop, behavior);
+		}
+
+		/// <summary>
+		/// Simple prop spawning without behavior, using region name.
+		/// Without "area" props are not hit or touchable.
+		/// </summary>
+		/// <returns>New prop</returns>
+		protected MabiProp SpawnProp(uint propClass, string region, uint x, uint y, uint area = 0, float scale = 1f, float direction = 1f)
+		{
+			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			return this.SpawnProp(propClass, regionId, x, y, area, scale, direction);
+		}
+
+		/// <summary>
+		/// Simple prop spawning without behavior.
+		/// Without "area" props are not hit or touchable.
+		/// </summary>
+		/// <returns>New prop</returns>
+		protected MabiProp SpawnProp(uint propClass, uint region, uint x, uint y, uint area = 0, float scale = 1f, float direction = 1f)
+		{
+			var prop = new MabiProp(region, area);
+			prop.Info.Class = propClass;
+			prop.Info.X = x;
+			prop.Info.Y = y;
+			prop.Info.Scale = scale;
+			prop.Info.Direction = direction;
+
+			WorldManager.Instance.AddProp(prop);
+
+			return prop;
+		}
+
+		/// <summary>
+		/// Shortcut for warps using a region name.
+		/// </summary>
+		protected void DefineProp(ulong propId, string region, uint x, uint y, PropAction action, string tregion, uint tx, uint ty)
+		{
+			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			uint tregionId = MabiData.MapDb.TryGetRegionId(tregion, this.ScriptName);
+			this.DefineProp(propId, regionId, x, y, action, tregionId, tx, ty);
+		}
+
+		/// <summary>
+		/// Shortcut for warps using a region id.
+		/// </summary>
+		protected void DefineProp(ulong propId, uint region, uint x, uint y, PropAction action, uint tregion, uint tx, uint ty)
+		{
+			MabiPropFunc behavior = (client, creature, prop) => { client.Warp(tregion, tx, ty); };
+			this.DefineProp(propId, region, x, y, behavior);
+		}
+
+		protected void DefineProp(ulong propId, string region, uint x, uint y, MabiPropFunc behavior = null)
+		{
+			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			this.DefineProp(propId, regionId, x, y, behavior);
+		}
+
+		/// <summary>
+		/// Adds a behavior for the prop with the given id. Since this is for
+		/// client side props we also need a location that can be checked later on.
+		/// </summary>
+		protected void DefineProp(ulong propId, uint region, uint x, uint y, MabiPropFunc behavior = null)
+		{
+			this.DefineProp(new MabiProp(propId, region, x, y), behavior);
+		}
+
+		/// <summary>
+		/// Adds the given prop and behavior to the behavior list.
+		/// </summary>
+		protected void DefineProp(MabiProp prop, MabiPropFunc behavior = null)
+		{
+			if (behavior != null)
+				WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(prop, behavior));
+		}
 	}
+
+	public enum PropAction { None, Warp, Drop }
 }

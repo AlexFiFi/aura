@@ -20,7 +20,6 @@ namespace Common.Data
 		public static CharCardDb CharCardDb = new CharCardDb();
 		public static CharCardSetDb CharCardSetDb = new CharCardSetDb();
 		public static MotionDb MotionDb = new MotionDb();
-		public static PortalDb PortalDb = new PortalDb();
 		public static SkillDb SkillDb = new SkillDb();
 		public static SkillRankDb SkillRankDb = new SkillRankDb();
 		internal static RaceSkillDb RaceSkillDb = new RaceSkillDb();

@@ -126,9 +126,6 @@ namespace Common.Network
 					MabiData.RaceDb.LoadFromCsv(dataPath + "/db/races.txt", reload);
 					Logger.Info("Done loading " + MabiData.RaceDb.Entries.Count + " entries from races.txt.");
 
-					MabiData.PortalDb.LoadFromCsv(dataPath + "/db/portals.txt", reload);
-					Logger.Info("Done loading " + MabiData.PortalDb.Entries.Count + " entries from portals.txt.");
-
 					MabiData.StatsBaseDb.LoadFromCsv(dataPath + "/db/stats_base.txt", reload);
 					Logger.Info("Done loading " + MabiData.StatsBaseDb.Entries.Count + " entries from stats_base.txt.");
 

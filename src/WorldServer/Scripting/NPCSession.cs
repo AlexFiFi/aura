@@ -4,6 +4,7 @@
 using Common.Tools;
 using World.World;
 using System;
+using System.Collections;
 
 namespace World.Scripting
 {
@@ -19,6 +20,8 @@ namespace World.Scripting
 		public string DialogFace = null;
 		public string DialogName = null;
 
+		public IEnumerator State = null;
+
 		public int Start(MabiNPC target)
 		{
 			this.Target = target;
@@ -31,9 +34,9 @@ namespace World.Scripting
 			this.SessionId = -1;
 		}
 
-		public bool IsValid()
+		public bool IsValid
 		{
-			return (this.SessionId >= 0 && this.SessionId <= 5000);
+			get { return (this.SessionId >= 0 && this.SessionId <= 5000); }
 		}
 	}
 }

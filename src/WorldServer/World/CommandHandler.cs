@@ -179,7 +179,7 @@ namespace World.World
 					catch (Exception ex)
 					{
 						client.Send(PacketCreator.ServerMessage(creature, "Error while executing command."));
-						Logger.Exception(ex, "Unable to execute command '" + args[0] + "'. Message: '" + msg + "'");
+						Logger.Exception(ex, "Unable to execute command '" + args[0] + "'. Message: '" + msg + "'", true);
 					}
 
 					return true;

@@ -1,0 +1,519 @@
+// Aura
+// NPC list file
+//
+// All NPCs listed here will be loaded.
+//---------------------------------------------------------------------------
+
+//===========================================================================
+// Virtual                                                                  |
+// Loaded for inheritence, won't actually appear in-game itself.            |
+//===========================================================================
+
+virtual: npc/commerce/elephant_base.cs
+virtual: npc/commerce/horse_base.cs
+virtual: npc/commerce/imp_base.cs
+virtual: npc/commerce/goblin_base.cs
+virtual: npc/commerce/ogre_base.cs
+virtual: npc/global/castle_guard_base.cs
+virtual: npc/global/mailbox.cs
+virtual: npc/regions/abb/abbneagh_horse_base.cs
+virtual: npc/regions/belvast/sailor_belfast_base.cs
+virtual: npc/regions/belvast/soldier_belfast_base.cs
+virtual: npc/regions/belvast/worker_belfast_base.cs
+virtual: npc/regions/courcle/courcleinhabitant_base.cs
+virtual: npc/regions/courcle/docknpc_base.cs
+virtual: npc/regions/emain/emain_guardsman_base.cs
+virtual: npc/regions/emain/beanrua_base.cs
+virtual: npc/regions/emain/beanruaguard_base.cs
+virtual: npc/regions/rath/evidence_base.cs
+virtual: npc/regions/scathach/scathach_alchemist_base.cs
+virtual: npc/regions/scathach/wardens_base.cs
+virtual: npc/regions/taillteann/taillteann_elf_base.cs
+virtual: npc/regions/taillteann/taillteann_giant_base.cs
+virtual: npc/regions/taillteann/taillteann_royalguard_base.cs
+virtual: npc/regions/taillteann/taillteann_npc_base.cs
+virtual: npc/regions/taillteann/taillteann_watchman_base.cs
+virtual: npc/regions/tara/tara_guard_base.cs
+
+//===========================================================================
+// Global                                                                   |
+//===========================================================================
+
+npc/global/partner.cs
+
+//===========================================================================
+// Regions                                                                  |
+//===========================================================================
+
+// Tir Chonaill
+//---------------------------------------------------------------------------
+npc/regions/tir/alissa.cs
+npc/regions/tir/bebhinn.cs
+npc/regions/tir/belrick.cs
+npc/regions/tir/caitin.cs
+npc/regions/tir/deian.cs
+npc/regions/tir/devcat.cs
+npc/regions/tir/dilys.cs
+npc/regions/tir/duncan.cs
+npc/regions/tir/endelyon.cs
+npc/regions/tir/ferghus.cs
+npc/regions/tir/ghelp.cs
+npc/regions/tir/goro.cs
+npc/regions/tir/lassar.cs
+npc/regions/tir/mailbox.cs
+npc/regions/tir/malcolm.cs
+npc/regions/tir/meven.cs
+npc/regions/tir/neru.cs
+npc/regions/tir/nico.cs
+npc/regions/tir/nora.cs
+npc/regions/tir/piaras.cs
+npc/regions/tir/ranald.cs
+npc/regions/tir/trefor.cs
+
+// Sidhe Sneachta
+//---------------------------------------------------------------------------
+npc/regions/sidhe/bear.cs
+npc/regions/sidhe/tarlach.cs
+
+// Dugald Aisle
+//---------------------------------------------------------------------------
+npc/regions/dungald/tracy.cs
+
+// Dugald Aisle Residential
+//---------------------------------------------------------------------------
+npc/regions/dungald_residential/mailbox.cs
+
+// Dunbarton
+//---------------------------------------------------------------------------
+npc/regions/dunbarton/aeira.cs
+npc/regions/dunbarton/aranwen.cs
+npc/regions/dunbarton/austeyn.cs
+npc/regions/dunbarton/dunbarton_goblin.cs
+npc/regions/dunbarton/dunbarton_horse.cs
+npc/regions/dunbarton/dunbarton_imp.cs
+npc/regions/dunbarton/dunbarton_ogre.cs
+npc/regions/dunbarton/eavan.cs
+npc/regions/dunbarton/glenis.cs
+npc/regions/dunbarton/kristell.cs
+npc/regions/dunbarton/mailbox.cs
+npc/regions/dunbarton/manus.cs
+npc/regions/dunbarton/nerys.cs
+npc/regions/dunbarton/simon.cs
+npc/regions/dunbarton/stewart.cs
+npc/regions/dunbarton/walter.cs
+
+// Cobh Harbor
+//---------------------------------------------------------------------------
+npc/regions/cobh/anghus.cs
+npc/regions/cobh/annick.cs
+npc/regions/cobh/ascon.cs
+npc/regions/cobh/augustine.cs
+npc/regions/cobh/cadoc.cs
+npc/regions/cobh/carasek_cobh_model.cs
+npc/regions/cobh/carys_to_iria_model.cs
+npc/regions/cobh/cobh_goblin.cs
+npc/regions/cobh/cobh_imp.cs
+npc/regions/cobh/cobh_ogre.cs
+npc/regions/cobh/cobhworker.cs
+npc/regions/cobh/dughall.cs
+npc/regions/cobh/kayna.cs
+npc/regions/cobh/lonnie.cs
+npc/regions/cobh/madoc.cs
+npc/regions/cobh/mailbox.cs
+npc/regions/cobh/manolin.cs
+npc/regions/cobh/siobhanin.cs
+npc/regions/cobh/tamon.cs
+
+// Emain Macha
+//---------------------------------------------------------------------------
+npc/regions/emain/agnes.cs
+npc/regions/emain/ailionoa.cs
+npc/regions/emain/aodhan.cs
+npc/regions/emain/beanrua01.cs
+npc/regions/emain/beanrua02.cs
+npc/regions/emain/beanrua03.cs
+npc/regions/emain/beanrua04.cs
+npc/regions/emain/beanruaguard01.cs
+npc/regions/emain/beanruaguard02.cs
+npc/regions/emain/emainbeggar.cs
+npc/regions/emain/craig.cs
+npc/regions/emain/del.cs
+npc/regions/emain/delen.cs
+npc/regions/emain/emain_elephant.cs
+npc/regions/emain/emain_goblin.cs
+npc/regions/emain/emain_imp.cs
+npc/regions/emain/emain_ogre.cs
+npc/regions/emain/emainrichman.cs
+npc/regions/emain/familyguide.cs
+npc/regions/emain/fraser.cs
+npc/regions/emain/galvin.cs
+npc/regions/emain/gerallt.cs
+npc/regions/emain/glen.cs
+npc/regions/emain/gordon.cs
+npc/regions/emain/guardsman01.cs
+npc/regions/emain/guardsman02.cs
+npc/regions/emain/guardsman05.cs
+npc/regions/emain/guardsman06.cs
+npc/regions/emain/guardsman07.cs
+npc/regions/emain/guardsman08.cs
+npc/regions/emain/guardsman13.cs
+npc/regions/emain/guardsman15.cs
+npc/regions/emain/guardsman16.cs
+npc/regions/emain/guardsman51.cs
+npc/regions/emain/guardsman52.cs
+npc/regions/emain/hywel.cs
+npc/regions/emain/james.cs
+npc/regions/emain/jocelin.cs
+npc/regions/emain/lery.cs
+npc/regions/emain/lucas.cs
+npc/regions/emain/macaulay.cs
+npc/regions/emain/mailbox.cs
+npc/regions/emain/nele.cs
+npc/regions/emain/nona.cs
+npc/regions/emain/osla.cs
+npc/regions/emain/promotionnpc.cs
+npc/regions/emain/robat.cs
+npc/regions/emain/rua.cs
+npc/regions/emain/shena.cs
+npc/regions/emain/siani.cs
+npc/regions/emain/sym.cs
+npc/regions/emain/telescopenpc.cs
+npc/regions/emain/tibbie.cs
+npc/regions/emain/tyron.cs
+npc/regions/emain/viewscopenpc.cs
+npc/regions/emain/weddingguide.cs
+npc/regions/emain/wyllow.cs
+
+// Ceo Island
+//---------------------------------------------------------------------------
+npc/regions/ceo/aer.cs
+npc/regions/ceo/muro.cs
+
+// Sen Mag Plateau
+//---------------------------------------------------------------------------
+npc/regions/sen/fleta.cs
+npc/regions/sen/rab.cs
+
+// Sen Mag Plateau Residential
+//---------------------------------------------------------------------------
+npc/regions/sen_residential/mailbox.cs
+
+// Gairech
+//---------------------------------------------------------------------------
+npc/regions/gairech/seumas.cs
+
+// Bangor
+//---------------------------------------------------------------------------
+npc/regions/bangor/bangor_goblin.cs
+npc/regions/bangor/bangor_imp.cs
+npc/regions/bangor/bangor_ogre.cs
+npc/regions/bangor/bryce.cs
+npc/regions/bangor/comgan.cs
+npc/regions/bangor/edern.cs
+npc/regions/bangor/elen.cs
+npc/regions/bangor/gilmore.cs
+npc/regions/bangor/ibbie.cs
+npc/regions/bangor/jenifer.cs
+npc/regions/bangor/mailbox.cs
+npc/regions/bangor/riocard.cs
+npc/regions/bangor/sion.cs
+
+// Port Ceann
+//---------------------------------------------------------------------------
+npc/regions/ceann/seanan.cs
+
+// Blago Prairie
+//---------------------------------------------------------------------------
+npc/regions/blago/edana.cs
+npc/regions/blago/rumon.cs
+
+// Sliab Cuilin Residential
+//---------------------------------------------------------------------------
+npc/regions/cuilin_residential/mailbox.cs
+
+// Abb Neagh
+//---------------------------------------------------------------------------
+npc/regions/abb/abbneagh_horse.cs
+npc/regions/abb/abbneagh_horse2.cs
+npc/regions/abb/ailla.cs
+npc/regions/abb/art.cs
+npc/regions/abb/austell.cs
+npc/regions/abb/cailean.cs
+npc/regions/abb/hameln.cs
+npc/regions/abb/tegau.cs
+npc/regions/abb/yvona.cs
+
+// Abb Neagh Residential
+//---------------------------------------------------------------------------
+npc/regions/abb_residential/mailbox.cs
+
+// Taillteann
+//---------------------------------------------------------------------------
+npc/regions/taillteann/andras.cs
+npc/regions/taillteann/berched.cs
+npc/regions/taillteann/blatt.cs
+npc/regions/taillteann/brenda.cs
+npc/regions/taillteann/collen.cs
+npc/regions/taillteann/devi.cs
+npc/regions/taillteann/dorren.cs
+npc/regions/taillteann/eabha.cs
+npc/regions/taillteann/granat.cs
+npc/regions/taillteann/inflames.cs
+npc/regions/taillteann/karpfen.cs
+npc/regions/taillteann/mailbox.cs
+npc/regions/taillteann/pierrick.cs
+npc/regions/taillteann/taillteann_elf1.cs
+npc/regions/taillteann/taillteann_elf2.cs
+npc/regions/taillteann/taillteann_giant1.cs
+npc/regions/taillteann/taillteann_giant2.cs
+npc/regions/taillteann/taillteann_goblin.cs
+npc/regions/taillteann/taillteann_healer.cs
+npc/regions/taillteann/taillteann_horse.cs
+npc/regions/taillteann/taillteann_royalguard_1.cs
+npc/regions/taillteann/taillteann_royalguard_2.cs
+npc/regions/taillteann/taillteann_watchman_3.cs
+npc/regions/taillteann/taillteann_watchman_4.cs
+npc/regions/taillteann/taillteann_watchman_5.cs
+npc/regions/taillteann/taillteann_watchman_6.cs
+npc/regions/taillteann/taillteann_watchman_7.cs
+npc/regions/taillteann/taillteann_watchman_8.cs
+npc/regions/taillteann/taillteann_imp.cs
+npc/regions/taillteann/taillteann_npc1.cs
+npc/regions/taillteann/taillteann_npc2.cs
+npc/regions/taillteann/taillteann_npc3.cs
+npc/regions/taillteann/taillteann_npc4.cs
+npc/regions/taillteann/taillteann_npc5.cs
+npc/regions/taillteann/taillteann_npc6.cs
+npc/regions/taillteann/taillteann_ogre.cs
+npc/regions/taillteann/taillteann_repairman1.cs
+npc/regions/taillteann/taillteann_repairman2.cs
+npc/regions/taillteann/taillteann_repairman3.cs
+
+// Tara
+//---------------------------------------------------------------------------
+npc/regions/tara/adair.cs
+npc/regions/tara/alpin.cs
+npc/regions/tara/casanova_partner.cs
+npc/regions/tara/castle_alchemist.cs
+npc/regions/tara/castle_church.cs
+npc/regions/tara/castle_guard1.cs
+npc/regions/tara/castle_guard2.cs
+npc/regions/tara/castle_road_patrol_01.cs
+npc/regions/tara/castle_road_patrol_02.cs
+npc/regions/tara/cliona.cs
+npc/regions/tara/colm.cs
+npc/regions/tara/corentin.cs
+npc/regions/tara/eluned.cs
+npc/regions/tara/fashionNPC1.cs
+npc/regions/tara/finola.cs
+npc/regions/tara/gorneves.cs
+npc/regions/tara/guardmerchant.cs
+npc/regions/tara/hans.cs
+npc/regions/tara/heledd.cs
+npc/regions/tara/hooliger.cs
+npc/regions/tara/ilsa.cs
+npc/regions/tara/keith.cs
+npc/regions/tara/lezard.cs
+npc/regions/tara/lileas.cs
+npc/regions/tara/mailbox.cs
+npc/regions/tara/male_castle01.cs
+npc/regions/tara/malleus.cs
+npc/regions/tara/nessa.cs
+npc/regions/tara/padan.cs
+npc/regions/tara/pencast.cs
+npc/regions/tara/rota.cs
+npc/regions/tara/tara_goblin.cs
+npc/regions/tara/tara_guard.cs
+npc/regions/tara/tara_guard1.cs
+npc/regions/tara/tara_guard2.cs
+npc/regions/tara/tara_guard3.cs
+npc/regions/tara/tara_imp.cs
+npc/regions/tara/tara_ogre.cs
+npc/regions/tara/young_casanova.cs
+
+// Rath Royal Castle
+//---------------------------------------------------------------------------
+npc/regions/rath/arzhela.cs
+npc/regions/rath/briana.cs
+npc/regions/rath/castle_guard3.cs
+npc/regions/rath/castle_guard4.cs
+npc/regions/rath/castle_patrol_01.cs
+npc/regions/rath/castle_patrol_02.cs
+npc/regions/rath/castle_patrol_03.cs
+npc/regions/rath/castle_patrol_04.cs
+npc/regions/rath/evidence_01.cs
+npc/regions/rath/evidence_02.cs
+npc/regions/rath/evidence_03.cs
+npc/regions/rath/evidence_04.cs
+npc/regions/rath/evidence_05.cs
+npc/regions/rath/gallant_sister.cs
+npc/regions/rath/glewyas.cs
+npc/regions/rath/greatHall_maid.cs
+npc/regions/rath/ironpot.cs
+npc/regions/rath/lennox.cs
+npc/regions/rath/male_castle02.cs
+npc/regions/rath/party_male06.cs
+npc/regions/rath/scolding_sister.cs
+npc/regions/rath/sinead.cs
+
+// Belvast
+//---------------------------------------------------------------------------
+npc/regions/belvast/admiral_owen.cs
+npc/regions/belvast/annest.cs
+npc/regions/belvast/arzul.cs
+npc/regions/belvast/aven_madam.cs
+npc/regions/belvast/banhallen.cs
+npc/regions/belvast/barry.cs
+npc/regions/belvast/bassanio_belfast.cs
+npc/regions/belvast/belfast_goblin.cs
+npc/regions/belvast/belfast_imp.cs
+npc/regions/belvast/belfast_ogre.cs
+npc/regions/belvast/bernez.cs
+npc/regions/belvast/blyth.cs
+npc/regions/belvast/carasek_belfast_model.cs
+npc/regions/belvast/cordelia_madam.cs
+npc/regions/belvast/genie.cs
+npc/regions/belvast/giantguard_belfast_01.cs
+npc/regions/belvast/giantguard_belfast_02.cs
+npc/regions/belvast/goblin_gogo.cs
+npc/regions/belvast/goblin_hico.cs
+npc/regions/belvast/goblin_taco.cs
+npc/regions/belvast/hicca.cs
+npc/regions/belvast/hiccamother.cs
+npc/regions/belvast/imp_kinu.cs
+npc/regions/belvast/imp_kuru.cs
+npc/regions/belvast/imp_maru.cs
+npc/regions/belvast/mailbox.cs
+npc/regions/belvast/monat.cs
+npc/regions/belvast/mond.cs
+npc/regions/belvast/odran_belfast.cs
+npc/regions/belvast/ogre_laf.cs
+npc/regions/belvast/ogre_marv.cs
+npc/regions/belvast/ogre_tobe.cs
+npc/regions/belvast/sailor_belfast_01.cs
+npc/regions/belvast/sailor_belfast_02.cs
+npc/regions/belvast/sailor_belfast_03.cs
+npc/regions/belvast/shylock_belfast.cs
+npc/regions/belvast/soldier_belfast_01.cs
+npc/regions/belvast/soldier_belfast_02.cs
+npc/regions/belvast/soldier_belfast_03.cs
+npc/regions/belvast/soldier_belfast_04.cs
+npc/regions/belvast/soldier_belfast_05.cs
+npc/regions/belvast/soldier_belfast_06.cs
+npc/regions/belvast/strange_man.cs
+npc/regions/belvast/tinic.cs
+npc/regions/belvast/twm.cs
+npc/regions/belvast/wish_tree.cs
+npc/regions/belvast/worker_belfast_01.cs
+npc/regions/belvast/worker_belfast_02.cs
+npc/regions/belvast/worker_belfast_03.cs
+npc/regions/belvast/worker_belfast_04.cs
+
+// Beach of Scathach
+//---------------------------------------------------------------------------
+npc/regions/scathach/alchemist_A.cs
+npc/regions/scathach/alchemist_C.cs
+npc/regions/scathach/alchemist_D.cs
+npc/regions/scathach/bekard.cs
+npc/regions/scathach/hidden_wardens_A.cs
+npc/regions/scathach/hidden_wardens_B.cs
+npc/regions/scathach/hidden_wardens_C.cs
+npc/regions/scathach/hidden_wardens_D.cs
+npc/regions/scathach/hidden_wardens_E.cs
+npc/regions/scathach/odran.cs
+npc/regions/scathach/sib.cs
+npc/regions/scathach/skatha_goblin.cs
+npc/regions/scathach/skatha_imp.cs
+npc/regions/scathach/skatha_ogre.cs
+npc/regions/scathach/skatha_people.cs
+npc/regions/scathach/skatha_witch.cs
+npc/regions/scathach/urmen.cs
+npc/regions/scathach/wardens_A.cs
+npc/regions/scathach/wardens_B.cs
+npc/regions/scathach/wardens_C.cs
+npc/regions/scathach/wardens_D.cs
+
+// Rano
+//---------------------------------------------------------------------------
+npc/regions/rano/alexina.cs
+npc/regions/rano/effie.cs
+npc/regions/rano/ethna.cs
+npc/regions/rano/ffion.cs
+npc/regions/rano/ffion_crystalbead.cs
+npc/regions/rano/heulfryn.cs
+npc/regions/rano/mailbox.cs
+npc/regions/rano/myrddin.cs
+npc/regions/rano/nicca.cs
+npc/regions/rano/petra.cs
+
+// Physis
+//---------------------------------------------------------------------------
+npc/regions/physis/giant_familyguide.cs
+npc/regions/physis/giant_weddingguide.cs
+npc/regions/physis/kirine.cs
+npc/regions/physis/krug.cs
+npc/regions/physis/mailbox.cs
+npc/regions/physis/taunes.cs
+npc/regions/physis/wanst.cs
+npc/regions/physis/weide.cs
+npc/regions/physis/zeder.cs
+
+// Connous
+//---------------------------------------------------------------------------
+npc/regions/connous/atrata.cs
+npc/regions/connous/castanea.cs
+npc/regions/connous/elf_familyguide.cs
+npc/regions/connous/elf_weddingguide.cs
+npc/regions/connous/granites.cs
+npc/regions/connous/hagel.cs
+npc/regions/connous/lepus.cs
+npc/regions/connous/mailbox.cs
+npc/regions/connous/meles.cs
+npc/regions/connous/portia_bedroom.cs
+npc/regions/connous/portia_epilogue.cs
+npc/regions/connous/portia_livingroom.cs
+npc/regions/connous/yoff.cs
+
+// Courcle
+//---------------------------------------------------------------------------
+npc/regions/courcle/courcleinhabitant1.cs
+npc/regions/courcle/courcleinhabitant2.cs
+npc/regions/courcle/courcleinhabitant3.cs
+npc/regions/courcle/courcleinhabitant4.cs
+npc/regions/courcle/courcleinhabitant5.cs
+npc/regions/courcle/courcleinhabitant6.cs
+npc/regions/courcle/courcleinhabitant7.cs
+npc/regions/courcle/courcleinhabitant8.cs
+npc/regions/courcle/docknpc1.cs
+npc/regions/courcle/docknpc2.cs
+npc/regions/courcle/docknpc3.cs
+npc/regions/courcle/docknpc4.cs
+npc/regions/courcle/docknpc5.cs
+npc/regions/courcle/kawsay.cs
+npc/regions/courcle/kusina.cs
+npc/regions/courcle/mailbox.cs
+npc/regions/courcle/ruway.cs
+npc/regions/courcle/shamala.cs
+npc/regions/courcle/tupay.cs
+npc/regions/courcle/voight.cs
+npc/regions/courcle/wovoka.cs
+
+// Zardine
+//---------------------------------------------------------------------------
+npc/regions/zardine/arneng.cs
+npc/regions/zardine/belita.cs
+npc/regions/zardine/kelpie.cs
+npc/regions/zardine/legatus.cs
+npc/regions/zardine/mailbox.cs
+
+//===========================================================================
+// Roaming                                                                  |
+//===========================================================================
+
+npc/roaming/price.cs
+
+//===========================================================================
+// Custom                                                                   |
+//===========================================================================
+
+npc/custom/proff.cs

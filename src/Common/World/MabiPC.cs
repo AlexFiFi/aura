@@ -268,8 +268,8 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(this.Flying);					 // IsAviating
-			if (this.Flying == 1)
+			packet.PutByte(this.Flying);
+			if (this.Flying)
 			{
 				var pos = this.GetPosition();
 				packet.PutFloat(pos.X);

@@ -46,7 +46,7 @@ namespace World.Scripting
 
 		public virtual void OnTalk(WorldClient client)
 		{
-			this.MsgSelect(client, "I don't feel like taking now. Please come back later!", "End Conversation", "@end");
+			this.MsgSelect(client, "I don't feel like talking now. Please come back later!", "End Conversation", "@end");
 		}
 
 		public virtual void OnSelect(WorldClient client, string response)
@@ -104,7 +104,7 @@ namespace World.Scripting
 		}
 
 		// Built in methods
-		// ==================================================================
+		// ------------------------------------------------------------------
 
 		protected void GiveItem(WorldClient client, string name, int color1 = 0, int color2 = 0, int color3 = 0, uint amount = 1)
 		{
@@ -150,6 +150,11 @@ namespace World.Scripting
 
 		protected virtual void SetLocation(string region, uint x, uint y)
 		{
+			this.SetLocation(region, x, y, 0);
+		}
+
+		protected virtual void SetLocation(string region, uint x, uint y, byte direction)
+		{
 			uint regionid = 0;
 			if (!uint.TryParse(region, out regionid))
 			{
@@ -162,20 +167,26 @@ namespace World.Scripting
 				}
 			}
 
-			this.SetLocation(regionid, x, y);
+			this.SetLocation(regionid, x, y, direction);
 		}
 
 		protected virtual void SetLocation(uint region, uint x, uint y)
 		{
+			this.SetLocation(region, x, y, 0);
+		}
+
+		protected virtual void SetLocation(uint region, uint x, uint y, byte direction)
+		{
 			this.NPC.Region = region;
 			this.NPC.SetPosition(x, y);
+			this.SetDirection(direction);
 		}
 
 		protected void Warp(uint region, uint x, uint y, bool flash = true)
 		{
 			if (flash)
 			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(27, 3000, 0), SendTargets.Range, this.NPC);
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
 			}
 			WorldManager.Instance.CreatureLeaveRegion(this.NPC);
@@ -222,14 +233,6 @@ namespace World.Scripting
 			this.NPC.StandStyleTalk = talk_style;
 		}
 
-		protected void SendScript(WorldClient client, string script)
-		{
-			var p = new MabiPacket(Op.NPCTalkSelectable, client.Character.Id);
-			p.PutString(script);
-			p.PutBin(new byte[] { 0 });
-			client.Send(p);
-		}
-
 		protected string GetDialogFace(WorldClient client)
 		{
 			if (client.NPCSession.DialogFace != null)
@@ -244,6 +247,21 @@ namespace World.Scripting
 				return client.NPCSession.DialogName;
 
 			return _dialogName;
+		}
+
+		protected void SendScript(WorldClient client, string script)
+		{
+			var p = new MabiPacket(Op.NPCTalkSelectable, client.Character.Id);
+			p.PutString(script);
+			p.PutBin(new byte[] { 0 });
+			client.Send(p);
+		}
+
+		protected virtual void Msg(WorldClient client, Options disable, params string[] lines)
+		{
+			this.Disable(client, disable);
+			this.Msg(client, lines);
+			this.Enable(client, disable);
 		}
 
 		protected virtual void Msg(WorldClient client, params string[] lines)
@@ -409,35 +427,6 @@ namespace World.Scripting
 			}
 
 			this.EquipItem(slot, dbInfo.Id, color1, color2, color3);
-		}
-
-		protected virtual void SpawnProp(uint propClass, string region, uint x, uint y, uint area = 0, float scale = 1, float direction = 1)
-		{
-			uint regionid = 0;
-			if (!uint.TryParse(region, out regionid))
-			{
-				var mapInfo = MabiData.MapDb.Find(region);
-				if (mapInfo != null)
-					regionid = mapInfo.Id;
-				else
-				{
-					Logger.Warning(this.ScriptName + " : Map '" + region + "' not found.");
-				}
-			}
-
-			this.SpawnProp(propClass, regionid, x, y, area, scale, direction);
-		}
-
-		protected virtual void SpawnProp(uint propClass, uint region, uint x, uint y, uint area = 0, float scale = 1, float direction = 1)
-		{
-			var prop = new MabiProp(region, area);
-			prop.Info.Class = propClass;
-			prop.Info.X = x;
-			prop.Info.Y = y;
-			prop.Info.Scale = scale;
-			prop.Info.Direction = direction;
-
-			WorldManager.Instance.AddProp(prop);
 		}
 	}
 }

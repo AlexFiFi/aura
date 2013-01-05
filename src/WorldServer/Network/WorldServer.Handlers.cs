@@ -19,6 +19,7 @@ using Common.World;
 using World.Tools;
 using World.World;
 using World.Skills;
+using World.Scripting;
 
 namespace World.Network
 {
@@ -651,13 +652,7 @@ namespace World.Network
 
 			p.PutByte(1);
 			p.PutLong(npcId);
-
 			client.Send(p);
-
-			if (target == null)
-			{
-				return;
-			}
 
 			client.NPCSession.Start(target);
 
@@ -732,7 +727,7 @@ namespace World.Network
 		private void HandleNPCTalkKeyword(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || client.NPCSession.SessionId == -1)
+			if (creature == null || !client.NPCSession.IsValid)
 				return;
 
 			var keyword = packet.GetString();
@@ -753,7 +748,7 @@ namespace World.Network
 		private void HandleNPCTalkSelect(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || client.NPCSession.SessionId == -1)
+			if (creature == null || !client.NPCSession.IsValid)
 				return;
 
 			var response = packet.GetString();
@@ -1810,7 +1805,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			if (!client.NPCSession.IsValid())
+			if (!client.NPCSession.IsValid)
 				return;
 
 			var itemId = packet.GetLong();
@@ -1867,7 +1862,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			if (!client.NPCSession.IsValid())
+			if (!client.NPCSession.IsValid)
 				return;
 
 			var itemId = packet.GetLong();
@@ -1947,7 +1942,7 @@ namespace World.Network
 				return;
 			}
 
-			pet.Flying = 0;
+			pet.Flying = false;
 
 			// Set pet position near the summoner
 			var pos = creature.GetPosition();
@@ -2012,12 +2007,12 @@ namespace World.Network
 
 			if (pet.Riders.Count != 0)
 			{
-				if (pet.Flying == 1)
+				if (pet.Flying)
 				{
 					client.Send(PacketCreator.Unlock(pet, 0xFFFFBDFF));
 					foreach (var c in pet.Riders)
 						c.Client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
-					pet.Flying = 0;
+					pet.Flying = false;
 				}
 				foreach (var c in pet.Riders)
 				{
@@ -2090,7 +2085,7 @@ namespace World.Network
 
 			MabiPacket p;
 
-			if (creature.Vehicle == null || !creature.Vehicle.Riders.Contains(creature) || creature.Vehicle.Flying == 1)
+			if (creature.Vehicle == null || !creature.Vehicle.Riders.Contains(creature) || creature.Vehicle.Flying)
 			{
 				p = new MabiPacket(Op.PetUnmountR, creature.Id);
 				p.PutByte(0);
@@ -2120,21 +2115,20 @@ namespace World.Network
 
 			byte success = 0;
 
-			// TODO: If all portals are props, and not all props are portals, what's this?
-
-			var portalId = packet.GetLong();
-			var portalInfo = MabiData.PortalDb.Find(portalId);
-			if (portalInfo != null)
+			var propId = packet.GetLong();
+			var pb = WorldManager.Instance.GetPropBehavior(propId);
+			if (pb != null)
 			{
-				if (creature.Region == portalInfo.Region && WorldManager.InRange(creature, portalInfo.X, portalInfo.Y, 1500))
+				if (creature.Region == pb.Prop.Region && WorldManager.InRange(creature, (uint)pb.Prop.Info.X, (uint)pb.Prop.Info.Y, 1500))
 				{
 					success = 1;
-					client.Warp(portalInfo.ToRegion, portalInfo.ToX, portalInfo.ToY);
+					pb.Func(client, creature, pb.Prop);
+					//client.Warp(portalInfo.ToRegion, portalInfo.ToX, portalInfo.ToY);
 				}
 			}
 			else
 			{
-				Logger.Unimplemented("Unknown prop: " + portalId.ToString());
+				Logger.Unimplemented("Unknown prop: " + propId.ToString());
 #if DUNGEON_TEST
 				var pos = creature.GetPosition();
 				//client.Send(new MabiPacket(Op.WARP_ENTER, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
@@ -2190,7 +2184,7 @@ namespace World.Network
 				return;
 
 			//Todo: Check if can fly
-			if (creature.Flying == 1)
+			if (creature.Flying)
 			{
 				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(0));
 				return;
@@ -2210,7 +2204,7 @@ namespace World.Network
 
 			creature.SetPosition(pos.X, pos.Y, 10000);
 
-			creature.Flying = 1;
+			creature.Flying = true;
 		}
 
 		private void HandleFlyTo(WorldClient client, MabiPacket packet)
@@ -2219,7 +2213,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			if (creature.Flying == 0)
+			if (!creature.Flying)
 				return;
 
 			float toX = packet.GetFloat();
@@ -2251,7 +2245,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			if (creature.Flying == 0)
+			if (!creature.Flying)
 			{
 				client.Send(new MabiPacket(Op.CanLand, packet.Id).PutByte(0));
 				return;
@@ -2269,7 +2263,7 @@ namespace World.Network
 
 			creature.SetPosition(pos.X, pos.Y, 0);
 
-			creature.Flying = 0;
+			creature.Flying = false;
 		}
 
 		private void HandleCombatSetTarget(WorldClient client, MabiPacket packet)

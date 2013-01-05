@@ -42,7 +42,7 @@ namespace Common.World
 
 		public byte WeaponSet;
 		public byte BattleState;
-		public byte Flying;
+		public bool Flying;
 
 		public List<MabiItem> Items = new List<MabiItem>();
 
@@ -812,11 +812,11 @@ namespace Common.World
 		public float GetSpeed()
 		{
 			if (this.Vehicle == null)
-				return (this.Flying == 0
+				return (!this.Flying
 					? (!_moveIsWalk ? this.RaceInfo.SpeedRun : this.RaceInfo.SpeedWalk)
 					: this.RaceInfo.FlightInfo.FlightSpeed);
 			else
-				return (this.Vehicle.Flying == 0
+				return (!this.Vehicle.Flying
 					? (!_moveIsWalk ? this.Vehicle.RaceInfo.SpeedRun : this.Vehicle.RaceInfo.SpeedWalk)
 					: this.Vehicle.RaceInfo.FlightInfo.FlightSpeed);
 		}
@@ -849,7 +849,7 @@ namespace Common.World
 			var xt = _position.X + (_movementX * passed);
 			var yt = _position.Y + (_movementY * passed);
 			var ht = 0.0;
-			if (this.Flying == 1)
+			if (this.Flying)
 				ht = _position.H + (_movementH < 0 ?
 					Math.Max(_movementH * passed, _destination.H) :
 					Math.Min(_movementH * passed, _destination.H));
@@ -879,7 +879,7 @@ namespace Common.World
 			_movementY = diffY / _moveDuration;
 			_movementH = 0;
 
-			if (this.Flying == 1)
+			if (this.Flying)
 			{
 				_movementH = (pos.H < dest.H ? this.RaceInfo.FlightInfo.DecentSpeed : this.RaceInfo.FlightInfo.AscentSpeed);
 				_moveDuration = Math.Max(_moveDuration, Math.Abs((int)dest.H - (int)pos.H) / _movementH);
@@ -1277,8 +1277,8 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(this.Flying);					 // IsAviating
-			if (this.Flying == 1)
+			packet.PutByte(this.Flying);
+			if (this.Flying)
 			{
 				var pos = this.GetPosition();
 				packet.PutFloat(pos.X);

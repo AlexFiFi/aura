@@ -36,6 +36,8 @@ namespace World.World
 		private List<MabiItem> _items = new List<MabiItem>();
 		private List<MabiProp> _props = new List<MabiProp>();
 
+		private Dictionary<ulong, MabiPropBehavior> _propBehavior = new Dictionary<ulong, MabiPropBehavior>();
+
 		private int _lastRlHour = -1, _lastRlMinute = -1;
 		private int _overloadCounter = 0;
 
@@ -99,7 +101,8 @@ namespace World.World
 		{
 			// TODO: Not good... >_>
 			var entities = new List<MabiEntity>();
-			entities.AddRange(_creatures);
+			lock (_creatures)
+				entities.AddRange(_creatures);
 			entities.AddRange(_items);
 
 			// Remove dead entites
@@ -397,12 +400,13 @@ namespace World.World
 				if (creature is MabiNPC)
 					toRemove.Add(creature);
 			}
-
 			foreach (var creature in toRemove)
-			{
 				this.RemoveCreature(creature);
-				creature.Dispose();
-			}
+
+			var pr = new List<MabiProp>();
+			pr.AddRange(_props);
+			foreach (var prop in pr)
+				this.RemoveProp(prop);
 		}
 
 		/// <summary>
@@ -565,6 +569,22 @@ namespace World.World
 			ServerEvents.Instance.OnEntityLeavesRegion(prop);
 
 			prop.Dispose();
+		}
+
+		public void SetPropBehavior(MabiPropBehavior behavior)
+		{
+			lock (_propBehavior)
+				_propBehavior[behavior.Prop.Id] = behavior;
+		}
+
+		public MabiPropBehavior GetPropBehavior(ulong propId)
+		{
+			lock (_propBehavior)
+			{
+				MabiPropBehavior result;
+				_propBehavior.TryGetValue(propId, out result);
+				return result;
+			}
 		}
 
 		// Broadcasting

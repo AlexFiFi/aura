@@ -4,6 +4,7 @@
 using System.Runtime.InteropServices;
 using Common.Network;
 using Common.World;
+using World.Network;
 
 namespace World.World
 {
@@ -60,6 +61,14 @@ namespace World.World
 			this.Info.Color9 = 0xFF808080;
 		}
 
+		public MabiProp(ulong id, uint region, uint x, uint y)
+		{
+			this.Id = id;
+			this.Region = region;
+			this.Info.X = x;
+			this.Info.Y = y;
+		}
+
 		public override EntityType EntityType
 		{
 			get { return EntityType.Prop; }
@@ -96,6 +105,20 @@ namespace World.World
 
 			packet.PutInt(0);
 			packet.PutShort(0);
+		}
+	}
+
+	public delegate void MabiPropFunc(WorldClient client, MabiCreature creature, MabiProp prop);
+
+	public class MabiPropBehavior
+	{
+		public MabiProp Prop { get; set; }
+		public MabiPropFunc Func { get; protected set; }
+
+		public MabiPropBehavior(MabiProp prop, MabiPropFunc func = null)
+		{
+			this.Prop = prop;
+			this.Func = func;
 		}
 	}
 }
