@@ -95,6 +95,7 @@ namespace World.World
 			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
 
 			this.AddCommand("go", "<destination>", Authority.VIP, Command_go);
+			this.AddCommand("shamala", "<race>", Authority.VIP, Command_shamala);
 
 			this.AddCommand("gmcp", Authority.GameMaster, Command_gmcp);
 			this.AddCommand("item", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
@@ -876,6 +877,46 @@ namespace World.World
 			}
 
 			return CommandResult.Fail;
+		}
+
+		private CommandResult Command_shamala(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			uint race = 0;
+			if (args.Length > 1 && !uint.TryParse(args[1], out race))
+				return CommandResult.WrongParameter;
+
+			if (race > 0)
+			{
+				if (!creature.Shamala.Start(race))
+				{
+					client.Send(PacketCreator.SystemMessage(creature, "Race not found."));
+					return CommandResult.Fail;
+				}
+
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformation, creature.Id)
+					.PutByte(1)       // Sucess
+					.PutInt(2)        // Transformation Id
+					.PutByte(1)       // Show transformation effect
+					.PutInt(race)     // Race Id
+					.PutFloat(1)      // Size
+					.PutInt(0x808080) // Colors
+					.PutInt(0x808080) // Colors
+					.PutInt(0x808080) // Colors
+					.PutByte(0)
+					.PutByte(0)
+				, SendTargets.Range, creature);
+				client.Send(PacketCreator.SystemMessage(creature, "Transform~!"));
+			}
+			else
+			{
+				creature.Shamala.End();
+
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformationEndR, creature.Id).PutBytes(1, 1), SendTargets.Range, creature);
+				client.Send(PacketCreator.SystemMessage(creature, "Transformation ended."));
+			}
+
+
+			return CommandResult.Okay;
 		}
 	}
 }

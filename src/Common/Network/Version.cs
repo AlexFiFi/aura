@@ -252,7 +252,13 @@ namespace Common.Network
 		public readonly static uint StunMeter = 0xAA1D;
 		public readonly static uint HomesteadInfoRequest = 0xAA54;
 		public readonly static uint HomesteadInfoRequestR = 0xAA55;
+		public readonly static uint CollectionRequest = 0xAA85;
+		public readonly static uint CollectionRequestR = 0xAA86;
 		public readonly static uint GoBeautyShop = 0xAAEC;
+		public readonly static uint ShamalaTransformationUse = 0xAB14;
+		public readonly static uint ShamalaTransformation = 0xAB15;
+		public readonly static uint ShamalaTransformationEnd = 0xAB16;
+		public readonly static uint ShamalaTransformationEndR = 0xAB17;
 
 		public readonly static uint NPCTalkSelectable = 0x13882;
 		public readonly static uint NPCTalkSelect = 0x13883;

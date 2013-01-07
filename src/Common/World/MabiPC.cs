@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Common.Network;
 using Common.Constants;
+using Common.Tools;
 
 namespace Common.World
 {
@@ -268,8 +269,8 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(this.Flying);
-			if (this.Flying)
+			packet.PutByte(this.IsFlying);
+			if (this.IsFlying)
 			{
 				var pos = this.GetPosition();
 				packet.PutFloat(pos.X);
@@ -413,22 +414,35 @@ namespace Common.World
 				//packet.PutShort(id);
 			}
 
-			// ?
+			// Transformations Diary (Shamala)
 			// --------------------------------------------------------------
 			if (Op.Version >= 170300)
 			{
-				packet.PutInt(0);               // Count
-				//    packet.PutInt             // 1, 2, 3, ...
-				//    packet.PutByte			// 1 | 2 | 3
-				//    packet.PutByte			// 1 | 2 | 3
-			}
+				packet.PutInt(0);                 // Count
+				//    packet.PutInt               // Id
+				//    packet.PutByte			  // Counter?
+				//    packet.PutByte			  // Enabled? 1 = No, 2 = Yes?
 
-			// ?
-			// --------------------------------------------------------------
-			if (Op.Version >= 170300 && Op.Version < 170400)
-			{
-				// Needed for KR test 170300, but not for 170400?
-				packet.PutInt(0);
+				// I'm pretty sure this is the transformation diary,
+				// but sending test data doesn't seem to work.
+
+				//packet.PutInt(4);
+
+				//packet.PutInt(1);
+				//packet.PutInt(1);
+				//packet.PutInt(2);
+
+				//packet.PutInt(2);
+				//packet.PutInt(1);
+				//packet.PutInt(2);
+
+				//packet.PutInt(3);
+				//packet.PutInt(1);
+				//packet.PutInt(2);
+
+				//packet.PutInt(9);
+				//packet.PutInt(1);
+				//packet.PutInt(1);
 			}
 
 			// 

@@ -104,6 +104,10 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.HomesteadInfoRequest, HandleHomesteadInfo);
 			this.RegisterPacketHandler(Op.OpenItemShop, HandleOpenItemShop);
 
+			this.RegisterPacketHandler(Op.CollectionRequest, HandleCollectionRequest);
+			this.RegisterPacketHandler(Op.ShamalaTransformationUse, HandleShamalaTransformation);
+			this.RegisterPacketHandler(Op.ShamalaTransformationEnd, HandleShamalaTransformationEnd);
+
 			this.RegisterPacketHandler(Op.GMCPSummon, HandleGMCPSummon);
 			this.RegisterPacketHandler(Op.GMCPMoveToChar, HandleGMCPMoveToChar);
 			this.RegisterPacketHandler(Op.GMCPMove, HandleGMCPMove);
@@ -132,11 +136,6 @@ namespace World.Network
 			{
 				// TODO: Send entities?
 				// NOTE: No idea what this does anymore...
-			});
-
-			this.RegisterPacketHandler(0xAAE6, (client, packet) =>
-			{
-				// Sent when ESC is pressed? (Noticed in G17)
 			});
 
 			this.RegisterPacketHandler(0xA897, (client, packet) =>
@@ -1942,7 +1941,7 @@ namespace World.Network
 				return;
 			}
 
-			pet.Flying = false;
+			pet.IsFlying = false;
 
 			// Set pet position near the summoner
 			var pos = creature.GetPosition();
@@ -2007,12 +2006,12 @@ namespace World.Network
 
 			if (pet.Riders.Count != 0)
 			{
-				if (pet.Flying)
+				if (pet.IsFlying)
 				{
 					client.Send(PacketCreator.Unlock(pet, 0xFFFFBDFF));
 					foreach (var c in pet.Riders)
 						c.Client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
-					pet.Flying = false;
+					pet.IsFlying = false;
 				}
 				foreach (var c in pet.Riders)
 				{
@@ -2085,7 +2084,7 @@ namespace World.Network
 
 			MabiPacket p;
 
-			if (creature.Vehicle == null || !creature.Vehicle.Riders.Contains(creature) || creature.Vehicle.Flying)
+			if (creature.Vehicle == null || !creature.Vehicle.Riders.Contains(creature) || creature.Vehicle.IsFlying)
 			{
 				p = new MabiPacket(Op.PetUnmountR, creature.Id);
 				p.PutByte(0);
@@ -2123,12 +2122,11 @@ namespace World.Network
 				{
 					success = 1;
 					pb.Func(client, creature, pb.Prop);
-					//client.Warp(portalInfo.ToRegion, portalInfo.ToX, portalInfo.ToY);
 				}
 			}
 			else
 			{
-				Logger.Unimplemented("Unknown prop: " + propId.ToString());
+				Logger.Unimplemented("Unknown prop (touch): " + propId.ToString());
 #if DUNGEON_TEST
 				var pos = creature.GetPosition();
 				//client.Send(new MabiPacket(Op.WARP_ENTER, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
@@ -2147,6 +2145,37 @@ namespace World.Network
 			var p = new MabiPacket(Op.TouchPropR, creature.Id);
 			p.PutByte(success);
 			client.Send(p);
+		}
+
+		public void HandleHitProp(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null || creature.IsDead())
+				return;
+
+			var propId = packet.GetLong();
+			// Check if prop exists? We'd need a full prop db for that...
+
+			// Hit prop animation
+			var pos = creature.GetPosition();
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.HittingProp, creature.Id).PutLong(propId).PutInt(2000).PutFloat(pos.X).PutFloat(pos.Y), SendTargets.Region, creature);
+
+			// Check for behavior and run it.
+			var pb = WorldManager.Instance.GetPropBehavior(propId);
+			if (pb != null)
+			{
+				if (creature.Region == pb.Prop.Region && WorldManager.InRange(creature, (uint)pb.Prop.Info.X, (uint)pb.Prop.Info.Y, 1500))
+				{
+					pb.Func(client, creature, pb.Prop);
+				}
+			}
+			else
+			{
+				Logger.Unimplemented("Unknown prop (hit): " + propId.ToString());
+			}
+
+			// Send success in any case, just like hit ani.
+			client.Send(new MabiPacket(Op.HitPropR, creature.Id).PutByte(1));
 		}
 
 		private void HandleMove(WorldClient client, MabiPacket packet)
@@ -2184,7 +2213,7 @@ namespace World.Network
 				return;
 
 			//Todo: Check if can fly
-			if (creature.Flying)
+			if (creature.IsFlying)
 			{
 				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(0));
 				return;
@@ -2204,7 +2233,7 @@ namespace World.Network
 
 			creature.SetPosition(pos.X, pos.Y, 10000);
 
-			creature.Flying = true;
+			creature.IsFlying = true;
 		}
 
 		private void HandleFlyTo(WorldClient client, MabiPacket packet)
@@ -2213,7 +2242,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			if (!creature.Flying)
+			if (!creature.IsFlying)
 				return;
 
 			float toX = packet.GetFloat();
@@ -2245,7 +2274,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			if (!creature.Flying)
+			if (!creature.IsFlying)
 			{
 				client.Send(new MabiPacket(Op.CanLand, packet.Id).PutByte(0));
 				return;
@@ -2263,7 +2292,7 @@ namespace World.Network
 
 			creature.SetPosition(pos.X, pos.Y, 0);
 
-			creature.Flying = false;
+			creature.IsFlying = false;
 		}
 
 		private void HandleCombatSetTarget(WorldClient client, MabiPacket packet)
@@ -2481,25 +2510,6 @@ namespace World.Network
 				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
 		}
 
-		public void HandleHitProp(WorldClient client, MabiPacket packet)
-		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || creature.IsDead())
-				return;
-
-			var targetId = packet.GetLong();
-
-			// TODO: Check for prop to exist?
-			// TODO: Drops. Hard, we'll have to create a prop database...
-
-			var pos = creature.GetPosition();
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.HittingProp, creature.Id).PutLong(targetId).PutInt(2000).PutFloat(pos.X).PutFloat(pos.Y), SendTargets.Region, creature);
-
-			client.Send(new MabiPacket(Op.HitPropR, creature.Id).PutByte(1));
-
-			Logger.Unimplemented("Unknown prop ID: " + targetId);
-		}
-
 		public void HandleMoonGateRequest(WorldClient client, MabiPacket packet)
 		{
 			//001 [................]  String : _moongate_tara_west
@@ -2587,12 +2597,158 @@ namespace World.Network
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.UmbrellaJumpR, creature.Id).PutByte(2), SendTargets.Range, creature); // TODO: What's this byte?
 		}
+
 		private void HandleUmbrellaLand(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
 				return;
+
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.MotionCancel2, creature.Id).PutByte(0), SendTargets.Range, creature); // TODO: What's this byte?
+		}
+
+		protected void HandleCollectionRequest(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var p = new MabiPacket(Op.CollectionRequestR, creature.Id);
+
+			p.PutByte(0);
+			p.PutInt(0);
+
+			p.PutByte(1);
+			p.PutInt(0);
+
+			p.PutByte(2);
+			p.PutInt(0);
+
+			client.Send(p);
+
+			//p.PutByte(0); // Type : 0-Fishing, 1-Cooking, 2-Taming
+			//p.PutInt(7);  // Count
+			//{
+			//    p.PutInt(50253);           // Id (scrapbook)
+			//    p.PutInt(4100);
+			//    p.PutInt(3002);            // Region
+			//    p.PutLong(63469614973173); // Timestamp
+			//    p.PutByte(1);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(50254);
+			//    p.PutInt(2200);
+			//    p.PutInt(3002);
+			//    p.PutLong(63469593461570);
+			//    p.PutByte(1);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(50255);
+			//    p.PutInt(6000);
+			//    p.PutInt(3002);
+			//    p.PutLong(63469450426497);
+			//    p.PutByte(1);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(50256);
+			//    p.PutInt(10200);
+			//    p.PutInt(3002);
+			//    p.PutLong(63469610919920);
+			//    p.PutByte(1);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(50257);
+			//    p.PutInt(900);
+			//    p.PutInt(3002);
+			//    p.PutLong(63469589348657);
+			//    p.PutByte(1);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(50258);
+			//    p.PutInt(11000);
+			//    p.PutInt(3002);
+			//    p.PutLong(63469439821427);
+			//    p.PutByte(1);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(50260);
+			//    p.PutInt(9800);
+			//    p.PutInt(3002);
+			//    p.PutLong(63469451258313);
+			//    p.PutByte(1);
+			//    p.PutByte(0);
+			//}
+			//p.PutByte(1);
+			//p.PutInt(1);
+			//{
+			//    p.PutInt(50537);
+			//    p.PutInt(0);
+			//    p.PutInt(20);
+			//    p.PutLong(63481333396833);
+			//    p.PutByte(0);
+			//}
+			//p.PutByte(2);
+			//p.PutInt(3);
+			//{
+			//    p.PutInt(1007);
+			//    p.PutInt(420001);
+			//    p.PutInt(3300);
+			//    p.PutLong(63481310925307);
+			//    p.PutFloat(790);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(1013);
+			//    p.PutInt(201701);
+			//    p.PutInt(401);
+			//    p.PutLong(63481386587503);
+			//    p.PutFloat(600);
+			//    p.PutByte(0);
+			//
+			//    p.PutInt(2010);
+			//    p.PutInt(201801);
+			//    p.PutInt(401);
+			//    p.PutLong(63481386642277);
+			//    p.PutFloat(600);
+			//    p.PutByte(0);
+			//}
+		}
+
+		protected void HandleShamalaTransformation(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			var transId = packet.GetInt();
+
+			// TODO: Get race for the id and transform.
+
+			if (/* id not found */ true)
+			{
+				// Fail
+				var p = new MabiPacket(Op.ShamalaTransformation, creature.Id);
+				p.PutByte(0);
+				client.Send(p);
+				return;
+			}
+		}
+
+		protected void HandleShamalaTransformationEnd(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			if (!creature.Shamala.IsTransformed)
+			{
+				client.Send(new MabiPacket(Op.ShamalaTransformationEndR).PutByte(0));
+				return;
+			}
+
+			creature.Shamala.End();
+
+			// Broadcast end, success with showing ani.
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformationEndR, creature.Id).PutBytes(1, 1), SendTargets.Range, creature);
 		}
 	}
 }

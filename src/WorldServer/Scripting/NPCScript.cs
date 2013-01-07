@@ -366,6 +366,24 @@ namespace World.Scripting
 			this.Select(client);
 		}
 
+		protected virtual void Bgm(WorldClient client, string fileName)
+		{
+			var script = string.Format(
+				"<call convention=\"thiscall\" syncmode=\"non-sync\">" +
+					"<this type=\"character\">{0}</this>" +
+					"<function>" +
+						"<prototype>void character::ShowTalkMessage(character, string)</prototype>" +
+						"<arguments>" +
+							"<argument type=\"character\">{1}</argument>" +
+							"<argument type=\"string\">&lt;npcportrait name='NONE'/&gt;&lt;title name='NONE'/&gt;&lt;music name='{2}'/&gt;</argument>" +
+						"</arguments>" +
+					"</function>" +
+				"</call>"
+			, client.Character.Id, this.NPC.Id, fileName);
+
+			this.SendScript(client, script);
+		}
+
 		protected virtual void Close(WorldClient client, string message = "")
 		{
 			message = "<npcportrait name=\"NONE\"/><title name=\"NONE\"/>" + message;

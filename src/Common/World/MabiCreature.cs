@@ -42,7 +42,7 @@ namespace Common.World
 
 		public byte WeaponSet;
 		public byte BattleState;
-		public bool Flying;
+		public bool IsFlying;
 
 		public List<MabiItem> Items = new List<MabiItem>();
 
@@ -82,6 +82,8 @@ namespace Common.World
 		public CreatureCondition PrevConditions;
 
 		public uint Area = 0;
+
+		public ShamalaTrans Shamala = new ShamalaTrans();
 
 		public byte RestPose
 		{
@@ -811,14 +813,31 @@ namespace Common.World
 
 		public float GetSpeed()
 		{
+			RaceInfo ri = null;
+
 			if (this.Vehicle == null)
-				return (!this.Flying
-					? (!_moveIsWalk ? this.RaceInfo.SpeedRun : this.RaceInfo.SpeedWalk)
-					: this.RaceInfo.FlightInfo.FlightSpeed);
+			{
+				if (!this.Shamala.IsTransformed)
+				{
+					// Normal
+					ri = this.RaceInfo;
+				}
+				else
+				{
+					// Transformed
+					ri = this.Shamala.RaceInfo;
+				}
+			}
 			else
-				return (!this.Vehicle.Flying
-					? (!_moveIsWalk ? this.Vehicle.RaceInfo.SpeedRun : this.Vehicle.RaceInfo.SpeedWalk)
-					: this.Vehicle.RaceInfo.FlightInfo.FlightSpeed);
+			{
+				// Mounted
+				ri = this.Vehicle.RaceInfo;
+			}
+
+			if (!this.IsFlying)
+				return (!_moveIsWalk ? ri.SpeedRun : ri.SpeedWalk);
+			else
+				return ri.FlightInfo.FlightSpeed;
 		}
 
 		public void SetLocation(uint region, uint x, uint y)
@@ -849,7 +868,7 @@ namespace Common.World
 			var xt = _position.X + (_movementX * passed);
 			var yt = _position.Y + (_movementY * passed);
 			var ht = 0.0;
-			if (this.Flying)
+			if (this.IsFlying)
 				ht = _position.H + (_movementH < 0 ?
 					Math.Max(_movementH * passed, _destination.H) :
 					Math.Min(_movementH * passed, _destination.H));
@@ -879,7 +898,7 @@ namespace Common.World
 			_movementY = diffY / _moveDuration;
 			_movementH = 0;
 
-			if (this.Flying)
+			if (this.IsFlying)
 			{
 				_movementH = (pos.H < dest.H ? this.RaceInfo.FlightInfo.DecentSpeed : this.RaceInfo.FlightInfo.AscentSpeed);
 				_moveDuration = Math.Max(_moveDuration, Math.Abs((int)dest.H - (int)pos.H) / _movementH);
@@ -1277,8 +1296,8 @@ namespace Common.World
 
 			// Aviation
 			// --------------------------------------------------------------
-			packet.PutByte(this.Flying);
-			if (this.Flying)
+			packet.PutByte(this.IsFlying);
+			if (this.IsFlying)
 			{
 				var pos = this.GetPosition();
 				packet.PutFloat(pos.X);
@@ -1388,13 +1407,16 @@ namespace Common.World
 				packet.PutLong(0);
 				packet.PutShort(0);
 				packet.PutByte(255);
-				packet.PutInt(0);
+
+				// Shamala Transformation
+				// --------------------------------------------------------------		
+				packet.PutInt(this.Shamala.Id);
 				packet.PutByte(0);
-				packet.PutInt(0);
-				packet.PutFloat(1);
-				packet.PutInt(8421504);
-				packet.PutInt(8421504);
-				packet.PutInt(8421504);
+				packet.PutInt(this.Shamala.RaceId);
+				packet.PutFloat(this.Shamala.Size);
+				packet.PutInt(this.Shamala.Color1);
+				packet.PutInt(this.Shamala.Color2);
+				packet.PutInt(this.Shamala.Color3);
 				packet.PutByte(0);
 				packet.PutByte(0);
 			}
@@ -1475,7 +1497,13 @@ namespace Common.World
 			// Stats
 			// --------------------------------------------------------------
 			packet.PutFloat(CombatPower);
-			packet.PutString(StandStyle);
+
+			// Stand styles mess up some models pretty bad =P
+			if (!this.Shamala.IsTransformed)
+				packet.PutString(StandStyle);
+			else
+				packet.PutString("");
+
 			if (attr == 2)
 			{
 				packet.PutFloat(this.Life);
@@ -1611,6 +1639,46 @@ namespace Common.World
 
 				packet.PutInt(0);
 			}
+		}
+	}
+
+	public class ShamalaTrans
+	{
+		public uint Id { get; set; }
+		public uint RaceId { get; set; }
+		public float Size { get; set; }
+		public uint Color1 { get; set; }
+		public uint Color2 { get; set; }
+		public uint Color3 { get; set; }
+
+		public RaceInfo RaceInfo { get; set; }
+
+		public bool IsTransformed { get { return this.Id > 0; } }
+
+		public ShamalaTrans()
+		{
+			this.Id = 0;
+			this.RaceId = 0;
+			this.Size = 1;
+			this.Color1 = this.Color2 = this.Color3 = 0x808080;
+		}
+
+		public void End()
+		{
+			this.Id = 0;
+			this.RaceId = 0;
+		}
+
+		public bool Start(uint race, uint id = 1)
+		{
+			this.RaceInfo = MabiData.RaceDb.Find(race);
+			if (this.RaceInfo == null)
+				return false;
+
+			this.Id = id;
+			this.RaceId = race;
+
+			return true;
 		}
 	}
 }

@@ -38,6 +38,8 @@ public class AlissaScript : NPCScript
 
 	public override void OnTalk(WorldClient c)
 	{
+		Bgm(c, "NPC_Alissa.mp3");
+		
 		Disable(c, Options.FaceAndName);
 		Msg(c, "A young girl stands with her habds on her hips like she's a person of great importance.",
 			"She wears a worn out hat that frames her soft hair, round face, and button nose.",

@@ -23,6 +23,11 @@ namespace World.Network
 
 		public readonly NPCSession NPCSession = new NPCSession();
 
+		public MabiCreature GetCreatureOrNull(ulong id)
+		{
+			return this.Creatures.FirstOrDefault(a => a.Id == id);
+		}
+
 		public override void Kill()
 		{
 			if (this.State != SessionState.Dead)
