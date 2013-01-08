@@ -1,4 +1,4 @@
-﻿// Aura
+// Aura
 // Database file
 // 
 // Structure:
@@ -38,13 +38,15 @@
 50115,"Wyvern Fire Breath",0
 50160,"Save Location",0
 50161,"Pet Teleport",0
-55001,"양털 깎기",10801
-55002,"채광",10802
-55003,"달걀 채집",10803
-55004,"버섯 채집",10804
-55005,"Unknown",10805
-55006,"추수",10806
-55007,"호미질",10807
+55001,"Sheep Shearing",10801
+55002,"Mining",10802
+55003,"Egg Gathering",10803
+55004,"Mushroom Gathering",10804
+55005,"Milking",10805
+55006,"Harvesting",10806
+55007,"Hoeing",10807
+55100,"Commerce Mastery",10808
+56001,"Transformation Mastery",10809
 
 // Combat
 //---------------------------------------------------------------------------
@@ -133,15 +135,13 @@
 23054,"Grim Reaper Horizontal Attack",0
 23055,"Grim Reaper Windmill",0
 23057,"Roar",0
-23058,"분신술",10123
 23060,"Bow Mastery",10117
-23060,"Bow Mastery",10117
-23061,"Crossbow Mastery",10118
 23061,"Crossbow Mastery",10118
 23062,"Lance Mastery",10131
 23101,"Bran's Shockwave",0
 23103,"Bran's Arm Swing",0
 23106,"Gold Strike",10162
+50062,"Snow Bomb",0
 50104,"Charge",0
 50105,"Playing Dead",0
 50110,"Dragon Meteor",0
@@ -161,6 +161,17 @@
 50135,"Summon",0
 50137,"Boost",0
 50144,"Running Boost",0
+50500,"몬스터 소환",0
+50501,"악의 확산",0
+50502,"생명의 확산",0
+50503,"폭주 기관차",0
+50504,"성지 순례",0
+50505,"화이트 브레스",0
+50506,"블랙 브레스",0
+50507,"지옥의 손길",0
+50508,"데빌 허그",0
+50509,"칼날 서리",0
+50510,"철옹성",0
 52000,"Merrow Smash",0
 65002,"Super Windmill (GM Skill)",0
 
@@ -173,7 +184,6 @@
 30005,"Enchant",10034
 30006,"Healing",10018
 30007,"Magic Mastery",10088
-30008,"Party Healing",10089
 30008,"Party Healing",10089
 30009,"Meditaion for Pets",0
 30010,"라이프 드레인 (몬스터용)",0
@@ -203,11 +213,8 @@
 30306,"Floating Stone Ice Spear",0
 30307,"Hail Storm",10122
 30401,"Spirit Wand Awakening",0
-30450,"Ice Lightning",0
 30450,"Assault Slash",0
-30451,"Ice Fire",0
 30451,"Berserker",0
-30452,"FireLightning",0
 30452,"Fire Lightning",0
 30453,"Fusion Bolt",10119
 30460,"Fire Shield",10136
@@ -234,7 +241,13 @@
 50149,"Hands of Salvation",0
 50151,"Frost Storm",0
 50152,"Ice Breath",0
-50154,"부활의 불꽃",0
+50154,"Flame of Resurrection",0
+50155,"Explosive Resurrection",0
+50156,"Phoenix's Flame",0
+50157,"Devil's Dash",0
+50158,"Petrifying Roar",0
+50159,"Devil's Cry",0
+50162,"안식의 바람",0
 52001,"Merrow Rising Dragon",0
 52002,"Merrow Tidal Wave",0
 
@@ -296,22 +309,32 @@
 
 // Puppet
 //---------------------------------------------------------------------------
-54001,"마리오네트 조종술",0
-54081,"피에로 마리오네트",0
-54082,"콜로서스 마리오네트",0
-54101,"Unknown",0
-54102,"Unknown",0
-54103,"Unknown",0
-54104,"Unknown",0
-54105,"Unknown",0
-54151,"와이어 풀링",0
-54152,"와이어 바인딩",0
-54153,"Unknown",0
-54181,"Unknown",0
-54182,"Unknown",0
+54001,"Control Marionette",10901
+54081,"Pierrot Marionette",10903
+54082,"Colossus Marionette",10902
+54101,"Act 2: Threshold Cutter",10904
+54102,"Act 1: Inciting Incident",10905
+54103,"Act 4: Rising Action",10906
+54104,"Act 6: Crisis",10907
+54105,"Act 7: Climactic Crash",10908
+54106,"Act 9: Invigorating Encore",10909
+54151,"Act 2: Threshold Cutter AI",0
+54152,"Act 1: Inciting Incident AI",0
+54153,"Act 4: Rising Action AI",0
+54154,"Act 6: Crisis AI",0
+54155,"Act 7: Climactic Crash AI",0
+54156,"Act 9: Invigorating Encore AI",0
+54201,"Wire Pull",10910
+54202,"Puppet's Snare",10911
 
 // Transformation
 //---------------------------------------------------------------------------
+10039,"연구 : 포션 중독",14004
+21012,"스파이더 샷",14002
+23058,"분신술",10123
+23107,"버서크",14003
+24103,"연속기 : 카운터 펀치",14001
+30105,"쇼크웨이브",14000
 40001,"Spirit of Order",0
 40002,"Power of Order",0
 40003,"Eye of Order",0
@@ -330,7 +353,6 @@
 42001,"Race Transformation",0
 42002,"윈드밀 (사용안함)",0
 43001,"Fury of Connous",0
-43001,"Fury of Connous",0
 43002,"Elven Magic Missile",0
 43011,"Armor of Connous",0
 43012,"Mind of Connous",0
@@ -339,7 +361,6 @@
 43022,"Heavy Stander",0
 43023,"Mana Deflector",0
 44001,"Daemon of Physis",0
-44001,"Demon of Physis",0
 44002,"Giant Full Swing",0
 44011,"Shield of Physis",0
 44012,"Life of Physis",0
@@ -426,6 +447,7 @@
 50058,"Add Seasoning",0
 50059,"Water Balloon Attack",0
 50060,"Emergency Ice Bomb",0
+50061,"Marionette Hidden Resurrection",0
 50101,"Pet Buffing",0
 50108,"펫 봉인",0
 50113,"Eat Volcanic Bomb",0

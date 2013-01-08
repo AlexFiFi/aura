@@ -18,7 +18,8 @@ namespace Common.Data
 		public byte Rank;
 		public byte Ap;
 		public float Cp;
-		public byte Stack;
+		public uint Range;
+		public byte Stack, StackMax;
 		public uint LoadTime, NewLoadTime, CoolDown;
 		public float StaminaCost, StaminaPrepare, StaminaWait, StaminaUse;
 		public float ManaCost, ManaPrepare, ManaWait, ManaUse;
@@ -36,7 +37,7 @@ namespace Common.Data
 		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
 			base.LoadFromCsv(filePath, reload);
-			this.ReadCsv(filePath, 34);
+			this.ReadCsv(filePath, 36);
 		}
 
 		protected override void CsvToEntry(SkillRankInfo info, List<string> csv, int currentLine)
@@ -47,7 +48,9 @@ namespace Common.Data
 			info.Rank = Convert.ToByte(csv[i++]);
 			info.Ap = Convert.ToByte(csv[i++]);
 			info.Cp = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.Range = Convert.ToUInt32(csv[i++]);
 			info.Stack = Convert.ToByte(csv[i++]);
+			info.StackMax = Convert.ToByte(csv[i++]);
 			info.LoadTime = Convert.ToUInt32(csv[i++]);
 			info.NewLoadTime = Convert.ToUInt32(csv[i++]);
 			info.CoolDown = Convert.ToUInt32(csv[i++]);
