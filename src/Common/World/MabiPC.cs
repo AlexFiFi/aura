@@ -418,31 +418,24 @@ namespace Common.World
 			// --------------------------------------------------------------
 			if (Op.Version >= 170300)
 			{
-				packet.PutInt(0);                 // Count
+				//packet.PutInt(0);               // Count
 				//    packet.PutInt               // Id
-				//    packet.PutByte			  // Counter?
-				//    packet.PutByte			  // Enabled? 1 = No, 2 = Yes?
+				//    packet.PutByte			  // Counter
+				//    packet.PutByte			  // None/Hunted/Enabled
 
-				// I'm pretty sure this is the transformation diary,
-				// but sending test data doesn't seem to work.
+				packet.PutInt(3);
 
-				//packet.PutInt(4);
+				packet.PutInt(1);
+				packet.PutByte(1);
+				packet.PutByte(2);
 
-				//packet.PutInt(1);
-				//packet.PutInt(1);
-				//packet.PutInt(2);
+				packet.PutInt(2);
+				packet.PutByte(1);
+				packet.PutByte(2);
 
-				//packet.PutInt(2);
-				//packet.PutInt(1);
-				//packet.PutInt(2);
-
-				//packet.PutInt(3);
-				//packet.PutInt(1);
-				//packet.PutInt(2);
-
-				//packet.PutInt(9);
-				//packet.PutInt(1);
-				//packet.PutInt(1);
+				packet.PutInt(3);
+				packet.PutByte(1);
+				packet.PutByte(2);
 			}
 
 			// 

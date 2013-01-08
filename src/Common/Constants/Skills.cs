@@ -57,6 +57,7 @@ namespace Common.Constants
 		LureOfBallad = 30015,
 		WebSpinning = 50005,
 		WyvernFireBreath = 50115,
+		TransformationMastery = 56001,
 
 		// Combat
 		Defense = 20001,

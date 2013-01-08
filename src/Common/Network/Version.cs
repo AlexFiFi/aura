@@ -255,6 +255,7 @@ namespace Common.Network
 		public readonly static uint CollectionRequest = 0xAA85;
 		public readonly static uint CollectionRequestR = 0xAA86;
 		public readonly static uint GoBeautyShop = 0xAAEC;
+		public readonly static uint ShamalaTransformationUpdate = 0xAB13;
 		public readonly static uint ShamalaTransformationUse = 0xAB14;
 		public readonly static uint ShamalaTransformation = 0xAB15;
 		public readonly static uint ShamalaTransformationEnd = 0xAB16;

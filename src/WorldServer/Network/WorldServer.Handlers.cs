@@ -2721,9 +2721,15 @@ namespace World.Network
 
 			var transId = packet.GetInt();
 
-			// TODO: Get race for the id and transform.
+			uint race = 0;
+			switch (transId)
+			{
+				case 1: race = 580002; break;
+				case 2: race = 60004; break;
+				case 3: race = 380001; break;
+			}
 
-			if (/* id not found */ true)
+			if (race == 0 || !creature.HasSkill(SkillConst.TransformationMastery) || !creature.Shamala.Start(race, transId))
 			{
 				// Fail
 				var p = new MabiPacket(Op.ShamalaTransformation, creature.Id);
@@ -2731,6 +2737,27 @@ namespace World.Network
 				client.Send(p);
 				return;
 			}
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformation, creature.Id)
+				.PutByte(1)
+				.PutInt(transId)
+				.PutByte(1)
+				.PutInt(race)
+				.PutFloat(1)
+				.PutInt(0x808080)
+				.PutInt(0x808080)
+				.PutInt(0x808080)
+				.PutByte(0)
+				.PutByte(0)
+			, SendTargets.Range, creature);
+
+			// for reference
+			//client.Send(new MabiPacket(Op.ShamalaTransformationUpdate, creature.Id)
+			//    .PutInt(9)
+			//    .PutByte(1)
+			//    .PutByte(2)
+			//    .PutByte(2)
+			//);
 		}
 
 		protected void HandleShamalaTransformationEnd(WorldClient client, MabiPacket packet)
