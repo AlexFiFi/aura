@@ -81,12 +81,7 @@ namespace Common.Tools
 			}
 
 			Write(LogLevel.Exception, ex.Source + ", in " + ex.TargetSite);
-			Write(LogLevel.Exception, ex.Message);
-
-			if (stackTrace)
-			{
-				Write(LogLevel.Exception, ex.StackTrace);
-			}
+			Write(LogLevel.Exception, ex.Message + (!stackTrace ? "" : "\n" + ex.StackTrace));
 		}
 
 		public static void Write(LogLevel lvl, string s, bool newLine = true)

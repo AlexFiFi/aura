@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Common.Data
 {
 	public static class MabiData
@@ -26,5 +21,6 @@ namespace Common.Data
 		internal static RaceStatDb RaceStatDb = new RaceStatDb();
 		public static SpawnDb SpawnDb = new SpawnDb();
 		public static MapDb MapDb = new MapDb();
+		public static RegionDb RegionDb = new RegionDb();
 	}
 }

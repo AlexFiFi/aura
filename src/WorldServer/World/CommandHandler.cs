@@ -5,87 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using Common.Constants;
+using Common.Data;
+using Common.Events;
 using Common.Network;
 using Common.Tools;
 using Common.World;
 using CSScriptLibrary;
 using World.Network;
 using World.Scripting;
-using World.Tools;
-using Common.Data;
-using System.Text.RegularExpressions;
-using System.Text;
-using Common.Events;
 using World.Skills;
+using World.Tools;
 
 namespace World.World
 {
-	public enum CommandResult { Okay, WrongParameter, Fail }
-
-	public delegate CommandResult CommandFunc(WorldClient client, MabiCreature creature, string[] args, string msg);
-
-	public class Command
-	{
-		public string Name, Parameters;
-		public byte Auth;
-		public CommandFunc Func;
-
-		public Command() { }
-
-		public Command(string name, string parameters, byte authority, CommandFunc func)
-		{
-			this.Name = name;
-			this.Parameters = parameters;
-			this.Auth = authority;
-			this.Func = func;
-		}
-	}
-
 	public class CommandHandler
 	{
-		public static readonly CommandHandler Instance = new CommandHandler();
-		static CommandHandler() { }
-		private CommandHandler() { }
-
-		private static Dictionary<string, Command> _commands = new Dictionary<string, Command>();
-
-		public List<string> GetAllCommandsForAuth(byte auth)
-		{
-			List<string> ret = new List<string>();
-			foreach (KeyValuePair<string, Command> kvp in _commands)
-			{
-				if (kvp.Value.Auth <= auth)
-					ret.Add(kvp.Key);
-			}
-			ret.Sort();
-			return ret;
-		}
-
-		public void AddCommand(string name, byte authority, CommandFunc func)
-		{
-			this.AddCommand(name, null, authority, func);
-		}
-
-		public void AddCommand(string name, string parameters, byte authority, CommandFunc func)
-		{
-			this.AddCommand(new Command(name, parameters, authority, func));
-		}
-
-		public void AddCommand(Command command)
-		{
-			_commands.Add(command.Name, command);
-		}
-
-		public void AddAlias(string command, params string[] aliases)
-		{
-			if (!_commands.ContainsKey(command))
-				return;
-
-			foreach (var alias in aliases)
-				_commands.Add(alias, _commands[command]);
-		}
-
+		// Command definition / loading
+		// ------------------------------------------------------------------
 		public void Load()
 		{
 			this.AddCommand("where", Authority.Player, Command_where);
@@ -101,7 +40,6 @@ namespace World.World
 			this.AddCommand("item", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
 			this.AddCommand("iteminfo", "<item name>", Authority.GameMaster, Command_iteminfo);
 			this.AddCommand("raceinfo", "<race name>", Authority.GameMaster, Command_raceinfo);
-			this.AddCommand("goto", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("warp", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("jump", "<x> [y]", Authority.GameMaster, Command_jump);
 			this.AddCommand("clean", Authority.GameMaster, Command_clean);
@@ -150,6 +88,50 @@ namespace World.World
 			}
 		}
 
+		// ------------------------------------------------------------------
+
+		public static readonly CommandHandler Instance = new CommandHandler();
+		static CommandHandler() { }
+		private CommandHandler() { }
+
+		private static Dictionary<string, Command> _commands = new Dictionary<string, Command>();
+
+		public List<string> GetAllCommandsForAuth(byte auth)
+		{
+			List<string> ret = new List<string>();
+			foreach (KeyValuePair<string, Command> kvp in _commands)
+			{
+				if (kvp.Value.Auth <= auth)
+					ret.Add(kvp.Key);
+			}
+			ret.Sort();
+			return ret;
+		}
+
+		public void AddCommand(string name, byte authority, CommandFunc func)
+		{
+			this.AddCommand(name, null, authority, func);
+		}
+
+		public void AddCommand(string name, string parameters, byte authority, CommandFunc func)
+		{
+			this.AddCommand(new Command(name, parameters, authority, func));
+		}
+
+		public void AddCommand(Command command)
+		{
+			_commands.Add(command.Name, command);
+		}
+
+		public void AddAlias(string command, params string[] aliases)
+		{
+			if (!_commands.ContainsKey(command))
+				return;
+
+			foreach (var alias in aliases)
+				_commands.Add(alias, _commands[command]);
+		}
+
 		/// <summary>
 		/// Returns true if a command was used.
 		/// </summary>
@@ -195,7 +177,7 @@ namespace World.World
 		}
 
 		// Commands
-		// ==================================================================
+		// ------------------------------------------------------------------
 
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
@@ -534,6 +516,10 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps creature to the specified region and coordinates.
+		/// If coordinates are ommited, a random location will be used.
+		/// </summary>
 		private CommandResult Command_warp(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			if (args.Length < 2)
@@ -555,15 +541,16 @@ namespace World.World
 			}
 
 			uint x = pos.X, y = pos.Y;
-
-			if (args.Length > 2)
+			if (args.Length > 2 && !uint.TryParse(args[2], out x))
+				return CommandResult.WrongParameter;
+			if (args.Length > 3 && !uint.TryParse(args[3], out y))
+				return CommandResult.WrongParameter;
+			if (args.Length == 2)
 			{
-				x = uint.Parse(args[2]);
-
-				if (args.Length > 3)
-				{
-					y = uint.Parse(args[3]);
-				}
+				// Random coordinates.
+				var rndc = MabiData.RegionDb.RandomCoord(region);
+				x = rndc.X;
+				y = rndc.Y;
 			}
 
 			client.Warp(region, x, y);
@@ -571,21 +558,27 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
+		/// <summary>
+		/// Warps creature to the specified coordinates in the current region.
+		/// If coordinates are ommited, a random location will be used.
+		/// </summary>
 		private CommandResult Command_jump(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			if (args.Length < 2)
-				return CommandResult.WrongParameter;
-
 			var pos = creature.GetPosition();
-
 			uint region = creature.Region;
+
 			uint x = pos.X, y = pos.Y;
-
-			if (!uint.TryParse(args[1], out x))
-				return CommandResult.Fail;
-
-			if (args.Length >= 3 && !uint.TryParse(args[2], out y))
-				return CommandResult.Fail;
+			if (args.Length > 1 && !uint.TryParse(args[1], out x))
+				return CommandResult.WrongParameter;
+			if (args.Length > 2 && !uint.TryParse(args[2], out y))
+				return CommandResult.WrongParameter;
+			if (args.Length == 1)
+			{
+				// Random coordinates.
+				var rndc = MabiData.RegionDb.RandomCoord(region);
+				x = rndc.X;
+				y = rndc.Y;
+			}
 
 			client.Warp(region, x, y);
 
@@ -917,6 +910,27 @@ namespace World.World
 
 
 			return CommandResult.Okay;
+		}
+	}
+
+	public enum CommandResult { Okay, WrongParameter, Fail }
+
+	public delegate CommandResult CommandFunc(WorldClient client, MabiCreature creature, string[] args, string msg);
+
+	public class Command
+	{
+		public string Name, Parameters;
+		public byte Auth;
+		public CommandFunc Func;
+
+		public Command() { }
+
+		public Command(string name, string parameters, byte authority, CommandFunc func)
+		{
+			this.Name = name;
+			this.Parameters = parameters;
+			this.Auth = authority;
+			this.Func = func;
 		}
 	}
 }

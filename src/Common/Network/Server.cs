@@ -107,13 +107,13 @@ namespace Common.Network
 		{
 			try
 			{
-				if (toLoad.HasFlag(DataLoad.Npcs))
+				if ((toLoad & DataLoad.Npcs) != 0)
 				{
 					MabiData.SpawnDb.LoadFromCsv(dataPath + "/db/spawns.txt", reload);
 					Logger.Info("Done loading " + MabiData.SpawnDb.Entries.Count + " entries from spawns.txt.");
 				}
 
-				if (toLoad.HasFlag(DataLoad.Data))
+				if ((toLoad & DataLoad.Data) != 0)
 				{
 					MabiData.RaceSkillDb.LoadFromCsv(dataPath + "/db/race_skills.txt", reload);
 					Logger.Info("Done loading " + MabiData.RaceSkillDb.Entries.Count + " entries from race_skills.txt.");
@@ -151,6 +151,9 @@ namespace Common.Network
 
 					MabiData.MapDb.LoadFromCsv(dataPath + "/db/maps.txt", reload);
 					Logger.Info("Done loading " + MabiData.MapDb.Entries.Count + " entries from maps.txt.");
+
+					MabiData.RegionDb.LoadFromDat(dataPath + "/db/regioninfo.dat", reload);
+					Logger.Info("Done loading " + MabiData.RegionDb.Entries.Count + " entries from regioninfo.dat.");
 				}
 			}
 			catch (FileNotFoundException ex)

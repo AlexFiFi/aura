@@ -91,6 +91,7 @@
     <Compile Include="Database\MabiDb.cs" />
     <Compile Include="Data\FlightInfo.cs" />
     <Compile Include="Data\Maps.cs" />
+    <Compile Include="Data\Regions.cs" />
     <Compile Include="Data\StatsLevelUp.cs" />
     <Compile Include="Data\RaceSkills.cs" />
     <Compile Include="Data\SkillRanks.cs" />
