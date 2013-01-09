@@ -5,11 +5,15 @@ using System;
 using Common.Data;
 using Common.Tools;
 using World.World;
+using Common.World;
+using World.Network;
 
 namespace World.Scripting
 {
 	public class BaseScript : IDisposable
 	{
+		protected Random _rnd = RandomProvider.Get();
+
 		public string ScriptPath { get; set; }
 		public string ScriptName { get; set; }
 
@@ -144,6 +148,38 @@ namespace World.Scripting
 		{
 			if (behavior != null)
 				WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(prop, behavior));
+		}
+
+		/// <summary>
+		/// "Redirect" to WorldManager.Instance.SpawnCreature.
+		/// </summary>
+		protected void Spawn(uint race, uint amount, uint region, uint x, uint y)
+		{
+			WorldManager.Instance.SpawnCreature(race, amount, region, x, y);
+		}
+
+		/// <summary>
+		/// "Redirect" to WorldManager.Instance.SpawnCreature.
+		/// </summary>
+		protected void Spawn(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0)
+		{
+			WorldManager.Instance.SpawnCreature(race, amount, region, pos, radius);
+		}
+
+		/// <summary>
+		/// Returns random int between from and too (inclusive).
+		/// </summary>
+		protected int Rnd(int from, int to)
+		{
+			return _rnd.Next(from, to);
+		}
+
+		protected void Notice(WorldClient client, string msg, NoticeType type = NoticeType.MiddleTop)
+		{
+			if (client == null)
+				return;
+
+			client.Send(PacketCreator.Notice(msg, type));
 		}
 	}
 

@@ -341,4 +341,4 @@ sided, non-custom, props, like portals. The location has to be specified as
 well, because we have to be able to check it against the player's locations.
 Use SpawnProp to actually create and spawn custom props (including portals).
 See SpawnProp for more information, and the various portal scripts for
-examples.
+examples. Also there might be useful examples in "doc/script_samples/".

@@ -97,14 +97,14 @@ namespace World.Network
 			Logger.Info("Loading commands...");
 			CommandHandler.Instance.Load();
 
-			// NPCs
+			// Scripts (NPCs, Portals, etc.)
 			// --------------------------------------------------------------
-			NPCManager.Instance.LoadNPCs();
+			ScriptManager.Instance.LoadScripts();
 
 			// Monsters
 			// --------------------------------------------------------------
 			Logger.Info("Spawning monsters...");
-			NPCManager.Instance.LoadSpawns();
+			ScriptManager.Instance.LoadSpawns();
 
 			// Timers
 			// --------------------------------------------------------------

@@ -134,7 +134,7 @@ namespace Common.Data
 		public Line SpawnLine;
 		public SpawnRegion SpawnPolyRegion;
 		public RectangleF SpawnPolyBounds;
-		public byte Amount;
+		public uint Amount;
 
 		public MabiVertex GetRandomSpawnPoint()
 		{
@@ -165,7 +165,6 @@ namespace Common.Data
 
 			return new MabiVertex(x, y);
 		}
-
 	}
 
 	public class SpawnDb : DataManager<SpawnInfo>

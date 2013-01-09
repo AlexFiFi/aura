@@ -14,6 +14,7 @@ using World.Scripting;
 using World.Tools;
 using Common.Database;
 using World.Skills;
+using Common.Data;
 
 namespace World.World
 {
@@ -124,7 +125,7 @@ namespace World.World
 					var npc = entity as MabiNPC;
 					if (npc != null && npc.SpawnId > 0)
 					{
-						NPCManager.Instance.Spawn(npc.SpawnId, 1);
+						ScriptManager.Instance.Spawn(npc.SpawnId, 1);
 					}
 				}
 				else if (entity is MabiItem)
@@ -1217,6 +1218,39 @@ namespace World.World
 			p.PutInt(actionId);
 
 			this.Broadcast(p, SendTargets.Range, source);
+		}
+
+		public void SpawnCreature(uint race, uint amount, uint region, uint x, uint y)
+		{
+			this.SpawnCreature(race, amount, region, new MabiVertex(x, y));
+		}
+
+		public void SpawnCreature(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0)
+		{
+			var spawn = new SpawnInfo();
+			spawn.Amount = amount;
+			spawn.RaceId = race;
+			spawn.Region = region;
+
+			if (radius == 0)
+			{
+				spawn.SpawnType = SpawnLocationType.Point;
+				spawn.SpawnPoint = pos;
+			}
+			else
+			{
+				spawn.SpawnType = SpawnLocationType.Polygon;
+				spawn.SpawnPolyRegion = new SpawnRegion(new MabiVertex[] 
+				{
+					new MabiVertex(pos.X - radius, pos.Y - radius),
+					new MabiVertex(pos.X - radius, pos.Y + radius),
+					new MabiVertex(pos.X + radius, pos.Y + radius),
+					new MabiVertex(pos.X + radius, pos.Y - radius),
+				});
+				spawn.SpawnPolyBounds = spawn.SpawnPolyRegion.GetBounds();
+			}
+
+			ScriptManager.Instance.Spawn(spawn);
 		}
 
 		public void Broadcast(MabiPacket packet, SendTargets targets, MabiEntity source = null, uint range = 0)

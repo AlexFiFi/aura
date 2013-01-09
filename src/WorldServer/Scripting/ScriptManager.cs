@@ -20,21 +20,21 @@ using World.World;
 
 namespace World.Scripting
 {
-	public class NPCManager
+	public class ScriptManager
 	{
-		public readonly static NPCManager Instance = new NPCManager();
-		static NPCManager() { }
-		private NPCManager() { }
+		public readonly static ScriptManager Instance = new ScriptManager();
+		static ScriptManager() { }
+		private ScriptManager() { }
 
 		private int _loadedNpcs, _cached;
 
-		public void LoadNPCs()
+		public void LoadScripts()
 		{
 			Logger.Info("Loading scripts...");
 
 			_loadedNpcs = _cached = 0;
 
-			// NPCs
+			// Read script list
 			var listPath = Path.Combine(WorldConf.ScriptPath, "scripts.txt");
 			var npcListContents = new List<string>();
 
@@ -56,6 +56,7 @@ namespace World.Scripting
 
 			var scriptFiles = npcListContents.ToArray();
 
+			// Check how much is to be cached
 			var cacheDir = Path.Combine(WorldConf.ScriptPath, "cache", "npc");
 			int cached = 0;
 			if (Directory.Exists(cacheDir))
@@ -65,6 +66,7 @@ namespace World.Scripting
 			if (notCached > 30)
 				Logger.Info("Caching the scripts may take a few minutes initially.");
 
+			// Load scripts
 			int loaded = 0;
 			foreach (var line in scriptFiles)
 			{
@@ -75,7 +77,7 @@ namespace World.Scripting
 					virt = true;
 					file = file.Replace("virtual:", "").Trim();
 				}
-				this.LoadNPC(Path.Combine(WorldConf.ScriptPath, file), virt);
+				this.LoadScript(Path.Combine(WorldConf.ScriptPath, file), virt);
 
 				// Don't print for every single NPC, so much flickering.
 				if (++loaded % 5 == 0 || loaded == 1 || loaded >= scriptFiles.Length)
@@ -88,6 +90,7 @@ namespace World.Scripting
 				}
 			}
 
+			// fin~
 			Logger.ClearLine();
 			Logger.Info("Done loading " + _loadedNpcs + " scripts.");
 			if (!WorldConf.DisableScriptCaching)
@@ -98,11 +101,12 @@ namespace World.Scripting
 		/// Loads the script file at the given path and adds the NPC to the world.
 		/// </summary>
 		/// <param name="path"></param>
-		private void LoadNPC(string scriptPath, bool virtualLoad = false)
+		private void LoadScript(string scriptPath, bool virtualLoad = false)
 		{
 			try
 			{
-				var scriptObj = this.LoadScript(scriptPath).CreateObject("*");
+				// Load assembly and create object.
+				var scriptObj = this.GetScript(scriptPath).CreateObject("*");
 
 				// Check if the object is derived from NPCScript. Needed to
 				// allow simpler scripts that only derive from BaseScript.
@@ -121,7 +125,7 @@ namespace World.Scripting
 						script.OnLoad();
 						script.OnLoadDone();
 
-						// Only load defaults with race set.
+						// Only load defaults if race is set.
 						if (npc.Race != 0 && npc.Race != uint.MaxValue)
 							npc.LoadDefault();
 
@@ -187,7 +191,7 @@ namespace World.Scripting
 		/// </summary>
 		/// <param name="scriptPath"></param>
 		/// <returns></returns>
-		public Assembly LoadScript(string scriptPath)
+		public Assembly GetScript(string scriptPath)
 		{
 			var compiledPath = this.GetCompiledPath(scriptPath);
 
@@ -198,7 +202,7 @@ namespace World.Scripting
 			}
 			else
 			{
-				asm = CSScript.LoadCode(this.ReadScriptFile(scriptPath));
+				asm = CSScript.LoadCode(this.PreCompileScript(scriptPath));
 				if (!WorldConf.DisableScriptCaching)
 				{
 					try
@@ -227,7 +231,7 @@ namespace World.Scripting
 			return asm;
 		}
 
-		private string ReadScriptFile(string filePath)
+		private string PreCompileScript(string filePath)
 		{
 			var file = File.ReadAllText(filePath);
 			var sb = new StringBuilder();
@@ -278,7 +282,7 @@ namespace World.Scripting
 			Logger.Info("Spawned " + count.ToString() + " monsters.");
 		}
 
-		public void Spawn(uint spawnId, int amount = 0)
+		public void Spawn(uint spawnId, uint amount = 0)
 		{
 			var info = MabiData.SpawnDb.Find(spawnId);
 			if (info == null)
@@ -290,7 +294,7 @@ namespace World.Scripting
 			this.Spawn(info, amount);
 		}
 
-		public int Spawn(SpawnInfo info, int amount = 0)
+		public int Spawn(SpawnInfo info, uint amount = 0)
 		{
 			var result = 0;
 
@@ -347,7 +351,7 @@ namespace World.Scripting
 
 				if (aiFilePath != null)
 				{
-					monster.AIScript = this.LoadScript(aiFilePath).CreateObject("*") as AIScript;
+					monster.AIScript = this.GetScript(aiFilePath).CreateObject("*") as AIScript;
 					monster.AIScript.Creature = monster;
 					monster.AIScript.OnLoad();
 					monster.AIScript.Activate(0); // AI is intially active

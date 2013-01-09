@@ -440,13 +440,10 @@ namespace World.World
 					amount = 100;
 			}
 
-			var spawn = new SpawnInfo();
-			spawn.Amount = amount;
-			spawn.RaceId = raceId;
-			spawn.SpawnPoint = creature.GetPosition();
-			spawn.Region = creature.Region;
-			spawn.SpawnType = SpawnLocationType.Point;
-			NPCManager.Instance.Spawn(spawn);
+			uint radius = 300;
+			radius += (uint)(amount / 10 * 50);
+
+			WorldManager.Instance.SpawnCreature(raceId, amount, creature.Region, creature.GetPosition(), radius);
 
 			return CommandResult.Okay;
 		}
@@ -794,8 +791,8 @@ namespace World.World
 			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Npcs, true);
 
 			WorldManager.Instance.RemoveAllNPCs();
-			NPCManager.Instance.LoadNPCs();
-			NPCManager.Instance.LoadSpawns();
+			ScriptManager.Instance.LoadScripts();
+			ScriptManager.Instance.LoadSpawns();
 
 			client.Send(PacketCreator.ServerMessage(creature, "done."));
 

@@ -855,6 +855,9 @@ namespace Common.World
 			return _position.Copy();
 		}
 
+		/// <summary>
+		/// Returns a new MabiVertex with the current position.
+		/// </summary>
 		public override MabiVertex GetPosition()
 		{
 			if (!this.IsMoving())
