@@ -560,6 +560,10 @@ namespace Common.Database
 				this.GetKeywords(character);
 				this.GetSkills(character);
 
+				character.Shamalas.Add(new ShamalaTransformation(1, 1, ShamalaState.Available));
+				character.Shamalas.Add(new ShamalaTransformation(2, 1, ShamalaState.Available));
+				character.Shamalas.Add(new ShamalaTransformation(3, 1, ShamalaState.Available));
+
 				return character;
 			}
 			finally

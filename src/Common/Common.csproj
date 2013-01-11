@@ -92,6 +92,7 @@
     <Compile Include="Data\FlightInfo.cs" />
     <Compile Include="Data\Maps.cs" />
     <Compile Include="Data\Regions.cs" />
+    <Compile Include="Data\Shamala.cs" />
     <Compile Include="Data\StatsLevelUp.cs" />
     <Compile Include="Data\RaceSkills.cs" />
     <Compile Include="Data\SkillRanks.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="World\MabiEntity.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="World\ShamalaTransformation.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

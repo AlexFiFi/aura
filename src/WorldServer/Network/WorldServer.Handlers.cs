@@ -2719,37 +2719,48 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			var transId = packet.GetInt();
-
-			uint race = 0;
-			switch (transId)
+			// Check skill
+			if (creature.HasSkill(SkillConst.TransformationMastery))
 			{
-				case 1: race = 580002; break;
-				case 2: race = 60004; break;
-				case 3: race = 380001; break;
+				var transId = packet.GetInt();
+
+				// Check transformation
+				var strans = MabiData.ShamalaDb.Find(transId);
+				if (strans != null)
+				{
+					// Check character's transformations
+					if ((creature as MabiPC).Shamalas.Exists(a => a.Id == transId && a.State == ShamalaState.Available))
+					{
+						// Check race
+						var race = MabiData.RaceDb.Find(strans.Race);
+						if (race != null)
+						{
+							creature.ShamalaRace = race;
+							creature.Shamala = strans;
+
+							// Success
+							WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformation, creature.Id)
+								.PutByte(1)
+								.PutInt(strans.Id)
+								.PutByte(1)
+								.PutInt(race.Id)
+								.PutFloat(strans.Size)
+								.PutInt(strans.Color1)
+								.PutInt(strans.Color2)
+								.PutInt(strans.Color3)
+								.PutByte(0)
+								.PutByte(0)
+							, SendTargets.Range, creature);
+						}
+					}
+				}
 			}
 
-			if (race == 0 || !creature.HasSkill(SkillConst.TransformationMastery) || !creature.Shamala.Start(race, transId))
-			{
-				// Fail
-				var p = new MabiPacket(Op.ShamalaTransformation, creature.Id);
-				p.PutByte(0);
-				client.Send(p);
-				return;
-			}
-
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformation, creature.Id)
-				.PutByte(1)
-				.PutInt(transId)
-				.PutByte(1)
-				.PutInt(race)
-				.PutFloat(1)
-				.PutInt(0x808080)
-				.PutInt(0x808080)
-				.PutInt(0x808080)
-				.PutByte(0)
-				.PutByte(0)
-			, SendTargets.Range, creature);
+			// Fail
+			var p = new MabiPacket(Op.ShamalaTransformation, creature.Id);
+			p.PutByte(0);
+			client.Send(p);
+			return;
 
 			// for reference
 			//client.Send(new MabiPacket(Op.ShamalaTransformationUpdate, creature.Id)
@@ -2766,13 +2777,14 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			if (!creature.Shamala.IsTransformed)
+			if (creature.Shamala == null)
 			{
 				client.Send(new MabiPacket(Op.ShamalaTransformationEndR).PutByte(0));
 				return;
 			}
 
-			creature.Shamala.End();
+			creature.Shamala = null;
+			creature.ShamalaRace = null;
 
 			// Broadcast end, success with showing ani.
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformationEndR, creature.Id).PutBytes(1, 1), SendTargets.Range, creature);

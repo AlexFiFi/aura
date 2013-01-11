@@ -877,21 +877,25 @@ namespace World.World
 
 			if (race > 0)
 			{
-				if (!creature.Shamala.Start(race))
+				var raceInfo = MabiData.RaceDb.Find(race);
+				if (raceInfo == null)
 				{
 					client.Send(PacketCreator.SystemMessage(creature, "Race not found."));
 					return CommandResult.Fail;
 				}
 
+				creature.ShamalaRace = raceInfo;
+				creature.Shamala = new ShamalaInfo() { Id = 1 };
+
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformation, creature.Id)
-					.PutByte(1)       // Sucess
-					.PutInt(2)        // Transformation Id
-					.PutByte(1)       // Show transformation effect
-					.PutInt(race)     // Race Id
-					.PutFloat(1)      // Size
-					.PutInt(0x808080) // Colors
-					.PutInt(0x808080) // Colors
-					.PutInt(0x808080) // Colors
+					.PutByte(1)                        // Sucess
+					.PutInt(creature.Shamala.Id)
+					.PutByte(1)                        // Show transformation effect
+					.PutInt(creature.ShamalaRace.Id)
+					.PutFloat(creature.Shamala.Size)
+					.PutInt(creature.Shamala.Color1)
+					.PutInt(creature.Shamala.Color2)
+					.PutInt(creature.Shamala.Color3)
 					.PutByte(0)
 					.PutByte(0)
 				, SendTargets.Range, creature);
@@ -899,7 +903,8 @@ namespace World.World
 			}
 			else
 			{
-				creature.Shamala.End();
+				creature.Shamala = null;
+				creature.ShamalaRace = null;
 
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformationEndR, creature.Id).PutBytes(1, 1), SendTargets.Range, creature);
 				client.Send(PacketCreator.SystemMessage(creature, "Transformation ended."));

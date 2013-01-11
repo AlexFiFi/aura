@@ -1285,10 +1285,11 @@ namespace World.World
 				}
 				else if ((targets & SendTargets.Range) != 0)
 				{
+					var region = source.Region;
 					foreach (var client in _clients)
 					{
 						if (!(excludeSender && client == sourceClient))
-							if (InRange(client.Character, source, range))
+							if (region == client.Character.Region && InRange(client.Character, source, range))
 								client.Send(packet);
 					}
 				}

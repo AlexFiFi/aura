@@ -50,6 +50,7 @@ namespace Common.Data
 					{
 						++i; quoteFound = !quoteFound;
 						if (!quotation) quotation = true;
+						continue;
 					}
 
 					if (!quoteFound && csv[i] == '/' && csv[i + 1] == '/')
@@ -78,7 +79,8 @@ namespace Common.Data
 
 		protected void ReadCsv(string filePath, int minFields)
 		{
-			using (var reader = new StreamReader(filePath))
+			using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+			using (var reader = new StreamReader(fs))
 			{
 				for (int i = 0; !reader.EndOfStream; ++i)
 				{

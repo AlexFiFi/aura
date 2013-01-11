@@ -83,7 +83,8 @@ namespace Common.World
 
 		public uint Area = 0;
 
-		public ShamalaTrans Shamala = new ShamalaTrans();
+		public ShamalaInfo Shamala = null;
+		public RaceInfo ShamalaRace = null;
 
 		public byte RestPose
 		{
@@ -817,7 +818,7 @@ namespace Common.World
 
 			if (this.Vehicle == null)
 			{
-				if (!this.Shamala.IsTransformed)
+				if (this.Shamala == null)
 				{
 					// Normal
 					ri = this.RaceInfo;
@@ -825,7 +826,7 @@ namespace Common.World
 				else
 				{
 					// Transformed
-					ri = this.Shamala.RaceInfo;
+					ri = this.ShamalaRace;
 				}
 			}
 			else
@@ -1327,7 +1328,7 @@ namespace Common.World
 
 			// Farming
 			// --------------------------------------------------------------
-			if (Op.Version > 140400 && Op.Version < 170400)
+			if (Op.Version > 140400 && Op.Version <= 170300)
 			{
 				// This seems to be missing in 170400
 
@@ -1412,14 +1413,27 @@ namespace Common.World
 				packet.PutByte(255);
 
 				// Shamala Transformation
-				// --------------------------------------------------------------		
-				packet.PutInt(this.Shamala.Id);
-				packet.PutByte(0);
-				packet.PutInt(this.Shamala.RaceId);
-				packet.PutFloat(this.Shamala.Size);
-				packet.PutInt(this.Shamala.Color1);
-				packet.PutInt(this.Shamala.Color2);
-				packet.PutInt(this.Shamala.Color3);
+				// --------------------------------------------------------------
+				if (this.Shamala == null)
+				{
+					packet.PutInt(0);
+					packet.PutByte(0);
+					packet.PutInt(0);
+					packet.PutFloat(1);
+					packet.PutInt(0x808080);
+					packet.PutInt(0x808080);
+					packet.PutInt(0x808080);
+				}
+				else
+				{
+					packet.PutInt(this.Shamala.Id);
+					packet.PutByte(0);
+					packet.PutInt(this.ShamalaRace.Id);
+					packet.PutFloat(this.Shamala.Size);
+					packet.PutInt(this.Shamala.Color1);
+					packet.PutInt(this.Shamala.Color2);
+					packet.PutInt(this.Shamala.Color3);
+				}
 				packet.PutByte(0);
 				packet.PutByte(0);
 			}
@@ -1502,7 +1516,7 @@ namespace Common.World
 			packet.PutFloat(CombatPower);
 
 			// Stand styles mess up some models pretty bad =P
-			if (!this.Shamala.IsTransformed)
+			if (this.Shamala != null)
 				packet.PutString(StandStyle);
 			else
 				packet.PutString("");
@@ -1642,46 +1656,6 @@ namespace Common.World
 
 				packet.PutInt(0);
 			}
-		}
-	}
-
-	public class ShamalaTrans
-	{
-		public uint Id { get; set; }
-		public uint RaceId { get; set; }
-		public float Size { get; set; }
-		public uint Color1 { get; set; }
-		public uint Color2 { get; set; }
-		public uint Color3 { get; set; }
-
-		public RaceInfo RaceInfo { get; set; }
-
-		public bool IsTransformed { get { return this.Id > 0; } }
-
-		public ShamalaTrans()
-		{
-			this.Id = 0;
-			this.RaceId = 0;
-			this.Size = 1;
-			this.Color1 = this.Color2 = this.Color3 = 0x808080;
-		}
-
-		public void End()
-		{
-			this.Id = 0;
-			this.RaceId = 0;
-		}
-
-		public bool Start(uint race, uint id = 1)
-		{
-			this.RaceInfo = MabiData.RaceDb.Find(race);
-			if (this.RaceInfo == null)
-				return false;
-
-			this.Id = id;
-			this.RaceId = race;
-
-			return true;
 		}
 	}
 }

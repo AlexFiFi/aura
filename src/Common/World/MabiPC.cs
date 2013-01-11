@@ -25,6 +25,7 @@ namespace Common.World
 
 		public List<ushort> Keywords = new List<ushort>();
 		public Dictionary<ushort, bool> Titles = new Dictionary<ushort, bool>();
+		public List<ShamalaTransformation> Shamalas = new List<ShamalaTransformation>();
 
 		public override EntityType EntityType
 		{
@@ -418,24 +419,13 @@ namespace Common.World
 			// --------------------------------------------------------------
 			if (Op.Version >= 170300)
 			{
-				//packet.PutInt(0);               // Count
-				//    packet.PutInt               // Id
-				//    packet.PutByte			  // Counter
-				//    packet.PutByte			  // None/Hunted/Enabled
-
-				packet.PutInt(3);
-
-				packet.PutInt(1);
-				packet.PutByte(1);
-				packet.PutByte(2);
-
-				packet.PutInt(2);
-				packet.PutByte(1);
-				packet.PutByte(2);
-
-				packet.PutInt(3);
-				packet.PutByte(1);
-				packet.PutByte(2);
+				packet.PutSInt(this.Shamalas.Count);
+				foreach (var trans in this.Shamalas)
+				{
+					packet.PutInt(trans.Id);
+					packet.PutByte(trans.Counter);
+					packet.PutByte((byte)trans.State);
+				}
 			}
 
 			// 

@@ -214,10 +214,15 @@ namespace Common.Network
 		//public readonly static uint CombatUsedSkill = 0x7927; // ?
 		public readonly static uint CombatAttackR = 0x7D01;
 
+		public readonly static uint AreaChange = 0x88B8; // Probably more like "event activated"?
+		public readonly static uint QuestNew = 0x8CA0;
+		public readonly static uint QuestDone = 0x8CA1;
+		public readonly static uint QuestObjectiveUpdate = 0x8CA2;
+		public readonly static uint QuestComplete = 0x8CA3;
+		public readonly static uint QuestCompleteR = 0x8CA4;
 		public readonly static uint ChangeTitle = 0x8FC4;
 		public readonly static uint ChangedTitle = 0x8FC5;
 		public readonly static uint ChangeTitleR = 0x8FC6;
-		public readonly static uint AreaChange = 0x88B8;
 
 		public readonly static uint PetRegister = 0x9024;
 		public readonly static uint PetUnRegister = 0x9025;
@@ -233,6 +238,8 @@ namespace Common.Network
 		public readonly static uint PlaySound = 0x908F;
 		public readonly static uint Effect = 0x9090;
 		public readonly static uint Effect2 = 0x9091; // Delayed?
+		public readonly static uint Effect3 = 0x9092; // ?
+		public readonly static uint Effect4 = 0x9093; // Quest related?
 
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint Transformation = 0xA41C;
