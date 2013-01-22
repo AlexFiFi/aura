@@ -156,7 +156,7 @@ namespace Common.Network
 					Logger.Info("Done loading " + MabiData.RegionDb.Entries.Count + " entries from regioninfo.dat.");
 
 					MabiData.ShamalaDb.LoadFromCsv(dataPath + "/db/shamala.txt", reload);
-					Logger.Info("Done loading " + MabiData.ShamalaDb.Entries.Count + " entries from shamala.dat.");
+					Logger.Info("Done loading " + MabiData.ShamalaDb.Entries.Count + " entries from shamala.txt.");
 				}
 			}
 			catch (FileNotFoundException ex)

@@ -11,7 +11,7 @@ namespace Common.Tools
 		[Flags]
 		public enum LogLevel : byte
 		{
-			None = 0,
+			None = 255,
 			Info = 1,
 			Warning = 2,
 			Error = 4,
@@ -104,6 +104,16 @@ namespace Common.Tools
 			Write(LogLevel.Exception, ex.Message + (!stackTrace ? "" : "\n" + ex.StackTrace));
 		}
 
+		public static void Write(string format, bool newLine = true)
+		{
+			Write(LogLevel.None, format, newLine);
+		}
+
+		public static void Write(string format, params object[] args)
+		{
+			Write(LogLevel.None, string.Format(format, args));
+		}
+
 		public static void Write(LogLevel lvl, string s, bool newLine = true)
 		{
 			if (Logger.Hide.HasFlag(lvl))
@@ -122,22 +132,27 @@ namespace Common.Tools
 					case LogLevel.Unimplemented: Console.ForegroundColor = ConsoleColor.DarkGray; break;
 				}
 
-				Console.Write("[" + lvl.ToString() + "]");
+				if (lvl != LogLevel.None)
+					Console.Write("[" + lvl.ToString() + "]");
 
 				Console.ForegroundColor = ConsoleColor.Gray;
 
+				if (lvl != LogLevel.None)
+					Console.Write(" - ");
+
 				if (newLine)
-					Console.WriteLine(" - " + s);
+					Console.WriteLine(s);
 				else
-					Console.Write(" - " + s);
+					Console.Write(s);
 
 				if (_logFile != null)
 				{
 					using (var file = new StreamWriter(_logFile, true))
 					{
-						file.Write(DateTime.Now);
-						file.Write(" [" + lvl.ToString() + "]");
-						file.WriteLine(" - " + s);
+						file.Write(DateTime.Now + " ");
+						if (lvl != LogLevel.None)
+							file.Write("[" + lvl.ToString() + "] - ");
+						file.WriteLine(s);
 						file.Flush();
 					}
 				}
