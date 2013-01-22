@@ -57,8 +57,10 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.NPCTalkPartner, HandleNPCTalkPartner);
 			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
+
 			this.RegisterPacketHandler(Op.ShopBuyItem, HandleShopBuyItem);
 			this.RegisterPacketHandler(Op.ShopSellItem, HandleShopSellItem);
+
 			this.RegisterPacketHandler(Op.GetMails, HandleGetMails);
 			this.RegisterPacketHandler(Op.ConfirmMailRecipent, HandleConfirmMailRecipient);
 			this.RegisterPacketHandler(Op.SendMail, HandleSendMail);
@@ -634,7 +636,7 @@ namespace World.Network
 				Logger.Warning("Script for '" + target.Name + "' is null.");
 				target = null;
 			}
-			else if (!WorldManager.InRange(creature, target, 1000))
+			else if (creature.Region != target.Region || !WorldManager.InRange(creature, target, 1000))
 			{
 				client.Send(PacketCreator.MsgBox(creature, "You're too far away."));
 				target = null;
@@ -655,7 +657,10 @@ namespace World.Network
 
 			client.NPCSession.Start(target);
 
-			target.Script.OnTalk(client);
+			// Get enumerator and start first run.
+			client.NPCSession.State = target.Script.OnTalk(client).GetEnumerator();
+			if (client.NPCSession.State.MoveNext())
+				client.NPCSession.Response = client.NPCSession.State.Current as Response;
 		}
 
 		private void HandleNPCTalkPartner(WorldClient client, MabiPacket packet)
@@ -696,7 +701,10 @@ namespace World.Network
 
 			client.NPCSession.Start(npc);
 
-			npc.Script.OnTalk(client);
+			//npc.Script.OnTalk(client);
+			client.NPCSession.State = npc.Script.OnTalk(client).GetEnumerator();
+			if (client.NPCSession.State.MoveNext())
+				client.NPCSession.Response = client.NPCSession.State.Current as Response;
 		}
 
 		private void HandleNPCTalkEnd(WorldClient client, MabiPacket packet)
@@ -714,11 +722,13 @@ namespace World.Network
 			p.PutString("");
 			client.Send(p);
 
-			// XXX: Should we check if the target is the same as at the start of the convo?
 			if (target == null || target.Script == null)
+			{
 				Logger.Warning("Ending empty NPC session.");
-			else
-				target.Script.OnEnd(client);
+				return;
+			}
+
+			target.Script.OnEnd(client);
 
 			client.NPCSession.Clear();
 		}
@@ -747,8 +757,14 @@ namespace World.Network
 		private void HandleNPCTalkSelect(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || !client.NPCSession.IsValid)
+			if (creature == null)
 				return;
+
+			if (!client.NPCSession.IsValid)
+			{
+				Logger.Warning("Invalid NPC session for '{0}', talking to '{1}'.", creature.Name, (client.NPCSession.Target != null ? client.NPCSession.Target.Script.ScriptName : "<unknown>"));
+				return;
+			}
 
 			var response = packet.GetString();
 			var sessionId = packet.GetInt();
@@ -756,7 +772,7 @@ namespace World.Network
 
 			if (target == null || sessionId != client.NPCSession.SessionId)
 			{
-				Logger.Debug("No target or sessionId incorrect (" + sessionId.ToString() + " : " + (client.NPCSession.SessionId) + ")");
+				Logger.Debug("No target or session id incorrect ({0}:{1})", sessionId, client.NPCSession.SessionId);
 				return;
 			}
 
@@ -776,16 +792,21 @@ namespace World.Network
 				client.Send(new MabiPacket(Op.NPCTalkSelectEnd, creature.Id));
 
 				target.Script.OnEnd(client);
-				return;
 			}
 			else if (response.StartsWith("@input"))
 			{
 				var splitted = response.Split(':');
-				target.Script.OnSelect(client, splitted[0], splitted[1]);
+				if (client.NPCSession.Response != null)
+					client.NPCSession.Response.Value = splitted[1];
+				if (client.NPCSession.State.MoveNext())
+					client.NPCSession.Response = client.NPCSession.State.Current as Response;
 			}
 			else
 			{
-				target.Script.OnSelect(client, response);
+				if (client.NPCSession.Response != null)
+					client.NPCSession.Response.Value = response;
+				if (client.NPCSession.State.MoveNext())
+					client.NPCSession.Response = client.NPCSession.State.Current as Response;
 			}
 		}
 

@@ -40,29 +40,49 @@ namespace Common.Tools
 		{
 			Write(LogLevel.Info, s, newLine);
 		}
+		public static void Info(string format, params object[] args)
+		{
+			Info(string.Format(format, args));
+		}
 
 		public static void Unimplemented(string s)
 		{
 			Write(LogLevel.Unimplemented, s);
+		}
+		public static void Unimplemented(string format, params object[] args)
+		{
+			Unimplemented(string.Format(format, args));
 		}
 
 		public static void Warning(string s)
 		{
 			Write(LogLevel.Warning, s);
 		}
+		public static void Warning(string format, params object[] args)
+		{
+			Warning(string.Format(format, args));
+		}
 
 		public static void Error(string s)
 		{
 			Write(LogLevel.Error, s);
+		}
+		public static void Error(string format, params object[] args)
+		{
+			Error(string.Format(format, args));
 		}
 
 		public static void Debug(string s)
 		{
 			Write(LogLevel.Debug, s);
 		}
-		public static void Debug<T>(T s)
+		public static void Debug(string format, params object[] args)
 		{
-			Write(LogLevel.Debug, s.ToString());
+			Debug(string.Format(format, args));
+		}
+		public static void Debug(object s)
+		{
+			Debug(s.ToString());
 		}
 
 		public static void Status(string s)

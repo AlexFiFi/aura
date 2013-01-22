@@ -264,6 +264,7 @@
 50007,"Young Brown Fox","fox/none",0,0,0x80000000,6,10,23002,1,5,160,2,2,0x03
 70001,"Brown Bear","bear/none",0,0,0x80000000,6,10,23002,0,0,200,2,2,0x03
 17105,"Desert Warrior Ghost","human/male",0,0,0x80000000,6,10,23002,0,0,170,2,2,0x03
+190140,"Training Basic Dummy","woodenman/none",0,0,0x80000000,6,10,23002,0,0,170,2,2,0x03
 160003,"Light Gargoyle","gargoyle/none",0,0,0x80000000,6,10,23002,0,0,250,3,0,0x03
 
 // Field Bosses

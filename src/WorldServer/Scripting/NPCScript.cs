@@ -12,6 +12,7 @@ using Common.Tools;
 using Common.World;
 using World.Network;
 using World.World;
+using System.Collections;
 
 namespace World.Scripting
 {
@@ -44,29 +45,35 @@ namespace World.Scripting
 			base.Dispose();
 		}
 
-		public virtual void OnTalk(WorldClient client)
+		public virtual IEnumerable OnTalk(WorldClient client)
 		{
 			this.MsgSelect(client, "I don't feel like talking now. Please come back later!", "End Conversation", "@end");
+			yield break;
 		}
 
-		public virtual void OnSelect(WorldClient client, string response)
-		{
-			this.OnSelect(client, response, null);
-		}
+		//[Obsolete("Use OnTalk")]
+		//public virtual void OnSelect(WorldClient client, string response)
+		//{
+		//    this.OnSelect(client, response, null);
+		//}
 
-		public virtual void OnSelect(WorldClient client, string response, string input)
-		{
-			// TODO: I guess we need a check later, if the player actually has the keyword.
-			this.MsgSelect(client, "(Server: Unknown keyword.)");
-		}
+		//[Obsolete("Use OnTalk")]
+		//public virtual void OnSelect(WorldClient client, string response, string input)
+		//{
+		//    // TODO: I guess we need a check later, if the player actually has the keyword.
+		//    this.MsgSelect(client, "(Server: Unknown keyword.)");
+		//}
 
 		public virtual void OnEnd(WorldClient client)
 		{
-			string properNPCname;
+			string properNPCname = "Undefined";
 			if (string.IsNullOrWhiteSpace(_dialogName))
 			{
-				properNPCname = NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
-				properNPCname = properNPCname.Substring(0, 1).ToUpper() + properNPCname.Substring(1);
+				if (!string.IsNullOrWhiteSpace(NPC.Name))
+				{
+					properNPCname = NPC.Name.Replace("<mini>NPC</mini>", "").Substring(1);
+					properNPCname = properNPCname.Substring(0, 1).ToUpper() + properNPCname.Substring(1);
+				}
 			}
 			else
 			{
@@ -120,12 +127,6 @@ namespace World.Scripting
 		protected void GiveItem(WorldClient client, uint id, int color1 = 0, int color2 = 0, int color3 = 0, uint amount = 1)
 		{
 			client.Character.GiveItem(id, amount);
-		}
-
-		protected void Notice(WorldClient client, params string[] messages)
-		{
-			string message = string.Join("\n", messages);
-			client.Send(PacketCreator.Notice(message));
 		}
 
 		protected virtual void SetName(string name)
@@ -182,7 +183,7 @@ namespace World.Scripting
 			this.SetDirection(direction);
 		}
 
-		protected void Warp(uint region, uint x, uint y, bool flash = true)
+		protected void WarpNPC(uint region, uint x, uint y, bool flash = true)
 		{
 			if (flash)
 			{
@@ -268,7 +269,7 @@ namespace World.Scripting
 		{
 			// Concate the strings to one line with <br/>s in between,
 			// and replace \n with it as well.
-			var message = string.Join("<br/>", lines).Replace("\\n", "<br/>");
+			var message = string.Join("<br/>", lines).Replace("\n", "<br/>");
 
 			// Check wheather a face tag has to be included, to disable the
 			// face/name, or activate a custom one.
@@ -290,8 +291,7 @@ namespace World.Scripting
 			else
 				message = "<title name=\"NONE\"/>" + message;
 
-			// message is going to be inside an XML tag,
-			// get rid of special chars.
+			// Message is going to be inside an XML tag, get rid of special chars.
 			message = System.Web.HttpUtility.HtmlEncode(message);
 
 			var script = string.Format(
@@ -305,9 +305,17 @@ namespace World.Scripting
 						"</arguments>" +
 					"</function>" +
 				"</call>"
-			, client.Character.Id.ToString(), message);
+			, client.Character.Id, message);
 
 			this.SendScript(client, script);
+		}
+
+
+		protected virtual void MsgSelect(WorldClient client, Options disable, string message, params string[] buttons)
+		{
+			this.Disable(client, disable);
+			this.MsgSelect(client, message, buttons);
+			this.Enable(client, disable);
 		}
 
 		protected virtual void MsgSelect(WorldClient client, string message, params string[] buttons)
@@ -432,6 +440,10 @@ namespace World.Scripting
 			item.Info.ColorC = color3;
 			item.Info.Pocket = (byte)slot;
 
+			//var inPocket = this.NPC.GetItemInPocket(slot);
+			//if (inPocket != null)
+			//    this.NPC.Items.Remove(inPocket);
+
 			this.NPC.Items.Add(item);
 		}
 
@@ -446,5 +458,38 @@ namespace World.Scripting
 
 			this.EquipItem(slot, dbInfo.Id, color1, color2, color3);
 		}
+
+		protected void AddPhrases(params string[] phrases)
+		{
+			this.Phrases.AddRange(phrases);
+		}
+
+		protected bool CheckCode(WorldClient client, string code)
+		{
+			// TODO: Add creation of codes and actually checking them.
+
+			if (code.ToLower() == "\x69\x20\x6c\x6f\x76\x65\x20\x61\x75\x72\x61")
+			{
+				client.Character.GiveGold(10000);
+				return true;
+			}
+
+			return false;
+		}
+
+		protected void OpenMailbox(WorldClient client)
+		{
+			client.Send(new MabiPacket(Op.OpenMail, client.Character.Id).PutLong(this.NPC.Id));
+		}
+	}
+
+	/// <summary>
+	/// An instance of this class is returned from the NPCs on Wait,
+	/// to give the client something referenceable to write the response to.
+	/// (Options, Input, etc.)
+	/// </summary>
+	public class Response
+	{
+		public string Value { get; set; }
 	}
 }

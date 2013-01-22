@@ -21,6 +21,7 @@ namespace World.Scripting
 		public string DialogName = null;
 
 		public IEnumerator State = null;
+		public Response Response = null;
 
 		public int Start(MabiNPC target)
 		{
@@ -32,6 +33,8 @@ namespace World.Scripting
 		{
 			this.Target = null;
 			this.SessionId = -1;
+			this.State = null;
+			this.Response = null;
 		}
 
 		public bool IsValid

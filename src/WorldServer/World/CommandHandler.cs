@@ -18,6 +18,7 @@ using World.Network;
 using World.Scripting;
 using World.Skills;
 using World.Tools;
+using System.Globalization;
 
 namespace World.World
 {
@@ -318,7 +319,11 @@ namespace World.World
 					if (args[i + 2].StartsWith("0x"))
 					{
 						// Color in hex
-						color[i] = uint.Parse(args[i + 2].Substring(2), System.Globalization.NumberStyles.HexNumber);
+						if (!uint.TryParse(args[i + 2], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out color[i]))
+						{
+							client.Send(PacketCreator.ServerMessage(creature, "Invalid hex color '{0}'.", args[i + 2]));
+							return CommandResult.Fail;
+						}
 					}
 					else if (uint.TryParse(args[i + 2], out color[i]))
 					{
@@ -333,7 +338,7 @@ namespace World.World
 							case "black": color[i] = 0xFF000000; break;
 							case "white": color[i] = 0xFFFFFFFF; break;
 							default:
-								client.Send(PacketCreator.ServerMessage(creature, "Unknown color."));
+								client.Send(PacketCreator.ServerMessage(creature, "Unknown color '{0}'.", args[i + 2]));
 								return CommandResult.Fail;
 						}
 					}

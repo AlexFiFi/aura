@@ -443,6 +443,14 @@ namespace Common.World
 			EntityEvents.Instance.OnCreatureStatUpdates(this);
 		}
 
+		public void FullHealLife()
+		{
+			this.Injuries = 0;
+			this.Life = this.LifeMax;
+
+			EntityEvents.Instance.OnCreatureStatUpdates(this);
+		}
+
 		/// <summary>
 		/// Calculates random balance in range of the creature's possibilities.
 		/// </summary>
@@ -1516,7 +1524,7 @@ namespace Common.World
 			packet.PutFloat(CombatPower);
 
 			// Stand styles mess up some models pretty bad =P
-			if (this.Shamala != null)
+			if (this.Shamala == null)
 				packet.PutString(StandStyle);
 			else
 				packet.PutString("");

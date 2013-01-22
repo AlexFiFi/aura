@@ -30,10 +30,10 @@ namespace World.World
 			this.Region = 0;
 			this.SetPosition(0, 0);
 
-			this.Height = 1.3f;
-			this.Upper = 1.0f;
-			this.Lower = 1.0f;
-			this.Fat = 1.0f;
+			this.Height = 1;
+			this.Upper = 1;
+			this.Lower = 1;
+			this.Fat = 1;
 
 			this.LifeMaxBase = 1000;
 			this.Life = 1000;

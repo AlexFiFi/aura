@@ -26,13 +26,13 @@ namespace World.Scripting
 		static ScriptManager() { }
 		private ScriptManager() { }
 
-		private int _loadedNpcs, _cached;
+		private int _loadedScripts, _cached;
 
 		public void LoadScripts()
 		{
 			Logger.Info("Loading scripts...");
 
-			_loadedNpcs = _cached = 0;
+			_loadedScripts = _cached = 0;
 
 			// Read script list
 			var listPath = Path.Combine(WorldConf.ScriptPath, "scripts.txt");
@@ -92,7 +92,7 @@ namespace World.Scripting
 
 			// fin~
 			Logger.ClearLine();
-			Logger.Info("Done loading " + _loadedNpcs + " scripts.");
+			Logger.Info("Done loading " + _loadedScripts + " scripts.");
 			if (!WorldConf.DisableScriptCaching)
 				Logger.Info("Cached " + _cached + " scripts.");
 		}
@@ -101,54 +101,83 @@ namespace World.Scripting
 		/// Loads the script file at the given path and adds the NPC to the world.
 		/// </summary>
 		/// <param name="path"></param>
-		private void LoadScript(string scriptPath, bool virtualLoad = false)
+		private void LoadScript(string scriptPath, bool virtualLoadFile = false)
 		{
 			try
 			{
-				// Load assembly and create object.
-				var scriptObj = this.GetScript(scriptPath).CreateObject("*");
+				var fileName = Path.GetFileName(scriptPath);
+				if (fileName.StartsWith("_"))
+					virtualLoadFile = true;
 
-				// Check if the object is derived from NPCScript. Needed to
-				// allow simpler scripts that only derive from BaseScript.
-				if (scriptObj is NPCScript)
+				// Load assembly and loop through the defined classes.
+				var scriptAsm = this.GetScript(scriptPath);
+				var types = scriptAsm.GetTypes();
+				foreach (var type in types)
 				{
-					var script = scriptObj as NPCScript;
-					script.ScriptPath = scriptPath;
-					script.ScriptName = Path.GetFileName(scriptPath);
-					if (!virtualLoad)
+					var sType = type.ToString();
+					if (sType.Contains("+"))
+						continue;
+
+					var virtualLoadType = false;
+					if (sType.StartsWith("_"))
+						virtualLoadType = true;
+
+					// Create object from loaded assembly.
+					var scriptObj = scriptAsm.CreateObject(sType);
+
+					// Check if the object is derived from NPCScript. Needed to
+					// allow simpler scripts that only derive from BaseScript.
+					if (scriptObj is NPCScript)
 					{
-						var npc = new MabiNPC();
-						npc.Script = script;
-						npc.ScriptPath = scriptPath;
-						script.NPC = npc;
-						script.LoadType = NPCLoadType.Real;
+						var script = scriptObj as NPCScript;
+						script.ScriptPath = scriptPath;
+						script.ScriptName = fileName;
+						if (!virtualLoadFile && !virtualLoadType)
+						{
+							// New NPC with some defaults, so we don't crash if
+							// somebody forgot something.
+							var npc = new MabiNPC();
+							npc.Name = "_undefined";
+							npc.Race = 190140;
+
+							npc.Script = script;
+							npc.ScriptPath = scriptPath;
+							script.NPC = npc;
+							script.LoadType = NPCLoadType.Real;
+							script.OnLoad();
+							script.OnLoadDone();
+
+							// Only load defaults if race is set.
+							if (npc.Race != 0 && npc.Race != uint.MaxValue)
+								npc.LoadDefault();
+
+							WorldManager.Instance.AddCreature(npc);
+						}
+						else
+						{
+							script.LoadType = NPCLoadType.Virtual;
+						}
+					}
+					else if (scriptObj is BaseScript)
+					{
+						// Script that doesn't use an NPC, like prop scripts and stuff.
+
+						var script = scriptObj as BaseScript;
+						script.ScriptPath = scriptPath;
+						script.ScriptName = Path.GetFileName(scriptPath);
+
 						script.OnLoad();
 						script.OnLoadDone();
-
-						// Only load defaults if race is set.
-						if (npc.Race != 0 && npc.Race != uint.MaxValue)
-							npc.LoadDefault();
-
-						WorldManager.Instance.AddCreature(npc);
 					}
 					else
 					{
-						script.LoadType = NPCLoadType.Virtual;
+						Logger.Warning("Unknown script class: " + sType);
+						// Type doesn't derive from NPCScript or BaseScript,
+						// probably a custom class. Ignore.
 					}
 				}
-				else
-				{
-					// Script that doesn't use an NPC, like prop scripts and stuff.
 
-					var script = scriptObj as BaseScript;
-					script.ScriptPath = scriptPath;
-					script.ScriptName = Path.GetFileName(scriptPath);
-
-					script.OnLoad();
-					script.OnLoadDone();
-				}
-
-				Interlocked.Increment(ref _loadedNpcs);
+				Interlocked.Increment(ref _loadedScripts);
 			}
 			catch (CompilerException ex)
 			{
@@ -258,11 +287,11 @@ namespace World.Scripting
 			{
 				// [var] <variable> = Wait();
 				// --> [var] <variable>Object = new Response(); yield return <variable>Object; [var] <variable> = <variable>Object.Value;
-				file = Regex.Replace(file, @"\s*(?:(var )|(?:[^\s]+ ))?\s*([^\s\)]*)\s*=\s*Wait\s*\(\s*\)\s*;", "$1$2Object = new Response(); yield return $2Object; $1$2 = $2Object.Value;", RegexOptions.Compiled);
+				file = Regex.Replace(file, @"([\{\}:;\s])(?:(var )|(?:[^\s]+ ))?\s*([^\s\)]*)\s*=\s*Wait\s*\(\s*\)\s*;", "$1$2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;", RegexOptions.Compiled);
 
 				// End();
 				// --> yield break;
-				file = Regex.Replace(file, @"End\s*\(\s*\)\s*;", "yield break;", RegexOptions.Compiled);
+				file = Regex.Replace(file, @"([\{\}:;\s])End\s*\(\s*\)\s*;", "yield break;", RegexOptions.Compiled);
 			}
 
 			// Append the (changed) file

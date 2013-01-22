@@ -7,6 +7,7 @@ using Common.Tools;
 using World.World;
 using Common.World;
 using World.Network;
+using Common.Network;
 
 namespace World.Scripting
 {
@@ -180,6 +181,11 @@ namespace World.Scripting
 				return;
 
 			client.Send(PacketCreator.Notice(msg, type));
+		}
+
+		protected void Broadcast(string msg, NoticeType type = NoticeType.Top)
+		{
+			WorldManager.Instance.Broadcast(PacketCreator.Notice(msg, type), SendTargets.All);
 		}
 	}
 
