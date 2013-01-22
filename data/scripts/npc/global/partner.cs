@@ -1,6 +1,12 @@
+// Aura Script
+// --------------------------------------------------------------------------
+// Partner - NPC dialog for partner pets
+// --------------------------------------------------------------------------
+
+using System;
+using System.Collections;
 using Common.Constants;
 using Common.World;
-using System;
 using World.Network;
 using World.Scripting;
 using World.World;
@@ -9,10 +15,9 @@ public class PartnerScript : NPCScript
 {
 	public override void OnLoad()
 	{
-		base.OnLoad();
 		SetName("_partnerdummy");
 		SetRace(10000);
-		SetLocation(region: 22, x: 6118, y: 5519);
+		SetLocation(22, 6118, 5519);
 
 		Shop.AddTabs("General Goods", "First Aid Kits", "Decorative Items", "Event");
 		Shop.AddItem("General Goods", 40203);      // Taming Cane
@@ -45,43 +50,44 @@ public class PartnerScript : NPCScript
 		Shop.AddItem("Decorative Items", 15158);   // Wis' Intelligence Soldier Uniform (F)
 	}
 
-	public override void OnTalk(WorldClient c)
+	public override IEnumerable OnTalk(WorldClient c)
 	{
-		OnSelect(c, null);
-	}
-
-	public override void OnSelect(WorldClient c, string r)
-	{
+		Msg(c,
+			"Hiya, boss! You don't mind if I call you boss, right?",
+			"<p/>I'm your new maid. Just don't ask me to work too hard,",
+			"and we'll have a great time, I bet!",
+			"In fact, I can already tell we'll be great friends!"
+		);
+		Msg(c, Options.FaceAndName, "(At least she's friendly...)");
+		
+	L_Task:
+		Disable(c, Options.FaceAndName);
+		MsgSelect(c,
+			"(Choose a task.)",
+			"Grant Favor", "@favor",
+			"Gift", "@gift",
+			"Order a Dish", "@cook",
+			"Trade", "@trade",
+			"Repair", "@repair",
+			"Action", "@action",
+			"End Conversation", "@end"
+		);
+		
+		var r = Wait();
 		switch (r)
 		{
-			case null:
-				Msg(c, "Hiya, boss! You don't mind if I call you boss, right?");
-				Msg(c, "I'm your new maid. Just don't ask me to work too hard,", "and we'll have a great time, I bet!", "In fact, I can already tell we'll be great friends!");
-				Disable(c, Options.FaceAndName);
-				Msg(c, "(At least she's friendly...)");
-				Enable(c, Options.FaceAndName);
-				goto case "#task";
-				
-			case "#task":
-				Disable(c, Options.FaceAndName);
-				MsgSelect(c, "(Choose a task.)",
-							 "Grant Favor", "@favor",
-							 "Gift", "@gift",
-							 "Order a Dish", "@cook",
-							 "Trade", "@trade",
-							 "Repair", "@repair",
-							 "Action", "@action",
-							 "End Conversation", "@end");
-				break;
-			
 			case "@trade":
-				Msg(c, "You need something, boss?", "I don't have much, but take a look.");
+			{
+				Msg(c, "You need something, boss?<br/>I don't have much, but take a look.");
 				OpenShop(c);
-				break;
+				End();
+			}
 			
 			default:
+			{
 				Msg(c, "Yea~ no. Ask again later.");
-				goto case "#task";
+				goto L_Task;
+			}
 		}
 	}
 	

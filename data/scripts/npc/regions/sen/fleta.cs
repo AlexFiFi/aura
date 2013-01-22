@@ -59,14 +59,14 @@ public class FletaScript : NPCScript
         {
             if ((sender == null || lastVisible == false))
             {
-                Warp(region: 53, x: 104689, y: 109742);
+                WarpNPC(region: 53, x: 104689, y: 109742);
                 lastVisible = true;
                 //Logger.Info("Fleta has appeared in Sen Mag");
             }
         }
         else if (sender == null || lastVisible == true)
         {
-            Warp(region: 15, x: 300, y: 0);
+            WarpNPC(region: 15, x: 300, y: 0);
             lastVisible = false;
             //Logger.Info("Fleta has vanished from Sen Mag");
         }

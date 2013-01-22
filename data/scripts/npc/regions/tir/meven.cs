@@ -1,6 +1,12 @@
+// Aura Script
+// --------------------------------------------------------------------------
+// Meven - Priest
+// --------------------------------------------------------------------------
+
+using System;
+using System.Collections;
 using Common.Constants;
 using Common.World;
-using System;
 using World.Network;
 using World.Scripting;
 using World.World;
@@ -14,16 +20,14 @@ public class MevenScript : NPCScript
 		SetRace(10002);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 21, eye: 5, eyeColor: 27, lip: 0);
+		SetStand("human/male/anim/male_natural_stand_npc_Meven");
+		SetLocation("tir_church", 954, 2271, 198);
 
 		EquipItem(Pocket.Face, 0x1324, 0xA4AFD9);
 		EquipItem(Pocket.Hair, 0xFBA, 0xEBE0C0);
 		EquipItem(Pocket.Armor, 0x3A9E, 0x313727, 0x282C2B, 0xF0DA4A);
 		EquipItem(Pocket.Shoe, 0x4274, 0x313727, 0xFFFFFF, 0xA0927D);
 
-		SetLocation(region: 4, x: 954, y: 2271);
-
-		SetDirection(198);
-		SetStand("human/male/anim/male_natural_stand_npc_Meven");
 		Phrases.Add("!");
 		Phrases.Add("(Smile)");
 		Phrases.Add("...");
@@ -36,7 +40,7 @@ public class MevenScript : NPCScript
 		Phrases.Add("Hiccup! Hiccup! (confused)");
 	}
 
-	public override void OnTalk(WorldClient c)
+	public override IEnumerable OnTalk(WorldClient c)
 	{
 		Disable(c, Options.FaceAndName);
 		Msg(c, "Dressed in a robe, this composed man of moderate build maintains a very calm posture.",
@@ -44,24 +48,20 @@ public class MevenScript : NPCScript
 			"Silvery hair frames his friendly face, and his gentle eyes suggest a rather quaint and quiet mood with flashes of hidden humor.");
 		Enable(c, Options.FaceAndName);
 		MsgSelect(c, "Welcome to the Church of Lymilark.", "Start Conversation", "@talk");
-	}
-
-	public override void OnSelect(WorldClient c, string r)
-	{
-		switch (r)
+		
+		var r = Wait();
+		if(r == "@talk")
 		{
-			case "@talk":
-				Msg(c, "It's nice to see you again.");
-				Disable(c, Options.Name);
-				Msg(c, "(Meven is waiting for me to say something.)");
-				Enable(c, Options.Name);
-				ShowKeywords(c);
-				break;
-				
-			default:
-				Msg(c, "...", "I really don't know.");
-				ShowKeywords(c);
-				break;
+			Msg(c, "It's nice to see you again.");
+			
+		L_Keywords:
+			Msg(c, Options.Name, "(Meven is waiting for me to say something.)");
+			ShowKeywords(c);
+			
+			var keyword = Wait();
+			
+			Msg(c, "...<br/>I really don't know.");
+			goto L_Keywords;
 		}
 	}
 }

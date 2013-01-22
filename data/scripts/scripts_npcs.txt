@@ -14,18 +14,11 @@ virtual: npc/commerce/horse_base.cs
 virtual: npc/commerce/imp_base.cs
 virtual: npc/commerce/goblin_base.cs
 virtual: npc/commerce/ogre_base.cs
-virtual: npc/global/castle_guard_base.cs
-virtual: npc/global/mailbox.cs
-virtual: npc/regions/abb/abbneagh_horse_base.cs
-virtual: npc/regions/belvast/sailor_belfast_base.cs
-virtual: npc/regions/belvast/soldier_belfast_base.cs
-virtual: npc/regions/belvast/worker_belfast_base.cs
 virtual: npc/regions/courcle/courcleinhabitant_base.cs
 virtual: npc/regions/courcle/docknpc_base.cs
 virtual: npc/regions/emain/emain_guardsman_base.cs
 virtual: npc/regions/emain/beanrua_base.cs
 virtual: npc/regions/emain/beanruaguard_base.cs
-virtual: npc/regions/rath/evidence_base.cs
 virtual: npc/regions/scathach/scathach_alchemist_base.cs
 virtual: npc/regions/scathach/wardens_base.cs
 virtual: npc/regions/taillteann/taillteann_elf_base.cs
@@ -33,13 +26,13 @@ virtual: npc/regions/taillteann/taillteann_giant_base.cs
 virtual: npc/regions/taillteann/taillteann_royalguard_base.cs
 virtual: npc/regions/taillteann/taillteann_npc_base.cs
 virtual: npc/regions/taillteann/taillteann_watchman_base.cs
-virtual: npc/regions/tara/tara_guard_base.cs
 
 //===========================================================================
 // Global                                                                   |
 //===========================================================================
 
 npc/global/partner.cs
+npc/global/mailbox.cs
 
 //===========================================================================
 // Regions                                                                  |
@@ -60,7 +53,6 @@ npc/regions/tir/ferghus.cs
 npc/regions/tir/ghelp.cs
 npc/regions/tir/goro.cs
 npc/regions/tir/lassar.cs
-npc/regions/tir/mailbox.cs
 npc/regions/tir/malcolm.cs
 npc/regions/tir/meven.cs
 npc/regions/tir/neru.cs
@@ -79,10 +71,6 @@ npc/regions/sidhe/tarlach.cs
 //---------------------------------------------------------------------------
 npc/regions/dungald/tracy.cs
 
-// Dugald Aisle Residential
-//---------------------------------------------------------------------------
-npc/regions/dungald_residential/mailbox.cs
-
 // Dunbarton
 //---------------------------------------------------------------------------
 npc/regions/dunbarton/aeira.cs
@@ -95,7 +83,6 @@ npc/regions/dunbarton/dunbarton_ogre.cs
 npc/regions/dunbarton/eavan.cs
 npc/regions/dunbarton/glenis.cs
 npc/regions/dunbarton/kristell.cs
-npc/regions/dunbarton/mailbox.cs
 npc/regions/dunbarton/manus.cs
 npc/regions/dunbarton/nerys.cs
 npc/regions/dunbarton/simon.cs
@@ -119,7 +106,6 @@ npc/regions/cobh/dughall.cs
 npc/regions/cobh/kayna.cs
 npc/regions/cobh/lonnie.cs
 npc/regions/cobh/madoc.cs
-npc/regions/cobh/mailbox.cs
 npc/regions/cobh/manolin.cs
 npc/regions/cobh/siobhanin.cs
 npc/regions/cobh/tamon.cs
@@ -167,7 +153,6 @@ npc/regions/emain/jocelin.cs
 npc/regions/emain/lery.cs
 npc/regions/emain/lucas.cs
 npc/regions/emain/macaulay.cs
-npc/regions/emain/mailbox.cs
 npc/regions/emain/nele.cs
 npc/regions/emain/nona.cs
 npc/regions/emain/osla.cs
@@ -194,10 +179,6 @@ npc/regions/ceo/muro.cs
 npc/regions/sen/fleta.cs
 npc/regions/sen/rab.cs
 
-// Sen Mag Plateau Residential
-//---------------------------------------------------------------------------
-npc/regions/sen_residential/mailbox.cs
-
 // Gairech
 //---------------------------------------------------------------------------
 npc/regions/gairech/seumas.cs
@@ -214,7 +195,6 @@ npc/regions/bangor/elen.cs
 npc/regions/bangor/gilmore.cs
 npc/regions/bangor/ibbie.cs
 npc/regions/bangor/jenifer.cs
-npc/regions/bangor/mailbox.cs
 npc/regions/bangor/riocard.cs
 npc/regions/bangor/sion.cs
 
@@ -227,14 +207,9 @@ npc/regions/ceann/seanan.cs
 npc/regions/blago/edana.cs
 npc/regions/blago/rumon.cs
 
-// Sliab Cuilin Residential
-//---------------------------------------------------------------------------
-npc/regions/cuilin_residential/mailbox.cs
-
 // Abb Neagh
 //---------------------------------------------------------------------------
-npc/regions/abb/abbneagh_horse.cs
-npc/regions/abb/abbneagh_horse2.cs
+npc/regions/abb/abbneagh_horses.cs
 npc/regions/abb/ailla.cs
 npc/regions/abb/art.cs
 npc/regions/abb/austell.cs
@@ -242,10 +217,6 @@ npc/regions/abb/cailean.cs
 npc/regions/abb/hameln.cs
 npc/regions/abb/tegau.cs
 npc/regions/abb/yvona.cs
-
-// Abb Neagh Residential
-//---------------------------------------------------------------------------
-npc/regions/abb_residential/mailbox.cs
 
 // Taillteann
 //---------------------------------------------------------------------------
@@ -260,7 +231,6 @@ npc/regions/taillteann/eabha.cs
 npc/regions/taillteann/granat.cs
 npc/regions/taillteann/inflames.cs
 npc/regions/taillteann/karpfen.cs
-npc/regions/taillteann/mailbox.cs
 npc/regions/taillteann/pierrick.cs
 npc/regions/taillteann/taillteann_elf1.cs
 npc/regions/taillteann/taillteann_elf2.cs
@@ -296,10 +266,8 @@ npc/regions/tara/alpin.cs
 npc/regions/tara/casanova_partner.cs
 npc/regions/tara/castle_alchemist.cs
 npc/regions/tara/castle_church.cs
-npc/regions/tara/castle_guard1.cs
-npc/regions/tara/castle_guard2.cs
-npc/regions/tara/castle_road_patrol_01.cs
-npc/regions/tara/castle_road_patrol_02.cs
+npc/regions/tara/castle_guards.cs
+npc/regions/tara/castle_road_patrols.cs
 npc/regions/tara/cliona.cs
 npc/regions/tara/colm.cs
 npc/regions/tara/corentin.cs
@@ -308,6 +276,7 @@ npc/regions/tara/fashionNPC1.cs
 npc/regions/tara/finola.cs
 npc/regions/tara/gorneves.cs
 npc/regions/tara/guardmerchant.cs
+npc/regions/tara/guards.cs
 npc/regions/tara/hans.cs
 npc/regions/tara/heledd.cs
 npc/regions/tara/hooliger.cs
@@ -315,7 +284,6 @@ npc/regions/tara/ilsa.cs
 npc/regions/tara/keith.cs
 npc/regions/tara/lezard.cs
 npc/regions/tara/lileas.cs
-npc/regions/tara/mailbox.cs
 npc/regions/tara/male_castle01.cs
 npc/regions/tara/malleus.cs
 npc/regions/tara/nessa.cs
@@ -323,10 +291,6 @@ npc/regions/tara/padan.cs
 npc/regions/tara/pencast.cs
 npc/regions/tara/rota.cs
 npc/regions/tara/tara_goblin.cs
-npc/regions/tara/tara_guard.cs
-npc/regions/tara/tara_guard1.cs
-npc/regions/tara/tara_guard2.cs
-npc/regions/tara/tara_guard3.cs
 npc/regions/tara/tara_imp.cs
 npc/regions/tara/tara_ogre.cs
 npc/regions/tara/young_casanova.cs
@@ -335,17 +299,9 @@ npc/regions/tara/young_casanova.cs
 //---------------------------------------------------------------------------
 npc/regions/rath/arzhela.cs
 npc/regions/rath/briana.cs
-npc/regions/rath/castle_guard3.cs
-npc/regions/rath/castle_guard4.cs
-npc/regions/rath/castle_patrol_01.cs
-npc/regions/rath/castle_patrol_02.cs
-npc/regions/rath/castle_patrol_03.cs
-npc/regions/rath/castle_patrol_04.cs
-npc/regions/rath/evidence_01.cs
-npc/regions/rath/evidence_02.cs
-npc/regions/rath/evidence_03.cs
-npc/regions/rath/evidence_04.cs
-npc/regions/rath/evidence_05.cs
+npc/regions/rath/castle_guards.cs
+npc/regions/rath/castle_patrols.cs
+npc/regions/rath/evidence.cs
 npc/regions/rath/gallant_sister.cs
 npc/regions/rath/glewyas.cs
 npc/regions/rath/greatHall_maid.cs
@@ -373,8 +329,7 @@ npc/regions/belvast/blyth.cs
 npc/regions/belvast/carasek_belfast_model.cs
 npc/regions/belvast/cordelia_madam.cs
 npc/regions/belvast/genie.cs
-npc/regions/belvast/giantguard_belfast_01.cs
-npc/regions/belvast/giantguard_belfast_02.cs
+npc/regions/belvast/giant_guards.cs
 npc/regions/belvast/goblin_gogo.cs
 npc/regions/belvast/goblin_hico.cs
 npc/regions/belvast/goblin_taco.cs
@@ -383,31 +338,20 @@ npc/regions/belvast/hiccamother.cs
 npc/regions/belvast/imp_kinu.cs
 npc/regions/belvast/imp_kuru.cs
 npc/regions/belvast/imp_maru.cs
-npc/regions/belvast/mailbox.cs
 npc/regions/belvast/monat.cs
 npc/regions/belvast/mond.cs
 npc/regions/belvast/odran_belfast.cs
 npc/regions/belvast/ogre_laf.cs
 npc/regions/belvast/ogre_marv.cs
 npc/regions/belvast/ogre_tobe.cs
-npc/regions/belvast/sailor_belfast_01.cs
-npc/regions/belvast/sailor_belfast_02.cs
-npc/regions/belvast/sailor_belfast_03.cs
+npc/regions/belvast/sailors.cs
 npc/regions/belvast/shylock_belfast.cs
-npc/regions/belvast/soldier_belfast_01.cs
-npc/regions/belvast/soldier_belfast_02.cs
-npc/regions/belvast/soldier_belfast_03.cs
-npc/regions/belvast/soldier_belfast_04.cs
-npc/regions/belvast/soldier_belfast_05.cs
-npc/regions/belvast/soldier_belfast_06.cs
+npc/regions/belvast/soldiers.cs
 npc/regions/belvast/strange_man.cs
 npc/regions/belvast/tinic.cs
 npc/regions/belvast/twm.cs
 npc/regions/belvast/wish_tree.cs
-npc/regions/belvast/worker_belfast_01.cs
-npc/regions/belvast/worker_belfast_02.cs
-npc/regions/belvast/worker_belfast_03.cs
-npc/regions/belvast/worker_belfast_04.cs
+npc/regions/belvast/workers.cs
 
 // Beach of Scathach
 //---------------------------------------------------------------------------
@@ -441,7 +385,6 @@ npc/regions/rano/ethna.cs
 npc/regions/rano/ffion.cs
 npc/regions/rano/ffion_crystalbead.cs
 npc/regions/rano/heulfryn.cs
-npc/regions/rano/mailbox.cs
 npc/regions/rano/myrddin.cs
 npc/regions/rano/nicca.cs
 npc/regions/rano/petra.cs
@@ -452,7 +395,6 @@ npc/regions/physis/giant_familyguide.cs
 npc/regions/physis/giant_weddingguide.cs
 npc/regions/physis/kirine.cs
 npc/regions/physis/krug.cs
-npc/regions/physis/mailbox.cs
 npc/regions/physis/taunes.cs
 npc/regions/physis/wanst.cs
 npc/regions/physis/weide.cs
@@ -467,7 +409,6 @@ npc/regions/connous/elf_weddingguide.cs
 npc/regions/connous/granites.cs
 npc/regions/connous/hagel.cs
 npc/regions/connous/lepus.cs
-npc/regions/connous/mailbox.cs
 npc/regions/connous/meles.cs
 npc/regions/connous/portia_bedroom.cs
 npc/regions/connous/portia_epilogue.cs
@@ -491,7 +432,6 @@ npc/regions/courcle/docknpc4.cs
 npc/regions/courcle/docknpc5.cs
 npc/regions/courcle/kawsay.cs
 npc/regions/courcle/kusina.cs
-npc/regions/courcle/mailbox.cs
 npc/regions/courcle/ruway.cs
 npc/regions/courcle/shamala.cs
 npc/regions/courcle/tupay.cs
@@ -504,7 +444,6 @@ npc/regions/zardine/arneng.cs
 npc/regions/zardine/belita.cs
 npc/regions/zardine/kelpie.cs
 npc/regions/zardine/legatus.cs
-npc/regions/zardine/mailbox.cs
 
 //===========================================================================
 // Roaming                                                                  |

@@ -14,12 +14,10 @@ public class RuaScript : NPCScript
     private DateTime ruaEpoch = DateTime.Parse("Mar 23, 2008 22:21:00 GMT");
     private bool currentlyWorking;
     
-    
     const int TIME_PER_ERINN_MINUTE = 1500; // 1.5 s
     const int TIME_PER_ERINN_HOUR   = TIME_PER_ERINN_MINUTE * 60; // 1 min 30 s
     const int TIME_PER_ERINN_DAY    = TIME_PER_ERINN_HOUR * 24; // 36 min
 
-    
 	public override void OnLoad()
 	{
 		base.OnLoad();
@@ -68,9 +66,9 @@ public class RuaScript : NPCScript
         currentlyWorking = next;
         
         if (next)
-            Warp(region: 57, x: 6981, y: 4998);
+            WarpNPC(region: 57, x: 6981, y: 4998);
         else
-            Warp(region: 15, x: 200, y: 0);
+            WarpNPC(region: 15, x: 200, y: 0);
             
         //Logger.Info("Rua changed to " + (next ? "working" : "resting"));
     }

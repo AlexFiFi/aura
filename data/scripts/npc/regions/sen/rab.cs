@@ -55,13 +55,13 @@ public class RabScript : NPCScript
         {
             if ((sender == null || lastVisible == false))
             {
-                Warp(region: 53, x: 103263, y: 110129);
+                WarpNPC(region: 53, x: 103263, y: 110129);
                 lastVisible = true;
             }
         }
         else if (sender == null || lastVisible == true)
         {
-            Warp(region: 15, x: 400, y: 0);
+            WarpNPC(region: 15, x: 400, y: 0);
             lastVisible = false;
         }
     }

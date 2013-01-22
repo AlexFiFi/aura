@@ -25,8 +25,8 @@ public class Beanruaguard02Script : Beanruaguard_baseScript
     protected override void Warp(bool visible)
     {
         if (visible)
-            Warp(region: 52, x: 48270, y: 48122);
+            WarpNPC(region: 52, x: 48270, y: 48122);
         else
-            Warp(15, 600, 0);
+            WarpNPC(15, 600, 0);
     }
 }

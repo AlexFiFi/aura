@@ -1,29 +1,45 @@
+// Aura Script
+// --------------------------------------------------------------------------
+// Bebhinn - Banker
+// --------------------------------------------------------------------------
+
+using System;
+using System.Collections;
 using Common.Constants;
 using Common.World;
-using System;
 using World.Network;
 using World.Scripting;
 using World.World;
 
 public class BebhinnScript : NPCScript
 {
+	const bool _kr = false; // White Bebhinn
+
 	public override void OnLoad()
 	{
-		base.OnLoad();
 		SetName("_bebhinn");
 		SetRace(10001);
-		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
-		SetFace(skin: 27, eye: 59, eyeColor: 55, lip: 1);
-
-		EquipItem(Pocket.Face, 0xF3C, 0xF78042);
-		EquipItem(Pocket.Hair, 0xC1C, 0x201C1A);
-		EquipItem(Pocket.Armor, 0x15FFA, 0xFFE4BF, 0x1E649D, 0x175884);
-		EquipItem(Pocket.Shoe, 0x4290, 0x996633, 0x6175AD, 0x808080);
-
-		SetLocation(region: 2, x: 1364, y: 1785);
-
-		SetDirection(228);
 		SetStand("human/female/anim/female_natural_stand_npc_Bebhinn");
+		SetLocation("tir_bank", 1364, 1785, 228);
+
+		if(!_kr)
+		{
+			SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
+			SetFace(skin: 27, eye: 59, eyeColor: 55, lip: 1);
+			EquipItem(Pocket.Face, 3900, 0xF78042);
+			EquipItem(Pocket.Hair, 3100, 0x201C1A);
+			EquipItem(Pocket.Armor, 90106, 0xFFE4BF, 0x1E649D, 0x175884);
+			EquipItem(Pocket.Shoe, 17040, 0x996633, 0x6175AD, 0x808080);
+		}
+		else
+		{
+			SetBody(height: 0.88f, fat: 1f, upper: 1f, lower: 1f);
+			SetFace(skin: 17, eye: 0, eyeColor: 127, lip: 0);
+			EquipItem(Pocket.Face, 3900, 0x019E49, 0x031A5E, 0x8B78B7);
+			EquipItem(Pocket.Hair, 3024, 0xF78F87, 0xF78F87, 0xF78F87);
+			EquipItem(Pocket.Armor, 15026, 0xE9E3F1, 0x8D82AA, 0x4E435F);
+			EquipItem(Pocket.Shoe, 17004, 0x4E435F, 0xA0927D, 0x4F548D);
+		}
 
 		Shop.AddTabs("Personal Shop License");
 
@@ -38,53 +54,57 @@ public class BebhinnScript : NPCScript
 		Phrases.Add("Wow... I'm so pretty... Hehe.");
 	}
 
-	public override void OnTalk(WorldClient c)
+	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Disable(c, Options.FaceAndName);
-		Msg(c, "A young lady is admiring her nails as you enter.",
-			"When she notices you, she looks up expectantly, as if waiting for you to liven things up.",
-			"Her big, blue eyes sparkle with charm and fun, and her subtle smile creates irresistable dimples.");
-		Enable(c, Options.FaceAndName);
+		Msg(c, Options.FaceAndName, "A young lady is admiring her nails as you enter.<br/>When she notices you, she looks up expectantly, as if waiting for you to liven things up.<br/>Her big, blue eyes sparkle with charm and fun, and her subtle smile creates irresistable dimples.");
 		MsgSelect(c, "May I help you?", "Start Conversation", "@talk", "Open My Account", "@bank", "Redeem Coupon", "@redeem", "Shop", "@shop");
-	}
-
-	public override void OnSelect(WorldClient c, string r, string i)
-	{
+		
+		var r = Wait();
 		switch (r)
 		{
+			case "@talk":
+			{
+				Msg(c, "Is this your first time here? Nice to meet you.");
+				
+			L_Keywords:
+				Msg(c, Options.Name, "(Bebhinn is looking at me.)");
+				ShowKeywords(c);
+				var keyword = Wait();
+				
+				Msg(c, "Can we change the subject?");
+				goto L_Keywords;
+			}
+				
+			case "@bank":
+			{
+				Msg(c, "(Unimplemented)");
+				End();
+			}
+				
 			case "@redeem":
+			{
 				MsgInput(c, "Are you here to redeem your coupon?<br/>Please enter the coupon number you wish to redeem.", "Exchange Coupon", "Enter your coupon number");
-				break;
+				var input = Wait();
+				if(input == "@cancel")
+					End();
 				
-			case "@input":
-				// Check code in "i"
-				Msg(c, "I checked the number at our Head Office, and they say this coupon does not exist.", "Please double check the coupon number.");
-				break;
+				if(!CheckCode(c, input))
+				{
+					Msg(c, "I checked the number at our Head Office, and they say this coupon does not exist.<br/>Please double check the coupon number.");
+					End();
+				}
 				
-			case "@cancel":
-				// Missing real response.
-				Msg(c, "Come back any time.");
-				break;
+				// Unofficial response.
+				Msg(c, "There you go, have a nice day.");
+				End();
+			}
 				
 			case "@shop":
-				Msg(c, "So, does that mean you're looking for a Personal Shop License then?",
-					"You must have something you want to sell around here!",
-					"Hahaha...");
+			{
+				Msg(c, "So, does that mean you're looking for a Personal Shop License then?<br/>You must have something you want to sell around here!<br/>Hahaha...");
 				OpenShop(c);
-				break;
-
-			case "@talk":
-				Msg(c, "Is this your first time here? Nice to meet you.");
-				Disable(c, Options.Name);
-				Msg(c, "(Bebhinn is looking at me.)");
-				Enable(c, Options.Name);
-				ShowKeywords(c);
-				break;
-				
-			default:
-				Msg(c, "Can we change the subject?");
-				ShowKeywords(c);
-				break;
+				End();
+			}
 		}
 	}
 }

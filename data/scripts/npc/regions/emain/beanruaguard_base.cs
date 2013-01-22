@@ -13,16 +13,9 @@ public class Beanruaguard_baseScript : NPCScript
 
 	public override void OnLoad()
 	{
-		base.OnLoad();
 		SetRace(10002);
 		SetBody(height: 1.26f, fat: 1.09f, upper: 1.26f, lower: 1f);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
-
-		SetStand("");
-        
 		Phrases.Add("Alright, alright, single line!");
 		Phrases.Add("Alright, go in.");
 		Phrases.Add("Are you looking for Bean Rua? It's right here.");
@@ -86,5 +79,4 @@ public class Beanruaguard_baseScript : NPCScript
     {
     
     }
-    
 }

@@ -1,36 +1,37 @@
+// Aura Script
+// --------------------------------------------------------------------------
+// Tarlach - Druid
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Common.Constants;
+using Common.Events;
 using Common.World;
 using World.Network;
 using World.Scripting;
 using World.World;
-using Common.Constants;
-using Common.Events;
 
 public class TarlachScript : NPCScript
 {
 	public override void OnLoad()
 	{
-		base.OnLoad();
 		SetName("_tarlach");
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 0.9f, upper: 0.4f, lower: 0.6f);
 		SetFace(skin: 15, eye: 4, eyeColor: 54, lip: 0);
+		SetStand("human/male/anim/male_natural_stand_npc_Duncan");
+		SetLocation("sidhe_south", 11100, 30400, 167);
 
 		EquipItem(Pocket.Face, 4901, 13020774, 4930657, 16399);
 		EquipItem(Pocket.Hair, 4021, 268435491, 268435491, 268435491);
 		EquipItem(Pocket.Head, 18028, 6446916, 12632256, 6296681);
-		EquipItem(Pocket.Robe, 19004, 13269812, 11817009, 14335111); //Muffler robe
-		NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
 		EquipItem(Pocket.Armor, 15002, 12058662, 12058662, 5729677);
 		EquipItem(Pocket.Shoe, 17009, 5648913, 16571605, 8235060);
-
-		SetLocation(region: 48, x: 11100, y: 30400);
+		EquipItem(Pocket.Robe, 19004, 13269812, 11817009, 14335111); // Muffler robe
+		NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
 
 		ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
-
-		SetDirection(167);
-
-		SetStand("human/male/anim/male_natural_stand_npc_Duncan");
 
 		Phrases.Add("...I'll just wait a little longer...");
 		Phrases.Add("Ah...");
@@ -51,38 +52,34 @@ public class TarlachScript : NPCScript
 
 	private void On12HrTick(object sender, TimeEventArgs e)
 	{
-		if (e.Hour >= 18 || e.Hour < 6) //Nighttime
-			Warp(region: 48, x: 11100, y: 30400);
+		if(e.IsNight)
+			WarpNPC(48, 11100, 30400);
 		else
-			Warp(region: 15, x: 0, y: 0);
+			WarpNPC(15, 0, 0);
 	}
 
-	public override void OnTalk(WorldClient c)
+	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Disable(c, Options.FaceAndName);
-		Msg(c, "A man wearing a light brown robe silently glares this way.", 
+		Msg(c, Options.FaceAndName,
+			"A man wearing a light brown robe silently glares this way.", 
 			"He has wavy blonde hair and white skin with a well defined chin that gives off a gentle impression.",
-			"Behind his thick glasses, however, are his cold emerald eyes filled with silent gloom.");
-		Enable(c, Options.FaceAndName);
+			"Behind his thick glasses, however, are his cold emerald eyes filled with silent gloom."
+		);
 		MsgSelect(c, "...Mmm...", "Start Conversation", "@talk");
-	}
-
-	public override void OnSelect(WorldClient c, string r)
-	{
-		switch (r)
+		
+		var r = Wait();
+		if(r == "@talk")
 		{
-			case "@talk":
-				Msg(c, "(Cough, Cough)...", "So you have made it through the barrier and have reached this desolate place.");
-				Disable(c, Options.Name);
-				Msg(c, "(Tarlach is looking at me.)");
-				Enable(c, Options.Name);
-				ShowKeywords(c);
-				break;
-
-			default:
-				Msg(c, "Can we change the subject?");
-				ShowKeywords(c);
-				break;
+			Msg(c, "(Cough, Cough)...<br/>So you have made it through the barrier and have reached this desolate place.");
+			
+		L_Keywords:
+			Msg(c, Options.Name, "(Tarlach is looking at me.)");
+			ShowKeywords(c);
+			
+			var keyword = Wait();
+			
+			Msg(c, "Can we change the subject?");
+			goto L_Keywords;
 		}
 	}
 

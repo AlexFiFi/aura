@@ -48,9 +48,9 @@ public class Skatha_witchScript : NPCScript
 
 	private void On12HrTick(object sender, TimeEventArgs e)
 	{
-		if (e.Hour >= 6 && e.Hour < 18) //Daytime
-			Warp(region: 4015, x: 32951, y: 40325, flash: false);
+		if (!e.IsNight)
+			WarpNPC(region: 4015, x: 32951, y: 40325, flash: false);
 		else
-			Warp(region: 15, x: 100, y: 0, flash: false);
+			WarpNPC(region: 15, x: 100, y: 0, flash: false);
 	}
 }

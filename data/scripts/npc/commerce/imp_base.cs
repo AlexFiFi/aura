@@ -1,6 +1,12 @@
+// Aura Script
+// --------------------------------------------------------------------------
+// Commerce Imp Base
+// --------------------------------------------------------------------------
+
+using System;
+using System.Collections;
 using Common.Constants;
 using Common.World;
-using System;
 using World.Network;
 using World.Scripting;
 using World.World;
@@ -9,12 +15,12 @@ public class CommerceImpScript : NPCScript
 {
 	public override void OnLoad()
 	{
-		base.OnLoad();
 		SetRace(321);
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
-
 		SetStand("chapter4/monster/anim/imp/mon_c4_imp_commerce", "chapter4/monster/anim/imp/mon_c4_imp_commerce_talk");
 	
+		Shop.AddTabs("General", "Fomor Weapons", "Limited Time Only", "Quest", "Wine Ingredients");
+		
 		Phrases.Add("Ah, you ran out of money. So sad.");
 		Phrases.Add("Get your Fomor weapons, right here.");
 		Phrases.Add("Greetings!");
@@ -24,50 +30,53 @@ public class CommerceImpScript : NPCScript
 		Phrases.Add("Use a Letter of Guarantee to earn Ducats immediately!");
 		Phrases.Add("Welcome!");
 		Phrases.Add("What will you do with all that money? Use it here!");
-
-		Shop.AddTabs("General", "Fomor Weapons", "Limited Time Only", "Quest", "Wine Ingredients");
 	}
 
-	public override void OnTalk(WorldClient c)
+	public override IEnumerable OnTalk(WorldClient c)
 	{
-		MsgSelect(c, "Your wine is aging, your wine is aging!<br/>Buy interesting goods and trade in Bandit Badges!",
+		MsgSelect(c,
+			"Your wine is aging, your wine is aging!<br/>Buy interesting goods and trade in Bandit Badges!",
 			"Trade", "@shop", "Trade In Bandit Badges", "@trade", 
-			"Exchange Bandit Badges","@exchange", "Repair Fomor Weapons", "@repair", "Ferment wine", "@ferment", "End Conversation", "@end");
-	}
-
-	public override void OnSelect(WorldClient c, string r)
-	{
+			"Exchange Bandit Badges","@exchange", "Repair Fomor Weapons",
+			"@repair", "Ferment wine", "@ferment", "End Conversation", "@end"
+		);
+		
+		var r = Wait();
 		switch (r)
 		{
 			case "@shop":
+			{
 				Msg(c, "What are you looking for?");
 				OpenShop(c);
-				break;
+				End();
+			}
 				
 			case "@trade":
-				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>I'll give you some Ducats for proof that you took care of them.", "End Conversation", "@endseeing");
-				break;
+			{
+				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>I'll give you some Ducats for proof that you took care of them.", "End Conversation", "@endtrade");
+				MsgSelect(c, "I'll be seeing you, then.", "Continue", "@end");
+				End();
+			}
 				
 			case "@exchange":
-				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>Hey, if you're sick of carrying all those badges, I'll trade you<br/>for a better one. I know how heavy they can get.", "End Conversation", "@endseeing");
-				break;
+			{
+				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>Hey, if you're sick of carrying all those badges, I'll trade you<br/>for a better one. I know how heavy they can get.", "End Conversation", "@endexchange");
+				MsgSelect(c, "I'll be seeing you, then.", "Continue", "@end");
+				End();
+			}
 				
 			case "@repair":
+			{
 				MsgSelect(c, "If it's a Fomor weapon, just leave it to me.",  "Continue", "@endme");
-				break;
-				
-			case "@endme":
 				MsgSelect(c, "If it breaks again, come to me for repairs. Just me. Not the others. Me.", "Continue", "@end");
-				break;
+				End();
+			}
 				
-			case "@endseeing":
-				MsgSelect(c, "I'll be seeing you, then.", "Continue", "@end");
-				break;
-				
-			default:
-				Msg(c, "Can we change the subject?");
-				ShowKeywords(c);
-				break;
+			case "@ferment":
+			{
+				Msg(c, "(Unimplmented)");
+				End();
+			}
 		}
 	}
 	
