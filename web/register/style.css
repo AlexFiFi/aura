@@ -1,0 +1,37 @@
+body {
+	background: #508abf;
+	text-align: center; }
+
+img {
+	margin: 20px 0; }
+
+table {
+	width: 300px;
+	margin: 0 auto; }
+	
+table td {
+	vertical-align: middle; }
+	
+table td.desc {
+	width: 110px;
+	color: #fff;
+	text-shadow: 0 2px 2px #2e4f6e; }
+	
+table td.inpt {
+	text-align: right; }
+
+input {
+	margin: 3px; }
+
+input[type=text],
+input[type=password] {
+	background: #fff;
+	border: none;
+	padding: 5px;
+	border-radius: 3px;
+	font-size: 16px;
+	width: 160px; }
+	
+div.notice {
+	color: #fff;
+	margin-bottom: 20px; }
