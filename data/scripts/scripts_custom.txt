@@ -1,0 +1,8 @@
+// Aura
+// NPC list file
+//
+// This file includes unofficial NPCs, to activate them remove the "//".
+//---------------------------------------------------------------------------
+
+//npc/custom/proff.cs
+//npc/custom/telephant.cs

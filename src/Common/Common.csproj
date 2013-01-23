@@ -90,6 +90,7 @@
     <Compile Include="Constants\Skills.cs" />
     <Compile Include="Database\MabiDb.cs" />
     <Compile Include="Data\FlightInfo.cs" />
+    <Compile Include="Data\PropDrops.cs" />
     <Compile Include="Data\Maps.cs" />
     <Compile Include="Data\Regions.cs" />
     <Compile Include="Data\Shamala.cs" />

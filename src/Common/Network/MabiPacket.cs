@@ -108,6 +108,7 @@ namespace Common.Network
 		public MabiPacket PutFloats(params float[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
 
 		public MabiPacket PutString(string val) { return this.Put(val); }
+		public MabiPacket PutString(string format, params object[] args) { return this.Put(string.Format(format, args)); }
 		public MabiPacket PutStrings(params string[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
 
 		public MabiPacket PutBin(byte[] val) { return this.Put(val); }

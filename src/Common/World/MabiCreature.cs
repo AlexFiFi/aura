@@ -582,8 +582,10 @@ namespace Common.World
 		/// </summary>
 		/// <param name="itemId"></param>
 		/// <param name="amount"></param>
-		public void GiveItem(uint itemId, uint amount, uint color1 = 0, uint color2 = 0, uint color3 = 0, bool useDBColors = true, bool drop = false)
+		public MabiItem GiveItem(uint itemId, uint amount, uint color1 = 0, uint color2 = 0, uint color3 = 0, bool useDBColors = true, bool drop = false)
 		{
+			MabiItem result = null;
+
 			foreach (var item in this.Items)
 			{
 				if ((item.Type == ItemType.Sac && item.StackItem == itemId) || (item.Info.Class == itemId && item.StackType == BundleType.Stackable))
@@ -605,7 +607,10 @@ namespace Common.World
 					}
 
 					if (prev != item.Info.Amount)
+					{
 						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+						result = item;
+					}
 				}
 			}
 
@@ -649,7 +654,11 @@ namespace Common.World
 
 					EntityEvents.Instance.OnCreatureItemUpdate(this, item, true);
 				}
+
+				result = item;
 			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -725,9 +734,9 @@ namespace Common.World
 		/// Adds the given amount of gold to the inventory. See GiveItem.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void GiveGold(uint amount)
+		public MabiItem GiveGold(uint amount)
 		{
-			this.GiveItem(2000, amount);
+			return this.GiveItem(2000, amount);
 		}
 
 		/// <summary>

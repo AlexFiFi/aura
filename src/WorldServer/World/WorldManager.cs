@@ -760,7 +760,7 @@ namespace World.World
 
 		public void CreatureDropItem(object sender, ItemEventArgs e)
 		{
-			var creature = sender as MabiCreature;
+			var creature = sender as MabiEntity;
 			if (creature == null)
 				return;
 
@@ -1113,7 +1113,7 @@ namespace World.World
 							var rnd = RandomProvider.Get();
 
 							// Gold
-							if (rnd.NextDouble() < 0.5)
+							if (rnd.NextDouble() < WorldConf.GoldDropRate)
 							{
 								var amount = rnd.Next(npc.GoldMin, npc.GoldMax + 1);
 								if (amount > 0)
@@ -1132,7 +1132,7 @@ namespace World.World
 							// Drops
 							foreach (var drop in npc.Drops)
 							{
-								if (rnd.NextDouble() <= drop.Chance)
+								if (rnd.NextDouble() < drop.Chance * WorldConf.DropRate)
 								{
 									var item = new MabiItem(drop.ItemId);
 									item.Info.Amount = 1;

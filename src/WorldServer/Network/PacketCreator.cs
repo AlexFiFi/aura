@@ -251,5 +251,25 @@ namespace World.Network
 
 			return p;
 		}
+
+		public static MabiPacket AcquireItem(MabiCreature creature, ulong itemId)
+		{
+			var p = new MabiPacket(Op.AcquireInfo, creature.Id);
+			p.PutString("<xml type='item' objectid='{0}'/>", itemId);
+			p.PutInt(3000);
+
+			// 001 [................] String : <xml type='stamina' value='17' simple='true' onlyLog='false' />
+			// 002 [........00000BB8] Int    : 3000
+
+			// 001 [................] String : <xml type='item' objectid='22518873032356851' />
+			// 002 [........00000BB8] Int    : 3000
+
+			// 001 [................] String : <xml type='stress' value='2' simple='true' onlyLog='false' minus='true' />
+			// 002 [........000001F4] Int    : 500
+
+			return p;
+		}
+
+
 	}
 }

@@ -34,6 +34,7 @@ namespace World.Tools
 		public static bool AutoSendGMCP;
 		public static byte MinimumGMCP;
 		public static float ExpRate;
+		public static float DropRate, GoldDropRate, PropDropRate;
 
 		public static bool EnableVisual;
 
@@ -78,7 +79,11 @@ namespace World.Tools
 			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
 			WorldConf.AutoSendGMCP = _conf.GetBool("world_auto_gmcp", false);
 			WorldConf.MinimumGMCP = _conf.Get<byte>("world_minimum_gmcp", 50);
-			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100.0f) / 100.0f;
+			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100f) / 100.0f;
+
+			WorldConf.DropRate = _conf.Get<float>("world_drop_rate", 100f) / 100.0f;
+			WorldConf.GoldDropRate = _conf.Get<float>("world_gold_drop_rate", 30f) / 100.0f;
+			WorldConf.PropDropRate = _conf.Get<float>("world_prop_drop_rate", 30f) / 100.0f;
 
 			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
 

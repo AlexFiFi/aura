@@ -81,6 +81,7 @@ namespace Common.Network
 		public readonly static uint Notice = 0x526D;
 		public readonly static uint WarpUnk2 = 0x526E;
 		public readonly static uint MsgBox = 0x526F;
+		public readonly static uint AcquireInfo = 0x5271;
 		public readonly static uint WhisperChat = 0x5273;
 		public readonly static uint BeginnerChat = 0x5275;
 		public readonly static uint VisualChat = 0x527A;

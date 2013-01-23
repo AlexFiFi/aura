@@ -157,6 +157,9 @@ namespace Common.Network
 
 					MabiData.ShamalaDb.LoadFromCsv(dataPath + "/db/shamala.txt", reload);
 					Logger.Info("Done loading " + MabiData.ShamalaDb.Entries.Count + " entries from shamala.txt.");
+
+					MabiData.PropDropDb.LoadFromCsv(dataPath + "/db/prop_drops.txt", reload);
+					Logger.Info("Done loading " + MabiData.PropDropDb.Entries.Count + " entries from prop_drops.txt.");
 				}
 			}
 			catch (FileNotFoundException ex)

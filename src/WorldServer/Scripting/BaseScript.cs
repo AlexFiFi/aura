@@ -8,6 +8,8 @@ using World.World;
 using Common.World;
 using World.Network;
 using Common.Network;
+using Common.Events;
+using World.Tools;
 
 namespace World.Scripting
 {
@@ -40,6 +42,24 @@ namespace World.Scripting
 
 		// Built in methods
 		// ------------------------------------------------------------------
+
+		/// <summary>
+		/// Shortcut for drops, using region names.
+		/// </summary>
+		protected void SpawnProp(uint propClass, string region, uint x, uint y, uint area, float scale, float direction, PropAction action, uint dropType)
+		{
+			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			this.SpawnProp(propClass, regionId, x, y, area, scale, direction, action, dropType);
+		}
+
+		/// <summary>
+		/// Shortcut for drops, using region ids.
+		/// </summary>
+		protected void SpawnProp(uint propClass, uint region, uint x, uint y, uint area, float scale, float direction, PropAction action, uint dropType)
+		{
+			var prop = this.SpawnProp(propClass, region, x, y, area, scale, direction);
+			this.DefineProp(prop.Id, region, x, y, action, dropType);
+		}
 
 		/// <summary>
 		/// Shortcut for warps, using region names.
@@ -109,6 +129,40 @@ namespace World.Scripting
 		}
 
 		/// <summary>
+		/// Shortcut for drops using a region name.
+		/// </summary>
+		protected void DefineProp(ulong propId, string region, uint x, uint y, PropAction action, uint dropType)
+		{
+			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			this.DefineProp(propId, regionId, x, y, action, dropType);
+		}
+
+		/// <summary>
+		/// Shortcut for drops using a region id.
+		/// </summary>
+		protected void DefineProp(ulong propId, uint region, uint x, uint y, PropAction action, uint dropType)
+		{
+			MabiPropFunc behavior = (client, creature, prop) =>
+			{
+				if (Rnd() > WorldConf.PropDropRate)
+					return;
+
+				var di = MabiData.PropDropDb.Find(dropType);
+				if (di == null)
+				{
+					Logger.Warning("Unknown prop drop type '{0}'.", dropType);
+					return;
+				}
+
+				var dii = di.GetRndItem(_rnd);
+				var item = new MabiItem(dii.ItemClass);
+				item.Info.Amount = dii.Amount > 1 ? (ushort)this.Rnd(1, dii.Amount) : (ushort)1;
+				WorldManager.Instance.CreatureDropItem(prop, new ItemEventArgs(item));
+			};
+			this.DefineProp(propId, region, x, y, behavior);
+		}
+
+		/// <summary>
 		/// Shortcut for warps using a region name.
 		/// </summary>
 		protected void DefineProp(ulong propId, string region, uint x, uint y, PropAction action, string tregion, uint tx, uint ty)
@@ -173,6 +227,14 @@ namespace World.Scripting
 		protected int Rnd(int from, int to)
 		{
 			return _rnd.Next(from, to);
+		}
+
+		/// <summary>
+		/// Returns random double between 0.0 and 1.0.
+		/// </summary>
+		protected double Rnd()
+		{
+			return _rnd.NextDouble();
 		}
 
 		protected void Notice(WorldClient client, string msg, NoticeType type = NoticeType.MiddleTop)
