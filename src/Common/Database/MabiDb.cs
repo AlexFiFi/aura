@@ -960,6 +960,15 @@ namespace Common.Database
 						character.Id = (character.Id == 0 ? this.GetNewPetId() : this.GetNewPartnerId());
 				}
 
+				// Corrections
+				// ----------------------------------------------------------
+				// Inside dungeon, would make ppl stuck at loading.
+				if (character.Region >= 10000 && character.Region <= 20000)
+				{
+					// TODO: Implement a "return to" location.
+					character.SetLocation(13, 3329, 2948); // Alby altar
+				}
+
 				var characterLocation = character.GetPosition();
 
 				var mc = new MySqlCommand(

@@ -81,7 +81,8 @@ namespace Common.World
 		public CreatureCondition Conditions;
 		public CreatureCondition PrevConditions;
 
-		public uint Area = 0;
+		public ulong LastEventTriggered = 0;
+		public DungeonAltar OnAltar = DungeonAltar.None;
 
 		public ShamalaInfo Shamala = null;
 		public RaceInfo ShamalaRace = null;

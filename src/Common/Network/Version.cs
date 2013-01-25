@@ -241,7 +241,8 @@ namespace Common.Network
 		public readonly static uint Effect2 = 0x9091; // Delayed?
 		public readonly static uint Effect3 = 0x9092; // ?
 		public readonly static uint Effect4 = 0x9093; // Quest related?
-
+		public readonly static uint DungeonInfo = 0x9470;
+		
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint Transformation = 0xA41C;
 		public readonly static uint MoonGateRequest = 0xA428;

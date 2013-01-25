@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.IO.Compression;
 using Common.Tools;
@@ -16,15 +14,15 @@ namespace Common.Data
 	{
 		public uint Id;
 		public uint X1, Y1, X2, Y2;
-		public List<AreaInfo> Areas;
+		public Dictionary<uint, AreaInfo> Areas;
 	}
 
 	public class AreaInfo
 	{
 		public uint Id;
 		public uint X1, Y1, X2, Y2;
-		public List<PropInfo> Props;
-		public List<EventInfo> Events;
+		public Dictionary<ulong, PropInfo> Props;
+		public Dictionary<ulong, EventInfo> Events;
 	}
 
 	public class PropInfo
@@ -45,11 +43,19 @@ namespace Common.Data
 		public ulong Id;
 		public uint Type;
 		public float X, Y;
+		public bool IsAltar;
+		public List<EventElementInfo> Elements;
+	}
+
+	public class EventElementInfo
+	{
+		public uint Type, Unk;
 	}
 
 	public class RegionDb
 	{
 		public Dictionary<uint, RegionInfo> Entries = new Dictionary<uint, RegionInfo>();
+		public Dictionary<ulong, EventInfo> EventEntries = new Dictionary<ulong, EventInfo>();
 
 		public RegionInfo Find(uint region)
 		{
@@ -62,8 +68,17 @@ namespace Common.Data
 		{
 			if (!this.Entries.ContainsKey(region))
 				return null;
+			if (!this.Entries[region].Areas.ContainsKey(area))
+				return null;
 
-			return this.Entries[region].Areas.Find(a => a.Id == area);
+			return this.Entries[region].Areas[area];
+		}
+
+		public EventInfo FindEvent(ulong id)
+		{
+			EventInfo ei;
+			this.EventEntries.TryGetValue(id, out ei);
+			return ei;
 		}
 
 		public MabiVertex RandomCoord(uint region)
@@ -90,7 +105,7 @@ namespace Common.Data
 			if (ri == null)
 				return uint.MaxValue;
 
-			foreach (var area in ri.Areas)
+			foreach (var area in ri.Areas.Values)
 			{
 				if (x >= Math.Min(area.X1, area.X2) && x <= Math.Max(area.X1, area.X2) && y >= Math.Min(area.Y1, area.Y2) && y <= Math.Max(area.Y1, area.Y2))
 					return area.Id;
@@ -131,7 +146,7 @@ namespace Common.Data
 							ri.Y2 = br.ReadUInt32();
 
 							var cAreas = br.ReadInt32();
-							ri.Areas = new List<AreaInfo>();
+							ri.Areas = new Dictionary<uint, AreaInfo>();
 							for (int i = 0; i < cAreas; ++i)
 							{
 								var ai = new AreaInfo();
@@ -143,7 +158,7 @@ namespace Common.Data
 								ai.Y2 = br.ReadUInt32();
 
 								var cProps = br.ReadInt32();
-								ai.Props = new List<PropInfo>();
+								ai.Props = new Dictionary<ulong, PropInfo>();
 								for (int j = 0; j < cProps; ++j)
 								{
 									var pi = new PropInfo();
@@ -168,11 +183,11 @@ namespace Common.Data
 										pi.Shapes.Add(si);
 									}
 
-									ai.Props.Add(pi);
+									ai.Props.Add(pi.Id, pi);
 								}
 
 								var cEvents = br.ReadInt32();
-								ai.Events = new List<EventInfo>();
+								ai.Events = new Dictionary<ulong, EventInfo>();
 								for (int j = 0; j < cEvents; ++j)
 								{
 									var ei = new EventInfo();
@@ -181,10 +196,25 @@ namespace Common.Data
 									ei.Y = br.ReadSingle();
 									ei.Type = br.ReadUInt32();
 
-									ai.Events.Add(ei);
+									var cElements = br.ReadInt32();
+									ei.Elements = new List<EventElementInfo>();
+									for (int k = 0; k < cElements; ++k)
+									{
+										var eei = new EventElementInfo();
+										eei.Type = br.ReadUInt32();
+										eei.Unk = br.ReadUInt32();
+
+										if (!ei.IsAltar && eei.Type == 2110 && eei.Unk == 103)
+											ei.IsAltar = true;
+
+										ei.Elements.Add(eei);
+									}
+
+									ai.Events.Add(ei.Id, ei);
+									this.EventEntries.Add(ei.Id, ei);
 								}
 
-								ri.Areas.Add(ai);
+								ri.Areas.Add(ai.Id, ai);
 							}
 
 							this.Entries.Add(ri.Id, ri);

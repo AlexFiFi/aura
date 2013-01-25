@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-// Uncomment to get test packets when dropping an item and clicking on the
-// following downstairs portal. Current test packet is based on Alby normal,
-// props and entities (stairs, stautes, doors, ...) aren't sent.
-//#define DUNGEON_TEST
-
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -1225,7 +1220,9 @@ namespace World.Network
 			this.CheckItemMove(creature, item, source);
 			client.Send(PacketCreator.ItemRemove(creature, item));
 
-#if !DUNGEON_TEST
+			if (HandleDungeonDrop(client, creature, item))
+				return;
+
 			// Drop it
 			item.Id = MabiItem.NewItemId;
 			WorldManager.Instance.CreatureDropItem(creature, new ItemEventArgs(item));
@@ -1234,7 +1231,22 @@ namespace World.Network
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
 			p.PutByte(1);
 			client.Send(p);
-#else
+		}
+
+		/// <summary>
+		/// Temp function to separate this stuff from HandleItemDrop.
+		/// </summary>
+		const uint DGID1 = 10035;
+		const uint DGID2 = 10042;
+		const uint ITID2 = 12018;
+		private bool HandleDungeonDrop(WorldClient client, MabiCreature creature, MabiItem item)
+		{
+			// TODO: Go through the list of dungeons (scriptable?), check the
+			//   altars there, return true if dungeon drop, etc etc.
+
+			if (creature.OnAltar != DungeonAltar.Alby)
+				return false;
+
 			client.Send(PacketCreator.Lock(creature));
 
 			// Done
@@ -1243,36 +1255,55 @@ namespace World.Network
 			client.Send(p);
 
 			WorldManager.Instance.CreatureLeaveRegion(creature);
-			creature.SetLocation(10022, 3262, 3139);
+			creature.SetLocation(DGID1, 3262, 3139);
 
-			var dunp = new MabiPacket(0x9470, Id.Broadcast);
+			// Dungeon info
+			// --------------------------------------------------------------
+			var dunp = new MabiPacket(Op.DungeonInfo, Id.Broadcast);
+
 			dunp.PutLong(creature.Id);
-			dunp.PutLong(0x01000000000005CD);
+			dunp.PutLong(0x01000000000008A2);    // Instance id?
+
 			dunp.PutByte(1);
-			dunp.PutString("tircho_alby_dungeon"); // dungeon name (dungeondb.xml)
-			dunp.PutInt(item.Info.Class);
-			dunp.PutInt(938735421);
+			dunp.PutString("tircho_alby_dungeon"); // Dungeon name (dungeondb.xml)
+			dunp.PutInt(ITID2);
 			dunp.PutInt(0);
-			dunp.PutInt(2); // count?
-			dunp.PutInt(10022); // imaginary entrance region id?
-			dunp.PutInt(10032); // imaginary dungeon region id?
-			dunp.PutString("");
-			dunp.PutInt(1);
-			dunp.PutInt(4); // 0 = client crash
-			dunp.PutByte(4); // 0 adds another room
-			dunp.PutByte(0);
-			dunp.PutByte(1);
-			dunp.PutByte(1);
-			dunp.PutByte(3);
-			dunp.PutByte(2);
-			dunp.PutByte(1);
-			dunp.PutByte(4);
 			dunp.PutInt(0);
-			dunp.PutInt(1);
-			dunp.PutSInt(-1212925688);
+
+			dunp.PutInt(2);                      // ? Count, Entry + Floors?
+			dunp.PutInt(DGID1);                  // Imaginary entrance region id?
+			dunp.PutInt(DGID2);                  // Imaginary dungeon region id?
+
+			dunp.PutString("<option/>");
+
+			dunp.PutInt(1);			             // Floor Count?
+			{
+				dunp.PutInt(4);                  // ? Count
+				{
+					dunp.PutByte(0);
+					dunp.PutByte(0);
+
+					dunp.PutByte(0);
+					dunp.PutByte(0);
+
+					dunp.PutByte(5);
+					dunp.PutByte(1);
+
+					dunp.PutByte(5);
+					dunp.PutByte(0);
+				}
+			}
+
 			dunp.PutInt(0);
+			dunp.PutInt(1);					     // Floor Count?
+			{
+				dunp.PutInt(0);
+				dunp.PutInt(0);
+			}
+
 			client.Send(dunp);
-#endif
+
+			return true;
 		}
 
 		public void HandleItemDestroy(WorldClient client, MabiPacket packet)
@@ -2147,20 +2178,25 @@ namespace World.Network
 			}
 			else
 			{
-				Logger.Unimplemented("Unknown prop (touch): " + propId.ToString());
-#if DUNGEON_TEST
-				var pos = creature.GetPosition();
-				//client.Send(new MabiPacket(Op.WARP_ENTER, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
-				//
-				//
-				WorldManager.Instance.CreatureLeaveRegion(creature);
-				client.Send(new MabiPacket(Op.CharacterLock, creature.Id).PutInts(0xEFFFFFFE, 0));
+				// Dungeon test stuff
+				if (creature.Region == DGID1)
+				{
+					var pos = creature.GetPosition();
+					//client.Send(new MabiPacket(Op.WARP_ENTER, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
+					//
+					//
+					WorldManager.Instance.CreatureLeaveRegion(creature);
+					client.Send(new MabiPacket(Op.CharacterLock, creature.Id).PutInts(0xEFFFFFFE, 0));
 
-				creature.SetLocation(10032, 5992, 5614);
-				client.Send(PacketCreator.EnterRegionPermission(creature));
+					creature.SetLocation(DGID2, 5992, 5614);
+					client.Send(PacketCreator.EnterRegionPermission(creature));
 
-				success = 1;
-#endif
+					success = 1;
+				}
+				else
+				{
+					Logger.Unimplemented("Unknown prop (touch): " + propId.ToString());
+				}
 			}
 
 			var p = new MabiPacket(Op.TouchPropR, creature.Id);
@@ -2480,14 +2516,39 @@ namespace World.Network
 
 		public void HandleAreaChange(WorldClient client, MabiPacket packet)
 		{
-			var unk1 = packet.GetLong(); // 00B000010003007C ?
-			var unk2 = packet.GetInt(); // Area?
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null && creature.IsDead())
+				return;
+
+			var eventId = packet.GetLong();
+			var type = packet.GetInt();
 			var unk3 = packet.GetString();
 
-			// 0x00B000010003007C --> 0x030000 --> 0x03
-			client.Character.Area = ((uint)unk1 & 0x00000000FF0000) >> 16;
+			// Check if creature is in the same region as the event.
+			var region = (eventId & 0x00FFFF00000000) >> 32;
+			if (creature.Region != region)
+				return;
 
-			// TODO: Do something with this?
+			var evnt = MabiData.RegionDb.FindEvent(eventId);
+			if (evnt == null)
+			{
+				Logger.Warning("Unknown event: {0}", eventId.ToString("X"));
+				return;
+			}
+
+			if (evnt.IsAltar)
+			{
+				if (type == 101)
+				{
+					creature.OnAltar = (DungeonAltar)eventId;
+				}
+				else
+				{
+					creature.OnAltar = DungeonAltar.None;
+				}
+			}
+
+			creature.LastEventTriggered = eventId;
 		}
 
 		public void HandleStunMeterRequest(WorldClient client, MabiPacket packet)

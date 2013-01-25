@@ -82,9 +82,12 @@ namespace World.Network
 			this.Character.SetLocation(region, x, y);
 			this.Send(PacketCreator.EnterRegionPermission(this.Character));
 
+			this.Character.OnAltar = DungeonAltar.None;
+
 			foreach (var c in this.Creatures.Where(c => c != this.Character))
 			{
 				this.Send(PacketCreator.Lock(c));
+				c.OnAltar = DungeonAltar.None;
 			}
 
 			this.Send(new MabiPacket(Op.WarpUnk3, this.Character.Id).PutLong(0).PutInt(0));

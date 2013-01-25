@@ -183,7 +183,8 @@ namespace World.World
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var pos = creature.GetPosition();
-			client.Send(PacketCreator.ServerMessage(creature, "  Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}", creature.Region, pos.X, pos.Y, creature.Area, creature.Direction));
+			var area = MabiData.RegionDb.GetAreaId(creature);
+			client.Send(PacketCreator.ServerMessage(creature, "  Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}", creature.Region, pos.X, pos.Y, area, creature.Direction));
 
 			return CommandResult.Okay;
 		}
@@ -266,14 +267,34 @@ namespace World.World
 
 				var itemName = args[1].Replace('_', ' ');
 
-				var newItemInfo = MabiData.ItemDb.FindAll(itemName);
-				if (newItemInfo.Count < 1)
+				// Search exact name first
+				var newItemInfo = MabiData.ItemDb.Find(itemName);
+				if (newItemInfo == null)
 				{
-					client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemName + "' not found in database."));
-					return CommandResult.Fail;
+					// Not found? Look for the next best thing.
+					var itemInfo = MabiData.ItemDb.FindAll(itemName);
+					if (itemInfo.Count < 1)
+					{
+						client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemName + "' not found in database."));
+						return CommandResult.Fail;
+					}
+
+					// Find best match
+					int score = 10000;
+					foreach (var ii in itemInfo)
+					{
+						int iScore = ii.Name.LevenshteinDistance(itemName);
+						if (iScore < score)
+						{
+							score = iScore;
+							newItemInfo = ii;
+						}
+					}
+
+					client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemName + "' not found, using next best result, '" + newItemInfo.Name + "'."));
 				}
 
-				itemId = newItemInfo[0].Id;
+				itemId = newItemInfo.Id;
 			}
 
 			var info = MabiData.ItemDb.Find(itemId);
@@ -319,7 +340,7 @@ namespace World.World
 					if (args[i + 2].StartsWith("0x"))
 					{
 						// Color in hex
-						if (!uint.TryParse(args[i + 2], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out color[i]))
+						if (!uint.TryParse(args[i + 2].Replace("0x", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out color[i]))
 						{
 							client.Send(PacketCreator.ServerMessage(creature, "Invalid hex color '{0}'.", args[i + 2]));
 							return CommandResult.Fail;
@@ -463,8 +484,9 @@ namespace World.World
 				return CommandResult.Fail;
 
 			var pos = creature.GetPosition();
+			var area = MabiData.RegionDb.GetAreaId(creature);
 
-			var prop = new MabiProp(creature.Region, creature.Area);
+			var prop = new MabiProp(creature.Region, area);
 			prop.Info.Class = propClass;
 			prop.Info.X = pos.X;
 			prop.Info.Y = pos.Y;
