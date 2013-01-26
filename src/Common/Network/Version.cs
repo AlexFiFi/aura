@@ -87,6 +87,7 @@ namespace Common.Network
 		public readonly static uint VisualChat = 0x527A;
 		public readonly static uint PropAppears = 0x52D0;
 		public readonly static uint PropDisappears = 0x52D1;
+		public readonly static uint PropUpdate = 0x52D2; // Doors, MGs?
 		public readonly static uint EntitiesSpawn = 0x5334;
 		public readonly static uint EntitiesDisappear = 0x5335;
 		public readonly static uint BackFromTheDead1 = 0x53FD;
@@ -140,6 +141,7 @@ namespace Common.Network
 		public readonly static uint EnterRegionPermission = 0x6597;
 		public readonly static uint EnterRegion = 0x6598;
 		public readonly static uint WarpRegion = 0x6599;
+		public readonly static uint WalkTo = 0x659B; // Similar to Walking? (i:x,i:y,i:x2,i:y2,b:?,b:?)
 		public readonly static uint EnterRegionR = 0x659C;
 		public readonly static uint TakeOff = 0x65A8;
 		public readonly static uint TakingOff = 0x65A9;
@@ -236,13 +238,14 @@ namespace Common.Network
 		public readonly static uint HittingProp = 0x908A;
 		public readonly static uint TouchProp = 0x908B;
 		public readonly static uint TouchPropR = 0x908C;
+		public readonly static uint PropInteraction = 0x908D; // Doors?
 		public readonly static uint PlaySound = 0x908F;
 		public readonly static uint Effect = 0x9090;
 		public readonly static uint Effect2 = 0x9091; // Delayed?
 		public readonly static uint Effect3 = 0x9092; // ?
 		public readonly static uint Effect4 = 0x9093; // Quest related?
 		public readonly static uint DungeonInfo = 0x9470;
-		
+
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint Transformation = 0xA41C;
 		public readonly static uint MoonGateRequest = 0xA428;

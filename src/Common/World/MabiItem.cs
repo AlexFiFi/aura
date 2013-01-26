@@ -253,6 +253,10 @@ namespace Common.World
 				case Pocket.Shoe:
 				case Pocket.Glove:
 				case Pocket.Robe:
+				case Pocket.ArmorStyle:
+				case Pocket.ShoeStyle:
+				case Pocket.GloveStyle:
+				case Pocket.RobeStyle:
 					return true;
 				default:
 					return false;

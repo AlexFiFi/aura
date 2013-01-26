@@ -270,6 +270,16 @@ namespace World.Network
 			return p;
 		}
 
+		public static MabiPacket SpawnEffect(MabiEntity entity, SpawnEffect type)
+		{
+			var pos = entity.GetPosition();
 
+			return
+				new MabiPacket(Op.Effect, entity.Id)
+				.PutInt(Effect.Spawn)
+				.PutInt(entity.Region)
+				.PutFloats((float)pos.X, (float)pos.Y)
+				.PutByte((byte)type);
+		}
 	}
 }

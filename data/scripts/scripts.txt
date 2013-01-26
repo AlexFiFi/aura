@@ -5,5 +5,5 @@
 //---------------------------------------------------------------------------
 
 include scripts_npcs.txt
-include scripts_custom.txt
 include scripts_props.txt
+include scripts_custom.txt

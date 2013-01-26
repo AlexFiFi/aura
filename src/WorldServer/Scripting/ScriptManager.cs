@@ -15,6 +15,7 @@ using Common.Tools;
 using Common.World;
 using csscript;
 using CSScriptLibrary;
+using World.Network;
 using World.Tools;
 using World.World;
 
@@ -355,7 +356,14 @@ namespace World.Scripting
 			this.Spawn(info, amount);
 		}
 
-		public int Spawn(SpawnInfo info, uint amount = 0)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="info"></param>
+		/// <param name="amount">SpawnInfo.Amount used if 0. Needed for respawning.</param>
+		/// <param name="effect"></param>
+		/// <returns>Amount of creatures spawned</returns>
+		public int Spawn(SpawnInfo info, uint amount = 0, bool effect = false)
 		{
 			var result = 0;
 
@@ -410,6 +418,10 @@ namespace World.Scripting
 
 				monster.LoadDefault();
 
+				// Missing stat data?
+				if (monster.Life < 1)
+					monster.Life = monster.LifeMaxBase = 10;
+
 				if (aiFilePath != null)
 				{
 					monster.AIScript = this.GetScript(aiFilePath).CreateObject("*") as AIScript;
@@ -419,6 +431,10 @@ namespace World.Scripting
 				}
 
 				WorldManager.Instance.AddCreature(monster);
+
+				if (effect)
+					WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(monster, SpawnEffect.Monster), SendTargets.Range, monster);
+
 				result++;
 			}
 

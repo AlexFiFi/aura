@@ -208,17 +208,17 @@ namespace World.Scripting
 		/// <summary>
 		/// "Redirect" to WorldManager.Instance.SpawnCreature.
 		/// </summary>
-		protected void Spawn(uint race, uint amount, uint region, uint x, uint y)
+		protected void Spawn(uint race, uint amount, uint region, uint x, uint y, uint radius = 0, bool effect = false)
 		{
-			WorldManager.Instance.SpawnCreature(race, amount, region, x, y);
+			WorldManager.Instance.SpawnCreature(race, amount, region, x, y, radius, effect);
 		}
 
 		/// <summary>
 		/// "Redirect" to WorldManager.Instance.SpawnCreature.
 		/// </summary>
-		protected void Spawn(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0)
+		protected void Spawn(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0, bool effect = false)
 		{
-			WorldManager.Instance.SpawnCreature(race, amount, region, pos, radius);
+			WorldManager.Instance.SpawnCreature(race, amount, region, pos, radius, effect);
 		}
 
 		/// <summary>

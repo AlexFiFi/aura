@@ -1236,9 +1236,11 @@ namespace World.Network
 		/// <summary>
 		/// Temp function to separate this stuff from HandleItemDrop.
 		/// </summary>
-		const uint DGID1 = 10035;
-		const uint DGID2 = 10042;
-		const uint ITID2 = 12018;
+		uint DGID1 = 10001;
+		uint DGID2 = 10002;
+		uint ITID2 = 2000;
+		ulong INSTANCEID = Id.Instances;
+		string DGDESIGN = "Gairech_Fiodh_Dungeon";
 		private bool HandleDungeonDrop(WorldClient client, MabiCreature creature, MabiItem item)
 		{
 			// TODO: Go through the list of dungeons (scriptable?), check the
@@ -1246,6 +1248,11 @@ namespace World.Network
 
 			if (creature.OnAltar != DungeonAltar.Alby)
 				return false;
+
+			//DGID1 += 2;
+			//DGID2 += 2;
+			//ITID2++;
+			//INSTANCEID++;
 
 			client.Send(PacketCreator.Lock(creature));
 
@@ -1262,10 +1269,10 @@ namespace World.Network
 			var dunp = new MabiPacket(Op.DungeonInfo, Id.Broadcast);
 
 			dunp.PutLong(creature.Id);
-			dunp.PutLong(0x01000000000008A2);    // Instance id?
+			dunp.PutLong(INSTANCEID);            // Instance id?
 
 			dunp.PutByte(1);
-			dunp.PutString("tircho_alby_dungeon"); // Dungeon name (dungeondb.xml)
+			dunp.PutString(DGDESIGN);            // Dungeon name (dungeondb.xml)
 			dunp.PutInt(ITID2);
 			dunp.PutInt(0);
 			dunp.PutInt(0);
@@ -1276,9 +1283,9 @@ namespace World.Network
 
 			dunp.PutString("<option/>");
 
-			dunp.PutInt(1);			             // Floor Count?
+			dunp.PutInt(1);			             // Floor Count
 			{
-				dunp.PutInt(4);                  // ? Count
+				dunp.PutInt(4);                  // Room Count
 				{
 					dunp.PutByte(0);
 					dunp.PutByte(0);
@@ -2249,7 +2256,7 @@ namespace World.Network
 
 			// TODO: Collision
 
-			var walking = (packet.Op == 0x0FF23431);
+			var walking = (packet.Op == Op.Walk);
 
 			// TODO: Update creature position on unmount?
 			creature.StartMove(dest, walking);

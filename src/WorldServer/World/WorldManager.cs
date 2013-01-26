@@ -1220,12 +1220,12 @@ namespace World.World
 			this.Broadcast(p, SendTargets.Range, source);
 		}
 
-		public void SpawnCreature(uint race, uint amount, uint region, uint x, uint y)
+		public void SpawnCreature(uint race, uint amount, uint region, uint x, uint y, uint radius = 0, bool effect = false)
 		{
-			this.SpawnCreature(race, amount, region, new MabiVertex(x, y));
+			this.SpawnCreature(race, amount, region, new MabiVertex(x, y), radius, effect);
 		}
 
-		public void SpawnCreature(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0)
+		public void SpawnCreature(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0, bool effect = false)
 		{
 			var spawn = new SpawnInfo();
 			spawn.Amount = amount;
@@ -1250,7 +1250,7 @@ namespace World.World
 				spawn.SpawnPolyBounds = spawn.SpawnPolyRegion.GetBounds();
 			}
 
-			ScriptManager.Instance.Spawn(spawn);
+			ScriptManager.Instance.Spawn(spawn, 0, effect);
 		}
 
 		public void Broadcast(MabiPacket packet, SendTargets targets, MabiEntity source = null, uint range = 0)

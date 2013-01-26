@@ -1431,7 +1431,7 @@ namespace Common.World
 				packet.PutByte(255);
 
 				// Shamala Transformation
-				// --------------------------------------------------------------
+				// ----------------------------------------------------------
 				if (this.Shamala == null)
 				{
 					packet.PutInt(0);

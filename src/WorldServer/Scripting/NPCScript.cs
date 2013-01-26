@@ -51,19 +51,6 @@ namespace World.Scripting
 			yield break;
 		}
 
-		//[Obsolete("Use OnTalk")]
-		//public virtual void OnSelect(WorldClient client, string response)
-		//{
-		//    this.OnSelect(client, response, null);
-		//}
-
-		//[Obsolete("Use OnTalk")]
-		//public virtual void OnSelect(WorldClient client, string response, string input)
-		//{
-		//    // TODO: I guess we need a check later, if the player actually has the keyword.
-		//    this.MsgSelect(client, "(Server: Unknown keyword.)");
-		//}
-
 		public virtual void OnEnd(WorldClient client)
 		{
 			string properNPCname = "Undefined";

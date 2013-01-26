@@ -53,9 +53,9 @@ namespace Common.Constants
 		public static readonly uint ScreenFlash = 27;
 
 		/// <summary>
-		/// int:region, float:x, float:y, byte:1
+		/// int:region, float:x, float:y, byte:type (0=monster,1=pet,2=pet_despawn,3=monster_despawn,4=golem,5=golem_despawn)
 		/// </summary>
-		public static readonly uint PetSpawn = 29;
+		public static readonly uint Spawn = 29;
 
 		/// <summary>
 		/// Chef Owl
@@ -67,5 +67,18 @@ namespace Common.Constants
 		/// TODO: Check if it has changed at some point.
 		/// </summary>
 		public static readonly uint ManaShield = 122;
+	}
+
+	public enum SpawnEffect : byte
+	{
+		Monster = 0,
+		Pet = 1,
+		PetDespawn = 2,
+		MonsterDespawn = 3,
+		Golem = 4,
+		GolemDespawn = 5,
+		//GolemDespawn = 6, // ?
+		//Demi? = 7, // ?
+		//Demi? = 8, // ?
 	}
 }

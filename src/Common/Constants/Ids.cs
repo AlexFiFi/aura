@@ -27,5 +27,7 @@ namespace Common.Constants
 		public const ulong Parties = 0x0040000000000001;
 
 		public const ulong Quests = 0x0060000000000000;
+
+		public const ulong Instances = 0x0100000000000001;
 	}
 }

@@ -469,7 +469,7 @@ namespace World.World
 			uint radius = 300;
 			radius += (uint)(amount / 10 * 50);
 
-			WorldManager.Instance.SpawnCreature(raceId, amount, creature.Region, creature.GetPosition(), radius);
+			WorldManager.Instance.SpawnCreature(raceId, amount, creature.Region, creature.GetPosition(), radius, true);
 
 			return CommandResult.Okay;
 		}
