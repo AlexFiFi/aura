@@ -14,6 +14,7 @@ namespace Common.Data
 		public string Name = "Untitled";
 		public string Description = "";
 		public string AdditionalInfo = "";
+		public bool Cancelable = false;
 
 		public Dictionary<string, QuestObjectiveInfo> Objectives = new Dictionary<string, QuestObjectiveInfo>();
 		public List<QuestRewardInfo> Rewards = new List<QuestRewardInfo>();
@@ -92,7 +93,7 @@ namespace Common.Data
 					var si = MabiData.SkillDb.Find((ushort)this.Id);
 					if (si == null)
 						return "Unknown skill";
-					return si.Name;
+					return string.Format("[Skill] {0}", si.Name);
 
 				default:
 					return "Unknown reward type";

@@ -39,28 +39,18 @@ public class DuncanScript : NPCScript
 		Phrases.Add("The graveyard has been left unattended far too long.");
 		Phrases.Add("Watch your language.");
 	}
-
+	
 	public override IEnumerable OnTalk(WorldClient c)
 	{
+		Bgm(c, "NPC_Duncan.mp3");
+		
 		Msg(c, Options.FaceAndName,
 			"An elderly man gazes softly at the world around him with a calm air of confidence.",
 			"Although his face appears weather-beaten, and his hair and beard are gray, his large beaming eyes make him look youthful somehow.",
 			"As he speaks, his voice resonates with a kind of gentle authority."
 		);
 		
-		if(QuestActive(c, 1000000))
-		{
-			Msg(c, "Great! You tested the test out of that test, thank you!");
-			FinishQuestObjective(c, 1000000, "talk_duncan");
-			
-			Msg(c, "Now do this!");
-			StartQuest(c, 1000002);
-		}
-		if(QuestActive(c, 1000002) && QuestObjectiveIs(c, 1000002, "talk"))
-		{
-			Msg(c, "You did it, I'm impressed!");
-			FinishQuestObjective(c, 1000002, "talk");
-		}
+		SubTalk(CheckQuests(c));
 		
 		MsgSelect(c, "Please let me know if you need anything.", "Start Conversation", "@talk", "Shop", "@shop", "Retrive Lost Items", "@lostandfound");
 		
@@ -104,5 +94,24 @@ public class DuncanScript : NPCScript
 				End();
 			}
 		}
+	}
+
+	public IEnumerable CheckQuests(WorldClient c)
+	{
+		if(QuestActive(c, 1000000))
+		{
+			Msg(c, "Great! You tested the test out of that test, thank you!");
+			FinishQuestObjective(c, 1000000, "talk_duncan");
+			
+			Msg(c, "Now do this!");
+			StartQuest(c, 1000002);
+		}
+		if(QuestActive(c, 1000002, "talk"))
+		{
+			Msg(c, "You did it, I'm impressed!");
+			FinishQuestObjective(c, 1000002, "talk");
+		}
+		
+		End();
 	}
 }

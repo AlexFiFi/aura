@@ -110,7 +110,7 @@ namespace World.Scripting
 				if (fileName.StartsWith("_"))
 					virtualLoadFile = true;
 
-				var cleanScriptPath = scriptPath.Trim('.', '/');
+				var cleanScriptPath = scriptPath.Trim('.', '/').Replace("\\", "/");
 
 				// Load assembly and loop through the defined classes.
 				var scriptAsm = this.GetScript(scriptPath);
@@ -332,7 +332,7 @@ namespace World.Scripting
 				//if (!Regex.Match(file, @"(^|;)\s*using World.World;").Success) sb.Append("using World.World;");
 			}
 
-			// Wait, End
+			// Wait, End, SubTalk
 			{
 				// [var] <variable> = Wait();
 				// --> [var] <variable>Object = new Response(); yield return <variable>Object; [var] <variable> = <variable>Object.Value;
@@ -341,6 +341,10 @@ namespace World.Scripting
 				// End();
 				// --> yield break;
 				file = Regex.Replace(file, @"([\{\}:;\t ])End\s*\(\s*\)\s*;", "yield break;", RegexOptions.Compiled);
+
+				// SubTalk(<method_call>);
+				// --> foreach(var __subTalkResponse in <method_call>) yield return __subTalkResponse;
+				file = Regex.Replace(file, @"([\{\}:;\t ])SubTalk\s*\(([^;]*)\)\s*;", "$1foreach(var __subTalkResponse in $2) yield return __subTalkResponse;", RegexOptions.Compiled);
 			}
 
 			// Append the (changed) file

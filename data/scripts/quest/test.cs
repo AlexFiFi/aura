@@ -2,6 +2,7 @@
 //  Test Quests
 // --------------------------------------------------------------------------
 
+using Common.Constants;
 using Common.Data;
 using World.Scripting;
 
@@ -14,9 +15,12 @@ public class TestQuestScript : QuestScript
 		SetDescription("This is a simple talk test quest.");
 		SetReceive(Receive.OnLogin);
 
-		AddObjective("talk_duncan", "Talk to Duncan", true, ObjectiveType.Talk, "duncan", 1, 15409, 38310);
+		AddObjective("talk_duncan", "Talk to Duncan", ObjectiveType.Talk, "duncan", 1, 15409, 38310);
 
 		AddReward(RewardType.Exp, 2000);
+		AddReward(RewardType.Item, 63016, 2);
+		AddReward(RewardType.Gold, 500);
+		AddReward(RewardType.Skill, SkillConst.Assault, SkillRank.R2);
 	}
 }
 
@@ -29,7 +33,7 @@ public class TestQuest2Script : QuestScript
 		SetDescription("This is a simple kill test quest.");
 		SetReceive(Receive.OnLogin);
 
-		AddObjective("kill_wolf", "Kill 10 Gray Wolves", true, ObjectiveType.Kill, 20001, 10);
+		AddObjective("kill_wolf", "Kill 10 Gray Wolves", ObjectiveType.Kill, 20001, 10);
 
 		AddReward(RewardType.Exp, 5000);
 	}
@@ -42,9 +46,10 @@ public class TestQuest3Script : QuestScript
 		SetId(1000002);
 		SetName("Test Quest 3");
 		SetDescription("This is a simple kill+talk test quest.");
+		SetCancelable();
 
-		AddObjective("kill", "Kill 3 Red Foxes", true, ObjectiveType.Kill, 50002, 3);
-		AddObjective("talk", "Talk to Duncan", true, ObjectiveType.Talk, "duncan", 1, 15409, 38310);
+		AddObjective("kill", "Kill 3 Red Foxes", ObjectiveType.Kill, 50002, 3);
+		AddObjective("talk", "Talk to Duncan", ObjectiveType.Talk, "duncan", 1, 15409, 38310);
 
 		AddReward(RewardType.Exp, 10000);
 	}

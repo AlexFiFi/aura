@@ -1288,6 +1288,27 @@ namespace World.World
 							this.CreatureStatsUpdate(creature);
 							break;
 
+						case RewardType.Gold:
+							creature.GiveItem(2000, reward.Amount);
+							creature.Client.Send(PacketCreator.AcquireItem(creature, reward.Id, reward.Amount));
+							break;
+
+						case RewardType.Item:
+							creature.GiveItem(reward.Id, reward.Amount);
+							creature.Client.Send(PacketCreator.AcquireItem(creature, reward.Id, reward.Amount));
+							break;
+
+						case RewardType.Skill:
+							var id = (SkillConst)reward.Id;
+							var rank = (SkillRank)reward.Amount;
+
+							// Only give skill if char doesn't have it or rank is lower.
+							var skill = creature.GetSkill(id);
+							if (skill == null || skill.Rank < rank)
+								creature.GiveSkill(id, rank);
+
+							break;
+
 						default:
 							Logger.Warning("Unsupported reward type '{0}'.", reward.Type);
 							break;

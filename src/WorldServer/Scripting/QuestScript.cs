@@ -45,8 +45,15 @@ namespace World.Scripting
 			this.ReceiveMethod = val;
 		}
 
+		public void SetCancelable()
+		{
+			this.Info.Cancelable = true;
+		}
+
 		public override void OnLoadDone()
 		{
+			this.Info.Objectives.First().Value.Unlocked = true;
+
 			if (this.ReceiveMethod == Receive.OnLogin)
 				ServerEvents.Instance.PlayerLoggedIn += this.OnPlayerLoggedIn;
 		}
@@ -113,6 +120,11 @@ namespace World.Scripting
 			WorldManager.Instance.CreatureUpdateQuest(character, quest);
 		}
 
+		public void AddObjective(string ident, string description, ObjectiveType type, params dynamic[] args)
+		{
+			this.AddObjective(ident, description, false, type, args);
+		}
+
 		/// <summary>
 		/// Adds and objective to the quest.
 		/// </summary>
@@ -137,7 +149,7 @@ namespace World.Scripting
 				case ObjectiveType.ReachRank:
 					if (args.Length < 2)
 					{
-						ObjectiveArgErrorLog(type, args.Length, 2, this.ScriptPath);
+						ArgErrorLog(type, args.Length, 2, this.ScriptPath);
 						return;
 					}
 					qoi.Id = (uint)args[i++];
@@ -148,7 +160,7 @@ namespace World.Scripting
 				case ObjectiveType.Talk:
 					if (args.Length < 1)
 					{
-						ObjectiveArgErrorLog(type, args.Length, 1, this.ScriptPath);
+						ArgErrorLog(type, args.Length, 1, this.ScriptPath);
 						return;
 					}
 					qoi.Target = args[i++];
@@ -156,12 +168,22 @@ namespace World.Scripting
 
 				// si
 				case ObjectiveType.Deliver:
+					if (args.Length < 2)
+					{
+						ArgErrorLog(type, args.Length, 2, this.ScriptPath);
+						return;
+					}
 					qoi.Target = args[i++];
 					qoi.Id = (uint)args[i++];
 					break;
 
 				// i
 				case ObjectiveType.ReachLevel:
+					if (args.Length < 1)
+					{
+						ArgErrorLog(type, args.Length, 1, this.ScriptPath);
+						return;
+					}
 					qoi.Id = (uint)args[i++];
 					break;
 
@@ -188,9 +210,9 @@ namespace World.Scripting
 			this.Info.Objectives.Add(ident, qoi);
 		}
 
-		private void ObjectiveArgErrorLog(ObjectiveType type, int args, int expected, string path)
+		private void ArgErrorLog(Enum type, int args, int expected, string path)
 		{
-			Logger.Error("Insufficient amount of paramters for objective '{0}' ({1}/{2}) in '{3}'.", type, args, expected, path);
+			Logger.Error("Insufficient amount of paramters for '{4}.{0}' ({1}/{2}) in '{3}'.", type, args, expected, path, type.GetType());
 		}
 
 		public void AddReward(RewardType type, params dynamic[] args)
@@ -208,6 +230,12 @@ namespace World.Scripting
 			{
 				// ii
 				case RewardType.Item:
+				case RewardType.Skill:
+					if (args.Length < 2)
+					{
+						ArgErrorLog(type, args.Length, 2, this.ScriptPath);
+						return;
+					}
 					qri.Id = (uint)args[0];
 					qri.Amount = (uint)args[1];
 					break;
@@ -217,12 +245,12 @@ namespace World.Scripting
 				case RewardType.Exp:
 				case RewardType.ExplExp:
 				case RewardType.AP:
+					if (args.Length < 1)
+					{
+						ArgErrorLog(type, args.Length, 1, this.ScriptPath);
+						return;
+					}
 					qri.Amount = (uint)args[0];
-					break;
-
-				// i
-				case RewardType.Skill:
-					qri.Id = (uint)args[0];
 					break;
 
 				default:

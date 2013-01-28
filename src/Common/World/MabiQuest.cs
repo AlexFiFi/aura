@@ -193,7 +193,7 @@ namespace Common.World
 
 			packet.PutInt(1);
 			packet.PutInt(70024); // Item "Hunting Quest" ?
-			packet.PutByte(0); // 1
+			packet.PutByte(this.Info.Cancelable);
 			packet.PutByte(0);
 			packet.PutByte(0); // 1 = blue icon
 			packet.PutByte(0);

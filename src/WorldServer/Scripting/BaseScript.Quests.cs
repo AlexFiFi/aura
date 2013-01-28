@@ -33,10 +33,15 @@ namespace World.Scripting
 		/// <param name="client"></param>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		protected bool QuestActive(WorldClient client, uint id)
+		protected bool QuestActive(WorldClient client, uint id, string objective = null)
 		{
 			var quest = (client.Character as MabiPC).GetQuestOrNull(id);
 			if (quest == null)
+				return false;
+			var p = quest.CurrentProgress;
+			if (p == null)
+				return false;
+			if (objective != null && p.Objective != objective)
 				return false;
 			return (quest.State == MabiQuestState.Active);
 		}
@@ -49,8 +54,7 @@ namespace World.Scripting
 		/// <returns></returns>
 		protected bool QuestDone(WorldClient client, uint id)
 		{
-			MabiQuest quest = null;
-			(client.Character as MabiPC).Quests.TryGetValue(id, out quest);
+			var quest = (client.Character as MabiPC).GetQuestOrNull(id);
 			if (quest == null)
 				return false;
 			return quest.IsDone;
@@ -140,6 +144,14 @@ namespace World.Scripting
 			return quest.CurrentObjectiveIs(objective);
 		}
 
+		protected string QuestObjective(WorldClient client, uint id)
+		{
+			var quest = (client.Character as MabiPC).GetQuestOrNull(id);
+			if (quest == null)
+				return null;
+			return quest.CurrentProgress.Objective;
+		}
+
 		/// <summary>
 		/// Starts a quest. Yep. That's it.
 		/// </summary>
@@ -147,11 +159,12 @@ namespace World.Scripting
 		/// <param name="id"></param>
 		public void StartQuest(WorldClient client, uint id)
 		{
-			if (this.HasQuest(client, id))
-			{
-				Logger.Warning("Trying to start quest '{0}' for '{1}' twice.", id, client.Character.Name);
-				return;
-			}
+			// This would prevent restarting of quests.
+			//if (this.HasQuest(client, id))
+			//{
+			//    Logger.Warning("Trying to start quest '{0}' for '{1}' twice.", id, client.Character.Name);
+			//    return;
+			//}
 
 			// Check here, before we add a quest that doesn't even exist.
 			if (!MabiData.QuestDb.Exists(id))
@@ -161,7 +174,7 @@ namespace World.Scripting
 			}
 
 			var quest = new MabiQuest(id);
-			(client.Character as MabiPC).Quests.Add(id, quest);
+			(client.Character as MabiPC).Quests[id] = quest;
 
 			WorldManager.Instance.CreatureReceivesQuest(client.Character, quest);
 		}
