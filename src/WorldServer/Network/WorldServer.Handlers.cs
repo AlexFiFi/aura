@@ -47,6 +47,9 @@ namespace World.Network
 			this.RegisterPacketHandler(Op.UmbrellaJump, HandleUmbrellaJump);
 			this.RegisterPacketHandler(Op.UmbrellaLand, HandleUmbrellaLand);
 
+			this.RegisterPacketHandler(Op.QuestComplete, HandleQuestComplete);
+			this.RegisterPacketHandler(Op.QuestGiveUp, HandleQuestGiveUp);
+
 			this.RegisterPacketHandler(Op.NPCTalkStart, HandleNPCTalkStart);
 			this.RegisterPacketHandler(Op.NPCTalkEnd, HandleNPCTalkEnd);
 			this.RegisterPacketHandler(Op.NPCTalkPartner, HandleNPCTalkPartner);
@@ -229,7 +232,7 @@ namespace World.Network
 
 			client.State = SessionState.LoggedIn;
 
-			ServerEvents.Instance.OnPlayerLogsIn(creature);
+			ServerEvents.Instance.OnPlayerLogsIn(creature as MabiPC);
 		}
 #pragma warning restore 0162
 
@@ -2218,7 +2221,6 @@ namespace World.Network
 				return;
 
 			var propId = packet.GetLong();
-			// Check if prop exists? We'd need a full prop db for that...
 
 			// Hit prop animation
 			var pos = creature.GetPosition();
@@ -2589,7 +2591,7 @@ namespace World.Network
 		public void HandleHomesteadInfo(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || creature.IsDead())
+			if (creature == null)
 				return;
 
 			client.Send(new MabiPacket(Op.HomesteadInfoRequestR, creature.Id).PutBytes(0, 0, 1));
@@ -2597,6 +2599,8 @@ namespace World.Network
 			// Seems to be only called on login, good place for the MOTD.
 			if (WorldConf.Motd != string.Empty)
 				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
+
+			ServerEvents.Instance.OnPlayerLoggedIn(creature as MabiPC);
 		}
 
 		public void HandleMoonGateRequest(WorldClient client, MabiPacket packet)
@@ -2877,6 +2881,55 @@ namespace World.Network
 
 			// Broadcast end, success with showing ani.
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformationEndR, creature.Id).PutBytes(1, 1), SendTargets.Range, creature);
+		}
+
+		protected void HandleQuestComplete(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			var character = creature as MabiPC;
+			var questId = packet.GetLong();
+
+			var quest = character.GetQuestOrNull(questId);
+			if (quest == null || !quest.IsDone)
+			{
+				client.Send(new MabiPacket(Op.QuestCompleteR, creature.Id).PutByte(0));
+				return;
+			}
+
+			// Set quest complete and complete it with reward.
+			quest.State = MabiQuestState.Complete;
+			WorldManager.Instance.CreatureCompletesQuest(creature, quest, true);
+
+			// Success
+			client.Send(new MabiPacket(Op.QuestCompleteR, creature.Id).PutByte(1));
+		}
+
+		protected void HandleQuestGiveUp(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			var character = creature as MabiPC;
+			var questId = packet.GetLong();
+			var unk = packet.GetByte();
+
+			var quest = character.GetQuestOrNull(questId);
+			if (quest == null)
+			{
+				client.Send(new MabiPacket(Op.QuestGiveUpR, creature.Id).PutByte(0));
+				return;
+			}
+
+			// Remove quest from char and log, without reward.
+			character.Quests.Remove(quest.Class);
+			WorldManager.Instance.CreatureCompletesQuest(creature, quest, false);
+
+			// Success
+			client.Send(new MabiPacket(Op.QuestGiveUpR, creature.Id).PutByte(1));
 		}
 	}
 }

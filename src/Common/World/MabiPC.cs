@@ -3,9 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Network;
-using Common.Constants;
-using Common.Tools;
 
 namespace Common.World
 {
@@ -27,9 +26,23 @@ namespace Common.World
 		public Dictionary<ushort, bool> Titles = new Dictionary<ushort, bool>();
 		public List<ShamalaTransformation> Shamalas = new List<ShamalaTransformation>();
 
+		public Dictionary<uint, MabiQuest> Quests = new Dictionary<uint, MabiQuest>();
+
 		public override EntityType EntityType
 		{
 			get { return EntityType.Character; }
+		}
+
+		public MabiQuest GetQuestOrNull(uint cls)
+		{
+			MabiQuest result = null;
+			this.Quests.TryGetValue(cls, out result);
+			return result;
+		}
+
+		public MabiQuest GetQuestOrNull(ulong id)
+		{
+			return this.Quests.Values.FirstOrDefault(a => a.Id == id);
 		}
 
 		/// <summary>
@@ -74,18 +87,15 @@ namespace Common.World
 			packet.PutInt(this.RaceInfo.InvWidth);
 			packet.PutInt(this.RaceInfo.InvHeight);
 
-			packet.PutInt((ushort)this.Items.Count);
+			// A little dirty, but better than actually saving and managing
+			// the quest items imo... [exec]
+			var incompleteQuests = this.Quests.Values.Where(a => a.State < MabiQuestState.Complete).ToList();
+
+			packet.PutSInt(this.Items.Count + incompleteQuests.Count);
 			foreach (var item in this.Items)
-			{
-				packet.PutLong(item.Id);
-				packet.PutByte(2);
-				packet.PutBin(item.Info);
-				packet.PutBin(item.OptionInfo);
-				packet.PutString("");
-				packet.PutString("");
-				packet.PutByte(0);
-				packet.PutLong(0);
-			}
+				item.AddPrivateEntityData(packet);
+			foreach (var quest in incompleteQuests)
+				new MabiItem(quest).AddPrivateEntityData(packet);
 
 			// Keywords
 			// --------------------------------------------------------------
@@ -452,7 +462,9 @@ namespace Common.World
 
 			// Quests
 			// --------------------------------------------------------------
-			packet.PutInt(0);
+			packet.PutSInt(incompleteQuests.Count);
+			foreach (var q in incompleteQuests)
+				q.AddData(packet);
 
 			// Char
 			// --------------------------------------------------------------

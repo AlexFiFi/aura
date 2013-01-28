@@ -1083,6 +1083,10 @@ namespace Common.World
 			// Number of stats get inserted later
 			uint num = 0;
 
+			//packet.PutInt((uint)Stat.AbilityPoints);
+			//packet.PutInt(this.AbilityPoints);
+			//num++;
+
 			packet.PutInt((uint)Stat.Life);
 			packet.PutFloat(this.Life);
 			num++;

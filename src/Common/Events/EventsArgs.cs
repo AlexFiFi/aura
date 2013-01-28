@@ -113,6 +113,18 @@ namespace Common.Events
 		}
 	}
 
+	public class CreatureKilledEventArgs : EventArgs
+	{
+		public MabiCreature Victim;
+		public MabiCreature Killer;
+
+		public CreatureKilledEventArgs(MabiCreature victim, MabiCreature killer)
+		{
+			this.Victim = victim;
+			this.Killer = killer;
+		}
+	}
+
 	/// <summary>
 	/// Combat related args, used to pass the required combat information from the combat class
 	/// to the event raising methods, to create the packets, which are passed to the clients

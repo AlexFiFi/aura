@@ -47,6 +47,21 @@ public class DuncanScript : NPCScript
 			"Although his face appears weather-beaten, and his hair and beard are gray, his large beaming eyes make him look youthful somehow.",
 			"As he speaks, his voice resonates with a kind of gentle authority."
 		);
+		
+		if(QuestActive(c, 1000000))
+		{
+			Msg(c, "Great! You tested the test out of that test, thank you!");
+			FinishQuestObjective(c, 1000000, "talk_duncan");
+			
+			Msg(c, "Now do this!");
+			StartQuest(c, 1000002);
+		}
+		if(QuestActive(c, 1000002) && QuestObjectiveIs(c, 1000002, "talk"))
+		{
+			Msg(c, "You did it, I'm impressed!");
+			FinishQuestObjective(c, 1000002, "talk");
+		}
+		
 		MsgSelect(c, "Please let me know if you need anything.", "Start Conversation", "@talk", "Shop", "@shop", "Retrive Lost Items", "@lostandfound");
 		
 		var r = Wait();

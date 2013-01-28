@@ -26,7 +26,11 @@ namespace Common.Constants
 
 		public const ulong Parties = 0x0040000000000001;
 
-		public const ulong Quests = 0x0060000000000000;
+		// Quests is probably 0x0060000000000001, but we'll leave some space
+		// between quests and items (quest items), just in case.
+		public const ulong Quests = 0x006000F000000001;
+		public const ulong QuestsTmp = 0x0060F00000000001;
+		public const ulong QuestItemOffset = 0x0010000000000000;
 
 		public const ulong Instances = 0x0100000000000001;
 	}

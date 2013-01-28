@@ -121,7 +121,7 @@ namespace World.Skills
 				, SendTargets.Range, creature);
 				// Attack
 				WorldManager.Instance.Broadcast(
-					new MabiPacket(Op.Effect2, creature.Id)
+					new MabiPacket(Op.EffectDelayed, creature.Id)
 					.PutInt(120) // delay?
 					.PutInt(262)
 					.PutByte(3)

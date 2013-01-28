@@ -110,6 +110,8 @@ namespace World.Scripting
 				if (fileName.StartsWith("_"))
 					virtualLoadFile = true;
 
+				var cleanScriptPath = scriptPath.Trim('.', '/');
+
 				// Load assembly and loop through the defined classes.
 				var scriptAsm = this.GetScript(scriptPath);
 				var types = scriptAsm.GetTypes();
@@ -144,7 +146,8 @@ namespace World.Scripting
 							npc.Race = 190140;
 
 							npc.Script = script;
-							npc.ScriptPath = scriptPath;
+							npc.ScriptPath = cleanScriptPath;
+							script.ScriptName = Path.GetFileName(scriptPath);
 							script.NPC = npc;
 							script.LoadType = NPCLoadType.Real;
 							script.OnLoad();
@@ -161,12 +164,25 @@ namespace World.Scripting
 						//    script.LoadType = NPCLoadType.Virtual;
 						//}
 					}
+					else if (scriptObj is QuestScript)
+					{
+						var script = scriptObj as QuestScript;
+						script.ScriptPath = cleanScriptPath;
+						script.ScriptName = Path.GetFileName(scriptPath);
+						script.OnLoad();
+						script.OnLoadDone();
+
+						if (MabiData.QuestDb.Entries.ContainsKey(script.Info.Class))
+							Logger.Warning("Double quest id '{0}', overwriting from '{1}'.", script.Info.Class, cleanScriptPath);
+
+						MabiData.QuestDb.Entries[script.Info.Class] = script.Info;
+					}
 					else if (scriptObj is BaseScript)
 					{
-						// Script that doesn't use an NPC, like prop scripts and stuff.
+						// Script that doesn't use an NPC or anything, like prop scripts and stuff.
 
 						var script = scriptObj as BaseScript;
-						script.ScriptPath = scriptPath;
+						script.ScriptPath = cleanScriptPath;
 						script.ScriptName = Path.GetFileName(scriptPath);
 
 						script.OnLoad();
@@ -174,9 +190,9 @@ namespace World.Scripting
 					}
 					else
 					{
-						Logger.Warning("Unknown script class: " + sType);
 						// Type doesn't derive from NPCScript or BaseScript,
 						// probably a custom class. Ignore.
+						//Logger.Warning("Unknown script class: " + sType);
 					}
 				}
 
@@ -232,7 +248,7 @@ namespace World.Scripting
 
 				scriptPath = scriptPath.Replace(WorldConf.ScriptPath, "").Replace('\\', '/').TrimStart('/');
 
-				Logger.Error("While processing '{0}': {1}", scriptPath, ex.Message);
+				Logger.Error("While loading '{0}': {1}\n{2}", scriptPath, ex.Message, ex.StackTrace);
 			}
 		}
 

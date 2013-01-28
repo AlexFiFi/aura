@@ -99,6 +99,9 @@ namespace Common.World
 		public ushort StackMax;
 		public uint StackItem;
 		public byte Width, Height;
+		public string AdditionalInfo = "";
+
+		public ulong QuestId;
 
 		private static ulong _worldItemIndex = Common.Constants.Id.TmpItems;
 		public static ulong NewItemId { get { return _worldItemIndex++; } }
@@ -140,6 +143,17 @@ namespace Common.World
 			this.Info.ColorA = cardItem.Color1;
 			this.Info.ColorB = cardItem.Color2;
 			this.Info.ColorC = cardItem.Color3;
+		}
+
+		public MabiItem(MabiQuest quest)
+			: this(70024, false)
+		{
+			this.Id = quest.Id - Constants.Id.QuestItemOffset;
+			this.Info.Pocket = (byte)Pocket.Quest;
+			this.OptionInfo.Flag = 1;
+
+			this.QuestId = quest.Id;
+			//this.AdditionalInfo = quest.ToolTip;
 		}
 
 		public override EntityType EntityType
@@ -253,6 +267,7 @@ namespace Common.World
 				case Pocket.Shoe:
 				case Pocket.Glove:
 				case Pocket.Robe:
+				case Pocket.HeadStyle:
 				case Pocket.ArmorStyle:
 				case Pocket.ShoeStyle:
 				case Pocket.GloveStyle:
@@ -282,9 +297,9 @@ namespace Common.World
 
 		public override void AddEntityData(MabiPacket p)
 		{
-			p.PutLong(Id);
+			p.PutLong(this.Id);
 			p.PutByte(1);
-			p.PutBin(Info);
+			p.PutBin(this.Info);
 			p.PutByte(1);
 			p.PutByte(0);
 			p.PutByte(0);
@@ -297,10 +312,10 @@ namespace Common.World
 			p.PutByte(2);
 			p.PutBin(this.Info);
 			p.PutBin(this.OptionInfo);
-			p.PutString("");
+			p.PutString(this.AdditionalInfo); // Additional information, like for quests.
 			p.PutString("");
 			p.PutByte(0);
-			p.PutLong(0);
+			p.PutLong(this.QuestId);
 		}
 	}
 }

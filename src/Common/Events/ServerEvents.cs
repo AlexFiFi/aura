@@ -17,21 +17,38 @@ namespace Common.Events
 	{
 		public readonly static ServerEvents Instance = new ServerEvents();
 		protected ServerEvents()
-		{
+		{ }
 
-		}
-
-		public EventHandler PlayerLogsIn;
+		public EventHandler PlayerLogsIn, PlayerLoggedIn;
 		public EventHandler<TimeEventArgs> ErinnTimeTick, RealTimeTick, ErinnDaytimeTick, ErinnMidnightTick;
 		public EventHandler<EntityEventArgs> EntityEntersRegion, EntityLeavesRegion;
 		public EventHandler<MoveEventArgs> CreatureMoves;
 		public EventHandler<ChatEventArgs> CreatureTalks;
 		public EventHandler<MotionEventArgs> CreatureUsesMotion;
+		public EventHandler<CreatureKilledEventArgs> CreatureKilled, KilledByPlayer;
 
-		public void OnPlayerLogsIn(MabiCreature creature, EventArgs e = null)
+		public void OnPlayerLogsIn(MabiPC creature, EventArgs e = null)
 		{
 			if (PlayerLogsIn != null)
 				PlayerLogsIn(creature, null);
+		}
+
+		public void OnPlayerLoggedIn(MabiPC creature, EventArgs e = null)
+		{
+			if (PlayerLoggedIn != null)
+				PlayerLoggedIn(creature, null);
+		}
+
+		public void OnCreatureKilled(CreatureKilledEventArgs e)
+		{
+			if (CreatureKilled != null)
+				CreatureKilled(null, e);
+		}
+
+		public void OnKilledByPlayer(CreatureKilledEventArgs e)
+		{
+			if (KilledByPlayer != null)
+				KilledByPlayer(null, e);
 		}
 
 		public void OnErinnTimeTick(object sender, TimeEventArgs e)

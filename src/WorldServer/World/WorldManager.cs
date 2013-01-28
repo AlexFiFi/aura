@@ -5,16 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common.Constants;
+using Common.Data;
+using Common.Database;
 using Common.Events;
 using Common.Network;
 using Common.Tools;
 using Common.World;
 using World.Network;
 using World.Scripting;
-using World.Tools;
-using Common.Database;
 using World.Skills;
-using Common.Data;
+using World.Tools;
 
 namespace World.World
 {
@@ -880,7 +880,6 @@ namespace World.World
 
 			var p = new MabiPacket(Op.LevelUp, creature.Id);
 			p.PutShort((ushort)creature.Level);
-
 			this.Broadcast(p, SendTargets.Range, creature);
 
 			var publ = new MabiPacket(Op.StatUpdatePublic, creature.Id);
@@ -1105,6 +1104,10 @@ namespace World.World
 								var client = enemy.Client;
 								client.Send(PacketCreator.CombatMessage(enemy, "+" + exp.ToString() + " EXP"));
 							}
+
+							ServerEvents.Instance.OnCreatureKilled(new CreatureKilledEventArgs(action.Creature, enemy));
+							if (enemy is MabiPC)
+								ServerEvents.Instance.OnKilledByPlayer(new CreatureKilledEventArgs(action.Creature, enemy));
 						}
 
 						var npc = action.Creature as MabiNPC;
@@ -1251,6 +1254,58 @@ namespace World.World
 			}
 
 			ScriptManager.Instance.Spawn(spawn, 0, effect);
+		}
+
+		public void CreatureReceivesQuest(MabiCreature creature, MabiQuest quest)
+		{
+			// Owl
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.QuestOwlNew, creature.Id).PutLong(quest.Id), SendTargets.Range, creature);
+
+			// Quest item (required to complete quests)
+			creature.Client.Send(PacketCreator.ItemInfo(creature, quest.QuestItem));
+
+			// Quest info
+			var p = new MabiPacket(Op.QuestNew, creature.Id);
+			quest.AddData(p);
+			creature.Client.Send(p);
+		}
+
+		public void CreatureCompletesQuest(MabiCreature creature, MabiQuest quest, bool rewards)
+		{
+			if (rewards)
+			{
+				// Owl
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.QuestOwlComplete, creature.Id).PutLong(quest.Id), SendTargets.Range, creature);
+
+				// Rewards
+				foreach (var reward in quest.Info.Rewards)
+				{
+					switch (reward.Type)
+					{
+						case RewardType.Exp:
+							creature.GiveExp(reward.Amount);
+							creature.Client.Send(PacketCreator.AcquireExp(creature, reward.Amount));
+							this.CreatureStatsUpdate(creature);
+							break;
+
+						default:
+							Logger.Warning("Unsupported reward type '{0}'.", reward.Type);
+							break;
+					}
+				}
+			}
+
+			creature.Client.Send(PacketCreator.ItemInfo(creature, quest.QuestItem));
+
+			// Remove from quest log.
+			creature.Client.Send(new MabiPacket(Op.QuestClear, creature.Id).PutLong(quest.Id));
+		}
+
+		public void CreatureUpdateQuest(MabiCreature creature, MabiQuest quest)
+		{
+			var p = new MabiPacket(Op.QuestUpdate, creature.Id);
+			quest.AddProgressData(p);
+			creature.Client.Send(p);
 		}
 
 		public void Broadcast(MabiPacket packet, SendTargets targets, MabiEntity source = null, uint range = 0)

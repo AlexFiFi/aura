@@ -24,5 +24,6 @@ namespace Common.Data
 		public static RegionDb RegionDb = new RegionDb();
 		public static ShamalaDb ShamalaDb = new ShamalaDb();
 		public static PropDropDb PropDropDb = new PropDropDb();
+		public static QuestDb QuestDb = new QuestDb();
 	}
 }

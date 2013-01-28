@@ -252,6 +252,14 @@ namespace World.Network
 			return p;
 		}
 
+		public static MabiPacket AcquireItem(MabiCreature creature, uint cls, uint amount)
+		{
+			var p = new MabiPacket(Op.AcquireInfo, creature.Id);
+			p.PutString("<xml type='item' classid='{0}' value='{1}'/>", cls, amount);
+			p.PutInt(3000);
+			return p;
+		}
+
 		public static MabiPacket AcquireItem(MabiCreature creature, ulong itemId)
 		{
 			var p = new MabiPacket(Op.AcquireInfo, creature.Id);
@@ -261,12 +269,22 @@ namespace World.Network
 			// 001 [................] String : <xml type='stamina' value='17' simple='true' onlyLog='false' />
 			// 002 [........00000BB8] Int    : 3000
 
-			// 001 [................] String : <xml type='item' objectid='22518873032356851' />
-			// 002 [........00000BB8] Int    : 3000
+			return p;
+		}
 
-			// 001 [................] String : <xml type='stress' value='2' simple='true' onlyLog='false' minus='true' />
-			// 002 [........000001F4] Int    : 500
+		public static MabiPacket AcquireExp(MabiCreature creature, uint amount)
+		{
+			var p = new MabiPacket(Op.AcquireInfo, creature.Id);
+			p.PutString("<xml type='exp' value='{0}'/>", amount);
+			p.PutInt(3000);
+			return p;
+		}
 
+		public static MabiPacket AcquireAp(MabiCreature creature, uint amount)
+		{
+			var p = new MabiPacket(Op.AcquireInfo, creature.Id);
+			p.PutString("<xml type='ap' value='{0}' simple='true' onlyLog='false' />", amount);
+			p.PutInt(3000);
 			return p;
 		}
 

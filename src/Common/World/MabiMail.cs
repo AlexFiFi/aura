@@ -77,6 +77,7 @@ namespace Common.World
 			{
 				packet.PutInt(this.COD);
 
+				// TODO: No, just... no.
 				var item = MabiDb.Instance.GetItem(this.ItemId);
 
 				item.AddPrivateEntityData(packet);

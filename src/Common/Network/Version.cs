@@ -217,12 +217,17 @@ namespace Common.Network
 		//public readonly static uint CombatUsedSkill = 0x7927; // ?
 		public readonly static uint CombatAttackR = 0x7D01;
 
-		public readonly static uint AreaChange = 0x88B8; // Probably more like "event activated"?
+		public readonly static uint AreaChange = 0x88B8; // More like "event triggered"?
 		public readonly static uint QuestNew = 0x8CA0;
-		public readonly static uint QuestDone = 0x8CA1;
-		public readonly static uint QuestObjectiveUpdate = 0x8CA2;
+		public readonly static uint QuestClear = 0x8CA1;
+		public readonly static uint QuestUpdate = 0x8CA2;
 		public readonly static uint QuestComplete = 0x8CA3;
 		public readonly static uint QuestCompleteR = 0x8CA4;
+		public readonly static uint QuestGiveUp = 0x8CA5;
+		public readonly static uint QuestGiveUpR = 0x8CA6;
+		public readonly static uint QuestStartPTJ = 0x8D68; // ?
+		public readonly static uint QuestEndPTJ = 0x8D69; // ?
+		public readonly static uint QuestUpdatePTJ = 0x8D6A;
 		public readonly static uint ChangeTitle = 0x8FC4;
 		public readonly static uint ChangedTitle = 0x8FC5;
 		public readonly static uint ChangeTitleR = 0x8FC6;
@@ -241,9 +246,9 @@ namespace Common.Network
 		public readonly static uint PropInteraction = 0x908D; // Doors?
 		public readonly static uint PlaySound = 0x908F;
 		public readonly static uint Effect = 0x9090;
-		public readonly static uint Effect2 = 0x9091; // Delayed?
-		public readonly static uint Effect3 = 0x9092; // ?
-		public readonly static uint Effect4 = 0x9093; // Quest related?
+		public readonly static uint EffectDelayed = 0x9091;
+		public readonly static uint QuestOwlComplete = 0x9093;
+		public readonly static uint QuestOwlNew = 0x9094;
 		public readonly static uint DungeonInfo = 0x9470;
 
 		public readonly static uint StatusEffectUpdate = 0xA028;

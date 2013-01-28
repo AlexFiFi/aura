@@ -556,6 +556,7 @@ namespace Common.Database
 					character.LoadDefault();
 				}
 
+				this.GetQuests(character);
 				this.GetItems(character);
 				this.GetKeywords(character);
 				this.GetSkills(character);
@@ -565,6 +566,57 @@ namespace Common.Database
 				character.Shamalas.Add(new ShamalaTransformation(3, 1, ShamalaState.Available));
 
 				return character;
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		private void GetQuests(MabiPC character)
+		{
+			var conn = this.GetConnection();
+			try
+			{
+				var mc = new MySqlCommand("SELECT * FROM quests WHERE characterId = @characterId", conn);
+				mc.Parameters.AddWithValue("@characterId", character.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var id = reader.GetUInt64("questId");
+						var cls = reader.GetUInt32("questClass");
+
+						var quest = new MabiQuest(cls, id);
+						quest.State = (MabiQuestState)reader.GetByte("state");
+
+						character.Quests.Add(cls, quest);
+					}
+				}
+
+				mc = new MySqlCommand("SELECT * FROM quest_progress WHERE characterId = @characterId", conn);
+				mc.Parameters.AddWithValue("@characterId", character.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var id = reader.GetUInt64("questId");
+						var cls = reader.GetUInt32("questClass");
+
+						var quest = character.GetQuestOrNull(cls);
+						if (quest == null)
+							continue;
+
+						var objective = reader.GetString("objective");
+						var count = reader.GetUInt32("count");
+						var done = reader.GetBoolean("done");
+						var unlocked = reader.GetBoolean("unlocked");
+
+						quest.Progresses.Add(objective, new MabiQuestProgress(objective, count, done, unlocked));
+					}
+				}
 			}
 			finally
 			{
@@ -702,6 +754,7 @@ namespace Common.Database
 			//mc.Parameters.AddWithValue("@option", "");
 			item.OptionInfo.SellingPrice = reader.GetUInt32("sellingprice");
 			//DateTime.Now = reader.GetUInt32("update_time");
+
 			return item;
 		}
 
@@ -1075,9 +1128,69 @@ namespace Common.Database
 
 				mc.ExecuteNonQuery();
 
+				this.SaveQuests(character);
 				this.SaveItems(character);
 				this.SaveKeywords(character);
 				this.SaveSkills(character);
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+		private void SaveQuests(MabiPC character)
+		{
+			var conn = this.GetConnection();
+			MySqlTransaction transaction = null;
+			try
+			{
+				transaction = conn.BeginTransaction();
+
+				var delmc = new MySqlCommand("DELETE FROM quests WHERE characterId = @characterId", conn, transaction);
+				delmc.Parameters.AddWithValue("@characterId", character.Id);
+				delmc.ExecuteNonQuery();
+
+				//delmc = new MySqlCommand("DELETE FROM quest_progress WHERE characterId = @characterId", conn, transaction);
+				//delmc.Parameters.AddWithValue("@characterId", character.Id);
+				//delmc.ExecuteNonQuery();
+
+				foreach (var q in character.Quests)
+				{
+					if (q.Value.Id >= Id.QuestsTmp)
+						q.Value.Id = this.GetNewPoolId("quests", Id.Quests);
+
+					var mc = new MySqlCommand("INSERT INTO quests VALUES (@characterId, @questId, @questClass, @state)", conn, transaction);
+
+					mc.Parameters.AddWithValue("@characterId", character.Id);
+					mc.Parameters.AddWithValue("@questId", q.Value.Id);
+					mc.Parameters.AddWithValue("@questClass", q.Value.Class);
+					mc.Parameters.AddWithValue("@state", q.Value.State);
+
+					mc.ExecuteNonQuery();
+
+					foreach (var p in q.Value.Progresses)
+					{
+						mc = new MySqlCommand("INSERT INTO quest_progress VALUES (@characterId, @questId, @questClass, @objective, @count, @done, @unlocked)", conn, transaction);
+
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.Parameters.AddWithValue("@questId", q.Value.Id);
+						mc.Parameters.AddWithValue("@questClass", q.Value.Class);
+						mc.Parameters.AddWithValue("@objective", p.Key);
+						mc.Parameters.AddWithValue("@count", p.Value.Count);
+						mc.Parameters.AddWithValue("@done", p.Value.Done);
+						mc.Parameters.AddWithValue("@unlocked", p.Value.Unlocked);
+
+						mc.ExecuteNonQuery();
+					}
+				}
+
+				transaction.Commit();
+			}
+			catch (Exception ex)
+			{
+				transaction.Rollback();
+				throw ex;
 			}
 			finally
 			{
@@ -1226,8 +1339,7 @@ namespace Common.Database
 			{
 				transaction = conn.BeginTransaction();
 
-				var delmc = new MySqlCommand("DELETE FROM items WHERE characterId = @id", conn);
-				delmc.Transaction = transaction;
+				var delmc = new MySqlCommand("DELETE FROM items WHERE characterId = @id", conn, transaction);
 				delmc.Parameters.AddWithValue("@id", character.Id);
 				delmc.ExecuteNonQuery();
 
@@ -1242,9 +1354,7 @@ namespace Common.Database
 					+ " @linked_pocket, @figure, @flag, @durability, @durability_max, @origin_durability_max, @attack_min, @attack_max,"
 					+ " @wattack_min, @wattack_max, @balance, @critical, @defence, @protect, @effective_range, @attack_speed,"
 					+ " @experience, @exp_point, @upgraded, @upgraded_max, @grade, @prefix, @suffix, @data, @option, @sellingprice, @expiration, @update_time)"
-				, conn);
-
-				mc.Transaction = transaction;
+				, conn, transaction);
 
 				foreach (var item in character.Items)
 				{

@@ -3,17 +3,16 @@
 
 using System;
 using Common.Data;
+using Common.Events;
 using Common.Tools;
-using World.World;
 using Common.World;
 using World.Network;
-using Common.Network;
-using Common.Events;
 using World.Tools;
+using World.World;
 
 namespace World.Scripting
 {
-	public class BaseScript : IDisposable
+	public partial class BaseScript : IDisposable
 	{
 		protected Random _rnd = RandomProvider.Get();
 
