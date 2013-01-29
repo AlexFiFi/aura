@@ -19,6 +19,7 @@ namespace World.Scripting
 		public Receive ReceiveMethod = Receive.Manually;
 
 		private bool _killedSubscription = false;
+		private bool _itemActionSubscription = false;
 
 		public void SetId(uint id)
 		{
@@ -52,7 +53,8 @@ namespace World.Scripting
 
 		public override void OnLoadDone()
 		{
-			this.Info.Objectives.First().Value.Unlocked = true;
+			if (this.Info.Objectives.Count > 0)
+				(this.Info.Objectives[0] as QuestObjectiveInfo).Unlocked = true;
 
 			if (this.ReceiveMethod == Receive.OnLogin)
 				ServerEvents.Instance.PlayerLoggedIn += this.OnPlayerLoggedIn;
@@ -67,6 +69,9 @@ namespace World.Scripting
 
 			if (_killedSubscription)
 				ServerEvents.Instance.KilledByPlayer -= this.OnKilledByPlayer;
+
+			if (_itemActionSubscription)
+				EntityEvents.Instance.CreatureItemAction -= this.OnCreatureItemAction;
 		}
 
 		public void OnPlayerLoggedIn(object sender, EventArgs args)
@@ -83,6 +88,11 @@ namespace World.Scripting
 			}
 		}
 
+		/// <summary>
+		/// Handles objective updates of type Kill.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
 		public void OnKilledByPlayer(object sender, EventArgs args)
 		{
 			var ea = args as CreatureKilledEventArgs;
@@ -98,7 +108,7 @@ namespace World.Scripting
 			if (progress == null)
 				return;
 
-			var objective = this.Info.Objectives[progress.Objective];
+			var objective = this.Info.Objectives[progress.Objective] as QuestObjectiveInfo;
 
 			// Kill objective?
 			if (objective.Type != ObjectiveType.Kill)
@@ -116,6 +126,66 @@ namespace World.Scripting
 
 			if (progress.Count >= objective.Amount)
 				quest.SetObjectiveDone(progress.Objective);
+
+			WorldManager.Instance.CreatureUpdateQuest(character, quest);
+		}
+
+		/// <summary>
+		/// Handles objective updates of type Collect.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		public void OnCreatureItemAction(object sender, EventArgs args)
+		{
+			var ea = args as ItemActionEventArgs;
+			var character = sender as MabiPC;
+
+			// Sender actually a player?
+			if (character == null)
+				return;
+
+			// Has quest?
+			var quest = character.GetQuestOrNull(this.Info.Class);
+			if (quest == null)
+				return;
+
+			// Quest done?
+			var progress = quest.CurrentProgress;
+			if (progress == null)
+			{
+				// If there's only one objective we'll let this one pass,
+				// and check the objective type of that one objective.
+				// For example, Church PTJ only has one collect objective,
+				// and we have to be able to "un-done" the quest,
+				// if required items are dropped or something.
+				if (quest.Progresses.Count == 1)
+					progress = quest.Progresses[0] as MabiQuestProgress;
+				else
+					return;
+			}
+
+			var objective = this.Info.Objectives[progress.Objective] as QuestObjectiveInfo;
+
+			// Collect objective?
+			if (objective.Type != ObjectiveType.Collect)
+				return;
+
+			// Correct item?
+			if (objective.Id != ea.Class)
+				return;
+
+			progress.Count = character.CountItem(objective.Id);
+
+			if (!progress.Done && progress.Count >= objective.Amount)
+			{
+				if (quest.Progresses.Count > 1)
+					progress.Count = objective.Amount;
+				quest.SetObjectiveDone(progress.Objective);
+			}
+			if (progress.Done && progress.Count < objective.Amount)
+			{
+				quest.SetObjectiveUndone(progress.Objective);
+			}
 
 			WorldManager.Instance.CreatureUpdateQuest(character, quest);
 		}
@@ -197,6 +267,13 @@ namespace World.Scripting
 			{
 				ServerEvents.Instance.KilledByPlayer += this.OnKilledByPlayer;
 				_killedSubscription = true;
+			}
+
+			// Subscribe to OnCreatureItemAction once for this quest, if needed for this objective.
+			if (type == ObjectiveType.Collect && !_itemActionSubscription)
+			{
+				EntityEvents.Instance.CreatureItemAction += this.OnCreatureItemAction;
+				_itemActionSubscription = true;
 			}
 
 			// Check for 3 more args afterwards (target location).

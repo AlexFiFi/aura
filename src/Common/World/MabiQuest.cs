@@ -2,7 +2,9 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using Common.Network;
@@ -41,7 +43,7 @@ namespace Common.World
 		public uint Class;
 		public MabiQuestState State;
 
-		public Dictionary<string, MabiQuestProgress> Progresses = new Dictionary<string, MabiQuestProgress>();
+		public OrderedDictionary Progresses = new OrderedDictionary();
 
 		/// <summary>
 		/// Every quest has an invisible item that goes with it.
@@ -73,7 +75,19 @@ namespace Common.World
 		/// <summary>
 		/// Returns true if all objectives are done.
 		/// </summary>
-		public bool IsDone { get { return (this.Progresses.Values.Where(a => a.Done).Count() == this.Progresses.Count); } }
+		public bool IsDone
+		{
+			get
+			{
+				int n = 0;
+				for (int i = 0; i < this.Progresses.Count; ++i)
+				{
+					if ((this.Progresses[i] as MabiQuestProgress).Done)
+						n++;
+				}
+				return (n >= this.Progresses.Count);
+			}
+		}
 
 		/// <summary>
 		/// Used in quest items, although seemingly not required.
@@ -110,28 +124,12 @@ namespace Common.World
 				return;
 
 			// Fill progress list based on the objectives of this quest.
-			foreach (var o in this.Info.Objectives)
-				this.Progresses.Add(o.Key, new MabiQuestProgress(o.Key, o.Value.Unlocked));
-		}
-
-		public bool CurrentObjectiveIs(string objective)
-		{
-			// Go through objective progress
-			foreach (var p in this.Progresses)
+			foreach (DictionaryEntry de in this.Info.Objectives)
 			{
-				// First not done objective is the current one.
-				if (!p.Value.Done)
-				{
-					// Check if the current objective is the given one.
-					if (p.Key == objective)
-						return true;
-					else
-						return false;
-				}
+				var key = de.Key as string;
+				var val = de.Value as QuestObjectiveInfo;
+				this.Progresses.Add(key, new MabiQuestProgress(key, val.Unlocked));
 			}
-
-			// Quest done?
-			return false;
 		}
 
 		public MabiQuestProgress CurrentProgress
@@ -139,11 +137,11 @@ namespace Common.World
 			get
 			{
 				// Go through objective progress
-				foreach (var p in this.Progresses)
+				foreach (MabiQuestProgress p in this.Progresses.Values)
 				{
 					// First not done objective is the current one.
-					if (!p.Value.Done)
-						return p.Value;
+					if (!p.Done)
+						return p;
 				}
 
 				// Quest done?
@@ -153,22 +151,35 @@ namespace Common.World
 
 		public void SetObjectiveDone(string objective)
 		{
-			bool found = false;
-			foreach (var p in this.Progresses)
+			for (int i = 0; i < this.Progresses.Count; ++i)
 			{
-				if (found)
+				var p = this.Progresses[i] as MabiQuestProgress;
+				if (p.Objective == objective)
 				{
-					p.Value.Unlocked = true;
-					break;
-				}
-				if (p.Key == objective)
-				{
-					p.Value.Done = true;
-					p.Value.Unlocked = false;
-					p.Value.Count = this.Info.Objectives[p.Key].Amount;
+					p.Done = true;
+					p.Unlocked = false;
+					//p.Value.Count = (this.Info.Objectives[p.Key] as QuestObjectiveInfo).Amount;
 
-					// In the next round we unlock the next objective.
-					found = true;
+					// Unlock the next objective.
+					if (i + 1 < this.Progresses.Count)
+					{
+						p = this.Progresses[i + 1] as MabiQuestProgress;
+						p.Unlocked = true;
+					}
+				}
+			}
+		}
+
+		public void SetObjectiveUndone(string objective)
+		{
+			for (int i = 0; i < this.Progresses.Count; ++i)
+			{
+				var p = this.Progresses[i] as MabiQuestProgress;
+				if (p.Objective == objective)
+				{
+					p.Done = false;
+					p.Unlocked = true;
+					return;
 				}
 			}
 		}
@@ -213,10 +224,11 @@ namespace Common.World
 			//024 [000039BF89671150] Long   : 63494806770000 // Timestamp
 
 			packet.PutSInt(this.Info.Objectives.Count);
-			foreach (var o in this.Info.Objectives)
+			foreach (DictionaryEntry de in this.Info.Objectives)
 			{
+				var o = new KeyValuePair<string, QuestObjectiveInfo>(de.Key as string, de.Value as QuestObjectiveInfo);
 				var objective = o.Value;
-				var progress = this.Progresses[o.Key];
+				var progress = this.Progresses[o.Key] as MabiQuestProgress;
 
 				packet.PutByte((byte)objective.Type);
 				packet.PutString(objective.Description);
@@ -292,7 +304,7 @@ namespace Common.World
 			packet.PutByte(1);
 
 			packet.PutSInt(this.Progresses.Count);
-			foreach (var p in this.Progresses.Values)
+			foreach (MabiQuestProgress p in this.Progresses.Values)
 			{
 				packet.PutInt(p.Count);
 				packet.PutByte(p.Done);

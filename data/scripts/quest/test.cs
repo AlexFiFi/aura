@@ -49,6 +49,7 @@ public class TestQuest3Script : QuestScript
 		SetCancelable();
 
 		AddObjective("kill", "Kill 3 Red Foxes", ObjectiveType.Kill, 50002, 3);
+		AddObjective("collect", "Find 2 apples", ObjectiveType.Collect, 50003, 2);
 		AddObjective("talk", "Talk to Duncan", ObjectiveType.Talk, "duncan", 1, 15409, 38310);
 
 		AddReward(RewardType.Exp, 10000);

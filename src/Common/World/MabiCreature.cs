@@ -581,15 +581,16 @@ namespace Common.World
 		/// inventory. Tries to fill sacs first, inventory afterwards, and
 		/// all remaining will be added to the temp inventory.
 		/// </summary>
-		/// <param name="itemId"></param>
+		/// <param name="itemClass"></param>
 		/// <param name="amount"></param>
-		public MabiItem GiveItem(uint itemId, uint amount, uint color1 = 0, uint color2 = 0, uint color3 = 0, bool useDBColors = true, bool drop = false)
+		public MabiItem GiveItem(uint itemClass, uint amount, uint color1 = 0, uint color2 = 0, uint color3 = 0, bool useDBColors = true, bool drop = false)
 		{
 			MabiItem result = null;
 
+			// Fill stacks and sacs
 			foreach (var item in this.Items)
 			{
-				if ((item.Type == ItemType.Sac && item.StackItem == itemId) || (item.Info.Class == itemId && item.StackType == BundleType.Stackable))
+				if ((item.Type == ItemType.Sac && item.StackItem == itemClass) || (item.Info.Class == itemClass && item.StackType == BundleType.Stackable))
 				{
 					if (item.Info.Amount >= item.StackMax)
 						continue;
@@ -615,9 +616,10 @@ namespace Common.World
 				}
 			}
 
+			// Add remaining to inv or temp inv.
 			while (amount > 0)
 			{
-				var item = new MabiItem(itemId);
+				var item = new MabiItem(itemClass);
 				if (!useDBColors)
 				{
 					item.Info.ColorA = color1;
@@ -659,6 +661,8 @@ namespace Common.World
 				result = item;
 			}
 
+			EntityEvents.Instance.OnCreatureItemAction(this, itemClass);
+
 			return result;
 		}
 
@@ -666,16 +670,16 @@ namespace Common.World
 		/// Removes the given amount of items with the given id from the
 		/// creature's inventory. Tries inventory first, sacs afterwards.
 		/// </summary>
-		/// <param name="itemId"></param>
+		/// <param name="itemClass"></param>
 		/// <param name="amount"></param>
-		public void RemoveItem(uint itemId, uint amount)
+		public void RemoveItem(uint itemClass, uint amount)
 		{
 			var toRemove = new List<MabiItem>();
 
 			// Items first
 			foreach (var item in this.Items)
 			{
-				if (item.Info.Class == 2000)
+				if (item.Info.Class == itemClass)
 				{
 					var prev = item.Info.Amount;
 					if (amount <= item.Info.Amount)
@@ -703,7 +707,7 @@ namespace Common.World
 			{
 				foreach (var item in this.Items)
 				{
-					if (item.Type == ItemType.Sac && item.StackItem == 2000)
+					if (item.Type == ItemType.Sac && item.StackItem == itemClass)
 					{
 						var prev = item.Info.Amount;
 						if (amount <= item.Info.Amount)
@@ -729,6 +733,8 @@ namespace Common.World
 
 			foreach (var item in toRemove)
 				this.Items.Remove(item);
+
+			EntityEvents.Instance.OnCreatureItemAction(this, itemClass);
 		}
 
 		/// <summary>
@@ -758,14 +764,19 @@ namespace Common.World
 		/// <returns></returns>
 		public bool HasItem(uint itemId, uint amount = 1)
 		{
-			var total = 0;
+			return (this.CountItem(itemId) >= amount);
+		}
+
+		public uint CountItem(uint itemId)
+		{
+			uint total = 0;
 			foreach (var item in this.Items)
 			{
 				if (item.Info.Class == itemId || item.StackItem == itemId)
 					total += item.Info.Amount;
 			}
 
-			return (total >= amount);
+			return total;
 		}
 
 		/// <summary>
@@ -794,6 +805,7 @@ namespace Common.World
 				this.Items.Remove(item);
 
 			EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+			EntityEvents.Instance.OnCreatureItemAction(this, item.Info.Class);
 		}
 
 		public void GiveSkill(ushort skillId, byte rank)

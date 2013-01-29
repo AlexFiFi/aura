@@ -21,6 +21,13 @@ namespace Common.Events
 		public EventHandler<ItemEventArgs> CreatureDropItem;
 		public EventHandler<SkillUpdateEventArgs> CreatureSkillUpdate;
 
+		/// <summary>
+		/// Fired if an item is received, dropped, traded, or anything.
+		/// Simply passes the involved item class.
+		/// Mainly used in quests, to check collect objectives.
+		/// </summary>
+		public EventHandler<ItemActionEventArgs> CreatureItemAction;
+
 		public void OnCreatureLevelsUp(MabiCreature c)
 		{
 			if (CreatureLevelsUp != null)
@@ -49,6 +56,12 @@ namespace Common.Events
 		{
 			if (CreatureDropItem != null)
 				CreatureDropItem(creature, new ItemEventArgs(item));
+		}
+
+		public void OnCreatureItemAction(MabiCreature creature, uint cls)
+		{
+			if (CreatureItemAction != null)
+				CreatureItemAction(creature, new ItemActionEventArgs(cls));
 		}
 
 		public void OnCreatureSkillUpdate(MabiCreature creature, MabiSkill skill, bool isNew)

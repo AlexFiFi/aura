@@ -211,6 +211,7 @@ CREATE TABLE IF NOT EXISTS `quests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `quest_progress` (
+  `progressId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `characterId` bigint(20) unsigned NOT NULL,
   `questId` bigint(20) unsigned NOT NULL,
   `questClass` int(10) unsigned NOT NULL,
@@ -218,8 +219,9 @@ CREATE TABLE IF NOT EXISTS `quest_progress` (
   `count` int(11) unsigned NOT NULL,
   `done` tinyint(1) NOT NULL,
   `unlocked` tinyint(1) NOT NULL,
-  PRIMARY KEY (`questId`,`objective`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`progressId`),
+  KEY `questId` (`questId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `character_cards`
   ADD CONSTRAINT `character_cards_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;

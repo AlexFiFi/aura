@@ -109,7 +109,13 @@ public class DuncanScript : NPCScript
 		if(QuestActive(c, 1000002, "talk"))
 		{
 			Msg(c, "You did it, I'm impressed!");
-			FinishQuestObjective(c, 1000002, "talk");
+			if(c.Character.HasItem(50003, 2))
+			{
+				FinishQuestObjective(c, 1000002, "talk");
+				c.Character.RemoveItem(50003, 2);
+			}
+			else
+				Msg(c, "Wait... where are the apples? I'm hungry!");
 		}
 		
 		End();

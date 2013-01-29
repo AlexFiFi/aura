@@ -10,6 +10,7 @@ using Common.World;
 using System.Text.RegularExpressions;
 using Common.Tools;
 using Common.Constants;
+using System.Collections;
 
 namespace Common.Database
 {
@@ -595,7 +596,7 @@ namespace Common.Database
 					}
 				}
 
-				mc = new MySqlCommand("SELECT * FROM quest_progress WHERE characterId = @characterId", conn);
+				mc = new MySqlCommand("SELECT * FROM quest_progress WHERE characterId = @characterId ORDER BY progressId", conn);
 				mc.Parameters.AddWithValue("@characterId", character.Id);
 
 				using (var reader = mc.ExecuteReader())
@@ -1155,31 +1156,31 @@ namespace Common.Database
 				//delmc.Parameters.AddWithValue("@characterId", character.Id);
 				//delmc.ExecuteNonQuery();
 
-				foreach (var q in character.Quests)
+				foreach (var q in character.Quests.Values)
 				{
-					if (q.Value.Id >= Id.QuestsTmp)
-						q.Value.Id = this.GetNewPoolId("quests", Id.Quests);
+					if (q.Id >= Id.QuestsTmp)
+						q.Id = this.GetNewPoolId("quests", Id.Quests);
 
 					var mc = new MySqlCommand("INSERT INTO quests VALUES (@characterId, @questId, @questClass, @state)", conn, transaction);
 
 					mc.Parameters.AddWithValue("@characterId", character.Id);
-					mc.Parameters.AddWithValue("@questId", q.Value.Id);
-					mc.Parameters.AddWithValue("@questClass", q.Value.Class);
-					mc.Parameters.AddWithValue("@state", q.Value.State);
+					mc.Parameters.AddWithValue("@questId", q.Id);
+					mc.Parameters.AddWithValue("@questClass", q.Class);
+					mc.Parameters.AddWithValue("@state", q.State);
 
 					mc.ExecuteNonQuery();
 
-					foreach (var p in q.Value.Progresses)
+					foreach (MabiQuestProgress p in q.Progresses.Values)
 					{
-						mc = new MySqlCommand("INSERT INTO quest_progress VALUES (@characterId, @questId, @questClass, @objective, @count, @done, @unlocked)", conn, transaction);
+						mc = new MySqlCommand("INSERT INTO quest_progress VALUES (NULL, @characterId, @questId, @questClass, @objective, @count, @done, @unlocked)", conn, transaction);
 
 						mc.Parameters.AddWithValue("@characterId", character.Id);
-						mc.Parameters.AddWithValue("@questId", q.Value.Id);
-						mc.Parameters.AddWithValue("@questClass", q.Value.Class);
-						mc.Parameters.AddWithValue("@objective", p.Key);
-						mc.Parameters.AddWithValue("@count", p.Value.Count);
-						mc.Parameters.AddWithValue("@done", p.Value.Done);
-						mc.Parameters.AddWithValue("@unlocked", p.Value.Unlocked);
+						mc.Parameters.AddWithValue("@questId", q.Id);
+						mc.Parameters.AddWithValue("@questClass", q.Class);
+						mc.Parameters.AddWithValue("@objective", p.Objective);
+						mc.Parameters.AddWithValue("@count", p.Count);
+						mc.Parameters.AddWithValue("@done", p.Done);
+						mc.Parameters.AddWithValue("@unlocked", p.Unlocked);
 
 						mc.ExecuteNonQuery();
 					}

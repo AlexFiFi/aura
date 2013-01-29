@@ -101,12 +101,12 @@ namespace World.Scripting
 			var quest = (client.Character as MabiPC).GetQuestOrNull(id);
 			if (quest == null)
 				return false;
-			if (!quest.Progresses.ContainsKey(objective))
+			if (!quest.Progresses.Contains(objective))
 			{
 				Logger.Warning("Quest '{0}' doesn't have an objective called '{1}'.", id, objective);
 				return false;
 			}
-			return quest.Progresses[objective].Done;
+			return (quest.Progresses[objective] as MabiQuestProgress).Done;
 		}
 
 		/// <summary>
@@ -120,28 +120,16 @@ namespace World.Scripting
 			var quest = (client.Character as MabiPC).GetQuestOrNull(id);
 			if (quest == null)
 				return;
-			if (!quest.Progresses.ContainsKey(objective))
+
+			if (!quest.Progresses.Contains(objective))
 			{
 				Logger.Warning("Quest '{0}' doesn't have an objective called '{1}'.", id, objective);
 				return;
 			}
+
+			(quest.Progresses[objective] as MabiQuestProgress).Count = (quest.Info.Objectives[objective] as QuestObjectiveInfo).Amount;
 			quest.SetObjectiveDone(objective);
 			WorldManager.Instance.CreatureUpdateQuest(client.Character, quest);
-		}
-
-		/// <summary>
-		/// Returns true if the current objective is the given one.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="id"></param>
-		/// <param name="objective"></param>
-		/// <returns></returns>
-		protected bool QuestObjectiveIs(WorldClient client, uint id, string objective)
-		{
-			var quest = (client.Character as MabiPC).GetQuestOrNull(id);
-			if (quest == null)
-				return false;
-			return quest.CurrentObjectiveIs(objective);
 		}
 
 		protected string QuestObjective(WorldClient client, uint id)
@@ -159,12 +147,20 @@ namespace World.Scripting
 		/// <param name="id"></param>
 		public void StartQuest(WorldClient client, uint id)
 		{
+			var character = client.Character as MabiPC;
+
 			// This would prevent restarting of quests.
 			//if (this.HasQuest(client, id))
 			//{
 			//    Logger.Warning("Trying to start quest '{0}' for '{1}' twice.", id, client.Character.Name);
 			//    return;
 			//}
+
+			// Remove quest if it's aleady there and not completed,
+			// or it will be shown twice till next relog.
+			var exiQuest = character.GetQuestOrNull(id);
+			if (exiQuest != null && exiQuest.State < MabiQuestState.Complete)
+				WorldManager.Instance.CreatureCompletesQuest(character, character.Quests[id], false);
 
 			// Check here, before we add a quest that doesn't even exist.
 			if (!MabiData.QuestDb.Exists(id))
@@ -174,9 +170,9 @@ namespace World.Scripting
 			}
 
 			var quest = new MabiQuest(id);
-			(client.Character as MabiPC).Quests[id] = quest;
+			character.Quests[id] = quest;
 
-			WorldManager.Instance.CreatureReceivesQuest(client.Character, quest);
+			WorldManager.Instance.CreatureReceivesQuest(character, quest);
 		}
 	}
 }

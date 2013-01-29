@@ -1229,6 +1229,7 @@ namespace World.Network
 			// Drop it
 			item.Id = MabiItem.NewItemId;
 			WorldManager.Instance.CreatureDropItem(creature, new ItemEventArgs(item));
+			EntityEvents.Instance.OnCreatureItemAction(creature, item.Info.Class);
 
 			// Done
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
@@ -1329,11 +1330,14 @@ namespace World.Network
 
 			creature.Items.Remove(item);
 			this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
+			EntityEvents.Instance.OnCreatureItemAction(creature, item.Info.Class);
 
 			client.Send(PacketCreator.ItemRemove(creature, item));
 			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
 		}
 
+		// TODO: This code is kinda redundant... we should try to use
+		//   MabiCreature.GiveItem somehow.
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -1398,6 +1402,8 @@ namespace World.Network
 						client.Send(PacketCreator.SystemMessage(creature, "Not enough space."));
 					}
 				}
+
+				EntityEvents.Instance.OnCreatureItemAction(creature, item.Info.Class);
 			}
 
 			var response = new MabiPacket(Op.ItemPickUpR, creature.Id);

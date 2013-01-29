@@ -101,6 +101,15 @@ namespace Common.Events
 		}
 	}
 
+	public class ItemActionEventArgs : EventArgs
+	{
+		public uint Class;
+		public ItemActionEventArgs(uint cls)
+		{
+			this.Class = cls;
+		}
+	}
+
 	public class SkillUpdateEventArgs : EventArgs
 	{
 		public MabiSkill Skill;

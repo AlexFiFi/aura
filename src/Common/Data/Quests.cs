@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.Specialized;
 
 namespace Common.Data
 {
@@ -16,7 +17,7 @@ namespace Common.Data
 		public string AdditionalInfo = "";
 		public bool Cancelable = false;
 
-		public Dictionary<string, QuestObjectiveInfo> Objectives = new Dictionary<string, QuestObjectiveInfo>();
+		public OrderedDictionary Objectives = new OrderedDictionary();
 		public List<QuestRewardInfo> Rewards = new List<QuestRewardInfo>();
 	}
 
