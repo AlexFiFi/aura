@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using Common.Tools;
 
 namespace Common.Network
 {
@@ -101,6 +102,7 @@ namespace Common.Network
 		public MabiPacket PutSLong(long val) { return this.Put((ulong)val); }
 		public MabiPacket PutLong(DateTime val) { return this.Put((ulong)(val.Ticks / 10000)); }
 		public MabiPacket PutLong(TimeSpan val) { return this.Put((ulong)(val.Ticks / 10000)); }
+		public MabiPacket PutLong(MabiTime val) { return this.Put((ulong)val.MabiTimeStamp); }
 		public MabiPacket PutLongs(params ulong[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
 
 		public MabiPacket PutFloat(float val) { return this.Put(val); }
@@ -196,16 +198,12 @@ namespace Common.Network
 			if (this.GetElementType() != ElementType.String)
 				throw new ArgumentException("Expected String, got " + this.GetElementType() + ".");
 
+			int len = (_buffer[_ptr + 1] << 8) + _buffer[_ptr + 2];
 			_ptr += 3;
-			var sb = new StringBuilder();
-			while (_buffer[_ptr] != 0x00)
-			{
-				sb.Append((char)_buffer[_ptr++]);
-			}
+			var val = Encoding.UTF8.GetString(_buffer, _ptr, len - 1);
+			_ptr += len;
 
-			_ptr++;
-
-			return sb.ToString();
+			return val;
 		}
 
 		/// <summary>
@@ -300,13 +298,13 @@ namespace Common.Network
 					}
 					else if (element is string)
 					{
-						var val = (element as string) + '\0';
-						var len = (short)(val.Length);
+						var valb = Encoding.UTF8.GetBytes((element as string) + '\0');
+						var len = (short)(valb.Length);
 
 						body[ptr++] = 6;
 						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder(len)), 0, body, ptr, 2);
 						ptr += 2;
-						Array.Copy(Encoding.ASCII.GetBytes(val), 0, body, ptr, len);
+						Array.Copy(valb, 0, body, ptr, len);
 						ptr += len;
 						bodyLen += len + 3;
 					}

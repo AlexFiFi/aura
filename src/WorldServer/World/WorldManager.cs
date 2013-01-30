@@ -41,61 +41,65 @@ namespace World.World
 
 		private int _lastRlHour = -1, _lastRlMinute = -1;
 		private int _overloadCounter = 0;
+		private bool _firstHeartbeat = true;
 
-		private DateTime last = DateTime.MaxValue;
+		private DateTime _lastHearbeat = DateTime.MaxValue;
 
 		/// <summary>
 		/// This is a general method that's run once every 1500ms (1 Erinn minute).
 		/// It's used to raise the Erinn and Real time events (once per Erinn/Real minute).
 		/// Possibly, it could also be used for other things,
 		/// if it's not enough to just subscribe those, to the time events.
-		/// TODO: Running this every few Erinn minutes might be enough.
 		/// </summary>
 		/// <param name="state"></param>
 		public void Heartbeat(object state)
 		{
-			var now = DateTime.Now;
-			long serverTicks = now.Ticks / 10000;
+			var mt = MabiTime.Now;
+			var args = new TimeEventArgs(mt);
 
-			if ((now - last).TotalMilliseconds > 1700)
+			// Overload check, basically checking the time from last
+			// heartbeat to this one.
+			var now = mt.DateTime;
+			var serverTicks = now.Ticks / 10000;
+			if ((now - _lastHearbeat).TotalMilliseconds > 1700)
 			{
-				if (++_overloadCounter >= 2)
+				if (++_overloadCounter >= 3)
 				{
 					Logger.Warning("Server took longer than expected for ErinnTimeTick. (Overloaded?)");
 					_overloadCounter = 0;
 				}
 			}
+			_lastHearbeat = mt.DateTime;
 
-			last = now;
-
-			byte erinnHour = (byte)((serverTicks / 90000) % 24);
-			byte erinnMinute = (byte)((serverTicks / 1500) % 60);
-
-			TimeEventArgs args = new TimeEventArgs(erinnHour, erinnMinute);
-
-			// Erinn time event, every Erinn minute
+			// OnErinnTimeTick, fired every Erinn minute (1.5s)
 			ServerEvents.Instance.OnErinnTimeTick(this, args);
 
-			// Erinn time event, every 12 Erinn hours (6AM/6PM specifically)
-			if (((erinnHour == 6 || erinnHour == 18) && erinnMinute == 0) || _lastRlHour == -1) //LastRLHour is so we *always* run it on server startup.
+			// OnErinnDaytimeTick, fired at 6:00am and 6:00pm.
+			if (((mt.Hour == 6 || mt.Hour == 18) && mt.Minute == 0) || _firstHeartbeat)
 			{
 				ServerEvents.Instance.OnErinnDaytimeTick(this, args);
-				this.Broadcast(PacketCreator.Notice((args.IsNight ? "Eweca is rising.\nMana is starting to fill the air all around." : "Eweca has disappeared.\nThe surrounding Mana is starting to fade away."), NoticeType.MiddleTop), SendTargets.All, null);
+
+				var notice = mt.IsNight
+					? "Eweca is rising.\nMana is starting to fill the air all around."
+					: "Eweca has disappeared.\nThe surrounding Mana is starting to fade away.";
+				this.Broadcast(PacketCreator.Notice(notice, NoticeType.MiddleTop), SendTargets.All, null);
 			}
 
-			if (erinnHour == 0 && erinnMinute == 0)
-			{
+			// OnErinnMidnightTick, fired at 0:00am
+			if (mt.IsMidnight)
 				ServerEvents.Instance.OnErinnMidnightTick(this, args);
-			}
 
-			// Real time event, every Real minute
+			// OnRealTimeTick, fired every minute in real time.
 			// Some caching is needed here, since this method will be called
 			// multiple times during this minute.
-			int rlHour = now.Hour, rlMinute = now.Minute;
-			if ((rlHour != _lastRlHour || rlMinute != _lastRlMinute))
+			int rlHour = mt.DateTime.Hour, rlMinute = mt.DateTime.Minute;
+			if (rlHour != _lastRlHour || rlMinute != _lastRlMinute)
 			{
-				ServerEvents.Instance.OnRealTimeTick(this, new TimeEventArgs((byte)(_lastRlHour = rlHour), (byte)(_lastRlMinute = rlMinute)));
+				_lastRlHour = rlHour; _lastRlMinute = rlMinute;
+				ServerEvents.Instance.OnRealTimeTick(this, new TimeEventArgs(mt));
 			}
+
+			_firstHeartbeat = false;
 		}
 
 		public void CreatureUpdates(object state)

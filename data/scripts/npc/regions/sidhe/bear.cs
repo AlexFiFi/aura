@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using Common.Constants;
 using Common.Events;
+using Common.Tools;
 using Common.World;
 using World.Network;
 using World.Scripting;
@@ -19,7 +20,7 @@ public class TarlachBearScript : NPCScript
 		SetName("_tarlachbear");
 		SetRace(70001);
 		SetBody(0.8f);
-		SetColor(0x553A26, 0x0000FF00, 0x000000FF);
+		SetColor(0x553A26, 0x00FF00, 0x0000FF);
 		SetLocation("sidhe_south", 11100, 30400, 167);
 
 		ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
@@ -39,7 +40,7 @@ public class TarlachBearScript : NPCScript
 
 	private void On12HrTick(object sender, TimeEventArgs e)
 	{
-		if(!e.IsNight)
+		if(!e.Time.IsNight)
 			WarpNPC(48, 11100, 30400, false);
 		else
 			WarpNPC(15, 0, 0, false);

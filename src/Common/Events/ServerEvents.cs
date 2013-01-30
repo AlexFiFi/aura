@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common.World;
+using Common.Tools;
 
 namespace Common.Events
 {
@@ -53,14 +54,29 @@ namespace Common.Events
 
 		public void OnErinnTimeTick(object sender, TimeEventArgs e)
 		{
-			if (ErinnTimeTick != null)
-				ErinnTimeTick(sender, e);
+			try
+			{
+				if (ErinnTimeTick != null)
+					ErinnTimeTick(sender, e);
+			}
+			catch (Exception ex)
+			{
+				Logger.Exception(ex, "In OnErinnTimeTick: " + ex.Message, false);
+			}
 		}
 
 		public void OnErinnDaytimeTick(object sender, TimeEventArgs e)
 		{
-			if (ErinnDaytimeTick != null)
-				ErinnDaytimeTick(sender, e);
+			//if (ErinnDaytimeTick != null)
+			//    ErinnDaytimeTick(sender, e);
+
+			// Iterate through the handlers to be able to tell which one errored,
+			// and let the ones after that on be called.
+			foreach (var handler in ErinnDaytimeTick.GetInvocationList().Cast<EventHandler<TimeEventArgs>>())
+			{
+				try { handler(sender, e); }
+				catch (Exception ex) { Logger.Error("Source: {0}.{1}, Error: {2}", handler.Target, handler.Method.Name, ex.Message); }
+			}
 		}
 
 		public void OnErinnMidnightTick(object sender, TimeEventArgs e)

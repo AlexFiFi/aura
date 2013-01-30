@@ -218,7 +218,7 @@ namespace World.Network
 			p = new MabiPacket(Op.LoginWR, Id.World);
 			p.PutByte(1);
 			p.PutLong(creature.Id);
-			p.PutLong(DateTime.Now);
+			p.PutLong(MabiTime.Now);
 			p.PutInt(1);
 			p.PutString("");
 			client.Send(p);
@@ -1527,7 +1527,7 @@ namespace World.Network
 			client.Send(PacketCreator.Unlock(creature));
 
 			// Sent on log in, but not when switching regions?
-			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(DateTime.Now));
+			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(MabiTime.Now));
 			WorldManager.Instance.AddCreature(creature);
 
 			if (creature == client.Character)

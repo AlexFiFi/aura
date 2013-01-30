@@ -18,9 +18,6 @@ virtual: npc/regions/courcle/courcleinhabitant_base.cs
 virtual: npc/regions/courcle/docknpc_base.cs
 virtual: npc/regions/emain/emain_guardsman_base.cs
 virtual: npc/regions/emain/beanrua_base.cs
-virtual: npc/regions/emain/beanruaguard_base.cs
-virtual: npc/regions/scathach/scathach_alchemist_base.cs
-virtual: npc/regions/scathach/wardens_base.cs
 virtual: npc/regions/taillteann/taillteann_elf_base.cs
 virtual: npc/regions/taillteann/taillteann_giant_base.cs
 virtual: npc/regions/taillteann/taillteann_royalguard_base.cs
@@ -119,8 +116,7 @@ npc/regions/emain/beanrua01.cs
 npc/regions/emain/beanrua02.cs
 npc/regions/emain/beanrua03.cs
 npc/regions/emain/beanrua04.cs
-npc/regions/emain/beanruaguard01.cs
-npc/regions/emain/beanruaguard02.cs
+npc/regions/emain/bean_rua_guards.cs
 npc/regions/emain/emainbeggar.cs
 npc/regions/emain/craig.cs
 npc/regions/emain/del.cs
@@ -176,8 +172,7 @@ npc/regions/ceo/muro.cs
 
 // Sen Mag Plateau
 //---------------------------------------------------------------------------
-npc/regions/sen/fleta.cs
-npc/regions/sen/rab.cs
+npc/regions/sen/fleta_rab.cs
 
 // Gairech
 //---------------------------------------------------------------------------
@@ -355,15 +350,8 @@ npc/regions/belvast/workers.cs
 
 // Beach of Scathach
 //---------------------------------------------------------------------------
-npc/regions/scathach/alchemist_A.cs
-npc/regions/scathach/alchemist_C.cs
-npc/regions/scathach/alchemist_D.cs
+npc/regions/scathach/alchemists.cs
 npc/regions/scathach/bekard.cs
-npc/regions/scathach/hidden_wardens_A.cs
-npc/regions/scathach/hidden_wardens_B.cs
-npc/regions/scathach/hidden_wardens_C.cs
-npc/regions/scathach/hidden_wardens_D.cs
-npc/regions/scathach/hidden_wardens_E.cs
 npc/regions/scathach/odran.cs
 npc/regions/scathach/sib.cs
 npc/regions/scathach/skatha_goblin.cs
@@ -372,10 +360,7 @@ npc/regions/scathach/skatha_ogre.cs
 npc/regions/scathach/skatha_people.cs
 npc/regions/scathach/skatha_witch.cs
 npc/regions/scathach/urmen.cs
-npc/regions/scathach/wardens_A.cs
-npc/regions/scathach/wardens_B.cs
-npc/regions/scathach/wardens_C.cs
-npc/regions/scathach/wardens_D.cs
+npc/regions/scathach/wardens.cs
 
 // Rano
 //---------------------------------------------------------------------------

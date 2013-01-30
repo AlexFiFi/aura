@@ -41,7 +41,7 @@ public class Skatha_peopleScript : NPCScript
     
     private void On12HrTick(object sender, TimeEventArgs e)
 	{
-		if (!e.IsNight)
+		if (!e.Time.IsNight)
 			WarpNPC(region: 15, x: 100, y: 0);
 		else
             WarpNPC(region: 4015, x: 32951, y: 40325);

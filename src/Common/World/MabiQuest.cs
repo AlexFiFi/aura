@@ -211,7 +211,7 @@ namespace Common.World
 			packet.PutString(""); // data\gfx\image\gui_temporary_quest.dds
 			packet.PutInt(0);     // 4, x y ?
 			packet.PutInt(0);
-			packet.PutString("<xml soundset=\"4\" npc=\"\"/>"); // <xml soundset="4" npc="GUI_NPCportrait_Lanier"/>
+			packet.PutString(""); // <xml soundset="4" npc="GUI_NPCportrait_Lanier"/>
 			packet.PutString("QMBEXP:f:1.000000;QMBGLD:f:1.000000;QMSMEXP:f:1.000000;QMSMGLD:f:1.000000;QMAMEXP:f:1.000000;QMAMGLD:f:1.000000;QMBHDCTADD:4:0;QMGNRB:f:1.000000;QMGNRB:f:1.000000;");
 
 			packet.PutInt(0);
@@ -226,9 +226,9 @@ namespace Common.World
 			packet.PutSInt(this.Info.Objectives.Count);
 			foreach (DictionaryEntry de in this.Info.Objectives)
 			{
-				var o = new KeyValuePair<string, QuestObjectiveInfo>(de.Key as string, de.Value as QuestObjectiveInfo);
-				var objective = o.Value;
-				var progress = this.Progresses[o.Key] as MabiQuestProgress;
+				var key = de.Key as string;
+				var objective = de.Value as QuestObjectiveInfo;
+				var progress = this.Progresses[key] as MabiQuestProgress;
 
 				packet.PutByte((byte)objective.Type);
 				packet.PutString(objective.Description);

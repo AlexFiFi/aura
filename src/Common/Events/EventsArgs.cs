@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Common.World;
 using Common.Constants;
+using Common.Tools;
 
 namespace Common.Events
 {
@@ -21,20 +22,11 @@ namespace Common.Events
 	/// </summary>
 	public class TimeEventArgs : EventArgs
 	{
-		public byte Hour, Minute;
-		public bool IsNight { get; private set; }
+		public MabiTime Time;
 
-		public TimeEventArgs(byte hour, byte minute)
+		public TimeEventArgs(MabiTime time)
 		{
-			this.Hour = hour;
-			this.Minute = minute;
-
-			this.IsNight = !(hour >= 6 && hour < 18);
-		}
-
-		public override string ToString()
-		{
-			return (this.Hour.ToString().PadLeft(2, '0') + ":" + this.Minute.ToString().PadLeft(2, '0'));
+			this.Time = time;
 		}
 	}
 

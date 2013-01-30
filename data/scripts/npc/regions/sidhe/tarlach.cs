@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using Common.Constants;
 using Common.Events;
+using Common.Tools;
 using Common.World;
 using World.Network;
 using World.Scripting;
@@ -52,7 +53,7 @@ public class TarlachScript : NPCScript
 
 	private void On12HrTick(object sender, TimeEventArgs e)
 	{
-		if(e.IsNight)
+		if(e.Time.IsNight)
 			WarpNPC(48, 11100, 30400);
 		else
 			WarpNPC(15, 0, 0);

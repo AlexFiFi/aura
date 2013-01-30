@@ -35,12 +35,12 @@ namespace World.Scripting
 
 		public override void OnLoadDone()
 		{
-			ServerEvents.Instance.ErinnTimeTick += ErinnTimeTick;
+			ServerEvents.Instance.ErinnTimeTick += this.OnErinnTimeTick;
 		}
 
 		public override void Dispose()
 		{
-			ServerEvents.Instance.ErinnTimeTick -= ErinnTimeTick;
+			ServerEvents.Instance.ErinnTimeTick -= this.OnErinnTimeTick;
 			Shop.Dispose();
 			base.Dispose();
 		}
@@ -69,7 +69,7 @@ namespace World.Scripting
 			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
 		}
 
-		protected virtual void ErinnTimeTick(object sender, TimeEventArgs e)
+		protected virtual void OnErinnTimeTick(object sender, TimeEventArgs e)
 		{
 			if (this.Phrases.Count > 0)
 			{
@@ -160,7 +160,7 @@ namespace World.Scripting
 
 		protected virtual void SetLocation(uint region, uint x, uint y)
 		{
-			this.SetLocation(region, x, y, 0);
+			this.SetLocation(region, x, y, this.NPC.Direction);
 		}
 
 		protected virtual void SetLocation(uint region, uint x, uint y, byte direction)
@@ -181,7 +181,7 @@ namespace World.Scripting
 			SetLocation(region, x, y);
 			if (flash)
 			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(27, 3000, 0), SendTargets.Range, this.NPC);
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
 			}
 			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(this.NPC), SendTargets.Range, this.NPC);
