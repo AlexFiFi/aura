@@ -18,6 +18,8 @@ using CSScriptLibrary;
 using World.Network;
 using World.Tools;
 using World.World;
+using System.Collections;
+using System.Linq;
 
 namespace World.Scripting
 {
@@ -28,6 +30,8 @@ namespace World.Scripting
 		private ScriptManager() { }
 
 		private int _loadedScripts, _cached;
+
+		private Dictionary<string, Dictionary<string, List<ScriptHook>>> _hooks = new Dictionary<string, Dictionary<string, List<ScriptHook>>>();
 
 		public void LoadScripts()
 		{
@@ -66,6 +70,8 @@ namespace World.Scripting
 
 			if (notCached > 30)
 				Logger.Info("Caching the scripts may take a few minutes initially.");
+
+			_hooks.Clear();
 
 			// Load scripts
 			int loaded = 0;
@@ -336,15 +342,38 @@ namespace World.Scripting
 			{
 				// [var] <variable> = Wait();
 				// --> [var] <variable>Object = new Response(); yield return <variable>Object; [var] <variable> = <variable>Object.Value;
-				file = Regex.Replace(file, @"([\{\}:;\t ])(var )?[\t ]*([^\s\)]*)\s*=\s*Wait\s*\(\s*\)\s*;", "$1$2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;", RegexOptions.Compiled);
+				file = Regex.Replace(file,
+					@"([\{\}:;\t ])(var )?[\t ]*([^\s\)]*)\s*=\s*Wait\s*\(\s*\)\s*;",
+					"$1$2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;",
+					RegexOptions.Compiled);
 
 				// End();
 				// --> yield break;
-				file = Regex.Replace(file, @"([\{\}:;\t ])End\s*\(\s*\)\s*;", "yield break;", RegexOptions.Compiled);
+				file = Regex.Replace(file,
+					@"([\{\}:;\t ])End\s*\(\s*\)\s*;",
+					"yield break;",
+					RegexOptions.Compiled);
 
 				// SubTalk(<method_call>);
 				// --> foreach(var __subTalkResponse in <method_call>) yield return __subTalkResponse;
-				file = Regex.Replace(file, @"([\{\}:;\t ])SubTalk\s*\(([^;]*)\)\s*;", "$1foreach(var __subTalkResponse in $2) yield return __subTalkResponse;", RegexOptions.Compiled);
+				file = Regex.Replace(file,
+					@"([\{\}:;\t ])SubTalk\s*\(([^;]*)\)\s*;",
+					"$1foreach(var __subTalkResponse in $2) yield return __subTalkResponse;",
+					RegexOptions.Compiled);
+
+				// Hook(<client>, <"hook">);
+				// --> foreach(var __hook in ScriptManager.Instance.GetHooks(this.NPC.Name, <"hook">) foreach(var __subTalkResponse in __hook(<client>, this)) yield return __subTalkResponse;
+				file = Regex.Replace(file,
+					@"([\{\}:;\t ])Hook\s*\(([^,]*),([^;]*)\)\s*;",
+					"$1foreach(var __hook in ScriptManager.Instance.GetHooks(this.NPC.Name, $3)) { bool stop = false; foreach(var __subTalkResponse in __hook($2, this)) { if(__subTalkResponse == null) { stop = true; break; } yield return __subTalkResponse; } if(stop) break; }",
+					RegexOptions.Compiled);
+
+				// Break();
+				// --> yield return null;
+				file = Regex.Replace(file,
+					@"([\{\}:;\t ])Break\s*\(\s*\)\s*;",
+					"yield return null;",
+					RegexOptions.Compiled);
 			}
 
 			// Append the (changed) file
@@ -460,5 +489,33 @@ namespace World.Scripting
 
 			return result;
 		}
+
+		public IEnumerable<ScriptHook> GetHooks(string npc, string hook)
+		{
+			Dictionary<string, List<ScriptHook>> hooks;
+			this._hooks.TryGetValue(npc, out hooks);
+			if (hooks == null)
+				return Enumerable.Empty<ScriptHook>();
+
+			List<ScriptHook> calls;
+			hooks.TryGetValue(hook, out calls);
+			if (calls == null)
+				return Enumerable.Empty<ScriptHook>();
+
+			return calls;
+		}
+
+		public void AddHook(string npc, string hook, ScriptHook func)
+		{
+			if (!this._hooks.ContainsKey(npc))
+				this._hooks[npc] = new Dictionary<string, List<ScriptHook>>();
+
+			if (!this._hooks[npc].ContainsKey(hook))
+				_hooks[npc][hook] = new List<ScriptHook>();
+
+			_hooks[npc][hook].Add(func);
+		}
 	}
+
+	public delegate IEnumerable ScriptHook(WorldClient c, NPCScript n);
 }

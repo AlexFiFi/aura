@@ -245,14 +245,14 @@ namespace World.Scripting
 			client.Send(p);
 		}
 
-		protected virtual void Msg(WorldClient client, Options disable, params string[] lines)
+		public virtual void Msg(WorldClient client, Options disable, params string[] lines)
 		{
 			this.Disable(client, disable);
 			this.Msg(client, lines);
 			this.Enable(client, disable);
 		}
 
-		protected virtual void Msg(WorldClient client, params string[] lines)
+		public virtual void Msg(WorldClient client, params string[] lines)
 		{
 			// Concate the strings to one line with <br/>s in between,
 			// and replace \n with it as well.
@@ -298,14 +298,14 @@ namespace World.Scripting
 		}
 
 
-		protected virtual void MsgSelect(WorldClient client, Options disable, string message, params string[] buttons)
+		public virtual void MsgSelect(WorldClient client, Options disable, string message, params string[] buttons)
 		{
 			this.Disable(client, disable);
 			this.MsgSelect(client, message, buttons);
 			this.Enable(client, disable);
 		}
 
-		protected virtual void MsgSelect(WorldClient client, string message, params string[] buttons)
+		public virtual void MsgSelect(WorldClient client, string message, params string[] buttons)
 		{
 			if (buttons.Length > 0 && buttons.Length % 2 == 0)
 			{

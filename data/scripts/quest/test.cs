@@ -2,9 +2,11 @@
 //  Test Quests
 // --------------------------------------------------------------------------
 
+using System.Collections;
 using Common.Constants;
 using Common.Data;
 using World.Scripting;
+using World.Network;
 
 public class TestQuestScript : QuestScript
 {
@@ -21,6 +23,23 @@ public class TestQuestScript : QuestScript
 		AddReward(RewardType.Item, 63016, 2);
 		AddReward(RewardType.Gold, 500);
 		AddReward(RewardType.Skill, SkillConst.Assault, SkillRank.R2);
+		
+		AddHook("_duncan", "quests", TalkDuncan);
+	}
+	
+	public IEnumerable TalkDuncan(WorldClient c, NPCScript n)
+	{
+		if(QuestActive(c, this.Id))
+		{
+			n.Msg(c, "Great! You tested the test out of that test, thank you!");
+			FinishQuestObjective(c, this.Id, "talk_duncan");
+			
+			n.Msg(c, "Now do this!");
+			StartQuest(c, 1000002);
+			
+			Break();
+		}
+		End();
 	}
 }
 
@@ -53,5 +72,25 @@ public class TestQuest3Script : QuestScript
 		AddObjective("talk", "Talk to Duncan", ObjectiveType.Talk, "duncan", 1, 15409, 38310);
 
 		AddReward(RewardType.Exp, 10000);
+		
+		AddHook("_duncan", "quests", TalkDuncan);
+	}
+	
+	public IEnumerable TalkDuncan(WorldClient c, NPCScript n)
+	{
+		if(QuestActive(c, this.Id, "talk"))
+		{
+			n.Msg(c, "You did it, I'm impressed!");
+			if(c.Character.HasItem(50003, 2))
+			{
+				FinishQuestObjective(c, this.Id, "talk");
+				c.Character.RemoveItem(50003, 2);
+			}
+			else
+				n.Msg(c, "Wait... where are the apples? I'm hungry!");
+			
+			Break();
+		}
+		End();
 	}
 }

@@ -53,7 +53,7 @@ namespace World.World
 			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
-			this.AddCommand("reloadnpcs", Authority.Admin, Command_reloadnpcs);
+			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
 			this.AddCommand("reloaddata", Authority.Admin, Command_reloaddata);
 			this.AddCommand("reloadconf", Authority.Admin, Command_reloadconf);
 			this.AddCommand("addcard", "<pet|character> <card id> <character>", Authority.Admin, Command_addcard);
@@ -65,6 +65,7 @@ namespace World.World
 			this.AddCommand("badbehavior", Authority.Admin, Command_crash);
 
 			// Aliases
+			this.AddAlias("reloadscripts", "reloadnpcs");
 			this.AddAlias("item", "drop");
 			this.AddAlias("iteminfo", "ii");
 			this.AddAlias("raceinfo", "ri");
@@ -811,12 +812,13 @@ namespace World.World
 		// However, we still need to be able to reload NPCs. So we'll just add
 		// new assemblies in, even though this causes a memory leak over time.
 		// -- Xcelled
-		private CommandResult Command_reloadnpcs(WorldClient client, MabiCreature creature, string[] args, string msg)
+		private CommandResult Command_reloadscripts(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			client.Send(PacketCreator.ServerMessage(creature, "Reloading NPCs..."));
 
 			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Npcs, true);
 
+			MabiData.QuestDb.Entries.Clear();
 			WorldManager.Instance.RemoveAllNPCs();
 			ScriptManager.Instance.LoadScripts();
 			ScriptManager.Instance.LoadSpawns();
@@ -832,7 +834,7 @@ namespace World.World
 
 			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Data, true);
 
-			this.Command_reloadnpcs(client, creature, null, null);
+			this.Command_reloadscripts(client, creature, null, null);
 
 			return CommandResult.Okay;
 		}

@@ -2,9 +2,6 @@
 // For more information, see licence.txt in the main folder
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Common.Tools
 {

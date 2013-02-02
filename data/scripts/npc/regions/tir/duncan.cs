@@ -50,7 +50,7 @@ public class DuncanScript : NPCScript
 			"As he speaks, his voice resonates with a kind of gentle authority."
 		);
 		
-		SubTalk(CheckQuests(c));
+		Hook(c, "quests");
 		
 		MsgSelect(c, "Please let me know if you need anything.", "Start Conversation", "@talk", "Shop", "@shop", "Retrive Lost Items", "@lostandfound");
 		
@@ -94,30 +94,5 @@ public class DuncanScript : NPCScript
 				End();
 			}
 		}
-	}
-
-	public IEnumerable CheckQuests(WorldClient c)
-	{
-		if(QuestActive(c, 1000000))
-		{
-			Msg(c, "Great! You tested the test out of that test, thank you!");
-			FinishQuestObjective(c, 1000000, "talk_duncan");
-			
-			Msg(c, "Now do this!");
-			StartQuest(c, 1000002);
-		}
-		if(QuestActive(c, 1000002, "talk"))
-		{
-			Msg(c, "You did it, I'm impressed!");
-			if(c.Character.HasItem(50003, 2))
-			{
-				FinishQuestObjective(c, 1000002, "talk");
-				c.Character.RemoveItem(50003, 2);
-			}
-			else
-				Msg(c, "Wait... where are the apples? I'm hungry!");
-		}
-		
-		End();
 	}
 }

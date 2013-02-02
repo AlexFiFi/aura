@@ -248,6 +248,11 @@ namespace World.Scripting
 		{
 			WorldManager.Instance.Broadcast(PacketCreator.Notice(msg, type), SendTargets.All);
 		}
+
+		protected void AddHook(string npc, string hook, ScriptHook func)
+		{
+			ScriptManager.Instance.AddHook(npc, hook, func);
+		}
 	}
 
 	public enum PropAction { None, Warp, Drop }

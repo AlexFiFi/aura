@@ -21,6 +21,8 @@ namespace World.Scripting
 		private bool _killedSubscription = false;
 		private bool _itemActionSubscription = false;
 
+		public uint Id { get { return this.Info.Class; } }
+
 		public void SetId(uint id)
 		{
 			this.Info.Class = id;
@@ -294,10 +296,10 @@ namespace World.Scripting
 
 		public void AddReward(RewardType type, params dynamic[] args)
 		{
-			this.AddReward(type, 0, args);
+			this.AddReward(0, type, args);
 		}
 
-		public void AddReward(RewardType type, byte group, params dynamic[] args)
+		public void AddReward(byte group, RewardType type, params dynamic[] args)
 		{
 			var qri = new QuestRewardInfo();
 			qri.Type = type;
