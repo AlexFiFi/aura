@@ -90,7 +90,7 @@
     <Compile Include="Constants\Items.cs" />
     <Compile Include="Constants\Skills.cs" />
     <Compile Include="Database\MabiDb.cs" />
-    <Compile Include="Data\FlightInfo.cs" />
+    <Compile Include="Data\Flight.cs" />
     <Compile Include="Data\PropDrops.cs" />
     <Compile Include="Data\Maps.cs" />
     <Compile Include="Data\Quests.cs" />
@@ -107,7 +107,6 @@
     <Compile Include="Data\DataManager.cs" />
     <Compile Include="Data\Items.cs" />
     <Compile Include="Data\MabiData.cs" />
-    <Compile Include="Data\RaceStats.cs" />
     <Compile Include="Data\Motions.cs" />
     <Compile Include="Data\Races.cs" />
     <Compile Include="Data\Skills.cs" />
@@ -118,6 +117,7 @@
     <Compile Include="Network\Version.cs" />
     <Compile Include="Tools\BCrypt.cs" />
     <Compile Include="Tools\MabiTime.cs" />
+    <Compile Include="Tools\MabiZip.cs" />
     <Compile Include="Tools\String.cs" />
     <Compile Include="World\MabiMail.cs" />
     <Compile Include="World\MabiQuest.cs" />

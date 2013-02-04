@@ -87,6 +87,9 @@ namespace World.Skills
 				var weapon = (i == 1 ? rightHand : leftHand);
 				var damage = creature.GetRndDamage(weapon);
 
+				damage -= target.Defense;
+				damage -= (damage * target.Protection);
+
 				// Crit (temp)
 				if (rnd.NextDouble() < creature.GetCritical())
 				{

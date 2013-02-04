@@ -127,25 +127,7 @@ namespace Common.World
 			}
 		}
 
-		public float CombatPower
-		{
-			// TODO: Cache
-			get
-			{
-				float result = 0;
-
-				result += this.Life;
-				result += this.Mana * 0.5f;
-				result += this.Stamina * 0.5f;
-				result += this.Str;
-				result += this.Int * 0.2f;
-				result += this.Dex * 0.1f;
-				result += this.Will * 0.5f;
-				result += this.Luck * 0.1f;
-
-				return result;
-			}
-		}
+		public virtual float CombatPower { get { return (this.RaceInfo != null ? this.RaceInfo.CombatPower : 1); } }
 
 		private float _height, _fat, _upper, _lower;
 		public float Height { get { return _height; } set { _height = value; } }
@@ -280,6 +262,9 @@ namespace Common.World
 		private ulong _exp;
 		public ulong Experience { get { return _exp; } set { _exp = value; } }
 
+		public uint Defense { get { return (this.RaceInfo != null ? this.RaceInfo.Defense : 0); } }
+		public float Protection { get { return (this.RaceInfo != null ? this.RaceInfo.Protection : 0); } }
+
 		public MabiCreature()
 		{
 		}
@@ -331,6 +316,7 @@ namespace Common.World
 
 			return min + ((max - min) * balance);
 		}
+
 		public bool IsPlayer()
 		{
 			return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet);
@@ -392,24 +378,22 @@ namespace Common.World
 
 		protected virtual void RestoreStats(object sender, TimeEventArgs e)
 		{
-			if (!this.IsDead())
-			{
-				foreach (var stat in _statMods)
-				{
-					switch (stat.StatusAttribute)
-					{
-						case Stat.Life: this.Life += stat.ChangePerSecond; break;
-						case Stat.Mana: this.Mana += stat.ChangePerSecond; break;
-						case Stat.Stamina: this.Stamina += stat.ChangePerSecond; break;
-					}
-				}
+			if (this.IsDead())
+				return;
 
-				//if (e.IsNight)
+			foreach (var stat in _statMods)
+			{
+				//if (e.IsNight && state == main mana regen)
 				//{
-				//    this.Mana += 0.15f;
+				//    this.Mana += persecond * 3;
 				//}
+				switch (stat.StatusAttribute)
+				{
+					case Stat.Life: this.Life += stat.ChangePerSecond; break;
+					case Stat.Mana: this.Mana += stat.ChangePerSecond; break;
+					case Stat.Stamina: this.Stamina += stat.ChangePerSecond; break;
+				}
 			}
-			//EntityEvents.Instance.OnCreatureStatUpdates(this);
 		}
 
 		public virtual void CalculateBaseStats()
@@ -934,7 +918,7 @@ namespace Common.World
 
 			if (this.IsFlying)
 			{
-				_movementH = (pos.H < dest.H ? this.RaceInfo.FlightInfo.DecentSpeed : this.RaceInfo.FlightInfo.AscentSpeed);
+				_movementH = (pos.H < dest.H ? this.RaceInfo.FlightInfo.DescentSpeed : this.RaceInfo.FlightInfo.AscentSpeed);
 				_moveDuration = Math.Max(_moveDuration, Math.Abs((int)dest.H - (int)pos.H) / _movementH);
 			}
 

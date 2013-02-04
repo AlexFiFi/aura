@@ -1,13 +1,6 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using System;
-using Common.Constants;
-using Common.Tools;
-using Common.World;
-using Common.Events;
-using System.Collections.Generic;
-
 namespace World.World
 {
 	public enum AttackResult { None, Stunned, OutOfRange, Okay }

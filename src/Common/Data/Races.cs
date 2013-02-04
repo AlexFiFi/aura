@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using Common.Tools;
+using Common.Constants;
 
 namespace Common.Data
 {
@@ -15,7 +18,7 @@ namespace Common.Data
 		public uint Id;
 		public string Name;
 		public string Group;
-		public byte Gender;
+		public Gender Gender;
 		public uint VehicleType;
 		public uint DefaultState;
 		public uint InvWidth, InvHeight;
@@ -24,21 +27,33 @@ namespace Common.Data
 		public int AttackMin, AttackMax;
 		public int AttackSpeed;
 		public int KnockCount;
-		public float SpeedRun, SpeedWalk;
-		public FlightInfo FlightInfo;
+		public uint Critical;
+		public uint SplashRadius, SplashAngle;
+		public float SplashDamage;
 		public int Stand;
 
-		// v-- Race stat info
 		public string AI;
-		public float Life;
-		public uint Exp;
-		public float Size;
 		public uint ColorA, ColorB, ColorC;
+		public float Size;
+		public float CombatPower;
+		public float Life;
+		public uint Defense;
+		public float Protection;
+		public Element Element;
+		public uint Exp;
 
 		public int GoldMin, GoldMax;
 		public List<DropInfo> Drops = new List<DropInfo>();
 
+		public float SpeedRun, SpeedWalk;
+		public FlightInfo FlightInfo;
 		public List<RaceSkillInfo> Skills = new List<RaceSkillInfo>();
+	}
+
+	public class DropInfo
+	{
+		public uint ItemId;
+		public float Chance;
 	}
 
 	public class RaceDb : DataManager<RaceInfo>
@@ -63,28 +78,74 @@ namespace Common.Data
 		public override void LoadFromCsv(string filePath, bool reload = false)
 		{
 			base.LoadFromCsv(filePath, reload);
-			this.ReadCsv(filePath, 15);
+			this.ReadCsv(filePath, 24);
 		}
 
 		protected override void CsvToEntry(RaceInfo info, List<string> csv, int currentLine)
 		{
 			int i = 0;
+
 			info.Id = Convert.ToUInt32(csv[i++]);
 			info.Name = csv[i++];
 			info.Group = csv[i++];
-			info.Gender = Convert.ToByte(csv[i++]);
+			info.Gender = (Gender)Convert.ToByte(csv[i++]);
 			info.VehicleType = Convert.ToUInt32(csv[i++]);
 			info.DefaultState = Convert.ToUInt32(csv[i++], 16);
 			info.InvWidth = Convert.ToUInt32(csv[i++]);
 			info.InvHeight = Convert.ToUInt32(csv[i++]);
-			info.AttackSkill = Convert.ToUInt16(csv[i++]);
+			//info.AttackSkill = Convert.ToUInt16(csv[i++]);
+			info.AttackSkill = (ushort)SkillConst.MeleeCombatMastery; // They all use this anyway.
 			info.AttackMin = Convert.ToInt32(csv[i++]);
 			info.AttackMax = Convert.ToInt32(csv[i++]);
 			info.AttackRange = Convert.ToInt32(csv[i++]);
 			info.AttackSpeed = Convert.ToInt32(csv[i++]);
 			info.KnockCount = Convert.ToInt32(csv[i++]);
+			info.Critical = Convert.ToUInt32(csv[i++]);
+			info.SplashRadius = Convert.ToUInt32(csv[i++]);
+			info.SplashAngle = Convert.ToUInt32(csv[i++]);
+			info.SplashDamage = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
 			info.Stand = Convert.ToInt32(csv[i++], 16);
 
+			// Stat Info
+			info.AI = csv[i++];
+			info.ColorA = Convert.ToUInt32(csv[i++], 16);
+			info.ColorB = Convert.ToUInt32(csv[i++], 16);
+			info.ColorC = Convert.ToUInt32(csv[i++], 16);
+			info.Size = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.CombatPower = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.Life = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+			info.Defense = Convert.ToUInt32(csv[i++], 16);
+			info.Protection = float.Parse(csv[i++], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US")) / 100f;
+			info.Element = (Element)Convert.ToByte(csv[i++]);
+			info.Exp = Convert.ToUInt32(csv[i++]);
+			info.GoldMin = Convert.ToInt32(csv[i++]);
+			info.GoldMax = Convert.ToInt32(csv[i++]);
+
+			// Optional drop information
+			for (; i < csv.Count; ++i)
+			{
+				// Drop format: <itemId>:<chance>, skip this drop if incorrect.
+				var drop = csv[i].Split(':');
+				if (drop.Length < 2)
+				{
+					Logger.Warning("Incomplete drop information for one line {0} in races db.", currentLine);
+					continue;
+				}
+
+				var di = new DropInfo();
+				di.ItemId = Convert.ToUInt32(drop[0]);
+				di.Chance = float.Parse(drop[1], NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"));
+
+				di.Chance /= 100;
+				if (di.Chance > 1)
+					di.Chance = 1;
+				else if (di.Chance < 0)
+					di.Chance = 0;
+
+				info.Drops.Add(di);
+			}
+
+			// External information from other dbs
 			SpeedInfo actionInfo;
 			if ((actionInfo = MabiData.SpeedDb.Find(info.Group + "/walk")) != null)
 				info.SpeedWalk = actionInfo.Speed;
@@ -110,25 +171,10 @@ namespace Common.Data
 
 			info.FlightInfo = MabiData.FlightDb.Find(info.Id);
 
-			var statInfo = MabiData.RaceStatDb.Find(info.Id);
-			if (statInfo == null)
-			{
-				return;
-			}
-
-
-			// Maybe not the most elegant way...
-			info.AI = statInfo.AI;
-			info.Life = statInfo.Life;
-			info.Exp = statInfo.Exp;
-			info.Size = statInfo.Size;
-			info.ColorA = statInfo.ColorA;
-			info.ColorB = statInfo.ColorB;
-			info.ColorC = statInfo.ColorC;
-			info.GoldMin = statInfo.GoldMin;
-			info.GoldMax = statInfo.GoldMax;
-			info.Drops = statInfo.Drops;
-			info.Skills = statInfo.Skills;
+			info.Skills = MabiData.RaceSkillDb.FindAll(info.Id);
 		}
 	}
+
+	public enum Gender : byte { None, Female, Male, Universal }
+	public enum Element : byte { None, Ice, Fire, Lightning }
 }

@@ -41,6 +41,11 @@ namespace Common.Constants
 		public static readonly uint HealingMotion = 14;
 
 		/// <summary>
+		/// b:type, i|s:song, i:?, si:?, i:?, b:quality?, b:instrument, b:?, b:?, b:loops
+		/// </summary>
+		public static readonly uint PlayMusic = 17;
+
+		/// <summary>
 		/// Used with special pets like Ice Dragon on spawn, and when reviving.
 		/// long:creatureId, byte:0, byte:0
 		/// </summary>
@@ -64,7 +69,6 @@ namespace Common.Constants
 
 		/// <summary>
 		/// According to older logs, this should've been 121.
-		/// TODO: Check if it has changed at some point.
 		/// </summary>
 		public static readonly uint ManaShield = 122;
 	}

@@ -384,3 +384,9 @@ cosickeleptor/*/Walk,           72.973800
 Cosickeleptor/*/run,           510.033000
 petcloud/*/run,                845.454500
 petcloud/*/walk,               127.645100
+giant/*/snowbombwalk,          243.885000
+giant/*/snowbombrun,           386.667500
+black_dragon/*/walk,           300.000000
+Phoenix_white/*/walk,           85.006610
+phoenix_white/*/run,           540.000000
+black_dragon/*/run,            300.000000

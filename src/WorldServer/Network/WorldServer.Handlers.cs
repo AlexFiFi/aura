@@ -2694,7 +2694,7 @@ namespace World.Network
 
 			creature.SetPosition(x, y);
 
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.UmbrellaJumpR, creature.Id).PutByte(2), SendTargets.Range, creature); // TODO: What's this byte?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.UmbrellaJumpR, creature.Id).PutByte(2), SendTargets.Range, creature);
 		}
 
 		private void HandleUmbrellaLand(WorldClient client, MabiPacket packet)
@@ -2703,7 +2703,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.MotionCancel2, creature.Id).PutByte(0), SendTargets.Range, creature); // TODO: What's this byte?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.MotionCancel2, creature.Id).PutByte(0), SendTargets.Range, creature);
 		}
 
 		protected void HandleCollectionRequest(WorldClient client, MabiPacket packet)

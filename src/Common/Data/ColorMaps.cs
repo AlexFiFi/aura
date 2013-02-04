@@ -49,7 +49,21 @@ namespace Common.Data
 			if (mapInfo == null)
 				return 0;
 
-			var color = mapInfo.ColorMap[rand.Next(mapInfo.ColorMap.Length)];
+			return this.GetAt(mapInfo, rand.Next(mapInfo.ColorMap.Length));
+		}
+
+		public uint GetAt(byte id, int x, int y)
+		{
+			var mapInfo = this.Find(id);
+			if (mapInfo == null)
+				return 0;
+
+			return this.GetAt(mapInfo, y * mapInfo.Height + x);
+		}
+
+		public uint GetAt(ColorMapInfo mapInfo, int idx)
+		{
+			var color = mapInfo.ColorMap[idx];
 			if (color >> 24 == 0)
 				color = ((color & 0xFF) << 16) + ((color >> 8 & 0xFF) << 8) + (color >> 16 & 0xFF);
 			return color;
