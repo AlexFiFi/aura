@@ -40,10 +40,5 @@ namespace Common.World
 		{
 			return new MabiVertex(this.X, this.Y, this.H);
 		}
-
-		public static MabiVertex operator -(MabiVertex v1, MabiVertex v2)
-		{
-			return new MabiVertex(v1.X - v2.X, v1.Y - v2.Y, v1.H - v2.H);
-		}
 	}
 }

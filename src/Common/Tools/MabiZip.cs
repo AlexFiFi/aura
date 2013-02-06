@@ -45,10 +45,10 @@ namespace Common.Tools
 			if (str.Length < 12) // zlib header + checksum
 				throw new InvalidDataException("Compressed data seems too short.");
 
-			// Strip length header
+			// Strip length and zlib header
 			var pos = str.IndexOf(';');
 			if (pos == -1)
-				pos = str.IndexOf("%S");
+				pos = str.IndexOf("S");
 			str = str.Substring((pos > -1 ? 4 + pos + 1 : 4));
 
 			// Hex string to byte array

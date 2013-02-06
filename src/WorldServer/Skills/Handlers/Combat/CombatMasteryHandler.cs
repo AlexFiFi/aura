@@ -61,10 +61,9 @@ namespace World.Skills
 
 			this.SetAggro(creature, target);
 
-			var rightHand = creature.GetItemInPocket(Pocket.RightHand1);
-			var leftHand = creature.GetItemInPocket(Pocket.LeftHand1);
-
-			if (leftHand != null && (leftHand.Type != ItemType.Weapon && leftHand.Type != ItemType.Weapon2))
+			var rightHand = creature.RightHand;
+			var leftHand = creature.LeftHand;
+			if (leftHand != null && !leftHand.IsOneHandWeapon)
 				leftHand = null;
 
 			sourceAction.DualWield = (rightHand != null && leftHand != null);

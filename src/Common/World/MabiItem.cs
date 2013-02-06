@@ -106,6 +106,29 @@ namespace Common.World
 		private static ulong _worldItemIndex = Common.Constants.Id.TmpItems;
 		public static ulong NewItemId { get { return _worldItemIndex++; } }
 
+		/// <summary>
+		/// Returns ".OptionInfo.Balance / 100".
+		/// </summary>
+		public float Balance
+		{
+			get { return this.OptionInfo.Balance / 100f; }
+		}
+
+		public bool IsWeapon
+		{
+			get { return (this.IsOneHandWeapon || this.IsTwoHandWeapon); }
+		}
+
+		public bool IsOneHandWeapon
+		{
+			get { return (this.Type == ItemType.Weapon || this.Type == ItemType.Weapon2); }
+		}
+
+		public bool IsTwoHandWeapon
+		{
+			get { return this.Type == ItemType.Weapon2H; }
+		}
+
 		public MabiItem(uint itemClass, bool worldId = true)
 		{
 			this.Info.Class = itemClass;

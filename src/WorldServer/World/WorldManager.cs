@@ -349,7 +349,7 @@ namespace World.World
 			if (range < 1)
 				range = WorldConf.SightRange;
 
-			return _creatures.FindAll(a => a != entity && a.IsPlayer() && a.Region == entity.Region && InRange(a, entity, range));
+			return _creatures.FindAll(a => a != entity && a.IsPlayer && a.Region == entity.Region && InRange(a, entity, range));
 		}
 
 		public List<MabiItem> GetItemsInRegion(uint region)
@@ -924,18 +924,6 @@ namespace World.World
 
 				creature.Client.Send(priv);
 			}
-		}
-
-		public void Effect(MabiCreature creature, uint effect, uint region, uint x, uint y)
-		{
-			var p = new MabiPacket(Op.Effect, creature.Id);
-			p.PutInt(effect);
-			p.PutInt(region);
-			p.PutFloat((float)x);
-			p.PutFloat((float)y);
-			p.PutByte(1);
-
-			this.Broadcast(p, SendTargets.Range, creature);
 		}
 
 		public void VehicleBind(MabiCreature creature, MabiCreature vehicle)

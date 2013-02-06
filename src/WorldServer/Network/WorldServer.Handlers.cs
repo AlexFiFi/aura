@@ -1199,6 +1199,8 @@ namespace World.Network
 				}
 			}
 
+			creature.UpdateItemsFromPockets(pocket);
+
 			// Notify clients of equip change if equipment is being dropped
 			if (pocket.IsEquip())
 				WorldManager.Instance.CreatureUnequip(creature, pocket);
@@ -1477,6 +1479,10 @@ namespace World.Network
 			// TODO: Check this, GetItemInPocket doesn't return the correct stuff.
 			creature.WeaponSet = set;
 			WorldManager.Instance.CreatureSwitchSet(creature);
+
+			creature.UpdateItemsFromPockets(Pocket.RightHand1);
+			creature.UpdateItemsFromPockets(Pocket.LeftHand1);
+			creature.UpdateItemsFromPockets(Pocket.Arrow1);
 
 			var response = new MabiPacket(Op.SwitchSetR, creature.Id);
 			response.PutByte(1);
@@ -2042,7 +2048,7 @@ namespace World.Network
 
 			client.Send(PacketCreator.EnterRegionPermission(pet));
 
-			WorldManager.Instance.Effect(creature, 29, creature.Region, pos.X, pos.Y);
+			WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(pet, SpawnEffect.Pet), SendTargets.Range, pet);
 		}
 
 		private void HandlePetUnsummon(WorldClient client, MabiPacket packet)
@@ -2069,7 +2075,7 @@ namespace World.Network
 
 			var pos = pet.GetPosition();
 			pet.StopMove();
-			WorldManager.Instance.Effect(pet, 29, pet.Region, pos.X, pos.Y);
+			WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(pet, SpawnEffect.Pet), SendTargets.Range, pet);
 			WorldManager.Instance.RemoveCreature(pet);
 
 			if (pet.Riders.Count != 0)

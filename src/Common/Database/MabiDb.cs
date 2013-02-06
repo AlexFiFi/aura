@@ -657,7 +657,7 @@ namespace Common.Database
 						skill.Info.Experience = reader.GetInt32("exp");
 						if (skill.IsRankable)
 							skill.Info.Flag |= (ushort)SkillFlags.Rankable;
-						character.Skills.Add(skill);
+						character.AddSkill(skill);
 					}
 				}
 			}
@@ -666,7 +666,7 @@ namespace Common.Database
 				conn.Close();
 
 				if (!character.HasSkill(SkillConst.MeleeCombatMastery))
-					character.Skills.Add(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, character.Race));
+					character.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, character.Race));
 			}
 		}
 
@@ -687,6 +687,8 @@ namespace Common.Database
 
 						character.Items.Add(item);
 					}
+
+					character.UpdateItemsFromPockets();
 
 					reader.Close();
 				}
@@ -964,20 +966,44 @@ namespace Common.Database
 		public void SaveCards(MabiAccount account)
 		{
 			var conn = this.GetConnection();
+			MySqlTransaction transaction = null;
+
 			try
 			{
-				this.QueryN("DELETE FROM character_cards WHERE accountId = '" + account.Username + "'", conn);
-				this.QueryN("DELETE FROM pet_cards WHERE accountId = '" + account.Username + "'", conn);
+				transaction = conn.BeginTransaction();
 
+				var delmc = new MySqlCommand("DELETE FROM character_cards WHERE accountId = @id", conn, transaction);
+				delmc.Parameters.AddWithValue("@id", account.Username);
+				delmc.ExecuteNonQuery();
+
+				delmc = new MySqlCommand("DELETE FROM pet_cards WHERE accountId = @id", conn, transaction);
+				delmc.Parameters.AddWithValue("@id", account.Username);
+				delmc.ExecuteNonQuery();
+
+				var mc = new MySqlCommand("INSERT INTO character_cards (accountId, type) VALUES(@id, @type)", conn, transaction);
 				foreach (var card in account.CharacterCards)
 				{
-					this.QueryI(string.Format("INSERT INTO character_cards (accountId, type) VALUES('{0}', {1});", account.Username, card.Race), conn);
+					mc.Parameters.Clear();
+					mc.Parameters.AddWithValue("@id", account.Username);
+					mc.Parameters.AddWithValue("@type", card.Race);
+					mc.ExecuteNonQuery();
 				}
 
+				mc = new MySqlCommand("INSERT INTO pet_cards (accountId, type) VALUES(@id, @type)", conn, transaction);
 				foreach (var card in account.PetCards)
 				{
-					this.QueryI(string.Format("INSERT INTO pet_cards (accountId, type) VALUES('{0}', {1});", account.Username, card.Race), conn);
+					mc.Parameters.Clear();
+					mc.Parameters.AddWithValue("@id", account.Username);
+					mc.Parameters.AddWithValue("@type", card.Race);
+					mc.ExecuteNonQuery();
 				}
+
+				transaction.Commit();
+			}
+			catch (Exception ex)
+			{
+				transaction.Rollback();
+				throw ex;
 			}
 			finally
 			{
@@ -1225,7 +1251,7 @@ namespace Common.Database
 			var conn = this.GetConnection();
 			try
 			{
-				foreach (var skill in character.Skills)
+				foreach (var skill in character.Skills.Values)
 				{
 					var mc = new MySqlCommand("REPLACE INTO skills VALUES (@skillId, @characterId, @rank, @exp)", conn);
 

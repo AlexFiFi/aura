@@ -89,6 +89,8 @@ namespace World.Skills
 		}
 
 		// Helpers
+		// ------------------------------------------------------------------------
+
 		protected void Flash(MabiCreature creature)
 		{
 			this.SkillInit(creature, "flashing");
@@ -143,7 +145,7 @@ namespace World.Skills
 				if (skill.IsRankable)
 					skill.Info.Flag |= (ushort)SkillFlags.Rankable;
 				if (creature.Client != null)
-					creature.Client.Send(new MabiPacket(0x697C, creature.Id).PutBin(skill.Info).PutFloat(exp).PutByte(1).PutString("" /* (Specialized Skill Bonus: x2) */));
+					creature.Client.Send(new MabiPacket(Op.SkillTrainingUp, creature.Id).PutBin(skill.Info).PutFloat(exp).PutByte(1).PutString("" /* (Specialized Skill Bonus: x2) */));
 			}
 		}
 	}

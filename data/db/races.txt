@@ -6,7 +6,7 @@
 // Stand:  0x01 Knock-back-able, 0x02 Knock-down-able
 // 
 // Structure:
-// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  Gold  Drops...
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  GoldMin  GoldMax  Drops...
 //---------------------------------------------------------------------------
 
 // Base
@@ -22,7 +22,7 @@
 8002,"Giant","giant/male",2,5,0x00000000,6,10,0,8,170,2,2,10,204,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
 
 // NPCs
-// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  Gold  Drops...
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  GoldMin  GoldMax  Drops...
 //---------------------------------------------------------------------------
 16,"Rua","rua/none",0,0,0xA0000000,6,10,0,0,170,2,2,0,204,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
 19,"Aer","aer/none",0,0,0xA0000000,6,10,0,0,170,2,2,0,204,60,0,0x00,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
@@ -75,7 +75,7 @@
 999999,"Naak","propnpc/none",0,0,0xA0000000,6,10,0,0,170,2,2,0,204,60,0,0x00,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
 
 // Pets
-// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  Gold  Drops...
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  GoldMin  GoldMax  Drops...
 //---------------------------------------------------------------------------
 110801,"Reindeer","reindeer/none",0,7,0xA0000000,6,7,16,26,200,2,2,7,240,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
 200001,"Yellow Jindo","petdog/none",0,0,0xA0000000,4,8,16,19,200,2,2,8,240,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
@@ -293,7 +293,7 @@
 736202,"Giant Male Partner","giant/male",2,5,0x00000000,6,10,0,8,170,2,2,10,204,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
 
 // Enemies
-// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  Gold  Drops...
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  GoldMin  GoldMax  Drops...
 //---------------------------------------------------------------------------
 20001,"Gray Wolf","wolf/none",0,0,0x80000000,6,10,12,17,200,2,2,0,240,60,0,0x03,"wolf",0x808080,0x808080,0x808080,1.0,570.0,90,1,0.0,0,30,11,50,50003:100
 20002,"Black Wolf","wolf/none",0,0,0x80000000,6,10,12,25,200,2,2,0,240,60,0,0x03,"wolf",0x303030,0x808080,0x808080,1.0,705.0,120,1,0.0,0,70,15,70
@@ -312,7 +312,7 @@
 190140,"Training Basic Dummy","woodenman/none",0,0,0x80000000,6,10,0,0,170,2,2,0,204,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
 
 // Field Bosses
-// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  Gold  Drops...
+// Id  Name  Group  Gender  VehicleType  State  InvW  InvH  AttMin  AttMax  Range  AttSpeed  KnockCount  Crit  SRadius  SAngle  SDamage  Stand  AI  Color1-3  Size  CP  Life  Defense  Protection  Element  Exp  GoldMin  GoldMax  Drops...
 //---------------------------------------------------------------------------
 20042,"Giant Sheep Wolf","wolf/none",0,0,0x80000000,6,10,0,0,100,2,2,0,240,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0
 100401,"Ifrit","ogre/ifrit",0,0,0x80000000,6,10,0,0,250,4,0,0,300,60,0,0x03,"none",0x808080,0x808080,0x808080,1.0,1000.0,10,0,0.0,0,0,0,0

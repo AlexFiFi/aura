@@ -3,10 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Common.Tools;
 using System.Globalization;
+using System.Linq;
+using Common.Tools;
 
 namespace Common.Data
 {

@@ -15,6 +15,8 @@ namespace Common.World
 {
 	public abstract class MabiCreature : MabiEntity
 	{
+		public const float HAND_BALANCE = 0.3f;
+
 		public Client Client = null;
 
 		public string Name;
@@ -45,10 +47,13 @@ namespace Common.World
 		public bool IsFlying;
 
 		public List<MabiItem> Items = new List<MabiItem>();
+		public MabiItem RightHand { get; set; }
+		public MabiItem LeftHand { get; set; }
+		public MabiItem Arrows { get; set; }
 
 		public ushort Title;
 
-		public List<MabiSkill> Skills = new List<MabiSkill>();
+		public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
 		public ushort ActiveSkillId;
 		public MabiItem ActiveSkillItem;
 		public MabiCreature ActiveSkillTarget;
@@ -265,6 +270,12 @@ namespace Common.World
 		public uint Defense { get { return (this.RaceInfo != null ? this.RaceInfo.Defense : 0); } }
 		public float Protection { get { return (this.RaceInfo != null ? this.RaceInfo.Protection : 0); } }
 
+		public bool IsPlayer { get { return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet); } }
+
+		public bool IsHuman { get { return (this.Race == 10001 || this.Race == 10002); } }
+		public bool IsElf { get { return (this.Race == 9001 || this.Race == 9002); } }
+		public bool IsGiant { get { return (this.Race == 8001 || this.Race == 8002); } }
+
 		public MabiCreature()
 		{
 		}
@@ -273,28 +284,28 @@ namespace Common.World
 		/// Calculates the damage of left-and-right slots together
 		/// </summary>
 		/// <returns></returns>
-		public float GetWeaponDamage()
+		public float GetRndTotalDamage()
 		{
-			var balance = this.GetRndBalance();
-			return (this.GetRndDamage(Pocket.LeftHand1, balance) + this.GetRndDamage(Pocket.RightHand1, balance));
+			var balance = this.GetRndAverageBalance();
+
+			var dmg = this.GetRndDamage(this.RightHand, balance);
+			if (this.LeftHand != null)
+				dmg += this.GetRndDamage(this.LeftHand, balance);
+
+			return dmg;
 		}
 
 		/// <summary>
-		/// Calculates damage within the creature's possibilities.
+		/// Calculates random damage using the given item.
 		/// </summary>
-		/// <param name="slot">The slot to use while calculating damage.</param>
-		/// <param name="balance">The balance value to use, or NaN to generate one.</param>
+		/// <param name="weapon">null for hands</param>
+		/// <param name="balance">NaN for individual balance calculation</param>
 		/// <returns></returns>
-		public float GetRndDamage(Pocket slot, float balance = float.NaN)
-		{
-			return this.GetRndDamage(this.GetItemInPocket(slot));
-		}
-
 		public float GetRndDamage(MabiItem weapon, float balance = float.NaN)
 		{
 			float min = 0, max = 0;
 
-			if (weapon != null) // && (slotItem.Type != ItemType.Weapon || slotItem.Type != ItemType.Weapon2))
+			if (weapon != null)
 			{
 				min += weapon.OptionInfo.AttackMin;
 				max += weapon.OptionInfo.AttackMax;
@@ -312,29 +323,9 @@ namespace Common.World
 				min = max;
 
 			if (float.IsNaN(balance))
-				balance = this.GetRndBalance();
+				balance = this.GetRndBalance(weapon);
 
 			return min + ((max - min) * balance);
-		}
-
-		public bool IsPlayer()
-		{
-			return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet);
-		}
-
-		public bool IsHuman()
-		{
-			return (this.Race == 10001 || this.Race == 10002);
-		}
-
-		public bool IsElf()
-		{
-			return (this.Race == 9001 || this.Race == 9002);
-		}
-
-		public bool IsGiant()
-		{
-			return (this.Race == 8001 || this.Race == 8002);
 		}
 
 		public void LoadDefault()
@@ -437,15 +428,52 @@ namespace Common.World
 		}
 
 		/// <summary>
-		/// Calculates random balance in range of the creature's possibilities.
+		/// Returns randomized average balance, taking both weapons into consideration.
 		/// </summary>
 		/// <returns></returns>
-		public float GetRndBalance()
+		public float GetRndAverageBalance()
+		{
+			var baseBalance = HAND_BALANCE;
+			if (this.RightHand != null)
+			{
+				baseBalance = this.RightHand.Balance;
+				if (this.LeftHand != null)
+				{
+					baseBalance += this.LeftHand.Balance;
+					baseBalance /= 2f; // average
+				}
+			}
+
+			return this.GetRndBalance(baseBalance);
+		}
+
+		/// <summary>
+		/// Calculates random balance for the given weapon.
+		/// </summary>
+		/// <param name="weapon">null for hands</param>
+		/// <returns></returns>
+		public float GetRndBalance(MabiItem weapon)
+		{
+			return this.GetRndBalance(weapon != null ? weapon.Balance : 0.3f);
+		}
+
+		/// <summary>
+		/// Calculates random balance using the given base balance (eg 0.3 for hands).
+		/// </summary>
+		/// <param name="baseBalance"></param>
+		/// <returns></returns>
+		protected float GetRndBalance(float baseBalance)
 		{
 			var rnd = RandomProvider.Get();
+			var balance = baseBalance;
 
-			var balance = 0.8f; // TODO: Proper base value here. We'll need the weapon.
-			balance += ((1.0f - balance) - ((1.0f - balance) * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble();
+			// Dex
+			balance += (Math.Max(0, this.Dex - 10) / 4) / 100f;
+
+			// Randomization, balance+-(100-balance), eg 80 = 60~100
+			var diff = 1.0f - balance;
+			balance += ((diff - (diff * 2 * (float)rnd.NextDouble())) * (float)rnd.NextDouble());
+			balance = (float)Math.Max(0f, Math.Round(balance, 2));
 
 			return balance;
 		}
@@ -480,7 +508,7 @@ namespace Common.World
 
 		public bool HasSkill(ushort id)
 		{
-			return this.Skills.Exists(a => a.Info.Id == id);
+			return this.Skills.ContainsKey(id);
 		}
 
 		public bool HasSkill(SkillConst id)
@@ -488,6 +516,31 @@ namespace Common.World
 			return this.HasSkill((ushort)id);
 		}
 
+		/// <summary>
+		/// Saves references to the equipment in fields.
+		/// </summary>
+		/// <param name="pocket">Pocket.None to update all, or the pocket to update.</param>
+		public void UpdateItemsFromPockets(Pocket pocket = Pocket.None)
+		{
+			// Main weapon
+			if (pocket == Pocket.None || pocket == Pocket.RightHand1 || pocket == Pocket.RightHand2)
+				this.RightHand = this.GetItemInPocket(Pocket.RightHand1);
+
+			// Shield, second hand
+			if (pocket == Pocket.None || pocket == Pocket.LeftHand1 || pocket == Pocket.LeftHand2)
+				this.LeftHand = this.GetItemInPocket(Pocket.LeftHand1);
+
+			// Arrows
+			if (pocket == Pocket.None || pocket == Pocket.Arrow1 || pocket == Pocket.Arrow2)
+				this.Arrows = this.GetItemInPocket(Pocket.Arrow1);
+		}
+
+		/// <summary>
+		/// Returns the item in the given pocket.
+		/// </summary>
+		/// <param name="slot">Target pocket</param>
+		/// <param name="correctForWeaponSet">If true WeaponSet is taken into consideration (eg RightHand1 becomes RightHand2, if second set is selected).</param>
+		/// <returns></returns>
 		public MabiItem GetItemInPocket(Pocket slot, bool correctForWeaponSet = true)
 		{
 			if (correctForWeaponSet && (slot == Pocket.RightHand1 || slot == Pocket.LeftHand1 || slot == Pocket.Arrow1))
@@ -803,7 +856,7 @@ namespace Common.World
 			if (skill == null)
 			{
 				skill = new MabiSkill(skillId, rank, this.Race);
-				this.Skills.Add(skill);
+				this.AddSkill(skill);
 				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, true);
 			}
 			else
@@ -823,7 +876,18 @@ namespace Common.World
 
 		public MabiSkill GetSkill(ushort skillId)
 		{
-			return this.Skills.FirstOrDefault(a => a.Info.Id == skillId);
+			MabiSkill skill;
+			this.Skills.TryGetValue(skillId, out skill);
+			return skill;
+		}
+
+		/// <summary>
+		/// Shortcut for .Skills.Add(skill.Info.Id, skill)
+		/// </summary>
+		/// <param name="skill"></param>
+		public void AddSkill(MabiSkill skill)
+		{
+			this.Skills.Add(skill.Info.Id, skill);
 		}
 
 		public float GetSpeed()

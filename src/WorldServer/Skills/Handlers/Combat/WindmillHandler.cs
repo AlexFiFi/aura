@@ -90,7 +90,7 @@ namespace World.Skills
 				targetAction.ActionType = CombatActionType.TakeDamage;
 				targetAction.SkillId = skill.Id;
 
-				var damage = creature.GetWeaponDamage();
+				var damage = creature.GetRndTotalDamage();
 				damage *= skill.RankInfo.Var1 / 100;
 
 				// Crit

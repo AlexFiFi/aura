@@ -141,7 +141,8 @@ namespace Common.Network
 		public readonly static uint EnterRegionPermission = 0x6597;
 		public readonly static uint EnterRegion = 0x6598;
 		public readonly static uint WarpRegion = 0x6599;
-		public readonly static uint WalkTo = 0x659B; // Similar to Walking? (i:x,i:y,i:x2,i:y2,b:?,b:?)
+		public readonly static uint RunTo = 0x659A;  // Used for correcting positions?
+		public readonly static uint WalkTo = 0x659B; // Used for correcting positions?
 		public readonly static uint EnterRegionR = 0x659C;
 		public readonly static uint TakeOff = 0x65A8;
 		public readonly static uint TakingOff = 0x65A9;

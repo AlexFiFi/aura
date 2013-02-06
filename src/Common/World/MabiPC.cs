@@ -128,7 +128,7 @@ namespace Common.World
 			// Skills
 			// --------------------------------------------------------------
 			packet.PutShort((ushort)this.Skills.Count);
-			foreach (var skill in this.Skills)
+			foreach (var skill in this.Skills.Values)
 			{
 				packet.PutBin(skill.Info);
 			}

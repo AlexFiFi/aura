@@ -9,6 +9,7 @@ using Common.World;
 using Common.Data;
 using System;
 using Common.Events;
+using World.Tools;
 
 namespace World.World
 {
@@ -26,6 +27,7 @@ namespace World.World
 		}
 
 		public List<MabiShopTab> Tabs = new List<MabiShopTab>();
+		public bool ColorChangeEnabled = true;
 
 		public bool Disposed { get; private set; }
 
@@ -44,8 +46,16 @@ namespace World.World
 			this.Disposed = true;
 		}
 
+		public void DisableRandomColors()
+		{
+			this.ColorChangeEnabled = false;
+		}
+
 		private void ChangeItemColors(object sender, TimeEventArgs e)
 		{
+			if (!WorldConf.ColorChange || !this.ColorChangeEnabled)
+				return;
+
 			var rand = RandomProvider.Get();
 
 			foreach (var tab in Tabs)

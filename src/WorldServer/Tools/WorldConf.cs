@@ -10,37 +10,54 @@ namespace World.Tools
 	{
 		public static Logger.LogLevel ConsoleFilter;
 
+		// Data
 		public static string DataPath;
 
+		// Database
 		public static string DatabaseHost;
 		public static string DatabaseUser;
 		public static string DatabasePass;
 		public static string DatabaseDb;
 
+		// World
 		public static string ServerName;
 		public static string ChannelName;
 		public static string ChannelHost;
 		public static ushort ChannelPort;
 
+		// Commands
 		public static char CommandPrefix;
 
+		// Scripting
 		public static string ScriptPath;
 		public static bool DisableScriptCaching;
 
+		// Motd
 		public static string Motd;
 
+		// Player
 		public static uint SightRange;
-		public static bool EnableItemShop;
+
+		// GM
 		public static bool AutoSendGMCP;
 		public static byte MinimumGMCP;
+
+		// Exp
 		public static float ExpRate;
+
+		// Drops
 		public static float DropRate, GoldDropRate, PropDropRate;
 
+		// Features
 		public static bool EnableVisual;
+		public static int MailExpires;
+		public static bool EnableItemShop;
 
+		// Skills
 		public static bool BunshinSouls;
 
-		public static int MailExpires;
+		// Shops
+		public static bool ColorChange;
 
 		private static Configuration _conf;
 
@@ -76,20 +93,23 @@ namespace World.Tools
 			WorldConf.DisableScriptCaching = _conf.GetBool("script_disable_cache", false);
 
 			WorldConf.SightRange = _conf.Get<uint>("world_sightrange", 3000);
-			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
+
 			WorldConf.AutoSendGMCP = _conf.GetBool("world_auto_gmcp", false);
 			WorldConf.MinimumGMCP = _conf.Get<byte>("world_minimum_gmcp", 50);
+
 			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100f) / 100.0f;
 
 			WorldConf.DropRate = _conf.Get<float>("world_drop_rate", 100f) / 100.0f;
 			WorldConf.GoldDropRate = _conf.Get<float>("world_gold_drop_rate", 30f) / 100.0f;
 			WorldConf.PropDropRate = _conf.Get<float>("world_prop_drop_rate", 30f) / 100.0f;
 
+			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
+			WorldConf.MailExpires = _conf.GetInt("world_mail_expires", 30);
 			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
 
 			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
 
-			WorldConf.MailExpires = _conf.GetInt("world_mail_expires", 30);
+			WorldConf.ColorChange = _conf.GetBool("world_colorchange", true);
 
 			try
 			{

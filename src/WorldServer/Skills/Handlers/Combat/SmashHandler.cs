@@ -60,17 +60,20 @@ namespace World.Skills
 
 			// TODO: Race
 
-			var rightHand = creature.GetItemInPocket(Pocket.RightHand1);
-
-			var damage = creature.GetWeaponDamage();
+			var damage = creature.GetRndTotalDamage();
 			damage *= skill.RankInfo.Var1 / 100;
 
-			// 120% for 2H
-			if (rightHand != null && rightHand.OptionInfo.WeaponType == (byte)ItemType.Weapon2H)
+			var critRate = creature.GetCritical();
+
+			// +20% dmg and +5% crit for 2H
+			if (creature.RightHand != null && creature.RightHand.OptionInfo.WeaponType == (byte)ItemType.Weapon2H)
+			{
 				damage *= 1.2f;
+				critRate *= 1.05f;
+			}
 
 			// Crit
-			if (rnd.NextDouble() < creature.GetCritical())
+			if (rnd.NextDouble() < critRate)
 			{
 				damage *= 1.5f; // R1
 				targetAction.Critical = true;
@@ -89,7 +92,7 @@ namespace World.Skills
 			creature.AddStun(sourceAction.StunTime, true);
 			target.AddStun(targetAction.StunTime, true);
 
-			targetAction.OldPosition = target.GetPosition().Copy();
+			targetAction.OldPosition = target.GetPosition();
 			var pos = WorldManager.CalculatePosOnLine(creature, target, 375);
 			target.SetPosition(pos.X, pos.Y);
 

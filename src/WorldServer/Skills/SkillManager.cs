@@ -69,14 +69,14 @@ namespace World.Skills
 			skill = creature.GetSkill(skillId);
 			if (skill == null)
 			{
-				Logger.Warning("'" + creature.Name + "' tried to use skill '" + skillId.ToString() + "' without having it.");
+				Logger.Warning("'{0}' tried to use skill '{1}' without having it.", creature.Name, skillId);
 				creature.Client.Send(PacketCreator.SystemMessage(creature, "Partially unimplemented skill."));
 			}
 
 			handler = SkillManager.GetHandler(skillId);
 			if (handler == null)
 			{
-				Logger.Unimplemented("Skill handler for '" + skillId.ToString() + "'.");
+				Logger.Unimplemented("Skill handler for '{0}'.", skillId);
 				creature.Client.Send(PacketCreator.SystemMessage(creature, "Unimplemented skill."));
 			}
 		}

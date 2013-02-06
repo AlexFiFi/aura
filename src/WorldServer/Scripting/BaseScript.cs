@@ -14,8 +14,6 @@ namespace World.Scripting
 {
 	public partial class BaseScript : IDisposable
 	{
-		protected Random _rnd = RandomProvider.Get();
-
 		public string ScriptPath { get; set; }
 		public string ScriptName { get; set; }
 
@@ -153,7 +151,7 @@ namespace World.Scripting
 					return;
 				}
 
-				var dii = di.GetRndItem(_rnd);
+				var dii = di.GetRndItem(RandomProvider.Get());
 				var item = new MabiItem(dii.ItemClass);
 				item.Info.Amount = dii.Amount > 1 ? (ushort)this.Rnd(1, dii.Amount) : (ushort)1;
 				WorldManager.Instance.CreatureDropItem(prop, new ItemEventArgs(item));
@@ -225,7 +223,7 @@ namespace World.Scripting
 		/// </summary>
 		protected int Rnd(int from, int to)
 		{
-			return _rnd.Next(from, to);
+			return RandomProvider.Get().Next(from, to);
 		}
 
 		/// <summary>
@@ -233,7 +231,7 @@ namespace World.Scripting
 		/// </summary>
 		protected double Rnd()
 		{
-			return _rnd.NextDouble();
+			return RandomProvider.Get().NextDouble();
 		}
 
 		protected void Notice(WorldClient client, string msg, NoticeType type = NoticeType.MiddleTop)

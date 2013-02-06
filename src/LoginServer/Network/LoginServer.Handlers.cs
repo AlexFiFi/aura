@@ -498,58 +498,58 @@ namespace Login.Network
 			newChar.Keywords.Add(38);
 
 			// Skills
-			newChar.Skills.Add(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
+			newChar.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
 
 			// Item skills?
-			newChar.Skills.Add(new MabiSkill(SkillConst.HiddenEnchant));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HiddenResurrection));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HiddenTownBack));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HiddenGuildstoneSetting));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HiddenBlessing));
-			newChar.Skills.Add(new MabiSkill(SkillConst.CampfireKit));
-			newChar.Skills.Add(new MabiSkill(SkillConst.SkillUntrainKit));
-			newChar.Skills.Add(new MabiSkill(SkillConst.BigBlessingWaterKit));
-			newChar.Skills.Add(new MabiSkill(SkillConst.Dye));
-			newChar.Skills.Add(new MabiSkill(SkillConst.EnchantElementalAllSlot));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HiddenPoison));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HiddenBomb));
-			newChar.Skills.Add(new MabiSkill(SkillConst.FossilRestoration));
-			newChar.Skills.Add(new MabiSkill(SkillConst.SeesawJump));
-			newChar.Skills.Add(new MabiSkill(SkillConst.SeesawCreate));
-			newChar.Skills.Add(new MabiSkill(SkillConst.DragonSupport));
-			newChar.Skills.Add(new MabiSkill(SkillConst.IceMineKit));
-			newChar.Skills.Add(new MabiSkill(SkillConst.Scan));
-			newChar.Skills.Add(new MabiSkill(SkillConst.UseSupportItem));
-			newChar.Skills.Add(new MabiSkill(SkillConst.UseAntiMacroItem));
-			newChar.Skills.Add(new MabiSkill(SkillConst.ItemSeal));
-			newChar.Skills.Add(new MabiSkill(SkillConst.ItemUnseal));
-			newChar.Skills.Add(new MabiSkill(SkillConst.ItemDungeonPass));
-			newChar.Skills.Add(new MabiSkill(SkillConst.UseElathaItem));
-			newChar.Skills.Add(new MabiSkill(SkillConst.UseMorrighansFeather));
-			newChar.Skills.Add(new MabiSkill(SkillConst.PetBuffing));
-			newChar.Skills.Add(new MabiSkill(SkillConst.CherryTreeKit));
-			newChar.Skills.Add(new MabiSkill(SkillConst.Pollen));
-			newChar.Skills.Add(new MabiSkill(SkillConst.Firecracker));
-			newChar.Skills.Add(new MabiSkill(SkillConst.FeedFish));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HammerGame));
-			newChar.Skills.Add(new MabiSkill(SkillConst.SoulStone));
-			newChar.Skills.Add(new MabiSkill(SkillConst.UseItemBomb2));
-			newChar.Skills.Add(new MabiSkill(SkillConst.NameColorChange));
-			newChar.Skills.Add(new MabiSkill(SkillConst.HolyFire));
-			newChar.Skills.Add(new MabiSkill(SkillConst.MakeFaliasPortal));
-			newChar.Skills.Add(new MabiSkill(SkillConst.UseItemChattingColorChange));
-			newChar.Skills.Add(new MabiSkill(SkillConst.InstallFacility));
-			newChar.Skills.Add(new MabiSkill(SkillConst.RedesignFacility));
-			newChar.Skills.Add(new MabiSkill(SkillConst.GachaponSynthesis));
-			newChar.Skills.Add(new MabiSkill(SkillConst.MakeChocoStatue));
-			newChar.Skills.Add(new MabiSkill(SkillConst.Painting));
-			newChar.Skills.Add(new MabiSkill(SkillConst.PaintMixing));
-			newChar.Skills.Add(new MabiSkill(SkillConst.PetSealToItem));
-			newChar.Skills.Add(new MabiSkill(SkillConst.FlownHotAirBalloon));
-			newChar.Skills.Add(new MabiSkill(SkillConst.ItemSeal2));
-			newChar.Skills.Add(new MabiSkill(SkillConst.CureZombie));
-			newChar.Skills.Add(new MabiSkill(SkillConst.WarpContinent));
-			newChar.Skills.Add(new MabiSkill(SkillConst.AddSeasoning));
+			newChar.AddSkill(new MabiSkill(SkillConst.HiddenEnchant));
+			newChar.AddSkill(new MabiSkill(SkillConst.HiddenResurrection));
+			newChar.AddSkill(new MabiSkill(SkillConst.HiddenTownBack));
+			newChar.AddSkill(new MabiSkill(SkillConst.HiddenGuildstoneSetting));
+			newChar.AddSkill(new MabiSkill(SkillConst.HiddenBlessing));
+			newChar.AddSkill(new MabiSkill(SkillConst.CampfireKit));
+			newChar.AddSkill(new MabiSkill(SkillConst.SkillUntrainKit));
+			newChar.AddSkill(new MabiSkill(SkillConst.BigBlessingWaterKit));
+			newChar.AddSkill(new MabiSkill(SkillConst.Dye));
+			newChar.AddSkill(new MabiSkill(SkillConst.EnchantElementalAllSlot));
+			newChar.AddSkill(new MabiSkill(SkillConst.HiddenPoison));
+			newChar.AddSkill(new MabiSkill(SkillConst.HiddenBomb));
+			newChar.AddSkill(new MabiSkill(SkillConst.FossilRestoration));
+			newChar.AddSkill(new MabiSkill(SkillConst.SeesawJump));
+			newChar.AddSkill(new MabiSkill(SkillConst.SeesawCreate));
+			newChar.AddSkill(new MabiSkill(SkillConst.DragonSupport));
+			newChar.AddSkill(new MabiSkill(SkillConst.IceMineKit));
+			newChar.AddSkill(new MabiSkill(SkillConst.Scan));
+			newChar.AddSkill(new MabiSkill(SkillConst.UseSupportItem));
+			newChar.AddSkill(new MabiSkill(SkillConst.UseAntiMacroItem));
+			newChar.AddSkill(new MabiSkill(SkillConst.ItemSeal));
+			newChar.AddSkill(new MabiSkill(SkillConst.ItemUnseal));
+			newChar.AddSkill(new MabiSkill(SkillConst.ItemDungeonPass));
+			newChar.AddSkill(new MabiSkill(SkillConst.UseElathaItem));
+			newChar.AddSkill(new MabiSkill(SkillConst.UseMorrighansFeather));
+			newChar.AddSkill(new MabiSkill(SkillConst.PetBuffing));
+			newChar.AddSkill(new MabiSkill(SkillConst.CherryTreeKit));
+			newChar.AddSkill(new MabiSkill(SkillConst.Pollen));
+			newChar.AddSkill(new MabiSkill(SkillConst.Firecracker));
+			newChar.AddSkill(new MabiSkill(SkillConst.FeedFish));
+			newChar.AddSkill(new MabiSkill(SkillConst.HammerGame));
+			newChar.AddSkill(new MabiSkill(SkillConst.SoulStone));
+			newChar.AddSkill(new MabiSkill(SkillConst.UseItemBomb2));
+			newChar.AddSkill(new MabiSkill(SkillConst.NameColorChange));
+			newChar.AddSkill(new MabiSkill(SkillConst.HolyFire));
+			newChar.AddSkill(new MabiSkill(SkillConst.MakeFaliasPortal));
+			newChar.AddSkill(new MabiSkill(SkillConst.UseItemChattingColorChange));
+			newChar.AddSkill(new MabiSkill(SkillConst.InstallFacility));
+			newChar.AddSkill(new MabiSkill(SkillConst.RedesignFacility));
+			newChar.AddSkill(new MabiSkill(SkillConst.GachaponSynthesis));
+			newChar.AddSkill(new MabiSkill(SkillConst.MakeChocoStatue));
+			newChar.AddSkill(new MabiSkill(SkillConst.Painting));
+			newChar.AddSkill(new MabiSkill(SkillConst.PaintMixing));
+			newChar.AddSkill(new MabiSkill(SkillConst.PetSealToItem));
+			newChar.AddSkill(new MabiSkill(SkillConst.FlownHotAirBalloon));
+			newChar.AddSkill(new MabiSkill(SkillConst.ItemSeal2));
+			newChar.AddSkill(new MabiSkill(SkillConst.CureZombie));
+			newChar.AddSkill(new MabiSkill(SkillConst.WarpContinent));
+			newChar.AddSkill(new MabiSkill(SkillConst.AddSeasoning));
 
 			MabiDb.Instance.SaveCharacter(client.Account, newChar);
 
@@ -811,7 +811,7 @@ namespace Login.Network
 			newChar.CalculateBaseStats();
 
 			// Skills
-			newChar.Skills.Add(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
+			newChar.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
 
 			MabiDb.Instance.SaveCharacter(client.Account, newChar);
 
@@ -906,7 +906,7 @@ namespace Login.Network
 			}
 
 			// Skills
-			newChar.Skills.Add(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
+			newChar.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
 
 			MabiDb.Instance.SaveCharacter(client.Account, newChar);
 

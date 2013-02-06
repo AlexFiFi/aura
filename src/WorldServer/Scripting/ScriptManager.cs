@@ -462,7 +462,7 @@ namespace World.Scripting
 
 				foreach (var skill in raceInfo.Skills)
 				{
-					monster.Skills.Add(new MabiSkill(skill.SkillId, skill.Rank, monster.Race));
+					monster.AddSkill(new MabiSkill(skill.SkillId, skill.Rank, monster.Race));
 				}
 
 				monster.LoadDefault();

@@ -240,6 +240,12 @@ namespace World.Network
 		//    return p;
 		//}
 
+		/// <summary>
+		/// Lets the creature face the target.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="target"></param>
+		/// <returns></returns>
 		public static MabiPacket TurnTo(MabiEntity creature, MabiEntity target)
 		{
 			var cpos = creature.GetPosition();

@@ -3,6 +3,9 @@
 
 namespace Common.Data
 {
+	/// <summary>
+	/// Easy access static wrapper for all file databases.
+	/// </summary>
 	public static class MabiData
 	{
 		public static SpeedDb SpeedDb = new SpeedDb();

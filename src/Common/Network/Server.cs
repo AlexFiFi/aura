@@ -397,12 +397,12 @@ namespace Common.Network
 				}
 				catch (Exception ex)
 				{
-					Logger.Exception(ex, "There has been a problem while handling '" + HexTool.ToString(packet.Op) + "'.", true);
+					Logger.Exception(ex, "There has been a problem while handling '" + packet.Op.ToString("X") + "'.", true);
 				}
 			}
 			else
 			{
-				Logger.Unimplemented("Unhandled packet: " + HexTool.ToString(packet.Op));
+				Logger.Unimplemented("Unhandled packet: " + packet.Op.ToString("X"));
 			}
 		}
 	}

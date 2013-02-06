@@ -7,29 +7,26 @@ namespace Common.World
 {
 	public class MabiCard
 	{
-		private static UInt64 _index = 0x0001000000000000;
+		// Not actually saved in the database, just used on the login
+		// server temporarily.
+		private static ulong _index = Constants.Id.Cards;
 
-		public UInt64 Id;
+		public ulong Id;
 		public uint Race;
 		public bool InDatabase;
 
-		private static UInt64 _getIndex()
-		{
-			return ++_index;
-		}
-
 		public MabiCard(uint type)
 		{
-			InDatabase = false;
-			Id = _getIndex();
-			Race = type;
+			this.InDatabase = false;
+			this.Id = ++_index;
+			this.Race = type;
 		}
 
-		public MabiCard(UInt64 id, uint type)
+		public MabiCard(ulong id, uint type)
 		{
-			InDatabase = true;
-			Id = id;
-			Race = type;
+			this.InDatabase = true;
+			this.Id = id;
+			this.Race = type;
 		}
 	}
 }
