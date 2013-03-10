@@ -1,17 +1,17 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Database;
-using Common.Network;
-using Common.Tools;
-using Msgr.Chat;
-using Msgr.Database;
+using Aura.Shared.Database;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.Msgr.Chat;
+using Aura.Msgr.Database;
 
-namespace Msgr.Network
+namespace Aura.Msgr.Network
 {
 	public partial class MsgrServer : Server<MsgrClient>
 	{
-		protected override void InitPacketHandlers()
+		protected override void OnServerStartUp()
 		{
 			this.RegisterPacketHandler(Op.Msgr.Login, HandleLogin);
 
@@ -25,7 +25,7 @@ namespace Msgr.Network
 
 		public void HandleLogin(MsgrClient client, MabiPacket packet)
 		{
-			if (client.State != SessionState.Login)
+			if (client.State != ClientState.LoggingIn)
 				return;
 
 			var unk1 = packet.GetString(); // "-1"
@@ -61,7 +61,7 @@ namespace Msgr.Network
 			if (client.Contact != null)
 			{
 				client.Contact.Client = client;
-				client.State = SessionState.LoggedIn;
+				client.State = ClientState.LoggedIn;
 				Manager.Instance.AddContact(client.Contact);
 			}
 			else

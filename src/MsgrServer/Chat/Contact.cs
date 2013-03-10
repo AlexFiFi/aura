@@ -2,9 +2,9 @@
 // For more information, see licence.txt in the main folder
 
 using System.Collections.Generic;
-using Msgr.Network;
+using Aura.Msgr.Network;
 
-namespace Msgr.Chat
+namespace Aura.Msgr.Chat
 {
 	public class Contact
 	{

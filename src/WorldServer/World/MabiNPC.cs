@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Constants;
-using Common.World;
-using World.Scripting;
-using System.Collections.Generic;
 using System;
-using Common.Data;
+using System.Collections.Generic;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.World.Scripting;
 
-namespace World.World
+namespace Aura.World.World
 {
 	public class MabiNPC : MabiCreature
 	{

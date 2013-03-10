@@ -2,11 +2,11 @@
 // For more information, see licence.txt in the main folder
 
 using System.Runtime.InteropServices;
-using Common.Network;
-using Common.World;
-using World.Network;
+using Aura.Shared.Network;
+using Aura.World.World;
+using Aura.World.Network;
 
-namespace World.World
+namespace Aura.World.World
 {
 	[StructLayout(LayoutKind.Sequential, Pack = 1)]
 	public struct MabiPropInfo
@@ -38,7 +38,7 @@ namespace World.World
 		public MabiPropInfo Info;
 		public string Title;
 
-		private static ulong _propIndex = Common.Constants.Id.Props;
+		private static ulong _propIndex = Aura.Shared.Const.Id.Props;
 
 		public MabiProp(uint region = 0, uint area = 0)
 		{

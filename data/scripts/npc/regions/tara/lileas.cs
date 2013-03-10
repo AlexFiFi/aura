@@ -1,9 +1,8 @@
-using Common.Constants;
-using Common.World;
+using Aura.Shared.Const;
 using System;
-using World.Network;
-using World.Scripting;
-using World.World;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.World;
 
 public class LileasScript : NPCScript
 {

@@ -4,23 +4,24 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Common.Constants;
-using Common.Data;
-using Common.Database;
-using Common.Events;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using World.Tools;
-using World.World;
-using World.Skills;
-using World.Scripting;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.Shared.Database;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Database;
+using Aura.World.Player;
+using Aura.World.Scripting;
+using Aura.World.Skills;
+using Aura.World.Tools;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Network
+namespace Aura.World.Network
 {
 	public partial class WorldServer : Server<WorldClient>
 	{
-		protected override void InitPacketHandlers()
+		protected override void OnServerStartUp()
 		{
 			this.RegisterPacketHandler(Op.LoginW, HandleLogin);
 			this.RegisterPacketHandler(Op.DisconnectW, HandleDisconnect);
@@ -171,7 +172,7 @@ namespace World.Network
 #pragma warning disable 0162
 		private void HandleLogin(WorldClient client, MabiPacket packet)
 		{
-			if (client.State != SessionState.Login)
+			if (client.State != ClientState.LoggingIn)
 				return;
 
 			var userName = packet.GetString();
@@ -192,7 +193,7 @@ namespace World.Network
 					return;
 				}
 
-				client.Account = MabiDb.Instance.GetAccount(userName);
+				client.Account = WorldDb.Instance.GetAccount(userName);
 			}
 
 			MabiPC creature = client.Account.Characters.FirstOrDefault(a => a.Id == charID);
@@ -230,7 +231,7 @@ namespace World.Network
 
 			client.Send(PacketCreator.EnterRegionPermission(creature));
 
-			client.State = SessionState.LoggedIn;
+			client.State = ClientState.LoggedIn;
 
 			ServerEvents.Instance.OnPlayerLogsIn(creature as MabiPC);
 		}
@@ -242,7 +243,7 @@ namespace World.Network
 
 			Logger.Info("'" + client.Account.Username + "' is closing the connection. Saving...");
 
-			MabiDb.Instance.SaveAccount(client.Account);
+			WorldDb.Instance.SaveAccount(client.Account);
 
 			foreach (var pc in client.Creatures)
 			{
@@ -600,15 +601,15 @@ namespace World.Network
 
 			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
-			if (target == null || target.Client == null)
+			if (target == null || target.Client == null || !(target.Client is WorldClient))
 			{
 				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
 				return;
 			}
 
 			var end = DateTime.Now.AddMinutes(packet.GetInt());
-			target.Client.Account.BannedExpiration = end;
-			target.Client.Account.BannedReason = packet.GetString();
+			(target.Client as WorldClient).Account.BannedExpiration = end;
+			(target.Client as WorldClient).Account.BannedReason = packet.GetString();
 
 			client.Send(PacketCreator.MsgBox(client.Character, "'" + targetName + "' has been banned till '" + end.ToString() + "'."));
 
@@ -818,7 +819,7 @@ namespace World.Network
 
 			var toReturn = new System.Collections.Generic.List<MabiMail>();
 
-			foreach (var m in MabiDb.Instance.GetRecievedMail(creature.Id))
+			foreach (var m in WorldDb.Instance.GetRecievedMail(creature.Id))
 			{
 				if (WorldConf.MailExpires > 0 && (DateTime.Today - m.Sent).Days > WorldConf.MailExpires)
 					toReturn.Add(m);
@@ -826,7 +827,7 @@ namespace World.Network
 					m.AddEntityData(p, creature);
 			}
 
-			foreach (var m in MabiDb.Instance.GetSentMail(creature.Id))
+			foreach (var m in WorldDb.Instance.GetSentMail(creature.Id))
 			{
 				if (WorldConf.MailExpires > 0 && (DateTime.Today - m.Sent).Days > WorldConf.MailExpires)
 					toReturn.Add(m);
@@ -849,7 +850,7 @@ namespace World.Network
 
 			ulong recipId;
 
-			if (MabiDb.Instance.IsValidMailRecpient(packet.GetString(), out recipId))
+			if (WorldDb.Instance.IsValidMailRecpient(packet.GetString(), out recipId))
 			{
 				client.Send(new MabiPacket(Op.ConfirmMailRecipentR, creature.Id).PutByte(1).PutLong(recipId));
 			}
@@ -867,7 +868,7 @@ namespace World.Network
 			var mail = new MabiMail();
 			mail.RecipientName = packet.GetString();
 
-			if (!MabiDb.Instance.IsValidMailRecpient(mail.RecipientName, out mail.RecipientId))
+			if (!WorldDb.Instance.IsValidMailRecpient(mail.RecipientName, out mail.RecipientId))
 			{
 				client.Send(PacketCreator.MsgBox(creature, "Invaild recipient"),
 					new MabiPacket(Op.SendMailR, creature.Id).PutByte(0));
@@ -896,7 +897,7 @@ namespace World.Network
 				{
 					client.Send(PacketCreator.ItemRemove(creature, item));
 					creature.Items.Remove(item);
-					MabiDb.Instance.SaveMailItem(item, null);
+					WorldDb.Instance.SaveMailItem(item, null);
 				}
 			}
 			mail.COD = packet.GetInt();
@@ -919,7 +920,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			var m = MabiDb.Instance.GetMail(packet.GetLong());
+			var m = WorldDb.Instance.GetMail(packet.GetLong());
 
 			var p = new MabiPacket(Op.MarkMailReadR, creature.Id);
 			if (m != null)
@@ -943,7 +944,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			var m = MabiDb.Instance.GetMail(packet.GetLong());
+			var m = WorldDb.Instance.GetMail(packet.GetLong());
 
 			if (m != null)
 			{
@@ -963,17 +964,17 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			var m = MabiDb.Instance.GetMail(packet.GetLong());
+			var m = WorldDb.Instance.GetMail(packet.GetLong());
 
 			if (m != null && m.ItemId != 0)
 			{
-				var item = MabiDb.Instance.GetItem(m.ItemId);
+				var item = WorldDb.Instance.GetItem(m.ItemId);
 
 				m.Delete();
 
 				item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
 
-				MabiDb.Instance.SaveMailItem(item, creature);
+				WorldDb.Instance.SaveMailItem(item, creature);
 
 				creature.Items.Add(item);
 
@@ -994,19 +995,19 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			var m = MabiDb.Instance.GetMail(packet.GetLong());
+			var m = WorldDb.Instance.GetMail(packet.GetLong());
 
 			if (m != null && m.ItemId != 0)
 			{
 
 				//TODO: COD
-				var item = MabiDb.Instance.GetItem(m.ItemId);
+				var item = WorldDb.Instance.GetItem(m.ItemId);
 
 				m.Delete();
 
 				item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
 
-				MabiDb.Instance.SaveMailItem(item, creature);
+				WorldDb.Instance.SaveMailItem(item, creature);
 
 				creature.Items.Add(item);
 
@@ -1026,7 +1027,7 @@ namespace World.Network
 			if (creature == null)
 				return;
 
-			var m = MabiDb.Instance.GetMail(packet.GetLong());
+			var m = WorldDb.Instance.GetMail(packet.GetLong());
 
 			if (m != null)
 			{

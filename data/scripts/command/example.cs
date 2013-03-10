@@ -1,7 +1,7 @@
 using System;
-using Common.World;
-using World.Network;
-using World.World;
+using Aura.Shared.Const;
+using Aura.World.Network;
+using Aura.World.World;
 
 public class ScriptCommandExample : Command
 {

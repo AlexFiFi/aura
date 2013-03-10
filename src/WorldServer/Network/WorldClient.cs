@@ -5,19 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using Common.Constants;
-using Common.Data;
-using Common.Database;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using World.Scripting;
-using World.World;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Database;
+using Aura.World.Player;
+using Aura.World.Scripting;
+using Aura.World.World;
 
-namespace World.Network
+namespace Aura.World.Network
 {
 	public class WorldClient : Client
 	{
+		public Account Account;
 		public List<MabiCreature> Creatures = new List<MabiCreature>();
 		public MabiCreature Character;
 
@@ -30,13 +31,13 @@ namespace World.Network
 
 		public override void Kill()
 		{
-			if (this.State != SessionState.Dead)
+			if (this.State != ClientState.Dead)
 			{
 				foreach (var creature in this.Creatures)
 					WorldManager.Instance.RemoveCreature(creature);
 
 				if (this.Account != null)
-					MabiDb.Instance.SaveAccount(this.Account);
+					WorldDb.Instance.SaveAccount(this.Account);
 
 				if (this.Socket != null)
 				{
@@ -44,7 +45,7 @@ namespace World.Network
 					this.Socket.Close();
 				}
 
-				this.State = SessionState.Dead;
+				this.State = ClientState.Dead;
 			}
 			else
 			{

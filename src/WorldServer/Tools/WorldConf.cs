@@ -2,13 +2,13 @@
 // For more information, see licence.txt in the main folder
 
 using System.IO;
-using Common.Tools;
+using Aura.Shared.Util;
 
-namespace World.Tools
+namespace Aura.World.Tools
 {
 	public static class WorldConf
 	{
-		public static Logger.LogLevel ConsoleFilter;
+		public static LogLevel ConsoleFilter;
 
 		// Data
 		public static string DataPath;
@@ -69,10 +69,10 @@ namespace World.Tools
 			if (args != null)
 				_conf.ReadArguments(args, "../../");
 
-			WorldConf.ConsoleFilter = (Logger.LogLevel)_conf.GetInt("world_consolefilter", 0);
+			WorldConf.ConsoleFilter = (LogLevel)_conf.GetInt("world_consolefilter", 0);
 #if DEBUG
 			// Enable debug regardless of configuration in debug builds.
-			WorldConf.ConsoleFilter &= ~Logger.LogLevel.Debug;
+			WorldConf.ConsoleFilter &= ~LogLevel.Debug;
 #endif
 
 			WorldConf.DataPath = _conf.GetString("data_path", "../../data");

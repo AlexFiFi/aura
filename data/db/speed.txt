@@ -337,7 +337,7 @@ elf/*/zombierun,                28.652500
 petdragon/two/walk,            216.771000
 petdragon/two/run,             850.000000
 commerceelephant/memma/run,    512.284000
-commerceelephant/*/walk,       207.689200
+//commerceelephant/*/walk,       207.689200
 commercecarriage/memma/walk,   262.500000
 commercecarriage/memma/run,    714.285000
 menma/*/run,                   373.850600

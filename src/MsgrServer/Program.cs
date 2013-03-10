@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Msgr.Network;
+using Aura.Msgr.Network;
 
-namespace Msgr
+namespace Aura.Msgr
 {
 	class Program
 	{

@@ -2,12 +2,12 @@
 // For more information, see licence.txt in the main folder
 
 using System.Collections.Generic;
-using Common.Constants;
-using Common.Tools;
-using Common.World;
-using World.Network;
+using Aura.Shared.Const;
+using Aura.Shared.Util;
+using Aura.World.World;
+using Aura.World.Network;
 
-namespace World.Skills
+namespace Aura.World.Skills
 {
 	public static class SkillManager
 	{

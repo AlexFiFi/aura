@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Login.Network;
+using Aura.Login.Network;
 
-namespace Login
+namespace Aura.Login
 {
 	public class Program
 	{

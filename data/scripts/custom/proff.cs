@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
-using Common.World;
-using World.Network;
-using World.Scripting;
-using World.Tools;
-using World.World;
-using Common.Constants;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.Tools;
+using Aura.World.World;
+using Aura.Shared.Const;
 
 public class ProffScript : NPCScript
 {

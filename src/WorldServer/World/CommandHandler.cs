@@ -3,24 +3,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using Common.Constants;
-using Common.Data;
-using Common.Events;
-using Common.Network;
-using Common.Tools;
-using Common.World;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Player;
 using CSScriptLibrary;
-using World.Network;
-using World.Scripting;
-using World.Skills;
-using World.Tools;
-using System.Globalization;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.Tools;
+using Aura.World.Events;
 
-namespace World.World
+namespace Aura.World.World
 {
 	public class CommandHandler
 	{
@@ -60,9 +58,6 @@ namespace World.World
 
 			// Commands issued from the GMCP
 			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
-
-			// Crashes the server, to simulate "exceptional" conditions.
-			this.AddCommand("badbehavior", Authority.Admin, Command_crash);
 
 			// Aliases
 			this.AddAlias("reloadscripts", "reloadnpcs");
@@ -157,10 +152,6 @@ namespace World.World
 							client.Send(PacketCreator.ServerMessage(creature, "Usage: {0} {1}", args[0], command.Parameters));
 						}
 					}
-					catch (DoNotCatchException)
-					{
-						throw; // We have to work hard to enable misbehavior
-					}
 					catch (Exception ex)
 					{
 						client.Send(PacketCreator.ServerMessage(creature, "Error while executing command."));
@@ -184,7 +175,7 @@ namespace World.World
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var pos = creature.GetPosition();
-			var area = MabiData.RegionDb.GetAreaId(creature);
+			var area = MabiData.RegionDb.GetAreaId(creature.Region, pos.X, pos.Y);
 			client.Send(PacketCreator.ServerMessage(creature, "  Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}", creature.Region, pos.X, pos.Y, area, creature.Direction));
 
 			return CommandResult.Okay;
@@ -192,7 +183,7 @@ namespace World.World
 
 		private CommandResult Command_info(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			MabiVertex pos = creature.GetPosition();
+			var pos = creature.GetPosition();
 			client.Send(PacketCreator.ServerMessage(creature, "Welcome to Aura!"));
 			client.Send(PacketCreator.ServerMessage(creature, "Creatures in world : {0}, items in world : {1}", WorldManager.Instance.GetCreatureCount(), WorldManager.Instance.GetItemCount()));
 			client.Send(PacketCreator.ServerMessage(creature, "You are at pos@{0},{1},{2}", creature.Region, pos.X, pos.Y));
@@ -238,16 +229,11 @@ namespace World.World
 			return CommandResult.Okay;
 		}
 
-		private CommandResult Command_crash(WorldClient client, MabiCreature creature, string[] args, string msg)
-		{
-			throw new DoNotCatchException("Barfing Raindows...");
-		}
-
 		private CommandResult Command_randomitem(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var rand = RandomProvider.Get();
 
-			var item = MabiData.ItemDb.Entries[rand.Next(MabiData.ItemDb.Entries.Count - 1)];
+			var item = MabiData.ItemDb.Entries[(uint)rand.Next(MabiData.ItemDb.Entries.Count - 1)];
 			var color1 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
 			var color2 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
 			var color3 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
@@ -485,7 +471,7 @@ namespace World.World
 				return CommandResult.Fail;
 
 			var pos = creature.GetPosition();
-			var area = MabiData.RegionDb.GetAreaId(creature);
+			var area = MabiData.RegionDb.GetAreaId(creature.Region, pos.X, pos.Y);
 
 			var prop = new MabiProp(creature.Region, area);
 			prop.Info.Class = propClass;
@@ -832,7 +818,7 @@ namespace World.World
 		{
 			client.Send(PacketCreator.ServerMessage(creature, "Reloading data..."));
 
-			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Data, true);
+			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.All, true);
 
 			this.Command_reloadscripts(client, creature, null, null);
 
@@ -877,14 +863,14 @@ namespace World.World
 				}
 			}
 
-			if (target != null && target.Client != null)
+			if (target != null && target.Client != null && target.Client is WorldClient)
 			{
 				var type = args[1];
 
 				if (type == "character")
-					target.Client.Account.CharacterCards.Add(new MabiCard(cardId));
+					(target.Client as WorldClient).Account.CharacterCards.Add(new MabiCard(cardId));
 				else if (type == "pet")
-					target.Client.Account.PetCards.Add(new MabiCard(cardId));
+					(target.Client as WorldClient).Account.PetCards.Add(new MabiCard(cardId));
 				else
 				{
 					client.Send(PacketCreator.ServerMessage(creature, "Invalid card type."));

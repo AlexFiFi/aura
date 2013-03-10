@@ -5,11 +5,10 @@
 
 using System;
 using System.Collections;
-using Common.Constants;
-using Common.World;
-using World.Network;
-using World.Scripting;
-using World.World;
+using Aura.Shared.Const;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.World;
 
 public class CommerceImpScript : NPCScript
 {
@@ -24,7 +23,7 @@ public class CommerceImpScript : NPCScript
 		Phrases.Add("Ah, you ran out of money. So sad.");
 		Phrases.Add("Get your Fomor weapons, right here.");
 		Phrases.Add("Greetings!");
-		Phrases.Add("I wish I could see the world...");
+		Phrases.Add("I wish I could see the Aura.World...");
 		Phrases.Add("I'll exchange your Bandit Badges for Ducats.");
 		Phrases.Add("Try buying a more powerful Fomor weapon.");
 		Phrases.Add("Use a Letter of Guarantee to earn Ducats immediately!");

@@ -1,10 +1,9 @@
-using Common.Constants;
-using Common.Events;
-using Common.World;
+using Aura.Shared.Const;
+using Aura.World.Events;
 using System;
-using World.Network;
-using World.Scripting;
-using World.World;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.World;
 
 public class Skatha_peopleScript : NPCScript
 {

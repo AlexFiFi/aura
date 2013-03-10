@@ -2,16 +2,13 @@
 // For more information, see licence.txt in the main folder
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Common.Data;
-using Common.Tools;
-using Common.Events;
-using Common.World;
-using World.World;
+using Aura.Data;
+using Aura.Shared.Util;
+using Aura.World.Player;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Scripting
+namespace Aura.World.Scripting
 {
 	public class QuestScript : BaseScript
 	{

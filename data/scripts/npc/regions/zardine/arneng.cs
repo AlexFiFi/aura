@@ -1,9 +1,8 @@
-using Common.Constants;
-using Common.World;
+using Aura.Shared.Const;
 using System;
-using World.Network;
-using World.Scripting;
-using World.World;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.World;
 
 public class ArnengScript : NPCScript
 {
@@ -32,8 +31,8 @@ public class ArnengScript : NPCScript
 		Phrases.Add("If I could get paid for it, I would've sold my soul a long time ago.");
 		Phrases.Add("I'm so tired of not being able to sleep");
 		Phrases.Add("There are those who come here to hand in their will before they meet the dragon.");
-		Phrases.Add("This is the end. The end of the world...");
-		Phrases.Add("You can say that this is like the final page in the world.");
-		Phrases.Add("You know, right? This place is the end of the world.");
+		Phrases.Add("This is the end. The end of the Aura.World...");
+		Phrases.Add("You can say that this is like the final page in the Aura.World.");
+		Phrases.Add("You know, right? This place is the end of the Aura.World.");
 	}
 }

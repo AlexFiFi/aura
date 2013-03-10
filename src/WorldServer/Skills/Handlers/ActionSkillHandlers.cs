@@ -1,13 +1,10 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Constants;
-using Common.World;
-using World.World;
-using Common.Events;
-using Common.Network;
-using System;
-namespace World.Skills
+using Aura.Shared.Network;
+using Aura.World.World;
+
+namespace Aura.World.Skills
 {
 	class UmbrellaSkillHandler : SkillHandler
 	{

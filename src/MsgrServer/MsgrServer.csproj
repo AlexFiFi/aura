@@ -8,7 +8,7 @@
     <ProjectGuid>{DD57F63B-E4ED-44E1-9455-902E529F0C1A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Msgr</RootNamespace>
+    <RootNamespace>Aura.Msgr</RootNamespace>
     <AssemblyName>MsgrServer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -58,16 +58,20 @@
     <Compile Include="Network\MsgrClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\MsgrConf.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{5DF703A7-208F-450C-A8E7-CDAF60A41EC0}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
+    <Compile Include="Util\MsgrConf.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="mabioriginal.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aura.Net\Aura.Net.csproj">
+      <Project>{BE6ED36C-9341-48CF-B9E8-B1F9440F1228}</Project>
+      <Name>Aura.Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Aura.Shared\Aura.Shared.csproj">
+      <Project>{F339DCC9-AEF1-4098-BAC2-82270C09497E}</Project>
+      <Name>Aura.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

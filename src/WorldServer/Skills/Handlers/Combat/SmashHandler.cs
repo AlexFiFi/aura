@@ -1,14 +1,12 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Constants;
-using Common.Events;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using World.World;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Skills
+namespace Aura.World.Skills
 {
 	public class SmashHandler : SkillHandler
 	{

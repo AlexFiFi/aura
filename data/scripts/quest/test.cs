@@ -3,10 +3,10 @@
 // --------------------------------------------------------------------------
 
 using System.Collections;
-using Common.Constants;
-using Common.Data;
-using World.Scripting;
-using World.Network;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.World.Scripting;
+using Aura.World.Network;
 
 public class TestQuestScript : QuestScript
 {

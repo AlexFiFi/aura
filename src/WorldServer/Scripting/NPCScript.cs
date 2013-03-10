@@ -1,20 +1,18 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using Common.Constants;
-using Common.Data;
-using Common.Events;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using World.Network;
-using World.World;
-using System.Collections;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Scripting
+namespace Aura.World.Scripting
 {
 	public enum NPCLoadType { Real = 1, Virtual = 2 }
 

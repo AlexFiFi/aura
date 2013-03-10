@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using Common.Constants;
-using Common.Events;
-using Common.Tools;
-using Common.World;
-using World.Network;
-using World.Scripting;
-using World.World;
+using Aura.Shared.Const;
+using Aura.World.Events;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.World;
 
 public class _BeanRuaGuardBaseScript : NPCScript
 {

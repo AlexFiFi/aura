@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Network;
+using Aura.Login.Database;
+using Aura.Shared.Network;
 
-namespace Login.Network
+namespace Aura.Login.Network
 {
 	public class LoginClient : Client
 	{
+		public Account Account { get; set; }
 	}
 }

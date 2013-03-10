@@ -1,4 +1,4 @@
-using World.Scripting;
+using Aura.World.Scripting;
 
 public class TaillPortals : BaseScript
 {

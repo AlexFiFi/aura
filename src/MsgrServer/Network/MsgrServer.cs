@@ -3,13 +3,11 @@
 
 using System;
 using System.IO;
-using System.Net;
-using Common.Database;
-using Common.Network;
-using Common.Tools;
-using Msgr.Tools;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.Msgr.Util;
 
-namespace Msgr.Network
+namespace Aura.Msgr.Network
 {
 	public partial class MsgrServer : Server<MsgrClient>
 	{
@@ -54,22 +52,13 @@ namespace Msgr.Network
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");
-			try
-			{
-				MabiDb.Instance.Init(MsgrConf.DatabaseHost, MsgrConf.DatabaseUser, MsgrConf.DatabasePass, MsgrConf.DatabaseDb);
-				MabiDb.Instance.TestConnection();
-			}
-			catch (Exception ex)
-			{
-				Logger.Error("Unable to connect to database. (" + ex.Message + ")");
-				this.Exit(1);
-			}
+			this.TryConnectToDatabase(MsgrConf.DatabaseHost, MsgrConf.DatabaseUser, MsgrConf.DatabasePass, MsgrConf.DatabaseDb);
 
 			// Starto
 			// --------------------------------------------------------------
 			try
 			{
-				this.StartListening(new IPEndPoint(IPAddress.Any, 8002));
+				this.StartListening(8002);
 
 				Logger.Status("Msgr Server ready, listening on " + _serverSocket.LocalEndPoint.ToString());
 			}
@@ -89,18 +78,13 @@ namespace Msgr.Network
 			// do nothing (default is seeding)
 		}
 
-		protected override int ReadRemainingLength(byte[] buffer, int start)
+		protected override int GetPacketLength(byte[] buffer, int start)
 		{
 			return buffer[start + 3] + 4;
 		}
 
-		protected override byte[] PrepareBuffer(byte[] buffer, int ptr)
-		{
-			var result = new byte[ptr];
-			Array.Copy(buffer, result, ptr);
-
-			return result;
-		}
+		protected override void PrepareBuffer(ref byte[] buffer, int length)
+		{ }
 
 		protected override void HandleBuffer(MsgrClient client, byte[] buffer)
 		{
@@ -108,7 +92,7 @@ namespace Msgr.Network
 			if (len < 5)
 				return;
 
-			if (client.State == SessionState.ClientCheck)
+			if (client.State == ClientState.Check)
 			{
 				if (buffer[4] == 0x00)
 					client.Socket.Send(new byte[] { 0x55, 0xfb, 0x02, 0x05, 0x00, 0x00, 0x00, 0x00, 0x40 });
@@ -117,7 +101,7 @@ namespace Msgr.Network
 				if (buffer[4] == 0x02)
 				{
 					client.Socket.Send(new byte[] { 0x55, 0x12, 0x02, 0x01, 0x02 });
-					client.State = SessionState.Login;
+					client.State = ClientState.LoggingIn;
 				}
 			}
 			else

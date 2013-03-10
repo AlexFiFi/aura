@@ -3,25 +3,24 @@
 
 using System;
 using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Common.Constants;
-using Common.Data;
-using Common.Tools;
-using Common.World;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.Tools;
+using Aura.World.World;
 using csscript;
 using CSScriptLibrary;
-using World.Network;
-using World.Tools;
-using World.World;
-using System.Collections;
-using System.Linq;
 
-namespace World.Scripting
+namespace Aura.World.Scripting
 {
 	public class ScriptManager
 	{
@@ -385,7 +384,7 @@ namespace World.Scripting
 		public void LoadSpawns()
 		{
 			int count = 0;
-			foreach (var spawnInfo in MabiData.SpawnDb.Entries)
+			foreach (var spawnInfo in MabiData.SpawnDb.Entries.Values)
 			{
 				count += this.Spawn(spawnInfo);
 			}

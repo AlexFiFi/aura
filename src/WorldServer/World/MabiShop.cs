@@ -1,17 +1,15 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using Common.Data;
-using System;
-using Common.Events;
-using World.Tools;
+using Aura.Data;
+using Aura.Shared.Util;
+using Aura.World.Tools;
+using Aura.World.Events;
 
-namespace World.World
+namespace Aura.World.World
 {
 	public class MabiShop : IDisposable
 	{

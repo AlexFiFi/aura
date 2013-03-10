@@ -1,9 +1,8 @@
 // Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.World;
-using World.Scripting;
-using World.World;
+using Aura.World.Scripting;
+using Aura.World.World;
 
 public class NoneAI : AIScript
 {

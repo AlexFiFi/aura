@@ -2,10 +2,9 @@
 // For more information, see licence.txt in the main folder
 
 using System.Collections.Generic;
-using Common.Network;
-using Common.World;
+using Aura.Shared.Network;
 
-namespace World.World
+namespace Aura.World.World
 {
 	public class MabiParty
 	{
@@ -55,7 +54,7 @@ namespace World.World
 				packet.PutString(member.Name);
 				packet.PutByte(1); // ?
 				packet.PutInt(member.Region);
-				MabiVertex loc = member.GetPosition();
+				var loc = member.GetPosition();
 				packet.PutInt(loc.X);
 				packet.PutInt(loc.Y);
 				packet.PutByte(0); // ?

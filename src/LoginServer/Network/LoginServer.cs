@@ -3,13 +3,13 @@
 
 using System;
 using System.IO;
-using System.Net;
-using Common.Database;
-using Common.Network;
-using Common.Tools;
-using Login.Tools;
+using Aura.Shared.Database;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.Login.Database;
+using Aura.Login.Util;
 
-namespace Login.Network
+namespace Aura.Login.Network
 {
 	public partial class LoginServer : Server<LoginClient>
 	{
@@ -39,7 +39,7 @@ namespace Login.Network
 			}
 			catch (FileNotFoundException)
 			{
-				Logger.Warning("Sorry, I couldn't find 'conf/login.conf'.");
+				Logger.Warning("Unable to find 'conf/login.conf'.");
 			}
 			catch (Exception ex)
 			{
@@ -47,31 +47,17 @@ namespace Login.Network
 				Logger.Exception(ex);
 			}
 
-			// Logger display filter
-			// --------------------------------------------------------------
 			Logger.Hide = LoginConf.ConsoleFilter;
 
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");
-			try
-			{
-				MabiDb.Instance.Init(LoginConf.DatabaseHost, LoginConf.DatabaseUser, LoginConf.DatabasePass, LoginConf.DatabaseDb);
-				MabiDb.Instance.TestConnection();
-			}
-			catch (Exception ex)
-			{
-				Logger.Error("Unable to connect to database. (" + ex.Message + ")");
-				this.Exit(1);
-			}
-
-			Logger.Info("Clearing database cache...");
-			MabiDb.Instance.ClearDatabaseCache();
+			this.TryConnectToDatabase(LoginConf.DatabaseHost, LoginConf.DatabaseUser, LoginConf.DatabasePass, LoginConf.DatabaseDb);
 
 			// Data
 			// --------------------------------------------------------------
 			Logger.Info("Loading data files...");
-			this.LoadData(LoginConf.DataPath, DataLoad.Data);
+			this.LoadData(LoginConf.DataPath, DataLoad.LoginServer);
 
 			// Configuration 2
 			// --------------------------------------------------------------
@@ -90,7 +76,7 @@ namespace Login.Network
 			// --------------------------------------------------------------
 			try
 			{
-				this.StartListening(new IPEndPoint(IPAddress.Any, 11000));
+				this.StartListening(11000);
 
 				Logger.Status("Login Server ready, listening on " + _serverSocket.LocalEndPoint.ToString());
 			}
@@ -160,8 +146,8 @@ namespace Login.Network
 						var type = args[1];
 						var account = args[3];
 
-						int card = 0;
-						if (!int.TryParse(args[2], out card))
+						uint card = 0;
+						if (!uint.TryParse(args[2], out card))
 						{
 							Logger.Error("Please specify a numeric card id.");
 							return;
@@ -179,7 +165,10 @@ namespace Login.Network
 							return;
 						}
 
-						MabiDb.Instance.AddCard(type + "_cards", account, card);
+						if (type == "character")
+							LoginDb.Instance.AddCharacterCard(account, card);
+						else
+							LoginDb.Instance.AddPetCard(account, card);
 
 						Logger.Info("Card added.");
 					}

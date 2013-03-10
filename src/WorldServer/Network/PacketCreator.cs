@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.World;
-using Common.Network;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Constants;
-using System;
+using Aura.Shared.Const;
+using Aura.Shared.Network;
+using Aura.World.World;
 
-namespace World.Network
+namespace Aura.World.Network
 {
 	public enum MsgBoxTitle { Notice, Info, Warning, Confirm }
 	public enum MsgBoxButtons { None, Close, OkCancel, YesNoCancel }

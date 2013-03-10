@@ -5,18 +5,16 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading;
-using System.Xml;
-using Common.Database;
-using Common.Events;
-using Common.Network;
-using Common.Tools;
-using World.Scripting;
-using World.Tools;
-using World.World;
-using Common.Data;
-using Common.Constants;
+using Aura.Shared.Const;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Database;
+using Aura.World.Scripting;
+using Aura.World.Tools;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Network
+namespace Aura.World.Network
 {
 	public partial class WorldServer : Server<WorldClient>
 	{
@@ -64,16 +62,7 @@ namespace World.Network
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");
-			try
-			{
-				MabiDb.Instance.Init(WorldConf.DatabaseHost, WorldConf.DatabaseUser, WorldConf.DatabasePass, WorldConf.DatabaseDb);
-				MabiDb.Instance.TestConnection();
-			}
-			catch (Exception ex)
-			{
-				Logger.Error("Unable to connect to database. (" + ex.Message + ")");
-				this.Exit(1);
-			}
+			this.TryConnectToDatabase(WorldConf.DatabaseHost, WorldConf.DatabaseUser, WorldConf.DatabasePass, WorldConf.DatabaseDb);
 
 			//Logger.Info("Clearing database cache...");
 			//MabiDb.Instance.ClearDatabaseCache();
@@ -236,7 +225,7 @@ namespace World.Network
 			// TODO: Option for max users.
 			stress = (uint)Math.Min(75, Math.Ceiling(75 / 20.0f * stress));
 
-			MabiDb.Instance.RegisterChannel(WorldConf.ServerName, WorldConf.ChannelName, WorldConf.ChannelHost, WorldConf.ChannelPort, stress);
+			WorldDb.Instance.RegisterChannel(WorldConf.ServerName, WorldConf.ChannelName, WorldConf.ChannelHost, WorldConf.ChannelPort, stress);
 		}
 	}
 }

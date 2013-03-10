@@ -1,15 +1,14 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Constants;
-using Common.World;
-using World.World;
-using Common.Events;
-using Common.Tools;
-using World.Network;
-using Common.Network;
+using Aura.Shared.Const;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Skills
+namespace Aura.World.Skills
 {
 	/// <summary>
 	/// Notes about official vs Aura:

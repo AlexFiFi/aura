@@ -1,5 +1,5 @@
-using World.Scripting;
-using World.Network;
+using Aura.World.Scripting;
+using Aura.World.Network;
 
 public class TirPortals : BaseScript
 {

@@ -2,15 +2,14 @@
 // For more information, see licence.txt in the main folder
 
 using System;
-using Common.Data;
-using Common.Events;
-using Common.Tools;
-using Common.World;
-using World.Network;
-using World.Tools;
-using World.World;
+using Aura.Data;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.Tools;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Scripting
+namespace Aura.World.Scripting
 {
 	public partial class BaseScript : IDisposable
 	{
@@ -45,7 +44,7 @@ namespace World.Scripting
 		/// </summary>
 		protected void SpawnProp(uint propClass, string region, uint x, uint y, uint area, float scale, float direction, PropAction action, uint dropType)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			uint regionId = MabiData.MapDb.TryGetRegionId(region);
 			this.SpawnProp(propClass, regionId, x, y, area, scale, direction, action, dropType);
 		}
 
@@ -63,8 +62,8 @@ namespace World.Scripting
 		/// </summary>
 		protected void SpawnProp(uint propClass, string region, uint x, uint y, uint area, float scale, float direction, PropAction action, string tregion, uint tx, uint ty)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
-			uint tregionId = MabiData.MapDb.TryGetRegionId(tregion, this.ScriptName);
+			uint regionId = MabiData.MapDb.TryGetRegionId(region);
+			uint tregionId = MabiData.MapDb.TryGetRegionId(tregion);
 			this.SpawnProp(propClass, regionId, x, y, area, scale, direction, action, tregionId, tx, ty);
 		}
 
@@ -82,7 +81,7 @@ namespace World.Scripting
 		/// </summary>
 		protected void SpawnProp(uint propClass, string region, uint x, uint y, uint area, float scale, float direction, MabiPropFunc behavior)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			uint regionId = MabiData.MapDb.TryGetRegionId(region);
 			this.SpawnProp(propClass, regionId, x, y, area, scale, direction, behavior);
 		}
 
@@ -102,7 +101,7 @@ namespace World.Scripting
 		/// <returns>New prop</returns>
 		protected MabiProp SpawnProp(uint propClass, string region, uint x, uint y, uint area = 0, float scale = 1f, float direction = 1f)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			uint regionId = MabiData.MapDb.TryGetRegionId(region);
 			return this.SpawnProp(propClass, regionId, x, y, area, scale, direction);
 		}
 
@@ -130,7 +129,7 @@ namespace World.Scripting
 		/// </summary>
 		protected void DefineProp(ulong propId, string region, uint x, uint y, PropAction action, uint dropType)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			uint regionId = MabiData.MapDb.TryGetRegionId(region);
 			this.DefineProp(propId, regionId, x, y, action, dropType);
 		}
 
@@ -164,8 +163,8 @@ namespace World.Scripting
 		/// </summary>
 		protected void DefineProp(ulong propId, string region, uint x, uint y, PropAction action, string tregion, uint tx, uint ty)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
-			uint tregionId = MabiData.MapDb.TryGetRegionId(tregion, this.ScriptName);
+			uint regionId = MabiData.MapDb.TryGetRegionId(region);
+			uint tregionId = MabiData.MapDb.TryGetRegionId(tregion);
 			this.DefineProp(propId, regionId, x, y, action, tregionId, tx, ty);
 		}
 
@@ -180,7 +179,7 @@ namespace World.Scripting
 
 		protected void DefineProp(ulong propId, string region, uint x, uint y, MabiPropFunc behavior = null)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region, this.ScriptName);
+			uint regionId = MabiData.MapDb.TryGetRegionId(region);
 			this.DefineProp(propId, regionId, x, y, behavior);
 		}
 

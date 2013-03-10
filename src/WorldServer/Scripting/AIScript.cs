@@ -4,13 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
-using Common.Tools;
-using Common.World;
-using World.World;
-using World.Skills;
-using Common.Constants;
+using Aura.Shared.Const;
+using Aura.Shared.Util;
+using Aura.World.Skills;
+using Aura.World.World;
 
-namespace World.Scripting
+namespace Aura.World.Scripting
 {
 	public enum AIState { Any, Idle, Dead, Noticed, Aggro }
 	public enum AIAction

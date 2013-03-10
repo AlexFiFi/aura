@@ -4,19 +4,21 @@
 using System;
 using System.Linq;
 using System.Text;
-using Common.Constants;
-using Common.Data;
-using Common.Database;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using Login.Tools;
+using Aura.Shared.Const;
+//using Aura.Shared.Data;
+using Aura.Shared.Database;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.Login.Database;
+using Aura.Login.Util;
+using Aura.Data;
+using System.Collections.Generic;
 
-namespace Login.Network
+namespace Aura.Login.Network
 {
 	public partial class LoginServer : Server<LoginClient>
 	{
-		protected override void InitPacketHandlers()
+		protected override void OnServerStartUp()
 		{
 			this.RegisterPacketHandler(Op.ClientIdent, HandleVersionCheck);
 			this.RegisterPacketHandler(Op.Login, HandleLogin);
@@ -30,6 +32,7 @@ namespace Login.Network
 			this.RegisterPacketHandler(Op.DeleteChar, HandleDeletePC);
 			this.RegisterPacketHandler(Op.RecoverChar, HandleDeletePC);
 
+			// Partners are considered Pets, aside from CreatePartner.
 			this.RegisterPacketHandler(Op.PetInfoRequest, HandlePetInfoRequest);
 			this.RegisterPacketHandler(Op.CreatePet, HandleCreatePet);
 			this.RegisterPacketHandler(Op.CreatePartner, HandleCreatePartner);
@@ -37,6 +40,7 @@ namespace Login.Network
 			this.RegisterPacketHandler(Op.DeletePet, HandleDeletePC);
 			this.RegisterPacketHandler(Op.RecoverPet, HandleDeletePC);
 
+			// Sent when entering Pet/Partner creation.
 			this.RegisterPacketHandler(Op.CreatingPet, HandleEnterPetCreation);
 			this.RegisterPacketHandler(Op.CreatingPartner, HandleEnterPetCreation);
 		}
@@ -46,7 +50,7 @@ namespace Login.Network
 			var response = new MabiPacket(Op.ClientIdentR, Id.Login);
 
 			response.PutByte(1);
-			response.PutLong(0x49534E4F47493A5D); // time?
+			response.PutLong(0x49534E4F47493A5D);
 
 			client.Send(response);
 		}
@@ -54,166 +58,139 @@ namespace Login.Network
 #pragma warning disable 0162
 		private void HandleLogin(LoginClient client, MabiPacket packet)
 		{
-			var loginType = packet.GetByte(); // Known: 0x00 (KR), 0x0C, 0x12 (EU) (Normal), 0x5 (New), 0x2 (Coming from channel)
+			var loginType = (LoginType)packet.GetByte(); // Known: 0x00 (KR), 0x0C, 0x12 (EU) (Normal), 0x5 (New), 0x2 (Coming from channel)
 			var username = packet.GetString();
 			var password = "";
 			ulong sessionKey = 0;
 
-			var response = new MabiPacket(Op.LoginR, Id.Login);
-
-			// Normal login, MD5 password
-			if (loginType == 0x0C || loginType == 0x12 || loginType == 0x00)
+			switch (loginType)
 			{
-				var passbin = packet.GetBin();
-				password = System.Text.Encoding.UTF8.GetString(passbin);
+				// Normal login, (MD5) password
+				case LoginType.Normal:
+				case LoginType.EU:
+				case LoginType.KR:
 
-				if (Op.Version == 140400)
-				{
-					// EU had no client side hashing. Let's make it compatible to NA.
-					password = string.Empty;
-					foreach (var chr in passbin.TakeWhile(a => a != 0))
-						password += (char)chr;
+					var passbin = packet.GetBin();
+					password = System.Text.Encoding.UTF8.GetString(passbin);
 
-					var md5 = System.Security.Cryptography.MD5.Create();
-					password = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(password))).Replace("-", "");
-				}
-			}
-			// Logging in, comming from a channel
-			else if (loginType == 0x02)
-			{
-				if (Op.Version > 160000)
-					packet.GetString(); // Double acc name
-				sessionKey = packet.GetLong();
-			}
-			// Type 5 uses the new Nexon hash thingy...
-			// apart from that, equal to 0x0C.
-			else if (loginType == 0x05)
-			{
-				response.PutByte(51);
-				response.PutInt(14);
-				response.PutInt(1);
-				response.PutString("Sorry, but something seems to be wrong with your client.\nPlease report this, and try to login using \"new//\".");
-				client.Send(response);
-				return;
-			}
-			// Second password?
-			else if (loginType == 0x14)
-			{
-				//sessionKey = packet.GetLong();
-				//secPassword = packet.GetString(); ?
+					if (Op.Version == 140400)
+					{
+						// EU had no client side hashing. Let's make it compatible to NA.
+						password = string.Empty;
+						foreach (var chr in passbin.TakeWhile(a => a != 0))
+							password += (char)chr;
 
-				response.PutByte(51);
-				response.PutInt(14);
-				response.PutInt(1);
-				response.PutString("Second passwords aren't supported yet.");
-				client.Send(response);
-				return;
+						var md5 = System.Security.Cryptography.MD5.Create();
+						password = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(password))).Replace("-", "");
+					}
+					break;
+
+				// Logging in, comming from a channel
+				case LoginType.FromChannel:
+
+					if (Op.Version > 160000)
+						packet.GetString(); // Double acc name
+					sessionKey = packet.GetLong();
+					break;
+
+				// Type 5 uses the new Nexon hash thingy...
+				// apart from that, equal to 0x0C.
+				case LoginType.NewHash:
+				default:
+					this.SendLoginResponse(client, "You're client is using a password encryption that Aura doesn't recognize ({0}).\nPlease report this, and try to login using \"new//\".", loginType);
+					return;
+
+				// Second password
+				case LoginType.SecondPassword:
+
+					//sessionKey = packet.GetLong();
+					//secPassword = packet.GetString(); // SSH1
+
+					this.SendLoginResponse(client, "Second passwords aren't supported yet.");
+					return;
 			}
 
-			var loginResult = LoginResult.Fail;
-
-			MabiAccount account = null;
-
+			// Create new account
 			if (LoginConf.NewAccounts && (username.StartsWith("new//") || username.StartsWith("new__")))
 			{
 				username = username.Remove(0, 5);
 
 				if (!MabiDb.Instance.AccountExists(username) && password != "")
 				{
-					var newAccount = new MabiAccount();
-					newAccount.Username = username;
-					newAccount.Userpass = BCrypt.HashPassword(password, BCrypt.GenerateSalt(12));
-					newAccount.Creation = DateTime.Now;
-
-					MabiDb.Instance.SaveAccount(newAccount);
-
-					Logger.Info("New account '" + username + "' was created.");
-
-					account = newAccount;
+					LoginDb.Instance.CreateAccount(username, password);
+					Logger.Info("New account '{0}' was created.", username);
 				}
 			}
 
-			// Load account
+			// Check account existence
+			var account = LoginDb.Instance.GetAccount(username);
 			if (account == null)
-				account = MabiDb.Instance.GetAccount(username);
-
-			if (account != null)
 			{
-				if (BCrypt.CheckPassword(password, account.Userpass) || MabiDb.Instance.IsSessionKey(account.Username, sessionKey))
-				{
-					if (account.LoggedIn)
-					{
-						Logger.Info("Account '" + account.Username + "' is logged in already.");
-						loginResult = LoginResult.AlreadyLoggedIn;
-					}
-					else if (account.BannedExpiration.CompareTo(DateTime.Now) > 0)
-					{
-						Logger.Info("Banned! (" + account.Username + ")");
-						loginResult = LoginResult.Banned;
-					}
-					else
-					{
-						Logger.Info("Logging in as '" + account.Username + "'.");
-						account.LoggedIn = true;
-						account.LastLogin = DateTime.Now;
-						account.LastIp = client.Socket.RemoteEndPoint.ToString();
-						if (account.LastIp.IndexOf(':') > 0)
-							account.LastIp = account.LastIp.Split(':')[0];
-
-						// Add free cards if there are none.
-						// If you don't have chars and char cards, you get a new free card,
-						// if you don't have pets or pet cards either, you'll also get a 7-day horse.
-						// TODO: Implement limited pets.
-						if (account.CharacterCards.Count < 1 && account.Characters.Count < 1)
-						{
-							account.CharacterCards.Add(new MabiCard(147)); // Free card
-
-							if (account.PetCards.Count < 1 && account.Pets.Count < 1)
-							{
-								account.PetCards.Add(new MabiCard(260016)); // Horse
-							}
-						}
-
-						loginResult = LoginResult.Success;
-					}
-				}
-				else
-				{
-					Logger.Info("Wrong password (" + account.Username + ")");
-					loginResult = LoginResult.IdOrPassIncorrect;
-				}
-			}
-			else
-			{
-				// Account doesn't exist
-				Logger.Info("Account '" + username + "' not found.");
-				loginResult = LoginResult.IdOrPassIncorrect;
-			}
-
-			if (loginResult == LoginResult.Banned)
-			{
-				response.PutByte(51);
-				response.PutInt(14);
-				response.PutInt(1);
-				response.PutString("You've been banned, till " + account.BannedExpiration.ToString() + ".\r\nReason: " + account.BannedReason);
-				client.Send(response);
+				this.SendLoginResponse(client, LoginResult.IdOrPassIncorrect);
 				return;
 			}
 
-			response.PutByte((byte)loginResult);
-			if (loginResult != LoginResult.Success)
+			// Check bans
+			if (account.BannedExpiration.CompareTo(DateTime.Now) > 0)
 			{
-				client.Send(response);
+				this.SendLoginResponse(client, "You've been banned, till {0}.\r\nReason: {1}", account.BannedExpiration, account.BannedReason);
 				return;
 			}
+
+			// Check password/session
+			if (!BCrypt.CheckPassword(password, account.Password) && !MabiDb.Instance.IsSessionKey(username, sessionKey))
+			{
+				this.SendLoginResponse(client, LoginResult.IdOrPassIncorrect);
+				return;
+			}
+
+			// Check logged in already
+			if (account.LoggedIn)
+			{
+				this.SendLoginResponse(client, LoginResult.AlreadyLoggedIn);
+				return;
+			}
+
+			// Update account
+			account.LastIp = client.IP;
+			account.LastLogin = DateTime.Now;
+			account.LoggedIn = true;
+			LoginDb.Instance.UpdateAccount(account);
+
+			// Req. Info
+			account.CharacterCards = LoginDb.Instance.GetCharacterCards(username);
+			account.PetCards = LoginDb.Instance.GetPetCards(username);
+			account.Characters = LoginDb.Instance.GetCharacters(username);
+			account.Pets = LoginDb.Instance.GetPets(username);
+
+			// Add free cards if there are none.
+			// If you don't have chars and char cards, you get a new free card,
+			// if you don't have pets or pet cards either, you'll also get a 7-day horse.
+			// TODO: Implement limited pets.
+			if (account.CharacterCards.Count < 1 && account.Characters.Count < 1)
+			{
+				// Free card
+				var cardId = LoginDb.Instance.AddCharacterCard(username, 147);
+				account.CharacterCards.Add(new Card(cardId, 147));
+
+				if (account.PetCards.Count < 1 && account.Pets.Count < 1)
+				{
+					// 7-day Horse
+					cardId = LoginDb.Instance.AddPetCard(username, 260016);
+					account.PetCards.Add(new Card(260016));
+				}
+			}
+
+			var response = new MabiPacket(Op.LoginR, Id.Login);
 
 			// Account
 			// --------------------------------------------------------------
-			response.PutString(account.Username);
+			response.PutByte((byte)LoginResult.Success);
+			response.PutString(username);
 			if (Op.Version > 160000)
-				response.PutString(account.Username);
-			response.PutLong(MabiDb.Instance.CreateSession(account.Username));
-			response.PutByte(0x00);
+				response.PutString(username);
+			response.PutLong(LoginDb.Instance.CreateSession(username));
+			response.PutByte(0);
 
 			// Servers
 			// --------------------------------------------------------------
@@ -274,7 +251,7 @@ namespace Login.Network
 				response.PutString(character.Server);
 				response.PutLong(character.Id);
 				response.PutString(character.Name);
-				response.PutByte(character.GetDeletionFlag());
+				response.PutByte((byte)character.DeletionFlag);
 				response.PutLong(0); // ??
 				response.PutInt(0);
 				response.PutByte(0); // 0 = Human. 1 = Elf. 2 = Giant.
@@ -290,7 +267,7 @@ namespace Login.Network
 				response.PutString(pet.Server);
 				response.PutLong(pet.Id);
 				response.PutString(pet.Name);
-				response.PutByte(pet.GetDeletionFlag());
+				response.PutByte((byte)pet.DeletionFlag);
 				response.PutLong(0);
 				response.PutInt(pet.Race);
 				response.PutLong(0);
@@ -302,11 +279,11 @@ namespace Login.Network
 			// Character cards
 			// --------------------------------------------------------------
 			response.PutShort((ushort)account.CharacterCards.Count);
-			foreach (MabiCard card in account.CharacterCards)
+			foreach (var card in account.CharacterCards)
 			{
 				response.PutByte(0x01);
 				response.PutLong(card.Id);
-				response.PutInt(card.Race);
+				response.PutInt(card.Type);
 				response.PutLong(0);
 				response.PutLong(0);
 				response.PutInt(0);
@@ -315,12 +292,12 @@ namespace Login.Network
 			// Pet cards
 			// --------------------------------------------------------------
 			response.PutShort((ushort)account.PetCards.Count);
-			foreach (MabiCard card in account.PetCards)
+			foreach (var card in account.PetCards)
 			{
 				response.PutByte(0x01);
 				response.PutLong(card.Id);
 				response.PutInt(102);
-				response.PutInt(card.Race);
+				response.PutInt(card.Type);
 				response.PutLong(0);
 				response.PutLong(0);
 				response.PutInt(0);
@@ -328,62 +305,95 @@ namespace Login.Network
 
 			// Gifts
 			// --------------------------------------------------------------
-			response.PutShort(0);
+			response.PutShort(0); // count
+			// foreach
+			//     long    cardId
+			//     byte    character/pet
+			//     uint    type
+			//     uint    race
+			//     string  sender
+			//     string  senderServer
+			//     string  receiver
+			//     string  receiverServer
+			//     long    ?
 
 			response.PutByte(0);
 
 			client.Account = account;
-			client.State = SessionState.LoggedIn;
+			client.State = ClientState.LoggedIn;
 
 			client.Send(response);
+
+			Logger.Info("Logging in as '{0}'.", username);
 		}
 #pragma warning restore 0162
 
+		private void SendLoginResponse(LoginClient client, string format, params object[] args)
+		{
+			var response = new MabiPacket(Op.LoginR, Id.Login);
+			response.PutByte(51);
+			response.PutInt(14);
+			response.PutInt(1);
+			response.PutString(format, args);
+			client.Send(response);
+		}
+
+		private void SendLoginResponse(LoginClient client, LoginResult result)
+		{
+			var response = new MabiPacket(Op.LoginR, Id.Login);
+			response.PutByte((byte)result);
+			client.Send(response);
+			return;
+		}
+
 		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, Banned = 101 }
+		private enum LoginType { KR = 0x00, FromChannel = 0x02, NewHash = 0x05, Normal = 0x0C, EU = 0x12, SecondPassword = 0x14 }
 
 		private void HandleCharacterInfoRequest(LoginClient client, MabiPacket packet)
 		{
 			var serverName = packet.GetString();
-			var id = packet.GetLong();
+			var characterId = packet.GetLong();
 
 			var response = new MabiPacket(Op.CharInfo, Id.Login);
+			response.PutByte(1);
+			response.PutString(serverName);
+			response.PutLong(characterId);
 
-			var player = client.Account.Characters.FirstOrDefault(a => a.Id == id);
-			if (player == null)
+			var character = client.Account.GetCharacter(characterId);
+			if (character == null)
 			{
-				// Fail
+				// Fail ?
 				response.PutByte(0);
 				client.Send(response);
 				return;
 			}
 
-			// Info
+			// Success ?
 			response.PutByte(1);
-			response.PutString(player.Server);
-			response.PutLong(player.Id);
-			response.PutByte(0x01);
-			response.PutString(player.Name);
+
+			// Char Info
+			response.PutString(character.Name);
 			response.PutString("");
 			response.PutString("");
-			response.PutInt(player.Race);
-			response.PutByte(player.SkinColor);
-			response.PutByte(player.Eye);
-			response.PutByte(player.EyeColor);
-			response.PutByte(player.Lip);
+			response.PutInt(character.Race);
+			response.PutByte(character.SkinColor);
+			response.PutByte(character.Eye);
+			response.PutByte(character.EyeColor);
+			response.PutByte(character.Mouth);
 			response.PutInt(0);
-			response.PutFloat(player.Height);
-			response.PutFloat(player.Fat);
-			response.PutFloat(player.Upper);
-			response.PutFloat(player.Lower);
+			response.PutFloat(character.Height);
+			response.PutFloat(character.Weight);
+			response.PutFloat(character.Upper);
+			response.PutFloat(character.Lower);
 			response.PutInt(0);
 			response.PutInt(0);
 			response.PutInt(0);
 			response.PutByte(0);
 			response.PutInt(0);
 			response.PutByte(0);
-			response.PutInt(player.ColorA);
-			response.PutInt(player.ColorB);
-			response.PutInt(player.ColorC);
+			response.PutInt(character.Color1);
+			response.PutInt(character.Color2);
+			response.PutInt(character.Color3);
 			response.PutFloat(0.0f);
 			response.PutString("");
 			response.PutFloat(49.0f);
@@ -395,19 +405,19 @@ namespace Login.Network
 			response.PutShort(0);
 			response.PutLong(0);
 			response.PutString("");
+			response.PutByte(0);
 
-			response.PutByte(3);
-
-			response.PutInt((uint)player.Items.Count);
-			foreach (var item in player.Items)
+			var items = LoginDb.Instance.GetEquipment(characterId);
+			response.PutSInt(items.Count);
+			foreach (var item in items)
 			{
 				response.PutLong(item.Id);
 				response.PutBin(item.Info);
 			}
 
-			response.PutInt(0);
-			response.PutLong(0);
-			response.PutLong(0);
+			response.PutInt(0);		 // PetRemainingTime
+			response.PutLong(0);	 // PetLastTime
+			response.PutLong(0);	 // PetExpireTime
 
 			client.Send(response);
 		}
@@ -424,18 +434,18 @@ namespace Login.Network
 			var age = packet.GetByte();
 			var eye = packet.GetByte();
 			var eyeColor = packet.GetByte();
-			var lip = packet.GetByte();
+			var mouth = packet.GetByte();
 			var face = packet.GetInt();
 
 			var response = new MabiPacket(Op.CharacterCreated, Id.Login);
 
-			// Check if account has this card
-			var card = client.Account.CharacterCards.FirstOrDefault(a => a.Id == cardId);
+			var card = client.Account.GetCharacterCard(cardId);
 			CharCardInfo cardInfo = null;
+
 			if (card != null)
 			{
 				// Check if this is a valid card and if this race can use it
-				cardInfo = MabiData.CharCardDb.Find(card.Race);
+				cardInfo = MabiData.CharCardDb.Find(card.Type);
 				if (cardInfo == null || !cardInfo.Races.Contains(charRace))
 				{
 					// Reset card, so the request fails
@@ -454,115 +464,123 @@ namespace Login.Network
 				return;
 			}
 
-			// Remove card
-			if (LoginConf.ConsumeCards)
-			{
-				client.Account.CharacterCards.Remove(card);
-				MabiDb.Instance.SaveCards(client.Account);
-			}
-
 			// Create character
-			var newChar = new MabiCharacter();
-			newChar.Name = charName;
-			newChar.Race = charRace;
-			newChar.SkinColor = skinColor;
-			newChar.Eye = eye;
-			newChar.EyeColor = eyeColor;
-			newChar.Lip = lip;
-			newChar.Age = age;
-			newChar.Server = serverName;
-			newChar.Level = 1;
+			var character = new Character(CharacterType.Character);
+			character.Name = charName;
+			character.Race = charRace;
+			character.SkinColor = skinColor;
+			character.Eye = eye;
+			character.EyeColor = eyeColor;
+			character.Mouth = mouth;
+			character.Age = age;
+			character.Server = serverName;
+			character.Height = (1.0f / 7.0f * (age - 10.0f));
 
-			newChar.Region = LoginConf.SpawnRegion;
-			newChar.SetPosition(LoginConf.SpawnX, LoginConf.SpawnY);
+			character.Region = LoginConf.SpawnRegion;
+			character.X = LoginConf.SpawnX;
+			character.Y = LoginConf.SpawnY;
 
-			newChar.CalculateBaseStats();
+			var characterId = LoginDb.Instance.CreateCharacter(client.Account.Name, character);
+			client.Account.Characters.Add(character);
 
-			// Retrieve start items, add head, and add items to inventory
-			//var cardItems = cardInfo.CardItems.FindAll(a => a.Race == charRace);
+			// Retrieve start items and add head.
 			var cardItems = MabiData.CharCardSetDb.Find(cardInfo.SetId, charRace);
-
-			cardItems.Add(new CharCardSetInfo { ItemId = face, Pocket = 3, Race = charRace, Color1 = skinColor });
-			cardItems.Add(new CharCardSetInfo { ItemId = hair, Pocket = 4, Race = charRace, Color1 = (uint)hairColor + 0x10000000 });
-
-			foreach (var item in cardItems)
-			{
-				newChar.Items.Add(new MabiItem(item));
-			}
+			this.RandomizeItemColors(ref cardItems, (client.Account.Name + charRace + skinColor + hair + hairColor + age + eye + eyeColor + mouth + face));
+			cardItems.Add(new CharCardSetInfo { Class = face, Pocket = 3, Race = charRace, Color1 = skinColor });
+			cardItems.Add(new CharCardSetInfo { Class = hair, Pocket = 4, Race = charRace, Color1 = (uint)hairColor + 0x10000000 });
+			LoginDb.Instance.AddItems(characterId, cardItems);
 
 			// Add beginner keywords
-			newChar.Keywords.Add(1);
-			newChar.Keywords.Add(2);
-			newChar.Keywords.Add(3);
-			newChar.Keywords.Add(37);
-			newChar.Keywords.Add(38);
+			LoginDb.Instance.AddKeywords(characterId, 1, 2, 3, 37, 38);
 
 			// Skills
-			newChar.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
-
-			// Item skills?
-			newChar.AddSkill(new MabiSkill(SkillConst.HiddenEnchant));
-			newChar.AddSkill(new MabiSkill(SkillConst.HiddenResurrection));
-			newChar.AddSkill(new MabiSkill(SkillConst.HiddenTownBack));
-			newChar.AddSkill(new MabiSkill(SkillConst.HiddenGuildstoneSetting));
-			newChar.AddSkill(new MabiSkill(SkillConst.HiddenBlessing));
-			newChar.AddSkill(new MabiSkill(SkillConst.CampfireKit));
-			newChar.AddSkill(new MabiSkill(SkillConst.SkillUntrainKit));
-			newChar.AddSkill(new MabiSkill(SkillConst.BigBlessingWaterKit));
-			newChar.AddSkill(new MabiSkill(SkillConst.Dye));
-			newChar.AddSkill(new MabiSkill(SkillConst.EnchantElementalAllSlot));
-			newChar.AddSkill(new MabiSkill(SkillConst.HiddenPoison));
-			newChar.AddSkill(new MabiSkill(SkillConst.HiddenBomb));
-			newChar.AddSkill(new MabiSkill(SkillConst.FossilRestoration));
-			newChar.AddSkill(new MabiSkill(SkillConst.SeesawJump));
-			newChar.AddSkill(new MabiSkill(SkillConst.SeesawCreate));
-			newChar.AddSkill(new MabiSkill(SkillConst.DragonSupport));
-			newChar.AddSkill(new MabiSkill(SkillConst.IceMineKit));
-			newChar.AddSkill(new MabiSkill(SkillConst.Scan));
-			newChar.AddSkill(new MabiSkill(SkillConst.UseSupportItem));
-			newChar.AddSkill(new MabiSkill(SkillConst.UseAntiMacroItem));
-			newChar.AddSkill(new MabiSkill(SkillConst.ItemSeal));
-			newChar.AddSkill(new MabiSkill(SkillConst.ItemUnseal));
-			newChar.AddSkill(new MabiSkill(SkillConst.ItemDungeonPass));
-			newChar.AddSkill(new MabiSkill(SkillConst.UseElathaItem));
-			newChar.AddSkill(new MabiSkill(SkillConst.UseMorrighansFeather));
-			newChar.AddSkill(new MabiSkill(SkillConst.PetBuffing));
-			newChar.AddSkill(new MabiSkill(SkillConst.CherryTreeKit));
-			newChar.AddSkill(new MabiSkill(SkillConst.Pollen));
-			newChar.AddSkill(new MabiSkill(SkillConst.Firecracker));
-			newChar.AddSkill(new MabiSkill(SkillConst.FeedFish));
-			newChar.AddSkill(new MabiSkill(SkillConst.HammerGame));
-			newChar.AddSkill(new MabiSkill(SkillConst.SoulStone));
-			newChar.AddSkill(new MabiSkill(SkillConst.UseItemBomb2));
-			newChar.AddSkill(new MabiSkill(SkillConst.NameColorChange));
-			newChar.AddSkill(new MabiSkill(SkillConst.HolyFire));
-			newChar.AddSkill(new MabiSkill(SkillConst.MakeFaliasPortal));
-			newChar.AddSkill(new MabiSkill(SkillConst.UseItemChattingColorChange));
-			newChar.AddSkill(new MabiSkill(SkillConst.InstallFacility));
-			newChar.AddSkill(new MabiSkill(SkillConst.RedesignFacility));
-			newChar.AddSkill(new MabiSkill(SkillConst.GachaponSynthesis));
-			newChar.AddSkill(new MabiSkill(SkillConst.MakeChocoStatue));
-			newChar.AddSkill(new MabiSkill(SkillConst.Painting));
-			newChar.AddSkill(new MabiSkill(SkillConst.PaintMixing));
-			newChar.AddSkill(new MabiSkill(SkillConst.PetSealToItem));
-			newChar.AddSkill(new MabiSkill(SkillConst.FlownHotAirBalloon));
-			newChar.AddSkill(new MabiSkill(SkillConst.ItemSeal2));
-			newChar.AddSkill(new MabiSkill(SkillConst.CureZombie));
-			newChar.AddSkill(new MabiSkill(SkillConst.WarpContinent));
-			newChar.AddSkill(new MabiSkill(SkillConst.AddSeasoning));
-
-			MabiDb.Instance.SaveCharacter(client.Account, newChar);
-
-			client.Account.Characters.Add(newChar);
+			LoginDb.Instance.AddSkills(characterId,
+				new Skill(SkillConst.MeleeCombatMastery, SkillRank.RF),
+				new Skill(SkillConst.HiddenEnchant),
+				new Skill(SkillConst.HiddenResurrection),
+				new Skill(SkillConst.HiddenTownBack),
+				new Skill(SkillConst.HiddenGuildstoneSetting),
+				new Skill(SkillConst.HiddenBlessing),
+				new Skill(SkillConst.CampfireKit),
+				new Skill(SkillConst.SkillUntrainKit),
+				new Skill(SkillConst.BigBlessingWaterKit),
+				new Skill(SkillConst.Dye),
+				new Skill(SkillConst.EnchantElementalAllSlot),
+				new Skill(SkillConst.HiddenPoison),
+				new Skill(SkillConst.HiddenBomb),
+				new Skill(SkillConst.FossilRestoration),
+				new Skill(SkillConst.SeesawJump),
+				new Skill(SkillConst.SeesawCreate),
+				new Skill(SkillConst.DragonSupport),
+				new Skill(SkillConst.IceMineKit),
+				new Skill(SkillConst.Scan),
+				new Skill(SkillConst.UseSupportItem),
+				new Skill(SkillConst.UseAntiMacroItem),
+				new Skill(SkillConst.ItemSeal),
+				new Skill(SkillConst.ItemUnseal),
+				new Skill(SkillConst.ItemDungeonPass),
+				new Skill(SkillConst.UseElathaItem),
+				new Skill(SkillConst.UseMorrighansFeather),
+				new Skill(SkillConst.PetBuffing),
+				new Skill(SkillConst.CherryTreeKit),
+				new Skill(SkillConst.Pollen),
+				new Skill(SkillConst.Firecracker),
+				new Skill(SkillConst.FeedFish),
+				new Skill(SkillConst.HammerGame),
+				new Skill(SkillConst.SoulStone),
+				new Skill(SkillConst.UseItemBomb2),
+				new Skill(SkillConst.NameColorChange),
+				new Skill(SkillConst.HolyFire),
+				new Skill(SkillConst.MakeFaliasPortal),
+				new Skill(SkillConst.UseItemChattingColorChange),
+				new Skill(SkillConst.InstallFacility),
+				new Skill(SkillConst.RedesignFacility),
+				new Skill(SkillConst.GachaponSynthesis),
+				new Skill(SkillConst.MakeChocoStatue),
+				new Skill(SkillConst.Painting),
+				new Skill(SkillConst.PaintMixing),
+				new Skill(SkillConst.PetSealToItem),
+				new Skill(SkillConst.FlownHotAirBalloon),
+				new Skill(SkillConst.ItemSeal2),
+				new Skill(SkillConst.CureZombie),
+				new Skill(SkillConst.WarpContinent),
+				new Skill(SkillConst.AddSeasoning)
+			);
 
 			// Success
 			response.PutByte(1);
 			response.PutString(serverName);
-			response.PutLong(newChar.Id);
+			response.PutLong(characterId);
 
 			client.Send(response);
 
-			Logger.Info("New character: " + newChar.Name);
+			// Remove card
+			if (LoginConf.ConsumeCards)
+			{
+				client.Account.CharacterCards.Remove(card);
+				LoginDb.Instance.DeleteCharacterCard(client.Account.Name, cardId);
+			}
+
+			Logger.Info("New character: " + character.Name);
+		}
+
+		private void RandomizeItemColors(ref List<CharCardSetInfo> cardItems, string hash)
+		{
+			int ihash = 5381;
+			foreach (var ch in hash)
+				ihash = ihash * 33 + (int)ch;
+
+			var rnd = new MTRandom(ihash);
+			foreach (var item in cardItems)
+			{
+				var dataInfo = MabiData.ItemDb.Find(item.Class);
+				if (dataInfo == null)
+					continue;
+
+				item.Color1 = (item.Color1 != 0 ? item.Color1 : MabiData.ColorMapDb.GetRandom(dataInfo.ColorMap1, rnd));
+				item.Color2 = (item.Color2 != 0 ? item.Color2 : MabiData.ColorMapDb.GetRandom(dataInfo.ColorMap2, rnd));
+				item.Color3 = (item.Color3 != 0 ? item.Color3 : MabiData.ColorMapDb.GetRandom(dataInfo.ColorMap3, rnd));
+			}
 		}
 
 		private void HandleEnterGame(LoginClient client, MabiPacket packet)
@@ -614,14 +632,12 @@ namespace Login.Network
 		private void HandleDeletePC(LoginClient client, MabiPacket packet)
 		{
 			var serverName = packet.GetString();
-			var charId = packet.GetLong();
+			var id = packet.GetLong();
 			//var charName = packet.GetString();
 
-			MabiPC character = null;
-			if (packet.Op < Op.DeletePetRequest)
-				character = client.Account.Characters.FirstOrDefault(a => a.Id == charId);
-			else
-				character = client.Account.Pets.FirstOrDefault(a => a.Id == charId);
+			bool isPet = (packet.Op >= Op.DeletePetRequest);
+
+			var character = (isPet ? client.Account.GetPet(id) : client.Account.GetCharacter(id));
 
 			// The response op is always +1.
 			uint op = packet.Op + 1;
@@ -638,29 +654,37 @@ namespace Login.Network
 				// Success
 				response.PutByte(1);
 				response.PutString(serverName);
-				response.PutLong(charId);
+				response.PutLong(id);
 				response.PutLong(0);
 
-				if (packet.Op == Op.RecoverChar || packet.Op == Op.RecoverPet)
+				if (
+					(packet.Op == Op.DeleteChar || packet.Op == Op.DeletePet) ||
+					((packet.Op == Op.DeleteCharRequest || packet.Op == Op.DeletePetRequest) && LoginConf.DeletionWait == 0)
+				)
+				{
+					// Mark for deletion
+					character.DeletionTime = DateTime.MaxValue;
+					if (!isPet)
+						client.Account.Characters.Remove(character);
+					else
+						client.Account.Pets.Remove(character);
+				}
+				else if (packet.Op == Op.RecoverChar || packet.Op == Op.RecoverPet)
 				{
 					// Reset time
 					character.DeletionTime = DateTime.MinValue;
 				}
-				else if (packet.Op == Op.DeleteChar || packet.Op == Op.DeletePet)
-				{
-					// Mark for deletion
-					character.DeletionTime = DateTime.MaxValue;
-				}
 				else // Op.DeleteCharRequest || Op.DeletePetRequest || Error?
 				{
 					// Set time at which the character can be deleted for good.
+					// Below 100 means x hours, above 100 tomorrow at x.
 					if (LoginConf.DeletionWait > 100)
 						character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(LoginConf.DeletionWait - 100, 0, 0));
 					else
 						character.DeletionTime = DateTime.Now.AddHours(LoginConf.DeletionWait);
 				}
 
-				character.Save = true;
+				LoginDb.Instance.SetDelete(character);
 			}
 
 			client.Send(response);
@@ -692,23 +716,23 @@ namespace Login.Network
 		private void HandlePetInfoRequest(LoginClient client, MabiPacket packet)
 		{
 			var serverName = packet.GetString();
-			var id = packet.GetLong();
+			var petId = packet.GetLong();
 
 			var response = new MabiPacket(Op.PetInfo, Id.Login);
+			response.PutByte(1);
+			response.PutString(serverName);
+			response.PutLong(petId);
 
-			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == id);
+			var pet = client.Account.GetPet(petId);
 			if (pet == null)
 			{
 				// Fail
-				response.PutByte(1);
+				response.PutByte(0);
 				client.Send(response);
 				return;
 			}
 
 			// Success
-			response.PutByte(1);
-			response.PutString(pet.Server);
-			response.PutLong(pet.Id);
 			response.PutByte(1);
 			response.PutString(pet.Name);
 			response.PutString("");
@@ -717,10 +741,10 @@ namespace Login.Network
 			response.PutByte(pet.SkinColor);
 			response.PutByte(pet.Eye);
 			response.PutByte(pet.EyeColor);
-			response.PutByte(pet.Lip);
+			response.PutByte(pet.Mouth);
 			response.PutInt(0);
 			response.PutFloat(pet.Height);
-			response.PutFloat(pet.Fat);
+			response.PutFloat(pet.Weight);
 			response.PutFloat(pet.Upper);
 			response.PutFloat(pet.Lower);
 			response.PutInt(0);
@@ -729,9 +753,9 @@ namespace Login.Network
 			response.PutByte(0);
 			response.PutInt(0);
 			response.PutByte(0);
-			response.PutInt(pet.ColorA);
-			response.PutInt(pet.ColorB);
-			response.PutInt(pet.ColorC);
+			response.PutInt(pet.Color1);
+			response.PutInt(pet.Color2);
+			response.PutInt(pet.Color3);
 			response.PutFloat(0.0f);
 			response.PutString("");
 			response.PutFloat(49.0f);
@@ -743,19 +767,19 @@ namespace Login.Network
 			response.PutShort(0);
 			response.PutLong(0);
 			response.PutString("");
+			response.PutByte(0);
 
-			response.PutByte(3);
-
-			response.PutInt((uint)pet.Items.Count);
-			foreach (var item in pet.Items)
+			var items = LoginDb.Instance.GetEquipment(petId);
+			response.PutSInt(items.Count);
+			foreach (var item in items)
 			{
 				response.PutLong(item.Id);
 				response.PutBin(item.Info);
 			}
 
-			response.PutInt(0);
-			response.PutLong(0);
-			response.PutLong(0);
+			response.PutInt(0);		 // PetRemainingTime
+			response.PutLong(0);	 // PetLastTime
+			response.PutLong(0);	 // PetExpireTime
 
 			client.Send(response);
 		}
@@ -772,12 +796,7 @@ namespace Login.Network
 			MabiPacket response = new MabiPacket(Op.PetCreated, Id.Login);
 
 			// Check if the card is valid
-			MabiCard card = null;
-			if (client.Account.PetCards.Exists(a => a.Id == cardId))
-			{
-				card = client.Account.PetCards.First(a => a.Id == cardId);
-			}
-
+			var card = client.Account.GetPetCard(cardId);
 			if (card == null || !MabiDb.Instance.NameOkay(name, serverName))
 			{
 				// Fail
@@ -786,45 +805,45 @@ namespace Login.Network
 				return;
 			}
 
-			// Remove card
-			if (LoginConf.ConsumeCards)
-			{
-				client.Account.PetCards.Remove(card);
-				MabiDb.Instance.SaveCards(client.Account);
-			}
-
 			// Create new pet
-			var newChar = new MabiPet();
-			newChar.Name = name;
-			newChar.Race = card.Race;
-			newChar.Age = 1;
-			newChar.Server = serverName;
-			newChar.Region = 1;
-			newChar.SetPosition(12800, 38100);
+			var pet = new Character(CharacterType.Pet);
+			pet.Name = name;
+			pet.Race = card.Type;
+			pet.Age = 1;
+			pet.Server = serverName;
+			pet.Region = LoginConf.SpawnRegion;
+			pet.X = LoginConf.SpawnX;
+			pet.Y = LoginConf.SpawnY;
+			pet.Height = 0.7f;
+
 			if (color1 > 0 || color2 > 0 || color3 > 0)
 			{
-				newChar.ColorA = color1;
-				newChar.ColorB = color2;
-				newChar.ColorC = color3;
+				pet.Color1 = color1;
+				pet.Color2 = color2;
+				pet.Color3 = color3;
 			}
 
-			newChar.CalculateBaseStats();
+			var petId = LoginDb.Instance.CreateCharacter(client.Account.Name, pet);
+			client.Account.Pets.Add(pet);
 
 			// Skills
-			newChar.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
-
-			MabiDb.Instance.SaveCharacter(client.Account, newChar);
-
-			client.Account.Pets.Add(newChar);
+			LoginDb.Instance.AddSkills(petId, new Skill(SkillConst.MeleeCombatMastery, SkillRank.RF));
 
 			// Success
 			response.PutByte(1);
 			response.PutString(serverName);
-			response.PutLong(newChar.Id);
+			response.PutLong(petId);
 
 			client.Send(response);
 
-			Logger.Info("New pet: " + newChar.Name);
+			// Remove card
+			if (LoginConf.ConsumeCards)
+			{
+				client.Account.PetCards.Remove(card);
+				LoginDb.Instance.DeletePetCard(client.Account.Name, cardId);
+			}
+
+			Logger.Info("New pet: " + pet.Name);
 		}
 
 		private void HandleCreatePartner(LoginClient client, MabiPacket packet)
@@ -832,13 +851,13 @@ namespace Login.Network
 			var serverName = packet.GetString();
 			var cardId = packet.GetLong();
 			var name = packet.GetString();
-			packet.GetInt();    // 730204
+			var unk = packet.GetInt(); // 730204
 			var skinColor = packet.GetByte();
 			var hair = packet.GetInt();
 			var hairColor = packet.GetByte();
 			var eye = packet.GetByte();
 			var eyeColor = packet.GetByte();
-			var lip = packet.GetByte();
+			var mouth = packet.GetByte();
 			var face = packet.GetInt();
 			var height = packet.GetFloat();
 			var weight = packet.GetFloat();
@@ -849,7 +868,7 @@ namespace Login.Network
 			var response = new MabiPacket(Op.PetCreated, Id.Login);
 
 			// Check if the card is valid
-			var card = client.Account.PetCards.FirstOrDefault(a => a.Id == cardId);
+			var card = client.Account.GetPetCard(cardId);
 			if (card == null || !MabiDb.Instance.NameOkay(name, serverName))
 			{
 				// Fail
@@ -858,80 +877,69 @@ namespace Login.Network
 				return;
 			}
 
-			// Remove card
-			if (LoginConf.ConsumeCards)
-			{
-				client.Account.PetCards.Remove(card);
-				MabiDb.Instance.SaveCards(client.Account);
-			}
+			// Create new partner
+			var partner = new Character(CharacterType.Partner);
+			partner.Name = name;
+			partner.Race = card.Type;
+			partner.SkinColor = skinColor;
+			partner.Eye = eye;
+			partner.EyeColor = eyeColor;
+			partner.Mouth = mouth;
+			partner.Height = height;
+			partner.Server = serverName;
+			partner.Region = LoginConf.SpawnRegion;
+			partner.X = LoginConf.SpawnX;
+			partner.Y = LoginConf.SpawnY;
 
-			// Create new pet
-			var newChar = new MabiPet();
-			newChar.Id = 0x30000000000; // To let the db know this is a partner.
-			newChar.Name = name;
-			newChar.Race = card.Race;
-			newChar.SkinColor = skinColor;
-			newChar.Eye = eye;
-			newChar.EyeColor = eyeColor;
-			newChar.Lip = lip;
-			newChar.Server = serverName;
-			newChar.Region = 1;
-			newChar.SetPosition(12800, 38100);
-			newChar.Level = 1;
-
-			newChar.CalculateBaseStats();
-			newChar.Height = height;
-
-			// Items
-			var faceItem = new MabiItem(face); faceItem.Info.Pocket = (byte)Pocket.Face; faceItem.Info.ColorA = skinColor;
-			var hairItem = new MabiItem(hair); hairItem.Info.Pocket = (byte)Pocket.Hair; hairItem.Info.ColorA = (uint)hairColor + 0x10000000;
-			newChar.Items.Add(faceItem);
-			newChar.Items.Add(hairItem);
+			var partnerId = LoginDb.Instance.CreateCharacter(client.Account.Name, partner);
+			client.Account.Pets.Add(partner);
 
 			uint setId = 0;
-			if (card.Race == 730201 || card.Race == 730202 || card.Race == 730204 || card.Race == 730205)
+			if (card.Type == 730201 || card.Type == 730202 || card.Type == 730204 || card.Type == 730205)
 				setId = 1000;
-			else if (card.Race == 730203)
+			else if (card.Type == 730203)
 				setId = 1001;
-			else if (card.Race == 730206)
+			else if (card.Type == 730206)
 				setId = 1002;
 
-			if (setId > 0)
-			{
-				var setItems = MabiData.CharCardSetDb.Find(setId, card.Race);
-				foreach (var setItem in setItems)
-				{
-					newChar.Items.Add(new MabiItem(setItem));
-				}
-			}
+			// Add set items and head
+			var cardItems = MabiData.CharCardSetDb.Find(setId, card.Type);
+			this.RandomizeItemColors(ref cardItems, (client.Account.Name + partner.Race + skinColor + hair + hairColor + 1 + eye + eyeColor + mouth + face));
+			cardItems.Add(new CharCardSetInfo { Class = face, Pocket = 3, Race = card.Type, Color1 = skinColor });
+			cardItems.Add(new CharCardSetInfo { Class = hair, Pocket = 4, Race = card.Type, Color1 = (uint)hairColor + 0x10000000 });
+			LoginDb.Instance.AddItems(partnerId, cardItems);
 
 			// Skills
-			newChar.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, newChar.Race));
-
-			MabiDb.Instance.SaveCharacter(client.Account, newChar);
-
-			client.Account.Pets.Add(newChar);
+			LoginDb.Instance.AddSkills(partnerId, new Skill(SkillConst.MeleeCombatMastery, SkillRank.RF));
 
 			// Success
 			response.PutByte(1);
 			response.PutString(serverName);
-			response.PutLong(newChar.Id);
+			response.PutLong(partner.Id);
 
 			client.Send(response);
 
-			Logger.Info("New partner: " + newChar.Name);
+			// Remove card
+			if (LoginConf.ConsumeCards)
+			{
+				client.Account.PetCards.Remove(card);
+				LoginDb.Instance.DeletePetCard(client.Account.Name, cardId);
+			}
+
+			Logger.Info("New partner: " + partner.Name);
 		}
 
 		private void HandleDisconnect(LoginClient client, MabiPacket packet)
 		{
 			var accountName = packet.GetString();
 
-			if (accountName != client.Account.Username)
+			if (accountName != client.Account.Name)
 				return;
 
-			Logger.Info("'" + accountName + "' is closing the connection.");
+			client.Account.LoggedIn = false;
+			LoginDb.Instance.UpdateAccount(client.Account);
 
-			MabiDb.Instance.SaveAccount(client.Account);
+			Logger.Info("'{0}' is closing the connection.", accountName);
 		}
 
 		private void HandleEnterPetCreation(LoginClient client, MabiPacket packet)

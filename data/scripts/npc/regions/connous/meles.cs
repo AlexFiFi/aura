@@ -1,9 +1,8 @@
-using Common.Constants;
-using Common.World;
+using Aura.Shared.Const;
 using System;
-using World.Network;
-using World.Scripting;
-using World.World;
+using Aura.World.Network;
+using Aura.World.Scripting;
+using Aura.World.World;
 
 public class MelesScript : NPCScript
 {
@@ -31,7 +30,7 @@ public class MelesScript : NPCScript
 		SetStand("elf/female/anim/elf_npc_meles_stand_friendly");
         
 		Phrases.Add("I wonder how it feels to be old?");
-		Phrases.Add("If you think about it, I think there is meaning in everything in the world.");
+		Phrases.Add("If you think about it, I think there is meaning in everything in the Aura.World.");
 		Phrases.Add("Is it that I'm maturing?");
 		Phrases.Add("I've heard stories about Karu Forest.");
 		Phrases.Add("One can be really sharp and yet turn thick-skinned over time.");

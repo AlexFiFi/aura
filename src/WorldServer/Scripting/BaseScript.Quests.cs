@@ -2,13 +2,13 @@
 // For more information, see licence.txt in the main folder
 
 using System;
-using Common.Tools;
-using Common.World;
-using World.Network;
-using World.World;
-using Common.Data;
+using Aura.Data;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.Player;
+using Aura.World.World;
 
-namespace World.Scripting
+namespace Aura.World.Scripting
 {
 	/// <summary>
 	/// Quest methods for all scripts. Located in Based because it might be

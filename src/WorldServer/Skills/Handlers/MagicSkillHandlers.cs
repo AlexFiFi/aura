@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Constants;
-using Common.World;
-using World.World;
-using Common.Events;
-using Common.Network;
 using System;
+using Aura.Shared.Const;
+using Aura.Shared.Network;
+using Aura.World.Player;
+using Aura.World.World;
 
-namespace World.Skills
+namespace Aura.World.Skills
 {
 	public class ManaShieldHandler : SkillHandler
 	{

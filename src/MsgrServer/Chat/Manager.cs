@@ -3,11 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Common.Network;
-using Msgr.Database;
+using Aura.Shared.Network;
+using Aura.Msgr.Database;
 
-namespace Msgr.Chat
+namespace Aura.Msgr.Chat
 {
 	public class Manager
 	{

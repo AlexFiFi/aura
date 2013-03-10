@@ -3,15 +3,15 @@
 
 using System;
 using System.Threading;
-using Common.Events;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using World.Network;
-using World.World;
-using World.Tools;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.Player;
+using Aura.World.Tools;
+using Aura.World.World;
+using Aura.World.Events;
 
-namespace World.Skills
+namespace Aura.World.Skills
 {
 	/// <summary>
 	/// Skill is hidden without gfShadowBunshin being enabled in the client.

@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Constants;
-using Common.World;
-using World.World;
+using Aura.Shared.Const;
+using Aura.World.World;
 
-namespace World.Skills
+namespace Aura.World.Skills
 {
 	public class RestHandler : SkillHandler
 	{

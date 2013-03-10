@@ -4,19 +4,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.Constants;
-using Common.Data;
-using Common.Database;
-using Common.Events;
-using Common.Network;
-using Common.Tools;
-using Common.World;
-using World.Network;
-using World.Scripting;
-using World.Skills;
-using World.Tools;
+using Aura.Shared.Const;
+using Aura.Data;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Database;
+using Aura.World.Network;
+using Aura.World.Player;
+using Aura.World.Scripting;
+using Aura.World.Skills;
+using Aura.World.Tools;
+using Aura.World.Events;
 
-namespace World.World
+namespace Aura.World.World
 {
 	public partial class WorldManager
 	{
@@ -212,7 +212,7 @@ namespace World.World
 				try
 				{
 					// Saving is more important than a clean disconnect.
-					MabiDb.Instance.SaveAccount(_clients[i].Account);
+					WorldDb.Instance.SaveAccount(_clients[i].Account);
 					_clients[i].Disconnect(0);
 				}
 				catch { }
@@ -1230,17 +1230,17 @@ namespace World.World
 			if (radius == 0)
 			{
 				spawn.SpawnType = SpawnLocationType.Point;
-				spawn.SpawnPoint = pos;
+				spawn.SpawnPoint = new Point(pos.X, pos.Y);
 			}
 			else
 			{
 				spawn.SpawnType = SpawnLocationType.Polygon;
-				spawn.SpawnPolyRegion = new SpawnRegion(new MabiVertex[] 
+				spawn.SpawnPolyRegion = new SpawnRegion(new Point[] 
 				{
-					new MabiVertex(pos.X - radius, pos.Y - radius),
-					new MabiVertex(pos.X - radius, pos.Y + radius),
-					new MabiVertex(pos.X + radius, pos.Y + radius),
-					new MabiVertex(pos.X + radius, pos.Y - radius),
+					new Point(pos.X - radius, pos.Y - radius),
+					new Point(pos.X - radius, pos.Y + radius),
+					new Point(pos.X + radius, pos.Y + radius),
+					new Point(pos.X + radius, pos.Y - radius),
 				});
 				spawn.SpawnPolyBounds = spawn.SpawnPolyRegion.GetBounds();
 			}

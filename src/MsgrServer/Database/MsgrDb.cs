@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Common.Database;
-using Msgr.Chat;
-using MySql.Data.MySqlClient;
 using System.Collections.Generic;
-using Common.Tools;
+using Aura.Shared.Database;
+using Aura.Msgr.Chat;
+using MySql.Data.MySqlClient;
 
-namespace Msgr.Database
+namespace Aura.Msgr.Database
 {
 	public static class MsgrDb
 	{

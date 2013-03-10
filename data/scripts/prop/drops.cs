@@ -6,7 +6,7 @@
 //  "data/db/prop_drops.txt".
 // --------------------------------------------------------------------------
 
-using World.Scripting;
+using Aura.World.Scripting;
 
 public class AllDropProps : BaseScript
 {
