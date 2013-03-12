@@ -27,5 +27,6 @@ namespace Aura.Data
 		public static ShamalaDb ShamalaDb = new ShamalaDb();
 		public static PropDropDb PropDropDb = new PropDropDb();
 		public static QuestDb QuestDb = new QuestDb();
+		public static ExpDb ExpDb = new ExpDb();
 	}
 }

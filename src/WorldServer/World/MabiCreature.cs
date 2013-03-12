@@ -16,7 +16,7 @@ namespace Aura.World.World
 {
 	public abstract class MabiCreature : MabiEntity
 	{
-		public const float HAND_BALANCE = 0.3f;
+		public const float HandBalance = 0.3f;
 
 		public Client Client = null;
 
@@ -261,8 +261,9 @@ namespace Aura.World.World
 		private ushort _ap;
 		public ushort AbilityPoints { get { return _ap; } set { _ap = value; } }
 
-		private uint _lvl, _lvlTotal;
-		public uint Level { get { return _lvl; } set { _lvl = value; } }
+		private ushort _lvl;
+		private uint _lvlTotal;
+		public ushort Level { get { return _lvl; } set { _lvl = value; } }
 		public uint LevelTotal { get { return _lvlTotal; } set { _lvlTotal = value; } }
 
 		private ulong _exp;
@@ -434,7 +435,7 @@ namespace Aura.World.World
 		/// <returns></returns>
 		public float GetRndAverageBalance()
 		{
-			var baseBalance = HAND_BALANCE;
+			var baseBalance = HandBalance;
 			if (this.RightHand != null)
 			{
 				baseBalance = this.RightHand.Balance;
@@ -1050,17 +1051,17 @@ namespace Aura.World.World
 
 		public void GiveExp(ulong val)
 		{
-			this.Experience = Math.Min(this.Experience + val, ExpTable.GetForLevel(ExpTable.GetMaxLevel()));
+			this.Experience = Math.Min(this.Experience + val, MabiData.ExpDb.GetForLevel(MabiData.ExpDb.GetMaxLevel()));
 
-			if (this.Experience < ExpTable.GetTotalForNextLevel(this.Level))
+			if (this.Experience < MabiData.ExpDb.GetTotalForNextLevel(this.Level))
 				return;
 
-			var max = ExpTable.GetMaxLevel();
+			var max = MabiData.ExpDb.GetMaxLevel();
 			var lvl = this.Level;
 
 			var levelStats = MabiData.StatsLevelUpDb.Find(this.Race, this.Age);
 
-			while (this.Level < max && this.Experience >= ExpTable.GetTotalForNextLevel(this.Level))
+			while (this.Level < max && this.Experience >= MabiData.ExpDb.GetTotalForNextLevel(this.Level))
 			{
 				this.Level++;
 
@@ -1206,7 +1207,7 @@ namespace Aura.World.World
 			//packet.PutInt(this.LevelTotal);
 
 			packet.PutInt((uint)Stat.Experience);
-			packet.PutLong(ExpTable.CalculateRemaining(this.Level, this.Experience) * 1000);
+			packet.PutLong(MabiData.ExpDb.CalculateRemaining(this.Level, this.Experience) * 1000);
 			num++;
 
 			packet.PutInt((uint)Stat.StrMod);
@@ -1618,12 +1619,12 @@ namespace Aura.World.World
 				packet.PutFloat(this.StaminaMaxMod);
 				packet.PutFloat(this.StaminaHunger);
 				packet.PutFloat(0.5f);
-				packet.PutShort((ushort)this.Level);
+				packet.PutShort(this.Level);
 				packet.PutInt(this.LevelTotal);
 				packet.PutShort(0);                  // Max Level
 				packet.PutShort(0);					 // Rebirthes
 				packet.PutShort(0);
-				packet.PutLong(ExpTable.CalculateRemaining(this.Level, this.Experience) * 1000);
+				packet.PutLong(MabiData.ExpDb.CalculateRemaining(this.Level, this.Experience) * 1000);
 				packet.PutShort(Age);
 				packet.PutFloat(this.StrBase);
 				packet.PutFloat(this.StrMod);

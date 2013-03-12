@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CSVReader.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Database\Exp.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Database.CSV.cs" />
     <Compile Include="Database.Dat.cs" />

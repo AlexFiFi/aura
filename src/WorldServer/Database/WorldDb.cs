@@ -250,8 +250,8 @@ namespace Aura.World.Database
 					character.StaminaMaxBase = reader.GetFloat("staminaMax");
 					character.Hunger = reader.GetFloat("food");
 					character.Stamina = reader.GetFloat("stamina");
-					character.Level = reader.GetUInt32("level");
-					character.LevelTotal = reader.GetUInt16("totalLevel");
+					character.Level = reader.GetUInt16("level");
+					character.LevelTotal = reader.GetUInt32("totalLevel");
 					character.Experience = reader.GetUInt64("experience");
 					character.Age = reader.GetByte("age");
 					character.StrBase = reader.GetFloat("strength");

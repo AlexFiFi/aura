@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Text;
 using Aura.Shared.Const;
-//using Aura.Shared.Data;
 using Aura.Shared.Database;
 using Aura.Shared.Network;
 using Aura.Shared.Util;

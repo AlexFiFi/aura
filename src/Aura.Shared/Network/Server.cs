@@ -198,6 +198,14 @@ namespace Aura.Shared.Network
 
 					Logger.Info("Done loading " + MabiData.PropDropDb.Count + " entries from prop_drops.txt.");
 				}
+
+				if ((toLoad & DataLoad.Exp) != 0)
+				{
+					MabiData.ExpDb.Load(dataPath + "/db/exp.txt", reload);
+					this.PrintDataWarnings(MabiData.PropDropDb.Warnings);
+
+					Logger.Info("Done loading " + MabiData.ExpDb.Count + " levels from exp.txt.");
+				}
 			}
 			catch (FileNotFoundException ex)
 			{
@@ -409,6 +417,7 @@ namespace Aura.Shared.Network
 		Regions = 0x200,
 		Shamala = 0x400,
 		PropDrops = 0x800,
+		Exp = 0x1000,
 
 		All = 0xFFFF,
 

@@ -12,8 +12,7 @@ namespace Aura.Msgr.Database
 	{
 		public static Contact GetContactOrCreate(ulong characterId, string name, string server)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				var mc = new MySqlCommand(
 					"SELECT co.contactId " +
@@ -52,17 +51,12 @@ namespace Aura.Msgr.Database
 
 				return contact;
 			}
-			finally
-			{
-				conn.Close();
-			}
 		}
 
 		public static uint GetContactId(string fullName)
 		{
 
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				var mc = new MySqlCommand(
 					"SELECT co.contactId " +
@@ -80,16 +74,11 @@ namespace Aura.Msgr.Database
 					return reader.GetUInt32("contactId");
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
 		}
 
 		public static List<Note> GetNotes(ulong contactId)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				var mc = new MySqlCommand("SELECT * FROM notes WHERE contactId = @contactId", conn);
 				mc.Parameters.AddWithValue("@contactId", contactId);
@@ -112,16 +101,11 @@ namespace Aura.Msgr.Database
 					return result;
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
 		}
 
 		public static ulong AddNote(Note note)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				var mc = new MySqlCommand(
 					"INSERT INTO notes (`contactId`, `from`, `msg`, `time`, `read`) " +
@@ -135,10 +119,6 @@ namespace Aura.Msgr.Database
 				mc.ExecuteNonQuery();
 
 				return (ulong)mc.LastInsertedId;
-			}
-			finally
-			{
-				conn.Close();
 			}
 		}
 	}

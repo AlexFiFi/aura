@@ -54,7 +54,6 @@
     <Compile Include="Const\CreatureStatus.cs" />
     <Compile Include="Const\Dungeons.cs" />
     <Compile Include="Const\Effects.cs" />
-    <Compile Include="Const\ExpTable.cs" />
     <Compile Include="Const\Ids.cs" />
     <Compile Include="Const\Skills.cs" />
     <Compile Include="Database\MabiDb.cs" />

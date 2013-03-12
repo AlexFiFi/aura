@@ -10,7 +10,6 @@ namespace Aura.World.World
 
 	public abstract class MabiEntity : IDisposable
 	{
-
 		private bool _disposed = false;
 
 		/// <summary>
@@ -45,7 +44,6 @@ namespace Aura.World.World
 
 		public MabiEntity()
 		{
-
 		}
 	}
 }

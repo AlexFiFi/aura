@@ -180,21 +180,14 @@ namespace Aura.Shared.Database
 		/// <returns></returns>
 		public bool IsSessionKey(string accName, ulong key)
 		{
-			var conn = this.GetConnection();
-			try
+			using (var conn = this.GetConnection())
 			{
 				var mc = new MySqlCommand("SELECT session FROM accounts WHERE accountId = @id AND session = @session", conn);
 				mc.Parameters.AddWithValue("@id", accName);
 				mc.Parameters.AddWithValue("@session", key);
 
 				using (var reader = mc.ExecuteReader())
-				{
-					return reader.Read();
-				}
-			}
-			finally
-			{
-				conn.Close();
+					return reader.HasRows;
 			}
 		}
 
@@ -246,7 +239,8 @@ namespace Aura.Shared.Database
 		}
 
 		/// <summary>
-		/// Checks if the name is okay, and if a character (or pet) with the given name exists.
+		/// Checks if the name pattern is okay, and if a character (or pet)
+		/// with the given name exists.
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
@@ -263,7 +257,7 @@ namespace Aura.Shared.Database
 				mc.Parameters.AddWithValue("@name", name);
 
 				using (var reader = mc.ExecuteReader())
-					return reader.HasRows;
+					return !reader.HasRows;
 			}
 		}
 
@@ -273,12 +267,12 @@ namespace Aura.Shared.Database
 		/// <returns></returns>
 		public List<MabiServers> GetServerList()
 		{
-			var conn = this.GetConnection();
-			try
+			using (var conn = this.GetConnection())
 			{
-				var serverList = new List<MabiServers>();
+				var result = new List<MabiServers>();
 
-				using (var reader = this.Query("SELECT * FROM channels ORDER BY name ASC", conn))
+				var mc = new MySqlCommand("SELECT * FROM channels ORDER BY name ASC", conn);
+				using (var reader = mc.ExecuteReader())
 				{
 					while (reader.Read())
 					{
@@ -293,18 +287,14 @@ namespace Aura.Shared.Database
 						var newChannel = new MabiChannel(reader.GetString("name"), reader.GetString("ip"), reader.GetUInt16("port"), state, events, stress);
 
 						// Add server if it's new to us
-						if (!serverList.Exists(a => a.Name == serverName))
-							serverList.Add(new MabiServers(serverName));
+						if (!result.Exists(a => a.Name == serverName))
+							result.Add(new MabiServers(serverName));
 
-						serverList.First(a => a.Name == serverName).Channels.Add(newChannel);
+						result.First(a => a.Name == serverName).Channels.Add(newChannel);
 					}
 				}
 
-				return serverList;
-			}
-			finally
-			{
-				conn.Close();
+				return result;
 			}
 		}
 	}
