@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Character.cs" />
-    <Compile Include="Database\CharacterCard.cs" />
+    <Compile Include="Database\Gift.cs" />
     <Compile Include="Database\Item.cs" />
     <Compile Include="Database\LoginDb.cs" />
     <Compile Include="Database\Skill.cs" />

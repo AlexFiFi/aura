@@ -113,9 +113,9 @@ namespace Aura.Shared.Network
 		public MabiPacket PutFloat(double val) { return this.Put((float)val); }
 		public MabiPacket PutFloats(params float[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
 
-		public MabiPacket PutString(string val) { return this.Put(val); }
-		public MabiPacket PutString(string format, params object[] args) { return this.Put(string.Format(format, args)); }
-		public MabiPacket PutStrings(params string[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
+		public MabiPacket PutString(string val) { return this.Put(val != null ? val : string.Empty); }
+		public MabiPacket PutString(string format, params object[] args) { return this.Put(string.Format((format != null ? format : string.Empty), args)); }
+		public MabiPacket PutStrings(params string[] vals) { foreach (var val in vals) { this.PutString(val); } return this; }
 
 		public MabiPacket PutBin(byte[] val) { return this.Put(val); }
 		public MabiPacket PutBin(object obj)
@@ -130,6 +130,13 @@ namespace Aura.Shared.Network
 
 			return this.PutBin(arr);
 		}
+
+		public MabiPacket PutObj(IPackable obj)
+		{
+			obj.AddToPacket(this);
+			return this;
+		}
+
 
 		// Getters
 		// ------------------------------------------------------------------
@@ -548,5 +555,11 @@ namespace Aura.Shared.Network
 
 			return result.ToString();
 		}
+	}
+
+	// Test
+	public interface IPackable
+	{
+		void AddToPacket(MabiPacket packet);
 	}
 }

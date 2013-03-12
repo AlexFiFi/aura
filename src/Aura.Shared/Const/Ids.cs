@@ -34,5 +34,8 @@ namespace Aura.Shared.Const
 		public const ulong QuestItemOffset = 0x0010000000000000;
 
 		public const ulong Instances = 0x0100000000000001;
+
+		// Default type for pet/partner cards.
+		public const uint PetCardType = 102;
 	}
 }

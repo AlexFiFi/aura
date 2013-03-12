@@ -24,8 +24,6 @@ namespace Aura.World.Player
 
 		public List<MabiCharacter> Characters = new List<MabiCharacter>();
 		public List<MabiPet> Pets = new List<MabiPet>();
-		public List<MabiCard> CharacterCards = new List<MabiCard>();
-		public List<MabiCard> PetCards = new List<MabiCard>();
 
 		public Account()
 		{

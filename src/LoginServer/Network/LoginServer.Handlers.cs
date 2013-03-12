@@ -24,6 +24,7 @@ namespace Aura.Login.Network
 			this.RegisterPacketHandler(Op.EnterGame, HandleEnterGame);
 			this.RegisterPacketHandler(Op.Disconnect, HandleDisconnect);
 			this.RegisterPacketHandler(Op.NameCheck, HandleCheckName);
+			this.RegisterPacketHandler(Op.AccountInfoRequest, HandleAccountInfoRequest);
 
 			this.RegisterPacketHandler(Op.CharInfoRequest, HandleCharacterInfoRequest);
 			this.RegisterPacketHandler(Op.CreateCharacter, HandleCreateCharacter);
@@ -32,7 +33,7 @@ namespace Aura.Login.Network
 			this.RegisterPacketHandler(Op.RecoverChar, HandleDeletePC);
 
 			// Partners are considered Pets, aside from CreatePartner.
-			this.RegisterPacketHandler(Op.PetInfoRequest, HandlePetInfoRequest);
+			this.RegisterPacketHandler(Op.PetInfoRequest, HandleCharacterInfoRequest);
 			this.RegisterPacketHandler(Op.CreatePet, HandleCreatePet);
 			this.RegisterPacketHandler(Op.CreatePartner, HandleCreatePartner);
 			this.RegisterPacketHandler(Op.DeletePetRequest, HandleDeletePC);
@@ -42,6 +43,9 @@ namespace Aura.Login.Network
 			// Sent when entering Pet/Partner creation.
 			this.RegisterPacketHandler(Op.CreatingPet, HandleEnterPetCreation);
 			this.RegisterPacketHandler(Op.CreatingPartner, HandleEnterPetCreation);
+
+			this.RegisterPacketHandler(Op.AcceptGift, HandleAcceptGift);
+			this.RegisterPacketHandler(Op.RefuseGift, HandleRefuseGift);
 		}
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)
@@ -157,10 +161,11 @@ namespace Aura.Login.Network
 			LoginDb.Instance.UpdateAccount(account);
 
 			// Req. Info
-			account.CharacterCards = LoginDb.Instance.GetCharacterCards(username);
-			account.PetCards = LoginDb.Instance.GetPetCards(username);
+			account.CharacterCards = MabiDb.Instance.GetCharacterCards(username);
+			account.PetCards = MabiDb.Instance.GetPetCards(username);
 			account.Characters = LoginDb.Instance.GetCharacters(username);
 			account.Pets = LoginDb.Instance.GetPets(username);
+			account.Gifts = LoginDb.Instance.GetGifts(username);
 
 			// Add free cards if there are none.
 			// If you don't have chars and char cards, you get a new free card,
@@ -169,21 +174,20 @@ namespace Aura.Login.Network
 			if (account.CharacterCards.Count < 1 && account.Characters.Count < 1)
 			{
 				// Free card
-				var cardId = LoginDb.Instance.AddCharacterCard(username, 147);
-				account.CharacterCards.Add(new Card(cardId, 147));
+				var cardId = MabiDb.Instance.AddCard(username, 147, 0);
+				account.CharacterCards.Add(new Card(cardId, 147, 0));
 
 				if (account.PetCards.Count < 1 && account.Pets.Count < 1)
 				{
 					// 7-day Horse
-					cardId = LoginDb.Instance.AddPetCard(username, 260016);
-					account.PetCards.Add(new Card(260016));
+					cardId = MabiDb.Instance.AddCard(username, Id.PetCardType, 260016);
+					account.PetCards.Add(new Card(cardId, Id.PetCardType, 260016));
 				}
 			}
 
-			var response = new MabiPacket(Op.LoginR, Id.Login);
-
-			// Account
+			// Success Response
 			// --------------------------------------------------------------
+			var response = new MabiPacket(Op.LoginR, Id.Login);
 			response.PutByte((byte)LoginResult.Success);
 			response.PutString(username);
 			if (Op.Version > 160000)
@@ -215,108 +219,9 @@ namespace Aura.Login.Network
 				}
 			}
 
-			// Premium services?
+			// Account Info
 			// --------------------------------------------------------------
-			response.PutLong(63461647475710);
-			response.PutLong(63461647484213);
-			response.PutInt(0);
-			response.PutByte(1);
-			response.PutByte(34);
-			response.PutInt(0x800200FF);
-			response.PutByte(1);
-			response.PutByte(0);
-			response.PutLong(0); //
-			response.PutByte(0);
-			response.PutLong(0);
-			response.PutByte(0);
-			response.PutLong(0);
-			response.PutByte(0);
-			response.PutByte(1);
-			response.PutByte(0); // Inventory Plus Kit
-			response.PutLong(63362367600000);
-			response.PutByte(0); // Mabinogi Premium Pack
-			response.PutLong(63362367600000);
-			response.PutByte(0); // Mabinogi VIP
-			response.PutLong(0); // till next week = (ulong)(DateTime.Now.AddDays(7).Ticks/10000)
-			response.PutByte(0);
-			response.PutByte(0);
-			response.PutByte(0);
-
-			// Characters
-			// --------------------------------------------------------------
-			response.PutShort((ushort)account.Characters.Count);
-			foreach (var character in account.Characters)
-			{
-				response.PutString(character.Server);
-				response.PutLong(character.Id);
-				response.PutString(character.Name);
-				response.PutByte((byte)character.DeletionFlag);
-				response.PutLong(0); // ??
-				response.PutInt(0);
-				response.PutByte(0); // 0 = Human. 1 = Elf. 2 = Giant.
-				response.PutByte(0);
-				response.PutByte(0);
-			}
-
-			// Pets
-			// --------------------------------------------------------------
-			response.PutShort((ushort)account.Pets.Count);
-			foreach (var pet in account.Pets)
-			{
-				response.PutString(pet.Server);
-				response.PutLong(pet.Id);
-				response.PutString(pet.Name);
-				response.PutByte((byte)pet.DeletionFlag);
-				response.PutLong(0);
-				response.PutInt(pet.Race);
-				response.PutLong(0);
-				response.PutLong(0);
-				response.PutInt(0);
-				response.PutByte(0);
-			}
-
-			// Character cards
-			// --------------------------------------------------------------
-			response.PutShort((ushort)account.CharacterCards.Count);
-			foreach (var card in account.CharacterCards)
-			{
-				response.PutByte(0x01);
-				response.PutLong(card.Id);
-				response.PutInt(card.Type);
-				response.PutLong(0);
-				response.PutLong(0);
-				response.PutInt(0);
-			}
-
-			// Pet cards
-			// --------------------------------------------------------------
-			response.PutShort((ushort)account.PetCards.Count);
-			foreach (var card in account.PetCards)
-			{
-				response.PutByte(0x01);
-				response.PutLong(card.Id);
-				response.PutInt(102);
-				response.PutInt(card.Type);
-				response.PutLong(0);
-				response.PutLong(0);
-				response.PutInt(0);
-			}
-
-			// Gifts
-			// --------------------------------------------------------------
-			response.PutShort(0); // count
-			// foreach
-			//     long    cardId
-			//     byte    character/pet
-			//     uint    type
-			//     uint    race
-			//     string  sender
-			//     string  senderServer
-			//     string  receiver
-			//     string  receiverServer
-			//     long    ?
-
-			response.PutByte(0);
+			response.PutObj(account);
 
 			client.Account = account;
 			client.State = ClientState.LoggedIn;
@@ -353,12 +258,12 @@ namespace Aura.Login.Network
 			var serverName = packet.GetString();
 			var characterId = packet.GetLong();
 
-			var response = new MabiPacket(Op.CharInfo, Id.Login);
+			var response = new MabiPacket(packet.Op + 1, Id.Login);
 			response.PutByte(1);
 			response.PutString(serverName);
 			response.PutLong(characterId);
 
-			var character = client.Account.GetCharacter(characterId);
+			var character = (packet.Op != Op.PetInfoRequest ? client.Account.GetCharacter(characterId) : client.Account.GetPet(characterId));
 			if (character == null)
 			{
 				// Fail ?
@@ -557,7 +462,7 @@ namespace Aura.Login.Network
 			if (LoginConf.ConsumeCards)
 			{
 				client.Account.CharacterCards.Remove(card);
-				LoginDb.Instance.DeleteCharacterCard(client.Account.Name, cardId);
+				LoginDb.Instance.DeleteCard(client.Account.Name, cardId);
 			}
 
 			Logger.Info("New character: " + character.Name);
@@ -712,77 +617,6 @@ namespace Aura.Login.Network
 			client.Send(response);
 		}
 
-		private void HandlePetInfoRequest(LoginClient client, MabiPacket packet)
-		{
-			var serverName = packet.GetString();
-			var petId = packet.GetLong();
-
-			var response = new MabiPacket(Op.PetInfo, Id.Login);
-			response.PutByte(1);
-			response.PutString(serverName);
-			response.PutLong(petId);
-
-			var pet = client.Account.GetPet(petId);
-			if (pet == null)
-			{
-				// Fail
-				response.PutByte(0);
-				client.Send(response);
-				return;
-			}
-
-			// Success
-			response.PutByte(1);
-			response.PutString(pet.Name);
-			response.PutString("");
-			response.PutString("");
-			response.PutInt(pet.Race);
-			response.PutByte(pet.SkinColor);
-			response.PutByte(pet.Eye);
-			response.PutByte(pet.EyeColor);
-			response.PutByte(pet.Mouth);
-			response.PutInt(0);
-			response.PutFloat(pet.Height);
-			response.PutFloat(pet.Weight);
-			response.PutFloat(pet.Upper);
-			response.PutFloat(pet.Lower);
-			response.PutInt(0);
-			response.PutInt(0);
-			response.PutInt(0);
-			response.PutByte(0);
-			response.PutInt(0);
-			response.PutByte(0);
-			response.PutInt(pet.Color1);
-			response.PutInt(pet.Color2);
-			response.PutInt(pet.Color3);
-			response.PutFloat(0.0f);
-			response.PutString("");
-			response.PutFloat(49.0f);
-			response.PutFloat(49.0f);
-			response.PutFloat(0.0f);
-			response.PutFloat(49.0f);
-			response.PutInt(0);
-			response.PutInt(0);
-			response.PutShort(0);
-			response.PutLong(0);
-			response.PutString("");
-			response.PutByte(0);
-
-			var items = LoginDb.Instance.GetEquipment(petId);
-			response.PutSInt(items.Count);
-			foreach (var item in items)
-			{
-				response.PutLong(item.Id);
-				response.PutBin(item.Info);
-			}
-
-			response.PutInt(0);		 // PetRemainingTime
-			response.PutLong(0);	 // PetLastTime
-			response.PutLong(0);	 // PetExpireTime
-
-			client.Send(response);
-		}
-
 		private void HandleCreatePet(LoginClient client, MabiPacket packet)
 		{
 			var serverName = packet.GetString();
@@ -807,7 +641,7 @@ namespace Aura.Login.Network
 			// Create new pet
 			var pet = new Character(CharacterType.Pet);
 			pet.Name = name;
-			pet.Race = card.Type;
+			pet.Race = card.Race;
 			pet.Age = 1;
 			pet.Server = serverName;
 			pet.Region = LoginConf.SpawnRegion;
@@ -839,7 +673,7 @@ namespace Aura.Login.Network
 			if (LoginConf.ConsumeCards)
 			{
 				client.Account.PetCards.Remove(card);
-				LoginDb.Instance.DeletePetCard(client.Account.Name, cardId);
+				LoginDb.Instance.DeleteCard(client.Account.Name, cardId);
 			}
 
 			Logger.Info("New pet: " + pet.Name);
@@ -879,7 +713,7 @@ namespace Aura.Login.Network
 			// Create new partner
 			var partner = new Character(CharacterType.Partner);
 			partner.Name = name;
-			partner.Race = card.Type;
+			partner.Race = card.Race;
 			partner.SkinColor = skinColor;
 			partner.Eye = eye;
 			partner.EyeColor = eyeColor;
@@ -894,18 +728,18 @@ namespace Aura.Login.Network
 			client.Account.Pets.Add(partner);
 
 			uint setId = 0;
-			if (card.Type == 730201 || card.Type == 730202 || card.Type == 730204 || card.Type == 730205)
+			if (card.Race == 730201 || card.Race == 730202 || card.Race == 730204 || card.Race == 730205)
 				setId = 1000;
-			else if (card.Type == 730203)
+			else if (card.Race == 730203)
 				setId = 1001;
-			else if (card.Type == 730206)
+			else if (card.Race == 730206)
 				setId = 1002;
 
 			// Add set items and head
-			var cardItems = MabiData.CharCardSetDb.Find(setId, card.Type);
+			var cardItems = MabiData.CharCardSetDb.Find(setId, card.Race);
 			this.RandomizeItemColors(ref cardItems, (client.Account.Name + partner.Race + skinColor + hair + hairColor + 1 + eye + eyeColor + mouth + face));
-			cardItems.Add(new CharCardSetInfo { Class = face, Pocket = 3, Race = card.Type, Color1 = skinColor });
-			cardItems.Add(new CharCardSetInfo { Class = hair, Pocket = 4, Race = card.Type, Color1 = (uint)hairColor + 0x10000000 });
+			cardItems.Add(new CharCardSetInfo { Class = face, Pocket = 3, Race = card.Race, Color1 = skinColor });
+			cardItems.Add(new CharCardSetInfo { Class = hair, Pocket = 4, Race = card.Race, Color1 = (uint)hairColor + 0x10000000 });
 			LoginDb.Instance.AddItems(partnerId, cardItems);
 
 			// Skills
@@ -922,7 +756,7 @@ namespace Aura.Login.Network
 			if (LoginConf.ConsumeCards)
 			{
 				client.Account.PetCards.Remove(card);
-				LoginDb.Instance.DeletePetCard(client.Account.Name, cardId);
+				LoginDb.Instance.DeleteCard(client.Account.Name, cardId);
 			}
 
 			Logger.Info("New partner: " + partner.Name);
@@ -944,6 +778,69 @@ namespace Aura.Login.Network
 		private void HandleEnterPetCreation(LoginClient client, MabiPacket packet)
 		{
 			//Logger.Error("OMG! Someone is trying to create a pet/partner!!");
+		}
+
+		private void HandleAcceptGift(LoginClient client, MabiPacket packet)
+		{
+			var giftId = packet.GetLong();
+			var success = false;
+
+			var gift = client.Account.GetGift(giftId);
+			if (gift != null)
+			{
+				client.Account.Gifts.Remove(gift);
+
+				if (gift.IsCharacter)
+					client.Account.CharacterCards.Add(gift);
+				else
+					client.Account.PetCards.Add(gift);
+
+				LoginDb.Instance.ChangeGiftToCard(giftId);
+				success = true;
+			}
+
+			var response = new MabiPacket(Op.AcceptGiftR, Id.Login);
+			response.PutByte(success);
+			if (success)
+			{
+				response.PutByte(gift.IsCharacter); // is char ?
+				response.PutInt(0); // ???
+				response.PutInt(0); // ???
+				response.PutInt(gift.Type); // Type ?
+				// ?
+			}
+			client.Send(response);
+		}
+
+		private void HandleRefuseGift(LoginClient client, MabiPacket packet)
+		{
+			var giftId = packet.GetLong();
+			var success = false;
+
+			var gift = client.Account.GetGift(giftId);
+			if (gift != null)
+			{
+				LoginDb.Instance.DeleteCard(client.Account.Name, giftId);
+				client.Account.Gifts.Remove(gift);
+				success = true;
+			}
+
+			var response = new MabiPacket(Op.RefuseGiftR, Id.Login);
+			response.PutByte(success);
+			if (success)
+			{
+				// ?
+			}
+			client.Send(response);
+		}
+
+		private void HandleAccountInfoRequest(LoginClient client, MabiPacket packet)
+		{
+			var response = new MabiPacket(Op.AccountInfoRequestR, Id.Login);
+			response.PutByte(true);
+			response.PutObj(client.Account);
+
+			client.Send(response);
 		}
 	}
 }

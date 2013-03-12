@@ -297,5 +297,108 @@ namespace Aura.Shared.Database
 				return result;
 			}
 		}
+
+		/// <summary>
+		/// Returns all character cards present for this account.
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <returns></returns>
+		public List<Card> GetCharacterCards(string accountName)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				var mc = new MySqlCommand("SELECT `cardId`, `type` FROM `cards` WHERE `accountId` = @id AND race = 0 AND !`isGift`", conn);
+				mc.Parameters.AddWithValue("@id", accountName);
+
+				var result = new List<Card>();
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var card = new Card();
+						card.Id = reader.GetUInt32("cardId");
+						card.Type = reader.GetUInt32("type");
+
+						result.Add(card);
+					}
+				}
+
+				return result;
+			}
+		}
+
+		/// <summary>
+		/// Returns all pet and partner cards present for this account.
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <returns></returns>
+		public List<Card> GetPetCards(string accountName)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				var mc = new MySqlCommand("SELECT `cardId`, `type`, `race` FROM `cards` WHERE `accountId` = @id AND race > 0 AND !`isGift`", conn);
+				mc.Parameters.AddWithValue("@id", accountName);
+
+				var result = new List<Card>();
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var card = new Card();
+						card.Id = reader.GetUInt32("cardId");
+						card.Type = reader.GetUInt32("type");
+						card.Race = reader.GetUInt32("race");
+
+						result.Add(card);
+					}
+				}
+
+				return result;
+			}
+		}
+
+		/// <summary>
+		/// Adds a new card with the given type and race.
+		/// Returns new card id.
+		/// </summary>
+		/// <param name="accountName"></param>
+		/// <param name="type"></param>
+		/// <param name="race"></param>
+		/// <returns></returns>
+		public ulong AddCard(string accountName, uint type, uint race)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				var mc = new MySqlCommand("INSERT INTO `cards` (accountId, type, race) VALUES(@id, @type, @race)", conn);
+				mc.Parameters.AddWithValue("@id", accountName);
+				mc.Parameters.AddWithValue("@type", type);
+				mc.Parameters.AddWithValue("@race", race);
+				mc.ExecuteNonQuery();
+
+				return (ulong)mc.LastInsertedId;
+			}
+		}
+	}
+
+	public static class MySqlDataReaderExtension
+	{
+		public static bool IsDBNull(this MySqlDataReader reader, string index)
+		{
+			return reader.IsDBNull(reader.GetOrdinal(index));
+		}
+
+		/// <summary>
+		/// Same as GetString, except for a is null check. Returns null if NULL.
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public static string GetStringSafe(this MySqlDataReader reader, string index)
+		{
+			if (IsDBNull(reader, index))
+				return null;
+			else
+				return reader.GetString(index);
+		}
 	}
 }

@@ -45,8 +45,12 @@ namespace Aura.Shared.Network
 		public readonly static uint RecoverPetR = 0x44;
 		public readonly static uint CreatePartner = 0x45;
 		public readonly static uint CreatePartnerR = 0x46;
+		public readonly static uint AccountInfoRequest = 0x47;
+		public readonly static uint AccountInfoRequestR = 0x48;
 		public readonly static uint AcceptGift = 0x49;
+		public readonly static uint AcceptGiftR = 0x4A;
 		public readonly static uint RefuseGift = 0x4B;
+		public readonly static uint RefuseGiftR = 0x4C;
 		public readonly static uint Disconnect = 0x4D;
 		public readonly static uint CreatingPet = 0x50;
 		public readonly static uint CreatingPetR = 0x51;
@@ -368,9 +372,15 @@ namespace Aura.Shared.Network
 			{
 				ClientIdent = 0x1E;
 				Login = 0x0F010000;
-				Disconnect = 0x4B;
+				CreatePartner += 0x11110000;	 // non-existent
+				CreatePartnerR += 0x11110000; // non-existent
+				AccountInfoRequest = 0x45;
+				AccountInfoRequestR = 0x46;
 				AcceptGift = 0x47;
+				AcceptGiftR = 0x48;
 				RefuseGift = 0x49;
+				RefuseGiftR = 0x4A;
+				Disconnect = 0x4B;
 
 				Run = 0x0F010300;
 				Running = 0x0F0400A0;

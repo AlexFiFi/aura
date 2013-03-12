@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `bannedreason` varchar(255) NOT NULL DEFAULT '',
   `bannedexpiration` datetime DEFAULT NULL,
   `points` int(11) NOT NULL DEFAULT '0',
+  `session` BIGINT UNSIGNED NOT NULL DEFAULT '0',
+  `loggedIn` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -26,10 +28,18 @@ CREATE TABLE IF NOT EXISTS `channels` (
   PRIMARY KEY (`server`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
-CREATE TABLE IF NOT EXISTS `character_cards` (
+CREATE TABLE IF NOT EXISTS `cards` (
   `cardId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `accountId` varchar(50) NOT NULL,
   `type` int(11) unsigned NOT NULL,
+  `race` INT UNSIGNED NOT NULL DEFAULT '0' ,
+  `isGift` BOOLEAN NOT NULL DEFAULT FALSE ,
+  `message` VARCHAR( 200 ) NULL DEFAULT NULL ,
+  `sender` VARCHAR( 50 ) NULL DEFAULT NULL ,
+  `senderServer` VARCHAR( 100 ) NULL DEFAULT NULL ,
+  `receiver` VARCHAR( 50 ) NULL DEFAULT NULL ,
+  `receiverServer` VARCHAR( 100 ) NULL DEFAULT NULL ,
+  `added` DATETIME NULL DEFAULT NULL ,
   PRIMARY KEY (`cardId`),
   KEY `account` (`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -149,6 +159,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `sellingprice` int(10) unsigned NOT NULL,
   `expiration` int(10) unsigned NOT NULL,
   `update_time` datetime DEFAULT NULL,
+  `tags` TEXT NOT NULL,
   PRIMARY KEY (`itemID`),
   KEY `characterId` (`characterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -158,20 +169,6 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `characterId` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`keywordId`,`characterId`),
   KEY `keywords_ibfk_1` (`characterId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE IF NOT EXISTS `pet_cards` (
-  `cardId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `accountId` varchar(50) DEFAULT NULL,
-  `type` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`cardId`),
-  KEY `account` (`accountId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `sessions` (
-  `accountId` varchar(50) NOT NULL,
-  `session` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`accountId`,`session`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `skills` (
@@ -223,8 +220,8 @@ CREATE TABLE IF NOT EXISTS `quest_progress` (
   KEY `questId` (`questId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-ALTER TABLE `character_cards`
-  ADD CONSTRAINT `character_cards_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `cards`
+  ADD CONSTRAINT `cards_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `characters`
   ADD CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -234,9 +231,6 @@ ALTER TABLE `items`
 
 ALTER TABLE `keywords`
   ADD CONSTRAINT `keywords_ibfk_1` FOREIGN KEY (`characterId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `pet_cards`
-  ADD CONSTRAINT `pet_cards_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `skills`
   ADD CONSTRAINT `skills_ibfk_1` FOREIGN KEY (`characterId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -253,7 +247,7 @@ ALTER TABLE `quests`
 ALTER TABLE `quest_progress`
   ADD CONSTRAINT `quest_progress_ibfk_1` FOREIGN KEY (`questId`) REFERENCES `quests` (`questId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-CREATE TABLE IF NOT EXISTS `aura`.`mail` (
+CREATE TABLE IF NOT EXISTS `mail` (
   `messageId` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `senderId` BIGINT(20) UNSIGNED NOT NULL ,
   `senderName` VARCHAR(50) NOT NULL ,
@@ -271,22 +265,22 @@ CREATE TABLE IF NOT EXISTS `aura`.`mail` (
   INDEX `senderId` (`senderId` ASC) ,
   CONSTRAINT `recipientId`
     FOREIGN KEY (`recipientId` )
-    REFERENCES `aura`.`characters` (`characterId` )
+    REFERENCES `characters` (`characterId` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `senderId`
     FOREIGN KEY (`senderId` )
-    REFERENCES `aura`.`characters` (`characterId` )
+    REFERENCES `characters` (`characterId` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `itemId`
     FOREIGN KEY (`itemId` )
-    REFERENCES `aura`.`items` (`itemId` )
+    REFERENCES `items` (`itemId` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
     
-INSERT INTO `aura`.`accounts` (`accountId`, `password`, `authority`, `creation`, `lastlogin`, `lastip`, `bannedexpiration`, `points`) VALUES ('Aura System', '0', 0, '0001-01-01 00:00:00', '0001-01-01 00:00:00', '', '0001-01-01 00:00:00', 0);
+INSERT INTO `accounts` (`accountId`, `password`, `authority`, `creation`, `lastlogin`, `lastip`, `bannedexpiration`, `points`) VALUES ('Aura System', '0', 0, '0001-01-01 00:00:00', '0001-01-01 00:00:00', '', '0001-01-01 00:00:00', 0);
 
-INSERT INTO `aura`.`characters` (`characterId`, `server`, `accountId`, `name`, `type`, `race`, `skinColor`, `eyeType`, `eyeColor`, `mouthType`, `status`, `height`, `fatness`, `upper`, `lower`, `region`, `x`, `y`, `direction`, `battleState`, `weaponSet`, `life`, `injuries`, `lifeMax`, `mana`, `manaMax`, `stamina`, `staminaMax`, `food`, `level`, `totalLevel`, `experience`, `age`, `strength`, `dexterity`, `intelligence`, `will`, `luck`, `abilityPoints`, `attackMin`, `attackMax`, `wattackMin`, `wattackMax`, `critical`, `protect`, `defense`, `rate`, `strBoost`, `dexBoost`, `intBoost`, `willBoost`, `luckBoost`, `birthday`, `title`, `deletionTime`, `maxLevel`, `rebirthCount`, `jobId`, `color1`, `color2`, `color3`) VALUES (1, 'Aura', 'Aura System', 'Mail System', 'CHARACTER', 10001, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 10, 0, 10, 10, 10, 10, 10, 0, 1, 0, 0, 17, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0001-01-01 00:00:00', 0, '0001-01-01 00:00:00', 200, 0, 0, 0, 0, 0);
+INSERT INTO `characters` (`characterId`, `server`, `accountId`, `name`, `type`, `race`, `skinColor`, `eyeType`, `eyeColor`, `mouthType`, `status`, `height`, `fatness`, `upper`, `lower`, `region`, `x`, `y`, `direction`, `battleState`, `weaponSet`, `life`, `injuries`, `lifeMax`, `mana`, `manaMax`, `stamina`, `staminaMax`, `food`, `level`, `totalLevel`, `experience`, `age`, `strength`, `dexterity`, `intelligence`, `will`, `luck`, `abilityPoints`, `attackMin`, `attackMax`, `wattackMin`, `wattackMax`, `critical`, `protect`, `defense`, `rate`, `strBoost`, `dexBoost`, `intBoost`, `willBoost`, `luckBoost`, `birthday`, `title`, `deletionTime`, `maxLevel`, `rebirthCount`, `jobId`, `color1`, `color2`, `color3`, `lastTown`, `lastDungeon`) VALUES (1, 'Aura', 'Aura System', 'Mail System', 'CHARACTER', 10001, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 10, 0, 10, 10, 10, 10, 10, 0, 1, 0, 0, 17, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0001-01-01 00:00:00', 0, '0001-01-01 00:00:00', 200, 0, 0, 0, 0, 0, '', '');
 
-INSERT INTO `aura`.`items` (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos_y`, `varint`, `color_01`, `color_02`, `color_03`, `price`, `bundle`, `linked_pocket`, `figure`, `flag`, `durability`, `durability_max`, `origin_durability_max`, `attack_min`, `attack_max`, `wattack_min`, `wattack_max`, `balance`, `critical`, `defence`, `protect`, `effective_range`, `attack_speed`, `experience`, `exp_point`, `upgraded`, `upgraded_max`, `grade`, `prefix`, `suffix`, `data`, `option`, `sellingprice`, `expiration`, `update_time`) VALUES (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0, '2012-12-23 00:00:00');
+INSERT INTO `items` (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos_y`, `varint`, `color_01`, `color_02`, `color_03`, `price`, `bundle`, `linked_pocket`, `figure`, `flag`, `durability`, `durability_max`, `origin_durability_max`, `attack_min`, `attack_max`, `wattack_min`, `wattack_max`, `balance`, `critical`, `defence`, `protect`, `effective_range`, `attack_speed`, `experience`, `exp_point`, `upgraded`, `upgraded_max`, `grade`, `prefix`, `suffix`, `data`, `option`, `sellingprice`, `expiration`, `update_time`, `tags`) VALUES (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0, '2012-12-23 00:00:00', '');

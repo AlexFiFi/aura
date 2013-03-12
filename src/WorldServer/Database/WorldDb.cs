@@ -120,46 +120,9 @@ namespace Aura.World.Database
 					account.BannedExpiration = reader["bannedexpiration"] as DateTime? ?? DateTime.MinValue;
 				}
 
-				this.GetCards(account);
 				this.GetCharacters(account);
 
 				return account;
-			}
-		}
-
-		/// <summary>
-		/// Reads all cards for the given account from the database, and adds them to it.
-		/// </summary>
-		/// <param name="account"></param>
-		private void GetCards(Account account)
-		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
-			{
-				using (var reader = MabiDb.Instance.Query("SELECT cardId, type FROM character_cards WHERE accountId = '" + account.Username + "'", conn))
-				{
-					while (reader.Read())
-					{
-						var card = new MabiCard(reader.GetUInt64("cardId"), reader.GetUInt32("type"));
-						account.CharacterCards.Add(card);
-					}
-					reader.Close();
-				}
-
-				using (var reader = MabiDb.Instance.Query("SELECT cardId, type FROM pet_cards WHERE accountId = '" + account.Username + "'", conn))
-				{
-					while (reader.Read())
-					{
-						var card = new MabiCard(reader.GetUInt64("cardId"), reader.GetUInt32("type"));
-						account.PetCards.Add(card);
-					}
-
-					reader.Close();
-				}
-			}
-			finally
-			{
-				conn.Close();
 			}
 		}
 
@@ -675,98 +638,22 @@ namespace Aura.World.Database
 
 				mc.ExecuteNonQuery();
 
-				this.SaveCards(account);
-
 				// Save characters
-				foreach (var character in account.Characters)
+				foreach (var character in account.Characters.Where(a => a.Save))
 				{
-					if (!character.Save)
-						continue;
-
 					if (character.DeletionTime < DateTime.MaxValue)
 						this.SaveCharacter(account, character);
 					else
 						MabiDb.Instance.QueryN("DELETE FROM characters WHERE characterId = " + character.Id.ToString(), conn);
 				}
 
-				foreach (var pet in account.Pets)
+				foreach (var pet in account.Pets.Where(a => a.Save))
 				{
-					if (!pet.Save)
-						continue;
-
 					if (pet.DeletionTime < DateTime.MaxValue)
 						this.SaveCharacter(account, pet);
 					else
 						MabiDb.Instance.QueryN("DELETE FROM characters WHERE characterId = " + pet.Id.ToString(), conn);
 				}
-			}
-			finally
-			{
-				conn.Close();
-			}
-		}
-
-		/// <summary>
-		/// Writes all cards in the given account object to the database.
-		/// </summary>
-		/// <param name="account"></param>
-		public void SaveCards(Account account)
-		{
-			var conn = MabiDb.Instance.GetConnection();
-			MySqlTransaction transaction = null;
-
-			try
-			{
-				transaction = conn.BeginTransaction();
-
-				var delmc = new MySqlCommand("DELETE FROM character_cards WHERE accountId = @id", conn, transaction);
-				delmc.Parameters.AddWithValue("@id", account.Username);
-				delmc.ExecuteNonQuery();
-
-				delmc = new MySqlCommand("DELETE FROM pet_cards WHERE accountId = @id", conn, transaction);
-				delmc.Parameters.AddWithValue("@id", account.Username);
-				delmc.ExecuteNonQuery();
-
-				var mc = new MySqlCommand("INSERT INTO character_cards (accountId, type) VALUES(@id, @type)", conn, transaction);
-				foreach (var card in account.CharacterCards)
-				{
-					mc.Parameters.Clear();
-					mc.Parameters.AddWithValue("@id", account.Username);
-					mc.Parameters.AddWithValue("@type", card.Race);
-					mc.ExecuteNonQuery();
-				}
-
-				mc = new MySqlCommand("INSERT INTO pet_cards (accountId, type) VALUES(@id, @type)", conn, transaction);
-				foreach (var card in account.PetCards)
-				{
-					mc.Parameters.Clear();
-					mc.Parameters.AddWithValue("@id", account.Username);
-					mc.Parameters.AddWithValue("@type", card.Race);
-					mc.ExecuteNonQuery();
-				}
-
-				transaction.Commit();
-			}
-			catch (Exception ex)
-			{
-				transaction.Rollback();
-				throw ex;
-			}
-			finally
-			{
-				conn.Close();
-			}
-		}
-
-		public void AddCard(string table, string accountId, int cardId)
-		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
-			{
-				var mc = new MySqlCommand("INSERT INTO " + table + " (accountId, type) VALUES(@account, @card)", conn);
-				mc.Parameters.AddWithValue("@account", accountId);
-				mc.Parameters.AddWithValue("@card", cardId);
-				mc.ExecuteNonQuery();
 			}
 			finally
 			{

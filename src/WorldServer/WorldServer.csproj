@@ -68,7 +68,6 @@
     <Compile Include="Network\WorldServer.Handlers.cs" />
     <Compile Include="Network\WorldServer.cs" />
     <Compile Include="Player\Account.cs" />
-    <Compile Include="Player\MabiCard.cs" />
     <Compile Include="Player\MabiCharacter.cs" />
     <Compile Include="Player\MabiPC.cs" />
     <Compile Include="Player\MabiPet.cs" />

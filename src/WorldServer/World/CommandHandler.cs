@@ -17,6 +17,7 @@ using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.Tools;
 using Aura.World.Events;
+using Aura.Shared.Database;
 
 namespace Aura.World.World
 {
@@ -867,15 +868,19 @@ namespace Aura.World.World
 			{
 				var type = args[1];
 
-				if (type == "character")
-					(target.Client as WorldClient).Account.CharacterCards.Add(new MabiCard(cardId));
-				else if (type == "pet")
-					(target.Client as WorldClient).Account.PetCards.Add(new MabiCard(cardId));
-				else
+				uint race = 0;
+				if (type == "pet")
+				{
+					race = cardId;
+					cardId = Id.PetCardType;
+				}
+				else if (type != "character")
 				{
 					client.Send(PacketCreator.ServerMessage(creature, "Invalid card type."));
 					return CommandResult.WrongParameter;
 				}
+
+				MabiDb.Instance.AddCard(client.Account.Username, cardId, race);
 
 				client.Send(PacketCreator.ServerMessage(creature, "Card added."));
 				return CommandResult.Okay;

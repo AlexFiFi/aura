@@ -110,38 +110,34 @@ namespace Aura.Login.Database
 		// ------------------------------------------------------------------
 
 		/// <summary>
-		/// Returns all character cards present for this account.
+		/// Returns all gifted cards present for this account.
 		/// </summary>
 		/// <param name="accountName"></param>
 		/// <returns></returns>
-		public List<Card> GetCharacterCards(string accountName)
-		{ return this.GetCards(accountName, "character_cards"); }
-
-		/// <summary>
-		/// Returns all pet and partner cards present for this account.
-		/// </summary>
-		/// <param name="accountName"></param>
-		/// <returns></returns>
-		public List<Card> GetPetCards(string accountName)
-		{ return this.GetCards(accountName, "pet_cards"); }
-
-		private List<Card> GetCards(string accountName, string table)
+		public List<Gift> GetGifts(string accountName)
 		{
 			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				var mc = new MySqlCommand("SELECT `cardId`, `type` FROM `" + table + "` WHERE `accountId` = @id", conn);
+				var mc = new MySqlCommand("SELECT * FROM `cards` WHERE `accountId` = @id AND `isGift`", conn);
 				mc.Parameters.AddWithValue("@id", accountName);
 
-				var result = new List<Card>();
+				var result = new List<Gift>();
 				using (var reader = mc.ExecuteReader())
 				{
 					while (reader.Read())
 					{
-						var card = new Card();
-						card.Id = reader.GetUInt32("cardId");
-						card.Type = reader.GetUInt32("type");
+						var gift = new Gift();
+						gift.Id = reader.GetUInt32("cardId");
+						gift.Type = reader.GetUInt32("type");
+						gift.Race = reader.GetUInt32("race");
+						gift.Message = reader.GetStringSafe("message");
+						gift.Sender = reader.GetStringSafe("sender");
+						gift.SenderServer = reader.GetStringSafe("senderServer");
+						gift.Receiver = reader.GetStringSafe("receiver");
+						gift.ReceiverServer = reader.GetStringSafe("receiverServer");
+						gift.Added = reader["added"] as DateTime? ?? DateTime.Now;
 
-						result.Add(card);
+						result.Add(gift);
 					}
 				}
 
@@ -150,58 +146,31 @@ namespace Aura.Login.Database
 		}
 
 		/// <summary>
-		/// Adds a new character card with the given type.
-		/// Returns new card id.
+		/// Deletes the card with the given id on the given account.
 		/// </summary>
 		/// <param name="accountName"></param>
-		/// <param name="type"></param>
-		public ulong AddCharacterCard(string accountName, uint type)
-		{ return this.AddCard(accountName, "character_cards", type); }
-
-		/// <summary>
-		/// Adds a new pet card with the given race.
-		/// Returns new card id.
-		/// </summary>
-		/// <param name="accountName"></param>
-		/// <param name="race"></param>
-		public ulong AddPetCard(string accountName, uint race)
-		{ return this.AddCard(accountName, "pet_cards", race); }
-
-		private ulong AddCard(string accountName, string table, uint type)
+		/// <param name="table"></param>
+		/// <param name="cardId"></param>
+		public void DeleteCard(string accountName, ulong cardId)
 		{
 			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				var mc = new MySqlCommand("INSERT INTO `" + table + "` (accountId, type) VALUES(@id, @type)", conn);
-				mc.Parameters.AddWithValue("@id", accountName);
-				mc.Parameters.AddWithValue("@type", type);
+				var mc = new MySqlCommand("DELETE FROM `cards` WHERE `accountId` = @accountId AND cardId = @cardId", conn);
+				mc.Parameters.AddWithValue("@accountId", accountName);
+				mc.Parameters.AddWithValue("@cardId", cardId);
 				mc.ExecuteNonQuery();
-
-				return (ulong)mc.LastInsertedId;
 			}
 		}
 
 		/// <summary>
-		/// Deletes the character card with the given id on the given account.
+		/// Changes values of the (gift) card in the database, to make it a regular card.
 		/// </summary>
-		/// <param name="accountName"></param>
 		/// <param name="cardId"></param>
-		public void DeleteCharacterCard(string accountName, ulong cardId)
-		{ this.DeleteCard(accountName, "character_cards", cardId); }
-
-		/// <summary>
-		/// Deletes the pet/partner card with the given id on the given account.
-		/// </summary>
-		/// <param name="accountName"></param>
-		/// <param name="cardId"></param>
-		public void DeletePetCard(string accountName, ulong cardId)
-		{ this.DeleteCard(accountName, "pet_cards", cardId); }
-
-		private void DeleteCard(string accountName, string table, ulong cardId)
+		public void ChangeGiftToCard(ulong cardId)
 		{
 			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				var mc = new MySqlCommand("DELETE FROM `" + table + "` WHERE `accountId` = @accountId AND cardId = @cardId", conn);
-				mc.Parameters.AddWithValue("@accountId", accountName);
+				var mc = new MySqlCommand("UPDATE `cards` SET `isGift` = FALSE WHERE cardId = @cardId", conn);
 				mc.Parameters.AddWithValue("@cardId", cardId);
 				mc.ExecuteNonQuery();
 			}

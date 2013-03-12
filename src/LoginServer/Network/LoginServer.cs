@@ -8,6 +8,7 @@ using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.Login.Database;
 using Aura.Login.Util;
+using Aura.Shared.Const;
 
 namespace Aura.Login.Network
 {
@@ -166,9 +167,9 @@ namespace Aura.Login.Network
 						}
 
 						if (type == "character")
-							LoginDb.Instance.AddCharacterCard(account, card);
+							MabiDb.Instance.AddCard(account, card, 0);
 						else
-							LoginDb.Instance.AddPetCard(account, card);
+							MabiDb.Instance.AddCard(account, Id.PetCardType, card);
 
 						Logger.Info("Card added.");
 					}
