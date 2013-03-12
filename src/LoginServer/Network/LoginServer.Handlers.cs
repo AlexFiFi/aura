@@ -384,6 +384,22 @@ namespace Aura.Login.Network
 			character.X = LoginConf.SpawnX;
 			character.Y = LoginConf.SpawnY;
 
+			var ageInfo = MabiData.StatsBaseDb.Find(character.Race, character.Age);
+			if (ageInfo == null)
+				Logger.Warning("Unable to find age info for race '{0}', age '{1}'.", character.Race, character.Age);
+			else
+			{
+				character.Life = ageInfo.Life;
+				character.Mana = ageInfo.Mana;
+				character.Stamina = ageInfo.Stamina;
+				character.Str = ageInfo.Str;
+				character.Int = ageInfo.Int;
+				character.Dex = ageInfo.Dex;
+				character.Will = ageInfo.Will;
+				character.Luck = ageInfo.Luck;
+				character.AP = ageInfo.AP;
+			}
+
 			var characterId = LoginDb.Instance.CreateCharacter(client.Account.Name, character);
 			client.Account.Characters.Add(character);
 
@@ -626,11 +642,11 @@ namespace Aura.Login.Network
 			var color2 = packet.GetInt();
 			var color3 = packet.GetInt();
 
-			MabiPacket response = new MabiPacket(Op.PetCreated, Id.Login);
+			var response = new MabiPacket(Op.PetCreated, Id.Login);
 
-			// Check if the card is valid
+			// Check if the card, name, and race are valid
 			var card = client.Account.GetPetCard(cardId);
-			if (card == null || !MabiDb.Instance.NameOkay(name, serverName))
+			if (card == null || !MabiDb.Instance.NameOkay(name, serverName) || !MabiData.PetDb.Has(card.Race))
 			{
 				// Fail
 				response.PutByte(0);
@@ -647,13 +663,33 @@ namespace Aura.Login.Network
 			pet.Region = LoginConf.SpawnRegion;
 			pet.X = LoginConf.SpawnX;
 			pet.Y = LoginConf.SpawnY;
-			pet.Height = 0.7f;
 
+			var petInfo = MabiData.PetDb.Find(pet.Race);
+
+			pet.Height = petInfo.Height;
+			pet.Upper = petInfo.Upper;
+			pet.Lower = petInfo.Lower;
+			pet.Life = petInfo.Life;
+			pet.Mana = petInfo.Mana;
+			pet.Stamina = petInfo.Stamina;
+			pet.Str = petInfo.Str;
+			pet.Int = petInfo.Int;
+			pet.Dex = petInfo.Dex;
+			pet.Will = petInfo.Will;
+			pet.Luck = petInfo.Luck;
+			pet.Defense = petInfo.Defense;
+			pet.Protection = petInfo.Protection;
 			if (color1 > 0 || color2 > 0 || color3 > 0)
 			{
 				pet.Color1 = color1;
 				pet.Color2 = color2;
 				pet.Color3 = color3;
+			}
+			else
+			{
+				pet.Color1 = petInfo.Color1;
+				pet.Color2 = petInfo.Color2;
+				pet.Color3 = petInfo.Color3;
 			}
 
 			var petId = LoginDb.Instance.CreateCharacter(client.Account.Name, pet);
@@ -719,6 +755,9 @@ namespace Aura.Login.Network
 			partner.EyeColor = eyeColor;
 			partner.Mouth = mouth;
 			partner.Height = height;
+			partner.Weight = weight;
+			partner.Upper = upper;
+			partner.Lower = lower;
 			partner.Server = serverName;
 			partner.Region = LoginConf.SpawnRegion;
 			partner.X = LoginConf.SpawnX;

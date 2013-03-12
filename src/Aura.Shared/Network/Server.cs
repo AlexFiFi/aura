@@ -206,6 +206,14 @@ namespace Aura.Shared.Network
 
 					Logger.Info("Done loading " + MabiData.ExpDb.Count + " levels from exp.txt.");
 				}
+
+				if ((toLoad & DataLoad.Pets) != 0)
+				{
+					MabiData.PetDb.Load(dataPath + "/db/pets.txt", reload);
+					this.PrintDataWarnings(MabiData.PetDb.Warnings);
+
+					Logger.Info("Done loading " + MabiData.PetDb.Count + " entries from pets.txt.");
+				}
 			}
 			catch (FileNotFoundException ex)
 			{
@@ -418,10 +426,11 @@ namespace Aura.Shared.Network
 		Shamala = 0x400,
 		PropDrops = 0x800,
 		Exp = 0x1000,
+		Pets = 0x2000,
 
 		All = 0xFFFF,
 
-		LoginServer = Skills | Races | StatsBase | StatsLevel | Cards | Colors | Items | Regions,
+		LoginServer = Skills | Races | StatsBase | StatsLevel | Cards | Colors | Items | Regions | Pets,
 		WorldServer = All,
 		Npcs = Races | Spawns,
 	}

@@ -55,6 +55,11 @@ namespace Aura.Data
 			get { return this.Entries.Count; }
 		}
 
+		public bool Has(TIndex key)
+		{
+			return this.Entries.ContainsKey(key); ;
+		}
+
 		public virtual void Clear()
 		{
 			this.Entries.Clear();

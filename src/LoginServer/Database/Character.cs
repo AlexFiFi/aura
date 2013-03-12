@@ -29,6 +29,18 @@ namespace Aura.Login.Database
 		public uint X { get; set; }
 		public uint Y { get; set; }
 
+		public ushort AP { get; set; }
+		public float Life { get; set; }
+		public float Mana { get; set; }
+		public float Stamina { get; set; }
+		public float Str { get; set; }
+		public float Int { get; set; }
+		public float Dex { get; set; }
+		public float Will { get; set; }
+		public float Luck { get; set; }
+		public ushort Defense { get; set; }
+		public float Protection { get; set; }
+
 		public CharacterType Type { get; set; }
 
 		/// <summary>
@@ -61,6 +73,15 @@ namespace Aura.Login.Database
 			this.Weight = 1;
 			this.Upper = 1;
 			this.Lower = 1;
+
+			this.Life = 10;
+			this.Mana = 10;
+			this.Stamina = 100;
+			this.Str = 10;
+			this.Int = 10;
+			this.Dex = 10;
+			this.Will = 10;
+			this.Luck = 10;
 		}
 	}
 

@@ -11,6 +11,7 @@ using Aura.Shared.Network;
 using Aura.World.Player;
 using Aura.World.World;
 using MySql.Data.MySqlClient;
+using Aura.Shared.Util;
 
 namespace Aura.World.Database
 {
@@ -110,10 +111,9 @@ namespace Aura.World.Database
 						return null;
 					}
 
-					account.Username = accName;
-					account.Userpass = reader.GetString("password");
+					account.Name = accName;
+					account.Password = reader.GetString("password");
 					account.Authority = reader.GetByte("authority");
-					account.Creation = reader["creation"] as DateTime? ?? DateTime.MinValue;
 					account.LastIp = reader.GetString("lastip");
 					account.LastLogin = reader["lastlogin"] as DateTime? ?? DateTime.MinValue;
 					account.BannedReason = reader.GetString("bannedreason");
@@ -138,7 +138,7 @@ namespace Aura.World.Database
 				account.Characters = new List<MabiCharacter>();
 				account.Pets = new List<MabiPet>();
 
-				using (var reader = MabiDb.Instance.Query("SELECT characterId FROM characters WHERE accountId = '" + account.Username + "' AND type = 'CHARACTER'", conn))
+				using (var reader = MabiDb.Instance.Query("SELECT characterId FROM characters WHERE accountId = '" + account.Name + "' AND type = 'CHARACTER'", conn))
 				{
 					while (reader.Read())
 					{
@@ -153,7 +153,7 @@ namespace Aura.World.Database
 					reader.Close();
 				}
 
-				using (var reader = MabiDb.Instance.Query("SELECT characterId FROM characters WHERE accountId = '" + account.Username + "' AND type = 'PET'", conn))
+				using (var reader = MabiDb.Instance.Query("SELECT characterId FROM characters WHERE accountId = '" + account.Name + "' AND type = 'PET'", conn))
 				{
 					while (reader.Read())
 					{
@@ -615,26 +615,21 @@ namespace Aura.World.Database
 		/// <param name="account"></param>
 		public void SaveAccount(Account account)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				var mc = new MySqlCommand(
-					"INSERT INTO `accounts`"
-					+ " (`accountId`, `password`, `creation`) "
-					+ " VALUES (@username, @password, @creation) "
-					+ " ON DUPLICATE KEY UPDATE"
-					+ " `password` = @password, `authority` = @authority, `creation` = @creation, `lastlogin` = @lastlogin, `lastip` = @lastip,"
-					+ " `bannedreason` = @bannedreason, `bannedexpiration` = @bannedexpiration"
+					"UPDATE `accounts` SET" +
+					" `authority` = @authority, `lastlogin` = @lastlogin, `lastip` = @lastip," +
+					" `bannedreason` = @bannedreason, `bannedexpiration` = @bannedexpiration" +
+					" WHERE `accountId` = @accountId"
 				, conn);
 
-				mc.Parameters.AddWithValue("@username", account.Username);
-				mc.Parameters.AddWithValue("@password", account.Userpass);
+				mc.Parameters.AddWithValue("@accountId", account.Name);
 				mc.Parameters.AddWithValue("@authority", account.Authority);
 				mc.Parameters.AddWithValue("@lastlogin", account.LastLogin);
 				mc.Parameters.AddWithValue("@lastip", account.LastIp);
 				mc.Parameters.AddWithValue("@bannedreason", account.BannedReason);
 				mc.Parameters.AddWithValue("@bannedexpiration", account.BannedExpiration);
-				mc.Parameters.AddWithValue("@creation", account.Creation);
 
 				mc.ExecuteNonQuery();
 
@@ -655,25 +650,12 @@ namespace Aura.World.Database
 						MabiDb.Instance.QueryN("DELETE FROM characters WHERE characterId = " + pet.Id.ToString(), conn);
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
 		}
 
 		public void SaveCharacter(Account account, MabiPC character)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				if (character.Id <= 0x30000000000)
-				{
-					if (character is MabiCharacter)
-						character.Id = MabiDb.Instance.GetNewCharacterId();
-					else if (character is MabiPet)
-						character.Id = (character.Id == 0 ? MabiDb.Instance.GetNewPetId() : MabiDb.Instance.GetNewPartnerId());
-				}
-
 				// Corrections
 				// ----------------------------------------------------------
 				// Inside dungeon, would make ppl stuck at loading.
@@ -686,48 +668,22 @@ namespace Aura.World.Database
 				var characterLocation = character.GetPosition();
 
 				var mc = new MySqlCommand(
-					"INSERT INTO `characters`"
-					+ " (`characterId`, `server`, `type`, `accountId`, `name`, `race`, `skinColor`, `eyeType`, `eyeColor`, `mouthType`,"
-					+ " `status`, `height`, `fatness`, `upper`, `lower`, `region`, `x`, `y`, `direction`, `battleState`, `weaponSet`,"
-					+ " `life`, `injuries`, `lifeMax`, `mana`, `manaMax`, `stamina`, `staminaMax`, `food`, `level`, `totalLevel`,"
-					+ " `experience`, `age`, `strength`, `dexterity`, `intelligence`, `will`, `luck`, `abilityPoints`, `attackMin`, `attackMax`,"
-					+ " `wattackMin`, `wattackMax`, `critical`, `protect`, `defense`, `rate`,"
-					+ " `strBoost`, `dexBoost`, `intBoost`, `willBoost`, `luckBoost`,"
-					+ " `color1`, `color2`, `color3`,"
-					+ " `lastTown`, `lastDungeon`, `birthday`, `title`, `deletionTime`, `maxLevel`, `rebirthCount`, `jobId`) "
-
-					+ " VALUES"
-					+ " (@characterId, @server, @type, @accountId, @name, @race, @skinColor, @eyeType, @eyeColor, @mouthType,"
-					+ " @status, @height, @fatness, @upper, @lower, @region, @x, @y, @direction, @battleState, @weaponSet,"
-					+ " @life, @injuries, @lifeMax, @mana, @manaMax, @stamina, @staminaMax, @food, @level, @totalLevel,"
-					+ " @experience, @age, @strength, @dexterity, @intelligence, @will, @luck, @abilityPoints, @attackMin, @attackMax,"
-					+ " @wattackMin, @wattackMax, @critical, @protect, @defense, @rate,"
-					+ " @strBoost, @dexBoost, @intBoost, @willBoost, @luckBoost,"
-					+ " @color1, @color2, @color3,"
-					+ " @lastTown, @lastDungeon, @birthday, @title, @deletionTime, @maxLevel, @rebirthCount, @jobId) "
-
-					+ " ON DUPLICATE KEY UPDATE"
-					+ " `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet,"
-					+ " `status` = @status, `deletionTime` = @deletionTime, `title` = @title,"
-					+ " `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax,"
-					+ " `mana` = @mana, `manaMax` = @manaMax,"
-					+ " `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food,"
-					+ " `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age, `race` = @race,"
-					+ " `color1` = @color1, `color2` = @color2, `color3` = @color3,"
-					+ " `strength` = @strength, `dexterity` = @dexterity, `intelligence` = @intelligence, `will` = @will, `luck` = @luck,"
-					+ " `abilityPoints` = @abilityPoints"
+					"UPDATE `characters` SET" +
+					" `race` = @race, `status` = @status, `height` = @height, `fatness` = @fatness, `upper` = @upper, `lower` = @lower," +
+					" `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet," +
+					" `deletionTime` = @deletionTime, `title` = @title," +
+					" `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax," +
+					" `mana` = @mana, `manaMax` = @manaMax," +
+					" `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food," +
+					" `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age," +
+					" `color1` = @color1, `color2` = @color2, `color3` = @color3," +
+					" `strength` = @strength, `dexterity` = @dexterity, `intelligence` = @intelligence, `will` = @will, `luck` = @luck," +
+					" `abilityPoints` = @abilityPoints, `lastTown` = @lastTown, `lastDungeon` = @lastDungeon" +
+					" WHERE `characterId` = @characterId"
 				, conn);
 
 				mc.Parameters.AddWithValue("@characterId", character.Id);
-				mc.Parameters.AddWithValue("@server", character.Server);
-				mc.Parameters.AddWithValue("@type", character.EntityType.ToString().ToUpper());
-				mc.Parameters.AddWithValue("@accountId", account.Username);
-				mc.Parameters.AddWithValue("@name", character.Name);
 				mc.Parameters.AddWithValue("@race", character.Race);
-				mc.Parameters.AddWithValue("@skinColor", character.SkinColor);
-				mc.Parameters.AddWithValue("@eyeType", character.Eye);
-				mc.Parameters.AddWithValue("@eyeColor", character.EyeColor);
-				mc.Parameters.AddWithValue("@mouthType", character.Lip);
 				mc.Parameters.AddWithValue("@status", (uint)character.State);
 				mc.Parameters.AddWithValue("@height", character.Height);
 				mc.Parameters.AddWithValue("@fatness", character.Fat);
@@ -757,24 +713,6 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@will", character.WillBase);
 				mc.Parameters.AddWithValue("@luck", character.LuckBase);
 				mc.Parameters.AddWithValue("@abilityPoints", character.AbilityPoints);
-				mc.Parameters.AddWithValue("@attackMin", 0);
-				mc.Parameters.AddWithValue("@attackMax", 0);
-				mc.Parameters.AddWithValue("@wattackMin", 0);
-				mc.Parameters.AddWithValue("@wattackMax", 0);
-				mc.Parameters.AddWithValue("@critical", 0);
-				mc.Parameters.AddWithValue("@protect", 0);
-				mc.Parameters.AddWithValue("@defense", 0);
-				mc.Parameters.AddWithValue("@rate", 0);
-				//mc.Parameters.AddWithValue("@strBoost", character.StrMod);
-				//mc.Parameters.AddWithValue("@dexBoost", character.DexMod);
-				//mc.Parameters.AddWithValue("@intBoost", character.IntMod);
-				//mc.Parameters.AddWithValue("@willBoost", character.WillMod);
-				//mc.Parameters.AddWithValue("@luckBoost", character.LuckMod);
-				mc.Parameters.AddWithValue("@strBoost", 0);
-				mc.Parameters.AddWithValue("@dexBoost", 0);
-				mc.Parameters.AddWithValue("@intBoost", 0);
-				mc.Parameters.AddWithValue("@willBoost", 0);
-				mc.Parameters.AddWithValue("@luckBoost", 0);
 				mc.Parameters.AddWithValue("@lastTown", "");
 				mc.Parameters.AddWithValue("@lastDungeon", "");
 				mc.Parameters.AddWithValue("@birthday", DateTime.MinValue);
@@ -788,16 +726,12 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@color3", character.ColorC);
 
 				mc.ExecuteNonQuery();
+			}
 
-				this.SaveQuests(character);
-				this.SaveItems(character);
-				this.SaveKeywords(character);
-				this.SaveSkills(character);
-			}
-			finally
-			{
-				conn.Close();
-			}
+			this.SaveQuests(character);
+			this.SaveItems(character);
+			this.SaveKeywords(character);
+			this.SaveSkills(character);
 		}
 
 		private void SaveQuests(MabiPC character)

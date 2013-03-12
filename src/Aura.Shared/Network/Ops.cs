@@ -262,6 +262,7 @@ namespace Aura.Shared.Network
 
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint Transformation = 0xA41C;
+		//public readonly static uint Pet??? = 0xA41D;
 		public readonly static uint MoonGateRequest = 0xA428;
 		public readonly static uint MoonGateRequestR = 0xA429;
 		public readonly static uint ItemShopInfo = 0xA436;

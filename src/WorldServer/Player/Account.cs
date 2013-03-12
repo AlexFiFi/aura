@@ -8,19 +8,18 @@ namespace Aura.World.Player
 {
 	public class Account
 	{
-		public bool LoggedIn;
-		public string Username;
+		public string Name { get; set; }
+		public string Password { get; set; }
 
-		public byte Authority;
+		public byte Authority { get; set; }
 
-		public string Userpass;
+		public DateTime LastLogin { get; set; }
+		public string LastIp { get; set; }
 
-		public DateTime Creation = DateTime.Now;
-		public DateTime LastLogin;
-		public string LastIp;
+		public string BannedReason { get; set; }
+		public DateTime BannedExpiration { get; set; }
 
-		public string BannedReason = "";
-		public DateTime BannedExpiration;
+		public bool LoggedIn { get; set; }
 
 		public List<MabiCharacter> Characters = new List<MabiCharacter>();
 		public List<MabiPet> Pets = new List<MabiPet>();

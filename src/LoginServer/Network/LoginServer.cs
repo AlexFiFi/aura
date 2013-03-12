@@ -9,6 +9,7 @@ using Aura.Shared.Util;
 using Aura.Login.Database;
 using Aura.Login.Util;
 using Aura.Shared.Const;
+using Aura.Data;
 
 namespace Aura.Login.Network
 {
@@ -147,8 +148,8 @@ namespace Aura.Login.Network
 						var type = args[1];
 						var account = args[3];
 
-						uint card = 0;
-						if (!uint.TryParse(args[2], out card))
+						uint cardId = 0;
+						if (!uint.TryParse(args[2], out cardId))
 						{
 							Logger.Error("Please specify a numeric card id.");
 							return;
@@ -167,9 +168,16 @@ namespace Aura.Login.Network
 						}
 
 						if (type == "character")
-							MabiDb.Instance.AddCard(account, card, 0);
+							MabiDb.Instance.AddCard(account, cardId, 0);
 						else
-							MabiDb.Instance.AddCard(account, Id.PetCardType, card);
+						{
+							if (!MabiData.PetDb.Has(cardId))
+							{
+								Logger.Error("Unknown pet card ({0}).", cardId);
+								break;
+							}
+							MabiDb.Instance.AddCard(account, Id.PetCardType, cardId);
+						}
 
 						Logger.Info("Card added.");
 					}

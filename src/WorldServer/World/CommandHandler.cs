@@ -873,6 +873,12 @@ namespace Aura.World.World
 				{
 					race = cardId;
 					cardId = Id.PetCardType;
+
+					if (!MabiData.PetDb.Has(race))
+					{
+						client.Send(PacketCreator.ServerMessage(creature, "Unknown pet card ({0}).", race));
+						return CommandResult.Fail;
+					}
 				}
 				else if (type != "character")
 				{
@@ -880,7 +886,7 @@ namespace Aura.World.World
 					return CommandResult.WrongParameter;
 				}
 
-				MabiDb.Instance.AddCard(client.Account.Username, cardId, race);
+				MabiDb.Instance.AddCard(client.Account.Name, cardId, race);
 
 				client.Send(PacketCreator.ServerMessage(creature, "Card added."));
 				return CommandResult.Okay;

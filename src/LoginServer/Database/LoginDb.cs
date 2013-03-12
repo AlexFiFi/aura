@@ -277,8 +277,8 @@ namespace Aura.Login.Database
 
 				mc.Parameters.AddWithValue("@characterId", character.Id);
 				mc.Parameters.AddWithValue("@server", character.Server);
-				mc.Parameters.AddWithValue("@type", character.Type.ToString().ToUpper());
 				mc.Parameters.AddWithValue("@accountId", accountName);
+				mc.Parameters.AddWithValue("@type", character.Type.ToString().ToUpper());
 				mc.Parameters.AddWithValue("@name", character.Name);
 				mc.Parameters.AddWithValue("@race", character.Race);
 				mc.Parameters.AddWithValue("@skinColor", character.SkinColor);
@@ -300,53 +300,31 @@ namespace Aura.Login.Database
 				mc.Parameters.AddWithValue("@battleState", 0);
 				mc.Parameters.AddWithValue("@weaponSet", 0);
 
-				ushort ap = 0;
-				float life = 10, mana = 10, stamina = 10;
-				float str = 10, int_ = 10, dex = 10, will = 10, luck = 10;
-				if (character.Type == CharacterType.Character)
-				{
-					var ageInfo = MabiData.StatsBaseDb.Find(character.Race, character.Age);
-					if (ageInfo == null)
-						Logger.Warning("Unable to find age info for race '{0}', age '{1}'.", character.Race, character.Age);
-					else
-					{
-						life = ageInfo.Life;
-						mana = ageInfo.Mana;
-						stamina = ageInfo.Stamina;
-						str = ageInfo.Str;
-						int_ = ageInfo.Int;
-						dex = ageInfo.Dex;
-						will = ageInfo.Will;
-						luck = ageInfo.Luck;
-						ap = ageInfo.AP;
-					}
-				}
-
-				mc.Parameters.AddWithValue("@life", life);
+				mc.Parameters.AddWithValue("@life", character.Life);
 				mc.Parameters.AddWithValue("@injuries", 0);
-				mc.Parameters.AddWithValue("@lifeMax", life);
-				mc.Parameters.AddWithValue("@mana", mana);
-				mc.Parameters.AddWithValue("@manaMax", mana);
-				mc.Parameters.AddWithValue("@stamina", stamina);
-				mc.Parameters.AddWithValue("@staminaMax", stamina);
+				mc.Parameters.AddWithValue("@lifeMax", character.Life);
+				mc.Parameters.AddWithValue("@mana", character.Mana);
+				mc.Parameters.AddWithValue("@manaMax", character.Mana);
+				mc.Parameters.AddWithValue("@stamina", character.Stamina);
+				mc.Parameters.AddWithValue("@staminaMax", character.Stamina);
 				mc.Parameters.AddWithValue("@food", 0);
 				mc.Parameters.AddWithValue("@level", 1);
 				mc.Parameters.AddWithValue("@totalLevel", 1);
 				mc.Parameters.AddWithValue("@experience", 0);
 				mc.Parameters.AddWithValue("@age", character.Age);
-				mc.Parameters.AddWithValue("@strength", str);
-				mc.Parameters.AddWithValue("@dexterity", dex);
-				mc.Parameters.AddWithValue("@intelligence", int_);
-				mc.Parameters.AddWithValue("@will", will);
-				mc.Parameters.AddWithValue("@luck", luck);
-				mc.Parameters.AddWithValue("@abilityPoints", ap);
+				mc.Parameters.AddWithValue("@strength", character.Str);
+				mc.Parameters.AddWithValue("@dexterity", character.Dex);
+				mc.Parameters.AddWithValue("@intelligence", character.Int);
+				mc.Parameters.AddWithValue("@will", character.Will);
+				mc.Parameters.AddWithValue("@luck", character.Luck);
+				mc.Parameters.AddWithValue("@abilityPoints", character.AP);
 				mc.Parameters.AddWithValue("@attackMin", 0);
 				mc.Parameters.AddWithValue("@attackMax", 0);
 				mc.Parameters.AddWithValue("@wattackMin", 0);
 				mc.Parameters.AddWithValue("@wattackMax", 0);
 				mc.Parameters.AddWithValue("@critical", 0);
-				mc.Parameters.AddWithValue("@protect", 0);
-				mc.Parameters.AddWithValue("@defense", 0);
+				mc.Parameters.AddWithValue("@protect", character.Protection);
+				mc.Parameters.AddWithValue("@defense", character.Defense);
 				mc.Parameters.AddWithValue("@rate", 0);
 				mc.Parameters.AddWithValue("@strBoost", 0);
 				mc.Parameters.AddWithValue("@dexBoost", 0);

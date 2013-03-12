@@ -241,7 +241,7 @@ namespace Aura.World.Network
 		{
 			// TODO: Some check or move the unsafe stuff!
 
-			Logger.Info("'" + client.Account.Username + "' is closing the connection. Saving...");
+			Logger.Info("'" + client.Account.Name + "' is closing the connection. Saving...");
 
 			WorldDb.Instance.SaveAccount(client.Account);
 
@@ -2628,7 +2628,7 @@ namespace Aura.World.Network
 		public void HandleOpenItemShop(WorldClient client, MabiPacket packet)
 		{
 			// 1 = succes?, test = key passed to the url
-			client.Send(new MabiPacket(0xA44E, client.Character.Id).PutByte(1).PutString(client.Account.Username));
+			client.Send(new MabiPacket(0xA44E, client.Character.Id).PutByte(1).PutString(client.Account.Name));
 		}
 
 		public void HandleVisualChat(WorldClient client, MabiPacket packet)
