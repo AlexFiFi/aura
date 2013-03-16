@@ -214,18 +214,18 @@ namespace Aura.World.Network
 			return p;
 		}
 
-		public static MabiPacket Lock(MabiCreature creature, uint LockType = 0xEFFFFFFE)
+		public static MabiPacket Lock(MabiCreature creature, uint lockType = 0xEFFFFFFE)
 		{
 			var p = new MabiPacket(Op.CharacterLock, creature.Id);
-			p.PutInt(LockType);
+			p.PutInt(lockType);
 			p.PutInt(0);
 			return p;
 		}
 
-		public static MabiPacket Unlock(MabiCreature creature, uint LockType = 0xEFFFFFFE)
+		public static MabiPacket Unlock(MabiCreature creature, uint lockType = 0xEFFFFFFE)
 		{
 			var p = new MabiPacket(Op.CharacterUnlock, creature.Id);
-			p.PutInt(LockType);
+			p.PutInt(lockType);
 			return p;
 		}
 
@@ -363,10 +363,10 @@ namespace Aura.World.Network
 			{
 				packet.PutSInt(creature.StatMods.Count);
 				foreach (var mod in creature.StatMods)
-					mod.AddData(packet);
+					mod.AddToPacket(packet);
 			}
 			else
-				packet.PutInt(0);
+				packet.PutInt(0);				 // probably mods as well
 
 			packet.PutInt(0);					 // ?
 			packet.PutInt(0);					 // ?

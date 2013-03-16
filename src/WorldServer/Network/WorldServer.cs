@@ -22,8 +22,6 @@ namespace Aura.World.Network
 		static WorldServer() { }
 		private WorldServer() : base() { }
 
-		private Timer _worldTimer, _creatureUpdateTimer;
-
 		public override void Run(string[] args)
 		{
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -95,10 +93,9 @@ namespace Aura.World.Network
 			Logger.Info("Spawning monsters...");
 			ScriptManager.Instance.LoadSpawns();
 
-			// Timers
+			// World
 			// --------------------------------------------------------------
-			_worldTimer = new Timer(WorldManager.Instance.Heartbeat, null, 1500 - ((DateTime.Now.Ticks) % 1500), 1500);
-			_creatureUpdateTimer = new Timer(WorldManager.Instance.CreatureUpdates, null, 5000, 250);
+			WorldManager.Instance.Start();
 
 			// Run the channel register method once, and then subscribe to the event that's run once per minute.
 			this.OncePerMinute(null, null);

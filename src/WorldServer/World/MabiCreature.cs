@@ -31,10 +31,7 @@ namespace Aura.World.World
 		private Dictionary<Stat, object> _stats = new Dictionary<Stat, object>();
 
 		private List<MabiStatMod> _statMods = new List<MabiStatMod>();
-		public List<MabiStatMod> StatMods
-		{
-			get { return _statMods; }
-		}
+		public MabiStatMod LifeRegen, ManaRegen, StaminaRegen;
 
 		public byte SkinColor, Eye, EyeColor, Lip;
 		public string StandStyle = "";
@@ -238,6 +235,8 @@ namespace Aura.World.World
 		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxMod; } }
 		public float StaminaHunger { get { return this.StaminaMax - _hunger; } }
 
+		public List<MabiStatMod> StatMods { get { return _statMods; } }
+
 		private float _strBase, _dexBase, _intBase, _willBase, _luckBase;
 		private float _strMod, _dexMod, _intMod, _willMod, _luckMod;
 		public float StrBase { get { return _strBase; } set { _strBase = value; } }
@@ -350,23 +349,26 @@ namespace Aura.World.World
 
 			this.RaceInfo = dbInfo;
 
-			// Do NPCs even regen? o.o
-			_statMods.Add(new MabiStatMod(Stat.Life, 0.1875f, this.LifeMax));
-			_statMods.Add(new MabiStatMod(Stat.Mana, 0.075f, this.ManaMax));
-			_statMods.Add(new MabiStatMod(Stat.Stamina, 0.6f, this.StaminaMax));
+			_statMods.Add(this.LifeRegen = new MabiStatMod(Stat.Life, 0.12f, this.LifeMax));
+			_statMods.Add(this.ManaRegen = new MabiStatMod(Stat.Mana, 0.05f, this.ManaMax));
+			_statMods.Add(this.StaminaRegen = new MabiStatMod(Stat.Stamina, 0.4f, this.StaminaMax));
+			//_statMods.Add(new MabiStatMod(Stat.Food, -0.01f, this.StaminaMax / 2));
+
+			if (MabiTime.Now.IsNight)
+				this.ManaRegen.ChangePerSecond *= 3;
 
 			this.HookUp();
 		}
 
 		protected override void HookUp()
 		{
-			ServerEvents.Instance.ErinnTimeTick += this.RestoreStats;
+			ServerEvents.Instance.RealTimeSecondTick += this.RestoreStats;
 			base.HookUp();
 		}
 
 		public override void Dispose()
 		{
-			ServerEvents.Instance.ErinnTimeTick -= this.RestoreStats;
+			ServerEvents.Instance.RealTimeSecondTick -= this.RestoreStats;
 			base.Dispose();
 		}
 
@@ -375,18 +377,27 @@ namespace Aura.World.World
 			if (this.IsDead)
 				return;
 
-			foreach (var stat in _statMods)
+			lock (_statMods)
 			{
-				//if (e.IsNight && state == main mana regen)
-				//{
-				//    this.Mana += persecond * 3;
-				//}
-				switch (stat.StatusAttribute)
+				var toRemove = new List<MabiStatMod>();
+				foreach (var mod in _statMods)
 				{
-					case Stat.Life: this.Life += stat.ChangePerSecond; break;
-					case Stat.Mana: this.Mana += stat.ChangePerSecond; break;
-					case Stat.Stamina: this.Stamina += stat.ChangePerSecond; break;
+					if (mod.TimeLeft < 1)
+					{
+						toRemove.Add(mod);
+					}
+					else
+					{
+						switch (mod.Stat)
+						{
+							case Stat.Life: this.Life += mod.ChangePerSecond; break;
+							case Stat.Mana: this.Mana += mod.ChangePerSecond; break;
+							case Stat.Stamina: this.Stamina += mod.ChangePerSecond; break;
+						}
+					}
 				}
+				foreach (var mod in toRemove)
+					_statMods.Remove(mod);
 			}
 		}
 
@@ -577,7 +588,7 @@ namespace Aura.World.World
 				ri = this.Vehicle.RaceInfo;
 			}
 
-			if (!this.IsFlying)
+			if (!this.IsFlying || ri.FlightInfo == null)
 				return (!_moveIsWalk ? ri.SpeedRun : ri.SpeedWalk);
 			else
 				return ri.FlightInfo.FlightSpeed;

@@ -19,7 +19,28 @@ namespace Aura.World.Events
 		{ }
 
 		public EventHandler PlayerLogsIn, PlayerLoggedIn;
-		public EventHandler<TimeEventArgs> ErinnTimeTick, RealTimeTick, ErinnDaytimeTick, ErinnMidnightTick;
+
+		/// <summary>
+		/// Raised every minute (erinn time) (1.5s real time).
+		/// </summary>
+		public EventHandler<TimeEventArgs> ErinnTimeTick;
+		/// <summary>
+		/// Raised every minute (real time).
+		/// </summary>
+		public EventHandler<TimeEventArgs> RealTimeTick;
+		/// <summary>
+		/// Raised every second (real time).
+		/// </summary>
+		public EventHandler<TimeEventArgs> RealTimeSecondTick;
+		/// <summary>
+		/// Raised at at 6:00am and 6:00pm (erinn time) (every 18 minutes real time).
+		/// </summary>
+		public EventHandler<TimeEventArgs> ErinnDaytimeTick;
+		/// <summary>
+		/// Raised at 0:00am (erinn time).
+		/// </summary>
+		public EventHandler<TimeEventArgs> ErinnMidnightTick;
+
 		public EventHandler<EntityEventArgs> EntityEntersRegion, EntityLeavesRegion;
 		public EventHandler<MoveEventArgs> CreatureMoves;
 		public EventHandler<ChatEventArgs> CreatureTalks;
@@ -87,6 +108,12 @@ namespace Aura.World.Events
 		{
 			if (RealTimeTick != null)
 				RealTimeTick(sender, e);
+		}
+
+		public void OnRealTimeSecondTick(object sender, TimeEventArgs e)
+		{
+			if (RealTimeSecondTick != null)
+				RealTimeSecondTick(sender, e);
 		}
 
 		public void OnEntityEntersRegion(object sender, EntityEventArgs e = null)

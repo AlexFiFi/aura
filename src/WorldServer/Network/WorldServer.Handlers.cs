@@ -2291,6 +2291,13 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
+			if (creature.RaceInfo.FlightInfo == null)
+			{
+				Logger.Unimplemented("Missing flight info for race '{0}'.", creature.Race);
+				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(0));
+				return;
+			}
+
 			//Todo: Check if can fly
 			if (creature.IsFlying)
 			{
@@ -2298,7 +2305,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			float ascentTime = packet.GetFloat();
+			var ascentTime = packet.GetFloat();
 
 			client.Send(PacketCreator.Lock(creature, 0xFFFFBDFF));
 			foreach (var c in creature.Riders)
@@ -2309,7 +2316,6 @@ namespace Aura.World.Network
 			client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(1));
 
 			var pos = creature.GetPosition();
-
 			creature.SetPosition(pos.X, pos.Y, 10000);
 
 			creature.IsFlying = true;
@@ -2361,7 +2367,7 @@ namespace Aura.World.Network
 
 			client.Send(PacketCreator.Unlock(creature, 0xFFFFBDFF));
 			foreach (var c in creature.Riders)
-				c.Client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
+				client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
 
 			var pos = creature.GetPosition(); //Todo: angled decent
 

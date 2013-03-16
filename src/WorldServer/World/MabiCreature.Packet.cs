@@ -506,7 +506,7 @@ namespace Aura.World.World
 
 				packet.PutInt((uint)_statMods.Count);
 				foreach (var mod in _statMods)
-					mod.AddData(packet);
+					mod.AddToPacket(packet);
 			}
 			else
 			{
@@ -517,7 +517,7 @@ namespace Aura.World.World
 
 				packet.PutInt((uint)_statMods.Count);
 				foreach (var mod in _statMods)
-					mod.AddData(packet);
+					mod.AddToPacket(packet);
 
 				packet.PutInt(0);
 			}

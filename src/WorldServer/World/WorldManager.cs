@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Aura.Data;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
@@ -13,8 +14,8 @@ using Aura.World.Events;
 using Aura.World.Network;
 using Aura.World.Player;
 using Aura.World.Scripting;
-using Aura.World.Tools;
 using Aura.World.Skills;
+using Aura.World.Tools;
 
 namespace Aura.World.World
 {
@@ -44,6 +45,23 @@ namespace Aura.World.World
 		private bool _firstHeartbeat = true;
 
 		private DateTime _lastHearbeat = DateTime.MaxValue;
+
+		private Timer _worldTimer, _creatureUpdateTimer, _secondTimer;
+
+		/// <summary>
+		/// Starts all relevant timers.
+		/// </summary>
+		public void Start()
+		{
+			_worldTimer = new Timer(this.Heartbeat, null, 1500 - ((DateTime.Now.Ticks) % 1500), 1500);
+			_creatureUpdateTimer = new Timer(this.CreatureUpdates, null, 5000, 250);
+
+			_secondTimer = new Timer(_ =>
+			{
+				ServerEvents.Instance.RealTimeSecondTick(this, new TimeEventArgs(MabiTime.Now));
+			},
+			null, 6000, 1000);
+		}
 
 		/// <summary>
 		/// Sends packet to all clients that match the parameters.
@@ -102,7 +120,7 @@ namespace Aura.World.World
 		/// if it's not enough to just subscribe those, to the time events.
 		/// </summary>
 		/// <param name="state"></param>
-		public void Heartbeat(object state)
+		private void Heartbeat(object state)
 		{
 			var mt = MabiTime.Now;
 			var args = new TimeEventArgs(mt);
@@ -128,11 +146,7 @@ namespace Aura.World.World
 			if (((mt.Hour == 6 || mt.Hour == 18) && mt.Minute == 0) || _firstHeartbeat)
 			{
 				ServerEvents.Instance.OnErinnDaytimeTick(this, args);
-
-				var notice = mt.IsNight
-					? "Eweca is rising.\nMana is starting to fill the air all around."
-					: "Eweca has disappeared.\nThe surrounding Mana is starting to fade away.";
-				this.Broadcast(PacketCreator.Notice(notice, NoticeType.MiddleTop), SendTargets.All, null);
+				this.DaytimeChange(mt);
 			}
 
 			// OnErinnMidnightTick, fired at 0:00am
@@ -160,7 +174,7 @@ namespace Aura.World.World
 		/// - update visible entities for all clients
 		/// </summary>
 		/// <param name="state"></param>
-		public void CreatureUpdates(object state)
+		private void CreatureUpdates(object state)
 		{
 			// TODO: Not good... >_>
 			var entities = new List<MabiEntity>();
@@ -251,6 +265,32 @@ namespace Aura.World.World
 			}
 		}
 
+		/// <summary>
+		/// Broadcasts Eweca notices and updates stat regens.
+		/// </summary>
+		/// <param name="mt"></param>
+		private void DaytimeChange(MabiTime mt)
+		{
+			var notice = mt.IsNight
+				? "Eweca is rising.\nMana is starting to fill the air all around."
+				: "Eweca has disappeared.\nThe surrounding Mana is starting to fade away.";
+			this.Broadcast(PacketCreator.Notice(notice, NoticeType.MiddleTop), SendTargets.All, null);
+
+			lock (_creatures)
+			{
+				foreach (var creature in _creatures.Where(a => a.Client is WorldClient))
+				{
+					if (creature.ManaRegen != null)
+					{
+						if (mt.IsNight)
+							creature.ManaRegen.ChangePerSecond *= 3;
+						else
+							creature.ManaRegen.ChangePerSecond /= 3;
+						this.CreatureStatsUpdate(creature);
+					}
+				}
+			}
+		}
 
 		/// <summary>
 		/// This is Aura's Kernel Panic. Don't ever call it yourself unless

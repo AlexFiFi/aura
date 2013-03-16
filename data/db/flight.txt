@@ -25,8 +25,12 @@
 430505,16,7,-11,1.6       // Ice Dragon
 430510,13.5,7,-11,1.6     // Thunder Dragon (For 2)
 430511,13.5,7,-11,1.6     // Thunder Dragon
-430512,16,7,-11,1.6       // Hades
+430512,16,7,-11,1.6       // Bone Dragon
 440514,27,7,-11,1         // Phoenix
+440515,27,7,-11,1         // Blue Phoenix
+440516,27,7,-11,1         // White Phoenix
+440517,27,7,-11,1         // White Phoenix (Limited Duration)
+440518,27,7,-11,1         // Blue Phoenix (Limited Duration)
 450601,14,7,-11,1.6       // Crystal Deer
 460101,16,5,-10,1.57      // Fire Wyvern
 460102,16,5,-10,1.57      // Fire Wyvern
@@ -53,6 +57,9 @@
 490009,13.5,5,-10,1.2     // Magic Carpet
 490010,15,6,-10,1.2       // Premium Magic Carpet
 490011,15,6,-10,1.2       // Premium Magic Carpet
+490012,15,8,-12,2         // Onion
 490013,26,7,-11,1.2       // Nimbus
 490014,26,7,-11,1.2       // Cloud Pet
+490015,16,7,-11,1.6       // Pegasus
+490016,16,7,-11,1.6       // Combat Pegasus
 800002,14,5,-10,1.5       // Magical Broom

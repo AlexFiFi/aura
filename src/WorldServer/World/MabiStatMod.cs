@@ -9,79 +9,57 @@ namespace Aura.World.World
 {
 	public class MabiStatMod
 	{
-		public UInt32 ModId;
-		public Stat StatusAttribute;
-		public DateTime TimeStarted;
-		public UInt32 Milliseconds;
+		private static uint _statModIndex = 30;
+
+		public uint ModId;
+		public Stat Stat;
+		public DateTime Start;
+		public uint Duration;
 		public float ChangePerSecond;
-		public bool NeverEnding;
 		public float MaxValue;
 
-		private static UInt32 _statModIndex = 30;
-
-		public MabiStatMod(Stat status, UInt32 milliseconds, float changepersecond, float maxValue)
+		public uint TimeLeft
 		{
-			ModId = assignStatModId();
-			StatusAttribute = status;
-			TimeStarted = DateTime.Now;
-			Milliseconds = milliseconds;
-			ChangePerSecond = changepersecond;
-			NeverEnding = false;
-			MaxValue = maxValue;
+			get
+			{
+				var now = DateTime.Now;
+				var passed = now.Subtract(this.Start);
+
+				if (passed.Milliseconds > this.Duration)
+					return 0;
+				else
+					return this.Duration - (uint)passed.Milliseconds;
+			}
+		}
+
+		public MabiStatMod(Stat status, uint duration, float changePerSecond, float maxValue)
+		{
+			this.ModId = _statModIndex++;
+			this.Stat = status;
+			this.Start = DateTime.Now;
+			this.Duration = duration;
+			this.ChangePerSecond = changePerSecond;
+			this.MaxValue = maxValue;
 		}
 
 		public MabiStatMod(Stat status, float changepersecond, float maxValue)
+			: this(status, uint.MaxValue, changepersecond, maxValue)
 		{
-			ModId = assignStatModId();
-			StatusAttribute = status;
-			TimeStarted = DateTime.Now;
-			Milliseconds = 0xFFFFFFFF;
-			ChangePerSecond = changepersecond;
-			NeverEnding = true;
-			MaxValue = maxValue;
-		}
-
-		public float GetCurrentChange()
-		{
-			DateTime nowTime = DateTime.Now;
-			TimeSpan timePassed = nowTime.Subtract(TimeStarted);
-
-			if ((uint)timePassed.TotalMilliseconds > Milliseconds)
-				return ChangePerSecond * (float)(Milliseconds / 1000);
-			else
-				return ChangePerSecond * (float)(timePassed.TotalMilliseconds / 1000);
 		}
 
 		public void Terminate()
 		{
-			Milliseconds = (UInt32)DateTime.Now.Subtract(TimeStarted).TotalMilliseconds;
-			NeverEnding = false;
+			this.Duration = 0;
 		}
 
-		public UInt32 GetMillisecondsLeft()
+		public void AddToPacket(MabiPacket packet)
 		{
-			DateTime nowTime = DateTime.Now;
-			TimeSpan timePassed = nowTime.Subtract(TimeStarted);
-
-			if (timePassed.Milliseconds > Milliseconds)
-				return 0;
-			else
-				return Milliseconds - (uint)timePassed.Milliseconds;
-		}
-
-		public void AddData(MabiPacket packet)
-		{
-			packet.PutInt(ModId);
-			packet.PutFloat(ChangePerSecond);
-			packet.PutInt(GetMillisecondsLeft());
-			packet.PutInt((UInt32)StatusAttribute);
+			packet.PutInt(this.ModId);
+			packet.PutFloat(this.ChangePerSecond);
+			packet.PutInt(this.TimeLeft);
+			packet.PutInt((uint)this.Stat);
 			packet.PutByte(0); // ?
-			packet.PutFloat(MaxValue); // Max Value
-		}
-
-		private UInt32 assignStatModId()
-		{
-			return _statModIndex++;
+			packet.PutFloat(this.MaxValue);
 		}
 	}
 }
