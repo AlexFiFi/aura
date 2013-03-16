@@ -14,9 +14,7 @@ public class YvonaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 19, eye: 40, eyeColor: 38, lip: 38);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x170C, 0xBCC729, 0x714856, 0xF79827);
 		EquipItem(Pocket.Hair, 0x1389, 0x0, 0x0, 0x0);

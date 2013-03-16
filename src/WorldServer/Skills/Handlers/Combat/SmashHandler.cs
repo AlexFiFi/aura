@@ -48,7 +48,7 @@ namespace Aura.World.Skills
 			this.SetAggro(creature, target);
 
 			var combatArgs = new CombatEventArgs();
-			combatArgs.CombatActionId = MabiCombat.ActionId;
+			combatArgs.CombatActionId = CombatHelper.ActionId;
 
 			var targetAction = new CombatAction();
 			targetAction.Creature = target;
@@ -61,7 +61,7 @@ namespace Aura.World.Skills
 			var damage = creature.GetRndTotalDamage();
 			damage *= skill.RankInfo.Var1 / 100;
 
-			var critRate = creature.GetCritical();
+			var critRate = creature.CriticalChance;
 
 			// +20% dmg and +5% crit for 2H
 			if (creature.RightHand != null && creature.RightHand.OptionInfo.WeaponType == (byte)ItemType.Weapon2H)
@@ -79,8 +79,8 @@ namespace Aura.World.Skills
 
 			targetAction.CombatDamage = damage;
 			target.TakeDamage(damage);
-			targetAction.Finish = sourceAction.Finish = target.IsDead();
-			if (target.IsDead())
+			targetAction.Finish = sourceAction.Finish = target.IsDead;
+			if (target.IsDead)
 			{
 				targetAction.Finish = sourceAction.Finish = true;
 			}

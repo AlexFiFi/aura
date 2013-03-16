@@ -20,8 +20,8 @@ namespace Aura.Data
 		/// Returns the age info for the given race
 		/// at the given age, or null.
 		/// </summary>
-		/// <param name="race">0 = Human, 1 = Elf, 2 = Giant</param>
-		/// <param name="age">10-17</param>
+		/// <param name="race"></param>
+		/// <param name="age"></param>
 		/// <returns></returns>
 		public StatsLevelUpInfo Find(uint race, byte age)
 		{

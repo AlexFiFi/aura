@@ -14,9 +14,7 @@ public class HeleddScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 27, eyeColor: 98, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x691F63, 0x820035, 0xFFCD9F);
 		EquipItem(Pocket.Hair, 0xBD0, 0xFFCC66, 0xFFCC66, 0xFFCC66);

@@ -14,9 +14,7 @@ public class CaileanScript : NPCScript
 		SetBody(height: 0.1000001f, fat: 1.2f, upper: 1.3f, lower: 1.1f);
 		SetFace(skin: 21, eye: 18, eyeColor: 176, lip: 25);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x132C, 0xC20053, 0x69696D, 0x38B65);
 		EquipItem(Pocket.Hair, 0x2328, 0x4A1E01, 0x4A1E01, 0x4A1E01);

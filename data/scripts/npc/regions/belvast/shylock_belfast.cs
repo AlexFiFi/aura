@@ -14,9 +14,7 @@ public class Shylock_belfastScript : NPCScript
 		SetBody(height: 1.1f, fat: 0.8f, upper: 0.8f, lower: 0.8f);
 		SetFace(skin: 17, eye: 146, eyeColor: 30, lip: 45);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x133E, 0x6E6D5C, 0x4A0017, 0xF89F3B);
 		EquipItem(Pocket.Hair, 0x102C, 0x4E4F4A, 0x4E4F4A, 0x4E4F4A);

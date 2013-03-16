@@ -13,9 +13,7 @@ public class Cobh_goblinScript : CommerceGoblinScript
 		SetRace(322);
 		SetFace(skin: 27, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0xBC8942;
-		NPC.ColorB = 0x243954;
-		NPC.ColorC = 0x444444;		
+		SetColor(0xBC8942, 0x243954, 0x444444);
 
 		SetLocation(region: 23, x: 22150, y: 41340);
 

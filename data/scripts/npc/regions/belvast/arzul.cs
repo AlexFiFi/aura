@@ -14,9 +14,7 @@ public class ArzulScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 22, eye: 107, eyeColor: 28, lip: 29);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x22CE, 0xFABCD4, 0xFFDD07, 0xF78A39);
 		EquipItem(Pocket.Hair, 0x1F5E, 0x414141, 0x414141, 0x414141);

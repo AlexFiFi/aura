@@ -14,9 +14,7 @@ public class GuardmerchantScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 32, eyeColor: 170, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xF46369, 0xF8A43E, 0xEBA442);
 		EquipItem(Pocket.Hair, 0xBCA, 0x2C0000, 0x2C0000, 0x2C0000);

@@ -14,9 +14,7 @@ public class CraigScript : NPCScript
 		SetBody(height: 1.29f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 20, eye: 9, eyeColor: 125, lip: 12);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1326, 0x769083, 0xCDD827, 0xF34538);
 		EquipItem(Pocket.Hair, 0xFBE, 0x453012, 0x453012, 0x453012);

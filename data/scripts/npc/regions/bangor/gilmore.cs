@@ -14,9 +14,7 @@ public class GilmoreScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 0.4f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 7, eyeColor: 76, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1327, 0x719235, 0x496D4A, 0xF2A945);
 		EquipItem(Pocket.Hair, 0xFBA, 0x896D43, 0x896D43, 0x896D43);

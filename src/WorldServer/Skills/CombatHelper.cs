@@ -3,9 +3,7 @@
 
 namespace Aura.World.Skills
 {
-	public enum AttackResult { None, Stunned, OutOfRange, Okay }
-
-	public static class MabiCombat
+	public static class CombatHelper
 	{
 		private enum CombatStunNormalSelf { VeryFast = 450, Fast = 520, Normal = 600, Slow = 800, VerySlow = 1000 }
 		private enum CombatStunNormalTarget { VeryFast = 1200, Fast = 1700, Normal = 2000, Slow = 2800, VerySlow = 3000 }

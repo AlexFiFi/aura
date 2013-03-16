@@ -14,9 +14,7 @@ public class WeddingguideScript : NPCScript
 		SetBody(height: 0.7699999f, fat: 1.02f, upper: 1f, lower: 1.02f);
 		SetFace(skin: 15, eye: 12, eyeColor: 8, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xF37078, 0xD98B22, 0x4366);
 		EquipItem(Pocket.Hair, 0xFC7, 0xFFB39897, 0xFFB39897, 0xFFB39897);

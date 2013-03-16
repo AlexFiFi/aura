@@ -13,9 +13,7 @@ public class Taillteann_goblinScript : CommerceGoblinScript
 		SetRace(322);
 		SetFace(skin: 168, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x4A1D61;
-		NPC.ColorB = 0x4A1D61;
-		NPC.ColorC = 0xE3E3E3;		
+		SetColor(0x4A1D61, 0x4A1D61, 0xE3E3E3);
 
 		SetLocation(region: 300, x: 240278, y: 192797);
 

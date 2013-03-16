@@ -14,9 +14,7 @@ public class BernezScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 26, eyeColor: 31, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x93005F, 0xC1BE60, 0xDC0073);
 		EquipItem(Pocket.Hair, 0x100E, 0xFFF38C, 0xFFF38C, 0xFFF38C);

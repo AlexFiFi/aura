@@ -14,9 +14,7 @@ public class EavanScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 0.7f, upper: 0.7f, lower: 0.7f);
 		SetFace(skin: 15, eye: 3, eyeColor: 3, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xD1DFF2, 0x38BD96, 0xF69365);
 		EquipItem(Pocket.Hair, 0xBCE, 0xFFEEAA, 0xFFEEAA, 0xFFEEAA);

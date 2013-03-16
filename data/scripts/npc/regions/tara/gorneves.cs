@@ -14,9 +14,7 @@ public class GornevesScript : NPCScript
 		SetBody(height: 1.1f, fat: 0.1f, upper: 1f, lower: 0.85f);
 		SetFace(skin: 17, eye: 3, eyeColor: 39, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xA5BD, 0x187C8, 0xEFAF4C);
 		EquipItem(Pocket.Hair, 0xBE6, 0xFFCAAE7B, 0xFFCAAE7B, 0xFFCAAE7B);

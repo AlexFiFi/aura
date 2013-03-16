@@ -6,6 +6,7 @@ using System.Linq;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.World.World;
+using Aura.Data;
 
 namespace Aura.World.Network
 {
@@ -119,7 +120,7 @@ namespace Aura.World.Network
 			foreach (var entity in entities)
 			{
 				var data = new MabiPacket(0, 0);
-				entity.AddEntityData(data);
+				entity.AddToPacket(data);
 				var dataBytes = data.Build(false);
 
 				p.PutShort(entity.DataType);
@@ -137,7 +138,7 @@ namespace Aura.World.Network
 				op = Op.ItemAppears;
 
 			var p = new MabiPacket(op, Id.Broadcast);
-			entity.AddEntityData(p);
+			entity.AddToPacket(p);
 			return p;
 		}
 
@@ -192,7 +193,7 @@ namespace Aura.World.Network
 		public static MabiPacket ItemInfo(MabiCreature creature, MabiItem item)
 		{
 			var p = new MabiPacket(Op.ItemNew, creature.Id);
-			item.AddPrivateEntityData(p);
+			item.AddToPacket(p, ItemPacketType.Private);
 			return p;
 		}
 
@@ -304,5 +305,82 @@ namespace Aura.World.Network
 				.PutFloats((float)pos.X, (float)pos.Y)
 				.PutByte((byte)type);
 		}
+
+		public static MabiPacket StatUpdate(MabiCreature creature, StatUpdateType type, params Stat[] stats)
+		{
+			var packet = new MabiPacket((type & StatUpdateType.Public) != 0 ? Op.StatUpdatePublic : Op.StatUpdatePrivate, creature.Id);
+
+			packet.PutByte((byte)type);
+
+			// Stats
+			packet.PutSInt(stats.Length);
+			foreach (var stat in stats)
+			{
+				packet.PutInt((uint)stat);
+				switch (stat)
+				{
+					case Stat.Height: packet.PutFloat(creature.Height); break;
+					case Stat.Weight: packet.PutFloat(creature.Fat); break;
+					case Stat.Upper: packet.PutFloat(creature.Upper); break;
+					case Stat.Lower: packet.PutFloat(creature.Lower); break;
+
+					case Stat.CombatPower: packet.PutFloat(creature.CombatPower); break;
+					case Stat.Level: packet.PutShort(creature.Level); break;
+					case Stat.AbilityPoints: packet.PutShort(creature.AbilityPoints); break;
+					case Stat.Experience: packet.PutLong(MabiData.ExpDb.CalculateRemaining(creature.Level, creature.Experience) * 1000); break;
+
+					case Stat.Life: packet.PutFloat(creature.Life); break;
+					case Stat.LifeMax: packet.PutFloat(creature.LifeMaxBase); break;
+					case Stat.LifeMaxMod: packet.PutFloat(creature.LifeMaxMod); break;
+					case Stat.LifeInjured: packet.PutFloat(creature.LifeInjured); break;
+					case Stat.Mana: packet.PutFloat(creature.Mana); break;
+					case Stat.ManaMax: packet.PutFloat(creature.ManaMaxBase); break;
+					case Stat.ManaMaxMod: packet.PutFloat(creature.ManaMaxMod); break;
+					case Stat.Stamina: packet.PutFloat(creature.Stamina); break;
+					case Stat.Food: packet.PutFloat(creature.StaminaHunger); break;
+					case Stat.StaminaMax: packet.PutFloat(creature.StaminaMax); break;
+					case Stat.StaminaMaxFood: packet.PutFloat(creature.Hunger); break;
+
+					case Stat.StrMod: packet.PutFloat(creature.StrMod); break;
+					case Stat.DexMod: packet.PutFloat(creature.DexMod); break;
+					case Stat.IntMod: packet.PutFloat(creature.IntMod); break;
+					case Stat.LuckMod: packet.PutFloat(creature.LuckMod); break;
+					case Stat.WillMod: packet.PutFloat(creature.WillMod); break;
+					case Stat.Str: packet.PutFloat(creature.StrBase); break;
+					case Stat.Int: packet.PutFloat(creature.IntBase); break;
+					case Stat.Dex: packet.PutFloat(creature.DexBase); break;
+					case Stat.Will: packet.PutFloat(creature.WillBase); break;
+					case Stat.Luck: packet.PutFloat(creature.LuckBase); break;
+
+					// Client might crash with a mismatching value, 
+					// take a chance and put an int by default.
+					default: packet.PutInt(1); break;
+				}
+			}
+
+			// Stat mods
+			if (type == StatUpdateType.Public)
+			{
+				packet.PutSInt(creature.StatMods.Count);
+				foreach (var mod in creature.StatMods)
+					mod.AddData(packet);
+			}
+			else
+				packet.PutInt(0);
+
+			packet.PutInt(0);					 // ?
+			packet.PutInt(0);					 // ?
+
+			if (type == StatUpdateType.Public)
+			{
+				packet.PutInt(0);  				 // ?
+				packet.PutInt(0);  				 // ?
+				packet.PutInt(0);				 // ?
+			}
+
+			return packet;
+		}
 	}
+
+	public enum StatUpdateType : byte { Private = 3, Public = 4 }
 }

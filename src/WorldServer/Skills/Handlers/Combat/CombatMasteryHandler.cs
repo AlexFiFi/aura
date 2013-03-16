@@ -12,7 +12,7 @@ namespace Aura.World.Skills
 	{
 		public override SkillResults Use(MabiCreature creature, MabiCreature target, MabiSkill skillfoo)
 		{
-			if (creature.IsStunned())
+			if (creature.IsStunned)
 				return SkillResults.AttackStunned;
 
 			if (!WorldManager.InRange(creature, target, (uint)(creature.RaceInfo.AttackRange + 50)))
@@ -48,7 +48,7 @@ namespace Aura.World.Skills
 			if (!WorldManager.InRange(creature, target, (uint)(creature.RaceInfo.AttackRange + 50)))
 				return SkillResults.OutOfRange;
 
-			if (creature.IsStunned())
+			if (creature.IsStunned)
 				return SkillResults.AttackStunned;
 
 			uint prevCombatActionId = 0;
@@ -70,7 +70,7 @@ namespace Aura.World.Skills
 			for (byte i = 1; i <= 2; ++i)
 			{
 				var combatArgs = new CombatEventArgs();
-				combatArgs.CombatActionId = MabiCombat.ActionId;
+				combatArgs.CombatActionId = CombatHelper.ActionId;
 				combatArgs.PrevCombatActionId = prevCombatActionId;
 				combatArgs.Hit = i;
 				combatArgs.HitsMax = (byte)(sourceAction.DualWield ? 2 : 1);
@@ -88,7 +88,7 @@ namespace Aura.World.Skills
 				damage -= (damage * target.Protection);
 
 				// Crit (temp)
-				if (rnd.NextDouble() < creature.GetCritical())
+				if (rnd.NextDouble() < creature.CriticalChance)
 				{
 					damage *= 1.5f; // R1
 					targetAction.Critical = true;
@@ -110,7 +110,7 @@ namespace Aura.World.Skills
 
 				targetAction.CombatDamage = damage;
 				target.TakeDamage(damage);
-				targetAction.Finish = target.IsDead();
+				targetAction.Finish = target.IsDead;
 				sourceAction.Finish = targetAction.Finish;
 
 				// Stuns
@@ -118,9 +118,9 @@ namespace Aura.World.Skills
 				{
 					var atkSpeed = (weapon == null ? creature.RaceInfo.AttackSpeed : weapon.OptionInfo.AttackSpeed);
 					var downHitCount = (weapon == null ? creature.RaceInfo.KnockCount : weapon.OptionInfo.KnockCount);
-					var targetStunTime = MabiCombat.CalculateStunTarget(atkSpeed, targetAction.IsKnock());
+					var targetStunTime = CombatHelper.CalculateStunTarget(atkSpeed, targetAction.IsKnock());
 
-					sourceAction.StunTime = MabiCombat.CalculateStunSource(atkSpeed, targetAction.IsKnock());
+					sourceAction.StunTime = CombatHelper.CalculateStunSource(atkSpeed, targetAction.IsKnock());
 					targetAction.StunTime = targetStunTime;
 
 					creature.AddStun(sourceAction.StunTime, true);
@@ -131,8 +131,8 @@ namespace Aura.World.Skills
 					{
 						targetAction.Knockback = true;
 						sourceAction.Knockback = true;
-						sourceAction.StunTime = MabiCombat.CalculateStunSource(atkSpeed, true);
-						targetAction.StunTime = MabiCombat.CalculateStunTarget(atkSpeed, true);
+						sourceAction.StunTime = CombatHelper.CalculateStunSource(atkSpeed, true);
+						targetAction.StunTime = CombatHelper.CalculateStunTarget(atkSpeed, true);
 						creature.AddStun(sourceAction.StunTime, true);
 						target.AddStun(targetAction.StunTime, true);
 					}

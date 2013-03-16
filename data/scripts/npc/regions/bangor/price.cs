@@ -14,9 +14,7 @@ public class PriceScript : NPCScript
 		SetBody(height: 1.29f, fat: 1.12f, upper: 1.32f, lower: 1.06f);
 		SetFace(skin: 19, eye: 4, eyeColor: 90, lip: 13);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1325, 0xD8DDF2, 0xEF8A7A, 0x3F4D);
 		EquipItem(Pocket.Hair, 0x135B, 0xC1C298, 0xC1C298, 0xC1C298);

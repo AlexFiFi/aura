@@ -14,9 +14,7 @@ public class GranatScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 20, eye: 41, eyeColor: 114, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x5C0056, 0xECF4DB, 0x1F706B);
 		EquipItem(Pocket.Hair, 0x1778, 0x9DD0EC, 0x9DD0EC, 0x9DD0EC);

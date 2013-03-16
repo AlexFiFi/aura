@@ -12,9 +12,7 @@ public class Cobh_ogreScript : CommerceOgreScript
 		SetName("_cobh_ogre");
 		SetFace(skin: 205, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0xBC8942;
-		NPC.ColorB = 0x444444;
-		NPC.ColorC = 0x243954;		
+		SetColor(0xBC8942, 0x444444, 0x243954);
 
 		SetLocation(region: 23, x: 22400, y: 41150);
 

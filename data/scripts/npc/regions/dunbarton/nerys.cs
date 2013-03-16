@@ -14,9 +14,7 @@ public class NerysScript : NPCScript
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 4, eyeColor: 31, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xF79E59, 0xF79D38, 0x573295);
 		EquipItem(Pocket.Hair, 0xBCF, 0x994433, 0x994433, 0x994433);

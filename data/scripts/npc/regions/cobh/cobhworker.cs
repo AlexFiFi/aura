@@ -14,9 +14,7 @@ public class CobhworkerScript : NPCScript
 		SetBody(height: 1f, fat: 1.1f, upper: 1.1f, lower: 1f);
 		SetFace(skin: 15, eye: 20, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0xFFF78A, 0x673F60, 0x747);
 		EquipItem(Pocket.Hair, 0x1027, 0x585454, 0x585454, 0x585454);

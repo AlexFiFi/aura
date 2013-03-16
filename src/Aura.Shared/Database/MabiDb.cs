@@ -299,65 +299,6 @@ namespace Aura.Shared.Database
 		}
 
 		/// <summary>
-		/// Returns all character cards present for this account.
-		/// </summary>
-		/// <param name="accountName"></param>
-		/// <returns></returns>
-		public List<Card> GetCharacterCards(string accountName)
-		{
-			using (var conn = MabiDb.Instance.GetConnection())
-			{
-				var mc = new MySqlCommand("SELECT `cardId`, `type` FROM `cards` WHERE `accountId` = @id AND race = 0 AND !`isGift`", conn);
-				mc.Parameters.AddWithValue("@id", accountName);
-
-				var result = new List<Card>();
-				using (var reader = mc.ExecuteReader())
-				{
-					while (reader.Read())
-					{
-						var card = new Card();
-						card.Id = reader.GetUInt32("cardId");
-						card.Type = reader.GetUInt32("type");
-
-						result.Add(card);
-					}
-				}
-
-				return result;
-			}
-		}
-
-		/// <summary>
-		/// Returns all pet and partner cards present for this account.
-		/// </summary>
-		/// <param name="accountName"></param>
-		/// <returns></returns>
-		public List<Card> GetPetCards(string accountName)
-		{
-			using (var conn = MabiDb.Instance.GetConnection())
-			{
-				var mc = new MySqlCommand("SELECT `cardId`, `type`, `race` FROM `cards` WHERE `accountId` = @id AND race > 0 AND !`isGift`", conn);
-				mc.Parameters.AddWithValue("@id", accountName);
-
-				var result = new List<Card>();
-				using (var reader = mc.ExecuteReader())
-				{
-					while (reader.Read())
-					{
-						var card = new Card();
-						card.Id = reader.GetUInt32("cardId");
-						card.Type = reader.GetUInt32("type");
-						card.Race = reader.GetUInt32("race");
-
-						result.Add(card);
-					}
-				}
-
-				return result;
-			}
-		}
-
-		/// <summary>
 		/// Adds a new card with the given type and race.
 		/// Returns new card id.
 		/// </summary>

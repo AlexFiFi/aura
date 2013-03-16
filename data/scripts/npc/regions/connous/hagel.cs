@@ -14,9 +14,7 @@ public class HagelScript : NPCScript
 		SetBody(height: 1.3f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 20, eye: 38, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x550000, 0x36566E, 0x9075B6);
 		EquipItem(Pocket.Hair, 0xFC6, 0xE8EFDC, 0xE8EFDC, 0xE8EFDC);

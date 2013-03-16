@@ -14,9 +14,7 @@ public class PetraScript : NPCScript
 		SetBody(height: 1.03f, fat: 1f, upper: 0.97f, lower: 1f);
 		SetFace(skin: 20, eye: 32, eyeColor: 97, lip: 16);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x6889, 0x960069, 0x892444);
 		EquipItem(Pocket.Hair, 0xBCE, 0xFFD7FFE1, 0xFFD7FFE1, 0xFFD7FFE1);

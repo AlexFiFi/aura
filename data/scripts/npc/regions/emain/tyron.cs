@@ -14,9 +14,7 @@ public class TyronScript : NPCScript
 		SetBody(height: 1.2f, fat: 0.97f, upper: 1.2f, lower: 1.03f);
 		SetFace(skin: 15, eye: 9, eyeColor: 32, lip: 12);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xB865A9, 0xFDD94D, 0xF23961);
 		EquipItem(Pocket.Hair, 0xFBE, 0x1D1712, 0x1D1712, 0x1D1712);

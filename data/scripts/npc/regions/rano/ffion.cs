@@ -14,9 +14,7 @@ public class FfionScript : NPCScript
 		SetBody(height: 0.1899999f, fat: 1f, upper: 1.12f, lower: 1.2f);
 		SetFace(skin: 19, eye: 24, eyeColor: 4, lip: 13);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xD38722, 0xF39B35, 0x8355);
 		EquipItem(Pocket.Hair, 0xBDF, 0xFF492512, 0xFF492512, 0xFF492512);

@@ -12,9 +12,7 @@ public class Emain_ogreScript : CommerceOgreScript
 		SetName("_emain_ogre");
 		SetFace(skin: 119, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x837979;
-		NPC.ColorB = 0xB1927;
-		NPC.ColorC = 0xEAEAEA;		
+		SetColor(0x837979, 0xB1927, 0xEAEAEA);
 
 		SetLocation(region: 52, x: 42915, y: 61991);
 

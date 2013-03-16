@@ -14,9 +14,7 @@ public class FashionNPC1Script : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 27, eyeColor: 31, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x7B251, 0x5F97, 0x9169AD);
 		EquipItem(Pocket.Hair, 0xBD9, 0xFFCC66, 0xFFCC66, 0xFFCC66);

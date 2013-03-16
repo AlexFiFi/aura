@@ -14,9 +14,7 @@ public class MyrddinScript : NPCScript
 		SetBody(height: 1.03f, fat: 1f, upper: 1.03f, lower: 1f);
 		SetFace(skin: 17, eye: 3, eyeColor: 48, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xFDAD86, 0xFFE3D0, 0xB29C);
 		EquipItem(Pocket.Hair, 0xFC3, 0xFFC9966B, 0xFFC9966B, 0xFFC9966B);

@@ -14,9 +14,7 @@ public class ManusScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 27, eye: 12, eyeColor: 27, lip: 18);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x18B475, 0x87912F, 0x7A4D00);
 		EquipItem(Pocket.Hair, 0x1000, 0x2B2822, 0x2B2822, 0x2B2822);

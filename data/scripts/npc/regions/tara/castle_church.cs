@@ -14,9 +14,7 @@ public class Castle_churchScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1.2f, upper: 1f, lower: 1f);
 		SetFace(skin: 21, eye: 14, eyeColor: 0, lip: 21);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x5F4E62, 0x657009, 0x836600);
 		EquipItem(Pocket.Hair, 0x100F, 0x663300, 0x663300, 0x663300);

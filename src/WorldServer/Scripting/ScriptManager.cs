@@ -445,9 +445,9 @@ namespace Aura.World.Scripting
 				monster.Name = raceInfo.Name;
 				var loc = info.GetRandomSpawnPoint(rand);
 				monster.SetLocation(info.Region, loc.X, loc.Y);
-				monster.ColorA = raceInfo.ColorA;
-				monster.ColorB = raceInfo.ColorB;
-				monster.ColorC = raceInfo.ColorC;
+				monster.Color1 = raceInfo.ColorA;
+				monster.Color2 = raceInfo.ColorB;
+				monster.Color3 = raceInfo.ColorC;
 				monster.Height = raceInfo.Size;
 				monster.LifeMaxBase = raceInfo.Life;
 				monster.Life = raceInfo.Life;

@@ -90,7 +90,7 @@ namespace Aura.World.World
 			get { return 160; }
 		}
 
-		public override void AddEntityData(MabiPacket packet)
+		public override void AddToPacket(MabiPacket packet)
 		{
 			packet.PutLong(this.Id);
 			packet.PutInt(this.Info.Class);

@@ -14,9 +14,7 @@ public class GranitesScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 40, eyeColor: 126, lip: 2);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x395F74, 0x19A78, 0xF40F32);
 		EquipItem(Pocket.Hair, 0x1773, 0xABDBD7, 0xABDBD7, 0xABDBD7);

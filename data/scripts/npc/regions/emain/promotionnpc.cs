@@ -14,9 +14,7 @@ public class PromotionnpcScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 12, eyeColor: 8, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x6F6857, 0x88CC93, 0x7A7DBE);
 		EquipItem(Pocket.Hair, 0xFC7, 0xFFB39897, 0xFFB39897, 0xFFB39897);

@@ -13,9 +13,7 @@ public class JamesScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1.3f, lower: 1f);
 		SetFace(skin: 17, eye: 7, eyeColor: 97, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1325, 0x5A6E, 0x199AF, 0x1D7643);
 		EquipItem(Pocket.Hair, 0xFCA, 0xE0B056, 0xE0B056, 0xE0B056);

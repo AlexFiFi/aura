@@ -14,9 +14,7 @@ public class BrianaScript : NPCScript
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 18, eye: 102, eyeColor: 192, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x534C, 0xAC003B, 0xE74D2A);
 		EquipItem(Pocket.Hair, 0xBC5, 0xD97849, 0xD97849, 0xD97849);

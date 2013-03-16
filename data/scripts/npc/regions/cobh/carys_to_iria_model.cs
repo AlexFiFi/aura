@@ -14,9 +14,7 @@ public class Carys_to_iria_modelScript : NPCScript
 		SetBody(height: 1.1f, fat: 1.2f, upper: 1.1f, lower: 1.25f);
 		SetFace(skin: 26, eye: 9, eyeColor: 46, lip: 18);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x1A715D, 0xBA0371, 0xF2365F);
 		EquipItem(Pocket.Hair, 0xFB5, 0xFFE9DBC2, 0xFFE9DBC2, 0xFFE9DBC2);

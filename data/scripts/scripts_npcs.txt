@@ -18,11 +18,6 @@ virtual: npc/regions/courcle/courcleinhabitant_base.cs
 virtual: npc/regions/courcle/docknpc_base.cs
 virtual: npc/regions/emain/emain_guardsman_base.cs
 virtual: npc/regions/emain/beanrua_base.cs
-virtual: npc/regions/taillteann/taillteann_elf_base.cs
-virtual: npc/regions/taillteann/taillteann_giant_base.cs
-virtual: npc/regions/taillteann/taillteann_royalguard_base.cs
-virtual: npc/regions/taillteann/taillteann_npc_base.cs
-virtual: npc/regions/taillteann/taillteann_watchman_base.cs
 
 //===========================================================================
 // Global                                                                   |
@@ -227,28 +222,15 @@ npc/regions/taillteann/granat.cs
 npc/regions/taillteann/inflames.cs
 npc/regions/taillteann/karpfen.cs
 npc/regions/taillteann/pierrick.cs
-npc/regions/taillteann/taillteann_elf1.cs
-npc/regions/taillteann/taillteann_elf2.cs
-npc/regions/taillteann/taillteann_giant1.cs
-npc/regions/taillteann/taillteann_giant2.cs
+npc/regions/taillteann/taillteann_elves.cs
+npc/regions/taillteann/taillteann_giants.cs
 npc/regions/taillteann/taillteann_goblin.cs
 npc/regions/taillteann/taillteann_healer.cs
 npc/regions/taillteann/taillteann_horse.cs
-npc/regions/taillteann/taillteann_royalguard_1.cs
-npc/regions/taillteann/taillteann_royalguard_2.cs
-npc/regions/taillteann/taillteann_watchman_3.cs
-npc/regions/taillteann/taillteann_watchman_4.cs
-npc/regions/taillteann/taillteann_watchman_5.cs
-npc/regions/taillteann/taillteann_watchman_6.cs
-npc/regions/taillteann/taillteann_watchman_7.cs
-npc/regions/taillteann/taillteann_watchman_8.cs
+npc/regions/taillteann/taillteann_royalguards.cs
+npc/regions/taillteann/taillteann_watchmen.cs
 npc/regions/taillteann/taillteann_imp.cs
-npc/regions/taillteann/taillteann_npc1.cs
-npc/regions/taillteann/taillteann_npc2.cs
-npc/regions/taillteann/taillteann_npc3.cs
-npc/regions/taillteann/taillteann_npc4.cs
-npc/regions/taillteann/taillteann_npc5.cs
-npc/regions/taillteann/taillteann_npc6.cs
+npc/regions/taillteann/taillteann_npcs.cs
 npc/regions/taillteann/taillteann_ogre.cs
 npc/regions/taillteann/taillteann_repairman1.cs
 npc/regions/taillteann/taillteann_repairman2.cs

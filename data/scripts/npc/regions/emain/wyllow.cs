@@ -14,9 +14,7 @@ public class WyllowScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 0.1f, upper: 0.94f, lower: 0.83f);
 		SetFace(skin: 17, eye: 0, eyeColor: 31, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1357, 0x4B813E, 0x976D84, 0x5123);
 		EquipItem(Pocket.Hair, 0x1358, 0x916B39, 0x916B39, 0x916B39);

@@ -14,9 +14,7 @@ public class Ogre_marvScript : NPCScript
 		SetBody(height: 0.8f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 205, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x727249;
-		NPC.ColorB = 0x666666;
-		NPC.ColorC = 0x806034;		
+		SetColor(0x727249, 0x666666, 0x806034);
 
 
 

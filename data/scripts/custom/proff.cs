@@ -48,14 +48,14 @@ public class ProffScript : NPCScript
 		{
 			case "@whereami":
 			{
-				MsgSelect(c, "Heh, heh, I've often wondered that myself. However, I can tell you that you're on an Aura powered server.", "Continue", "@startingpoint");
+				Msg(c, "Heh, heh, I've often wondered that myself. However, I can tell you that you're on an Aura powered server.");
 				goto L_Start;
 			}
 			
 			case "@whatcommands":
 			{
 				var commands = string.Join(", ", CommandHandler.Instance.GetAllCommandsForAuth(c.Account.Authority));
-				MsgSelect(c, "Well, " + c.Character.Name + "... Let's see... At your current rank, the following commands are available to you: " + commands + ".<br/>Does that help to clear things up?", "Continue", "@startingpoint");
+				Msg(c, "Well, " + c.Character.Name + "... Let's see... At your current rank, the following commands are available to you: " + commands + ".<br/>Does that help to clear things up?");
 				goto L_Start;
 			}
 			
@@ -66,10 +66,10 @@ public class ProffScript : NPCScript
 					"<p/>You can execute a command by typing a '" + WorldConf.CommandPrefix + "' followed by the command name, and any arguments into the general chat, and pressing enter.",
 					"<p/>For example, to execute a \"where\" command on this server, you'd enter the following into General Chat:", "", WorldConf.CommandPrefix + "where"
 				);
-				MsgSelect(c, "But remember, " + c.Character.Name + "... With great power comes great responsibility. " + ((c.Account.Authority > 0) ? "You've been given some extra powers, so " : "Should you ever get extra powers, ") + "use them wisely. Ranks can be removed as easily as they're given.", "Continue", "@startingpoint");
+				Msg(c, "But remember, " + c.Character.Name + "... With great power comes great responsibility. " + ((c.Account.Authority > 0) ? "You've been given some extra powers, so " : "Should you ever get extra powers, ") + "use them wisely. Ranks can be removed as easily as they're given.");
 				goto L_Start;
 			}
-				
+			
 			case "@endconvo":
 			{
 				MsgSelect(c, "Is that all for now? Well, thanks for stopping by. Feel free to return any time.", "Continue", "@end");

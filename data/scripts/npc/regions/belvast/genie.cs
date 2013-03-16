@@ -14,9 +14,7 @@ public class GenieScript : NPCScript
 		SetBody(height: 0.3f, fat: 1.1f, upper: 1.1f, lower: 1.1f);
 		SetFace(skin: 15, eye: 30, eyeColor: 27, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xFCBE56, 0x5A5A66, 0x496D4A);
 		EquipItem(Pocket.Hair, 0xC20, 0x8C5973, 0x8C5973, 0x8C5973);

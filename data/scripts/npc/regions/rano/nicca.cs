@@ -14,9 +14,7 @@ public class NiccaScript : NPCScript
 		SetBody(height: 1.3f, fat: 0.99f, upper: 1.41f, lower: 1.05f);
 		SetFace(skin: 19, eye: 5, eyeColor: 160, lip: 16);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xFA9C70, 0x566D16, 0x8C7D00);
 		EquipItem(Pocket.Hair, 0x135B, 0xFFCB864E, 0xFFCB864E, 0xFFCB864E);

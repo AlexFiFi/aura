@@ -14,9 +14,7 @@ public class Bassanio_belfastScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 0.9f, lower: 0.9f);
 		SetFace(skin: 16, eye: 24, eyeColor: 32, lip: 50);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1342, 0x345, 0x670018, 0xBC0076);
 		EquipItem(Pocket.Hair, 0x102E, 0xE8B686, 0xE8B686, 0xE8B686);

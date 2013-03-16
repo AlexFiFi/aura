@@ -14,9 +14,7 @@ public class GeralltScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 40, eyeColor: 139, lip: 38);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xFAB15C, 0x74C791, 0xFFDF8B);
 		EquipItem(Pocket.Hair, 0x177A, 0x632841, 0x632841, 0x632841);

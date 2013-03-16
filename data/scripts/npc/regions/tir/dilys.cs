@@ -112,7 +112,7 @@ public class DilysScript : NPCScript
 					Msg(c, "You may want to summon your animal friend first.<br/>If you don't have a pet, then please don't waste my time.");
 					End();
 				}
-				else if (c.Character.Pet.IsDead())
+				else if (c.Character.Pet.IsDead)
 				{
 					Msg(c, "Uh oh, you'll need to revive the pet first.<br/>Use a Phoenix Feather to revive your pet.");
 					End();

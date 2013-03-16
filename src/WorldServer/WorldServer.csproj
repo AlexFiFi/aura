@@ -95,10 +95,12 @@
     <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Tools\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
+    <Compile Include="World\MabiCreature.Packet.cs" />
     <Compile Include="World\MabiCreature.cs" />
+    <Compile Include="World\MabiCreature.Items.cs" />
     <Compile Include="World\MabiEntity.cs" />
     <Compile Include="World\MabiItem.cs" />
-    <Compile Include="Skills\MabiCombat.cs" />
+    <Compile Include="Skills\CombatHelper.cs" />
     <Compile Include="World\MabiMail.cs" />
     <Compile Include="World\MabiNPC.cs" />
     <Compile Include="World\MabiParty.cs" />
@@ -127,7 +129,6 @@
   <ItemGroup>
     <Content Include="mabioriginal.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

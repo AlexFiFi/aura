@@ -14,9 +14,7 @@ public class LeryScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 0, eyeColor: 139, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xC5AA73, 0x77C479, 0x82B28E);
 		EquipItem(Pocket.Hair, 0x1773, 0xB97312, 0xB97312, 0xB97312);

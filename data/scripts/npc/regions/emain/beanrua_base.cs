@@ -11,9 +11,7 @@ public class Beanrua_baseScript : NPCScript
 		base.OnLoad();
 		SetRace(10001);
         
-        NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;
+        SetColor(0x0, 0x0, 0x0);
 
 		Phrases.Add("Good to see you!");
 		Phrases.Add("Welcome!");        

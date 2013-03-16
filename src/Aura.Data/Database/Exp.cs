@@ -17,6 +17,9 @@ namespace Aura.Data
 
 	public class ExpDb : DatabaseCSV<ExpInfo>
 	{
+		public ushort MaxLevel { get; private set; }
+		public ulong MaxExp { get; private set; }
+
 		/// <summary>
 		/// Returns total exp required to reach the level after the given one.
 		/// </summary>
@@ -46,7 +49,7 @@ namespace Aura.Data
 		{
 			if (currentLv < 1)
 				return 0;
-			if (currentLv > this.GetMaxLevel())
+			if (currentLv > this.MaxLevel)
 				currentLv = (ushort)this.Entries.Count;
 
 			currentLv -= 1;
@@ -64,11 +67,6 @@ namespace Aura.Data
 			return this.GetForLevel(currentLv) - (this.GetTotalForNextLevel(currentLv) - totalExp) + this.GetForLevel((ushort)(currentLv - 1));
 		}
 
-		public ushort GetMaxLevel()
-		{
-			return (ushort)this.Entries.Count;
-		}
-
 		protected override void ReadEntry(CSVEntry entry)
 		{
 			// Replace previous values if there is more than 1 line.
@@ -82,6 +80,9 @@ namespace Aura.Data
 
 				this.Entries.Add(info);
 			}
+
+			this.MaxLevel = (ushort)this.Entries.Count;
+			this.MaxExp = this.GetTotalForNextLevel(this.MaxLevel);
 		}
 	}
 }

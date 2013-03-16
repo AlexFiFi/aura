@@ -12,9 +12,7 @@ public class Taillteann_ogreScript : CommerceOgreScript
 		SetName("_taillteann_ogre");
 		SetFace(skin: 30, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x898282;
-		NPC.ColorB = 0x2D293F;
-		NPC.ColorC = 0x4A1D61;		
+		SetColor(0x898282, 0x2D293F, 0x4A1D61);
 
 		SetLocation(region: 300, x: 240065, y: 192755);
 

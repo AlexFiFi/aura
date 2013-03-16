@@ -12,9 +12,7 @@ public class Emain_guardsman_baseScript : NPCScript
 		SetRace(10002);
 		SetBody(height: 1.17f, fat: 1f, upper: 1f, lower: 1f);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		SetStand("monster/anim/ghostarmor/natural/ghostarmor_natural_stand_friendly");
 	}

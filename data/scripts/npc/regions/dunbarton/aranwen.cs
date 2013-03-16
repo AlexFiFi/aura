@@ -14,9 +14,7 @@ public class AranwenScript : NPCScript
 		SetBody(height: 1.15f, fat: 0.9f, upper: 1.1f, lower: 0.8f);
 		SetFace(skin: 15, eye: 3, eyeColor: 192, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xBED5EE, 0xF48E71, 0x7E9C);
 		EquipItem(Pocket.Hair, 0xBD2, 0xBDC2E5, 0xBDC2E5, 0xBDC2E5);

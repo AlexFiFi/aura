@@ -84,7 +84,7 @@ namespace Aura.World.World
 				// TODO: No, just... no.
 				var item = WorldDb.Instance.GetItem(this.ItemId);
 
-				item.AddPrivateEntityData(packet);
+				item.AddToPacket(packet, ItemPacketType.Private);
 			}
 		}
 

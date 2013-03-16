@@ -228,29 +228,40 @@ namespace Aura.World.World
 			this.Info.Y = y;
 		}
 
-		public override void AddEntityData(MabiPacket p)
+		public override void AddToPacket(MabiPacket p)
 		{
-			p.PutLong(this.Id);
-			p.PutByte(1);
-			p.PutBin(this.Info);
-			p.PutByte(1);
-			p.PutByte(0);
-			p.PutByte(0);
-			p.PutByte(1);
+			this.AddToPacket(p, ItemPacketType.Public);
 		}
 
-		public void AddPrivateEntityData(MabiPacket p)
+		public void AddToPacket(MabiPacket p, ItemPacketType type)
 		{
 			p.PutLong(this.Id);
-			p.PutByte(2);
+			p.PutByte((byte)type);
 			p.PutBin(this.Info);
-			p.PutBin(this.OptionInfo);
-			p.PutString(this.Tags.ToString());
-			p.PutString("");
-			p.PutByte(0);
-			p.PutLong(this.QuestId);
+
+			if (type == ItemPacketType.Public)
+			{
+				p.PutByte(1);
+				p.PutByte(0);
+
+				p.PutByte(0); // Bitmask
+				// if & 1
+				//     float
+
+				p.PutByte(1);
+			}
+			else if (type == ItemPacketType.Private)
+			{
+				p.PutBin(this.OptionInfo);
+				p.PutString(this.Tags.ToString());
+				p.PutString("");
+				p.PutByte(0);
+				p.PutLong(this.QuestId);
+			}
 		}
 	}
+
+	public enum ItemPacketType : byte { Public = 1, Private = 2 }
 
 	public enum ItemType : ushort
 	{

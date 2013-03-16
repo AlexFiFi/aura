@@ -131,13 +131,6 @@ namespace Aura.Shared.Network
 			return this.PutBin(arr);
 		}
 
-		public MabiPacket PutObj(IPackable obj)
-		{
-			obj.AddToPacket(this);
-			return this;
-		}
-
-
 		// Getters
 		// ------------------------------------------------------------------
 		public byte GetByte()
@@ -555,11 +548,5 @@ namespace Aura.Shared.Network
 
 			return result.ToString();
 		}
-	}
-
-	// Test
-	public interface IPackable
-	{
-		void AddToPacket(MabiPacket packet);
 	}
 }

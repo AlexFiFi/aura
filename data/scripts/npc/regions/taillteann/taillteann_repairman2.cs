@@ -14,9 +14,7 @@ public class Taillteann_repairman2Script : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 37, eyeColor: 168, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x170C, 0x484300, 0xCC002B, 0x87263F);
 		EquipItem(Pocket.Hair, 0x138B, 0xC6C3C6, 0xC6C3C6, 0xC6C3C6);

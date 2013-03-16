@@ -14,9 +14,7 @@ public class EdanaScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 27, eyeColor: 29, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xAC52, 0xFFE05E, 0xB8D63D);
 		EquipItem(Pocket.Hair, 0xBC4, 0xBF86AC, 0xBF86AC, 0xBF86AC);

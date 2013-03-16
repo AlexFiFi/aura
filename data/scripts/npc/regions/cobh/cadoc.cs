@@ -14,9 +14,7 @@ public class CadocScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1.3f, lower: 1.2f);
 		SetFace(skin: 22, eye: 54, eyeColor: 76, lip: 34);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x22C4, 0xAAAB23, 0xB30058, 0x2E4602);
 		EquipItem(Pocket.Hair, 0x1F50, 0x362825, 0x362825, 0x362825);

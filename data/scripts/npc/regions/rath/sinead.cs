@@ -14,9 +14,7 @@ public class SineadScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 104, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF44, 0x990055, 0xC70037, 0xF89E3C);
 		EquipItem(Pocket.Hair, 0xC27, 0xAF8754, 0xAF8754, 0xAF8754);

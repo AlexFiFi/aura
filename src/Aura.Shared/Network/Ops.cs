@@ -7,7 +7,7 @@ namespace Aura.Shared.Network
 	{
 		// NA:      170400
 		// KR:      170400
-		// KR test: 170300 ?
+		// KR test: 180100 ?
 		// TW:      170200
 		// EU:      140400
 		public const uint Version = 170400;
@@ -216,7 +216,7 @@ namespace Aura.Shared.Network
 		public readonly static uint UnreadMailCount = 0x7255;
 		public readonly static uint StatUpdatePrivate = 0x7530;
 		public readonly static uint StatUpdatePublic = 0x7532;
-		public readonly static uint CombatTargetSet = 0x791A;
+		//public readonly static uint CombatTargetSet = 0x791A;
 		public readonly static uint CombatSetTarget = 0x7920;
 		public readonly static uint CombatSetFinisher = 0x7921;
 		public readonly static uint CombatSetFinisher2 = 0x7922;

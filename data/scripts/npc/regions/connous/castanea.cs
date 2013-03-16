@@ -14,9 +14,7 @@ public class CastaneaScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1.1f);
 		SetFace(skin: 18, eye: 39, eyeColor: 3, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x170C, 0xCBA0C8, 0xB97B7E, 0x53686D);
 		EquipItem(Pocket.Hair, 0x138B, 0x926287, 0x926287, 0x926287);

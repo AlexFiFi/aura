@@ -14,9 +14,7 @@ public class LezardScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 86, eyeColor: 32, lip: 37);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x133B, 0x6C0025, 0x7A6D49, 0x1A95B);
 		EquipItem(Pocket.Hair, 0x100B, 0x746E56, 0x746E56, 0x746E56);

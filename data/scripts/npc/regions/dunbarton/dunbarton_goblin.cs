@@ -12,9 +12,7 @@ public class Dunbarton_goblinScript : CommerceGoblinScript
 		SetName("_dunbarton_goblin");
 		SetFace(skin: 20, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x487346;
-		NPC.ColorB = 0x3A2D28;
-		NPC.ColorC = 0x9C802D;		
+		SetColor(0x487346, 0x3A2D28, 0x9C802D);
 
 		SetLocation(region: 14, x: 42858, y: 46475);
 

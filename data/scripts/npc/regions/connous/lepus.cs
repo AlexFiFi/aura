@@ -14,9 +14,7 @@ public class LepusScript : NPCScript
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 36, eyeColor: 91, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x5D2661, 0x6E5F65, 0xA12C91);
 		EquipItem(Pocket.Hair, 0x1775, 0x48B4D6, 0x48B4D6, 0x48B4D6);

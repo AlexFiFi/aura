@@ -14,9 +14,7 @@ public class Goblin_hicoScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 23, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x749F56;
-		NPC.ColorB = 0x908926;
-		NPC.ColorC = 0x333333;		
+		SetColor(0x749F56, 0x908926, 0x333333);
 
 
 

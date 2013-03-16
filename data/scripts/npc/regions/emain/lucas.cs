@@ -14,9 +14,7 @@ public class LucasScript : NPCScript
 		SetBody(height: 1.5f, fat: 1f, upper: 1.8f, lower: 1.3f);
 		SetFace(skin: 20, eye: 17, eyeColor: 0, lip: 4);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1328, 0xF49D32, 0xCF005C, 0x7A613D);
 		EquipItem(Pocket.Hair, 0xFF3, 0x22180F, 0x22180F, 0x22180F);

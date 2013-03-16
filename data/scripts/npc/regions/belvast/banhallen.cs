@@ -14,9 +14,7 @@ public class BanhallenScript : NPCScript
 		SetBody(height: 0.5f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 32, eyeColor: 98, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xC08A6B, 0xC8015B, 0xE3AA4B);
 		EquipItem(Pocket.Hair, 0xBE3, 0xCC3300, 0xCC3300, 0xCC3300);

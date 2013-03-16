@@ -14,9 +14,7 @@ public class EthnaScript : NPCScript
 		SetBody(height: 0.7099999f, fat: 1f, upper: 1.02f, lower: 1f);
 		SetFace(skin: 17, eye: 32, eyeColor: 26, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x6D6E53, 0xDF6843, 0x18AC4);
 		EquipItem(Pocket.Hair, 0xBEB, 0xFFF29A4A, 0xFFF29A4A, 0xFFF29A4A);

@@ -14,9 +14,7 @@ public class KarpfenScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x808080, 0x0, 0x0);
 
 		EquipItem(Pocket.RightHand2, 0x9CF1, 0x6D613F, 0x6B6759, 0x0);
 

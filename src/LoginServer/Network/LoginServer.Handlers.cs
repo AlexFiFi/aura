@@ -161,8 +161,8 @@ namespace Aura.Login.Network
 			LoginDb.Instance.UpdateAccount(account);
 
 			// Req. Info
-			account.CharacterCards = MabiDb.Instance.GetCharacterCards(username);
-			account.PetCards = MabiDb.Instance.GetPetCards(username);
+			account.CharacterCards = LoginDb.Instance.GetCharacterCards(username);
+			account.PetCards = LoginDb.Instance.GetPetCards(username);
 			account.Characters = LoginDb.Instance.GetCharacters(username);
 			account.Pets = LoginDb.Instance.GetPets(username);
 			account.Gifts = LoginDb.Instance.GetGifts(username);
@@ -221,7 +221,7 @@ namespace Aura.Login.Network
 
 			// Account Info
 			// --------------------------------------------------------------
-			response.PutObj(account);
+			account.AddToPacket(response);
 
 			client.Account = account;
 			client.State = ClientState.LoggedIn;
@@ -877,7 +877,7 @@ namespace Aura.Login.Network
 		{
 			var response = new MabiPacket(Op.AccountInfoRequestR, Id.Login);
 			response.PutByte(true);
-			response.PutObj(client.Account);
+			client.Account.AddToPacket(response);
 
 			client.Send(response);
 		}

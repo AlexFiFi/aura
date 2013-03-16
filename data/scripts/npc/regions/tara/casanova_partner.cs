@@ -13,9 +13,7 @@ public class Casanova_partnerScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 0.9f);
 		SetFace(skin: 15, eye: 15, eyeColor: 8, lip: 23);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xF65654, 0x68A2, 0xA2BE61);
 		EquipItem(Pocket.Hair, 0xBDA, 0x21004C, 0x21004C, 0x21004C);

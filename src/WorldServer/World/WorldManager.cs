@@ -4,17 +4,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Aura.Shared.Const;
 using Aura.Data;
+using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Database;
+using Aura.World.Events;
 using Aura.World.Network;
 using Aura.World.Player;
 using Aura.World.Scripting;
-using Aura.World.Skills;
 using Aura.World.Tools;
-using Aura.World.Events;
+using Aura.World.Skills;
 
 namespace Aura.World.World
 {
@@ -44,6 +44,56 @@ namespace Aura.World.World
 		private bool _firstHeartbeat = true;
 
 		private DateTime _lastHearbeat = DateTime.MaxValue;
+
+		/// <summary>
+		/// Sends packet to all clients that match the parameters.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="targets"></param>
+		/// <param name="source"></param>
+		/// <param name="range"></param>
+		public void Broadcast(MabiPacket packet, SendTargets targets, MabiEntity source = null, uint range = 0)
+		{
+			if (range < 1)
+				range = WorldConf.SightRange;
+
+			var excludeSender = ((targets & SendTargets.ExcludeSender) != 0);
+			WorldClient sourceClient = null;
+			if (source != null && source is MabiCreature)
+				sourceClient = (source as MabiCreature).Client as WorldClient;
+
+			lock (_clients)
+			{
+				if ((targets & SendTargets.All) != 0)
+				{
+					foreach (var client in _clients)
+					{
+						if (!(excludeSender && client == sourceClient))
+							client.Send(packet);
+					}
+				}
+				else if ((targets & SendTargets.Region) != 0)
+				{
+					var region = source.Region;
+					foreach (var client in _clients)
+					{
+						if (!(excludeSender && client == sourceClient))
+							if (region == client.Character.Region)
+								client.Send(packet);
+					}
+				}
+				else if ((targets & SendTargets.Range) != 0)
+				{
+					var region = source.Region;
+					foreach (var client in _clients)
+					{
+						if (!(excludeSender && client == sourceClient))
+							if (region == client.Character.Region && InRange(client.Character, source, range))
+								client.Send(packet);
+					}
+				}
+			}
+		}
 
 		/// <summary>
 		/// This is a general method that's run once every 1500ms (1 Erinn minute).
@@ -102,6 +152,14 @@ namespace Aura.World.World
 			_firstHeartbeat = false;
 		}
 
+		/// <summary>
+		/// Called a few times per second to
+		/// - remove dead creatures
+		/// - respawn mobs
+		/// - remove expired dropped items
+		/// - update visible entities for all clients
+		/// </summary>
+		/// <param name="state"></param>
 		public void CreatureUpdates(object state)
 		{
 			// TODO: Not good... >_>
@@ -233,7 +291,6 @@ namespace Aura.World.World
 
 		// Is in range
 		// ==================================================================
-		// TODO: This gotta go somewhere else...
 
 		public static bool InRange(MabiEntity c1, MabiEntity c2, uint range = 0)
 		{
@@ -341,7 +398,7 @@ namespace Aura.World.World
 			if (range < 1)
 				range = WorldConf.SightRange;
 
-			return _creatures.FindAll(a => a != entity && a is MabiNPC && ((a as MabiNPC).State & CreatureStates.GoodNpc) == 0 && !a.IsDead() && InRange(a, entity, range));
+			return _creatures.FindAll(a => a != entity && a is MabiNPC && ((a as MabiNPC).State & CreatureStates.GoodNpc) == 0 && !a.IsDead && InRange(a, entity, range));
 		}
 
 		public List<MabiCreature> GetPlayersInRange(MabiEntity entity, uint range = 0)
@@ -368,8 +425,7 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Adds a creature to the world, and raises the EnterRegion event,
-		/// to notifiy clients about it.
+		/// Adds a creature to the world, and raises the EnterRegion event.
 		/// </summary>
 		/// <param name="creature"></param>
 		public void AddCreature(MabiCreature creature)
@@ -397,6 +453,10 @@ namespace Aura.World.World
 			ServerEvents.Instance.OnEntityEntersRegion(creature);
 		}
 
+		/// <summary>
+		/// Removes all creatures deriving from NPC and props from this
+		/// world manager. Primarily called before reloading scripts.
+		/// </summary>
 		public void RemoveAllNPCs()
 		{
 			var toRemove = new List<MabiCreature>();
@@ -415,8 +475,7 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Removes a creature from the world, and raises the LeaveRegion event,
-		/// to notifiy clients about it.
+		/// Removes a creature from the world, and raises the LeaveRegion event.
 		/// </summary>
 		/// <param name="creature"></param>
 		public void RemoveCreature(MabiCreature creature)
@@ -439,6 +498,8 @@ namespace Aura.World.World
 
 		/// <summary>
 		/// Returns the first character with the given name, or null if it doesn't exist.
+		/// If forcePC (force player character) is false this method may return NPCs,
+		/// which is required for GMCP functions.
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
@@ -447,7 +508,7 @@ namespace Aura.World.World
 			if (forcePC)
 				return _creatures.FirstOrDefault(a => a.Name.Equals(name) && a is MabiPC);
 			else
-				return _creatures.FirstOrDefault(a => a.Name.Equals(name));
+				return _creatures.FirstOrDefault(a => a.Name.Equals(name) && (a is MabiPC || a is MabiNPC));
 		}
 
 		/// <summary>
@@ -476,7 +537,7 @@ namespace Aura.World.World
 		/// <returns></returns>
 		public int GetCreatureCount()
 		{
-			return _creatures.Count();
+			return _creatures.Count;
 		}
 
 		/// <summary>
@@ -489,8 +550,7 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Adds an item to the world and raises the EnterRegion event
-		/// to notify clients about it.
+		/// Adds an item to the world and raises the EnterRegion event.
 		/// </summary>
 		/// <param name="item"></param>
 		public void AddItem(MabiItem item)
@@ -509,8 +569,7 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Removes an item from the world and raises the LeaveRegion event
-		/// to notify clients about it.
+		/// Removes an item from the world and raises the LeaveRegion event.
 		/// </summary>
 		/// <param name="item"></param>
 		public void RemoveItem(MabiItem item)
@@ -556,7 +615,7 @@ namespace Aura.World.World
 				_props.Add(prop);
 
 			var appears = new MabiPacket(Op.PropAppears, Id.Broadcast);
-			prop.AddEntityData(appears);
+			prop.AddToPacket(appears);
 
 			this.Broadcast(appears, SendTargets.Region, prop);
 			ServerEvents.Instance.OnEntityEntersRegion(prop);
@@ -592,40 +651,37 @@ namespace Aura.World.World
 			}
 		}
 
-		// Broadcasting
-		// ==================================================================
-
-		public void CreatureChangeTitle(MabiCreature creature)
+		public void SpawnCreature(uint race, uint amount, uint region, uint x, uint y, uint radius = 0, bool effect = false)
 		{
-			var p = new MabiPacket(Op.ChangedTitle, creature.Id);
-			p.PutShort(creature.Title);
-			p.PutShort(0);
-
-			this.Broadcast(p, SendTargets.Range, creature);
+			this.SpawnCreature(race, amount, region, new MabiVertex(x, y), radius, effect);
 		}
 
-		public void CreatureSetTarget(MabiCreature creature, MabiCreature target)
+		public void SpawnCreature(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0, bool effect = false)
 		{
-			var p = new MabiPacket(Op.CombatTargetSet, creature.Id);
-			p.PutLong(target != null ? target.Id : 0);
+			var spawn = new SpawnInfo();
+			spawn.Amount = amount;
+			spawn.RaceId = race;
+			spawn.Region = region;
 
-			this.Broadcast(p, SendTargets.Range, creature);
-		}
+			if (radius == 0)
+			{
+				spawn.SpawnType = SpawnLocationType.Point;
+				spawn.SpawnPoint = new Point(pos.X, pos.Y);
+			}
+			else
+			{
+				spawn.SpawnType = SpawnLocationType.Polygon;
+				spawn.SpawnPolyRegion = new SpawnRegion(new Point[] 
+				{
+					new Point(pos.X - radius, pos.Y - radius),
+					new Point(pos.X - radius, pos.Y + radius),
+					new Point(pos.X + radius, pos.Y + radius),
+					new Point(pos.X + radius, pos.Y - radius),
+				});
+				spawn.SpawnPolyBounds = spawn.SpawnPolyRegion.GetBounds();
+			}
 
-		public void CreatureMove(MabiCreature creature, MabiVertex from, MabiVertex to, bool walking = false)
-		{
-			var p = new MabiPacket((!walking ? (uint)Op.Running : (uint)Op.Walking), creature.Id);
-			p.PutInt(from.X);
-			p.PutInt(from.Y);
-			p.PutInt(to.X);
-			p.PutInt(to.Y);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			if (creature.Client != null)
-				ActivateMobs(creature, from, to);
-
-			ServerEvents.Instance.OnCreatureMoves(creature, new MoveEventArgs(from, to));
+			ScriptManager.Instance.Spawn(spawn, 0, effect);
 		}
 
 		private void ActivateMobs(MabiCreature creature, MabiVertex from, MabiVertex to)
@@ -686,6 +742,60 @@ namespace Aura.World.World
 			{
 				((MabiNPC)mob).AIScript.Activate(time);
 			}
+		}
+
+		// ------------------------------------------------------------------
+		// Creature actions and broadcasting
+		// ------------------------------------------------------------------
+
+		public void CreatureDropItem(object sender, ItemEventArgs e)
+		{
+			var creature = sender as MabiEntity;
+			if (creature == null)
+				return;
+
+			var pos = creature.GetPosition();
+			var rand = RandomProvider.Get();
+			e.Item.Region = creature.Region;
+			e.Item.Info.X = (uint)(pos.X + rand.Next(-100, 101));
+			e.Item.Info.Y = (uint)(pos.Y + rand.Next(-100, 101));
+			e.Item.Info.Pocket = (byte)Pocket.None;
+			e.Item.DisappearTime = DateTime.Now.AddSeconds((int)Math.Max(60, (e.Item.OptionInfo.Price / 100) * 60));
+
+			WorldManager.Instance.AddItem(e.Item);
+		}
+
+		public void CreatureChangeTitle(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.ChangedTitle, creature.Id);
+			p.PutShort(creature.Title);
+			p.PutShort(0);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureSetTarget(MabiCreature creature, MabiCreature target)
+		{
+			var p = new MabiPacket(Op.CombatSetTarget, creature.Id);
+			p.PutLong(target != null ? target.Id : 0);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureMove(MabiCreature creature, MabiVertex from, MabiVertex to, bool walking = false)
+		{
+			var p = new MabiPacket((!walking ? (uint)Op.Running : (uint)Op.Walking), creature.Id);
+			p.PutInt(from.X);
+			p.PutInt(from.Y);
+			p.PutInt(to.X);
+			p.PutInt(to.Y);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+
+			if (creature.Client != null)
+				ActivateMobs(creature, from, to);
+
+			ServerEvents.Instance.OnCreatureMoves(creature, new MoveEventArgs(from, to));
 		}
 
 		public void CreatureSwitchSet(MabiCreature creature)
@@ -762,23 +872,6 @@ namespace Aura.World.World
 			this.Broadcast(p, SendTargets.Range, creature);
 		}
 
-		public void CreatureDropItem(object sender, ItemEventArgs e)
-		{
-			var creature = sender as MabiEntity;
-			if (creature == null)
-				return;
-
-			var pos = creature.GetPosition();
-			var rand = RandomProvider.Get();
-			e.Item.Region = creature.Region;
-			e.Item.Info.X = (uint)(pos.X + rand.Next(-100, 101));
-			e.Item.Info.Y = (uint)(pos.Y + rand.Next(-100, 101));
-			e.Item.Info.Pocket = (byte)Pocket.None;
-			e.Item.DisappearTime = DateTime.Now.AddSeconds((int)Math.Max(60, (e.Item.OptionInfo.Price / 100) * 60));
-
-			WorldManager.Instance.AddItem(e.Item);
-		}
-
 		public void CreatureItemUpdate(object sender, ItemUpdateEventArgs ie)
 		{
 			var creature = sender as MabiCreature;
@@ -840,17 +933,26 @@ namespace Aura.World.World
 
 		public void CreatureStatsUpdate(MabiCreature creature)
 		{
-			var pub = new MabiPacket(Op.StatUpdatePublic, creature.Id);
-			pub.PutByte(4);
-			creature.AddPublicStatData(pub);
-			this.Broadcast(pub, SendTargets.Range, creature);
+			// Public
+			this.Broadcast(
+				PacketCreator.StatUpdate(creature, StatUpdateType.Public,
+					Stat.Height, Stat.Weight, Stat.Upper, Stat.Lower, Stat.CombatPower,
+					Stat.Life, Stat.LifeInjured, Stat.LifeMax, Stat.LifeMaxMod
+				)
+			, SendTargets.Range, creature);
 
+			// Private
 			if (creature.Client != null)
 			{
-				var priv = new MabiPacket(Op.StatUpdatePrivate, creature.Id);
-				priv.PutByte(3);
-				creature.AddPrivateStatData(priv);
-				creature.Client.Send(priv);
+				creature.Client.Send(
+					PacketCreator.StatUpdate(creature, StatUpdateType.Private,
+						Stat.Life, Stat.LifeInjured, Stat.LifeMax, Stat.LifeMaxMod,
+						Stat.Mana, Stat.ManaMax, Stat.ManaMaxMod,
+						Stat.Stamina, Stat.Food, Stat.StaminaMax, Stat.StaminaMaxFood,
+						Stat.Str, Stat.Dex, Stat.Int, Stat.Luck, Stat.Will,
+						Stat.Level, Stat.Experience, Stat.AbilityPoints
+					)
+				);
 			}
 		}
 
@@ -883,46 +985,19 @@ namespace Aura.World.World
 			var creature = e.Entity as MabiCreature;
 
 			var p = new MabiPacket(Op.LevelUp, creature.Id);
-			p.PutShort((ushort)creature.Level);
+			p.PutShort(creature.Level);
 			this.Broadcast(p, SendTargets.Range, creature);
 
-			var publ = new MabiPacket(Op.StatUpdatePublic, creature.Id);
-			publ.PutByte(4);
-			publ.PutInt(1);
-			publ.PutInt((uint)Stat.LifeMax);
-			publ.PutFloat(creature.LifeMax);
-			for (int i = 0; i < 7; ++i)
-				publ.PutInt(0);
-
-			this.Broadcast(publ, SendTargets.Range, creature);
+			this.Broadcast(PacketCreator.StatUpdate(creature, StatUpdateType.Public, Stat.LifeMax), SendTargets.Range, creature);
 
 			if (creature.Client != null)
 			{
-				var priv = new MabiPacket(Op.StatUpdatePrivate, creature.Id);
-				priv.PutByte(3);
-				priv.PutInt(9);
-				priv.PutInt((uint)Stat.AbilityPoints);
-				priv.PutInt(creature.AbilityPoints);
-				priv.PutInt((uint)Stat.LifeMax);
-				priv.PutFloat(creature.LifeMax);
-				priv.PutInt((uint)Stat.ManaMax);
-				priv.PutFloat(creature.ManaMax);
-				priv.PutInt((uint)Stat.StaminaMax);
-				priv.PutFloat(creature.StaminaMax);
-				priv.PutInt((uint)Stat.Str);
-				priv.PutFloat(creature.StrBase);
-				priv.PutInt((uint)Stat.Int);
-				priv.PutFloat(creature.IntBase);
-				priv.PutInt((uint)Stat.Dex);
-				priv.PutFloat(creature.DexBase);
-				priv.PutInt((uint)Stat.Will);
-				priv.PutFloat(creature.WillBase);
-				priv.PutInt((uint)Stat.Luck);
-				priv.PutFloat(creature.LuckBase);
-				for (int i = 0; i < 7; ++i)
-					priv.PutInt(0);
-
-				creature.Client.Send(priv);
+				creature.Client.Send(
+					PacketCreator.StatUpdate(creature, StatUpdateType.Private,
+						Stat.LifeMax, Stat.ManaMax, Stat.StaminaMax,
+						Stat.Str, Stat.Int, Stat.Dex, Stat.Will, Stat.Luck
+					)
+				);
 			}
 		}
 
@@ -1215,39 +1290,6 @@ namespace Aura.World.World
 			this.Broadcast(p, SendTargets.Range, source);
 		}
 
-		public void SpawnCreature(uint race, uint amount, uint region, uint x, uint y, uint radius = 0, bool effect = false)
-		{
-			this.SpawnCreature(race, amount, region, new MabiVertex(x, y), radius, effect);
-		}
-
-		public void SpawnCreature(uint race, uint amount, uint region, MabiVertex pos, uint radius = 0, bool effect = false)
-		{
-			var spawn = new SpawnInfo();
-			spawn.Amount = amount;
-			spawn.RaceId = race;
-			spawn.Region = region;
-
-			if (radius == 0)
-			{
-				spawn.SpawnType = SpawnLocationType.Point;
-				spawn.SpawnPoint = new Point(pos.X, pos.Y);
-			}
-			else
-			{
-				spawn.SpawnType = SpawnLocationType.Polygon;
-				spawn.SpawnPolyRegion = new SpawnRegion(new Point[] 
-				{
-					new Point(pos.X - radius, pos.Y - radius),
-					new Point(pos.X - radius, pos.Y + radius),
-					new Point(pos.X + radius, pos.Y + radius),
-					new Point(pos.X + radius, pos.Y - radius),
-				});
-				spawn.SpawnPolyBounds = spawn.SpawnPolyRegion.GetBounds();
-			}
-
-			ScriptManager.Instance.Spawn(spawn, 0, effect);
-		}
-
 		public void CreatureReceivesQuest(MabiCreature creature, MabiQuest quest)
 		{
 			// Owl
@@ -1258,7 +1300,7 @@ namespace Aura.World.World
 
 			// Quest info
 			var p = new MabiPacket(Op.QuestNew, creature.Id);
-			quest.AddData(p);
+			quest.AddToPacket(p);
 			creature.Client.Send(p);
 		}
 
@@ -1319,49 +1361,6 @@ namespace Aura.World.World
 			var p = new MabiPacket(Op.QuestUpdate, creature.Id);
 			quest.AddProgressData(p);
 			creature.Client.Send(p);
-		}
-
-		public void Broadcast(MabiPacket packet, SendTargets targets, MabiEntity source = null, uint range = 0)
-		{
-			if (range < 1)
-				range = WorldConf.SightRange;
-
-			var excludeSender = ((targets & SendTargets.ExcludeSender) != 0);
-			WorldClient sourceClient = null;
-			if (source != null && source is MabiCreature)
-				sourceClient = (source as MabiCreature).Client as WorldClient;
-
-			lock (_clients)
-			{
-				if ((targets & SendTargets.All) != 0)
-				{
-					foreach (var client in _clients)
-					{
-						if (!(excludeSender && client == sourceClient))
-							client.Send(packet);
-					}
-				}
-				else if ((targets & SendTargets.Region) != 0)
-				{
-					var region = source.Region;
-					foreach (var client in _clients)
-					{
-						if (!(excludeSender && client == sourceClient))
-							if (region == client.Character.Region)
-								client.Send(packet);
-					}
-				}
-				else if ((targets & SendTargets.Range) != 0)
-				{
-					var region = source.Region;
-					foreach (var client in _clients)
-					{
-						if (!(excludeSender && client == sourceClient))
-							if (region == client.Character.Region && InRange(client.Character, source, range))
-								client.Send(packet);
-					}
-				}
-			}
 		}
 	}
 

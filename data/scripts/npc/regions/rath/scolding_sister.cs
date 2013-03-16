@@ -13,9 +13,7 @@ public class Scolding_sisterScript : NPCScript
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 0.9f);
 		SetFace(skin: 15, eye: 8, eyeColor: 0, lip: 2);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xF0377E, 0x2047, 0xCAA5CD);
 		EquipItem(Pocket.Hair, 0x138A, 0x624848, 0x624848, 0x624848);

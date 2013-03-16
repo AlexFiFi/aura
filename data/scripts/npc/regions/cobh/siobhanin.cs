@@ -14,9 +14,7 @@ public class SiobhaninScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 41, eyeColor: 168, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x3348, 0xF8A561, 0xF49D33);
 		EquipItem(Pocket.Hair, 0x177A, 0xE3A400, 0xE3A400, 0xE3A400);

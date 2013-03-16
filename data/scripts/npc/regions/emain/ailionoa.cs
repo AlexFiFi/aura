@@ -14,9 +14,7 @@ public class AilionoaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 3, eyeColor: 114, lip: 14);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xCFE4A7, 0x19EA5, 0xE9E619);
 		EquipItem(Pocket.Hair, 0xBE8, 0xFFE2AC, 0xFFE2AC, 0xFFE2AC);

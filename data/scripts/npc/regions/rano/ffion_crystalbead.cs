@@ -14,9 +14,7 @@ public class Ffion_crystalbeadScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 0, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0xFFFFFF;
-		NPC.ColorB = 0x43587C;
-		NPC.ColorC = 0x808080;		
+		SetColor(0xFFFFFF, 0x43587C, 0x808080);
 
 
 

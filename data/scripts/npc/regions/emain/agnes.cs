@@ -14,9 +14,7 @@ public class AgnesScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 3, eyeColor: 47, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xCD8320, 0xF0097B, 0x6C676B);
 		EquipItem(Pocket.Hair, 0xBE1, 0xB5562, 0xB5562, 0xB5562);

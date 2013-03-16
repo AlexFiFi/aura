@@ -14,9 +14,7 @@ public class MalleusScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1.1f, lower: 1f);
 		SetFace(skin: 15, eye: 50, eyeColor: 126, lip: 29);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x22C4, 0x9DDBEC, 0x53721F, 0x5520);
 		EquipItem(Pocket.Armor, 0x32FF, 0x4F4F4F, 0x633C31, 0x808080);

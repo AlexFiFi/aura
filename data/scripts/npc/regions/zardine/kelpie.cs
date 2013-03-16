@@ -14,9 +14,7 @@ public class KelpieScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 3, eyeColor: 161, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x5F3A00, 0x97185B, 0xE5A64E);
 		EquipItem(Pocket.Hair, 0xFFE, 0x857E66, 0x857E66, 0x857E66);

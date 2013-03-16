@@ -14,9 +14,7 @@ public class Elf_familyguideScript : NPCScript
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 34, eyeColor: 170, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x626168, 0xD0AC53, 0xFFEA6E);
 		EquipItem(Pocket.Hair, 0x1774, 0x0, 0x0, 0x0);

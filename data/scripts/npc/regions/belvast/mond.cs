@@ -14,9 +14,7 @@ public class MondScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 26, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x808080, 0x0, 0x0);
 
 		EquipItem(Pocket.RightHand1, 0x9E17, 0x808080, 0x808080, 0x808080);
 		EquipItem(Pocket.LeftHand1, 0x9E15, 0x808080, 0x808080, 0x808080);

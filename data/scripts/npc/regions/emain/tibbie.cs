@@ -14,9 +14,7 @@ public class TibbieScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 127, eyeColor: 162, lip: 41);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x616A6D, 0xFAA950, 0xF8A53E);
 		EquipItem(Pocket.Hair, 0xBE8, 0x6C6955, 0x6C6955, 0x6C6955);

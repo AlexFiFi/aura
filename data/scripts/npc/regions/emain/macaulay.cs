@@ -14,9 +14,7 @@ public class MacaulayScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1.3f, upper: 1f, lower: 1f);
 		SetFace(skin: 18, eye: 106, eyeColor: 27, lip: 39);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xFFF034, 0xB8B6, 0xB3D2EE);
 		EquipItem(Pocket.Hair, 0x100E, 0xECEAC8, 0xECEAC8, 0xECEAC8);

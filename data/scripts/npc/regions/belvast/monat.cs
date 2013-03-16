@@ -14,9 +14,7 @@ public class MonatScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1.3f);
 		SetFace(skin: 24, eye: 107, eyeColor: 0, lip: 34);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x22C4, 0xF79520, 0xF29E39, 0xE40172);
 		EquipItem(Pocket.Hair, 0x1F84, 0xC8C7BF, 0xC8C7BF, 0xC8C7BF);

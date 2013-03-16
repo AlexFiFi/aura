@@ -14,9 +14,7 @@ public class EdernScript : NPCScript
 		SetBody(height: 1.3f, fat: 1.4f, upper: 2f, lower: 1.4f);
 		SetFace(skin: 25, eye: 9, eyeColor: 38, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1328, 0xF89A47, 0xF9B6CA, 0xF89947);
 		EquipItem(Pocket.Hair, 0xFBC, 0xC0BC92, 0xC0BC92, 0xC0BC92);

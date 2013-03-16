@@ -14,9 +14,7 @@ public class DelScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1.1f, lower: 1f);
 		SetFace(skin: 16, eye: 3, eyeColor: 113, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x6D6E69, 0xB3B1, 0xEDA23E);
 		EquipItem(Pocket.Hair, 0xBD7, 0xEC7766, 0xEC7766, 0xEC7766);

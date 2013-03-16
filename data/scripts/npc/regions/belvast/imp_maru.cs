@@ -14,9 +14,7 @@ public class Imp_maruScript : NPCScript
 		SetBody(height: 0.8f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 247, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x1A8888;
-		NPC.ColorB = 0x775C5C;
-		NPC.ColorC = 0xC76917;		
+		SetColor(0x1A8888, 0x775C5C, 0xC76917);
 
 
 

@@ -14,9 +14,7 @@ public class Imp_kuruScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 21, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x4C655C;
-		NPC.ColorB = 0xAB8E8E;
-		NPC.ColorC = 0x35503D;		
+		SetColor(0x4C655C, 0xAB8E8E, 0x35503D);
 
 
 

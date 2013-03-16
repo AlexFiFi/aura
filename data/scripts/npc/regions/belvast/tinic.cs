@@ -14,9 +14,7 @@ public class TinicScript : NPCScript
 		SetBody(height: 0.1f, fat: 1.4f, upper: 1.3f, lower: 1.1f);
 		SetFace(skin: 16, eye: 0, eyeColor: 37, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x5ACAE4, 0x86578C, 0x6F73);
 		EquipItem(Pocket.Hair, 0x1779, 0x99CC00, 0x99CC00, 0x99CC00);

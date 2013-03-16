@@ -14,9 +14,7 @@ public class AtrataScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 35, eyeColor: 238, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x170C, 0x1B71A9, 0x6F4D00, 0x91066E);
 		EquipItem(Pocket.Hair, 0x138A, 0xB141D, 0xB141D, 0xB141D);

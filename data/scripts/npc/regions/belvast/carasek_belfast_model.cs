@@ -14,9 +14,7 @@ public class Carasek_belfast_modelScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1.29f, lower: 1f);
 		SetFace(skin: 26, eye: 9, eyeColor: 46, lip: 18);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x94AAD8, 0xF6992B, 0x606B53);
 		EquipItem(Pocket.Hair, 0xFB5, 0xFFE9DBC2, 0xFFE9DBC2, 0xFFE9DBC2);

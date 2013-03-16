@@ -14,9 +14,7 @@ public class BekardScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 141, eyeColor: 196, lip: 2);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0xF48854, 0xB90029, 0xF2567E);
 		EquipItem(Pocket.Hair, 0x102B, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF);

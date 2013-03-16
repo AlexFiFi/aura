@@ -14,9 +14,7 @@ public class PencastScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 0, eyeColor: 126, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x133A, 0xF49C33, 0x737171, 0xDD7785);
 		EquipItem(Pocket.Hair, 0x100D, 0xADAAA5, 0xADAAA5, 0xADAAA5);

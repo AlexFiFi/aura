@@ -14,9 +14,7 @@ public class HiccaScript : NPCScript
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 19, eye: 31, eyeColor: 134, lip: 2);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x8365AC, 0xB3B07F, 0xEFF7E4);
 		EquipItem(Pocket.Hair, 0xFC7, 0x70B28F, 0x70B28F, 0x70B28F);

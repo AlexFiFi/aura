@@ -14,9 +14,7 @@ public class LonnieScript : NPCScript
 		SetBody(height: 0f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 32, eyeColor: 27, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x367A41, 0xD5DE3D, 0x703000);
 		EquipItem(Pocket.Hair, 0xC24, 0x840C18, 0x840C18, 0x840C18);

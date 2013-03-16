@@ -14,9 +14,7 @@ public class AsconScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 0.7f, upper: 0.7f, lower: 0.7f);
 		SetFace(skin: 18, eye: 138, eyeColor: 27, lip: 46);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1340, 0xF79929, 0x5A695F, 0xB1DF);
 		EquipItem(Pocket.Hair, 0x1028, 0xE2E1B7, 0xE2E1B7, 0xE2E1B7);

@@ -14,9 +14,7 @@ public class AlpinScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 41, eyeColor: 52, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0xD8E6F6, 0x6C6F70, 0x815E32);
 		EquipItem(Pocket.Hair, 0x1013, 0xFFF38C, 0xFFF38C, 0xFFF38C);

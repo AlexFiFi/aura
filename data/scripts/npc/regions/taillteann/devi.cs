@@ -14,9 +14,7 @@ public class DeviScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0xCF9B5F;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0xCF9B5F, 0x808080);
 
 		SetLocation(region: 300, x: 215391, y: 194644);
 

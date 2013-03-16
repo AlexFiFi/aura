@@ -14,9 +14,7 @@ public class Ogre_tobeScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 131, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x706464;
-		NPC.ColorB = 0x748274;
-		NPC.ColorC = 0x37322D;		
+		SetColor(0x706464, 0x748274, 0x37322D);
 
 
 

@@ -14,9 +14,7 @@ public class EmainbeggarScript : NPCScript
 		SetBody(height: 0.6199999f, fat: 0.94f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 0, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xD9BE03, 0xFBBD59, 0xFBB758);
 		EquipItem(Pocket.Hair, 0xFA6, 0xA2917B, 0xA2917B, 0xA2917B);

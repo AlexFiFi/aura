@@ -14,9 +14,7 @@ public class KeithScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 85, eyeColor: 32, lip: 35);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1332, 0x30B558, 0xFAAE51, 0xC5AE6C);
 		EquipItem(Pocket.Hair, 0x100A, 0x840C18, 0x840C18, 0x840C18);

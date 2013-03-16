@@ -14,9 +14,7 @@ public class RiocardScript : NPCScript
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 20, eye: 2, eyeColor: 60, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xFECDBC, 0x551866, 0x780000);
 		EquipItem(Pocket.Hair, 0xFA1, 0xAF7B34, 0xAF7B34, 0xAF7B34);

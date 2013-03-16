@@ -14,9 +14,7 @@ public class BryceScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1.5f, lower: 1f);
 		SetFace(skin: 20, eye: 5, eyeColor: 76, lip: 12);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1326, 0x155782, 0x84B274, 0xFBC25C);
 		EquipItem(Pocket.Hair, 0xFBB, 0x5B482B, 0x5B482B, 0x5B482B);

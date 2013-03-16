@@ -14,9 +14,7 @@ public class OslaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 2, eyeColor: 47, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xF5A73F, 0xF69C35, 0xF98838);
 		EquipItem(Pocket.Hair, 0xBDD, 0xE29B45, 0xE29B45, 0xE29B45);

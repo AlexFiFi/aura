@@ -14,9 +14,7 @@ public class KaynaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1.4f, upper: 1.4f, lower: 1f);
 		SetFace(skin: 15, eye: 60, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xDE9853, 0x2E3B65, 0x6E6365);
 		EquipItem(Pocket.Hair, 0x138F, 0x756939, 0x756939, 0x756939);

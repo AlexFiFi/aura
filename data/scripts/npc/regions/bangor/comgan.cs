@@ -14,9 +14,7 @@ public class ComganScript : NPCScript
 		SetBody(height: 0.6000001f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 3, eyeColor: 55, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x977726, 0xFFFCDE, 0x35003F);
 		EquipItem(Pocket.Hair, 0xFA3, 0xFFFFFFF, 0xFFFFFFF, 0xFFFFFFF);

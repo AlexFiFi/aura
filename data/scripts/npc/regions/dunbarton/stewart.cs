@@ -14,9 +14,7 @@ public class StewartScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 3, eyeColor: 120, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x49C2AF, 0x609F, 0x447045);
 		EquipItem(Pocket.Hair, 0xFAA, 0x997744, 0x997744, 0x997744);

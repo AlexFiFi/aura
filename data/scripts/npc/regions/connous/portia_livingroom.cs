@@ -13,9 +13,7 @@ public class Portia_livingroomScript : NPCScript
 		SetBody(height: 0.6999999f, fat: 0.85f, upper: 1.15f, lower: 0.85f);
 		SetFace(skin: 16, eye: 148, eyeColor: 135, lip: 43);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF51, 0xECB554, 0x938, 0xFDD1C2);
 		EquipItem(Pocket.Hair, 0xC3A, 0xFADE9C, 0xFADE9C, 0xFADE9C);

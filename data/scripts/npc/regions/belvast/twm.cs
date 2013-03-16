@@ -14,9 +14,7 @@ public class TwmScript : NPCScript
 		SetBody(height: 0.1f, fat: 1.2f, upper: 1.3f, lower: 1.1f);
 		SetFace(skin: 16, eye: 10, eyeColor: 23, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0xE78B75, 0x509C3C, 0xB8DA91);
 		EquipItem(Pocket.Hair, 0x1774, 0x6B6C65, 0x6B6C65, 0x6B6C65);

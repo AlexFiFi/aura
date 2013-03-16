@@ -11,9 +11,7 @@ public class Dunbarton_horseScript : CommerceHorseScript
 		base.OnLoad();
 		SetName("_dunbarton_horse");
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x120303;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x120303, 0x808080);
 
 		SetLocation(region: 14, x: 43324, y: 46434);
 

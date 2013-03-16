@@ -14,9 +14,7 @@ public class HiccamotherScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1.1f, upper: 1.3f, lower: 1.1f);
 		SetFace(skin: 15, eye: 5, eyeColor: 134, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x1ABDC, 0xF29D38, 0x26B673);
 		EquipItem(Pocket.Hair, 0xBDA, 0x568B7D, 0x568B7D, 0x568B7D);

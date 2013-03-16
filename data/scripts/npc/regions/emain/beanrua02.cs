@@ -14,9 +14,7 @@ public class Beanrua02Script : Beanrua_baseScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 1, eyeColor: 39, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3D, 0xB57C13, 0xFFE171, 0xFA946E);
 		EquipItem(Pocket.Hair, 0xBD8, 0x942C12, 0x942C12, 0x942C12);

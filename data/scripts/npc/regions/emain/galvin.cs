@@ -14,9 +14,7 @@ public class GalvinScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1.1f, lower: 1f);
 		SetFace(skin: 25, eye: 6, eyeColor: 29, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xEBA441, 0xEF4F2B, 0x9D5627);
 		EquipItem(Pocket.Hair, 0xFC4, 0xF2BB7D, 0xF2BB7D, 0xF2BB7D);

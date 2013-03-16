@@ -14,9 +14,7 @@ public class Goblin_gogoScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 168, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0xE7E5E5;
-		NPC.ColorB = 0x567386;
-		NPC.ColorC = 0x67869B;		
+		SetColor(0xE7E5E5, 0x567386, 0x67869B);
 
 
 

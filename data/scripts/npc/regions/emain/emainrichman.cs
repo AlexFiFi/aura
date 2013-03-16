@@ -14,9 +14,7 @@ public class EmainrichmanScript : NPCScript
 		SetBody(height: 0.9400001f, fat: 1.58f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 8, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1356, 0xDEEFE0, 0x673131, 0xA5D489);
 		EquipItem(Pocket.Hair, 0xFF4, 0xAC9D64, 0xAC9D64, 0xAC9D64);

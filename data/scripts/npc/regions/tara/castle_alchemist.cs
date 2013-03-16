@@ -14,9 +14,7 @@ public class Castle_alchemistScript : NPCScript
 		SetBody(height: 0.9f, fat: 1.3f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 21, eye: 20, eyeColor: 0, lip: 22);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x521313, 0x62003C, 0x565700);
 		EquipItem(Pocket.Hair, 0x1779, 0xC69500, 0xC69500, 0xC69500);

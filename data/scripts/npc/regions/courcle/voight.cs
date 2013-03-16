@@ -14,9 +14,7 @@ public class VoightScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x132E, 0x2C2869, 0xD00031, 0xF58974);
 		EquipItem(Pocket.Hair, 0x135B, 0x677276, 0x677276, 0x677276);

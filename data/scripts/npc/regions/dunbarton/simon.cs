@@ -13,9 +13,7 @@ public class SimonScript : NPCScript
 		SetBody(height: 1.1f, fat: 0.8f, upper: 0.8f, lower: 0.8f);
 		SetFace(skin: 15, eye: 8, eyeColor: 25, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1326, 0x9B6D85, 0x494966, 0x30B075);
 		EquipItem(Pocket.Hair, 0xFB8, 0x998866, 0x998866, 0x998866);

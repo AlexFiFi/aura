@@ -14,9 +14,7 @@ public class Imp_kinuScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 247, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x817895;
-		NPC.ColorB = 0xAB8E8E;
-		NPC.ColorC = 0x4C4C6B;		
+		SetColor(0x817895, 0xAB8E8E, 0x4C4C6B);
 
 
 

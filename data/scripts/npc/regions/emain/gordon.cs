@@ -14,9 +14,7 @@ public class GordonScript : NPCScript
 		SetBody(height: 1.3f, fat: 1f, upper: 1.5f, lower: 1.1f);
 		SetFace(skin: 21, eye: 9, eyeColor: 154, lip: 9);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1327, 0x979FCF, 0xE2965C, 0xFDDB58);
 		EquipItem(Pocket.Hair, 0xFBB, 0x4A2811, 0x4A2811, 0x4A2811);

@@ -14,9 +14,7 @@ public class KusinaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 26, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF46, 0x8377, 0xF99C4D, 0xFAB154);
 		EquipItem(Pocket.Hair, 0xC1B, 0x37231D, 0x37231D, 0x37231D);

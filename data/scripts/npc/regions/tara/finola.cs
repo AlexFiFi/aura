@@ -14,9 +14,7 @@ public class FinolaScript : NPCScript
 		SetBody(height: 0.6000001f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 29, eyeColor: 30, lip: 2);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x486769, 0x8B7A89, 0x86752C);
 		EquipItem(Pocket.Hair, 0xC20, 0x333333, 0x333333, 0x333333);

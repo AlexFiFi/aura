@@ -14,9 +14,7 @@ public class GlenisScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 0.3f, upper: 1.4f, lower: 1.2f);
 		SetFace(skin: 15, eye: 7, eyeColor: 119, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3E, 0x84C8, 0x323C99, 0xF35D80);
 		EquipItem(Pocket.Hair, 0xBCC, 0xBC756C, 0xBC756C, 0xBC756C);

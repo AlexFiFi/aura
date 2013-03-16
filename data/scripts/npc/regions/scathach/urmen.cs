@@ -14,9 +14,7 @@ public class UrmenScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 22, eye: 95, eyeColor: 0, lip: 29);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x22C4, 0xFED3CF, 0x116A94, 0xF39E37);
 		EquipItem(Pocket.Hair, 0x1F56, 0x0, 0x0, 0x0);

@@ -14,9 +14,7 @@ public class Giant_weddingguideScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 50, eyeColor: 126, lip: 29);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x22C4, 0x77CDC9, 0x8A0060, 0x85CA);
 		EquipItem(Pocket.Hair, 0x1F50, 0x444449, 0x444449, 0x444449);

@@ -14,9 +14,7 @@ public class IbbieScript : NPCScript
 		SetBody(height: 0f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 0, eyeColor: 90, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x238FB7, 0x9D6E23, 0xF3C91);
 		EquipItem(Pocket.Hair, 0xBD0, 0xB78B68, 0xB78B68, 0xB78B68);

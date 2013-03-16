@@ -14,9 +14,7 @@ public class MadocScript : NPCScript
 		SetBody(height: 1.1f, fat: 1.5f, upper: 1f, lower: 1.5f);
 		SetFace(skin: 18, eye: 14, eyeColor: 0, lip: 16);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0xFA9D50, 0x4B6570, 0xF78E8B);
 		EquipItem(Pocket.Hair, 0x1027, 0xC8A81A, 0xC8A81A, 0xC8A81A);

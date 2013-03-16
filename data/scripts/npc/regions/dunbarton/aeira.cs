@@ -14,9 +14,7 @@ public class AeiraScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 2, eyeColor: 27, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xAB6523, 0x6C696C, 0x650800);
 		EquipItem(Pocket.Hair, 0xBCE, 0x664444, 0x664444, 0x664444);

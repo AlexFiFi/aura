@@ -14,9 +14,7 @@ public class MuroScript : NPCScript
 		SetBody(height: 0.3f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 133, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Shoe, 0x426D, 0x441A19, 0x695C66, 0xBADB);
 		EquipItem(Pocket.RightHand1, 0x9C47, 0xB3BEA4, 0x745D2F, 0x406C);

@@ -14,9 +14,7 @@ public class PadanScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 23, eye: 87, eyeColor: 162, lip: 35);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x133B, 0x456668, 0xF35D6E, 0x296D5E);
 		EquipItem(Pocket.Hair, 0x100C, 0xFFCF6B, 0xFFCF6B, 0xFFCF6B);

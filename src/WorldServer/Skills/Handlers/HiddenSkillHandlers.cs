@@ -18,7 +18,7 @@ namespace Aura.World.Skills
 
 		public override SkillResults Use(MabiCreature creature, MabiCreature target, MabiSkill skill)
 		{
-			if (!target.IsDead())
+			if (!target.IsDead)
 				return SkillResults.InvalidTarget;
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.HealingMotion).PutString("healing_phoenix").PutLong(target.Id), SendTargets.Range, creature);
@@ -31,7 +31,7 @@ namespace Aura.World.Skills
 			if (creature.ActiveSkillTarget == null || creature.ActiveSkillItem == null || creature.ActiveSkillItem.Info.Class != 63000 || creature.ActiveSkillItem.Info.Amount < 1)
 				return SkillResults.InvalidTarget;
 
-			if (!creature.ActiveSkillTarget.IsDead())
+			if (!creature.ActiveSkillTarget.IsDead)
 				return SkillResults.InvalidTarget;
 
 			creature.DecItem(creature.ActiveSkillItem);

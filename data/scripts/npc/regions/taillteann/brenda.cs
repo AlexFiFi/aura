@@ -14,9 +14,7 @@ public class BrendaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 0, eyeColor: 49, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF48, 0x68962F, 0x558E, 0x1E2C7C);
 		EquipItem(Pocket.Hair, 0xC1E, 0x822222, 0x822222, 0x822222);

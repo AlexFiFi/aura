@@ -14,9 +14,7 @@ public class GreatHall_maidScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 17, eye: 99, eyeColor: 162, lip: 2);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xC7C2DE, 0xF78745, 0x62B164);
 		EquipItem(Pocket.Hair, 0x138B, 0x393839, 0x393839, 0x393839);

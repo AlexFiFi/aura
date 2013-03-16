@@ -40,7 +40,7 @@ namespace Aura.World.World
 		public abstract EntityType EntityType { get; }
 		public abstract ushort DataType { get; }
 
-		public abstract void AddEntityData(MabiPacket packet);
+		public abstract void AddToPacket(MabiPacket packet);
 
 		public MabiEntity()
 		{

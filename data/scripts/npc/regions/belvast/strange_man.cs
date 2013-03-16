@@ -14,9 +14,7 @@ public class Strange_manScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 147, eyeColor: 126, lip: 46);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x7B8396, 0xF9A948, 0xF2CCE0);
 		EquipItem(Pocket.Hair, 0xC22, 0xA7A59D, 0xA7A59D, 0xA7A59D);

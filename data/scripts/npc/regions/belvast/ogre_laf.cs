@@ -14,9 +14,7 @@ public class Ogre_lafScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 205, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x512957;
-		NPC.ColorB = 0x304265;
-		NPC.ColorC = 0xFFFFFF;		
+		SetColor(0x512957, 0x304265, 0xFFFFFF);
 
 
 

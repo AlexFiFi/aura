@@ -14,9 +14,7 @@ public class SibScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 16, eye: 38, eyeColor: 83, lip: 47);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1710, 0xEDE20F, 0xEFEB42, 0xAEB1);
 		EquipItem(Pocket.Hair, 0xC2C, 0xF7EFFF, 0xF7EFFF, 0xF7EFFF);

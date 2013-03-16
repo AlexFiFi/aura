@@ -14,9 +14,7 @@ public class SeumasScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 24, eye: 7, eyeColor: 39, lip: 4);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1356, 0x9582BD, 0x821F60, 0xC57782);
 		EquipItem(Pocket.Hair, 0xFAF, 0x2D2B13, 0x2D2B13, 0x2D2B13);

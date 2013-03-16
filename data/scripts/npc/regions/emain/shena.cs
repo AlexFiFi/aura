@@ -13,9 +13,7 @@ public class ShenaScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1.1f, lower: 1f);
 		SetFace(skin: 16, eye: 1, eyeColor: 39, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xA10068, 0x91CA56, 0x1EBCA4);
 		EquipItem(Pocket.Hair, 0xBDE, 0x960C21, 0x960C21, 0x960C21);

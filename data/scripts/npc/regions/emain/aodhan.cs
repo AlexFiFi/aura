@@ -14,9 +14,7 @@ public class AodhanScript : NPCScript
 		SetBody(height: 1.3f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 20, eye: 12, eyeColor: 98, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x17ABF, 0x78B264, 0x666C52);
 		EquipItem(Pocket.Hair, 0xFCB, 0xBCD5AE, 0xBCD5AE, 0xBCD5AE);

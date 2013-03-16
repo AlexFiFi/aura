@@ -229,10 +229,9 @@ namespace Aura.World.Database
 					//character.WillMod = reader.GetFloat("willBoost");
 					//character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
-					character.ColorA = reader.GetUInt32("color1");
-					character.ColorB = reader.GetUInt32("color2");
-					character.ColorC = reader.GetUInt32("color3");
-					character.DeletionTime = reader["deletionTime"] as DateTime? ?? DateTime.MinValue;
+					character.Color1 = reader.GetUInt32("color1");
+					character.Color2 = reader.GetUInt32("color2");
+					character.Color3 = reader.GetUInt32("color3");
 					character.State = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
 
 					character.LoadDefault();
@@ -632,24 +631,14 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@bannedexpiration", account.BannedExpiration);
 
 				mc.ExecuteNonQuery();
-
-				// Save characters
-				foreach (var character in account.Characters.Where(a => a.Save))
-				{
-					if (character.DeletionTime < DateTime.MaxValue)
-						this.SaveCharacter(account, character);
-					else
-						MabiDb.Instance.QueryN("DELETE FROM characters WHERE characterId = " + character.Id.ToString(), conn);
-				}
-
-				foreach (var pet in account.Pets.Where(a => a.Save))
-				{
-					if (pet.DeletionTime < DateTime.MaxValue)
-						this.SaveCharacter(account, pet);
-					else
-						MabiDb.Instance.QueryN("DELETE FROM characters WHERE characterId = " + pet.Id.ToString(), conn);
-				}
 			}
+
+			// Save characters
+			foreach (var character in account.Characters.Where(a => a.Save))
+				this.SaveCharacter(account, character);
+
+			foreach (var pet in account.Pets.Where(a => a.Save))
+				this.SaveCharacter(account, pet);
 		}
 
 		public void SaveCharacter(Account account, MabiPC character)
@@ -670,8 +659,7 @@ namespace Aura.World.Database
 				var mc = new MySqlCommand(
 					"UPDATE `characters` SET" +
 					" `race` = @race, `status` = @status, `height` = @height, `fatness` = @fatness, `upper` = @upper, `lower` = @lower," +
-					" `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet," +
-					" `deletionTime` = @deletionTime, `title` = @title," +
+					" `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet, `title` = @title," +
 					" `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax," +
 					" `mana` = @mana, `manaMax` = @manaMax," +
 					" `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food," +
@@ -717,13 +705,12 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@lastDungeon", "");
 				mc.Parameters.AddWithValue("@birthday", DateTime.MinValue);
 				mc.Parameters.AddWithValue("@title", character.Title);
-				mc.Parameters.AddWithValue("@deletionTime", character.DeletionTime);
 				mc.Parameters.AddWithValue("@maxLevel", 200);
 				mc.Parameters.AddWithValue("@rebirthCount", character.RebirthCount);
 				mc.Parameters.AddWithValue("@jobId", 0);
-				mc.Parameters.AddWithValue("@color1", character.ColorA);
-				mc.Parameters.AddWithValue("@color2", character.ColorB);
-				mc.Parameters.AddWithValue("@color3", character.ColorC);
+				mc.Parameters.AddWithValue("@color1", character.Color1);
+				mc.Parameters.AddWithValue("@color2", character.Color2);
+				mc.Parameters.AddWithValue("@color3", character.Color3);
 
 				mc.ExecuteNonQuery();
 			}
@@ -736,104 +723,122 @@ namespace Aura.World.Database
 
 		private void SaveQuests(MabiPC character)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			MySqlTransaction transaction = null;
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				transaction = conn.BeginTransaction();
-
-				var delmc = new MySqlCommand("DELETE FROM quests WHERE characterId = @characterId", conn, transaction);
-				delmc.Parameters.AddWithValue("@characterId", character.Id);
-				delmc.ExecuteNonQuery();
-
-				//delmc = new MySqlCommand("DELETE FROM quest_progress WHERE characterId = @characterId", conn, transaction);
-				//delmc.Parameters.AddWithValue("@characterId", character.Id);
-				//delmc.ExecuteNonQuery();
-
-				foreach (var q in character.Quests.Values)
+				MySqlTransaction transaction = null;
+				try
 				{
-					if (q.Id >= Id.QuestsTmp)
-						q.Id = MabiDb.Instance.GetNewPoolId("quests", Id.Quests);
+					transaction = conn.BeginTransaction();
 
-					var mc = new MySqlCommand("INSERT INTO quests VALUES (@characterId, @questId, @questClass, @state)", conn, transaction);
+					var delmc = new MySqlCommand("DELETE FROM quests WHERE characterId = @characterId", conn, transaction);
+					delmc.Parameters.AddWithValue("@characterId", character.Id);
+					delmc.ExecuteNonQuery();
 
-					mc.Parameters.AddWithValue("@characterId", character.Id);
-					mc.Parameters.AddWithValue("@questId", q.Id);
-					mc.Parameters.AddWithValue("@questClass", q.Class);
-					mc.Parameters.AddWithValue("@state", q.State);
+					//delmc = new MySqlCommand("DELETE FROM quest_progress WHERE characterId = @characterId", conn, transaction);
+					//delmc.Parameters.AddWithValue("@characterId", character.Id);
+					//delmc.ExecuteNonQuery();
 
-					mc.ExecuteNonQuery();
-
-					foreach (MabiQuestProgress p in q.Progresses.Values)
+					foreach (var q in character.Quests.Values)
 					{
-						mc = new MySqlCommand("INSERT INTO quest_progress VALUES (NULL, @characterId, @questId, @questClass, @objective, @count, @done, @unlocked)", conn, transaction);
+						if (q.Id >= Id.QuestsTmp)
+							q.Id = MabiDb.Instance.GetNewPoolId("quests", Id.Quests);
+
+						var mc = new MySqlCommand("INSERT INTO quests VALUES (@characterId, @questId, @questClass, @state)", conn, transaction);
 
 						mc.Parameters.AddWithValue("@characterId", character.Id);
 						mc.Parameters.AddWithValue("@questId", q.Id);
 						mc.Parameters.AddWithValue("@questClass", q.Class);
-						mc.Parameters.AddWithValue("@objective", p.Objective);
-						mc.Parameters.AddWithValue("@count", p.Count);
-						mc.Parameters.AddWithValue("@done", p.Done);
-						mc.Parameters.AddWithValue("@unlocked", p.Unlocked);
+						mc.Parameters.AddWithValue("@state", q.State);
 
 						mc.ExecuteNonQuery();
-					}
-				}
 
-				transaction.Commit();
-			}
-			catch (Exception ex)
-			{
-				transaction.Rollback();
-				throw ex;
-			}
-			finally
-			{
-				conn.Close();
+						foreach (MabiQuestProgress p in q.Progresses.Values)
+						{
+							mc = new MySqlCommand("INSERT INTO quest_progress VALUES (NULL, @characterId, @questId, @questClass, @objective, @count, @done, @unlocked)", conn, transaction);
+
+							mc.Parameters.AddWithValue("@characterId", character.Id);
+							mc.Parameters.AddWithValue("@questId", q.Id);
+							mc.Parameters.AddWithValue("@questClass", q.Class);
+							mc.Parameters.AddWithValue("@objective", p.Objective);
+							mc.Parameters.AddWithValue("@count", p.Count);
+							mc.Parameters.AddWithValue("@done", p.Done);
+							mc.Parameters.AddWithValue("@unlocked", p.Unlocked);
+
+							mc.ExecuteNonQuery();
+						}
+					}
+
+					transaction.Commit();
+				}
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					throw ex;
+				}
 			}
 		}
 
 		private void SaveKeywords(MabiPC character)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				foreach (var keywordId in character.Keywords)
+				MySqlTransaction transaction = null;
+				try
 				{
-					var mc = new MySqlCommand("REPLACE INTO keywords VALUES (@keywordId, @characterId)", conn);
+					transaction = conn.BeginTransaction();
 
-					mc.Parameters.AddWithValue("@keywordId", keywordId);
-					mc.Parameters.AddWithValue("@characterId", character.Id);
+					var delmc = new MySqlCommand("DELETE FROM keywords WHERE characterId = @characterId", conn, transaction);
+					delmc.Parameters.AddWithValue("@characterId", character.Id);
+					delmc.ExecuteNonQuery();
 
-					mc.ExecuteNonQuery();
+					foreach (var keywordId in character.Keywords)
+					{
+						var mc = new MySqlCommand("INSERT INTO keywords VALUES (@keywordId, @characterId)", conn, transaction);
+						mc.Parameters.AddWithValue("@keywordId", keywordId);
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.ExecuteNonQuery();
+					}
+
+					transaction.Commit();
 				}
-			}
-			finally
-			{
-				conn.Close();
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					throw ex;
+				}
 			}
 		}
 
 		private void SaveSkills(MabiPC character)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				foreach (var skill in character.Skills.Values)
+				MySqlTransaction transaction = null;
+				try
 				{
-					var mc = new MySqlCommand("REPLACE INTO skills VALUES (@skillId, @characterId, @rank, @exp)", conn);
+					transaction = conn.BeginTransaction();
 
-					mc.Parameters.AddWithValue("@skillId", skill.Info.Id);
-					mc.Parameters.AddWithValue("@characterId", character.Id);
-					mc.Parameters.AddWithValue("@rank", skill.Info.Rank);
-					mc.Parameters.AddWithValue("@exp", skill.Info.Experience);
+					var delmc = new MySqlCommand("DELETE FROM skills WHERE characterId = @characterId", conn, transaction);
+					delmc.Parameters.AddWithValue("@characterId", character.Id);
+					delmc.ExecuteNonQuery();
 
-					mc.ExecuteNonQuery();
+					foreach (var skill in character.Skills.Values)
+					{
+						var mc = new MySqlCommand("INSERT INTO skills VALUES (@skillId, @characterId, @rank, @exp)", conn, transaction);
+						mc.Parameters.AddWithValue("@skillId", skill.Info.Id);
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.Parameters.AddWithValue("@rank", skill.Info.Rank);
+						mc.Parameters.AddWithValue("@exp", skill.Info.Experience);
+						mc.ExecuteNonQuery();
+					}
+
+					transaction.Commit();
 				}
-			}
-			finally
-			{
-				conn.Close();
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					throw ex;
+				}
 			}
 		}
 
@@ -927,94 +932,91 @@ namespace Aura.World.Database
 
 		private void SaveItems(MabiPC character)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			MySqlTransaction transaction = null;
-
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				transaction = conn.BeginTransaction();
-
-				var delmc = new MySqlCommand("DELETE FROM items WHERE characterId = @id", conn, transaction);
-				delmc.Parameters.AddWithValue("@id", character.Id);
-				delmc.ExecuteNonQuery();
-
-				var mc = new MySqlCommand(
-					"INSERT INTO items"
-					+ " (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos_y`, `varint`, `color_01`, `color_02`, `color_03`, `price`, `bundle`,"
-					+ " `linked_pocket`, `figure`, `flag`, `durability`, `durability_max`, `origin_durability_max`, `attack_min`, `attack_max`,"
-					+ " `wattack_min`, `wattack_max`, `balance`, `critical`, `defence`, `protect`, `effective_range`, `attack_speed`,"
-					+ " `experience`, `exp_point`, `upgraded`, `upgraded_max`, `grade`, `prefix`, `suffix`, `data`, `option`, `sellingprice`, `expiration`, `update_time`, `tags`)"
-
-					+ " VALUES (@characterId, @itemID, @class, @pocketId, @pos_x, @pos_y, @varint, @color_01, @color_02, @color_03, @price, @bundle,"
-					+ " @linked_pocket, @figure, @flag, @durability, @durability_max, @origin_durability_max, @attack_min, @attack_max,"
-					+ " @wattack_min, @wattack_max, @balance, @critical, @defence, @protect, @effective_range, @attack_speed,"
-					+ " @experience, @exp_point, @upgraded, @upgraded_max, @grade, @prefix, @suffix, @data, @option, @sellingprice, @expiration, @update_time, @tags)"
-				, conn, transaction);
-
-				foreach (var item in character.Items)
+				MySqlTransaction transaction = null;
+				try
 				{
-					// If item has a temporary Id
-					if (item.Id >= Id.TmpItems)
+					transaction = conn.BeginTransaction();
+
+					var delmc = new MySqlCommand("DELETE FROM items WHERE characterId = @id", conn, transaction);
+					delmc.Parameters.AddWithValue("@id", character.Id);
+					delmc.ExecuteNonQuery();
+
+					var mc = new MySqlCommand(
+						"INSERT INTO items"
+						+ " (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos_y`, `varint`, `color_01`, `color_02`, `color_03`, `price`, `bundle`,"
+						+ " `linked_pocket`, `figure`, `flag`, `durability`, `durability_max`, `origin_durability_max`, `attack_min`, `attack_max`,"
+						+ " `wattack_min`, `wattack_max`, `balance`, `critical`, `defence`, `protect`, `effective_range`, `attack_speed`,"
+						+ " `experience`, `exp_point`, `upgraded`, `upgraded_max`, `grade`, `prefix`, `suffix`, `data`, `option`, `sellingprice`, `expiration`, `update_time`, `tags`)"
+
+						+ " VALUES (@characterId, @itemID, @class, @pocketId, @pos_x, @pos_y, @varint, @color_01, @color_02, @color_03, @price, @bundle,"
+						+ " @linked_pocket, @figure, @flag, @durability, @durability_max, @origin_durability_max, @attack_min, @attack_max,"
+						+ " @wattack_min, @wattack_max, @balance, @critical, @defence, @protect, @effective_range, @attack_speed,"
+						+ " @experience, @exp_point, @upgraded, @upgraded_max, @grade, @prefix, @suffix, @data, @option, @sellingprice, @expiration, @update_time, @tags)"
+					, conn, transaction);
+
+					foreach (var item in character.Items)
 					{
-						item.Id = MabiDb.Instance.GetNewItemId();
+						// If item has a temporary Id
+						if (item.Id >= Id.TmpItems)
+						{
+							item.Id = MabiDb.Instance.GetNewItemId();
+						}
+
+						mc.Parameters.Clear();
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.Parameters.AddWithValue("@itemID", item.Id);
+						mc.Parameters.AddWithValue("@class", item.Info.Class);
+						mc.Parameters.AddWithValue("@pocketId", item.Info.Pocket);
+						mc.Parameters.AddWithValue("@pos_x", item.Info.X);
+						mc.Parameters.AddWithValue("@pos_y", item.Info.Y);
+						mc.Parameters.AddWithValue("@varint", 0); // ???
+						mc.Parameters.AddWithValue("@color_01", item.Info.ColorA);
+						mc.Parameters.AddWithValue("@color_02", item.Info.ColorB);
+						mc.Parameters.AddWithValue("@color_03", item.Info.ColorC);
+						mc.Parameters.AddWithValue("@price", item.OptionInfo.Price);
+						mc.Parameters.AddWithValue("@bundle", item.Info.Amount);
+						mc.Parameters.AddWithValue("@linked_pocket", item.OptionInfo.LinkedPocketId);
+						mc.Parameters.AddWithValue("@figure", item.Info.FigureA);
+						mc.Parameters.AddWithValue("@flag", item.OptionInfo.Flag);
+						mc.Parameters.AddWithValue("@durability", item.OptionInfo.Durability);
+						mc.Parameters.AddWithValue("@durability_max", item.OptionInfo.DurabilityMax);
+						mc.Parameters.AddWithValue("@origin_durability_max", item.OptionInfo.DurabilityOriginal);
+						mc.Parameters.AddWithValue("@attack_min", item.OptionInfo.AttackMin);
+						mc.Parameters.AddWithValue("@attack_max", item.OptionInfo.AttackMax);
+						mc.Parameters.AddWithValue("@wattack_min", item.OptionInfo.WAttackMin);
+						mc.Parameters.AddWithValue("@wattack_max", item.OptionInfo.WAttackMax);
+						mc.Parameters.AddWithValue("@balance", item.OptionInfo.Balance);
+						mc.Parameters.AddWithValue("@critical", item.OptionInfo.Critical);
+						mc.Parameters.AddWithValue("@defence", item.OptionInfo.Defense);
+						mc.Parameters.AddWithValue("@protect", item.OptionInfo.Protection);
+						mc.Parameters.AddWithValue("@effective_range", item.OptionInfo.EffectiveRange);
+						mc.Parameters.AddWithValue("@attack_speed", item.OptionInfo.AttackSpeed);
+						mc.Parameters.AddWithValue("@experience", item.OptionInfo.Experience);
+						mc.Parameters.AddWithValue("@exp_point", 0); // ?
+						mc.Parameters.AddWithValue("@upgraded", item.OptionInfo.Upgraded);
+						mc.Parameters.AddWithValue("@upgraded_max", item.OptionInfo.UpgradeMax);
+						mc.Parameters.AddWithValue("@grade", item.OptionInfo.Grade);
+						mc.Parameters.AddWithValue("@prefix", item.OptionInfo.Prefix);
+						mc.Parameters.AddWithValue("@suffix", item.OptionInfo.Suffix);
+						mc.Parameters.AddWithValue("@data", "");
+						mc.Parameters.AddWithValue("@option", "");
+						mc.Parameters.AddWithValue("@sellingprice", item.OptionInfo.SellingPrice);
+						mc.Parameters.AddWithValue("@expiration", item.OptionInfo.ExpireTime);
+						mc.Parameters.AddWithValue("@update_time", DateTime.Now);
+						mc.Parameters.AddWithValue("@tags", item.Tags.ToString());
+
+						mc.ExecuteNonQuery();
 					}
 
-					mc.Parameters.Clear();
-					mc.Parameters.AddWithValue("@characterId", character.Id);
-					mc.Parameters.AddWithValue("@itemID", item.Id);
-					mc.Parameters.AddWithValue("@class", item.Info.Class);
-					mc.Parameters.AddWithValue("@pocketId", item.Info.Pocket);
-					mc.Parameters.AddWithValue("@pos_x", item.Info.X);
-					mc.Parameters.AddWithValue("@pos_y", item.Info.Y);
-					mc.Parameters.AddWithValue("@varint", 0); // ???
-					mc.Parameters.AddWithValue("@color_01", item.Info.ColorA);
-					mc.Parameters.AddWithValue("@color_02", item.Info.ColorB);
-					mc.Parameters.AddWithValue("@color_03", item.Info.ColorC);
-					mc.Parameters.AddWithValue("@price", item.OptionInfo.Price);
-					mc.Parameters.AddWithValue("@bundle", item.Info.Amount);
-					mc.Parameters.AddWithValue("@linked_pocket", item.OptionInfo.LinkedPocketId);
-					mc.Parameters.AddWithValue("@figure", item.Info.FigureA);
-					mc.Parameters.AddWithValue("@flag", item.OptionInfo.Flag);
-					mc.Parameters.AddWithValue("@durability", item.OptionInfo.Durability);
-					mc.Parameters.AddWithValue("@durability_max", item.OptionInfo.DurabilityMax);
-					mc.Parameters.AddWithValue("@origin_durability_max", item.OptionInfo.DurabilityOriginal);
-					mc.Parameters.AddWithValue("@attack_min", item.OptionInfo.AttackMin);
-					mc.Parameters.AddWithValue("@attack_max", item.OptionInfo.AttackMax);
-					mc.Parameters.AddWithValue("@wattack_min", item.OptionInfo.WAttackMin);
-					mc.Parameters.AddWithValue("@wattack_max", item.OptionInfo.WAttackMax);
-					mc.Parameters.AddWithValue("@balance", item.OptionInfo.Balance);
-					mc.Parameters.AddWithValue("@critical", item.OptionInfo.Critical);
-					mc.Parameters.AddWithValue("@defence", item.OptionInfo.Defense);
-					mc.Parameters.AddWithValue("@protect", item.OptionInfo.Protection);
-					mc.Parameters.AddWithValue("@effective_range", item.OptionInfo.EffectiveRange);
-					mc.Parameters.AddWithValue("@attack_speed", item.OptionInfo.AttackSpeed);
-					mc.Parameters.AddWithValue("@experience", item.OptionInfo.Experience);
-					mc.Parameters.AddWithValue("@exp_point", 0); // ?
-					mc.Parameters.AddWithValue("@upgraded", item.OptionInfo.Upgraded);
-					mc.Parameters.AddWithValue("@upgraded_max", item.OptionInfo.UpgradeMax);
-					mc.Parameters.AddWithValue("@grade", item.OptionInfo.Grade);
-					mc.Parameters.AddWithValue("@prefix", item.OptionInfo.Prefix);
-					mc.Parameters.AddWithValue("@suffix", item.OptionInfo.Suffix);
-					mc.Parameters.AddWithValue("@data", "");
-					mc.Parameters.AddWithValue("@option", "");
-					mc.Parameters.AddWithValue("@sellingprice", item.OptionInfo.SellingPrice);
-					mc.Parameters.AddWithValue("@expiration", item.OptionInfo.ExpireTime);
-					mc.Parameters.AddWithValue("@update_time", DateTime.Now);
-					mc.Parameters.AddWithValue("@tags", item.Tags.ToString());
-
-					mc.ExecuteNonQuery();
+					transaction.Commit();
 				}
-
-				transaction.Commit();
-			}
-			catch (Exception ex)
-			{
-				transaction.Rollback();
-				throw ex;
-			}
-			finally
-			{
-				conn.Close();
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					throw ex;
+				}
 			}
 		}
 

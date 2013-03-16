@@ -14,9 +14,7 @@ public class BerchedScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1.1f);
 		SetFace(skin: 20, eye: 0, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1334, 0xD8CC8, 0x290AC, 0xF65233);
 		EquipItem(Pocket.Hair, 0x1004, 0x887B66, 0x887B66, 0x887B66);

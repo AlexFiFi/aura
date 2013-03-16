@@ -14,9 +14,7 @@ public class Goblin_tacoScript : NPCScript
 		SetBody(height: 0.5f, fat: 1f, upper: 1.2f, lower: 1.1f);
 		SetFace(skin: 23, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0xDE7373;
-		NPC.ColorB = 0x5E5FA4;
-		NPC.ColorC = 0xAE8F8F;		
+		SetColor(0xDE7373, 0x5E5FA4, 0xAE8F8F);
 
 
 

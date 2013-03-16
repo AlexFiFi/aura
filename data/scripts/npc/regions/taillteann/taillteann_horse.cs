@@ -11,9 +11,7 @@ public class Taillteann_horseScript : CommerceHorseScript
 		base.OnLoad();
 		SetName("_taillteann_horse");
         
-		NPC.ColorA = 0x808780;
-		NPC.ColorB = 0x180C0C;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808780, 0x180C0C, 0x808080);
 
 		SetLocation(region: 300, x: 239713, y: 192902);
 

@@ -272,7 +272,7 @@ namespace Aura.World.Network
 			}
 
 			p.PutByte(1);
-			(creature as MabiPC).AddPrivateEntityData(p);
+			(creature as MabiPC).AddPrivateToPacket(p);
 			client.Send(p);
 
 			if (creature.Owner != null)
@@ -282,7 +282,7 @@ namespace Aura.World.Network
 					WorldManager.Instance.VehicleUnbind(null, creature, true);
 				}
 
-				if (creature.IsDead())
+				if (creature.IsDead)
 				{
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
 				}
@@ -375,7 +375,7 @@ namespace Aura.World.Network
 		public void HandleItemUse(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || creature.IsDead())
+			if (creature == null || creature.IsDead)
 				return;
 
 			var itemId = packet.GetLong();
@@ -496,7 +496,7 @@ namespace Aura.World.Network
 			}
 
 			var creature = WorldManager.Instance.GetCreatureById(packet.Id);
-			if (creature == null || !creature.IsDead())
+			if (creature == null || !creature.IsDead)
 				return;
 
 			var pos = creature.GetPosition();
@@ -2133,7 +2133,7 @@ namespace Aura.World.Network
 			MabiPacket p;
 
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == petId);
-			if (pet == null || pet.IsDead() || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17)
+			if (pet == null || pet.IsDead || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17)
 			{
 				p = new MabiPacket(Op.PetMountR, creature.Id);
 				p.PutByte(0);
@@ -2230,7 +2230,7 @@ namespace Aura.World.Network
 		public void HandleHitProp(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || creature.IsDead())
+			if (creature == null || creature.IsDead)
 				return;
 
 			var propId = packet.GetLong();
@@ -2466,7 +2466,7 @@ namespace Aura.World.Network
 		public void HandleDeadMenu(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead())
+			if (creature == null && creature.IsDead)
 				return;
 
 			var response = new MabiPacket(Op.DeadMenuR, creature.Id);
@@ -2480,7 +2480,7 @@ namespace Aura.World.Network
 		public void HandleRevive(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead())
+			if (creature == null && creature.IsDead)
 				return;
 
 			// 1 = Town, 2 = Here, 9 = Wait
@@ -2539,7 +2539,7 @@ namespace Aura.World.Network
 		public void HandleAreaChange(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead())
+			if (creature == null && creature.IsDead)
 				return;
 
 			var eventId = packet.GetLong();
@@ -2576,7 +2576,7 @@ namespace Aura.World.Network
 		public void HandleStunMeterRequest(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead())
+			if (creature == null && creature.IsDead)
 				return;
 
 			var targetId = packet.GetLong();
@@ -2672,7 +2672,7 @@ namespace Aura.World.Network
 			p.PutLong(targetID);
 			p.PutInt((ushort)items.Count);
 			foreach (var item in items)
-				item.AddPrivateEntityData(p);
+				item.AddToPacket(p, ItemPacketType.Private);
 
 			client.Send(p);
 		}

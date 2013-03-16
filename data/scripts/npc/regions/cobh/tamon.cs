@@ -14,9 +14,7 @@ public class TamonScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 92, eyeColor: 238, lip: 33);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1EDC, 0x37B35D, 0xFDD7C9, 0xD1E16E);
 		EquipItem(Pocket.Hair, 0x1B5E, 0xC61400, 0xC61400, 0xC61400);

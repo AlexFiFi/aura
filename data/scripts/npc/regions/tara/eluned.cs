@@ -14,9 +14,7 @@ public class ElunedScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 84, eyeColor: 98, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF43, 0xFCCF5E, 0x8AFE5, 0x5065);
 		EquipItem(Pocket.Hair, 0xC23, 0x9B5A26, 0x9B5A26, 0x9B5A26);

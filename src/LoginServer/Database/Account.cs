@@ -9,7 +9,7 @@ using Aura.Shared.Network;
 
 namespace Aura.Login.Database
 {
-	public class Account : IPackable
+	public class Account
 	{
 		public string Name { get; set; }
 		public string Password { get; set; }

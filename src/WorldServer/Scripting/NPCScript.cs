@@ -203,9 +203,9 @@ namespace Aura.World.Scripting
 
 		protected virtual void SetColor(uint c1 = 0x808080, uint c2 = 0x808080, uint c3 = 0x808080)
 		{
-			NPC.ColorA = c1;
-			NPC.ColorB = c2;
-			NPC.ColorC = c3;
+			NPC.Color1 = c1;
+			NPC.Color2 = c2;
+			NPC.Color3 = c3;
 		}
 
 		protected virtual void SetDirection(byte direction)
@@ -213,10 +213,10 @@ namespace Aura.World.Scripting
 			this.NPC.Direction = direction;
 		}
 
-		protected virtual void SetStand(string style, string talk_style = "")
+		protected virtual void SetStand(string style, string talkStyle = "")
 		{
 			this.NPC.StandStyle = style;
-			this.NPC.StandStyleTalk = talk_style;
+			this.NPC.StandStyleTalk = talkStyle;
 		}
 
 		protected string GetDialogFace(WorldClient client)
@@ -410,7 +410,7 @@ namespace Aura.World.Scripting
 				p.PutShort((ushort)this.Shop.Tabs[i].Items.Count);
 				foreach (var item in this.Shop.Tabs[i].Items)
 				{
-					item.AddPrivateEntityData(p);
+					item.AddToPacket(p, ItemPacketType.Private);
 				}
 			}
 			client.Send(p);

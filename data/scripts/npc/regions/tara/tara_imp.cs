@@ -12,9 +12,7 @@ public class Tara_impScript : CommerceImpScript
 		SetName("_tara_imp");
 		SetFace(skin: 25, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0x3A2D28;
-		NPC.ColorB = 0x3A2D28;
-		NPC.ColorC = 0x136980;		
+		SetColor(0x3A2D28, 0x3A2D28, 0x136980);
 
 		SetLocation(region: 401, x: 74648, y: 128488);
 

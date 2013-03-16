@@ -14,9 +14,7 @@ public class Giant_familyguideScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 50, eyeColor: 126, lip: 29);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x22C4, 0x997302, 0xA60027, 0xFBCDCF);
 		EquipItem(Pocket.Hair, 0x1F52, 0x444449, 0x444449, 0x444449);

@@ -14,9 +14,7 @@ public class BlythScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 12, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x132645, 0xFA9E50, 0xD6C75F);
 		EquipItem(Pocket.Hair, 0xFB7, 0x776236, 0x776236, 0x776236);

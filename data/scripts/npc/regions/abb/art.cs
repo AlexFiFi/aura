@@ -14,9 +14,7 @@ public class ArtScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 23, eye: 149, eyeColor: 54, lip: 52);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x22C4, 0x787592, 0x90B26E, 0xF9B4CE);
 		EquipItem(Pocket.Hair, 0x1F63, 0xFFF38C, 0xFFF38C, 0xFFF38C);

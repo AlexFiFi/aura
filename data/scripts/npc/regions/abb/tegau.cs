@@ -14,9 +14,7 @@ public class TegauScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 0.5f, upper: 1.4f, lower: 1.2f);
 		SetFace(skin: 23, eye: 7, eyeColor: 27, lip: 35);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3E, 0xF46F85, 0xE5CA8, 0xC9006C);
 		EquipItem(Pocket.Hair, 0xC2E, 0x9F936C, 0x9F936C, 0x9F936C);

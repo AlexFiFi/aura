@@ -14,9 +14,7 @@ public class Party_male06Script : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 12, eyeColor: 76, lip: 75);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0xF68734, 0x47278B, 0x4A1973);
 		EquipItem(Pocket.Hair, 0x135B, 0x0, 0x0, 0x0);

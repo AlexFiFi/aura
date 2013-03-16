@@ -14,9 +14,7 @@ public class WalterScript : NPCScript
 		SetBody(height: 1.1f, fat: 1.2f, upper: 1f, lower: 1.2f);
 		SetFace(skin: 22, eye: 13, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1327, 0xC5018A, 0xF79291, 0xFD852E);
 		EquipItem(Pocket.Hair, 0xFBB, 0x554433, 0x554433, 0x554433);

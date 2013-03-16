@@ -14,9 +14,7 @@ public class Cordelia_madamScript : NPCScript
 		SetBody(height: 0.9f, fat: 1.1f, upper: 0.9f, lower: 1.1f);
 		SetFace(skin: 15, eye: 27, eyeColor: 170, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xCABADB, 0xFDDF58, 0x5F6B51);
 		EquipItem(Pocket.Hair, 0xBDF, 0xA2E2C5, 0xA2E2C5, 0xA2E2C5);

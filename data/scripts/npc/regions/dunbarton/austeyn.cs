@@ -14,9 +14,7 @@ public class AusteynScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 16, eye: 8, eyeColor: 84, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1328, 0x81A6, 0x806588, 0x8DA62C);
 		EquipItem(Pocket.Hair, 0xFBB, 0xD1D9E3, 0xD1D9E3, 0xD1D9E3);

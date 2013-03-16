@@ -14,9 +14,7 @@ public class ShamalaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 25, eye: 168, eyeColor: 22, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF55, 0xFFECB7, 0xFDBC47, 0x117B4B);
 		EquipItem(Pocket.Hair, 0xC4F, 0x111124, 0x111124, 0x111124);

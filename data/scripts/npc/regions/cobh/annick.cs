@@ -14,9 +14,7 @@ public class AnnickScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 20, eye: 6, eyeColor: 37, lip: 55);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x8ED4, 0xA6D590, 0x5130);
 		EquipItem(Pocket.Hair, 0xC39, 0x2D1C12, 0x2D1C12, 0x2D1C12);

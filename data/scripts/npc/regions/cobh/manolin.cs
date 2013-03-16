@@ -14,9 +14,7 @@ public class ManolinScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 37, eyeColor: 22, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x244E72, 0xFFED00, 0x2C5370);
 		EquipItem(Pocket.Hair, 0xFF5, 0xC3D0BC, 0xC3D0BC, 0xC3D0BC);

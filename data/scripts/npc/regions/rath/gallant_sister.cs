@@ -13,9 +13,7 @@ public class Gallant_sisterScript : NPCScript
 		SetBody(height: 0.6000001f, fat: 1f, upper: 1f, lower: 0.9f);
 		SetFace(skin: 15, eye: 10, eyeColor: 8, lip: 12);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x616169, 0xF57F31, 0x402F60);
 		EquipItem(Pocket.Hair, 0xBE3, 0x626743, 0x626743, 0x626743);

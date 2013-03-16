@@ -14,9 +14,7 @@ public class HooligerScript : NPCScript
 		SetBody(height: 1.1f, fat: 1.3f, upper: 1.1f, lower: 1.1f);
 		SetFace(skin: 23, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x939A, 0x1AB67C, 0x495000);
 		EquipItem(Pocket.Hair, 0xFAE, 0x747373, 0x747373, 0x747373);

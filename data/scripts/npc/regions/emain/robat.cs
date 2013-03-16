@@ -14,9 +14,7 @@ public class RobatScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1.3f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 21, eye: 149, eyeColor: 8, lip: 29);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x22C4, 0x729E, 0xF58030, 0x58AFB1);
 		EquipItem(Pocket.Hair, 0x1F65, 0x758289, 0x758289, 0x758289);

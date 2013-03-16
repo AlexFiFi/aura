@@ -14,9 +14,7 @@ public class OdranScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1.2f, lower: 1f);
 		SetFace(skin: 17, eye: 9, eyeColor: 176, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1344, 0xF99F45, 0xFFF10B, 0x437628);
 		EquipItem(Pocket.Hair, 0x1033, 0x412B26, 0x412B26, 0x412B26);

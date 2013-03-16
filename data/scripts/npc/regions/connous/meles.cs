@@ -14,9 +14,7 @@ public class MelesScript : NPCScript
 		SetBody(height: 0.8000003f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 37, eyeColor: 206, lip: 2);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x170C, 0xC5CF54, 0x1B6D2A, 0xD0DEF0);
 		EquipItem(Pocket.Hair, 0x1389, 0xEBD8B5, 0xEBD8B5, 0xEBD8B5);

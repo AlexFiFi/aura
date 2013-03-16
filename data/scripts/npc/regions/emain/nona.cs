@@ -14,9 +14,7 @@ public class NonaScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 21, eye: 7, eyeColor: 54, lip: 43);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x6BC05D, 0xB4588C, 0xFAC259);
 		EquipItem(Pocket.Hair, 0xC24, 0x6BADCA, 0x6BADCA, 0x6BADCA);

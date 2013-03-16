@@ -62,7 +62,7 @@ namespace Aura.World.Skills
 			WorldManager.Instance.CreatureUseMotion(creature, 8, 4);
 
 			var combatArgs = new CombatEventArgs();
-			combatArgs.CombatActionId = MabiCombat.ActionId;
+			combatArgs.CombatActionId = CombatHelper.ActionId;
 
 			// One source action, target actions are added for every target
 			// and then we send the combatArgs on their way.
@@ -93,7 +93,7 @@ namespace Aura.World.Skills
 				damage *= skill.RankInfo.Var1 / 100;
 
 				// Crit
-				if (rnd.NextDouble() < creature.GetCritical())
+				if (rnd.NextDouble() < creature.CriticalChance)
 				{
 					damage *= 1.5f; // R1
 					targetAction.Critical = true;
@@ -101,7 +101,7 @@ namespace Aura.World.Skills
 
 				targetAction.CombatDamage = damage;
 				enemy.TakeDamage(damage);
-				targetAction.Finish = enemy.IsDead();
+				targetAction.Finish = enemy.IsDead;
 
 				targetAction.Knockdown = true;
 				targetAction.StunTime = 2000;

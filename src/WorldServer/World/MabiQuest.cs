@@ -180,7 +180,7 @@ namespace Aura.World.World
 			}
 		}
 
-		public void AddData(MabiPacket packet)
+		public void AddToPacket(MabiPacket packet)
 		{
 			if (this.Info == null)
 				return;

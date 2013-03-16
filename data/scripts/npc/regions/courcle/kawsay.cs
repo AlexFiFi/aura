@@ -14,9 +14,7 @@ public class KawsayScript : NPCScript
 		SetBody(height: 1.15f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 27, eye: 0, eyeColor: 135, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x132F, 0x769177, 0x737171, 0xF6EE61);
 		EquipItem(Pocket.Hair, 0xFFD, 0xE7DDD1, 0xE7DDD1, 0xE7DDD1);

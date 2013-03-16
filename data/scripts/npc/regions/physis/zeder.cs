@@ -14,9 +14,7 @@ public class ZederScript : NPCScript
 		SetBody(height: 0.6f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 49, eyeColor: 35, lip: 29);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x22C4, 0xF2659C, 0xFA7D2C, 0x916D);
 		EquipItem(Pocket.Hair, 0x1F48, 0xC6C3C6, 0xC6C3C6, 0xC6C3C6);

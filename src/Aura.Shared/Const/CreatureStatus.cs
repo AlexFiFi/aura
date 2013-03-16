@@ -75,7 +75,7 @@ namespace Aura.Shared.Const
 		State = 8,
 		StateEx = 9,
 		Height = 10,
-		Fat = 11,
+		Weight = 11,
 		Upper = 12,
 		Lower = 13,
 		RegionId = 14,

@@ -172,7 +172,7 @@ namespace Aura.World.Scripting
 			}
 
 			// Stop if creature is unable to do anything
-			if (this.Creature.IsDead() || this.Creature.IsStunned())
+			if (this.Creature.IsDead || this.Creature.IsStunned)
 			{
 				// TODO: Empty stack?
 				// TODO: Stun should later be a state.
@@ -192,7 +192,7 @@ namespace Aura.World.Scripting
 			var curState = AIState.Idle;
 			if (this.Creature.Target != null)
 			{
-				if (this.Creature.Target.IsDead() || !WorldManager.InRange(this.Creature, this.Creature.Target, 2900))
+				if (this.Creature.Target.IsDead || !WorldManager.InRange(this.Creature, this.Creature.Target, 2900))
 				{
 					this.Stack.Clear();
 					this.Creature.Target = null;

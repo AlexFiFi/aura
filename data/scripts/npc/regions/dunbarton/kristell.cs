@@ -14,9 +14,7 @@ public class KristellScript : NPCScript
 		SetBody(height: 0.97f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 3, eyeColor: 191, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x136EAA, 0xFEE1D3, 0x7B6C3C);
 		EquipItem(Pocket.Hair, 0xBC9, 0xEE937E, 0xEE937E, 0xEE937E);

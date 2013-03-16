@@ -14,9 +14,7 @@ public class GlewyasScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 20, eye: 100, eyeColor: 26, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x133B, 0xFDC0AB, 0x7E0A6C, 0x96D1F1);
 		EquipItem(Pocket.Hair, 0x1012, 0xD4B6A0, 0xD4B6A0, 0xD4B6A0);

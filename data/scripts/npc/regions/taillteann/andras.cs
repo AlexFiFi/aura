@@ -14,9 +14,7 @@ public class AndrasScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 77, eyeColor: 134, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF49, 0x8F888C, 0x116390, 0xF46E7A);
 		EquipItem(Pocket.Hair, 0xC1D, 0xD6CEB3, 0xD6CEB3, 0xD6CEB3);

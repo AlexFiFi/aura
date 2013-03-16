@@ -13,9 +13,7 @@ public class HywelScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 0, eye: 0, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x956B3F;
-		NPC.ColorB = 0xDBDBDB;
-		NPC.ColorC = 0xAFAFAF;		
+		SetColor(0x956B3F, 0xDBDBDB, 0xAFAFAF);
 
 
 

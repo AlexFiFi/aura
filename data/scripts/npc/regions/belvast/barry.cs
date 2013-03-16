@@ -14,9 +14,7 @@ public class BarryScript : NPCScript
 		SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 7, eyeColor: 0, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x5B005D, 0x65656A, 0xE0F0DC);
 		EquipItem(Pocket.Hair, 0x177A, 0x0, 0x0, 0x0);

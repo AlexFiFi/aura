@@ -13,9 +13,7 @@ public class Tara_goblinScript : CommerceGoblinScript
 		SetRace(322);
 		SetFace(skin: 168, eye: 3, eyeColor: 7, lip: 2);
 
-		NPC.ColorA = 0xBA8E7F;
-		NPC.ColorB = 0x3A2D28;
-		NPC.ColorC = 0x286C81;		
+		SetColor(0xBA8E7F, 0x3A2D28, 0x286C81);
 
 		SetLocation(region: 401, x: 74641, y: 128688);
 

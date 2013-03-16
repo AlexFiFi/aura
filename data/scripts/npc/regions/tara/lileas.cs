@@ -14,9 +14,7 @@ public class LileasScript : NPCScript
 		SetBody(height: 0.6999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 82, eyeColor: 25, lip: 1);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF4E, 0xF35876, 0xFBC614, 0x460004);
 		EquipItem(Pocket.Hair, 0xC24, 0xFFCC66, 0xFFCC66, 0xFFCC66);

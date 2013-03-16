@@ -14,9 +14,7 @@ public class SianiScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 29, eyeColor: 47, lip: 36);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xDB018A, 0xF36279, 0x6FBB);
 		EquipItem(Pocket.Hair, 0xC2C, 0xD18B00, 0xD18B00, 0xD18B00);

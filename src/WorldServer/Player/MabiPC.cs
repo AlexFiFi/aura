@@ -4,7 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Aura.Data;
 using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Events;
 using Aura.World.World;
 
 namespace Aura.World.Player
@@ -19,7 +22,8 @@ namespace Aura.World.Player
 		public uint MarriageTime;
 		public ushort MarriageCount;
 
-		public DateTime DeletionTime;
+		public DateTime CreationTime = DateTime.Now;
+		public DateTime LastRebirth = DateTime.Now;
 
 		public bool Save = false;
 
@@ -66,19 +70,10 @@ namespace Aura.World.Player
 			return this.Quests.Values.FirstOrDefault(a => a.Id == id);
 		}
 
-		/// <summary>
-		/// Used in login check handler. Modes: 0 = Normal, 1 = Recover, 2 = Ready for deletion
-		/// </summary>
-		/// <returns></returns>
-		public byte GetDeletionFlag()
-		{
-			return (byte)((this.DeletionTime <= DateTime.MinValue) ? 0 : ((this.DeletionTime >= DateTime.Now) ? 1 : 2));
-		}
-
 #pragma warning disable 0162
-		public void AddPrivateEntityData(MabiPacket packet)
+		public void AddPrivateToPacket(MabiPacket packet)
 		{
-			this.AddEntityData(packet, 2);
+			this.AddToPacket(packet, 2);
 
 			// Titles
 			// --------------------------------------------------------------
@@ -89,7 +84,7 @@ namespace Aura.World.Player
 			foreach (var title in this.Titles)
 			{
 				packet.PutShort(title.Key);
-				packet.PutByte((byte)(title.Value ? 1 : 0));
+				packet.PutByte(title.Value);
 				packet.PutInt(0);
 			}
 			packet.PutShort(0);                  // SelectedOptionTitle
@@ -114,9 +109,9 @@ namespace Aura.World.Player
 
 			packet.PutSInt(this.Items.Count + incompleteQuests.Count);
 			foreach (var item in this.Items)
-				item.AddPrivateEntityData(packet);
+				item.AddToPacket(packet, ItemPacketType.Private);
 			foreach (var quest in incompleteQuests)
-				new MabiItem(quest).AddPrivateEntityData(packet);
+				new MabiItem(quest).AddToPacket(packet, ItemPacketType.Private);
 
 			// Keywords
 			// --------------------------------------------------------------
@@ -135,7 +130,7 @@ namespace Aura.World.Player
 			}
 			packet.PutInt(0);					 // SkillVarBufferList
 			if (Op.Version > 140400)
-				packet.PutByte(0);					 // {PLGCNT}
+				packet.PutByte(0);			     // {PLGCNT}
 
 			// Banner
 			// --------------------------------------------------------------
@@ -440,6 +435,9 @@ namespace Aura.World.Player
 				packet.PutInt(0);
 				packet.PutInt(0);
 
+				if (Op.Version >= 180100)
+					packet.PutInt(0);
+
 				// Talent titles
 				// ----------------------------------------------------------
 				packet.PutByte(0);               // Count
@@ -459,11 +457,23 @@ namespace Aura.World.Player
 				}
 			}
 
+			// ?
+			// --------------------------------------------------------------
+			if (Op.Version >= 180100)
+			{
+				packet.PutInt(0);
+				packet.PutInt(0);
+			}
+
 			// 
 			// --------------------------------------------------------------
 			packet.PutByte(0);					 // IsGhost
 			packet.PutLong(0);					 // SittingProp
 			packet.PutSInt(-1);					 // SittedSocialMotionId
+
+			// This int is needed in the JP client (1704 log),
+			// but doesn't appear in the NA 1704 or KR test 1801 log.
+			//packet.PutInt(4);
 
 			// Premium stuff?
 			// --------------------------------------------------------------
@@ -485,13 +495,13 @@ namespace Aura.World.Player
 			// --------------------------------------------------------------
 			packet.PutSInt(incompleteQuests.Count);
 			foreach (var q in incompleteQuests)
-				q.AddData(packet);
+				q.AddToPacket(packet);
 
 			// Char
 			// --------------------------------------------------------------
 			packet.PutByte(0);					 // NaoDress (0:normal, 12:??, 13:??)
-			packet.PutLong(0x39A0CE2EC180);      // Char creation?
-			packet.PutLong(0);                   // Last rebirth?
+			packet.PutLong(this.CreationTime);
+			packet.PutLong(this.LastRebirth);
 			packet.PutString("");
 			packet.PutByte(0);
 			packet.PutByte(2);

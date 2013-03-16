@@ -130,7 +130,7 @@ namespace Aura.World.Skills
 				, SendTargets.Range, creature);
 
 				var combatArgs = new CombatEventArgs();
-				combatArgs.CombatActionId = MabiCombat.ActionId;
+				combatArgs.CombatActionId = CombatHelper.ActionId;
 
 				var sourceAction = new CombatAction();
 				sourceAction.ActionType = CombatActionType.ShadowBunshin;
@@ -157,7 +157,7 @@ namespace Aura.World.Skills
 				damage += skill.RankInfo.Var7 * staminaCost;
 
 				// Crit
-				if (rnd.NextDouble() < creature.GetCritical())
+				if (rnd.NextDouble() < creature.CriticalChance)
 				{
 					damage *= 1.5f; // R1
 					targetAction.Critical = true;
@@ -167,7 +167,7 @@ namespace Aura.World.Skills
 
 				// Save if target was already dead, to not send
 				// finish action twice.
-				var alreadyDead = target.IsDead();
+				var alreadyDead = target.IsDead;
 				if (!alreadyDead)
 				{
 					target.TakeDamage(targetAction.CombatDamage);
@@ -176,7 +176,7 @@ namespace Aura.World.Skills
 					combatArgs.CombatActions.Add(targetAction);
 				}
 
-				if (target.IsDead())
+				if (target.IsDead)
 				{
 					targetAction.OldPosition = pos;
 					if (!alreadyDead)

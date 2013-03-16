@@ -14,9 +14,7 @@ public class TracyScript : NPCScript
 		SetBody(height: 1.2f, fat: 1.5f, upper: 2f, lower: 1f);
 		SetFace(skin: 19, eye: 9, eyeColor: 27, lip: 0);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1328, 0x248B3E, 0x95958F, 0xB698);
 		EquipItem(Pocket.Hair, 0xFB9, 0x754C2A, 0x754C2A, 0x754C2A);

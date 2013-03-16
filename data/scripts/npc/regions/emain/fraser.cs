@@ -14,9 +14,7 @@ public class FraserScript : NPCScript
 		SetBody(height: 1.2f, fat: 1f, upper: 1.3f, lower: 1f);
 		SetFace(skin: 17, eye: 3, eyeColor: 39, lip: 4);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0x754045, 0xDDD6EA, 0x5383);
 		EquipItem(Pocket.Hair, 0xFC0, 0xDBB0B0, 0xDBB0B0, 0xDBB0B0);

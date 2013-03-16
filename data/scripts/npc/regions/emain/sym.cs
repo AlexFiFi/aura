@@ -14,9 +14,7 @@ public class SymScript : NPCScript
 		SetBody(height: 0.1000001f, fat: 1.2f, upper: 1.3f, lower: 1.1f);
 		SetFace(skin: 17, eye: 167, eyeColor: 162, lip: 54);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0x1324, 0xF262A2, 0x5B3F60, 0x6C81);
 		EquipItem(Pocket.Hair, 0x1774, 0x6C6955, 0x6C6955, 0x6C6955);

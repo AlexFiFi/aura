@@ -11,9 +11,7 @@ public class Emain_elephantScript : CommerceElephantScript
 		base.OnLoad();
 		SetName("_emain_elephant");
 
-		NPC.ColorA = 0x8490AE;
-		NPC.ColorB = 0xBBC2D1;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x8490AE, 0xBBC2D1, 0x808080);
 
 		SetLocation(region: 52, x: 43121, y: 62350);
 

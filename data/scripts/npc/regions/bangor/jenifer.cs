@@ -14,9 +14,7 @@ public class JeniferScript : NPCScript
 		SetBody(height: 1.1f, fat: 1.1f, upper: 1f, lower: 1.1f);
 		SetFace(skin: 17, eye: 4, eyeColor: 119, lip: 1);
 
-		NPC.ColorA = 0x0;
-		NPC.ColorB = 0x0;
-		NPC.ColorC = 0x0;		
+		SetColor(0x0, 0x0, 0x0);
 
 		EquipItem(Pocket.Face, 0xF3D, 0xB4BDE0, 0xD4E1F3, 0x717172);
 		EquipItem(Pocket.Hair, 0xBB9, 0x240C1A, 0x240C1A, 0x240C1A);

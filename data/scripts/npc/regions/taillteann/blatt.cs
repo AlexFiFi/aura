@@ -14,9 +14,7 @@ public class BlattScript : NPCScript
 		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 12, eyeColor: 25, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0x1324, 0x6D7540, 0x88595, 0x8D0020);
 		EquipItem(Pocket.Hair, 0xFB7, 0x655231, 0x655231, 0x655231);

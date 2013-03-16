@@ -14,9 +14,7 @@ public class BelitaScript : NPCScript
 		SetBody(height: 0.9f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 20, eye: 24, eyeColor: 119, lip: 0);
 
-		NPC.ColorA = 0x808080;
-		NPC.ColorB = 0x808080;
-		NPC.ColorC = 0x808080;		
+		SetColor(0x808080, 0x808080, 0x808080);
 
 		EquipItem(Pocket.Face, 0xF3C, 0x546B18, 0x8A5A02, 0xAF8D1E);
 		EquipItem(Pocket.Hair, 0xBCA, 0x2D1E14, 0x2D1E14, 0x2D1E14);
