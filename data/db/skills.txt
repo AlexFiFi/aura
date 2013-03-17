@@ -17,7 +17,6 @@
 10011,"Weaving",10026
 10012,"Milling",0
 10013,"Handicraft",10139
-10014,"방직 (사용안함)",0
 10015,"Refining",10027
 10016,"Blacksmithing",10030
 10020,"Cooking",0
@@ -33,7 +32,7 @@
 10033,"Carpentry",10091
 10036,"Make Theatre Mission Pass",0
 10037,"Wine Making",50015
-10038,"향수 제조",0
+10038,"Perfume Making",0
 50005,"Web Spinning",0
 50115,"Wyvern Fire Breath",0
 50160,"Save Location",0
@@ -56,9 +55,9 @@
 20004,"Natural Shield",0
 20005,"Heavy Stander",0
 20006,"Mana Deflector",0
-20007,"풀스윙",0
-20008,"파이널 스매시",0
-20009,"퓨리 오브 바드",0
+20007,"Full Swing",0
+20008,"Final Smash",0
+20009,"Fury of Bard",0
 20010,"Jump",0
 20011,"Charge",10134
 20012,"Assault Slash",10121
@@ -70,7 +69,7 @@
 21002,"Magnum Shot",10024
 21003,"Arrow Revolver",0
 21004,"Arrow Revolver",10014
-21005,"체인건",0
+21005,"Chaingun",0
 21006,"Support Shot",10096
 21007,"Mirage Missile",10049
 21008,"Bomb Ignition",0
@@ -79,7 +78,7 @@
 21011,"Hot-Air Balloon Crossbow Shot",0
 22001,"Windmill",10013
 22002,"Stomp",0
-22003,"자폭스킬(액티브)",0
+22003,"Self Destruction Active",0
 22004,"Final Hit",10048
 22005,"Spirit Sword Awakening",0
 22006,"Spirit BW Awakening",0
@@ -96,7 +95,7 @@
 23006,"Mana Deflector Passive",0
 23007,"Dark Lord",0
 23008,"Glas Ghaibhleann Skill",0
-23010,"자폭",0
+23010,"Self Destruction",0
 23011,"Sharp Mind",0
 23012,"Sword Mastery",10112
 23013,"Axe Mastery",10113
@@ -117,7 +116,7 @@
 23033,"Light of Sword",0
 23034,"Claimh Solas Dash",0
 23035,"Claimh Solas Full Swing",0
-23036,"허수아비의 저주",0
+23036,"Scarecrow Curse",0
 23037,"Roar",0
 23038,"Wall Decoration Fire Bolt",0
 23039,"Wall Decoration Ice Bolt",0
@@ -161,17 +160,17 @@
 50135,"Summon",0
 50137,"Boost",0
 50144,"Running Boost",0
-50500,"몬스터 소환",0
-50501,"악의 확산",0
-50502,"생명의 확산",0
-50503,"폭주 기관차",0
-50504,"성지 순례",0
-50505,"화이트 브레스",0
-50506,"블랙 브레스",0
-50507,"지옥의 손길",0
-50508,"데빌 허그",0
-50509,"칼날 서리",0
-50510,"철옹성",0
+50500,"SummonTester",0
+50501,"WhiteDragonFear",0
+50502,"BlackDragonFear",0
+50503,"MadnessPilgrimage",0
+50504,"HolyPilgrimage",0
+50505,"WhiteDragonBreath",0
+50506,"BlackDragonBreath",0
+50507,"StampFromHell",0
+50508,"DevilHug",0
+50509,"TightDefenseBlow",0
+50510,"CastleDefenseBlow",0
 52000,"Merrow Smash",0
 65002,"Super Windmill (GM Skill)",0
 
@@ -180,13 +179,12 @@
 23009,"Chain Casting",0
 23102,"Bran's Charge",0
 30003,"Meditation",0
-30004,"인챈트 (사용안함)",0
 30005,"Enchant",10034
 30006,"Healing",10018
 30007,"Magic Mastery",10088
 30008,"Party Healing",10089
 30009,"Meditaion for Pets",0
-30010,"라이프 드레인 (몬스터용)",0
+30010,"Life Drain",0
 30011,"Mirror Witch Rest",0
 30012,"Monster Resurrection",0
 30013,"Yarn Binding!",0
@@ -247,7 +245,7 @@
 50157,"Devil's Dash",0
 50158,"Petrifying Roar",0
 50159,"Devil's Cry",0
-50162,"안식의 바람",0
+50162,"Restful Wind",0
 52001,"Merrow Rising Dragon",0
 52002,"Merrow Tidal Wave",0
 
@@ -329,12 +327,6 @@
 
 // Transformation
 //---------------------------------------------------------------------------
-10039,"연구 : 포션 중독",14004
-21012,"스파이더 샷",14002
-23058,"분신술",10123
-23107,"버서크",14003
-24103,"연속기 : 카운터 펀치",14001
-30105,"쇼크웨이브",14000
 40001,"Spirit of Order",0
 40002,"Power of Order",0
 40003,"Eye of Order",0
@@ -351,7 +343,6 @@
 41022,"Dark Heavy Stander",0
 41023,"Dark Mana Deflector",0
 42001,"Race Transformation",0
-42002,"윈드밀 (사용안함)",0
 43001,"Fury of Connous",0
 43002,"Elven Magic Missile",0
 43011,"Armor of Connous",0
@@ -413,23 +404,23 @@
 50021,"Dice Tossing",0
 50022,"Jam Session",0
 50023,"Throw Paper Airplane",0
-50024,"초콜릿 과자 만들기",0
+50024,"MakeChocoStatue",0
 50025,"Fossil Restoration",0
-50026,"널뛰기",0
-50027,"널뛰기 키트",0
+50026,"SeesawJump",0
+50027,"SeesawCreate",0
 50029,"Dragon Support",0
 50030,"Ice Mine",0
 50031,"Scan",0
 50034,"Use support items",0
 50035,"Ticking Quiz Bomb",0
-50036,"아이템 봉인",0
-50037,"아이템 봉인 해제",0
+50036,"Item Seal",0
+50037,"Item Unseal",0
 50038,"Use a Dungeon Pass",0
 50039,"Use an Elatha Item",0
 50040,"Throw Confetti",0
 50041,"Use Party Popper",0
 50042,"Feed Fish",0
-50043,"해머 게임",0
+50043,"Hammer Game",0
 50044,"Water Balloon\nThrowing",0
 50045,"Spirit Shift",0
 50046,"B+ Bomb",0
@@ -438,7 +429,7 @@
 50049,"Holy Flame",0
 50050,"Use Morrighan's Feather",0
 50051,"Create Falias Portal",0
-50052,"채팅 색상 변경",0
+50052,"UseItemChattingColorChange",0
 50053,"Instal Private Farm Facility",0
 50054,"Reorient Homestead building",0
 50055,"Paint",0
@@ -449,22 +440,23 @@
 50060,"Emergency Ice Bomb",0
 50061,"Marionette Hidden Resurrection",0
 50101,"Pet Buffing",0
-50108,"펫 봉인",0
+50108,"PetSealToItem",0
 50113,"Eat Volcanic Bomb",0
-50118,"벚꽃놀이키트",0
+50118,"CherryTreeKit",0
 50120,"Spin",0
 50122,"Rise and Dive",0
 50126,"Watering",0
 50127,"Fertilizing",0
 50128,"Bug Catching",0
 50130,"Beholder Alarm",0
-50134,"합성",0
-50145,"열기구 띄우기",0
+50134,"GachaponSynthesis",0
+50145,"Flown Hot-Air Balloon",0
 50146,"Umbrella",0
 50147,"Seal Item",0
 50148,"Cure Zombie",0
 50150,"Scare",0
 50153,"Normal Attack",0
+50165,"Spread Wings",0
 65001,"Pickup Item (GM Skill)",0
 65003,"Block World (GM Skill)",0
 
@@ -477,3 +469,12 @@
 51005,"Tybalt's Fencing Skills",0
 51006,"Juliet's Feelings",0
 51007,"Shylock's Step",0
+
+// Hybrid
+//---------------------------------------------------------------------------
+10039,"Research : Potion addiction",14004
+21012,"Spider Shot",14002
+23058,"Shadow Bunshin",10123
+23107,"Berserk Rage",14003
+24103,"Chain : Counter Punch",14001
+30105,"ShockWave",14000

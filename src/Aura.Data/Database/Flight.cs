@@ -28,9 +28,9 @@ namespace Aura.Data
 
 			var info = new FlightInfo();
 			info.RaceId = entry.ReadUInt();
-			info.FlightSpeed = entry.ReadFloat();
-			info.AscentSpeed = entry.ReadFloat();
-			info.DescentSpeed = entry.ReadFloat();
+			info.FlightSpeed = entry.ReadFloat() * UnitsPerM;
+			info.AscentSpeed = entry.ReadFloat() * UnitsPerM;
+			info.DescentSpeed = entry.ReadFloat() * UnitsPerM;
 			info.RotationSpeed = (byte)((entry.ReadFloat() * 256) / Pi2);
 
 			this.Entries.Add(info.RaceId, info);

@@ -4,7 +4,7 @@
 using System.IO;
 using Aura.Shared.Util;
 
-namespace Aura.World.Tools
+namespace Aura.World.Util
 {
 	public static class WorldConf
 	{
@@ -59,6 +59,9 @@ namespace Aura.World.Tools
 		// Shops
 		public static bool ColorChange;
 
+		// Combat
+		public static bool DynamicCombat;
+
 		private static Configuration _conf;
 
 		public static void Load(string[] args)
@@ -110,6 +113,8 @@ namespace Aura.World.Tools
 			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
 
 			WorldConf.ColorChange = _conf.GetBool("world_colorchange", true);
+
+			WorldConf.DynamicCombat = _conf.GetBool("world.dynamic_combat", true);
 
 			try
 			{

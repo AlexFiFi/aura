@@ -10,7 +10,7 @@ using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Database;
 using Aura.World.Scripting;
-using Aura.World.Tools;
+using Aura.World.Util;
 using Aura.World.World;
 using Aura.World.Events;
 

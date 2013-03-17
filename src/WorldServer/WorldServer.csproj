@@ -93,7 +93,7 @@
     <Compile Include="Skills\Handlers\LifeSkillHandlers.cs" />
     <Compile Include="Skills\SkillHandler.cs" />
     <Compile Include="Skills\SkillManager.cs" />
-    <Compile Include="Tools\WorldConf.cs" />
+    <Compile Include="Util\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
     <Compile Include="World\MabiCreature.Packet.cs" />
     <Compile Include="World\MabiCreature.cs" />

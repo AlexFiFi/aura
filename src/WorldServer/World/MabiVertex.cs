@@ -14,6 +14,13 @@ namespace Aura.World.World
 			this.H = h;
 		}
 
+		public MabiVertex(float x, float y, float h = 0)
+		{
+			this.X = (uint)x;
+			this.Y = (uint)y;
+			this.H = (uint)h;
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (obj == null)

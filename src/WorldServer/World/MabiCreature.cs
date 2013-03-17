@@ -586,12 +586,12 @@ namespace Aura.World.World
 			{
 				// Mounted
 				ri = this.Vehicle.RaceInfo;
+				if (this.Vehicle.IsFlying && ri.FlightInfo != null)
+					return ri.FlightInfo.FlightSpeed;
+
 			}
 
-			if (!this.IsFlying || ri.FlightInfo == null)
-				return (!_moveIsWalk ? ri.SpeedRun : ri.SpeedWalk);
-			else
-				return ri.FlightInfo.FlightSpeed;
+			return (!_moveIsWalk ? ri.SpeedRun : ri.SpeedWalk);
 		}
 
 		public void SetLocation(uint region, uint x, uint y)
@@ -619,16 +619,13 @@ namespace Aura.World.World
 
 			var passed = (DateTime.Now - _moveStartTime).TotalSeconds;
 			if (passed >= _moveDuration)
-				//return this.SetPosition(_destination.X, _destination.Y);
-				return new MabiVertex(_destination.X, _destination.Y, _destination.H);
+				return this.SetPosition(_destination.X, _destination.Y, _destination.H);
 
 			var xt = _position.X + (_movementX * passed);
 			var yt = _position.Y + (_movementY * passed);
 			var ht = 0.0;
 			if (this.IsFlying)
-				ht = _position.H + (_movementH < 0 ?
-					Math.Max(_movementH * passed, _destination.H) :
-					Math.Min(_movementH * passed, _destination.H));
+				ht = _position.H + (_movementH < 0 ? Math.Max(_movementH * passed, _destination.H) : Math.Min(_movementH * passed, _destination.H));
 
 			return new MabiVertex((uint)xt, (uint)yt, (uint)ht);
 		}

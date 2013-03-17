@@ -290,7 +290,7 @@
 1102,sen_mag_arena
 2998,iria_to_uladh_ocean
 2999,uladh_to_iria_ocean
-3001,rano_beginner
+3001,rano
 3002,rano_fishingboat
 3003,rano_to_fishingboat
 3004,fishingboat_to_rano

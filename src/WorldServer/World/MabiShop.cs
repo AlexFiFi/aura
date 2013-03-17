@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Aura.Data;
 using Aura.Shared.Util;
-using Aura.World.Tools;
+using Aura.World.Util;
 using Aura.World.Events;
 
 namespace Aura.World.World

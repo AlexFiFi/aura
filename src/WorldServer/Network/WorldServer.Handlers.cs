@@ -13,7 +13,7 @@ using Aura.World.Database;
 using Aura.World.Player;
 using Aura.World.Scripting;
 using Aura.World.Skills;
-using Aura.World.Tools;
+using Aura.World.Util;
 using Aura.World.World;
 using Aura.World.Events;
 
@@ -1601,7 +1601,8 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var castTime = skill.RankInfo.LoadTime;
+			// Save time when preparation is finished.
+			var castTime = WorldConf.DynamicCombat ? skill.RankInfo.NewLoadTime : skill.RankInfo.LoadTime;
 			creature.ActiveSkillPrepareEnd = DateTime.Now.AddMilliseconds(castTime);
 
 			// Check Mana
@@ -1983,7 +1984,7 @@ namespace Aura.World.Network
 
 			// Make sure the character has this title enabled
 			var character = creature as MabiPC;
-			if (character.Titles.ContainsKey(title) && character.Titles[title])
+			if (title == 0 || (character.Titles.ContainsKey(title) && character.Titles[title]))
 			{
 				creature.Title = title;
 				WorldManager.Instance.CreatureChangeTitle(creature);
@@ -2060,12 +2061,10 @@ namespace Aura.World.Network
 
 			var petId = packet.GetLong();
 
-			MabiPacket p;
-
 			var pet = client.Creatures.FirstOrDefault(a => a.Id == petId);
 			if (pet == null)
 			{
-				p = new MabiPacket(Op.PetUnsummonR, creature.Id);
+				var p = new MabiPacket(Op.PetUnsummonR, creature.Id);
 				p.PutByte(0);
 				p.PutLong(petId);
 				client.Send(p);
@@ -2074,52 +2073,44 @@ namespace Aura.World.Network
 
 			client.Creatures.Remove(pet);
 
-			var pos = pet.GetPosition();
 			pet.StopMove();
-			WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(pet, SpawnEffect.Pet), SendTargets.Range, pet);
+			var pos = pet.GetPosition();
+
+			WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(creature, SpawnEffect.PetDespawn, pos), SendTargets.Range, pet);
 			WorldManager.Instance.RemoveCreature(pet);
 
-			if (pet.Riders.Count != 0)
+			if (pet.Riders.Count > 0)
 			{
 				if (pet.IsFlying)
 				{
 					client.Send(PacketCreator.Unlock(pet, 0xFFFFBDFF));
-					foreach (var c in pet.Riders)
-						c.Client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
+					foreach (var rider in pet.Riders)
+						client.Send(PacketCreator.Unlock(rider, 0xFFFFBDFF));
 					pet.IsFlying = false;
 				}
-				foreach (var c in pet.Riders)
+				foreach (var rider in pet.Riders)
 				{
-					c.Vehicle = null;
-					WorldManager.Instance.VehicleUnbind(c, pet);
-					c.StopMove();
+					rider.Vehicle = null;
+					WorldManager.Instance.VehicleUnbind(rider, pet);
+					rider.StopMove();
 				}
 				pet.Riders.Clear();
 			}
 
 			if (pet.Owner != null)
 			{
-				if (pet.Owner.Pet != null)
-					pet.Owner.Pet = null;
+				pet.Owner.Pet = null;
 				pet.Owner = null;
 			}
 
-
 			// ?
-			p = new MabiPacket(Op.PetUnRegister, creature.Id);
-			p.PutLong(pet.Id);
-			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.PetUnRegister, creature.Id).PutLong(pet.Id), SendTargets.Range, creature);
 
 			// Disappear
-			p = new MabiPacket(Op.Disappear, Id.World);
-			p.PutLong(pet.Id);
-			client.Send(p);
+			client.Send(new MabiPacket(Op.Disappear, Id.World).PutLong(pet.Id));
 
 			// Result
-			p = new MabiPacket(Op.PetUnsummonR, creature.Id);
-			p.PutByte(1);
-			p.PutLong(petId);
-			client.Send(p);
+			client.Send(new MabiPacket(Op.PetUnsummonR, creature.Id).PutByte(true).PutLong(petId));
 		}
 
 		private void HandlePetMount(WorldClient client, MabiPacket packet)
@@ -2291,34 +2282,33 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
+			//Todo: Check if can fly? or use that --v
+
 			if (creature.RaceInfo.FlightInfo == null)
 			{
 				Logger.Unimplemented("Missing flight info for race '{0}'.", creature.Race);
-				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(0));
+				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(false));
 				return;
 			}
 
-			//Todo: Check if can fly
 			if (creature.IsFlying)
 			{
-				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(0));
+				client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(false));
 				return;
 			}
 
 			var ascentTime = packet.GetFloat();
 
-			client.Send(PacketCreator.Lock(creature, 0xFFFFBDFF));
-			foreach (var c in creature.Riders)
-				c.Client.Send(PacketCreator.Lock(c, 0xFFFFBDFF));
-
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.TakingOff, packet.Id).PutFloat(ascentTime), SendTargets.Range, creature);
-
-			client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(1));
+			client.Send(PacketCreator.Lock(creature, 0xFFFFBDDF));
+			foreach (var rider in creature.Riders)
+				client.Send(PacketCreator.Lock(rider, 0xFFFFBDDF));
 
 			var pos = creature.GetPosition();
 			creature.SetPosition(pos.X, pos.Y, 10000);
-
 			creature.IsFlying = true;
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.TakingOff, packet.Id).PutFloat(ascentTime), SendTargets.Range, creature);
+			client.Send(new MabiPacket(Op.TakeOffR, packet.Id).PutByte(true));
 		}
 
 		private void HandleFlyTo(WorldClient client, MabiPacket packet)
@@ -2330,26 +2320,21 @@ namespace Aura.World.Network
 			if (!creature.IsFlying)
 				return;
 
-			float toX = packet.GetFloat();
-			float toH = packet.GetFloat();
-			float toY = packet.GetFloat();
-			float dir = packet.GetFloat();
+			var toX = packet.GetFloat();
+			var toH = packet.GetFloat();
+			var toY = packet.GetFloat();
+			var dir = packet.GetFloat();
 
 			var pos = creature.GetPosition();
 
-			WorldManager.Instance.Broadcast(
-				new MabiPacket(Op.FlyingTo, packet.Id)
-					.PutFloats(toX, toH, toY, dir, pos.X, pos.H, pos.Y)
-					, SendTargets.Range, creature);
-
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.FlyingTo, packet.Id).PutFloats(toX, toH, toY, dir, pos.X, pos.H, pos.Y), SendTargets.Range, creature);
 
 			creature.Direction = (byte)dir;
-			creature.StartMove(new MabiVertex((uint)toX, (uint)toY, (uint)toH));
-
-			foreach (var c in creature.Riders)
+			creature.StartMove(new MabiVertex(toX, toY, toH));
+			foreach (var rider in creature.Riders)
 			{
-				c.Direction = creature.Direction;
-				c.StartMove(new MabiVertex((uint)toX, (uint)toY));
+				rider.Direction = creature.Direction;
+				rider.StartMove(new MabiVertex(toX, toY));
 			}
 		}
 
@@ -2359,25 +2344,24 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			if (!creature.IsFlying)
+			var pos = creature.GetPosition();
+
+			if (!creature.IsFlying /*|| pos.H > 16000*/)
 			{
-				client.Send(new MabiPacket(Op.CanLand, packet.Id).PutByte(0));
+				client.Send(new MabiPacket(Op.CanLand, creature.Id).PutByte(false));
 				return;
 			}
 
 			client.Send(PacketCreator.Unlock(creature, 0xFFFFBDFF));
-			foreach (var c in creature.Riders)
-				client.Send(PacketCreator.Unlock(c, 0xFFFFBDFF));
+			foreach (var rider in creature.Riders)
+				client.Send(PacketCreator.Unlock(rider, 0xFFFFBDFF));
 
-			var pos = creature.GetPosition(); //Todo: angled decent
-
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Landing, packet.Id).PutFloats(pos.X, pos.Y).PutByte(0), SendTargets.Range, creature);
-
-			client.Send(new MabiPacket(Op.CanLand, packet.Id).PutByte(1));
-
+			// TODO: angled decent
 			creature.SetPosition(pos.X, pos.Y, 0);
-
 			creature.IsFlying = false;
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.Landing, creature.Id).PutFloats(pos.X, pos.Y).PutByte(0), SendTargets.Range, creature);
+			client.Send(new MabiPacket(Op.CanLand, creature.Id).PutByte(true));
 		}
 
 		private void HandleCombatSetTarget(WorldClient client, MabiPacket packet)

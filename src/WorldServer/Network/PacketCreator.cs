@@ -296,13 +296,17 @@ namespace Aura.World.Network
 
 		public static MabiPacket SpawnEffect(MabiEntity entity, SpawnEffect type)
 		{
-			var pos = entity.GetPosition();
+			return SpawnEffect(entity, type, entity.GetPosition());
+		}
 
+
+		public static MabiPacket SpawnEffect(MabiEntity entity, SpawnEffect type, MabiVertex pos)
+		{
 			return
 				new MabiPacket(Op.Effect, entity.Id)
 				.PutInt(Effect.Spawn)
 				.PutInt(entity.Region)
-				.PutFloats((float)pos.X, (float)pos.Y)
+				.PutFloats(pos.X, pos.Y)
 				.PutByte((byte)type);
 		}
 
