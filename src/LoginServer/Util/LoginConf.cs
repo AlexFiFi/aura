@@ -15,6 +15,7 @@ namespace Aura.Login.Util
 		public static LogLevel ConsoleFilter = LogLevel.None;
 
 		public static string DataPath;
+		public static string Localization;
 
 		public static string DatabaseHost;
 		public static string DatabaseUser;
@@ -45,6 +46,7 @@ namespace Aura.Login.Util
 #endif
 
 			LoginConf.DataPath = _conf.GetString("data_path", "../../data");
+			LoginConf.Localization = _conf.GetString("localization", "us");
 
 			LoginConf.DatabaseHost = _conf.GetString("database_host", "localhost");
 			LoginConf.DatabaseUser = _conf.GetString("database_user", "root");

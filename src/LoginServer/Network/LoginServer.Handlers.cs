@@ -100,7 +100,7 @@ namespace Aura.Login.Network
 				// apart from that, equal to 0x0C.
 				case LoginType.NewHash:
 				default:
-					this.SendLoginResponse(client, "You're client is using a password encryption that Aura doesn't recognize ({0}).\nPlease report this, and try to login using \"new//\".", loginType);
+					this.SendLoginResponse(client, Localization.Get("login.new_hash_error"), loginType);
 					return;
 
 				// Second password
@@ -109,7 +109,7 @@ namespace Aura.Login.Network
 					//sessionKey = packet.GetLong();
 					//secPassword = packet.GetString(); // SSH1
 
-					this.SendLoginResponse(client, "Second passwords aren't supported yet.");
+					this.SendLoginResponse(client, Localization.Get("login.second_error")); // Second passwords aren't supported yet.
 					return;
 			}
 
@@ -136,7 +136,7 @@ namespace Aura.Login.Network
 			// Check bans
 			if (account.BannedExpiration.CompareTo(DateTime.Now) > 0)
 			{
-				this.SendLoginResponse(client, "You've been banned, till {0}.\r\nReason: {1}", account.BannedExpiration, account.BannedReason);
+				this.SendLoginResponse(client, Localization.Get("login.banned"), account.BannedExpiration, account.BannedReason); // You've been banned, till {0}.\r\nReason: {1}
 				return;
 			}
 

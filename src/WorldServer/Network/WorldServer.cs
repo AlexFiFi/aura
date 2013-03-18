@@ -57,6 +57,18 @@ namespace Aura.World.Network
 			// --------------------------------------------------------------
 			Logger.Hide = WorldConf.ConsoleFilter;
 
+			// Localization
+			// --------------------------------------------------------------
+			Logger.Info("Loading localization files (" + WorldConf.Localization + ")...");
+			try
+			{
+				Localization.Parse(WorldConf.DataPath + "/localization/" + WorldConf.Localization);
+			}
+			catch (FileNotFoundException ex)
+			{
+				Logger.Warning("Unable to load localization: " + ex.Message);
+			}
+
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");

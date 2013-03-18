@@ -250,6 +250,11 @@ namespace Aura.World.Scripting
 		{
 			ScriptManager.Instance.AddHook(npc, hook, func);
 		}
+
+		protected string L(string key)
+		{
+			return Localization.Get(key);
+		}
 	}
 
 	public enum PropAction { None, Warp, Drop }

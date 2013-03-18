@@ -51,6 +51,18 @@ namespace Aura.Login.Network
 
 			Logger.Hide = LoginConf.ConsoleFilter;
 
+			// Localization
+			// --------------------------------------------------------------
+			Logger.Info("Loading localization files (" + LoginConf.Localization + ")...");
+			try
+			{
+				Localization.Parse(LoginConf.DataPath + "/localization/" + LoginConf.Localization + "/login.txt");
+			}
+			catch (FileNotFoundException ex)
+			{
+				Logger.Warning("Unable to load localization: " + ex.Message);
+			}
+
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");

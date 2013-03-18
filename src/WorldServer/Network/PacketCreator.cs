@@ -74,9 +74,14 @@ namespace Aura.World.Network
 			return p;
 		}
 
-		public static MabiPacket Notice(ulong Id, string message, NoticeType type = NoticeType.Middle, uint duration = 0)
+		public static MabiPacket MsgBoxFormat(MabiCreature target, string message, params object[] args)
 		{
-			var p = new MabiPacket(Op.Notice, Id);
+			return MsgBox(target, string.Format(message, args));
+		}
+
+		public static MabiPacket Notice(ulong id, string message, NoticeType type = NoticeType.Middle, uint duration = 0)
+		{
+			var p = new MabiPacket(Op.Notice, id);
 
 			p.PutByte((byte)type);
 			p.PutString(message);

@@ -335,7 +335,7 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCharacterByName(packet.GetString());
 			if (target == null)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, "The target character does not exist."));
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.whisper_no_target"))); // The target character does not exist.
 				return;
 			}
 
@@ -456,7 +456,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -471,7 +471,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -479,7 +479,7 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCharacterByName(targetName, false);
 			if (target == null)
 			{
-				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
+				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
 				return;
 			}
 
@@ -491,7 +491,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -518,7 +518,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -526,14 +526,14 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null || target.Client == null)
 			{
-				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
+				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
 				return;
 			}
 
 			var targetClient = (target.Client as WorldClient);
 			var pos = client.Character.GetPosition();
 
-			targetClient.Send(PacketCreator.ServerMessage(target, "You've been summoned by '" + client.Character.Name + "'."));
+			targetClient.Send(PacketCreator.ServerMessage(target, Localization.Get("gm.gmcp_summon"), client.Character.Name)); // You've been summoned by '{0}'.
 			targetClient.Warp(client.Character.Region, pos.X, pos.Y);
 		}
 
@@ -541,18 +541,18 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
-			client.Send(PacketCreator.SystemMessage(client.Character, "Unimplimented."));
+			client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("aura.unimplemented"))); // Unimplemented.
 		}
 
 		private void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -573,7 +573,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -581,11 +581,11 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null || target.Client == null)
 			{
-				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
+				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
 				return;
 			}
 
-			client.Send(PacketCreator.MsgBox(client.Character, "'" + targetName + "' has been kicked."));
+			client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_kicked"), targetName)); // '{0}' has been kicked.
 
 			// Better kill the connection, modders could bypass a dc request.
 			target.Client.Kill();
@@ -595,7 +595,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -603,7 +603,7 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null || target.Client == null || !(target.Client is WorldClient))
 			{
-				client.Send(PacketCreator.MsgBox(client.Character, "Character '" + targetName + "' couldn't be found."));
+				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
 				return;
 			}
 
@@ -611,7 +611,7 @@ namespace Aura.World.Network
 			(target.Client as WorldClient).Account.BannedExpiration = end;
 			(target.Client as WorldClient).Account.BannedReason = packet.GetString();
 
-			client.Send(PacketCreator.MsgBox(client.Character, "'" + targetName + "' has been banned till '" + end.ToString() + "'."));
+			client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_banned"), targetName, end)); // '{0}' has been banned till '{1}'.
 
 			// Better kill the connection, modders could bypass a dc request.
 			target.Client.Kill();
@@ -637,7 +637,7 @@ namespace Aura.World.Network
 			}
 			else if (creature.Region != target.Region || !WorldManager.InRange(creature, target, 1000))
 			{
-				client.Send(PacketCreator.MsgBox(creature, "You're too far away."));
+				client.Send(PacketCreator.MsgBox(creature, Localization.Get("world.too_far"))); // You're too far away.
 				target = null;
 			}
 
@@ -870,8 +870,10 @@ namespace Aura.World.Network
 
 			if (!WorldDb.Instance.IsValidMailRecpient(mail.RecipientName, out mail.RecipientId))
 			{
-				client.Send(PacketCreator.MsgBox(creature, "Invaild recipient"),
-					new MabiPacket(Op.SendMailR, creature.Id).PutByte(0));
+				client.Send(
+					PacketCreator.MsgBox(creature, Localization.Get("world.mail_invalid")), // Invaild recipient
+					new MabiPacket(Op.SendMailR, creature.Id).PutByte(0)
+				);
 				return;
 			}
 
@@ -889,7 +891,7 @@ namespace Aura.World.Network
 
 				if (item == null)
 				{
-					client.Send(PacketCreator.MsgBox(creature, "You can't send an item you don't have!"),
+					client.Send(PacketCreator.MsgBox(creature, Localization.Get("world.mail_item")), // You can't send an item you don't have!
 						new MabiPacket(Op.SendMailR, creature.Id).PutByte(0));
 					return;
 				}
@@ -1402,7 +1404,7 @@ namespace Aura.World.Network
 					}
 					else
 					{
-						client.Send(PacketCreator.SystemMessage(creature, "Not enough space."));
+						client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_space"))); // Not enough space.
 					}
 				}
 
@@ -1608,7 +1610,7 @@ namespace Aura.World.Network
 			// Check Mana
 			if (creature.Mana < skill.RankInfo.ManaCost)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, "Insufficient Mana"));
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_mana"))); // Insufficient Mana
 				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
 				return;
 			}
@@ -1616,7 +1618,7 @@ namespace Aura.World.Network
 			// Check Stamina
 			if (creature.Stamina < skill.RankInfo.StaminaCost)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, "Insufficient Stamina"));
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_stamina"))); // Insufficient Stamina
 				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
 				return;
 			}
@@ -1704,7 +1706,7 @@ namespace Aura.World.Network
 
 				if (target == null)
 				{
-					client.Send(PacketCreator.SystemMessage(creature, "Invalid target"));
+					client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.invalid_target"))); // Invalid target
 					client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(0));
 					return;
 				}
@@ -1720,10 +1722,10 @@ namespace Aura.World.Network
 			var result = handler.Use(creature, target, skill);
 
 			if ((result & SkillResults.InsufficientStamina) != 0)
-				client.Send(PacketCreator.SystemMessage(creature, "Insufficient Stamina"));
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_stamina"))); // Insufficient Stamina
 
 			if ((result & SkillResults.InvalidTarget) != 0)
-				client.Send(PacketCreator.SystemMessage(creature, "Invalid target"));
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.invalid_target"))); // Invalid target
 
 			if ((result & SkillResults.NoReply) != 0)
 				return;
@@ -1924,7 +1926,7 @@ namespace Aura.World.Network
 			}
 			else
 			{
-				client.Send(PacketCreator.MsgBox(creature, "Insufficient amount of gold."));
+				client.Send(PacketCreator.MsgBox(creature, Localization.Get("world.shop_gold"))); // Insufficient amount of gold.
 
 				p.PutByte(0);
 			}
@@ -2386,6 +2388,13 @@ namespace Aura.World.Network
 			}
 
 			creature.Target = target;
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, creature.Id)
+				.PutLong(targetId)
+				.PutByte(unk1)
+				.PutString(unk2)
+			, SendTargets.Range, creature);
+
+			// XXX: Should this better be placed in the skill handlers?
 			WorldManager.Instance.CreatureSetTarget(creature, target);
 		}
 

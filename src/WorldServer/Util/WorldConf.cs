@@ -12,6 +12,7 @@ namespace Aura.World.Util
 
 		// Data
 		public static string DataPath;
+		public static string Localization;
 
 		// Database
 		public static string DatabaseHost;
@@ -79,6 +80,7 @@ namespace Aura.World.Util
 #endif
 
 			WorldConf.DataPath = _conf.GetString("data_path", "../../data");
+			WorldConf.Localization = _conf.GetString("localization", "us");
 
 			WorldConf.DatabaseHost = _conf.GetString("database_host", "localhost");
 			WorldConf.DatabaseUser = _conf.GetString("database_user", "root");

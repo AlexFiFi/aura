@@ -272,8 +272,8 @@ namespace Aura.World.World
 		private void DaytimeChange(MabiTime mt)
 		{
 			var notice = mt.IsNight
-				? "Eweca is rising.\nMana is starting to fill the air all around."
-				: "Eweca has disappeared.\nThe surrounding Mana is starting to fade away.";
+				? Localization.Get("world.eweca_night") // Eweca is rising.\nMana is starting to fill the air all around.
+				: Localization.Get("world.eweca_day");  // Eweca has disappeared.\nThe surrounding Mana is starting to fade away.
 			this.Broadcast(PacketCreator.Notice(notice, NoticeType.MiddleTop), SendTargets.All, null);
 
 			lock (_creatures)
@@ -816,7 +816,7 @@ namespace Aura.World.World
 
 		public void CreatureSetTarget(MabiCreature creature, MabiCreature target)
 		{
-			var p = new MabiPacket(Op.CombatSetTarget, creature.Id);
+			var p = new MabiPacket(Op.CombatTargetSet, creature.Id);
 			p.PutLong(target != null ? target.Id : 0);
 
 			this.Broadcast(p, SendTargets.Range, creature);

@@ -28,7 +28,6 @@ namespace Aura.World.World
 		public void Load()
 		{
 			this.AddCommand("where", Authority.Player, Command_where);
-			this.AddCommand("info", Authority.Player, Command_info);
 			this.AddCommand("motion", "<category> <motion>", Authority.Player, Command_motion);
 			this.AddCommand("gesture", "<gesture>", Authority.Player, Command_gesture);
 			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
@@ -150,12 +149,12 @@ namespace Aura.World.World
 						var result = command.Func(client, creature, args, msg);
 						if (result == CommandResult.WrongParameter)
 						{
-							client.Send(PacketCreator.ServerMessage(creature, "Usage: {0} {1}", args[0], command.Parameters));
+							client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.usage"), args[0], command.Parameters)); // Usage: {0} {1}
 						}
 					}
 					catch (Exception ex)
 					{
-						client.Send(PacketCreator.ServerMessage(creature, "Error while executing command."));
+						client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.error"))); // Error while executing command.
 						Logger.Exception(ex, "Unable to execute command '" + args[0] + "'. Message: '" + msg + "'", true);
 					}
 
@@ -163,7 +162,7 @@ namespace Aura.World.World
 				}
 
 				// TODO: Add option if unknown commands should appear in public.
-				client.Send(PacketCreator.ServerMessage(creature, "Unknown command."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.unknown"))); // Unknown command.
 				return true;
 			}
 
@@ -177,17 +176,7 @@ namespace Aura.World.World
 		{
 			var pos = creature.GetPosition();
 			var area = MabiData.RegionDb.GetAreaId(creature.Region, pos.X, pos.Y);
-			client.Send(PacketCreator.ServerMessage(creature, "  Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}", creature.Region, pos.X, pos.Y, area, creature.Direction));
-
-			return CommandResult.Okay;
-		}
-
-		private CommandResult Command_info(WorldClient client, MabiCreature creature, string[] args, string msg)
-		{
-			var pos = creature.GetPosition();
-			client.Send(PacketCreator.ServerMessage(creature, "Welcome to Aura!"));
-			client.Send(PacketCreator.ServerMessage(creature, "Creatures in world : {0}, items in world : {1}", WorldManager.Instance.GetCreatureCount(), WorldManager.Instance.GetItemCount()));
-			client.Send(PacketCreator.ServerMessage(creature, "You are at pos@{0},{1},{2}", creature.Region, pos.X, pos.Y));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.where"), creature.Region, pos.X, pos.Y, area, creature.Direction)); // Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}
 
 			return CommandResult.Okay;
 		}
@@ -196,7 +185,7 @@ namespace Aura.World.World
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, "You're not authorized to use the GMCP."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return CommandResult.Fail;
 			}
 
@@ -211,7 +200,7 @@ namespace Aura.World.World
 			if (args.Length > 1 && !uint.TryParse(args[1], out region))
 				return CommandResult.WrongParameter;
 
-			client.Send(PacketCreator.ServerMessage(creature, "Players online" + (region == 0 ? "" : " in region " + region.ToString()) + ":"));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get(region == 0 ? "gm.who" : "gm.who_region"))); // Players online[ in region {0}]:
 
 			var players = (region == 0 ? WorldManager.Instance.GetAllPlayers() : WorldManager.Instance.GetAllPlayersInRegion(region));
 			if (players.Count() > 0)
@@ -219,12 +208,12 @@ namespace Aura.World.World
 				foreach (var player in players)
 				{
 					var pos = player.GetPosition();
-					client.Send(PacketCreator.ServerMessage(creature, player.Name + (player is MabiPet ? " <PET>" : "") + " - Region: " + player.Region + ", X: " + pos.X + ", Y: " + pos.Y));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.who_r"), player.Name, player.Region, pos.X, pos.Y)); // {0} - Region: {1}, X: {2}, Y: {3}
 				}
 			}
 			else
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "None."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.who_none"))); // None.
 			}
 
 			return CommandResult.Okay;
@@ -263,7 +252,7 @@ namespace Aura.World.World
 					var itemInfo = MabiData.ItemDb.FindAll(itemName);
 					if (itemInfo.Count < 1)
 					{
-						client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemName + "' not found in database."));
+						client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.item_nores"), itemName)); // Item '{0}' not found in database.
 						return CommandResult.Fail;
 					}
 
@@ -279,7 +268,7 @@ namespace Aura.World.World
 						}
 					}
 
-					client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemName + "' not found, using next best result, '" + newItemInfo.Name + "'."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.item_mures"), itemName, newItemInfo.Name)); // Item '{0}' not found, using next best result, '{1}'.
 				}
 
 				itemId = newItemInfo.Id;
@@ -288,7 +277,7 @@ namespace Aura.World.World
 			var info = MabiData.ItemDb.Find(itemId);
 			if (info == null)
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "Item '" + itemId + "' not found in database."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.item_nores"), itemId)); // Item '{0}' not found in database.
 				return CommandResult.Fail;
 			}
 
@@ -307,7 +296,7 @@ namespace Aura.World.World
 
 				if (!ushort.TryParse(args[2], out newItem.Info.Amount))
 				{
-					client.Send(PacketCreator.ServerMessage(creature, "Invalid amount."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.item_amount"))); // Invalid amount.
 					return CommandResult.Fail;
 				}
 
@@ -330,7 +319,7 @@ namespace Aura.World.World
 						// Color in hex
 						if (!uint.TryParse(args[i + 2].Replace("0x", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out color[i]))
 						{
-							client.Send(PacketCreator.ServerMessage(creature, "Invalid hex color '{0}'.", args[i + 2]));
+							client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.item_hex"), args[i + 2])); // Invalid hex color '{0}'.
 							return CommandResult.Fail;
 						}
 					}
@@ -347,7 +336,7 @@ namespace Aura.World.World
 							case "black": color[i] = 0xFF000000; break;
 							case "white": color[i] = 0xFFFFFFFF; break;
 							default:
-								client.Send(PacketCreator.ServerMessage(creature, "Unknown color '{0}'.", args[i + 2]));
+								client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.item_color"), args[i + 2])); // Unknown color '{0}'.
 								return CommandResult.Fail;
 						}
 					}
@@ -384,19 +373,19 @@ namespace Aura.World.World
 
 			var itemName = msg.Substring(args[0].Length + 2).Replace('_', ' ');
 
-			var itemInfos = MabiData.ItemDb.FindAll(itemName);
-			if (itemInfos.Count < 1)
+			var infos = MabiData.ItemDb.FindAll(itemName);
+			if (infos.Count < 1)
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "No items found."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ii_none"))); // No items found.
 				return CommandResult.Fail;
 			}
 
-			for (int i = 0; i < itemInfos.Count && i < 20; ++i)
+			for (int i = 0; i < infos.Count && i < 20; ++i)
 			{
-				client.Send(PacketCreator.ServerMessage(creature, itemInfos[i].Id.ToString() + ": " + itemInfos[i].Name));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ii_for"), infos[i].Id, infos[i].Name)); // {0}: {1}
 			}
 
-			client.Send(PacketCreator.ServerMessage(creature, "Results: " + itemInfos.Count.ToString() + " (Max. 20 shown)"));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ii_res"), infos.Count)); // Results: {0} (Max. 20 shown)
 
 			return CommandResult.Okay;
 		}
@@ -411,24 +400,29 @@ namespace Aura.World.World
 			var infos = MabiData.RaceDb.FindAll(monsterName);
 			if (infos.Count < 1)
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "No monsters found."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ri_none"))); // No races found.
 				return CommandResult.Fail;
 			}
 
 			for (int i = 0; i < infos.Count && i < 20; ++i)
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "{0}: {1}", infos[i].Id, infos[i].Name));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ri_for"), infos[i].Id, infos[i].Name)); // {0}: {1}
 
-				var drops = "None.";
-				foreach (var drop in infos[i].Drops)
+				var drops = "";
+				if (infos[i].Drops.Count < 1)
+					drops = Localization.Get("gm.ri_no_drop"); // None.
+				else
 				{
-					drops += drop.ItemId.ToString() + " (" + (drop.Chance * 100).ToString() + "%),";
+					foreach (var drop in infos[i].Drops)
+					{
+						drops += string.Format(Localization.Get("gm.ri_for_drop"), drop.ItemId, (drop.Chance * 100));
+					}
 				}
-				client.Send(PacketCreator.ServerMessage(creature, "Drops: " + drops.TrimEnd(',')));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ri_drops") + " " + drops.TrimEnd(',')));
 				client.Send(PacketCreator.ServerMessage(creature, "----------"));
 			}
 
-			client.Send(PacketCreator.ServerMessage(creature, "Results: {0} (Max. 20 shown)", infos.Count));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ri_res"), infos.Count)); // Results: {0} (Max. 20 shown)
 
 			return CommandResult.Okay;
 		}
@@ -491,7 +485,7 @@ namespace Aura.World.World
 
 			if (args[1] != "/c")
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "Unknown paramter '" + args[1] + "'."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_param"), args[1])); // Unknown paramter '{0}'.
 				return CommandResult.Fail;
 			}
 
@@ -501,12 +495,12 @@ namespace Aura.World.World
 				var match = Regex.Match(args[2], "/p:(?<id>[0-9]+)");
 				if (!match.Success)
 				{
-					client.Send(PacketCreator.ServerMessage(creature, "Unknown paramter '" + args[2] + "', please specify a pocket."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_param_pocket"), args[2])); // Unknown paramter '{0}', please specify a pocket.
 					return CommandResult.Fail;
 				}
 				if (!byte.TryParse(match.Groups["id"].Value, out pocket) || pocket > (byte)Pocket.Max - 1)
 				{
-					client.Send(PacketCreator.ServerMessage(creature, "Invalid pocket."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_pocket"))); // Invalid pocket.
 					return CommandResult.Fail;
 				}
 			}
@@ -523,7 +517,7 @@ namespace Aura.World.World
 				client.Send(PacketCreator.ItemRemove(creature, item));
 			}
 
-			client.Send(PacketCreator.ServerMessage(creature, "Cleared pocket '" + ((Pocket)pocket).ToString() + "'. (Deleted items: " + toRemove.Count.ToString() + ")"));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_pocket"), ((Pocket)pocket), toRemove.Count)); // Cleared pocket '{0}'. (Deleted items: {1})
 
 			return CommandResult.Okay;
 		}
@@ -547,7 +541,7 @@ namespace Aura.World.World
 					region = mapInfo.Id;
 				else
 				{
-					client.Send(PacketCreator.ServerMessage(creature, "Map '" + args[1] + "' not found."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.warp_region"), args[1])); // Region '{0}' not found.
 					return CommandResult.Fail;
 				}
 			}
@@ -601,7 +595,10 @@ namespace Aura.World.World
 		{
 			if (args.Length < 2)
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "Destinations: Tir Chonaill, Dugald Isle, Dunbarton, Gairech, Bangor, Emain Macha, Taillteann, Nekojima, GM Island"));
+				client.Send(PacketCreator.ServerMessage(creature,
+					Localization.Get("gm.go_dest") + // Destinations:
+					" Tir Chonaill, Dugald Isle, Dunbarton, Gairech, Bangor, Emain Macha, Taillteann, Nekojima, GM Island"
+				));
 				return CommandResult.WrongParameter;
 			}
 
@@ -619,7 +616,7 @@ namespace Aura.World.World
 			else if (destination.StartsWith("gm")) { region = 22; x = 2500; y = 2500; }
 			else
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "Unknown destination."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.go_unk"))); // Unknown destination.
 				return CommandResult.Fail;
 			}
 
@@ -650,7 +647,7 @@ namespace Aura.World.World
 			}
 			else
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "Unknown gesture."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.gesture_unk"))); // Unknown gesture.
 			}
 
 			return CommandResult.Okay;
@@ -668,7 +665,7 @@ namespace Aura.World.World
 			// TODO: Check if this can be done without relog.
 			creature.Race = raceId;
 
-			client.Send(PacketCreator.SystemMessage(creature, "Your race has been changed. You'll be logged out to complete the process."));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.setrace"))); // Your race has been changed. You'll be logged out to complete the process.
 
 			client.Disconnect(3);
 
@@ -771,7 +768,7 @@ namespace Aura.World.World
 
 		private CommandResult Command_test(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			client.Send(PacketCreator.SystemMessage(creature, "Nothing to see here, move along."));
+			client.Send(PacketCreator.ServerMessage(creature, "Nothing to see here, move along."));
 
 			return CommandResult.Okay;
 		}
@@ -801,7 +798,7 @@ namespace Aura.World.World
 		// -- Xcelled
 		private CommandResult Command_reloadscripts(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			client.Send(PacketCreator.ServerMessage(creature, "Reloading NPCs..."));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.reloadscripts"))); // Reloading NPCs...
 
 			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Npcs, true);
 
@@ -810,14 +807,14 @@ namespace Aura.World.World
 			ScriptManager.Instance.LoadScripts();
 			ScriptManager.Instance.LoadSpawns();
 
-			client.Send(PacketCreator.ServerMessage(creature, "done."));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.reload_done"))); // done.
 
 			return CommandResult.Okay;
 		}
 
 		private CommandResult Command_reloaddata(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			client.Send(PacketCreator.ServerMessage(creature, "Reloading data..."));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.reloaddata"))); // Reloading data...
 
 			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.All, true);
 
@@ -828,11 +825,11 @@ namespace Aura.World.World
 
 		private CommandResult Command_reloadconf(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
-			client.Send(PacketCreator.ServerMessage(creature, "Reloading conf..."));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.reloadconf"))); // Reloading conf...
 
 			WorldConf.Load(null);
 
-			client.Send(PacketCreator.ServerMessage(creature, "done."));
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.reload_done"))); // done.
 
 			return CommandResult.Okay;
 		}
@@ -845,7 +842,7 @@ namespace Aura.World.World
 			uint cardId = 0;
 			if (!uint.TryParse(args[2], out cardId))
 			{
-				client.Send(PacketCreator.ServerMessage(creature, "Invalid card id."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.addcard_id"))); // Invalid card id.
 				return CommandResult.Fail;
 			}
 
@@ -859,7 +856,7 @@ namespace Aura.World.World
 				target = WorldManager.Instance.GetCharacterByName(characterName);
 				if (target == null)
 				{
-					client.Send(PacketCreator.ServerMessage(creature, "Character '" + characterName + "' not found."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.addcard_char"), characterName)); // Character '{0}' not found.
 					return CommandResult.Fail;
 				}
 			}
@@ -876,19 +873,19 @@ namespace Aura.World.World
 
 					if (!MabiData.PetDb.Has(race))
 					{
-						client.Send(PacketCreator.ServerMessage(creature, "Unknown pet card ({0}).", race));
+						client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.addcard_petcard"), race)); // Unknown pet card ({0}).
 						return CommandResult.Fail;
 					}
 				}
 				else if (type != "character")
 				{
-					client.Send(PacketCreator.ServerMessage(creature, "Invalid card type."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.addcard_type"))); // Invalid card type.
 					return CommandResult.WrongParameter;
 				}
 
 				MabiDb.Instance.AddCard(client.Account.Name, cardId, race);
 
-				client.Send(PacketCreator.ServerMessage(creature, "Card added."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.addcard"))); // Card added.
 				return CommandResult.Okay;
 			}
 
@@ -906,7 +903,7 @@ namespace Aura.World.World
 				var raceInfo = MabiData.RaceDb.Find(race);
 				if (raceInfo == null)
 				{
-					client.Send(PacketCreator.SystemMessage(creature, "Race not found."));
+					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.shamala_race"))); // Race not found.
 					return CommandResult.Fail;
 				}
 
@@ -925,7 +922,7 @@ namespace Aura.World.World
 					.PutByte(0)
 					.PutByte(0)
 				, SendTargets.Range, creature);
-				client.Send(PacketCreator.SystemMessage(creature, "Transform~!"));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.shamala_trans"))); // Transform~!
 			}
 			else
 			{
@@ -933,7 +930,7 @@ namespace Aura.World.World
 				creature.ShamalaRace = null;
 
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformationEndR, creature.Id).PutBytes(1, 1), SendTargets.Range, creature);
-				client.Send(PacketCreator.SystemMessage(creature, "Transformation ended."));
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.shamala_end"))); // Transformation ended.
 			}
 
 

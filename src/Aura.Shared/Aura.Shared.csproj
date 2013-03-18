@@ -67,6 +67,7 @@
     <Compile Include="Util\BCrypt.cs" />
     <Compile Include="Util\Configuration.cs" />
     <Compile Include="Util\FileReader.cs" />
+    <Compile Include="Util\Localization.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\MabiTags.cs" />
     <Compile Include="Util\MabiTime.cs" />

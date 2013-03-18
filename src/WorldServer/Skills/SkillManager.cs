@@ -70,14 +70,13 @@ namespace Aura.World.Skills
 			if (skill == null)
 			{
 				Logger.Warning("'{0}' tried to use skill '{1}' without having it.", creature.Name, skillId);
-				creature.Client.Send(PacketCreator.SystemMessage(creature, "Partially unimplemented skill."));
 			}
 
 			handler = SkillManager.GetHandler(skillId);
 			if (handler == null)
 			{
 				Logger.Unimplemented("Skill handler for '{0}'.", skillId);
-				creature.Client.Send(PacketCreator.SystemMessage(creature, "Unimplemented skill."));
+				creature.Client.Send(PacketCreator.SystemMessage(creature, Localization.Get("aura.unimplemented_skill"))); // Partially unimplemented skill.
 			}
 		}
 	}
