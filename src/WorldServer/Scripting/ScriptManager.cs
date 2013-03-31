@@ -34,6 +34,8 @@ namespace Aura.World.Scripting
 
 		public void LoadScripts()
 		{
+			CSScript.GlobalSettings.HideCompilerWarnings = true;
+			CSScript.CacheEnabled = false;
 			Logger.Info("Loading scripts...");
 
 			_loadedScripts = _cached = 0;
@@ -319,6 +321,15 @@ namespace Aura.World.Scripting
 			var file = File.ReadAllText(filePath);
 			var sb = new StringBuilder();
 
+			if (WorldConf.ScriptStrictMode)
+			{
+				sb.Append("//css_co /warnaserror+ /warn:4;\r\n");
+			}
+			else
+			{
+				sb.Append("//css_co /warnaserror- /warn:0;\r\n");
+			}
+
 			// Usings
 			{
 				// Default:
@@ -372,6 +383,13 @@ namespace Aura.World.Scripting
 				file = Regex.Replace(file,
 					@"([\{\}:;\t ])Break\s*\(\s*\)\s*;",
 					"yield return null;",
+					RegexOptions.Compiled);
+
+				// Stop();
+				// --> yield return false;
+				file = Regex.Replace(file,
+					@"([\{\}:;\t ])Stop\s*\(\s*\)\s*;",
+					"yield return false;",
 					RegexOptions.Compiled);
 			}
 

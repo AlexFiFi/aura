@@ -32,6 +32,7 @@ namespace Aura.World.Util
 		// Scripting
 		public static string ScriptPath;
 		public static bool DisableScriptCaching;
+		public static bool ScriptStrictMode;
 
 		// Motd
 		public static string Motd;
@@ -96,6 +97,7 @@ namespace Aura.World.Util
 
 			WorldConf.ScriptPath = _conf.GetString("script_path", "../../scripts");
 			WorldConf.DisableScriptCaching = _conf.GetBool("script_disable_cache", false);
+			WorldConf.ScriptStrictMode = _conf.GetBool("script_strict_mode", false);
 
 			WorldConf.SightRange = _conf.Get<uint>("world_sightrange", 3000);
 
