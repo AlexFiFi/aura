@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Aura.Shared.Util
 {
@@ -48,7 +49,7 @@ namespace Aura.Shared.Util
 
 		private static void LoadFile(string path, string prefix = "")
 		{
-			using (var sr = new StreamReader(path))
+			using (var sr = new StreamReader(path, Encoding.UTF8))
 			{
 				if (!File.Exists(path))
 					return;
@@ -70,8 +71,9 @@ namespace Aura.Shared.Util
 					var val = line.Substring(pos + 1).Trim();
 
 					// Replace \t and [\r]\n
-					val = Regex.Replace(val, "\\t", "\t");
-					val = Regex.Replace(val, "(?:\\r)?\\n", "\n");
+					val = val.Replace("\\t", "\t");
+					val = val.Replace("\\r\\n", "\n");
+					val = val.Replace("\\n", "\n");
 
 					_storage[prefix + "." + line.Substring(0, pos).Trim()] = val;
 				}

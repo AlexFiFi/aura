@@ -517,7 +517,7 @@ namespace Aura.World.World
 				client.Send(PacketCreator.ItemRemove(creature, item));
 			}
 
-			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_pocket"), ((Pocket)pocket), toRemove.Count)); // Cleared pocket '{0}'. (Deleted items: {1})
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_cleared"), ((Pocket)pocket), toRemove.Count)); // Cleared pocket '{0}'. (Deleted items: {1})
 
 			return CommandResult.Okay;
 		}
