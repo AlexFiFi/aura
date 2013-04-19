@@ -14,10 +14,10 @@ namespace Aura.World.World
 
 		public MabiItem RightHand { get; set; }
 		public MabiItem LeftHand { get; set; }
-		public MabiItem Arrows { get; set; }
+		public MabiItem Magazine { get; set; }
 
 		/// <summary>
-		/// Saves references to the equipment in fields.
+		/// Saves references to the equipment in fields, for quicker use and caching.
 		/// </summary>
 		/// <param name="pocket">Pocket.None to update all, or the pocket to update.</param>
 		public void UpdateItemsFromPockets(Pocket pocket = Pocket.None)
@@ -30,9 +30,9 @@ namespace Aura.World.World
 			if (pocket == Pocket.None || pocket == Pocket.LeftHand1 || pocket == Pocket.LeftHand2)
 				this.LeftHand = this.GetItemInPocket(Pocket.LeftHand1);
 
-			// Arrows
-			if (pocket == Pocket.None || pocket == Pocket.Arrow1 || pocket == Pocket.Arrow2)
-				this.Arrows = this.GetItemInPocket(Pocket.Arrow1);
+			// Magazine
+			if (pocket == Pocket.None || pocket == Pocket.Magazine1 || pocket == Pocket.Magazine2)
+				this.Magazine = this.GetItemInPocket(Pocket.Magazine1);
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace Aura.World.World
 		/// <returns></returns>
 		public MabiItem GetItemInPocket(Pocket slot, bool correctForWeaponSet = true)
 		{
-			if (correctForWeaponSet && (slot == Pocket.RightHand1 || slot == Pocket.LeftHand1 || slot == Pocket.Arrow1))
+			if (correctForWeaponSet && (slot == Pocket.RightHand1 || slot == Pocket.LeftHand1 || slot == Pocket.Magazine1))
 				slot += this.WeaponSet;
 
 			return this.GetItemInPocket((byte)slot);

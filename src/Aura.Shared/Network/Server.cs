@@ -10,6 +10,11 @@ using Aura.Shared.Util;
 
 namespace Aura.Shared.Network
 {
+	/// <summary>
+	/// This class derives from the external Server class and extends it with
+	/// all methods that are required by all servers.
+	/// </summary>
+	/// <typeparam name="TClient"></typeparam>
 	public abstract class Server<TClient> : Aura.Net.Server<TClient> where TClient : Client, new()
 	{
 		protected Dictionary<uint, PacketHandlerFunc> _handlers;
@@ -63,6 +68,14 @@ namespace Aura.Shared.Network
 			Environment.Exit(exitCode);
 		}
 
+		/// <summary>
+		/// Initializes MabiDb and tries to connect,
+		/// calls Exit if there are any problems.
+		/// </summary>
+		/// <param name="host"></param>
+		/// <param name="user"></param>
+		/// <param name="pass"></param>
+		/// <param name="db"></param>
 		protected void TryConnectToDatabase(string host, string user, string pass, string db)
 		{
 			try
@@ -77,6 +90,15 @@ namespace Aura.Shared.Network
 			}
 		}
 
+		/// <summary>
+		/// (Re-)Loads the data with the data path as base, called on server
+		/// start and with some reload commands. Should only load required data,
+		/// e.g. Msgr Server doesn't need race data.
+		/// Calls Exit if there are any problems.
+		/// </summary>
+		/// <param name="dataPath"></param>
+		/// <param name="toLoad"></param>
+		/// <param name="reload"></param>
 		public void LoadData(string dataPath, DataLoad toLoad = DataLoad.All, bool reload = false)
 		{
 			try
@@ -227,6 +249,11 @@ namespace Aura.Shared.Network
 			}
 		}
 
+		/// <summary>
+		/// Used by LoadData, prints the warnings potentially received by
+		/// loading data.
+		/// </summary>
+		/// <param name="warnings"></param>
 		protected void PrintDataWarnings(List<DatabaseWarningException> warnings)
 		{
 			foreach (var ex in warnings)
@@ -267,6 +294,10 @@ namespace Aura.Shared.Network
 		/// <param name="args"></param>
 		public abstract void Run(string[] args);
 
+		/// <summary>
+		/// Sends seed to the newly connected client.
+		/// </summary>
+		/// <param name="client"></param>
 		protected override void OnClientAccepted(TClient client)
 		{
 			Logger.Info("Connection established from '{0}'.", client.Address);
@@ -274,6 +305,11 @@ namespace Aura.Shared.Network
 			client.Socket.Send(BitConverter.GetBytes(client.Crypto.Seed));
 		}
 
+		/// <summary>
+		/// Called whenever a connection is closed.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="type"></param>
 		protected override void OnClientDisconnect(TClient client, Aura.Net.DisconnectType type)
 		{
 			if (type == Aura.Net.DisconnectType.ClosedByClient)
@@ -286,6 +322,13 @@ namespace Aura.Shared.Network
 			client.Kill();
 		}
 
+		/// <summary>
+		/// Reads data from the TCP stream and passes it to HandleBuffer,
+		/// once a full packet was received.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="bytesReceived"></param>
+		/// <returns></returns>
 		public override bool ReadBuffer(TClient client, int bytesReceived)
 		{
 			int bytesRead = 0;
@@ -331,6 +374,12 @@ namespace Aura.Shared.Network
 				(buffer[ptr + 4] << 24);
 		}
 
+		/// <summary>
+		/// Cuts off 4 byte value found on normal Mabi packets
+		/// and updates packet length.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <param name="length"></param>
 		protected virtual void PrepareBuffer(ref byte[] buffer, int length)
 		{
 			// Cut 4 bytes at the end (some checksum?)
@@ -340,6 +389,12 @@ namespace Aura.Shared.Network
 			BitConverter.GetBytes(length).CopyTo(buffer, 1);
 		}
 
+		/// <summary>
+		/// Handles incoming data and passes actual packets that have to
+		/// be handled to HandlePacket.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="buffer"></param>
 		protected virtual void HandleBuffer(TClient client, byte[] buffer)
 		{
 			// Decrypt packet if crypt flag isn't 3.
@@ -354,7 +409,7 @@ namespace Aura.Shared.Network
 			}
 			else
 			{
-				// First packet, answer to the seed
+				// First packet, skip challenge and send success msg.
 				if (client.State == ClientState.Check)
 				{
 					client.Send(new byte[] { 0x88, 0x07, 0x00, 0x00, 0x00, 0x00, 0x07 });
@@ -370,6 +425,11 @@ namespace Aura.Shared.Network
 			}
 		}
 
+		/// <summary>
+		/// Passes packet to the respective handler, depending on the op.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		protected virtual void HandlePacket(TClient client, MabiPacket packet)
 		{
 			try
@@ -377,7 +437,7 @@ namespace Aura.Shared.Network
 				var handler = this.GetPacketHandler(packet.Op);
 				if (handler != null)
 				{
-					handler(client, packet);
+					handler.Invoke(client, packet);
 				}
 				else
 				{
@@ -390,6 +450,11 @@ namespace Aura.Shared.Network
 			}
 		}
 
+		/// <summary>
+		/// Adds the handler.
+		/// </summary>
+		/// <param name="op"></param>
+		/// <param name="handler"></param>
 		protected void RegisterPacketHandler(uint op, PacketHandlerFunc handler)
 		{
 			_handlers.Add(op, handler);
@@ -411,6 +476,9 @@ namespace Aura.Shared.Network
 		public delegate void PacketHandlerFunc(TClient client, MabiPacket packet);
 	}
 
+	/// <summary>
+	/// Used in LoadData, to specify what data files should be loaded.
+	/// </summary>
 	public enum DataLoad
 	{
 		Spawns = 0x01,

@@ -88,13 +88,15 @@
     <Compile Include="Skills\Handlers\Combat\WindmillHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\SmashHandler.cs" />
     <Compile Include="Skills\Handlers\HiddenSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Life\MusicSkillHandlers.cs" />
     <Compile Include="Skills\Handlers\TransformationSkillHandlers.cs" />
     <Compile Include="Skills\Handlers\MagicSkillHandlers.cs" />
-    <Compile Include="Skills\Handlers\LifeSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Life\LifeSkillHandlers.cs" />
     <Compile Include="Skills\SkillHandler.cs" />
     <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Util\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
+    <Compile Include="World\CreatureTemp.cs" />
     <Compile Include="World\MabiCreature.Packet.cs" />
     <Compile Include="World\MabiCreature.cs" />
     <Compile Include="World\MabiCreature.Items.cs" />

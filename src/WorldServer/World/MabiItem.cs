@@ -228,6 +228,14 @@ namespace Aura.World.World
 			this.Info.Y = y;
 		}
 
+		public uint ReduceDurability(int val)
+		{
+			if (this.OptionInfo.Durability - val < 0)
+				return (this.OptionInfo.Durability = 0);
+			else
+				return (this.OptionInfo.Durability -= (uint)val);
+		}
+
 		public override void AddToPacket(MabiPacket p)
 		{
 			this.AddToPacket(p, ItemPacketType.Public);
@@ -347,8 +355,8 @@ namespace Aura.World.World
 		LeftHand2 = 13,
 
 		// Arrows go here, not in the left hand.
-		Arrow1 = 14,
-		Arrow2 = 15,
+		Magazine1 = 14,
+		Magazine2 = 15,
 
 		Accessory1 = 16,
 		Accessory2 = 17,

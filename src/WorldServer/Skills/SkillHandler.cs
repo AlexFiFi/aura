@@ -13,15 +13,22 @@ namespace Aura.World.Skills
 	[Flags]
 	public enum SkillResults
 	{
-		Okay = 1,
-		AttackStunned = 2,
-		OutOfRange = 4,
-		InsufficientStamina = 8,
-		InsufficientMana = 16,
-		NoReply = 32,
-		Unimplemented = 256,
-		InvalidTarget = 512,
-		Failure = 1024,
+		None,
+
+		Okay = 0x0001,
+		AttackStunned = 0x0002,
+		OutOfRange = 0x0004,
+		InsufficientStamina = 0x0008,
+		InsufficientMana = 0x0010,
+		NoReply = 0x0020,
+		Unimplemented = 0x0040,
+		InvalidTarget = 0x0080,
+		Failure = 0x0100,
+
+		/// <summary>
+		/// Okay | NoReply
+		/// </summary>
+		OkayNoReply = 0x0021,
 	}
 
 	public abstract class SkillHandler
@@ -32,7 +39,7 @@ namespace Aura.World.Skills
 		// -  Optionally it can be canceled (Cancel)
 		// 3. Target selection or similar (Use)
 		// 4. Skill used (Complete)
-		public virtual SkillResults Prepare(MabiCreature creature, MabiSkill skill)
+		public virtual SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			Logger.Unimplemented("Skill prepare handler for '" + skill.Info.Id.ToString() + "'.");
 			return SkillResults.Unimplemented;

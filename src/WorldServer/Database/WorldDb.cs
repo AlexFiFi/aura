@@ -437,6 +437,7 @@ namespace Aura.World.Database
 			//mc.Parameters.AddWithValue("@option", "");
 			item.OptionInfo.SellingPrice = reader.GetUInt32("sellingprice");
 			//DateTime.Now = reader.GetUInt32("update_time");
+			item.Tags.Parse(reader.GetString("tags"));
 
 			return item;
 		}

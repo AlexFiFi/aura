@@ -7,6 +7,7 @@ using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.World.World;
 using Aura.Data;
+using Aura.Shared.Util;
 
 namespace Aura.World.Network
 {
@@ -388,6 +389,58 @@ namespace Aura.World.Network
 			}
 
 			return packet;
+		}
+
+		/// <summary>
+		/// Playing instrument effect (sound and motion) for creature,
+		/// based on the given MML code.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="instrument"></param>
+		/// <param name="quality"></param>
+		/// <param name="compressedMML"></param>
+		/// <returns></returns>
+		public static MabiPacket PlayEffect(MabiCreature creature, InstrumentType instrument, PlayingQuality quality, string compressedMML)
+		{
+			var p = new MabiPacket(Op.Effect, creature.Id);
+			p.PutInt(Effect.PlayMusic);
+			p.PutByte(true); // has scroll
+			p.PutString(compressedMML);
+			p.PutInt(0);
+			p.PutShort(0);
+			p.PutInt(14113); // ?
+			p.PutByte((byte)quality);
+			p.PutByte((byte)instrument);
+			p.PutByte(0);
+			p.PutByte(0);
+			p.PutByte(1); // loops
+			return p;
+		}
+
+		/// <summary>
+		/// Playing instrument effect (sound and motion) for creature,
+		/// based on the given score id (client:score.xml).
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="instrument"></param>
+		/// <param name="quality"></param>
+		/// <param name="score"></param>
+		/// <returns></returns>
+		public static MabiPacket PlayEffect(MabiCreature creature, InstrumentType instrument, PlayingQuality quality, uint score)
+		{
+			var p = new MabiPacket(Op.Effect, creature.Id);
+			p.PutInt(Effect.PlayMusic);
+			p.PutByte(false);
+			p.PutInt(score);
+			p.PutInt(0);
+			p.PutShort(0);
+			p.PutInt(14113);
+			p.PutByte((byte)quality);
+			p.PutByte((byte)instrument);
+			p.PutByte(0);
+			p.PutByte(0);
+			p.PutByte(1);
+			return p;
 		}
 	}
 

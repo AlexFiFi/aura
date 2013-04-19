@@ -22,6 +22,7 @@ namespace Aura.Data
 		public uint Defense;
 		public short Protection;
 		public byte WeaponType;
+		public InstrumentType Instrument;
 		public ushort Range;
 		public ushort AttackMin, AttackMax;
 		public byte Critical;
@@ -79,6 +80,7 @@ namespace Aura.Data
 			info.Durability = entry.ReadUInt();
 			info.Defense = entry.ReadUInt();
 			info.Protection = entry.ReadSShort();
+			info.Instrument = (InstrumentType)entry.ReadUByte();
 			info.WeaponType = entry.ReadUByte();
 			if (info.WeaponType == 0)
 			{
@@ -119,5 +121,38 @@ namespace Aura.Data
 
 			this.Entries.Add(info.Id, info);
 		}
+	}
+
+	public enum InstrumentType : byte
+	{
+		Lute = 0,
+		Ukulele = 1,
+		Mandolin = 2,
+		Whistle = 3,
+		Roncadora = 4,
+		Flute = 5,
+		Chalumeau = 6,
+		ToneBottleC = 7,
+		ToneBottleD = 8,
+		ToneBottleE = 9,
+		ToneBottleF = 10,
+		ToneBottleG = 11,
+		ToneBottleB = 12,
+		ToneBottleA = 13,
+		Tuba = 18,
+		Lyra = 19,
+		ElectricGuitar = 20,
+		BassDrum = 66,
+		Drum = 67,
+		Cymbals = 68,
+		HandbellC = 69,
+		HandbellD = 70,
+		HandbellE = 71,
+		HandbellF = 72,
+		HandbellG = 73,
+		HandbellB = 74,
+		HandbellA = 75,
+		HandbellHighC = 76,
+		Xylophone = 77,
 	}
 }

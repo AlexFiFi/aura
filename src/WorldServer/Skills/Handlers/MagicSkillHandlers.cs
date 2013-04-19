@@ -32,7 +32,7 @@ namespace Aura.World.Skills
 
 	public class HealingHandler : SkillHandler
 	{
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			this.SetActive(creature, skill);
 			this.SkillInit(creature, "healing");
@@ -71,7 +71,7 @@ namespace Aura.World.Skills
 
 			this.DecStack(creature, skill);
 
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.HealingMotion).PutString("healing").PutLong(target.Id), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.UseMagic).PutString("healing").PutLong(target.Id), SendTargets.Range, creature);
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StackUpdate).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
 
 			this.GiveSkillExp(creature, skill, 20);

@@ -11,11 +11,12 @@ namespace Aura.Shared.Util
 {
 	/// <summary>
 	/// "Generic" dictionary wrapper that can hold various var types and
-	/// serialized to this format: SOMEINT:4:1234;SOMESTR:s:test;
-	/// which is used primarily used in items and quests.
+	/// serializes to this format: SOMEINT:4:1234;SOMESTR:s:test;
+	/// which is primarily used in items and quests.
 	/// </summary>
 	public class MabiTags
 	{
+		// Stored as object so we can put anything in
 		private Dictionary<string, object> _tags = new Dictionary<string, object>();
 		private string _cache = null;
 
@@ -33,35 +34,76 @@ namespace Aura.Shared.Util
 		public void SetString(string key, string val) { this.Set(key, val); }
 		public void SetBool(string key, bool val) { this.Set(key, val); }
 
+		/// <summary>
+		/// Returns the value with the given key, or null it wasn't found.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public object Get(string key)
+		{
+			object result;
+			_tags.TryGetValue(key, out result);
+			return result;
+		}
+
+		/// <summary>
+		/// Removes the value with the given key.
+		/// </summary>
+		/// <param name="key"></param>
 		public void Remove(string key)
 		{
 			_tags.Remove(key);
 			_cache = null;
 		}
 
+		/// <summary>
+		/// Removes all values.
+		/// </summary>
 		public void Clear()
 		{
 			_tags.Clear();
+			_cache = null;
 		}
 
+		/// <summary>
+		/// Returns number of values.
+		/// </summary>
 		public int Count
 		{
 			get { return _tags.Count; }
 		}
 
+		/// <summary>
+		/// Returns whether a value exists for the given key.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
 		public bool Has(string key)
 		{
 			return _tags.ContainsKey(key);
 		}
 
+		/// <summary>
+		/// Access to the values via indexing. Returns dynamic,
+		/// so we don't have to cast the value before using it.
+		/// (This can be a performance problem, don't overuse.)
+		/// Returns null if value doesn't exist.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
 		public dynamic this[string key]
 		{
-			get { _cache = null; return _tags[key]; }
+			get { return this.Get(key); }
 
 			// Bad performance, probably cause of dynamic.
-			//set { this.Set(key, value); }
+			//set { _cache = null; this.Set(key, value); }
 		}
 
+		/// <summary>
+		/// Returns string type identifier for the object.
+		/// </summary>
+		/// <param name="val"></param>
+		/// <returns></returns>
 		private string ValToTypeStr(object val)
 		{
 			if (val is byte || val is sbyte) return "1";
@@ -76,7 +118,7 @@ namespace Aura.Shared.Util
 		}
 
 		/// <summary>
-		/// Returns tags in the format "key:varType:value;..."
+		/// Returns tags in the format "key:varType:value;...".
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString()
@@ -95,7 +137,7 @@ namespace Aura.Shared.Util
 				if (sType == "b")
 					sb.AppendFormat("{0}:{1}:{2};", tag.Key, sType, (bool)tag.Value ? "1" : "0");
 				else if (sType == "s")
-					sb.AppendFormat("{0}:{1}:{2};", tag.Key, sType, ((string)tag.Value).Replace(";", "%S"));
+					sb.AppendFormat("{0}:{1}:{2};", tag.Key, sType, ((string)tag.Value).Replace(";", "%S").Replace(":", "%C"));
 				else
 					sb.AppendFormat("{0}:{1}:{2};", tag.Key, sType, tag.Value);
 			}
@@ -103,6 +145,11 @@ namespace Aura.Shared.Util
 			return (_cache = sb.ToString());
 		}
 
+		/// <summary>
+		/// Reads a string in the format "key:varType:value;..." and adds
+		/// the values to this tag collection.
+		/// </summary>
+		/// <param name="str"></param>
 		public void Parse(string str)
 		{
 			if (string.IsNullOrWhiteSpace(str))

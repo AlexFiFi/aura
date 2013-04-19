@@ -118,15 +118,22 @@ namespace Aura.Net
 					_clients.Remove(client);
 				this.OnClientDisconnect(client, DisconnectType.Unexpected);
 			}
-			//catch (ObjectDisposedException)
-			//{
-			//}
-			//catch (Exception ex)
-			//{
-			//    this.OnBufferReadException(client, ex);
-			//}
+			catch (ObjectDisposedException)
+			{
+			}
+			catch (Exception ex)
+			{
+				this.OnBufferReadException(client, ex);
+			}
 		}
 
+		/// <summary>
+		/// Should read from the stream and handle the data.
+		/// A new receive is started if true is returned.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
 		public virtual bool ReadBuffer(TClient client, int length)
 		{
 			return true;

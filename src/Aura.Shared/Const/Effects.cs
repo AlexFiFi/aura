@@ -38,12 +38,17 @@ namespace Aura.Shared.Const
 		/// string:?, long:targetCreatureId
 		/// Healing Effects?
 		/// </summary>
-		public static readonly uint HealingMotion = 14;
+		public static readonly uint UseMagic = 14;
 
 		/// <summary>
 		/// b:type, i|s:song, i:?, si:?, i:?, b:quality?, b:instrument, b:?, b:?, b:loops
 		/// </summary>
 		public static readonly uint PlayMusic = 17;
+
+		/// <summary>
+		/// On music complete
+		/// </summary>
+		public static readonly uint StopMusic = 18;
 
 		/// <summary>
 		/// Used with special pets like Ice Dragon on spawn, and when reviving.
@@ -71,6 +76,11 @@ namespace Aura.Shared.Const
 		/// According to older logs, this should've been 121.
 		/// </summary>
 		public static readonly uint ManaShield = 122;
+
+		/// <summary>
+		/// Shadow Bunshin casting, clones, etc.
+		/// </summary>
+		public static readonly uint ShadowBunshin = 262;
 	}
 
 	public enum SpawnEffect : byte

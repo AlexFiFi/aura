@@ -21,7 +21,7 @@ namespace Aura.World.Skills
 		private const uint Radius = 400;
 		private const uint Range = 1200;
 
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			if (WorldConf.BunshinSouls && creature is MabiPC && creature.SoulCount < skill.RankInfo.Var1)
 			{

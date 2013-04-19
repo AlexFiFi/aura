@@ -22,7 +22,7 @@ namespace Aura.World.Skills
 	/// </summary>
 	public class WindmillHandler : SkillHandler
 	{
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			this.SetActive(creature, skill);
 			this.SkillInit(creature);

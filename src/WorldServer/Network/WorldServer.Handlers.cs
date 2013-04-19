@@ -1061,7 +1061,7 @@ namespace Aura.World.Network
 				return;
 
 			// Stop moving when changing weapons
-			if ((target >= Pocket.RightHand1 && target <= Pocket.Arrow2) || (source >= Pocket.RightHand1 && source <= Pocket.Arrow2))
+			if ((target >= Pocket.RightHand1 && target <= Pocket.Magazine2) || (source >= Pocket.RightHand1 && source <= Pocket.Magazine2))
 				creature.StopMove();
 
 			// Inv -> Cursor
@@ -1485,7 +1485,7 @@ namespace Aura.World.Network
 
 			creature.UpdateItemsFromPockets(Pocket.RightHand1);
 			creature.UpdateItemsFromPockets(Pocket.LeftHand1);
-			creature.UpdateItemsFromPockets(Pocket.Arrow1);
+			creature.UpdateItemsFromPockets(Pocket.Magazine1);
 
 			var response = new MabiPacket(Op.SwitchSetR, creature.Id);
 			response.PutByte(1);
@@ -1623,7 +1623,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var result = handler.Prepare(creature, skill);
+			var result = handler.Prepare(creature, skill, packet);
 
 			if ((result & SkillResults.Failure) != 0)
 			{

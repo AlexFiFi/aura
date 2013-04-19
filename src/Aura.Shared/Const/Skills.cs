@@ -411,4 +411,12 @@ namespace Aura.Shared.Const
 		WarpContinent = 50057,
 		AddSeasoning = 50058,
 	}
+
+	public enum PlayingQuality
+	{
+		VeryBad = 0,
+		Bad = 1,
+		Good = 2,
+		VeryGood = 3
+	}
 }

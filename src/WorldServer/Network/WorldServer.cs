@@ -26,6 +26,7 @@ namespace Aura.World.Network
 		{
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			this.WriteHeader("World Server", ConsoleColor.DarkGreen);
+			Console.Title = "* " + Console.Title;
 
 			// Logger
 			// --------------------------------------------------------------
@@ -120,6 +121,8 @@ namespace Aura.World.Network
 				this.StartListening(new IPEndPoint(IPAddress.Any, WorldConf.ChannelPort));
 
 				Logger.Status("World Server ready, listening on " + _serverSocket.LocalEndPoint.ToString());
+
+				Console.Title = Console.Title.Replace("* ", "");
 			}
 			catch (Exception ex)
 			{

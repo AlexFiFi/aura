@@ -56,6 +56,8 @@ namespace Aura.World.World
 		public DateTime ActiveSkillPrepareEnd;
 		public uint SoulCount;
 
+		public CreatureTemp Temp = new CreatureTemp();
+
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
 		public readonly MabiVertex _destination = new MabiVertex(0, 0);

@@ -190,6 +190,7 @@ namespace Aura.World.World
 			}
 
 			client.Send(new MabiPacket(Op.GMCPOpen, creature.Id));
+			//client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.gmcp_disabled"))); // The GMCP is currently disabled or not available.
 
 			return CommandResult.Okay;
 		}

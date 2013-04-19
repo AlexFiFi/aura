@@ -8,7 +8,7 @@ namespace Aura.World.Skills
 {
 	public class DefenseHandler : SkillHandler
 	{
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			this.SetActive(creature, skill);
 			this.Flash(creature);

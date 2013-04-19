@@ -12,6 +12,7 @@ gmcp_summon		You've been summoned by '{0}'.
 gmcp_nochar		Character '{0}' couldn't be found.
 gmcp_kicked		'{0}' has been kicked.
 gmcp_banned		'{0}' has been banned till '{1}'.
+gmcp_disabled	The GMCP is currently disabled, or not available.
 
 // >where
 where			Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}

@@ -7,12 +7,22 @@ using Aura.Shared.Util;
 
 namespace Aura.Shared.Network
 {
+	/// <summary>
+	/// This class derives from the external Client class and extends it with
+	/// all methods that are required by all clients. Might be used directly,
+	/// if no further customization is required.
+	/// </summary>
 	public class Client : Aura.Net.Client
 	{
-		public ClientState State;
-		public MabiCrypto Crypto;
+		/// <summary>
+		/// Current state of client/connection.
+		/// </summary>
+		public ClientState State { get; set; }
 
-		//public Account Account;
+		/// <summary>
+		/// Encryption object for this client.
+		/// </summary>
+		public MabiCrypto Crypto { get; set; }
 
 		public Client()
 		{
@@ -40,17 +50,29 @@ namespace Aura.Shared.Network
 			}
 		}
 
+		/// <summary>
+		/// Encodes array if necessary.
+		/// </summary>
+		/// <param name="raw"></param>
 		public virtual void Encode(byte[] raw)
 		{
 			if (raw[5] != 0x03)
 				this.Crypto.EncodePacket(ref raw);
 		}
 
+		/// <summary>
+		/// Builts packet and sends it.
+		/// </summary>
+		/// <param name="packet"></param>
 		public void Send(MabiPacket packet)
 		{
 			this.Send(packet.Build());
 		}
 
+		/// <summary>
+		/// Sends all packets.
+		/// </summary>
+		/// <param name="packets"></param>
 		public void Send(params MabiPacket[] packets)
 		{
 			foreach (var packet in packets)

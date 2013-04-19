@@ -9,11 +9,17 @@ using System.Text;
 namespace Aura.Shared.Util
 {
 	/// <summary>
+	/// Compression class used for MML code, uses strings.
 	/// Little more than basic zlib, includes a header with the length of the
-	/// uncompressed data, takes and returns strings.
+	/// uncompressed data.
 	/// </summary>
 	public static class MabiZip
 	{
+		/// <summary>
+		/// Returns compressed version of given string.
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
 		public static string Compress(string str)
 		{
 			var barr = Encoding.Unicode.GetBytes(str + '\0');
@@ -22,6 +28,7 @@ namespace Aura.Shared.Util
 				// Deflate should use optimal compression level by default (0, as defined by .NET 4.5).
 				using (var df = new DeflateStream(mout, CompressionMode.Compress))
 				{
+					// Write compressed data to memory stream.
 					df.Write(barr, 0, barr.Length);
 				}
 
@@ -36,10 +43,15 @@ namespace Aura.Shared.Util
 					flg += 31 - n; // Check bits
 
 				// <length>;<cmf><flg><data><checksum>
-				return string.Format("{0};{1:x}{2:x}{3}{4:x}", barr.Length, cmf, flg, BitConverter.ToString(mout.ToArray()).Replace("-", "").ToLower(), ComputeAdler32(barr));
+				return string.Format("{0};{1:x02}{2:x02}{3}{4:x08}", barr.Length, cmf, flg, BitConverter.ToString(mout.ToArray()).Replace("-", "").ToLower(), ComputeAdler32(barr));
 			}
 		}
 
+		/// <summary>
+		/// Returns decompressed version of given string.
+		/// </summary>
+		/// <param name="str"></param>
+		/// <returns></returns>
 		public static string Decompress(string str)
 		{
 			if (str.Length < 12) // zlib header + checksum
@@ -67,6 +79,11 @@ namespace Aura.Shared.Util
 			}
 		}
 
+		/// <summary>
+		/// Returns Adler32 hash for the given byte array.
+		/// </summary>
+		/// <param name="bar"></param>
+		/// <returns></returns>
 		public static uint ComputeAdler32(byte[] bar)
 		{
 			ushort sum1 = 1, sum2 = 0;

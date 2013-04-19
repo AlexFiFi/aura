@@ -23,6 +23,8 @@ namespace Aura.World.Skills
 
 			// Life
 			_handlers.Add(SkillConst.Rest, new RestHandler());
+			_handlers.Add(SkillConst.Compose, new ComposingHandler());
+			_handlers.Add(SkillConst.PlayingInstrument, new PlayingInstrumentHandler());
 
 			// Magic
 			_handlers.Add(SkillConst.ManaShield, new ManaShieldHandler());

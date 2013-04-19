@@ -3,14 +3,24 @@
 
 namespace Aura.Shared.Network
 {
+	/// <summary>
+	/// Version configuration and list of all op codes.
+	/// </summary>
 	public static class Op
 	{
+		// Version specifies the "packet version", based on Generation,
+		// Season, and Sub-Season. Not setting it correclty will usually
+		// result in characters not moving or crashes.
 		// NA:      170400
 		// KR:      170400
 		// KR test: 180100 ?
 		// TW:      170200
 		// EU:      140400
 		public const uint Version = 170400;
+
+		// In a few cases Version is not enough to identify changes in the
+		// packets, so set this as well, just in case.
+		public const MabiRegion Region = MabiRegion.NA;
 
 		// Login Server
 		// ------------------------------------------------------------------
@@ -75,6 +85,7 @@ namespace Aura.Shared.Network
 		public readonly static uint GMCPRevive = 0x4EEE;
 		public readonly static uint GMCPInvisibility = 0x4EEF;
 		public readonly static uint GMCPInvisibilityR = 0x4EF0;
+		public readonly static uint GMCPSearch = 0x4EF5; // ?
 		public readonly static uint GMCPExpel = 0x4EF6;
 		public readonly static uint GMCPBan = 0x4EF7;
 		public readonly static uint GMCPNPCList = 0x4EFF;
@@ -138,7 +149,10 @@ namespace Aura.Shared.Network
 		public readonly static uint SwitchedSet = 0x5BCF;
 		public readonly static uint ItemStateChange = 0x5BD0;
 		public readonly static uint ItemStateChangeR = 0x5BD1;
+		public readonly static uint ItemTagsUpdate = 0x5BD4;
+		public readonly static uint ItemDurabilityUpdate = 0x5BD5;
 		public readonly static uint ItemStateChanged = 0x5BD9;
+		public readonly static uint ItemExpUpdate = 0x5BDA;
 		public readonly static uint ViewEquipment = 0x5BDF;
 		public readonly static uint ViewEquipmentR = 0x5BE0;
 		public readonly static uint NPCTalkKeyword = 0x5DC4;
@@ -389,7 +403,30 @@ namespace Aura.Shared.Network
 				Walking = 0x0FA10020;
 				CombatAttack = 0x0FB10001;
 			}
+
+			// New GMCP ops
+			if (
+				(Region == MabiRegion.NA && Version >= 170400) ||
+				(Region == MabiRegion.TW && Version >= 170300) ||
+				(Region == MabiRegion.KR && Version >= 180200)
+			)
+			{
+				GMCPOpen = 0x1D589;
+				GMCPClose = 0x1D58A;
+				GMCPSummon = 0x1D58B;
+				GMCPMoveToChar = 0x1D58C;
+				GMCPMove = 0x1D58D;
+				GMCPRevive = 0x1D58E;
+				GMCPInvisibility = 0x1D58F;
+				GMCPInvisibilityR = 0x1D590;
+				GMCPSearch = 0x1D595;
+				GMCPExpel = 0x1D596;
+				GMCPBan = 0x1D597;
+				GMCPNPCList = 0x1D59F;
+			}
 		}
 #pragma warning restore 0162
 	}
+
+	public enum MabiRegion { NA, EU, TW, KR }
 }

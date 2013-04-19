@@ -9,7 +9,7 @@ namespace Aura.World.Skills
 {
 	public class HiddenResurrectionHandler : SkillHandler
 	{
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			creature.Client.Send(new MabiPacket(Op.SkillReady, creature.Id).PutShort(skill.Info.Id).PutString(""));
 
@@ -21,7 +21,7 @@ namespace Aura.World.Skills
 			if (!target.IsDead)
 				return SkillResults.InvalidTarget;
 
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.HealingMotion).PutString("healing_phoenix").PutLong(target.Id), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.UseMagic).PutString("healing_phoenix").PutLong(target.Id), SendTargets.Range, creature);
 
 			return SkillResults.Okay;
 		}
