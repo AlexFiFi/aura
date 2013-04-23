@@ -35,7 +35,7 @@ namespace Aura.Net
 		/// </summary>
 		public void InitBB()
 		{
-			this.Back = new byte[2048];
+			this.Back = new byte[4096];
 			this.Ptr = 0;
 			this.Remaining = 0;
 		}
@@ -45,7 +45,7 @@ namespace Aura.Net
 		/// </summary>
 		public void InitFB()
 		{
-			this.Front = new byte[2048];
+			this.Front = new byte[4096];
 		}
 	}
 

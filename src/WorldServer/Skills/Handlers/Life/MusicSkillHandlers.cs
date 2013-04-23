@@ -121,7 +121,10 @@ namespace Aura.World.Skills
 			creature.Temp.PlayingInstrumentQuality = quality;
 
 			if (WorldConf.PerfectPlay)
+			{
 				quality = PlayingQuality.VeryGood;
+				creature.Client.Send(PacketCreator.ServerMessage(creature, Localization.Get("skills.perfect_play"))); // Regardless of the result, perfect play will let your performance sound perfect.
+			}
 
 			// Reduce scroll's durability.
 			if (hasScroll)
