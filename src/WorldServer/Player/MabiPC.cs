@@ -485,6 +485,8 @@ namespace Aura.World.Player
 			packet.PutByte(1);                   // Premium Gestures
 			packet.PutByte(0);
 			packet.PutByte(0);
+			if (Op.Version >= 170402)
+				packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutByte(0);
 			packet.PutInt(0);

@@ -167,6 +167,13 @@ namespace Aura.World.Network
 				// 019 [........00000008]  Int    : 8
 				// 020 [........0008D5FF]  Int    : 579071
 			});
+
+			this.RegisterPacketHandler(0xAAEC, (client, packet) =>
+			{
+				// Apperantly sent when switching weapon sets, but only if
+				// there are items equipped on that set.
+				// Also sent when pressing ESC?
+			});
 		}
 
 #pragma warning disable 0162
@@ -2034,6 +2041,10 @@ namespace Aura.World.Network
 			client.Creatures.Add(pet);
 
 			pet.Save = true;
+
+			// Doesn't fix giant mount problems.
+			if (creature.IsGiant)
+				pet.StateEx |= CreatureStatesEx.SummonedByGiant;
 
 			p = new MabiPacket(Op.PetRegister, creature.Id);
 			p.PutLong(pet.Id);

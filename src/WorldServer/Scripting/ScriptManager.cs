@@ -36,6 +36,7 @@ namespace Aura.World.Scripting
 		{
 			CSScript.GlobalSettings.HideCompilerWarnings = true;
 			CSScript.CacheEnabled = false;
+
 			Logger.Info("Loading scripts...");
 
 			_loadedScripts = _cached = 0;

@@ -94,6 +94,11 @@ namespace Aura.Login.Database
 			packet.PutLong(63362367600000);
 			packet.PutByte(0); // Mabinogi VIP
 			packet.PutLong(0); // till next week = (ulong)(DateTime.Now.AddDays(7).Ticks/10000)
+			if (Op.Version >= 170401)
+			{
+				packet.PutByte(0);
+				packet.PutLong(0);
+			}
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutByte(0);

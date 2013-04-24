@@ -11,12 +11,12 @@ namespace Aura.Shared.Network
 		// Version specifies the "packet version", based on Generation,
 		// Season, and Sub-Season. Not setting it correclty will usually
 		// result in characters not moving or crashes.
-		// NA:      170400
+		// NA:      170402
 		// KR:      170400
 		// KR test: 180100 ?
 		// TW:      170200
 		// EU:      140400
-		public const uint Version = 170400;
+		public const uint Version = 170402;
 
 		// In a few cases Version is not enough to identify changes in the
 		// packets, so set this as well, just in case.
@@ -406,7 +406,7 @@ namespace Aura.Shared.Network
 
 			// New GMCP ops
 			if (
-				(Region == MabiRegion.NA && Version >= 170400) ||
+				(Region == MabiRegion.NA && Version >= 170401) ||
 				(Region == MabiRegion.TW && Version >= 170300) ||
 				(Region == MabiRegion.KR && Version >= 180200)
 			)
