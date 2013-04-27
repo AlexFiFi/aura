@@ -41,8 +41,23 @@ namespace Aura.World.Network
 
 				if (this.Socket != null)
 				{
-					this.Socket.Shutdown(SocketShutdown.Both);
-					this.Socket.Close();
+					try
+					{
+						if (this.Socket.Connected)
+							this.Socket.Shutdown(SocketShutdown.Both);
+					}
+					catch (Exception ex)
+					{
+						Logger.Error("Failed to shutdown socket: " + ex.Message);
+					}
+					try
+					{
+						this.Socket.Close();
+					}
+					catch (Exception ex)
+					{
+						Logger.Error("Failed to close socket: " + ex.Message);
+					}
 				}
 
 				this.State = ClientState.Dead;

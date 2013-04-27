@@ -59,12 +59,12 @@ namespace Aura.Net
 		/// </summary>
 		public string Address
 		{
-			get { return (this.Socket != null ? this.Socket.RemoteEndPoint.ToString() : string.Empty); }
+			get { return (this.Socket != null && this.Socket.RemoteEndPoint != null ? this.Socket.RemoteEndPoint.ToString() : string.Empty); }
 		}
 
 		public string IP
 		{
-			get { return (this.Socket != null ? (this.Socket.RemoteEndPoint as IPEndPoint).Address.ToString() : string.Empty); }
+			get { return (this.Socket != null && this.Socket.RemoteEndPoint != null ? (this.Socket.RemoteEndPoint as IPEndPoint).Address.ToString() : string.Empty); }
 		}
 
 		public Client()

@@ -1617,7 +1617,7 @@ namespace Aura.World.Network
 			// Check Mana
 			if (creature.Mana < skill.RankInfo.ManaCost)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_mana"))); // Insufficient Mana
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.insufficient_mana"))); // Insufficient Mana
 				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
 				return;
 			}
@@ -1625,7 +1625,7 @@ namespace Aura.World.Network
 			// Check Stamina
 			if (creature.Stamina < skill.RankInfo.StaminaCost)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_stamina"))); // Insufficient Stamina
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.insufficient_stamina"))); // Insufficient Stamina
 				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
 				return;
 			}
@@ -1713,7 +1713,7 @@ namespace Aura.World.Network
 
 				if (target == null)
 				{
-					client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.invalid_target"))); // Invalid target
+					client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.invalid_target"))); // Invalid target
 					client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(0));
 					return;
 				}
@@ -1729,10 +1729,10 @@ namespace Aura.World.Network
 			var result = handler.Use(creature, target, skill);
 
 			if ((result & SkillResults.InsufficientStamina) != 0)
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_stamina"))); // Insufficient Stamina
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.insufficient_stamina"))); // Insufficient Stamina
 
 			if ((result & SkillResults.InvalidTarget) != 0)
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.invalid_target"))); // Invalid target
+				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.invalid_target"))); // Invalid target
 
 			if ((result & SkillResults.NoReply) != 0)
 				return;

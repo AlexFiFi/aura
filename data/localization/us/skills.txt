@@ -2,7 +2,6 @@
 // Localization file
 // --------------------------------------------------------------------------
 
-insufficient_space		Not enough space.
 insufficient_mana		Insufficient Mana
 insufficient_stamina	Insufficient Stamina
 invalid_target			Invalid target
