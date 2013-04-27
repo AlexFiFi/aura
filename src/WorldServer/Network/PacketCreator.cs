@@ -349,7 +349,7 @@ namespace Aura.World.Network
 					case Stat.Stamina: packet.PutFloat(creature.Stamina); break;
 					case Stat.Food: packet.PutFloat(creature.StaminaHunger); break;
 					case Stat.StaminaMax: packet.PutFloat(creature.StaminaMax); break;
-					case Stat.StaminaMaxFood: packet.PutFloat(creature.Hunger); break;
+					case Stat.StaminaMaxMod: packet.PutFloat(creature.Hunger); break;
 
 					case Stat.StrMod: packet.PutFloat(creature.StrMod); break;
 					case Stat.DexMod: packet.PutFloat(creature.DexMod); break;

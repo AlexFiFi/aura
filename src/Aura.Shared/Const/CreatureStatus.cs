@@ -98,7 +98,7 @@ namespace Aura.Shared.Const
 		ManaMaxMod = 31,
 		Stamina = 32,
 		StaminaMax = 33,
-		StaminaMaxFood = 34,
+		StaminaMaxMod = 34,
 		Food = 35,
 		FoodMinRatio = 36,
 		Level = 37,

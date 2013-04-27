@@ -988,8 +988,9 @@ namespace Aura.World.World
 					PacketCreator.StatUpdate(creature, StatUpdateType.Private,
 						Stat.Life, Stat.LifeInjured, Stat.LifeMax, Stat.LifeMaxMod,
 						Stat.Mana, Stat.ManaMax, Stat.ManaMaxMod,
-						Stat.Stamina, Stat.Food, Stat.StaminaMax, Stat.StaminaMaxFood,
+						Stat.Stamina, Stat.Food, Stat.StaminaMax, Stat.StaminaMaxMod,
 						Stat.Str, Stat.Dex, Stat.Int, Stat.Luck, Stat.Will,
+						Stat.StrMod, Stat.DexMod, Stat.IntMod, Stat.LuckMod, Stat.WillMod,
 						Stat.Level, Stat.Experience, Stat.AbilityPoints
 					)
 				);
