@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using Aura.Shared.Util;
+using System.Globalization;
 
 namespace Aura.Shared.Network
 {
@@ -460,7 +461,7 @@ namespace Aura.Shared.Network
 					else if (type == ElementType.Float)
 					{
 						var data = this.GetFloat();
-						result.Append(i.ToString().PadLeft(3, '0') + " [................] Float  : " + data);
+						result.Append(i.ToString().PadLeft(3, '0') + " [........xxxxxxxx] Float  : " + data.ToString(CultureInfo.InvariantCulture));
 					}
 					else if (type == ElementType.String)
 					{
@@ -517,7 +518,7 @@ namespace Aura.Shared.Network
 					else if (el is float)
 					{
 						var data = (float)el;
-						result.Append(i.ToString().PadLeft(3, '0') + " [................] Float  : " + data);
+						result.Append(i.ToString().PadLeft(3, '0') + " [........xxxxxxxx] Float  : " + data.ToString(CultureInfo.InvariantCulture));
 					}
 					else if (el is string)
 					{

@@ -7,8 +7,6 @@
 
    Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
    All rights reserved.                          
-   Copyright (C) 2005, Mutsuo Saito,
-   All rights reserved.                          
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -24,9 +22,7 @@
 	 3. The names of its contributors may not be used to endorse or promote 
 		products derived from this software without specific prior written 
 		permission.
-*/
 
-/*
    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -45,99 +41,102 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-/* 
-   A C#-program for MT19937, with initialization improved 2006/01/06.
-   Coded by Mitil.
-
-   Copyright (C) 2006, Mitil, All rights reserved.
-
-   Any feedback is very welcome.
-   URL: http://meisui.psk.jp/
-   email: m-i-t-i-l [at@at] p-s-k . j-p
-		   (remove dash[-], and replace [at@at] --> @)
-*/
-
-using System;
-using System.Security.Cryptography;
-
 namespace Aura.Data
 {
+	// Implementation by Yiting
 	public class MTRandom
 	{
-		/* Period parameters */
-		private const Int16 N = 624;
-		private const Int16 M = 397;
-		private const UInt32 MATRIX_A = (UInt32)0x9908b0df;   /* constant vector a */
-		private const UInt32 UPPER_MASK = (UInt32)0x80000000; /* most significant w-r bits */
-		private const UInt32 LOWER_MASK = (UInt32)0x7fffffff; /* least significant r bits */
-		private UInt32[] mt; /* the array for the state vector  */
-		private UInt16 mti; /* mti==N+1 means mt[N] is not initialized */
-		private UInt32[] mag01;
+		private const int N = 624;
+		private const int M = 397;
+		private const uint MATRIX_A = 0x9908B0DF;
 
-		public MTRandom(Int32 seed = 5489)
+		private uint[] _mt;
+		private int _mti;
+
+		public MTRandom(int seed = 5498)
 			: this((uint)seed)
 		{ }
 
-		public MTRandom(UInt32 seed = 5489)
+		public MTRandom(uint seed = 5498)
 		{
-			mt = new UInt32[N];
+			_mti = N;
+			_mt = new uint[N];
 
-			mag01 = new UInt32[] { 0, MATRIX_A };
-			/* mag01[x] = x * MATRIX_A  for x=0,1 */
-
-			mti = N + 1;
-			mt[0] = seed;
-
-			for (mti = 1; mti < N; mti++)
+			uint x = seed;
+			_mt[0] = x;
+			for (int i = 1; i < N; i++)
 			{
-				mt[mti] = ((UInt32)1812433253 * (mt[mti - 1] ^ (mt[mti - 1] >> 30)) + mti);
-				/* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
-				/* In the previous versions, MSBs of the seed affect   */
-				/* only MSBs of the array mt[].                        */
-				/* 2002/01/09 modified by Makoto Matsumoto             */
+				x = 1812433253U * (x ^ (x >> 30)) + (uint)i;
+				_mt[i] = x;
 			}
 		}
 
-		~MTRandom()
+		/// <summary>
+		/// Generates random number between 0 and uint max.
+		/// </summary>
+		/// <returns></returns>
+		public uint GetUInt32()
 		{
-			mt = null;
-			mag01 = null;
-		}
-
-		/* generates a random number on [0,0xffffffff]-Interval */
-		public UInt32 GetUInt()
-		{
-			UInt32 y;
-
-			if (mti >= N)
-			{ /* generate N words at one time */
-				Int16 kk;
-
-				for (kk = 0; kk < N - M; kk++)
+			if (_mti >= N)
+			{
+				for (int i = 0; i < N - M; i++)
 				{
-					y = ((mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK)) >> 1;
-					mt[kk] = mt[kk + M] ^ mag01[mt[kk + 1] & 1] ^ y;
+					uint x = _mt[i];
+					x ^= (x ^ _mt[i + 1]) & 0x7FFFFFFF;
+					_mt[i] = _mt[i + M] ^ (x >> 1) ^ ((x & 1) == 0 ? 0 : MATRIX_A);
 				}
-				for (; kk < N - 1; kk++)
+				for (int i = N - M; i < N - 1; i++)
 				{
-					y = ((mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK)) >> 1;
-					mt[kk] = mt[kk + (M - N)] ^ mag01[mt[kk + 1] & 1] ^ y;
+					uint x = _mt[i];
+					x ^= (x ^ _mt[i + 1]) & 0x7FFFFFFF;
+					_mt[i] = _mt[i + M - N] ^ (x >> 1) ^ ((x & 1) == 0 ? 0 : MATRIX_A);
 				}
-				y = ((mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK)) >> 1;
-				mt[N - 1] = mt[M - 1] ^ mag01[mt[0] & 1] ^ y;
-
-				mti = 0;
+				{
+					uint x = _mt[N - 1];
+					x ^= (x ^ _mt[0]) & 0x7FFFFFFF;
+					_mt[N - 1] = _mt[M - 1] ^ (x >> 1) ^ ((x & 1) == 0 ? 0 : MATRIX_A);
+				}
+				_mti = 0;
 			}
 
-			y = mt[mti++];
-
-			/* Tempering */
+			uint y = _mt[_mti++];
 			y ^= (y >> 11);
-			y ^= (y << 7) & 0x9d2c5680;
-			y ^= (y << 15) & 0xefc60000;
+			y ^= (y << 7) & 0x9D2C5680U;
+			y ^= (y << 15) & 0xEFC60000U;
 			y ^= (y >> 18);
-
 			return y;
+		}
+
+		/// <summary>
+		/// Generates random number between 0 and max - 1.
+		/// Example: max = 10 returns a number from 0 to 9.
+		/// </summary>
+		/// <param name="max"></param>
+		/// <returns></returns>
+		public uint GetUInt32(uint max)
+		{
+			return this.GetUInt32(0, max - 1);
+		}
+
+		/// <summary>
+		/// Generates random number between min and max.
+		/// Example: min = 1 and max = 10 returns a number from 1 to 10.
+		/// </summary>
+		/// <param name="min"></param>
+		/// <param name="max"></param>
+		/// <returns></returns>
+		public uint GetUInt32(uint min, uint max)
+		{
+			return (uint)(this.GetDouble() * (max + 1 - min) + min);
+		}
+
+		/// <summary>
+		/// Generates a random number between 0.0 and 1.0 (not including 1.0).
+		/// </summary>
+		/// <returns></returns>
+		public double GetDouble()
+		{
+			return ((double)this.GetUInt32() / 0xFFFFFFFFU);
 		}
 	}
 }

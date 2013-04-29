@@ -23,7 +23,7 @@ namespace Aura.Data
 	{
 		public uint GetRandom(byte id, MTRandom rnd)
 		{
-			return this.GetAt(id, rnd.GetUInt(), rnd.GetUInt());
+			return this.GetAt(id, rnd.GetUInt32(), rnd.GetUInt32());
 		}
 
 		public uint GetRandom(byte id, Random rnd)

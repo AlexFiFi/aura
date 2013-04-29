@@ -19,6 +19,7 @@ using Aura.World.Util;
 using Aura.World.World;
 using csscript;
 using CSScriptLibrary;
+using System.Globalization;
 
 namespace Aura.World.Scripting
 {
@@ -94,7 +95,7 @@ namespace Aura.World.Scripting
 					int loadPercBar = (int)(20f / scriptFiles.Length * loaded);
 					var bar = "[" + "".PadLeft(loadPercBar, '#') + "".PadLeft(20 - loadPercBar, '.') + "]";
 
-					Logger.Info(string.Format("{1} {0,6:0.0}%", 100f / scriptFiles.Length * loaded, bar), false);
+					Logger.Info(string.Format("{1} {0,6}%", (100f / scriptFiles.Length * loaded).ToString("0.0", CultureInfo.InvariantCulture), bar), false);
 					Logger.RLine(); // Move cursor to pos 0, so error msgs can overwrite this line.
 				}
 			}
@@ -215,30 +216,18 @@ namespace Aura.World.Scripting
 
 				foreach (CompilerError err in errors)
 				{
-					Logger.Error("In {0} on line {1}", scriptPath, err.Line);
+					// Error msg
+					Logger.Error("In {0} on line {1}", scriptPath, err.Line - 1);
 					Logger.Write("          " + err.ErrorText);
 
-					for (int i = Math.Max(1, err.Line - 1), j = 0; j < 3; ++i, ++j)
-					{
-						var line = lines[i - 1].Replace("\t", " ");
-
-						// Shorten line if too long
-						//var offset = 0;
-						//if (line.Length > 70)
-						//{
-						//    var start = Math.Max(0, err.Column - 45);
-						//    var len = Math.Min(60, line.Length - start);
-
-						//    line = "..." + line.Substring(start, len);
-						//    offset += start - 3;
-						//}
-
-						Logger.Write("  {2} {0:0000}: {1}", i, line, (err.Line != i ? ' ' : '*'));
-
-						// Arrow pointing to column
-						//if (err.Line == i && err.Column > 3)
-						//    Logger.Write("".PadLeft(10) + "^".PadLeft(err.Column - offset, '-'));
-					}
+					// Display lines around the error
+					int startIdx = err.Line - 2;
+					if (startIdx < 1)
+						startIdx = 1;
+					else if (startIdx + 3 > lines.Length)
+						startIdx = lines.Length - 2;
+					for (int i = startIdx; i < startIdx + 3; ++i)
+						Logger.Write("  {2} {0:0000}: {1}", i, lines[i - 1], (err.Line - 1 == i ? '*' : ' '));
 				}
 			}
 			catch (Exception ex)
@@ -250,7 +239,9 @@ namespace Aura.World.Scripting
 				catch { }
 				try
 				{
-					new FileInfo(scriptPath).LastWriteTime = DateTime.Now; // "Touch" the file, to mark it for recompilation (due to type load errors with inherited scripts) 
+					// "Touch" the file, to mark it for recompilation
+					// (due to type load errors with inherited scripts)
+					new FileInfo(scriptPath).LastWriteTime = DateTime.Now;
 				}
 				catch { }
 

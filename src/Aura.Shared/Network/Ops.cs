@@ -424,6 +424,16 @@ namespace Aura.Shared.Network
 				GMCPBan = 0x1D597;
 				GMCPNPCList = 0x1D59F;
 			}
+
+			if (Op.Version >= 170401)
+			{
+				GoBeautyShop = 0xAAF2;
+				ShamalaTransformationUpdate = 0xAB15;
+				ShamalaTransformationUse = 0xAB16;
+				ShamalaTransformation = 0xAB17;
+				ShamalaTransformationEnd = 0xAB18;
+				ShamalaTransformationEndR = 0xAB19;
+			}
 		}
 #pragma warning restore 0162
 	}

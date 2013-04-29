@@ -77,6 +77,7 @@ namespace Aura.World.World
 		{
 			this.Info = itemToCopy.Info;
 			this.OptionInfo = itemToCopy.OptionInfo;
+			this.DataInfo = itemToCopy.DataInfo;
 
 			this.Type = itemToCopy.Type;
 			this.StackType = itemToCopy.StackType;
