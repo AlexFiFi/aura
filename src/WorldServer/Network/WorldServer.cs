@@ -106,6 +106,11 @@ namespace Aura.World.Network
 			Logger.Info("Spawning monsters...");
 			ScriptManager.Instance.LoadSpawns();
 
+			// Setting up weather
+			// --------------------------------------------------------------
+			Logger.Info("Initializing weather...");
+			WeatherManager.Instance.Init();
+
 			// World
 			// --------------------------------------------------------------
 			WorldManager.Instance.Start();

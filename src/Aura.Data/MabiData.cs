@@ -29,5 +29,6 @@ namespace Aura.Data
 		public static QuestDb QuestDb = new QuestDb();
 		public static ExpDb ExpDb = new ExpDb();
 		public static PetDb PetDb = new PetDb();
+		public static WeatherDb WeatherDb = new WeatherDb();
 	}
 }

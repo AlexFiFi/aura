@@ -236,6 +236,8 @@ namespace Aura.World.Network
 			p.PutInt(0);
 			client.Send(p);
 
+			EntityEvents.Instance.OnPlayerChangesRegion(creature);
+
 			client.Send(PacketCreator.EnterRegionPermission(creature));
 
 			client.State = ClientState.LoggedIn;

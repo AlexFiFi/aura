@@ -49,6 +49,7 @@ namespace Aura.World.World
 			this.AddCommand("prop", "<class>", Authority.GameMaster, Command_prop);
 			this.AddCommand("ritem", Authority.GameMaster, Command_randomitem);
 			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
+			this.AddCommand("weather", "<clear|cloudy|rain|storm>", Authority.GameMaster, Command_weather);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
@@ -934,6 +935,27 @@ namespace Aura.World.World
 				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.shamala_end"))); // Transformation ended.
 			}
 
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_weather(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			float weather = 0;
+			switch (args[1])
+			{
+				case "clear": weather = 0.5f; break;
+				case "cloudy": weather = 1.2f; break;
+				case "rain": weather = 1.95f; break;
+				case "storm": weather = 2f; break;
+				default:
+					return CommandResult.WrongParameter;
+			}
+
+			WeatherManager.Instance.SetWeather(creature.Region, weather);
 
 			return CommandResult.Okay;
 		}

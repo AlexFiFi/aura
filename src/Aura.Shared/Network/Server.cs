@@ -236,6 +236,14 @@ namespace Aura.Shared.Network
 
 					Logger.Info("Done loading " + MabiData.PetDb.Count + " entries from pets.txt.");
 				}
+
+				if ((toLoad & DataLoad.Weather) != 0)
+				{
+					MabiData.WeatherDb.Load(dataPath + "/db/weather.txt", reload);
+					this.PrintDataWarnings(MabiData.WeatherDb.Warnings);
+
+					Logger.Info("Done loading " + MabiData.WeatherDb.Count + " entries from weather.txt.");
+				}
 			}
 			catch (FileNotFoundException ex)
 			{
@@ -495,6 +503,7 @@ namespace Aura.Shared.Network
 		PropDrops = 0x800,
 		Exp = 0x1000,
 		Pets = 0x2000,
+		Weather = 0x4000,
 
 		All = 0xFFFF,
 

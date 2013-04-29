@@ -22,6 +22,11 @@ namespace Aura.World.Events
 		public EventHandler<SkillUpdateEventArgs> CreatureSkillUpdate;
 
 		/// <summary>
+		/// Fired while a player is changing the region,
+		/// </summary>
+		public EventHandler<EntityEventArgs> PlayerChangesRegion;
+
+		/// <summary>
 		/// Fired if an item is received, dropped, traded, or anything.
 		/// Simply passes the involved item class.
 		/// Mainly used in quests, to check collect objectives.
@@ -68,6 +73,12 @@ namespace Aura.World.Events
 		{
 			if (CreatureSkillUpdate != null)
 				CreatureSkillUpdate(creature, new SkillUpdateEventArgs(skill, isNew));
+		}
+
+		public void OnPlayerChangesRegion(MabiEntity entity)
+		{
+			if (PlayerChangesRegion != null)
+				PlayerChangesRegion(entity, new EntityEventArgs(entity));
 		}
 	}
 }

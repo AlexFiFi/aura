@@ -114,6 +114,19 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
+		/// Sends packet to all characters in the given region.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="region"></param>
+		public void BroadcastRegion(MabiPacket packet, uint region)
+		{
+			foreach (var client in _clients.Where(a => a.Character.Region == region))
+			{
+				client.Send(packet);
+			}
+		}
+
+		/// <summary>
 		/// This is a general method that's run once every 1500ms (1 Erinn minute).
 		/// It's used to raise the Erinn and Real time events (once per Erinn/Real minute).
 		/// Possibly, it could also be used for other things,

@@ -13,6 +13,7 @@ using Aura.World.Database;
 using Aura.World.Player;
 using Aura.World.Scripting;
 using Aura.World.World;
+using Aura.World.Events;
 
 namespace Aura.World.Network
 {
@@ -96,6 +97,9 @@ namespace Aura.World.Network
 
 			this.Send(PacketCreator.Lock(this.Character));
 			this.Character.SetLocation(region, x, y);
+
+			EntityEvents.Instance.OnPlayerChangesRegion(this.Character);
+
 			this.Send(PacketCreator.EnterRegionPermission(this.Character));
 
 			this.Character.OnAltar = DungeonAltar.None;
