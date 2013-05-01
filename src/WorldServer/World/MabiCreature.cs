@@ -285,6 +285,17 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
+		/// Returns whether the creature has the given state, short for
+		/// (x.State & state) != 0
+		/// </summary>
+		/// <param name="state"></param>
+		/// <returns></returns>
+		public bool HasState(CreatureStates state)
+		{
+			return (this.State & state) != 0;
+		}
+
+		/// <summary>
 		/// Calculates the damage of left-and-right slots together
 		/// </summary>
 		/// <returns></returns>

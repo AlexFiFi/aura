@@ -156,7 +156,7 @@ namespace Aura.World.World
 
 				WorldManager.Instance.BroadcastRegion(this.GetWeatherPacket(w.Key, from, to), w.Key);
 
-				Logger.Debug("Current weather in {0}: {1} ({2})", w.Key, w.Value.GetWeatherType(DateTime.Now), weather);
+				//Logger.Debug("Current weather in {0}: {1} ({2})", w.Key, w.Value.GetWeatherType(DateTime.Now), weather);
 			}
 		}
 

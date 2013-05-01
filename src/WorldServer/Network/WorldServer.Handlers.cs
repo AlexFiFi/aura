@@ -270,16 +270,19 @@ namespace Aura.World.Network
 
 		private void HandleCharacterInfoRequest(WorldClient client, MabiPacket packet)
 		{
-			var p = new MabiPacket(Op.CharInfoRequestWR, Id.World);
-
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
 			if (creature == null)
 			{
-				p.PutByte(0);
-				client.Send(p);
+				client.Send(new MabiPacket(Op.CharInfoRequestWR, Id.World).PutByte(false));
 				return;
 			}
 
+			// Spawn effect
+			if (creature.Owner != null)
+				WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(creature.Owner, SpawnEffect.Pet, creature.GetPosition()), SendTargets.Range, creature);
+
+			// Infamous 5209, aka char info
+			var p = new MabiPacket(Op.CharInfoRequestWR, Id.World);
 			p.PutByte(1);
 			(creature as MabiPC).AddPrivateToPacket(p);
 			client.Send(p);
@@ -1578,7 +1581,6 @@ namespace Aura.World.Network
 				foreach (var rider in creature.Pet.Riders.Where(c => c.Client != client))
 					((WorldClient)rider.Client).Warp(creature.Region, pos.X, pos.Y);
 			}
-
 		}
 
 		private void HandleSkillPrepare(WorldClient client, MabiPacket packet)
@@ -2064,8 +2066,6 @@ namespace Aura.World.Network
 			client.Send(p);
 
 			client.Send(PacketCreator.EnterRegionPermission(pet));
-
-			WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(pet, SpawnEffect.Pet), SendTargets.Range, pet);
 		}
 
 		private void HandlePetUnsummon(WorldClient client, MabiPacket packet)
@@ -2136,14 +2136,15 @@ namespace Aura.World.Network
 
 			var petId = packet.GetLong();
 
-			MabiPacket p;
+			var creatureIsSitting = creature.HasState(CreatureStates.SitDown);
 
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == petId);
-			if (pet == null || pet.IsDead || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17)
+			if (pet == null || pet.IsDead || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17 || creatureIsSitting || !WorldManager.InRange(creature, pet, 200))
 			{
-				p = new MabiPacket(Op.PetMountR, creature.Id);
-				p.PutByte(0);
-				client.Send(p);
+				if (creatureIsSitting)
+					client.Send(PacketCreator.Notice(Localization.Get("world.mount_sit"), NoticeType.MiddleTop)); // You cannot mount while resting.
+
+				client.Send(new MabiPacket(Op.PetMountR, creature.Id).PutByte(false));
 				return;
 			}
 
@@ -2152,9 +2153,15 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.VehicleBind(creature, pet);
 
-			p = new MabiPacket(Op.PetMountR, creature.Id);
-			p.PutByte(1);
+			// Mount motion (horse)
+			var p = new MabiPacket(Op.Motions, creature.Id);
+			p.PutInt(21);
+			p.PutInt(0);
+			p.PutByte(0);
+			p.PutShort(0);
 			client.Send(p);
+
+			client.Send(new MabiPacket(Op.PetMountR, creature.Id).PutByte(true));
 		}
 
 		private void HandlePetUnmount(WorldClient client, MabiPacket packet)
@@ -2167,13 +2174,19 @@ namespace Aura.World.Network
 
 			if (creature.Vehicle == null || !creature.Vehicle.Riders.Contains(creature) || creature.Vehicle.IsFlying)
 			{
-				p = new MabiPacket(Op.PetUnmountR, creature.Id);
-				p.PutByte(0);
-				client.Send(p);
+				client.Send(new MabiPacket(Op.PetUnmountR, creature.Id).PutByte(false));
 				return;
 			}
 
 			WorldManager.Instance.VehicleUnbind(creature, creature.Vehicle);
+
+			// Unmount motion (horse)
+			var p2 = new MabiPacket(Op.Motions, creature.Id);
+			p2.PutInt(21);
+			p2.PutInt(1);
+			p2.PutByte(0);
+			p2.PutShort(0);
+			client.Send(p2);
 
 			var pos = creature.Vehicle.GetPosition();
 
@@ -2182,9 +2195,7 @@ namespace Aura.World.Network
 			creature.Vehicle.Riders.Remove(creature);
 			creature.Vehicle = null;
 
-			p = new MabiPacket(Op.PetUnmountR, creature.Id);
-			p.PutByte(1);
-			client.Send(p);
+			client.Send(new MabiPacket(Op.PetUnmountR, creature.Id).PutByte(true));
 		}
 
 		private void HandleTouchProp(WorldClient client, MabiPacket packet)
@@ -2417,19 +2428,26 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
+			var targetId = packet.GetLong();
+			var target = WorldManager.Instance.GetCreatureById(targetId);
+			// This should fix killing everything for now.
+			if (target == null || !target.HasState(CreatureStates.Npc) || target.HasState(CreatureStates.GoodNpc))
+			{
+				client.Send(new MabiPacket(Op.CombatAttackR, creature.Id));
+				return;
+			}
+
 			if (creature.Vehicle != null)
 				creature = creature.Vehicle;
 
 			// TODO: Check if mount is able to attack anything? (this is done with a status)
 
 			var attackResult = SkillResults.Failure;
-			var targetId = packet.GetLong();
 
 			var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery);
 			if (handler == null)
 				return;
 
-			var target = WorldManager.Instance.GetCreatureById(targetId);
 			if (target != null)
 			{
 				attackResult = handler.Use(creature, target, null); // MabiCombat.MeleeAttack(creature, target);

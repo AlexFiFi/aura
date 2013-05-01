@@ -926,13 +926,17 @@ namespace Aura.World.World
 				, SendTargets.Range, creature);
 				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.shamala_trans"))); // Transform~!
 			}
-			else
+			else if (creature.Shamala != null)
 			{
 				creature.Shamala = null;
 				creature.ShamalaRace = null;
 
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.ShamalaTransformationEndR, creature.Id).PutBytes(1, 1), SendTargets.Range, creature);
 				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.shamala_end"))); // Transformation ended.
+			}
+			else
+			{
+				return CommandResult.WrongParameter;
 			}
 
 

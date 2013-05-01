@@ -15,3 +15,5 @@ shop_gold	Insufficient amount of gold.
 too_far		You're too far away.
 
 insufficient_space		Not enough space.
+
+mount_sit	You cannot mount while resting.
