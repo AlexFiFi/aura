@@ -32,6 +32,7 @@ namespace Aura.Login.Util
 		public static bool NewAccounts;
 		public static uint SpawnRegion, SpawnX, SpawnY;
 		public static int DeletionWait;
+		public static bool EnableSecondaryPassword;
 
 		private static Configuration _conf;
 
@@ -68,6 +69,8 @@ namespace Aura.Login.Util
 				Logger.Warning("Invalid format for 'login_deletewait', setting to 0.");
 				LoginConf.DeletionWait = 0;
 			}
+
+			LoginConf.EnableSecondaryPassword = _conf.GetBool("login_enable_sec", true);
 		}
 
 

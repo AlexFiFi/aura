@@ -67,6 +67,7 @@ namespace Aura.Login.Network
 			var loginType = (LoginType)packet.GetByte(); // Known: 0x00 (KR), 0x0C, 0x12 (EU) (Normal), 0x5 (New), 0x2 (Coming from channel)
 			var username = packet.GetString();
 			var password = "";
+			var secPassword = "";
 			ulong sessionKey = 0;
 
 			switch (loginType)
@@ -89,6 +90,22 @@ namespace Aura.Login.Network
 						var md5 = System.Security.Cryptography.MD5.Create();
 						password = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(password))).Replace("-", "");
 					}
+
+					// Create new account
+					if (LoginConf.NewAccounts && (username.StartsWith("new//") || username.StartsWith("new__")))
+					{
+						username = username.Remove(0, 5);
+
+						if (!MabiDb.Instance.AccountExists(username) && password != "")
+						{
+							LoginDb.Instance.CreateAccount(username, password);
+							Logger.Info("New account '{0}' was created.", username);
+						}
+					}
+
+					if (loginType != LoginType.SecondaryPassword)
+						loginType = LoginType.Normal;
+
 					break;
 
 				// Logging in, comming from a channel
@@ -103,29 +120,18 @@ namespace Aura.Login.Network
 				// apart from that, equal to 0x0C.
 				case LoginType.NewHash:
 				default:
-					this.SendLoginResponse(client, Localization.Get("login.new_hash_error"), loginType);
+
+					this.SendLoginResponse(client, Localization.Get("login.new_hash_error"), loginType); // You're client is using a password encryption that Aura doesn't recognize [...]
 					return;
 
 				// Second password
-				case LoginType.SecondPassword:
+				case LoginType.SecondaryPassword:
 
-					//sessionKey = packet.GetLong();
-					//secPassword = packet.GetString(); // SSH1
+					sessionKey = packet.GetLong();
+					secPassword = packet.GetString(); // SSH1
 
-					this.SendLoginResponse(client, Localization.Get("login.second_error")); // Second passwords aren't supported yet.
-					return;
-			}
-
-			// Create new account
-			if (LoginConf.NewAccounts && (username.StartsWith("new//") || username.StartsWith("new__")))
-			{
-				username = username.Remove(0, 5);
-
-				if (!MabiDb.Instance.AccountExists(username) && password != "")
-				{
-					LoginDb.Instance.CreateAccount(username, password);
-					Logger.Info("New account '{0}' was created.", username);
-				}
+					// Continue with reading the password as usual.
+					goto case LoginType.Normal;
 			}
 
 			// Check account existence
@@ -134,6 +140,13 @@ namespace Aura.Login.Network
 			{
 				this.SendLoginResponse(client, LoginResult.IdOrPassIncorrect);
 				return;
+			}
+
+			// Update account's secondary password
+			if (loginType == LoginType.SecondaryPassword && account.SecondaryPassword == null)
+			{
+				account.SecondaryPassword = secPassword;
+				LoginDb.Instance.UpdateAccountSecondaryPassword(account);
 			}
 
 			// Check bans
@@ -150,10 +163,39 @@ namespace Aura.Login.Network
 				return;
 			}
 
+			// Check secondary password
+			if (loginType == LoginType.SecondaryPassword && !string.IsNullOrWhiteSpace(secPassword) && !string.IsNullOrWhiteSpace(account.SecondaryPassword) && account.SecondaryPassword != secPassword)
+			{
+				var p = new MabiPacket(Op.LoginR, Id.Login);
+				p.PutByte((byte)LoginResult.SecondaryFail);
+				p.PutInt(12);
+				p.PutByte(1);
+				client.Send(p);
+				return;
+			}
+
 			// Check logged in already
 			if (account.LoggedIn)
 			{
 				this.SendLoginResponse(client, LoginResult.AlreadyLoggedIn);
+				return;
+			}
+
+			sessionKey = LoginDb.Instance.CreateSession(username);
+
+			// Second password, please!
+			if (LoginConf.EnableSecondaryPassword && loginType == LoginType.Normal)
+			{
+				var p = new MabiPacket(Op.LoginR, Id.Login);
+				p.PutByte((byte)LoginResult.SecondaryReq);
+				p.PutString(account.Name); // Official seems to send this
+				p.PutString(account.Name); // back hashed.
+				p.PutLong(sessionKey);
+				if (account.SecondaryPassword == null)
+					p.PutString("FIRST");
+				else
+					p.PutString("NOT_FIRST");
+				client.Send(p);
 				return;
 			}
 
@@ -195,7 +237,7 @@ namespace Aura.Login.Network
 			response.PutString(username);
 			if (Op.Version > 160000)
 				response.PutString(username);
-			response.PutLong(LoginDb.Instance.CreateSession(username));
+			response.PutLong(sessionKey);
 			response.PutByte(0);
 
 			// Servers
@@ -234,8 +276,8 @@ namespace Aura.Login.Network
 			client.Send(response);
 		}
 
-		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, Banned = 101 }
-		private enum LoginType { KR = 0x00, FromChannel = 0x02, NewHash = 0x05, Normal = 0x0C, EU = 0x12, SecondPassword = 0x14 }
+		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, SecondaryReq = 90, SecondaryFail = 91, Banned = 101 }
+		private enum LoginType { KR = 0x00, FromChannel = 0x02, NewHash = 0x05, Normal = 0x0C, EU = 0x12, SecondaryPassword = 0x14 }
 
 		private void HandleCharacterInfoRequest(LoginClient client, MabiPacket packet)
 		{

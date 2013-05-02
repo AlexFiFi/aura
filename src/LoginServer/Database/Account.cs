@@ -13,6 +13,7 @@ namespace Aura.Login.Database
 	{
 		public string Name { get; set; }
 		public string Password { get; set; }
+		public string SecondaryPassword { get; set; }
 
 		public byte Authority { get; set; }
 

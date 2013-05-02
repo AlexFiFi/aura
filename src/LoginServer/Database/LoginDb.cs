@@ -55,6 +55,21 @@ namespace Aura.Login.Database
 		}
 
 		/// <summary>
+		/// Updates secondary password.
+		/// </summary>
+		/// <param name="account"></param>
+		public void UpdateAccountSecondaryPassword(Account account)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				var mc = new MySqlCommand("UPDATE `accounts` SET `secPassword` = @secPassword WHERE `accountId` = @id", conn);
+				mc.Parameters.AddWithValue("@id", account.Name);
+				mc.Parameters.AddWithValue("@secPassword", account.SecondaryPassword);
+				mc.ExecuteNonQuery();
+			}
+		}
+
+		/// <summary>
 		/// Returns account with the given id.
 		/// </summary>
 		/// <param name="accountName"></param>
@@ -75,6 +90,7 @@ namespace Aura.Login.Database
 					{
 						Name = accountName,
 						Password = reader.GetString("password"),
+						SecondaryPassword = reader.GetStringSafe("secPassword"),
 						Authority = reader.GetByte("authority"),
 						Creation = reader["creation"] as DateTime? ?? DateTime.MinValue,
 						LastIp = reader.GetString("lastip"),
