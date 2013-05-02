@@ -31,6 +31,7 @@ namespace Aura.World.World
 			this.AddCommand("motion", "<category> <motion>", Authority.Player, Command_motion);
 			this.AddCommand("gesture", "<gesture>", Authority.Player, Command_gesture);
 			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
+			this.AddCommand("guild", "<name>", Authority.Player, Command_guild);
 
 			this.AddCommand("go", "<destination>", Authority.VIP, Command_go);
 			this.AddCommand("shamala", "<race>", Authority.VIP, Command_shamala);
@@ -893,6 +894,15 @@ namespace Aura.World.World
 
 			return CommandResult.Fail;
 		}
+
+		private CommandResult Command_guild(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length != 2)
+				return CommandResult.WrongParameter;
+			WorldManager.Instance.CreateGuild(args[1], GuildType.Adventure, creature, new MabiCreature[] { });
+			return CommandResult.Okay;
+		}
+
 
 		private CommandResult Command_shamala(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{

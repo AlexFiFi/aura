@@ -10,12 +10,13 @@ CREATE  TABLE `aura`.`guilds` (
   `region` BIGINT(10) UNSIGNED NOT NULL ,
   `x` BIGINT(10) UNSIGNED NOT NULL ,
   `y` BIGINT(10) UNSIGNED NOT NULL ,
-  `rotation` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0,  `gp` INT(10) UNSIGNED NOT NULL DEFAULT 0 ,
+  `rotation` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0, 
+  `gp` INT(10) UNSIGNED NOT NULL DEFAULT 0 ,
   `gold` INT(10) UNSIGNED NOT NULL DEFAULT 0 ,
   `stone_type` BIGINT(10) UNSIGNED NOT NULL DEFAULT 211  ,
- `title` VARCHAR(50) NOT NULL DEFAULT '',
-  `options` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0  
-,  PRIMARY KEY (`id`) ,
+  `title` VARCHAR(50) NOT NULL DEFAULT '',
+  `options` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0  ,
+  PRIMARY KEY (`id`) ,
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) ,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) );
 
@@ -25,7 +26,9 @@ CREATE  TABLE `aura`.`guild_members` (
   `rank` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 ,
   `joined` DATETIME NOT NULL ,
   `guild_points` BIGINT(10) UNSIGNED NOT NULL DEFAULT 0 ,
-  `message_flags` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0,  `app_message` VARCHAR(100) NULL  ,  UNIQUE INDEX `character_id_UNIQUE` (`character_id` ASC) ,
+  `message_flags` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0, 
+  `app_message` VARCHAR(100) NULL  ,
+  UNIQUE INDEX `character_id_UNIQUE` (`character_id` ASC) ,
   PRIMARY KEY (`character_id`) ,
   CONSTRAINT `character_id`
     FOREIGN KEY (`character_id` )

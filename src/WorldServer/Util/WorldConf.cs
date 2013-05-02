@@ -116,7 +116,7 @@ namespace Aura.World.Util
 			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
 			WorldConf.MailExpires = _conf.GetInt("world_mail_expires", 30);
 			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
-			WorldConf.ChalkOnDeath = _conf.GetInt("world_chalk_on_death", (int)ChalkDeathFlags.All);
+			WorldConf.ChalkOnDeath = _conf.GetInt("world_chalk_on_death", (int)ChalkDeathFlags.None);
 
 			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
 			WorldConf.PerfectPlay = _conf.GetBool("world.perfectplay", false);

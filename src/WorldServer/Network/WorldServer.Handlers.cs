@@ -57,6 +57,18 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
 
+			this.RegisterPacketHandler(Op.PartyCreate, HandlePartyCreate);
+			this.RegisterPacketHandler(Op.PartyJoin, HandlePartyJoin);
+			this.RegisterPacketHandler(Op.PartyLeave, HandlePartyLeave);
+			this.RegisterPacketHandler(Op.PartyRemove, HandlePartyRemove);
+			this.RegisterPacketHandler(Op.PartyChangeSetting, HandlePartyChangeSettings);
+			this.RegisterPacketHandler(Op.PartyChangePassword, HandlePartyChangePassword);
+			this.RegisterPacketHandler(Op.PartyChangeLeader, HandlePartyChangeLeader);
+			this.RegisterPacketHandler(Op.PartyWantedShow, HandlePartyWantedShow);
+			this.RegisterPacketHandler(Op.PartyWantedHide, HandlePartyWantedHide);
+			this.RegisterPacketHandler(Op.PartyChangeFinish, HandlePartyChangeFinish);
+			this.RegisterPacketHandler(Op.PartyChangeExp, HandlePartyChangeExp);
+
 			this.RegisterPacketHandler(Op.ShopBuyItem, HandleShopBuyItem);
 			this.RegisterPacketHandler(Op.ShopSellItem, HandleShopSellItem);
 
@@ -3041,6 +3053,256 @@ namespace Aura.World.Network
 
 			client.Send(PacketCreator.GuildMessage(creature.Guild, creature, "You have donated " + amount + " Gold"));
 			client.Send(new MabiPacket(Op.GuildDonateR, creature.Id).PutByte(1));
+		}
+
+		private void HandlePartyCreate(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var newParty = new MabiParty(creature);
+			newParty.LoadFromPacket(packet);
+			WorldManager.Instance.AddParty(newParty);
+			creature.Party = newParty;
+
+			var p = new MabiPacket(Op.PartyCreateR, creature.Id).PutByte(1);
+			creature.Party.AddPartyPacket(p);
+			creature.Client.Send(p);
+
+			WorldManager.Instance.PartyMemberWantedShow(newParty);
+		}
+
+		private void HandlePartyJoin(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var partyLeader = WorldManager.Instance.GetCreatureById(packet.GetLong());
+			if (partyLeader.Party == null)
+				return;
+
+			var party = partyLeader.Party;
+			var password = packet.GetString();
+			// var zero = packet.GetByte(); / ?
+
+			if (party.Members.Count >= party.MaxSize)
+			{
+				creature.Client.Send(new MabiPacket(Op.PartyJoinR, creature.Id).PutByte(0));
+				return;
+			}
+
+			// Password check
+			if (password != party.Password)
+			{
+				creature.Client.Send(new MabiPacket(Op.PartyJoinR, creature.Id).PutByte(4));
+				return;
+			}
+
+			// Add new member to party
+			party.AddPartyMember(creature);
+			creature.Party = party;
+
+			foreach (var member in party.Members)
+			{
+				if (member != creature)
+				{
+					var p = new MabiPacket(Op.PartyJoinUpdate, member.Id);
+					party.AddMemberPacket(p, creature);
+					member.Client.Send(p);
+				}
+			}
+
+			if (party.IsOpen)
+				WorldManager.Instance.PartyMemberWantedRefresh(partyLeader.Party);
+
+			var partyInfoPacket = new MabiPacket(Op.PartyJoinR, creature.Id).PutByte(1);
+			partyLeader.Party.AddPartyPacket(partyInfoPacket);
+			creature.Client.Send(partyInfoPacket);
+		}
+
+		private void HandlePartyLeave(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			// TODO: Check if allowed to leave party
+			var canLeave = true;
+
+			if (canLeave)
+				WorldManager.Instance.CreatureLeaveParty(creature);
+
+			creature.Client.Send(new MabiPacket(Op.PartyLeaveR, creature.Id).PutByte(canLeave));
+		}
+
+		private void HandlePartyRemove(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			// TODO: Check if allowed to leave party
+			var canRemove = true;
+
+			var target = WorldManager.Instance.GetCreatureById(packet.GetLong());
+			if (canRemove)
+			{
+				WorldManager.Instance.CreatureLeaveParty(target);
+				target.Client.Send(new MabiPacket(0xA43C, target.Id).PutLong(creature.Id).PutByte(1).PutByte(1).PutShort(0).PutInt(0));
+				target.Client.Send(new MabiPacket(Op.PartyRemoved, target.Id));
+			}
+
+			creature.Client.Send(new MabiPacket(Op.PartyRemoveR, creature.Id).PutByte(canRemove));
+		}
+
+		private void HandlePartyChangeSettings(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			if (creature.Party.Leader != creature)
+				return;
+
+			var prevType = creature.Party.Type;
+			creature.Party.LoadFromPacket(packet);
+
+			foreach (var member in creature.Party.Members)
+			{
+				if (prevType != creature.Party.Type)
+					member.Client.Send(new MabiPacket(Op.PartyTypeUpdate, member.Id).PutInt(creature.Party.Type));
+				member.Client.Send(new MabiPacket(Op.PartySettingUpdate, member.Id).PutString(creature.Party.Name));
+			}
+
+			if (creature.Party.IsOpen)
+				WorldManager.Instance.PartyMemberWantedRefresh(creature.Party);
+
+			var p = new MabiPacket(Op.PartyChangeSettingR, creature.Id).PutByte(1);
+			creature.Party.AddPartyPacket(p);
+			creature.Client.Send(p);
+		}
+
+		private void HandlePartyChangePassword(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			if (creature.Party.Leader != creature)
+				return;
+
+			creature.Party.Password = packet.GetString();
+
+			if (creature.Party.IsOpen)
+				WorldManager.Instance.PartyMemberWantedRefresh(creature.Party);
+
+			creature.Client.Send(new MabiPacket(Op.PartyChangePasswordR, creature.Id).PutLong(1));
+		}
+
+		private void HandlePartyChangeLeader(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			if (creature.Party.Leader != creature)
+				return;
+
+			// TODO: Check if able to change leader
+			var leaderChangeAllow = true;
+
+			if (leaderChangeAllow)
+			{
+				var newLeader = WorldManager.Instance.GetCreatureById(packet.GetLong());
+				WorldManager.Instance.PartyChangeLeader(newLeader, creature.Party);
+			}
+
+			creature.Client.Send(new MabiPacket(Op.PartyChangeLeaderR, creature.Id).PutByte(leaderChangeAllow));
+		}
+
+		private void HandlePartyWantedHide(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			if (creature.Party.Leader != creature)
+				return;
+
+			WorldManager.Instance.PartyMemberWantedHide(creature.Party);
+			creature.Client.Send(new MabiPacket(Op.PartyWantedHideR, creature.Id).PutByte(1));
+		}
+
+		private void HandlePartyWantedShow(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			if (creature.Party.Leader != creature)
+				return;
+
+			WorldManager.Instance.PartyMemberWantedShow(creature.Party);
+			creature.Client.Send(new MabiPacket(Op.PartyWantedShowR, creature.Id).PutByte(1));
+		}
+
+		private void HandlePartyChangeFinish(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			if (creature.Party.Leader != creature)
+				return;
+
+			creature.Party.Finish = (PartyFinishRule)packet.GetInt();
+			foreach (var member in creature.Party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyFinishUpdate, member.Id).PutInt((uint)creature.Party.Finish));
+			creature.Client.Send(new MabiPacket(Op.PartyChangeFinishR, creature.Id).PutByte(1));
+		}
+
+		private void HandlePartyChangeExp(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Party == null)
+				return;
+
+			if (creature.Party.Leader != creature)
+				return;
+
+			creature.Party.ExpShare = (PartyExpSharing)packet.GetInt();
+			foreach (var member in creature.Party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyExpUpdate, member.Id).PutInt((uint)creature.Party.ExpShare));
+			creature.Client.Send(new MabiPacket(Op.PartyChangeExpR, creature.Id).PutByte(1));
 		}
 	}
 }

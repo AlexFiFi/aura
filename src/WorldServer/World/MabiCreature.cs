@@ -83,6 +83,9 @@ namespace Aura.World.World
 		public ulong LastEventTriggered = 0;
 		public DungeonAltar OnAltar = DungeonAltar.None;
 
+		public MabiParty Party = null;
+		public uint PartyNumber = 0;
+
 		public ShamalaInfo Shamala = null;
 		public RaceInfo ShamalaRace = null;
 

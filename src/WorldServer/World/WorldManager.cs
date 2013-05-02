@@ -37,6 +37,7 @@ namespace Aura.World.World
 		private List<WorldClient> _clients = new List<WorldClient>();
 		private List<MabiItem> _items = new List<MabiItem>();
 		private List<MabiProp> _props = new List<MabiProp>();
+		private List<MabiParty> _parties = new List<MabiParty>();
 
 		private Dictionary<ulong, MabiPropBehavior> _propBehavior = new Dictionary<ulong, MabiPropBehavior>();
 
@@ -544,6 +545,9 @@ namespace Aura.World.World
 					_clients.Remove((WorldClient)creature.Client);
 				}
 			}
+
+			if (creature.Party != null)
+				CreatureLeaveParty(creature);
 
 			this.CreatureLeaveRegion(creature);
 			creature.Dispose();
@@ -1415,6 +1419,144 @@ namespace Aura.World.World
 			var p = new MabiPacket(Op.QuestUpdate, creature.Id);
 			quest.AddProgressData(p);
 			creature.Client.Send(p);
+		}
+
+		public void CreateGuild(string name, GuildType type, MabiCreature leader, IEnumerable<MabiCreature> otherMembers)
+		{
+			// TODO: checks in here...
+			MabiGuild g = new MabiGuild();
+			g.Gold = g.Gp = 0;
+			g.GuildLevel = (byte)GuildLevel.Beginner;
+			g.IntroMessage = "Guild stone for the " + name + " guild";
+			g.LeavingMessage = "You have left the " + name + " guild";
+			g.RejectionMessage = "You have been denied admission to the " + name + " guild.";
+			g.WelcomeMessage = "Welcome to the " + name + " guild!";
+			g.Name = name;
+			g.Region = leader.Region;
+			var pos = leader.GetPosition();
+			g.X = pos.X;
+			g.Y = pos.Y;
+			g.Rotation = leader.Direction;
+			g.StoneClass = (uint)GuildStoneType.Normal;
+			g.Type = (byte)type;
+
+			var gid = g.Save();
+
+			WorldDb.Instance.SaveGuildMember(new MabiGuildMemberInfo() { CharacterId = leader.Id, Gp = 0, JoinedDate = DateTime.Now, MemberRank = (byte)GuildMemberRank.Leader }, gid);
+			foreach (var m in otherMembers)
+				WorldDb.Instance.SaveGuildMember(new MabiGuildMemberInfo() { CharacterId = m.Id, Gp = 0, JoinedDate = DateTime.Now, MemberRank = (byte)GuildMemberRank.SeniorMember }, gid);
+
+
+			g = WorldDb.Instance.GetGuild(gid); // Reload guild to make sure it gets initialized and gets an id
+
+			leader.Guild = g;
+			this.Broadcast(PacketCreator.GuildMembershipChanged(g, leader, (byte)GuildMemberRank.Leader), SendTargets.Range, leader);
+
+			foreach (var m in otherMembers)
+			{
+				m.Guild = g;
+				this.Broadcast(PacketCreator.GuildMembershipChanged(g, m, (byte)GuildMemberRank.SeniorMember), SendTargets.Range, m);
+			}
+
+			var p = new MabiProp(g.Region, g.Area);
+			p.Info.Class = g.StoneClass;
+			p.Info.Direction = g.Rotation;
+			p.Info.Region = g.Region;
+			p.Info.X = g.X;
+			p.Info.Y = g.Y;
+			p.Title = g.Name;
+			p.ExtraData = string.Format("<xml guildid=\"{0}\"/>", g.WorldId);
+
+			WorldManager.Instance.AddProp(p);
+			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, WorldServer.GuildstoneTouch));
+
+			this.Broadcast(PacketCreator.Notice(name + " Guild has been created. Guild leader: " + leader.Name, NoticeType.Top), SendTargets.All);
+		}
+
+		public void AddParty(MabiParty party)
+		{
+			lock (_parties)
+				_parties.Add(party);
+		}
+
+		public void RemoveParty(MabiParty party)
+		{
+			lock (_parties)
+				_parties.Remove(party);
+		}
+
+		public void CreatureLeaveParty(MabiCreature creature)
+		{
+			if (creature.Client == null || creature.Party == null)
+				return;
+
+			var party = creature.Party;
+
+			// Remove creature from party
+			party.RemovePartyMember(creature);
+			creature.Party = null;
+			creature.PartyNumber = 0;
+
+			// Update party
+			if (party.Members.Count > 0)
+			{
+				foreach (var member in party.Members)
+					member.Client.Send(new MabiPacket(Op.PartyLeaveUpdate, member.Id).PutLong(creature.Id));
+
+				if (party.IsOpen)
+					this.PartyMemberWantedRefresh(party);
+
+				foreach (var member in party.Members)
+					member.Client.Send(new MabiPacket(0xA43C, member.Id).PutLong(creature.Id).PutByte(1).PutByte(1).PutShort(0).PutInt(0));
+
+				if (party.Leader == creature)
+					this.PartyChangeLeader(party.GetNextLeader(), party);
+			}
+			// Remove party
+			else
+			{
+				if (party.IsOpen)
+					this.PartyMemberWantedHide(party);
+
+				this.RemoveParty(party);
+			}
+		}
+
+		public void PartyMemberWantedRefresh(MabiParty party)
+		{
+			var p = new MabiPacket(Op.PartyWantedUpdate, party.Leader.Id).PutByte(party.IsOpen).PutString(party.GetMemberWantedString());
+			this.Broadcast(p, SendTargets.Range, party.Leader);
+		}
+
+		public void PartyMemberWantedHide(MabiParty party)
+		{
+			party.IsOpen = false;
+
+			foreach (var member in party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyWantedClosed, member.Id));
+
+			PartyMemberWantedRefresh(party);
+		}
+
+		public void PartyMemberWantedShow(MabiParty party)
+		{
+			party.IsOpen = true;
+
+			foreach (var member in party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyWantedOpened, member.Id));
+
+			PartyMemberWantedRefresh(party);
+		}
+
+		public void PartyChangeLeader(MabiCreature leader, MabiParty party)
+		{
+			if (party.IsOpen)
+				this.PartyMemberWantedHide(party);
+
+			party.SetLeader(leader);
+
+			foreach (var member in party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyChangeLeaderUpdate, member.Id).PutLong(leader.Id));
 		}
 	}
 
