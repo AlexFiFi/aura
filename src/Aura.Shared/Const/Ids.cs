@@ -18,6 +18,8 @@ namespace Aura.Shared.Const
 		public const ulong Pets = 0x0010010000000001;
 		public const ulong Partners = 0x0010030000000001;
 
+		public const ulong Guilds = 0x0300000000500000;
+
 		public const ulong Items = 0x0050000000000001;
 		public const ulong TmpItems = 0x0050F00000000001;
 

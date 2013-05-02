@@ -105,6 +105,10 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.HomesteadInfoRequest, HandleHomesteadInfo);
 			this.RegisterPacketHandler(Op.OpenItemShop, HandleOpenItemShop);
 
+			this.RegisterPacketHandler(Op.ConvertGp, HandleConvertGp);
+			this.RegisterPacketHandler(Op.ConvertGpConfirm, HandleConvertGpConfirm);
+			this.RegisterPacketHandler(Op.GuildDonate, HandleGuildDonate);
+
 			this.RegisterPacketHandler(Op.CollectionRequest, HandleCollectionRequest);
 			this.RegisterPacketHandler(Op.ShamalaTransformationUse, HandleShamalaTransformation);
 			this.RegisterPacketHandler(Op.ShamalaTransformationEnd, HandleShamalaTransformationEnd);
@@ -302,6 +306,9 @@ namespace Aura.World.Network
 
 			if (creature == client.Character)
 			{
+				if (creature.Guild != null)
+					client.Send(new MabiPacket(Op.GuildstoneLocation, creature.Id).PutByte(1).PutInts(creature.Guild.Region, creature.Guild.X, creature.Guild.Y));
+
 				client.Send(new MabiPacket(Op.UnreadMailCount, creature.Id).PutInt((uint)MabiMail.GetUnreadCount(creature)));
 
 				if (WorldConf.EnableItemShop)
@@ -2973,6 +2980,67 @@ namespace Aura.World.Network
 
 			// Success
 			client.Send(new MabiPacket(Op.QuestGiveUpR, creature.Id).PutByte(1));
+		}
+
+		protected void HandleConvertGp(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Guild == null)
+				return;
+
+			client.Send(new MabiPacket(Op.ConvertGpR, creature.Id).PutByte(1).PutInt((uint)creature.GuildMemberInfo.Gp));
+		}
+
+		protected void HandleConvertGpConfirm(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Guild == null)
+				return;
+
+			creature.Guild = WorldDb.Instance.GetGuildForChar(creature.Id);
+
+			creature.Guild.Gp += (uint)creature.GuildMemberInfo.Gp;
+			client.Send(PacketCreator.GuildMessage(creature.Guild, creature, "Added " + creature.GuildMemberInfo.Gp + " Point(s)"));
+			creature.GuildMemberInfo.Gp = 0;
+
+			creature.Guild.Save();
+			WorldDb.Instance.SaveGuildMember(creature.GuildMemberInfo, creature.Guild.BaseId);
+
+			client.Send(new MabiPacket(Op.ConvertGpConfirmR, creature.Id).PutByte(1));
+			client.Send(new MabiPacket(Op.ConvertGpConfirmR, creature.Id).PutByte(0)); // TODO: Do we really need both of these?
+		}
+
+		protected void HandleGuildDonate(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			if (creature.Guild == null)
+				return;
+
+			var amount = packet.GetInt();
+
+			if (!creature.HasGold(amount))
+			{
+				client.Send(new MabiPacket(Op.GuildDonateR, creature.Id).PutByte(0));
+				return;
+			}
+
+			creature.Guild = WorldDb.Instance.GetGuildForChar(creature.Id);
+			creature.Guild.Gold += amount;
+			creature.RemoveGold(amount);
+
+			creature.Guild.Save();
+
+			client.Send(PacketCreator.GuildMessage(creature.Guild, creature, "You have donated " + amount + " Gold"));
+			client.Send(new MabiPacket(Op.GuildDonateR, creature.Id).PutByte(1));
 		}
 	}
 }

@@ -96,18 +96,36 @@ namespace Aura.World.World
 
 			// Guild
 			// --------------------------------------------------------------
-			packet.PutLong(0);                   // GuildID
-			packet.PutString("");                // GuildName
-			packet.PutInt(0);	                 // MemberClass
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutInt(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutString("");                // GuildTitle
+			if (this.Guild != null)
+			{
+				packet.PutLong(this.Guild.WorldId);                   // GuildID
+				packet.PutString(this.Guild.Name);                // GuildName
+				packet.PutInt(this.GuildMemberInfo.MemberRank);	                 // MemberClass
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutInt(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutString(this.Guild.Title);                // GuildTitle
+			}
+			else
+			{
+				packet.PutLong(0);                   // GuildID
+				packet.PutString("");                // GuildName
+				packet.PutInt(0);	                 // MemberClass
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutInt(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutString("");                // GuildTitle
+			}
 
 			// Transformation
 			// --------------------------------------------------------------

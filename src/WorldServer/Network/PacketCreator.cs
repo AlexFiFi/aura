@@ -7,7 +7,7 @@ using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.World.World;
 using Aura.Data;
-using Aura.Shared.Util;
+using Aura.World.Player;
 
 namespace Aura.World.Network
 {
@@ -193,6 +193,43 @@ namespace Aura.World.Network
 				p.PutByte(0);
 			}
 
+			return p;
+		}
+
+		public static MabiPacket GuildMessage(MabiGuild guild, MabiCreature target, string message)
+		{
+			var character = target as MabiPC;
+			return new MabiPacket(Op.GuildMessage, target.Id)
+				.PutLong(guild.WorldId)
+				.PutString(character == null ? "Aura" : character.Server)
+				.PutLong(target.Id)
+				.PutString(guild.Name)
+				.PutString(message)
+				.PutByte(1)
+				.PutByte(1);
+		}
+
+		/// <summary>
+		/// Sends info on guild membership status changed. Pass null for guild to remove.
+		/// </summary>
+		/// <param name="guild"></param>
+		/// <param name="creature"></param>
+		/// <returns></returns>
+		public static MabiPacket GuildMembershipChanged(MabiGuild guild, MabiCreature creature, byte rank = (byte)GuildMemberRank.Member)
+		{
+			var p = new MabiPacket(Op.GuildMembershipChanged, creature.Id);
+			if (guild == null)
+			{
+				p.PutInt(0);
+			}
+			else
+			{
+				p.PutInt(1);
+				p.PutString(guild.Name);
+				p.PutLong(guild.WorldId);
+				p.PutInt((uint)rank); // (5) Member Rank?
+				p.PutByte(0);
+			}
 			return p;
 		}
 

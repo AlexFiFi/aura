@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using Aura.Shared.Const;
@@ -92,6 +93,11 @@ namespace Aura.World.Network
 			Logger.Info("Loading data files...");
 			this.LoadData(WorldConf.DataPath);
 
+			// Guilds
+			// --------------------------------------------------------------
+			Logger.Info("Loading guilds...");
+			this.LoadGuilds();
+
 			// Commands
 			// --------------------------------------------------------------
 			Logger.Info("Loading commands...");
@@ -164,6 +170,54 @@ namespace Aura.World.Network
 			catch { }
 			this.Exit(1, false);
 		}
+
+		protected void LoadGuilds()
+		{
+			var guilds = WorldDb.Instance.LoadGuilds();
+
+			foreach (var guild in guilds)
+			{
+				var p = new MabiProp(guild.Region, guild.Area);
+				p.Info.Class = guild.StoneClass;
+				p.Info.Direction = guild.Rotation;
+				p.Info.Region = guild.Region;
+				p.Info.X = guild.X;
+				p.Info.Y = guild.Y;
+				p.Title = guild.Name;
+				p.ExtraData = string.Format("<xml guildid=\"{0}\" {1}/>", guild.WorldId,
+					guild.HasOption(GuildOptionFlags.Warp) ? "gh_warp=\"true\"" : "");
+
+				WorldManager.Instance.AddProp(p);
+				WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
+			}
+
+			Logger.ClearLine();
+			Logger.Info("Done loading {0} guilds.", guilds.Count);
+		}
+
+		public static void GuildstoneTouch(WorldClient client, MabiCreature creature, MabiProp p)
+		{
+			string gid = p.ExtraData.Substring(p.ExtraData.IndexOf("guildid=\""));
+			gid = gid.Substring(9);
+			gid = gid.Substring(0, gid.IndexOf("\""));
+			ulong bid = MabiGuild.GetBaseId(ulong.Parse(gid));
+
+			var g = WorldDb.Instance.GetGuild(bid);
+			if (creature.Guild != null)
+			{
+				if (g.BaseId == creature.Guild.BaseId)
+					client.Send(new MabiPacket(Op.OpenGuildPanel, creature.Id).PutLong(g.WorldId).PutBytes(0, 0, 0)); // 3 Unknown bytes...
+				else
+					client.Send(new MabiPacket(Op.GuildInfo, creature.Id).PutLong(g.WorldId).PutStrings(g.Name, g.LeaderName)
+						.PutInt((uint)WorldDb.Instance.GetGuildMemberInfos(g).Count(m => m.MemberRank < (byte)GuildMemberRank.Applied))
+						.PutString(g.IntroMessage));
+			}
+			else
+				client.Send(new MabiPacket(Op.GuildInfoNoGuild, creature.Id).PutLong(g.WorldId).PutStrings(g.Name, g.LeaderName)
+					.PutInt((uint)WorldDb.Instance.GetGuildMemberInfos(g).Count(m => m.MemberRank < (byte)GuildMemberRank.Applied))
+					.PutString(g.IntroMessage));
+		}
+
 
 		private Timer _shutdownTimer1, _shutdownTimer2;
 		protected override void ParseCommand(string[] args, string command)

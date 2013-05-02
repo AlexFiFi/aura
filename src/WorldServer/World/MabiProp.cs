@@ -38,6 +38,8 @@ namespace Aura.World.World
 		public MabiPropInfo Info;
 		public string Title;
 
+		public string ExtraData = "";
+
 		private static ulong _propIndex = Aura.Shared.Const.Id.Props;
 
 		public MabiProp(uint region = 0, uint area = 0)
@@ -101,7 +103,7 @@ namespace Aura.World.World
 			packet.PutLong(0);
 
 			packet.PutByte(1);
-			packet.PutString("");
+			packet.PutString(ExtraData);
 
 			packet.PutInt(0);
 			packet.PutShort(0);
