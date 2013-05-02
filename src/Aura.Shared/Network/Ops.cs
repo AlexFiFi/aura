@@ -426,6 +426,8 @@ namespace Aura.Shared.Network
 		// ------------------------------------------------------------------
 		public static class Internal
 		{
+			public readonly static uint ServerIdentify = 0x42420000;
+			public readonly static uint ChannelStatus = 0x42420101;
 		}
 
 #pragma warning disable 0162

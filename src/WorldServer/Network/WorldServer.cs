@@ -2,31 +2,44 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Database;
+using Aura.World.Events;
 using Aura.World.Scripting;
 using Aura.World.Util;
 using Aura.World.World;
-using Aura.World.Events;
 
 namespace Aura.World.Network
 {
-	public partial class WorldServer : Server<WorldClient>
+	public partial class WorldServer : BaseServer<WorldClient>
 	{
 		public static readonly WorldServer Instance = new WorldServer();
 		static WorldServer() { }
 		private WorldServer() : base() { }
 
+		/// <summary>
+		/// Milliseconds between tries to connect.
+		/// </summary>
+		private const int LoginTryTime = 10 * 1000;
+
+		private WorldClient _loginServer;
+		private Timer _shutdownTimer1, _shutdownTimer2;
+
+		private readonly Dictionary<string, MabiServer> ServerList = new Dictionary<string, MabiServer>();
+
 		public override void Run(string[] args)
 		{
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-			this.WriteHeader("World Server", ConsoleColor.DarkGreen);
+
+			ServerUtil.WriteHeader("World Server", ConsoleColor.DarkGreen);
 			Console.Title = "* " + Console.Title;
 
 			// Logger
@@ -59,6 +72,10 @@ namespace Aura.World.Network
 			// --------------------------------------------------------------
 			Logger.Hide = WorldConf.ConsoleFilter;
 
+			// Security checks
+			// --------------------------------------------------------------
+			ServerUtil.CheckInterPassword(WorldConf.Password);
+
 			// Localization
 			// --------------------------------------------------------------
 			Logger.Info("Loading localization files (" + WorldConf.Localization + ")...");
@@ -74,7 +91,7 @@ namespace Aura.World.Network
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");
-			this.TryConnectToDatabase(WorldConf.DatabaseHost, WorldConf.DatabaseUser, WorldConf.DatabasePass, WorldConf.DatabaseDb);
+			ServerUtil.TryConnectToDatabase(WorldConf.DatabaseHost, WorldConf.DatabaseUser, WorldConf.DatabasePass, WorldConf.DatabaseDb);
 
 			//Logger.Info("Clearing database cache...");
 			//MabiDb.Instance.ClearDatabaseCache();
@@ -91,7 +108,7 @@ namespace Aura.World.Network
 			// Data
 			// --------------------------------------------------------------
 			Logger.Info("Loading data files...");
-			this.LoadData(WorldConf.DataPath);
+			ServerUtil.LoadData(WorldConf.DataPath);
 
 			// Guilds
 			// --------------------------------------------------------------
@@ -121,10 +138,6 @@ namespace Aura.World.Network
 			// --------------------------------------------------------------
 			WorldManager.Instance.Start();
 
-			// Run the channel register method once, and then subscribe to the event that's run once per minute.
-			this.OncePerMinute(null, null);
-			ServerEvents.Instance.RealTimeTick += this.OncePerMinute;
-
 			// Starto
 			// --------------------------------------------------------------
 			try
@@ -138,11 +151,89 @@ namespace Aura.World.Network
 			catch (Exception ex)
 			{
 				Logger.Exception(ex, "Unable to set up socket; perhaps you're already running a server?");
-				this.Exit(1);
+				ServerUtil.Exit(1);
 			}
 
+			// Login server
+			// --------------------------------------------------------------
+			this.ConnectToLogin(true);
+
+			// Run the channel register method once, and then subscribe to the event that's run once per minute.
+			this.SendChannelStatus(null, null);
+			ServerEvents.Instance.RealTimeTick += this.SendChannelStatus;
+
+			// Console commands
+			// --------------------------------------------------------------
 			Logger.Info("Type 'help' for a list of console commands.");
-			this.ReadCommands();
+			ServerUtil.ReadCommands(this.ParseCommand);
+		}
+
+		protected void ParseCommand(string[] args, string command)
+		{
+			switch (args[0])
+			{
+				case "help":
+					{
+						Logger.Info("Commands:");
+						Logger.Info("  status       Shows some status information about the channel");
+						Logger.Info("  shutdown     Announces and executes server shutdown");
+						Logger.Info("  help         Shows this");
+					}
+					break;
+
+				case "status":
+					{
+						Logger.Info("Creatures: " + WorldManager.Instance.GetCreatureCount());
+						Logger.Info("Items: " + WorldManager.Instance.GetItemCount());
+						Logger.Info("Online time: " + (DateTime.Now - _startTime).ToString(@"hh\:mm\:ss"));
+					}
+					break;
+
+				case "shutdown":
+					{
+						this.StopListening();
+
+						// Seconds till players are dced, 10s min.
+						int dcSeconds = 10;
+						if (args.Length > 1)
+							int.TryParse(args[1], out dcSeconds);
+						if (dcSeconds < 10)
+							dcSeconds = 10;
+
+						// Seconds till the server shuts down.
+						int exitSeconds = dcSeconds + 30;
+
+						// Broadcast a notice.
+						WorldManager.Instance.Broadcast(PacketCreator.Notice("The server will shutdown in " + dcSeconds + " seconds, please log out before that time, for your own safety.", NoticeType.TopRed), SendTargets.All);
+
+						// Set a timer when to send the dc request all remaining players.
+						_shutdownTimer1 = new Timer(_ =>
+						{
+							var dc = new MabiPacket(Op.RequestClientDisconnect, Id.World).PutSInt((dcSeconds - (dcSeconds - 10)) * 1000);
+							WorldManager.Instance.Broadcast(dc, SendTargets.All, null);
+						},
+							null, (dcSeconds - 10) * 1000, Timeout.Infinite
+						);
+						Logger.Info("Disconnecting players in " + dcSeconds + " seconds.");
+
+						// Set a timer when to exit this server.
+						_shutdownTimer2 = new Timer(_ =>
+						{
+							ServerUtil.Exit(0, false);
+						},
+							null, exitSeconds * 1000, Timeout.Infinite
+						);
+						Logger.Info("Shutting down in " + exitSeconds + " seconds.");
+					}
+					break;
+
+				case "":
+					break;
+
+				default:
+					Logger.Info("Unkown command.");
+					goto case "help";
+			}
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -168,7 +259,7 @@ namespace Aura.World.Network
 				Logger.Status("Closing the server.");
 			}
 			catch { }
-			this.Exit(1, false);
+			ServerUtil.Exit(1, false);
 		}
 
 		protected void LoadGuilds()
@@ -218,85 +309,112 @@ namespace Aura.World.Network
 					.PutString(g.IntroMessage));
 		}
 
-
-		private Timer _shutdownTimer1, _shutdownTimer2;
-		protected override void ParseCommand(string[] args, string command)
+		/// <summary>
+		/// Tries to connect to login server, keeps trying every 10 seconds
+		/// till there is a success. Blocking.
+		/// </summary>
+		private void ConnectToLogin(bool firstTime)
 		{
-			switch (args[0])
+			Logger.Write("");
+			if (firstTime)
+				Logger.Info("Trying to connect to login server at {0}:{1}...", WorldConf.LoginHost, WorldConf.LoginPort);
+			else
 			{
-				case "help":
+				Logger.Info("Trying to re-connect to login server in {0} seconds.", LoginTryTime / 1000);
+				Thread.Sleep(LoginTryTime);
+			}
+
+			bool success = false;
+			while (!success)
+			{
+				try
+				{
+					if (_loginServer != null)
 					{
-						Logger.Info("Commands:");
-						Logger.Info("  status       Shows some status information about the channel");
-						Logger.Info("  shutdown     Announces and executes server shutdown");
-						Logger.Info("  help         Shows this");
+						try
+						{
+							_loginServer.Socket.Shutdown(SocketShutdown.Both);
+							_loginServer.Socket.Close();
+						}
+						catch
+						{ }
 					}
-					break;
 
-				case "status":
-					{
-						Logger.Info("Creatures: " + WorldManager.Instance.GetCreatureCount());
-						Logger.Info("Items: " + WorldManager.Instance.GetItemCount());
-						Logger.Info("Online time: " + (DateTime.Now - _startTime).ToString(@"hh\:mm\:ss"));
-					}
-					break;
+					_loginServer = new WorldClient();
+					_loginServer.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+					_loginServer.Socket.Connect(WorldConf.LoginHost, WorldConf.LoginPort);
 
-				case "shutdown":
-					{
-						this.StopListening();
+					var buffer = new byte[255];
 
-						// Seconds till players are dced, 10s min.
-						int dcSeconds = 10;
-						if (args.Length > 1)
-							int.TryParse(args[1], out dcSeconds);
-						if (dcSeconds < 10)
-							dcSeconds = 10;
+					// Recv Seed, send back empty packet to get done with the challenge.
+					_loginServer.Socket.Receive(buffer);
+					_loginServer.Crypto = new MabiCrypto(BitConverter.ToUInt32(buffer, 0));
+					_loginServer.Send(new MabiPacket(0, 0));
 
-						// Seconds till the server shuts down.
-						int exitSeconds = dcSeconds + 30;
+					// Challenge end
+					_loginServer.Socket.Receive(buffer);
 
-						// Broadcast a notice.
-						WorldManager.Instance.Broadcast(PacketCreator.Notice("The server will shutdown in " + dcSeconds + " seconds, please log out before that time, for your own safety.", NoticeType.TopRed), SendTargets.All);
+					// Inject login server to the normal data receiving.
+					_loginServer.Socket.BeginReceive(_loginServer.Buffer.Front, 0, _loginServer.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(this.OnReceive), _loginServer);
 
-						// Set a timer when to send the dc request all remaining players.
-						_shutdownTimer1 = new Timer(_ =>
-							{
-								var dc = new MabiPacket(Op.RequestClientDisconnect, Id.World).PutSInt((dcSeconds - (dcSeconds - 10)) * 1000);
-								WorldManager.Instance.Broadcast(dc, SendTargets.All, null);
-							},
-							null, (dcSeconds - 10) * 1000, Timeout.Infinite
-						);
-						Logger.Info("Disconnecting players in " + dcSeconds + " seconds.");
+					// Identify
+					_loginServer.State = ClientState.LoggingIn;
+					_loginServer.Send(new MabiPacket(Op.Internal.ServerIdentify).PutString(BCrypt.HashPassword(WorldConf.Password, BCrypt.GenerateSalt(10))));
 
-						// Set a timer when to exit this server.
-						_shutdownTimer2 = new Timer(_ =>
-							{
-								this.Exit(0, false);
-							},
-							null, exitSeconds * 1000, Timeout.Infinite
-						);
-						Logger.Info("Shutting down in " + exitSeconds + " seconds.");
-					}
-					break;
+					success = true;
+				}
+				catch (Exception ex)
+				{
+					Logger.Error("Unable to connect to login server. ({1})", "xyz", ex.Message);
+					Logger.Info("Trying again in {0} seconds.", LoginTryTime / 1000);
+					Thread.Sleep(LoginTryTime);
+				}
+			}
 
-				case "":
-					break;
+			Logger.Info("Connection to login server esablished.");
+			Logger.Write("");
+		}
 
-				default:
-					Logger.Info("Unkown command.");
-					goto case "help";
+		/// <summary>
+		/// Sends channel status to login server.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		public void SendChannelStatus(object sender, TimeEventArgs args)
+		{
+			// Let's asume 20 users would be a lot for now.
+			// TODO: Option for max users.
+			uint count = WorldManager.Instance.GetCharactersCount();
+			byte stress = (byte)Math.Min(75, Math.Ceiling(75 / 20.0f * count));
+
+			if (_loginServer.State == ClientState.LoggedIn)
+			{
+				_loginServer.Send(
+					new MabiPacket(Op.Internal.ChannelStatus)
+					.PutString(WorldConf.ServerName)
+					.PutString(WorldConf.ChannelName)
+					.PutString(WorldConf.ChannelHost)
+					.PutShort(WorldConf.ChannelPort)
+					.PutByte(stress)
+				);
 			}
 		}
 
-		private void OncePerMinute(object sender, EventArgs args)
+		/// <summary>
+		/// Kills client and checks if we have to reconnect to login,
+		/// if the client in question was the login server's.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="type"></param>
+		protected override void OnClientDisconnect(WorldClient client, Net.DisconnectType type)
 		{
-			uint stress = WorldManager.Instance.GetCharactersCount();
+			base.OnClientDisconnect(client, type);
 
-			// Let's asume 20 users would be a lot for now.
-			// TODO: Option for max users.
-			stress = (uint)Math.Min(75, Math.Ceiling(75 / 20.0f * stress));
-
-			WorldDb.Instance.RegisterChannel(WorldConf.ServerName, WorldConf.ChannelName, WorldConf.ChannelHost, WorldConf.ChannelPort, stress);
+			if (client == _loginServer)
+			{
+				Logger.Info("Lost connection to login server.");
+				this.ConnectToLogin(false);
+			}
 		}
 	}
 }

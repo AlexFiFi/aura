@@ -4,22 +4,22 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Aura.Shared.Const;
 using Aura.Data;
+using Aura.Shared.Const;
 using Aura.Shared.Database;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Database;
+using Aura.World.Events;
 using Aura.World.Player;
 using Aura.World.Scripting;
 using Aura.World.Skills;
 using Aura.World.Util;
 using Aura.World.World;
-using Aura.World.Events;
 
 namespace Aura.World.Network
 {
-	public partial class WorldServer : Server<WorldClient>
+	public partial class WorldServer : BaseServer<WorldClient>
 	{
 		protected override void OnServerStartUp()
 		{
@@ -134,6 +134,9 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.GMCPBan, HandleGMCPBan);
 			this.RegisterPacketHandler(Op.GMCPClose, (c, p) => { }); // TODO: Maybe add this to a gm log.
 			this.RegisterPacketHandler(Op.GMCPNPCList, HandleGMCPListNPCs);
+
+			this.RegisterPacketHandler(Op.Internal.ServerIdentify, HandleServerIdentify);
+			this.RegisterPacketHandler(Op.ChannelStatus, HandleChannelStatus);
 
 			// Temp/Unknown
 			// --------------------------------------------------------------
@@ -2189,8 +2192,6 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			MabiPacket p;
-
 			if (creature.Vehicle == null || !creature.Vehicle.Riders.Contains(creature) || creature.Vehicle.IsFlying)
 			{
 				client.Send(new MabiPacket(Op.PetUnmountR, creature.Id).PutByte(false));
@@ -3303,6 +3304,25 @@ namespace Aura.World.Network
 			foreach (var member in creature.Party.Members)
 				member.Client.Send(new MabiPacket(Op.PartyExpUpdate, member.Id).PutInt((uint)creature.Party.ExpShare));
 			creature.Client.Send(new MabiPacket(Op.PartyChangeExpR, creature.Id).PutByte(1));
+		}
+
+		private void HandleServerIdentify(WorldClient client, MabiPacket packet)
+		{
+			var success = packet.GetBool();
+
+			if (!success)
+			{
+				Logger.Error("Login Server expected a different password.");
+				return;
+			}
+
+			client.State = ClientState.LoggedIn;
+			this.SendChannelStatus(null, null);
+		}
+
+		private void HandleChannelStatus(WorldClient client, MabiPacket packet)
+		{
+			// TODO: Fill channel list
 		}
 	}
 }

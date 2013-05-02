@@ -803,7 +803,7 @@ namespace Aura.World.World
 		{
 			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.reloadscripts"))); // Reloading NPCs...
 
-			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.Npcs, true);
+			ServerUtil.LoadData(WorldConf.DataPath, DataLoad.Npcs, true);
 
 			MabiData.QuestDb.Entries.Clear();
 			WorldManager.Instance.RemoveAllNPCs();
@@ -819,7 +819,7 @@ namespace Aura.World.World
 		{
 			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.reloaddata"))); // Reloading data...
 
-			WorldServer.Instance.LoadData(WorldConf.DataPath, DataLoad.All, true);
+			ServerUtil.LoadData(WorldConf.DataPath, DataLoad.All, true);
 
 			this.Command_reloadscripts(client, creature, null, null);
 

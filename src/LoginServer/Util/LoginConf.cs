@@ -14,19 +14,23 @@ namespace Aura.Login.Util
 	{
 		public static LogLevel ConsoleFilter = LogLevel.None;
 
+		// Inter
+		public static string Password;
+
+		// Data
 		public static string DataPath;
 		public static string Localization;
 
+		// Database
 		public static string DatabaseHost;
 		public static string DatabaseUser;
 		public static string DatabasePass;
 		public static string DatabaseDb;
 
+		// Login
 		public static bool ConsumeCards;
 		public static bool NewAccounts;
-
 		public static uint SpawnRegion, SpawnX, SpawnY;
-
 		public static int DeletionWait;
 
 		private static Configuration _conf;
@@ -44,6 +48,8 @@ namespace Aura.Login.Util
 			// Enable debug regardless of configuration in debug builds.
 			LoginConf.ConsoleFilter &= ~LogLevel.Debug;
 #endif
+
+			LoginConf.Password = _conf.GetString("inter.password", "aura");
 
 			LoginConf.DataPath = _conf.GetString("data_path", "../../data");
 			LoginConf.Localization = _conf.GetString("localization", "us");

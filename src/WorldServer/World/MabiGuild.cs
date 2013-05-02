@@ -1,5 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see licence.txt in the main folder
+
+using System;
 using Aura.Data;
 using Aura.Shared.Const;
 using Aura.World.Database;

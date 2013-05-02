@@ -18,7 +18,7 @@ namespace Aura.Shared.Network
 
 		private List<object> _elements = new List<object>();
 
-		private byte[] _buffer;
+		public byte[] _buffer;
 		private int _ptr;
 
 		private bool _new = false;
@@ -377,7 +377,7 @@ namespace Aura.Shared.Network
 				{
 					if (this.Type == PacketType.Normal)
 					{
-						result = new byte[6 + headerLen + bodyLen];
+						result = new byte[6 + headerLen + bodyLen + 4];
 						result[ptr++] = 0x88;
 						Array.Copy(BitConverter.GetBytes(result.Length), 0, result, ptr, 4);
 						ptr += 4;

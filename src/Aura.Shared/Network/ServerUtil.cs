@@ -11,27 +11,15 @@ using Aura.Shared.Util;
 namespace Aura.Shared.Network
 {
 	/// <summary>
-	/// This class derives from the external Server class and extends it with
-	/// all methods that are required by all servers.
+	/// Includes methods needed for all servers, mainly used on start up.
 	/// </summary>
-	/// <typeparam name="TClient"></typeparam>
-	public abstract class Server<TClient> : Aura.Net.Server<TClient> where TClient : Client, new()
+	public static class ServerUtil
 	{
-		protected Dictionary<uint, PacketHandlerFunc> _handlers;
-
-		protected DateTime _startTime = DateTime.Now;
-
-		public Server()
-			: base()
-		{
-			_handlers = new Dictionary<uint, PacketHandlerFunc>();
-		}
-
 		/// <summary>
 		/// Prints Aura's standard header.
 		/// </summary>
 		/// <param name="title">Name of this server. Example: "Login Server"</param>
-		public void WriteHeader(string title = null, ConsoleColor color = ConsoleColor.DarkGray)
+		public static void WriteHeader(string title = null, ConsoleColor color = ConsoleColor.DarkGray)
 		{
 			if (title != null)
 				Console.Title = "Aura : " + title;
@@ -57,7 +45,7 @@ namespace Aura.Shared.Network
 		/// Waits for the return key, and closes the application afterwards.
 		/// </summary>
 		/// <param name="exitCode"></param>
-		protected void Exit(int exitCode = 0, bool wait = true)
+		public static void Exit(int exitCode = 0, bool wait = true)
 		{
 			if (wait)
 			{
@@ -76,7 +64,7 @@ namespace Aura.Shared.Network
 		/// <param name="user"></param>
 		/// <param name="pass"></param>
 		/// <param name="db"></param>
-		protected void TryConnectToDatabase(string host, string user, string pass, string db)
+		public static void TryConnectToDatabase(string host, string user, string pass, string db)
 		{
 			try
 			{
@@ -86,7 +74,7 @@ namespace Aura.Shared.Network
 			catch (Exception ex)
 			{
 				Logger.Error("Unable to connect to database. ({0})", ex.Message);
-				this.Exit(1);
+				Exit(1);
 			}
 		}
 
@@ -99,14 +87,14 @@ namespace Aura.Shared.Network
 		/// <param name="dataPath"></param>
 		/// <param name="toLoad"></param>
 		/// <param name="reload"></param>
-		public void LoadData(string dataPath, DataLoad toLoad = DataLoad.All, bool reload = false)
+		public static void LoadData(string dataPath, DataLoad toLoad = DataLoad.All, bool reload = false)
 		{
 			try
 			{
 				if ((toLoad & DataLoad.Spawns) != 0)
 				{
 					MabiData.SpawnDb.Load(dataPath + "/db/spawns.txt", reload);
-					this.PrintDataWarnings(MabiData.SpawnDb.Warnings);
+					PrintDataWarnings(MabiData.SpawnDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.SpawnDb.Count + " entries from spawns.txt.");
 				}
@@ -114,18 +102,18 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Races) != 0)
 				{
 					MabiData.RaceSkillDb.Load(dataPath + "/db/race_skills.txt", reload);
-					this.PrintDataWarnings(MabiData.RaceSkillDb.Warnings);
+					PrintDataWarnings(MabiData.RaceSkillDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.RaceSkillDb.Count + " entries from race_skills.txt.");
 
 					MabiData.SpeedDb.Load(dataPath + "/db/speed.txt", reload);
-					this.PrintDataWarnings(MabiData.SpeedDb.Warnings);
+					PrintDataWarnings(MabiData.SpeedDb.Warnings);
 
 					MabiData.FlightDb.Load(dataPath + "/db/flight.txt", reload);
-					this.PrintDataWarnings(MabiData.FlightDb.Warnings);
+					PrintDataWarnings(MabiData.FlightDb.Warnings);
 
 					MabiData.RaceDb.Load(dataPath + "/db/races.txt", reload);
-					this.PrintDataWarnings(MabiData.RaceDb.Warnings);
+					PrintDataWarnings(MabiData.RaceDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.RaceDb.Count + " entries from races.txt.");
 				}
@@ -133,7 +121,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.StatsBase) != 0)
 				{
 					MabiData.StatsBaseDb.Load(dataPath + "/db/stats_base.txt", reload);
-					this.PrintDataWarnings(MabiData.StatsBaseDb.Warnings);
+					PrintDataWarnings(MabiData.StatsBaseDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.StatsBaseDb.Count + " entries from stats_base.txt.");
 				}
@@ -141,7 +129,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.StatsLevel) != 0)
 				{
 					MabiData.StatsLevelUpDb.Load(dataPath + "/db/stats_levelup.txt", reload);
-					this.PrintDataWarnings(MabiData.StatsLevelUpDb.Warnings);
+					PrintDataWarnings(MabiData.StatsLevelUpDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.StatsLevelUpDb.Count + " entries from stats_levelup.txt.");
 				}
@@ -149,7 +137,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Motions) != 0)
 				{
 					MabiData.MotionDb.Load(dataPath + "/db/motions.txt", reload);
-					this.PrintDataWarnings(MabiData.MotionDb.Warnings);
+					PrintDataWarnings(MabiData.MotionDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.MotionDb.Count + " entries from motions.txt.");
 				}
@@ -157,10 +145,10 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Cards) != 0)
 				{
 					MabiData.CharCardSetDb.Load(dataPath + "/db/charcardsets.txt", reload);
-					this.PrintDataWarnings(MabiData.CharCardSetDb.Warnings);
+					PrintDataWarnings(MabiData.CharCardSetDb.Warnings);
 
 					MabiData.CharCardDb.Load(dataPath + "/db/charcards.txt", reload);
-					this.PrintDataWarnings(MabiData.CharCardDb.Warnings);
+					PrintDataWarnings(MabiData.CharCardDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.CharCardSetDb.Count + " entries from charcardsets.txt.");
 				}
@@ -168,7 +156,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Colors) != 0)
 				{
 					MabiData.ColorMapDb.Load(dataPath + "/db/colormap.dat", reload);
-					this.PrintDataWarnings(MabiData.ColorMapDb.Warnings);
+					PrintDataWarnings(MabiData.ColorMapDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.ColorMapDb.Count + " entries from colormap.dat.");
 				}
@@ -176,7 +164,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Items) != 0)
 				{
 					MabiData.ItemDb.Load(dataPath + "/db/items.txt", reload);
-					this.PrintDataWarnings(MabiData.ItemDb.Warnings);
+					PrintDataWarnings(MabiData.ItemDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.ItemDb.Count + " entries from items.txt.");
 				}
@@ -184,10 +172,10 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Skills) != 0)
 				{
 					MabiData.SkillRankDb.Load(dataPath + "/db/skill_ranks.txt", reload);
-					this.PrintDataWarnings(MabiData.SkillRankDb.Warnings);
+					PrintDataWarnings(MabiData.SkillRankDb.Warnings);
 
 					MabiData.SkillDb.Load(dataPath + "/db/skills.txt", reload);
-					this.PrintDataWarnings(MabiData.SkillDb.Warnings);
+					PrintDataWarnings(MabiData.SkillDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.SkillDb.Count + " entries from skills.txt.");
 				}
@@ -195,12 +183,12 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Regions) != 0)
 				{
 					MabiData.MapDb.Load(dataPath + "/db/maps.txt", reload);
-					this.PrintDataWarnings(MabiData.MapDb.Warnings);
+					PrintDataWarnings(MabiData.MapDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.MapDb.Count + " entries from maps.txt.");
 
 					MabiData.RegionDb.Load(dataPath + "/db/regioninfo.dat", reload);
-					this.PrintDataWarnings(MabiData.RegionDb.Warnings);
+					PrintDataWarnings(MabiData.RegionDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.RegionDb.Count + " entries from regioninfo.dat.");
 				}
@@ -208,7 +196,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Shamala) != 0)
 				{
 					MabiData.ShamalaDb.Load(dataPath + "/db/shamala.txt", reload);
-					this.PrintDataWarnings(MabiData.ShamalaDb.Warnings);
+					PrintDataWarnings(MabiData.ShamalaDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.ShamalaDb.Count + " entries from shamala.txt.");
 				}
@@ -216,7 +204,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.PropDrops) != 0)
 				{
 					MabiData.PropDropDb.Load(dataPath + "/db/prop_drops.txt", reload);
-					this.PrintDataWarnings(MabiData.PropDropDb.Warnings);
+					PrintDataWarnings(MabiData.PropDropDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.PropDropDb.Count + " entries from prop_drops.txt.");
 				}
@@ -224,7 +212,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Exp) != 0)
 				{
 					MabiData.ExpDb.Load(dataPath + "/db/exp.txt", reload);
-					this.PrintDataWarnings(MabiData.PropDropDb.Warnings);
+					PrintDataWarnings(MabiData.PropDropDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.ExpDb.Count + " levels from exp.txt.");
 				}
@@ -232,7 +220,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Pets) != 0)
 				{
 					MabiData.PetDb.Load(dataPath + "/db/pets.txt", reload);
-					this.PrintDataWarnings(MabiData.PetDb.Warnings);
+					PrintDataWarnings(MabiData.PetDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.PetDb.Count + " entries from pets.txt.");
 				}
@@ -240,7 +228,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Weather) != 0)
 				{
 					MabiData.WeatherDb.Load(dataPath + "/db/weather.txt", reload);
-					this.PrintDataWarnings(MabiData.WeatherDb.Warnings);
+					PrintDataWarnings(MabiData.WeatherDb.Warnings);
 
 					Logger.Info("Done loading " + MabiData.WeatherDb.Count + " entries from weather.txt.");
 				}
@@ -248,12 +236,12 @@ namespace Aura.Shared.Network
 			catch (FileNotFoundException ex)
 			{
 				Logger.Error(ex.Message);
-				this.Exit(1);
+				Exit(1);
 			}
 			catch (Exception ex)
 			{
 				Logger.Exception(ex, null, true);
-				this.Exit(1);
+				Exit(1);
 			}
 		}
 
@@ -262,7 +250,7 @@ namespace Aura.Shared.Network
 		/// loading data.
 		/// </summary>
 		/// <param name="warnings"></param>
-		protected void PrintDataWarnings(List<DatabaseWarningException> warnings)
+		public static void PrintDataWarnings(List<DatabaseWarningException> warnings)
 		{
 			foreach (var ex in warnings)
 			{
@@ -275,7 +263,7 @@ namespace Aura.Shared.Network
 		/// which can be overriden by deriving servers.
 		/// </summary>
 		/// <param name="stopCommand"></param>
-		protected virtual void ReadCommands(string stopCommand = "")
+		public static void ReadCommands(Action<string[], string> parseCommand)
 		{
 			var input = string.Empty;
 
@@ -283,205 +271,19 @@ namespace Aura.Shared.Network
 			{
 				input = Console.ReadLine();
 				var splitted = input.Split(' ');
-				this.ParseCommand(splitted, input);
+				parseCommand(splitted, input);
 			}
-			while (input != stopCommand);
+			while (input != "exit");
 		}
 
-		/// <summary>
-		/// Called whenever a command is used. Should contain the handling.
-		/// </summary>
-		/// <param name="args"></param>
-		/// <param name="command"></param>
-		protected virtual void ParseCommand(string[] args, string command)
-		{ }
-
-		/// <summary>
-		/// This method should contain the code to initiate and start the server.
-		/// </summary>
-		/// <param name="args"></param>
-		public abstract void Run(string[] args);
-
-		/// <summary>
-		/// Sends seed to the newly connected client.
-		/// </summary>
-		/// <param name="client"></param>
-		protected override void OnClientAccepted(TClient client)
+		public static void CheckInterPassword(string pass)
 		{
-			Logger.Info("Connection established from '{0}'.", client.Address);
-
-			client.Socket.Send(BitConverter.GetBytes(client.Crypto.Seed));
-		}
-
-		/// <summary>
-		/// Called whenever a connection is closed.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="type"></param>
-		protected override void OnClientDisconnect(TClient client, Aura.Net.DisconnectType type)
-		{
-			if (type == Aura.Net.DisconnectType.ClosedByClient)
-				// Connection closed normally.
-				Logger.Info("Connection closed from '{0}'.", client.Address);
-			else
-				// Connection lost unexpectedly (process killed, cable pulled, etc.)
-				Logger.Info("Connection lost from '{0}'.", client.Address);
-
-			client.Kill();
-		}
-
-		/// <summary>
-		/// Reads data from the TCP stream and passes it to HandleBuffer,
-		/// once a full packet was received.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="bytesReceived"></param>
-		/// <returns></returns>
-		public override bool ReadBuffer(TClient client, int bytesReceived)
-		{
-			int bytesRead = 0;
-
-			while (bytesRead < bytesReceived)
+			if (pass == "aura")
 			{
-				// New packet
-				if (client.Buffer.Remaining < 1)
-					client.Buffer.Remaining = this.GetPacketLength(client.Buffer.Front, bytesRead);
-
-				// Copy 1 byte from front to back buffer.
-				client.Buffer.Back[client.Buffer.Ptr++] = client.Buffer.Front[bytesRead++];
-
-				// Check if back buffer contains full packet.
-				if (--client.Buffer.Remaining > 0)
-					continue;
-
-				// Preparations for the buffer.
-				this.PrepareBuffer(ref client.Buffer.Back, client.Buffer.Ptr);
-
-				// Turn buffer into packet and handle it.
-				this.HandleBuffer(client, client.Buffer.Back);
-
-				client.Buffer.InitBB();
-			}
-
-			return (client.State < ClientState.Dead);
-		}
-
-		/// <summary>
-		/// Reads the length of a new packet from the buffer.
-		/// </summary>
-		/// <param name="buffer"></param>
-		/// <param name="ptr"></param>
-		/// <returns></returns>
-		protected virtual int GetPacketLength(byte[] buffer, int ptr)
-		{
-			// <0x??><int:length><...>
-			return
-				(buffer[ptr + 1] << 0) +
-				(buffer[ptr + 2] << 8) +
-				(buffer[ptr + 3] << 16) +
-				(buffer[ptr + 4] << 24);
-		}
-
-		/// <summary>
-		/// Cuts off 4 byte value found on normal Mabi packets
-		/// and updates packet length.
-		/// </summary>
-		/// <param name="buffer"></param>
-		/// <param name="length"></param>
-		protected virtual void PrepareBuffer(ref byte[] buffer, int length)
-		{
-			// Cut 4 bytes at the end (some checksum?)
-			Array.Resize(ref buffer, length -= 4);
-
-			// Write new length into the buffer.
-			BitConverter.GetBytes(length).CopyTo(buffer, 1);
-		}
-
-		/// <summary>
-		/// Handles incoming data and passes actual packets that have to
-		/// be handled to HandlePacket.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="buffer"></param>
-		protected virtual void HandleBuffer(TClient client, byte[] buffer)
-		{
-			// Decrypt packet if crypt flag isn't 3.
-			if (buffer[5] != 0x03)
-				client.Crypto.DecodePacket(ref buffer);
-
-			// Flag 1 is a ping or something, encode and send back.
-			if (buffer[5] == 0x01)
-			{
-				client.Crypto.EncodePacket(ref buffer);
-				client.Socket.Send(buffer);
-			}
-			else
-			{
-				// First packet, skip challenge and send success msg.
-				if (client.State == ClientState.Check)
-				{
-					client.Send(new byte[] { 0x88, 0x07, 0x00, 0x00, 0x00, 0x00, 0x07 });
-
-					client.State = ClientState.LoggingIn;
-				}
-				// Actual packets
-				else
-				{
-					var packet = new MabiPacket(buffer);
-					this.HandlePacket(client, packet);
-				}
+				Logger.Warning("Using the default inter server password is risky, please change it in 'conf/inter.conf'.");
+				//Exit(1);
 			}
 		}
-
-		/// <summary>
-		/// Passes packet to the respective handler, depending on the op.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="packet"></param>
-		protected virtual void HandlePacket(TClient client, MabiPacket packet)
-		{
-			try
-			{
-				var handler = this.GetPacketHandler(packet.Op);
-				if (handler != null)
-				{
-					handler.Invoke(client, packet);
-				}
-				else
-				{
-					Logger.Unimplemented("Unhandled packet: " + packet.Op.ToString("X"));
-				}
-			}
-			catch (Exception ex)
-			{
-				Logger.Exception(ex, true, "There has been a problem while handling '{0}'.", packet.Op.ToString("X"));
-			}
-		}
-
-		/// <summary>
-		/// Adds the handler.
-		/// </summary>
-		/// <param name="op"></param>
-		/// <param name="handler"></param>
-		protected void RegisterPacketHandler(uint op, PacketHandlerFunc handler)
-		{
-			_handlers.Add(op, handler);
-		}
-
-		/// <summary>
-		/// Retrieves a packet handler from the list of registered handlers.
-		/// </summary>
-		/// <param name="op"></param>
-		/// <returns>Returns null if there is no handler for this op.</returns>
-		public PacketHandlerFunc GetPacketHandler(uint op)
-		{
-			if (_handlers.ContainsKey(op))
-				return _handlers[op];
-
-			return null;
-		}
-
-		public delegate void PacketHandlerFunc(TClient client, MabiPacket packet);
 	}
 
 	/// <summary>

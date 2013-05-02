@@ -10,6 +10,9 @@ namespace Aura.World.Util
 	{
 		public static LogLevel ConsoleFilter;
 
+		// Inter
+		public static string Password;
+
 		// Data
 		public static string DataPath;
 		public static string Localization;
@@ -25,6 +28,8 @@ namespace Aura.World.Util
 		public static string ChannelName;
 		public static string ChannelHost;
 		public static ushort ChannelPort;
+		public static string LoginHost;
+		public static ushort LoginPort;
 
 		// Commands
 		public static char CommandPrefix;
@@ -54,7 +59,6 @@ namespace Aura.World.Util
 		public static bool EnableVisual;
 		public static int MailExpires;
 		public static bool EnableItemShop;
-
 		public static int ChalkOnDeath;
 
 		// Skills
@@ -83,6 +87,8 @@ namespace Aura.World.Util
 			WorldConf.ConsoleFilter &= ~LogLevel.Debug;
 #endif
 
+			WorldConf.Password = _conf.GetString("inter.password", "aura");
+
 			WorldConf.DataPath = _conf.GetString("data_path", "../../data");
 			WorldConf.Localization = _conf.GetString("localization", "us");
 
@@ -95,6 +101,9 @@ namespace Aura.World.Util
 			WorldConf.ChannelName = _conf.GetString("world_channelname", "Ch1");
 			WorldConf.ChannelHost = _conf.GetString("world_channelhost", "127.0.0.1");
 			WorldConf.ChannelPort = (ushort)_conf.GetInt("world_channelport", 11020);
+
+			WorldConf.LoginHost = _conf.GetString("world_loginhost", "127.0.0.1");
+			WorldConf.LoginPort = (ushort)_conf.GetInt("world_loginport", 11000);
 
 			WorldConf.CommandPrefix = _conf.GetString("commands_prefix", ">")[0];
 

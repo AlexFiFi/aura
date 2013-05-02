@@ -2,26 +2,34 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using Aura.Data;
+using Aura.Login.Util;
+using Aura.Net;
+using Aura.Shared.Const;
 using Aura.Shared.Database;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
-using Aura.Login.Database;
-using Aura.Login.Util;
-using Aura.Shared.Const;
-using Aura.Data;
 
 namespace Aura.Login.Network
 {
-	public partial class LoginServer : Server<LoginClient>
+	public partial class LoginServer : BaseServer<LoginClient>
 	{
 		public static readonly LoginServer Instance = new LoginServer();
 		static LoginServer() { }
 		private LoginServer() : base() { }
 
+		private const int ChannelUpdateInterval = 30 * 1000;
+		private Timer _channelUpdateTimer;
+
+		private readonly Dictionary<string, MabiServer> ServerList = new Dictionary<string, MabiServer>();
+		private List<LoginClient> ChannelClients = new List<LoginClient>();
+
 		public override void Run(string[] args)
 		{
-			this.WriteHeader("Login Server", ConsoleColor.Magenta);
+			ServerUtil.WriteHeader("Login Server", ConsoleColor.Magenta);
 
 			// Logger
 			// --------------------------------------------------------------
@@ -51,6 +59,10 @@ namespace Aura.Login.Network
 
 			Logger.Hide = LoginConf.ConsoleFilter;
 
+			// Security checks
+			// --------------------------------------------------------------
+			ServerUtil.CheckInterPassword(LoginConf.Password);
+
 			// Localization
 			// --------------------------------------------------------------
 			Logger.Info("Loading localization files (" + LoginConf.Localization + ")...");
@@ -66,12 +78,12 @@ namespace Aura.Login.Network
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");
-			this.TryConnectToDatabase(LoginConf.DatabaseHost, LoginConf.DatabaseUser, LoginConf.DatabasePass, LoginConf.DatabaseDb);
+			ServerUtil.TryConnectToDatabase(LoginConf.DatabaseHost, LoginConf.DatabaseUser, LoginConf.DatabasePass, LoginConf.DatabaseDb);
 
 			// Data
 			// --------------------------------------------------------------
 			Logger.Info("Loading data files...");
-			this.LoadData(LoginConf.DataPath, DataLoad.LoginServer);
+			ServerUtil.LoadData(LoginConf.DataPath, DataLoad.LoginServer);
 
 			// Configuration 2
 			// --------------------------------------------------------------
@@ -97,14 +109,18 @@ namespace Aura.Login.Network
 			catch (Exception ex)
 			{
 				Logger.Exception(ex, "Unable to set up socket; perhaps you're already running a server?");
-				this.Exit(1);
+				ServerUtil.Exit(1);
 			}
 
+			// Client update timer
+			// --------------------------------------------------------------
+			_channelUpdateTimer = new Timer(_ => this.SendChannelUpdate(), null, 0, ChannelUpdateInterval);
+
 			Logger.Info("Type 'help' for a list of console commands.");
-			this.ReadCommands();
+			ServerUtil.ReadCommands(this.ParseCommand);
 		}
 
-		protected override void ParseCommand(string[] args, string command)
+		protected void ParseCommand(string[] args, string command)
 		{
 			switch (args[0])
 			{
@@ -201,6 +217,47 @@ namespace Aura.Login.Network
 				default:
 					Logger.Info("Unkown command.");
 					goto case "help";
+			}
+		}
+
+		/// <summary>
+		/// Kills client connection and checks if this was a channel.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="type"></param>
+		protected override void OnClientDisconnect(LoginClient client, DisconnectType type)
+		{
+			base.OnClientDisconnect(client, type);
+
+			if (this.ChannelClients.Contains(client))
+			{
+				lock (this.ChannelClients)
+					this.ChannelClients.Remove(client);
+			}
+		}
+
+		/// <summary>
+		/// Sends server/channel status update to all connected clients,
+		/// incl channels.
+		/// </summary>
+		public void SendChannelUpdate()
+		{
+			var p = new MabiPacket(Op.ChannelStatus, Id.Login);
+			p.PutByte((byte)this.ServerList.Count);
+			foreach (var server in this.ServerList.Values)
+				server.AddToPacket(p);
+			this.Broadcast(p);
+		}
+
+		/// <summary>
+		/// Sends packet to all connected clients.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(MabiPacket packet)
+		{
+			foreach (var client in _clients)
+			{
+				client.Send(packet);
 			}
 		}
 	}

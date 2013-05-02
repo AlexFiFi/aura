@@ -9,7 +9,7 @@ using Aura.Msgr.Util;
 
 namespace Aura.Msgr.Network
 {
-	public partial class MsgrServer : Server<MsgrClient>
+	public partial class MsgrServer : BaseServer<MsgrClient>
 	{
 		public static readonly MsgrServer Instance = new MsgrServer();
 		static MsgrServer() { }
@@ -17,7 +17,7 @@ namespace Aura.Msgr.Network
 
 		public override void Run(string[] args)
 		{
-			this.WriteHeader("Msgr Server", ConsoleColor.DarkCyan);
+			ServerUtil.WriteHeader("Msgr Server", ConsoleColor.DarkCyan);
 
 			// Logger
 			// --------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace Aura.Msgr.Network
 			// Database
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");
-			this.TryConnectToDatabase(MsgrConf.DatabaseHost, MsgrConf.DatabaseUser, MsgrConf.DatabasePass, MsgrConf.DatabaseDb);
+			ServerUtil.TryConnectToDatabase(MsgrConf.DatabaseHost, MsgrConf.DatabaseUser, MsgrConf.DatabasePass, MsgrConf.DatabaseDb);
 
 			// Starto
 			// --------------------------------------------------------------
@@ -65,12 +65,12 @@ namespace Aura.Msgr.Network
 			catch (Exception ex)
 			{
 				Logger.Exception(ex, "Unable to set up socket; perhaps you're already running a server?");
-				this.Exit(1);
+				ServerUtil.Exit(1);
 			}
 
 			//Logger.Info("Type 'help' for a list of console commands.");
 			// Command ideas: "Newsletters"
-			this.ReadCommands();
+			while (Console.ReadLine() != "exit") ;
 		}
 
 		protected override void OnClientAccepted(MsgrClient client)

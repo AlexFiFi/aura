@@ -9,7 +9,7 @@ using Aura.Msgr.Database;
 
 namespace Aura.Msgr.Network
 {
-	public partial class MsgrServer : Server<MsgrClient>
+	public partial class MsgrServer : BaseServer<MsgrClient>
 	{
 		protected override void OnServerStartUp()
 		{

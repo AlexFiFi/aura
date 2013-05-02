@@ -262,43 +262,6 @@ namespace Aura.Shared.Database
 		}
 
 		/// <summary>
-		/// Reads all servers, incl. channels, from the database.
-		/// </summary>
-		/// <returns></returns>
-		public List<MabiServers> GetServerList()
-		{
-			using (var conn = this.GetConnection())
-			{
-				var result = new List<MabiServers>();
-
-				var mc = new MySqlCommand("SELECT * FROM channels ORDER BY name ASC", conn);
-				using (var reader = mc.ExecuteReader())
-				{
-					while (reader.Read())
-					{
-						var serverName = reader.GetString("server");
-
-						// Channel servers will update "heartbeat" regularly.
-						// If the value hasn't been updated recently, assume they died in a fire.
-						var state = (ChannelState)(DateTime.Now.Subtract(reader.GetDateTime("heartbeat")).TotalMinutes >= 2 ? (byte)0 : reader.GetByte("state"));
-						var events = (ChannelEvent)reader.GetByte("events");
-						var stress = reader.GetByte("stress");
-
-						var newChannel = new MabiChannel(reader.GetString("name"), reader.GetString("ip"), reader.GetUInt16("port"), state, events, stress);
-
-						// Add server if it's new to us
-						if (!result.Exists(a => a.Name == serverName))
-							result.Add(new MabiServers(serverName));
-
-						result.First(a => a.Name == serverName).Channels.Add(newChannel);
-					}
-				}
-
-				return result;
-			}
-		}
-
-		/// <summary>
 		/// Adds a new card with the given type and race.
 		/// Returns new card id.
 		/// </summary>

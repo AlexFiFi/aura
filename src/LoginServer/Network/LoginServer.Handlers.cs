@@ -2,20 +2,20 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Aura.Data;
+using Aura.Login.Database;
+using Aura.Login.Util;
 using Aura.Shared.Const;
 using Aura.Shared.Database;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
-using Aura.Login.Database;
-using Aura.Login.Util;
-using Aura.Data;
-using System.Collections.Generic;
 
 namespace Aura.Login.Network
 {
-	public partial class LoginServer : Server<LoginClient>
+	public partial class LoginServer : BaseServer<LoginClient>
 	{
 		protected override void OnServerStartUp()
 		{
@@ -46,6 +46,9 @@ namespace Aura.Login.Network
 
 			this.RegisterPacketHandler(Op.AcceptGift, HandleAcceptGift);
 			this.RegisterPacketHandler(Op.RefuseGift, HandleRefuseGift);
+
+			this.RegisterPacketHandler(Op.Internal.ChannelStatus, HandleChannelStatus);
+			this.RegisterPacketHandler(Op.Internal.ServerIdentify, HandleServerIdentify);
 		}
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)
@@ -197,27 +200,9 @@ namespace Aura.Login.Network
 
 			// Servers
 			// --------------------------------------------------------------
-			var servers = MabiDb.Instance.GetServerList();
-			response.PutByte((byte)servers.Count);
-			foreach (var server in servers)
-			{
-				response.PutString(server.Name);
-				response.PutShort(0); // Server type?
-				response.PutShort(0);
-				response.PutByte(1);
-
-				// Channels
-				// ----------------------------------------------------------
-				response.PutInt((uint)server.Channels.Count());
-				foreach (var channel in server.Channels)
-				{
-					response.PutString(channel.Name);
-					response.PutInt((uint)channel.State);
-					response.PutInt((uint)channel.Events);
-					response.PutInt(0); // 1 for Housing? Hidden?
-					response.PutShort(channel.Stress);
-				}
-			}
+			response.PutByte((byte)this.ServerList.Count);
+			foreach (var server in this.ServerList.Values)
+				server.AddToPacket(response);
 
 			// Account Info
 			// --------------------------------------------------------------
@@ -247,7 +232,6 @@ namespace Aura.Login.Network
 			var response = new MabiPacket(Op.LoginR, Id.Login);
 			response.PutByte((byte)result);
 			client.Send(response);
-			return;
 		}
 
 		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, Banned = 101 }
@@ -511,16 +495,15 @@ namespace Aura.Login.Network
 			var unk2 = packet.GetInt();
 			var characterId = packet.GetLong();
 
-			var servers = MabiDb.Instance.GetServerList();
-			MabiServers server = null;
+			MabiServer server = null;
 			MabiChannel channel = null;
 
-			if (servers.Count > 0)
+			if (this.ServerList.Count > 0)
 			{
-				server = servers.FirstOrDefault(a => a.Name == serverName);
+				server = this.ServerList.Values.FirstOrDefault(a => a.Name == serverName);
 				if (server != null)
 				{
-					channel = server.Channels.FirstOrDefault(a => a.Name == channelName);
+					channel = server.Channels.Values.FirstOrDefault(a => a.Name == channelName);
 				}
 			}
 
@@ -880,6 +863,53 @@ namespace Aura.Login.Network
 			client.Account.AddToPacket(response);
 
 			client.Send(response);
+		}
+
+		private void HandleServerIdentify(LoginClient client, MabiPacket packet)
+		{
+			var pass = packet.GetString();
+
+			if (!BCrypt.CheckPassword(LoginConf.Password, pass))
+			{
+				client.Send(new MabiPacket(Op.Internal.ServerIdentify).PutByte(false));
+
+				Logger.Warning("Incorrect password from '{0}'.", client.IP);
+				client.Kill();
+				return;
+			}
+
+			client.State = ClientState.LoggedIn;
+			lock (this.ChannelClients)
+				this.ChannelClients.Add(client);
+
+			client.Send(new MabiPacket(Op.Internal.ServerIdentify).PutByte(true));
+		}
+
+		private void HandleChannelStatus(LoginClient client, MabiPacket packet)
+		{
+			if (client.State != ClientState.LoggedIn)
+				return;
+
+			var serverName = packet.GetString();
+			var channelName = packet.GetString();
+			var host = packet.GetString();
+			var port = packet.GetShort();
+			var stress = packet.GetByte();
+
+			if (!this.ServerList.ContainsKey(serverName))
+			{
+				this.ServerList[serverName] = new MabiServer(serverName);
+				Logger.Info("Added available server: {0}", serverName);
+			}
+
+			if (!this.ServerList[serverName].Channels.ContainsKey(channelName))
+			{
+				this.ServerList[serverName].Channels[channelName] = new MabiChannel(channelName, host, port, ChannelState.Normal, ChannelEvent.Normal);
+				Logger.Info("Added available channel: {0} @ {1}", channelName, serverName);
+			}
+
+			this.ServerList[serverName].Channels[channelName].Stress = stress;
+			this.ServerList[serverName].Channels[channelName].LastUpdate = DateTime.Now;
 		}
 	}
 }

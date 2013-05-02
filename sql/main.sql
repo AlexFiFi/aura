@@ -16,18 +16,6 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   PRIMARY KEY (`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `channels` (
-  `server` varchar(50) NOT NULL,
-  `name` varchar(12) NOT NULL,
-  `ip` varchar(16) NOT NULL,
-  `port` int(11) NOT NULL,
-  `heartbeat` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `state` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `events` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `stress` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`server`,`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
 CREATE TABLE IF NOT EXISTS `cards` (
   `cardId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `accountId` varchar(50) NOT NULL,
