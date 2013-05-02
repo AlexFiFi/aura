@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Aura.Data;
 using Aura.Login.Util;
@@ -258,6 +259,20 @@ namespace Aura.Login.Network
 			foreach (var client in _clients)
 			{
 				client.Send(packet);
+			}
+		}
+
+		/// <summary>
+		/// Sends packet to all channels. If server is set, it's only sent
+		/// to all channels in that server.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void BroadcastChannels(MabiPacket packet, string server = null)
+		{
+			foreach (var client in _clients.Where(a => a.Account != null))
+			{
+				if (server == null || client.Account.Name.EndsWith("@" + server))
+					client.Send(packet);
 			}
 		}
 	}

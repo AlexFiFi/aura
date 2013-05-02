@@ -47,8 +47,8 @@ namespace Aura.Login.Network
 			this.RegisterPacketHandler(Op.AcceptGift, HandleAcceptGift);
 			this.RegisterPacketHandler(Op.RefuseGift, HandleRefuseGift);
 
-			this.RegisterPacketHandler(Op.Internal.ChannelStatus, HandleChannelStatus);
 			this.RegisterPacketHandler(Op.Internal.ServerIdentify, HandleServerIdentify);
+			this.RegisterPacketHandler(Op.Internal.ChannelStatus, HandleChannelStatus);
 		}
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)
@@ -921,6 +921,7 @@ namespace Aura.Login.Network
 			}
 
 			client.State = ClientState.LoggedIn;
+
 			lock (this.ChannelClients)
 				this.ChannelClients.Add(client);
 
@@ -946,8 +947,12 @@ namespace Aura.Login.Network
 
 			if (!this.ServerList[serverName].Channels.ContainsKey(channelName))
 			{
+				client.Account = new Account();
+				client.Account.Name = channelName + "@" + serverName;
+
 				this.ServerList[serverName].Channels[channelName] = new MabiChannel(channelName, host, port, ChannelState.Normal, ChannelEvent.Normal);
-				Logger.Info("Added available channel: {0} @ {1}", channelName, serverName);
+				Logger.Info("Added available channel: {0}", client.Account.Name);
+
 			}
 
 			this.ServerList[serverName].Channels[channelName].Stress = stress;
