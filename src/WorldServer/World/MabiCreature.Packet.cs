@@ -98,7 +98,7 @@ namespace Aura.World.World
 			// --------------------------------------------------------------
 			if (this.Guild != null)
 			{
-				packet.PutLong(this.Guild.WorldId);                   // GuildID
+				packet.PutLong(this.Guild.Id);                   // GuildID
 				packet.PutString(this.Guild.Name);                // GuildName
 				packet.PutInt(this.GuildMemberInfo.MemberRank);	                 // MemberClass
 				packet.PutByte(0);

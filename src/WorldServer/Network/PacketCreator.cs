@@ -200,7 +200,7 @@ namespace Aura.World.Network
 		{
 			var character = target as MabiPC;
 			return new MabiPacket(Op.GuildMessage, target.Id)
-				.PutLong(guild.WorldId)
+				.PutLong(guild.Id)
 				.PutString(character == null ? "Aura" : character.Server)
 				.PutLong(target.Id)
 				.PutString(guild.Name)
@@ -226,7 +226,7 @@ namespace Aura.World.Network
 			{
 				p.PutInt(1);
 				p.PutString(guild.Name);
-				p.PutLong(guild.WorldId);
+				p.PutLong(guild.Id);
 				p.PutInt((uint)rank); // (5) Member Rank?
 				p.PutByte(0);
 			}

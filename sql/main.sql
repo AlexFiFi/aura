@@ -4,6 +4,7 @@ USE `aura`;
 CREATE TABLE IF NOT EXISTS `accounts` (
   `accountId` varchar(50) NOT NULL,
   `password` varchar(64) NOT NULL,
+  `secPassword` VARCHAR(64) NULL DEFAULT NULL,
   `authority` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `creation` datetime DEFAULT NULL,
   `lastlogin` datetime DEFAULT NULL,
@@ -208,6 +209,44 @@ CREATE TABLE IF NOT EXISTS `quest_progress` (
   KEY `questId` (`questId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `guilds` (
+  `guildId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(12) NOT NULL,
+  `intro` varchar(500) NOT NULL,
+  `welcome` varchar(100) NOT NULL,
+  `leaving` varchar(100) NOT NULL,
+  `rejection` varchar(100) NOT NULL,
+  `level` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `region` bigint(10) unsigned NOT NULL,
+  `x` bigint(10) unsigned NOT NULL,
+  `y` bigint(10) unsigned NOT NULL,
+  `rotation` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `gp` int(10) unsigned NOT NULL DEFAULT '0',
+  `gold` int(10) unsigned NOT NULL DEFAULT '0',
+  `stone_type` bigint(10) unsigned NOT NULL DEFAULT '211',
+  `title` varchar(50) NOT NULL,
+  `options` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`guildId`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `guildId` (`guildId`),
+  KEY `guildId_2` (`guildId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=216172782119026688 ;
+
+CREATE TABLE IF NOT EXISTS `guild_members` (
+  `characterId` bigint(20) unsigned NOT NULL,
+  `guildId` bigint(20) unsigned NOT NULL,
+  `rank` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `joined` datetime NOT NULL,
+  `guildPoints` bigint(10) unsigned NOT NULL DEFAULT '0',
+  `messageFlags` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `appMessage` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`characterId`),
+  UNIQUE KEY `characterId` (`characterId`),
+  KEY `characterId_2` (`characterId`),
+  KEY `guildId` (`guildId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 ALTER TABLE `cards`
   ADD CONSTRAINT `cards_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -234,6 +273,10 @@ ALTER TABLE `quests`
 
 ALTER TABLE `quest_progress`
   ADD CONSTRAINT `quest_progress_ibfk_1` FOREIGN KEY (`questId`) REFERENCES `quests` (`questId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+ALTER TABLE `guild_members`
+  ADD CONSTRAINT `guild_members_ibfk_2` FOREIGN KEY (`guildId`) REFERENCES `guilds` (`guildId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `guild_members_ibfk_1` FOREIGN KEY (`characterId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 CREATE TABLE IF NOT EXISTS `mail` (
   `messageId` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ,

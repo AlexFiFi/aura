@@ -10,8 +10,7 @@ namespace Aura.World.World
 {
 	public class MabiGuild
 	{
-		public ulong BaseId;
-		public ulong WorldId { get { return this.BaseId + Id.Guilds; } }
+		public ulong Id;
 		public string Name, LeaderName, Title;
 
 		public string IntroMessage;
@@ -34,11 +33,6 @@ namespace Aura.World.World
 
 		public byte Options;
 
-		public static ulong GetBaseId(ulong worldId)
-		{
-			return worldId - Id.Guilds;
-		}
-
 		public ulong Save()
 		{
 			return WorldDb.Instance.SaveGuild(this);
@@ -59,6 +53,8 @@ namespace Aura.World.World
 		public DateTime JoinedDate;
 
 		public double Gp;
+
+		public string ApplicationText;
 
 		public byte MessageFlags;
 

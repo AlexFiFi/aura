@@ -1421,8 +1421,28 @@ namespace Aura.World.World
 			creature.Client.Send(p);
 		}
 
-		public void CreateGuild(string name, GuildType type, MabiCreature leader, IEnumerable<MabiCreature> otherMembers)
+		public bool CreateGuild(string name, GuildType type, MabiCreature leader, IEnumerable<MabiCreature> otherMembers)
 		{
+			if (WorldDb.Instance.GetGuildForChar(leader.Id) != null)
+			{
+				leader.Client.Send(PacketCreator.MsgBox(leader, "You are already a member of a guild"));
+				return false;
+			}
+			foreach (var mem in otherMembers)
+			{
+				if (WorldDb.Instance.GetGuildForChar(mem.Id) != null)
+				{
+					leader.Client.Send(PacketCreator.MsgBoxFormat(leader, "{0} is already a member of a guild", mem.Name));
+					return false;
+				}
+			}
+
+			if (!WorldDb.Instance.GuildNameOkay(name))
+			{
+				leader.Client.Send(PacketCreator.MsgBoxFormat(leader, "That name is not valid or is already in use."));
+				return false;
+			}
+
 			// TODO: checks in here...
 			MabiGuild g = new MabiGuild();
 			g.Gold = g.Gp = 0;
@@ -1465,12 +1485,65 @@ namespace Aura.World.World
 			p.Info.X = g.X;
 			p.Info.Y = g.Y;
 			p.Title = g.Name;
-			p.ExtraData = string.Format("<xml guildid=\"{0}\"/>", g.WorldId);
+			p.ExtraData = string.Format("<xml guildid=\"{0}\"/>", g.Id);
 
 			WorldManager.Instance.AddProp(p);
-			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, WorldServer.GuildstoneTouch));
+			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
 
 			this.Broadcast(PacketCreator.Notice(name + " Guild has been created. Guild leader: " + leader.Name, NoticeType.Top), SendTargets.All);
+
+			return true;
+		}
+
+		public void LoadGuilds()
+		{
+			var guilds = WorldDb.Instance.LoadGuilds();
+
+			foreach (var guild in guilds)
+			{
+				var p = new MabiProp(guild.Region, guild.Area);
+				p.Info.Class = guild.StoneClass;
+				p.Info.Direction = guild.Rotation;
+				p.Info.Region = guild.Region;
+				p.Info.X = guild.X;
+				p.Info.Y = guild.Y;
+				p.Title = guild.Name;
+				p.ExtraData = string.Format("<xml guildid=\"{0}\" {1}/>", guild.Id,
+					guild.HasOption(GuildOptionFlags.Warp) ? "gh_warp=\"true\"" : "");
+
+				WorldManager.Instance.AddProp(p);
+				WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
+			}
+
+			Logger.ClearLine();
+			Logger.Info("Done loading {0} guilds.", guilds.Count);
+		}
+
+		public static void GuildstoneTouch(WorldClient client, MabiCreature creature, MabiProp p)
+		{
+			// TODO: Better way to get this ID... Pake could be used to fake it
+			string gid = p.ExtraData.Substring(p.ExtraData.IndexOf("guildid=\""));
+			gid = gid.Substring(9);
+			gid = gid.Substring(0, gid.IndexOf("\""));
+			ulong bid = ulong.Parse(gid);
+
+			var g = WorldDb.Instance.GetGuild(bid);
+			if (g != null)
+			{
+				if (creature.Guild != null)
+				{
+					if (g.Id == creature.Guild.Id && creature.GuildMemberInfo.MemberRank < (byte)GuildMemberRank.Applied)
+						client.Send(new MabiPacket(Op.OpenGuildPanel, creature.Id).PutLong(g.Id).PutBytes(0, 0, 0)); // 3 Unknown bytes...
+					else
+						client.Send(new MabiPacket(Op.GuildInfo, creature.Id).PutLong(g.Id).PutStrings(g.Name, g.LeaderName)
+							.PutInt((uint)WorldDb.Instance.GetGuildMemberInfos(g).Count(m => m.MemberRank < (byte)GuildMemberRank.Applied))
+							.PutString(g.IntroMessage));
+				}
+				else
+					client.Send(new MabiPacket(Op.GuildInfoNoGuild, creature.Id).PutLong(g.Id).PutStrings(g.Name, g.LeaderName)
+						.PutInt((uint)WorldDb.Instance.GetGuildMemberInfos(g).Count(m => m.MemberRank < (byte)GuildMemberRank.Applied))
+						.PutString(g.IntroMessage));
+			}
 		}
 
 		public void AddParty(MabiParty party)

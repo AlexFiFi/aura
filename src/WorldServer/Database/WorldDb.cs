@@ -1033,10 +1033,10 @@ namespace Aura.World.Database
 
 			try
 			{
-				using (var reader = MabiDb.Instance.Query("SELECT guild_id FROM guild_members WHERE character_id = " + charId, conn))
+				using (var reader = MabiDb.Instance.Query("SELECT guildId FROM guild_members WHERE characterId = " + charId, conn))
 				{
 					if (reader.Read())
-						return this.GetGuild(reader.GetUInt64("guild_id"));
+						return this.GetGuild(reader.GetUInt64("guildId"));
 					return null;
 				}
 			}
@@ -1052,7 +1052,7 @@ namespace Aura.World.Database
 
 			try
 			{
-				using (var reader = MabiDb.Instance.Query("SELECT * FROM guilds WHERE id=" + guildId, conn))
+				using (var reader = MabiDb.Instance.Query("SELECT * FROM guilds WHERE guildId=" + guildId, conn))
 				{
 					if (reader.Read())
 					{
@@ -1093,7 +1093,7 @@ namespace Aura.World.Database
 		private MabiGuild ParseGuild(MySqlDataReader reader)
 		{
 			var g = new MabiGuild();
-			g.BaseId = reader.GetUInt64("id");
+			g.Id = reader.GetUInt64("guildId");
 			g.Name = reader.GetString("name");
 			g.IntroMessage = reader.GetString("intro");
 			g.WelcomeMessage = reader.GetString("welcome");
@@ -1123,13 +1123,40 @@ namespace Aura.World.Database
 			return g;
 		}
 
+		/// <summary>
+		/// Checks if the name is okay, and if a guild with the given name exists.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public bool GuildNameOkay(string name)
+		{
+			if (!(new Regex(@"^[a-zA-Z0-9]{1,15}$")).IsMatch(name))
+				return false;
+
+			var conn = MabiDb.Instance.GetConnection();
+			try
+			{
+				name = MySqlHelper.EscapeString(name);
+
+				using (var reader = MabiDb.Instance.Query("SELECT guildId FROM guilds WHERE name = '" + name + "'", conn))
+				{
+					return !reader.HasRows;
+				}
+			}
+			finally
+			{
+				conn.Close();
+			}
+		}
+
+
 		public void DeleteGuildMember(MabiGuildMemberInfo m)
 		{
 			var conn = MabiDb.Instance.GetConnection();
 
 			try
 			{
-				MabiDb.Instance.QueryN("DELETE FROM guild_members WHERE character_id = " + m.CharacterId, conn);
+				MabiDb.Instance.QueryN("DELETE FROM guild_members WHERE characterId = " + m.CharacterId, conn);
 			}
 			finally
 			{
@@ -1143,8 +1170,8 @@ namespace Aura.World.Database
 
 			try
 			{
-				MabiDb.Instance.QueryN("DELETE FROM guild_members WHERE guild_id = " + guild.BaseId, conn);
-				MabiDb.Instance.QueryN("DELETE FROM guilds WHERE id = " + guild.BaseId, conn);
+				MabiDb.Instance.QueryN("DELETE FROM guild_members WHERE guildId = " + guild.Id, conn);
+				MabiDb.Instance.QueryN("DELETE FROM guilds WHERE guildId = " + guild.Id, conn);
 			}
 			finally
 			{
@@ -1154,7 +1181,7 @@ namespace Aura.World.Database
 
 		public ulong GetGuildLeaderId(MabiGuild g)
 		{
-			return GetGuildLeaderId(g.BaseId);
+			return GetGuildLeaderId(g.Id);
 		}
 
 		public ulong GetGuildLeaderId(ulong guildId)
@@ -1162,11 +1189,11 @@ namespace Aura.World.Database
 			var conn = MabiDb.Instance.GetConnection();
 			try
 			{
-				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE guild_id = " + guildId, conn))
+				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE guildId = " + guildId, conn))
 				{
 					while (mem_reader.Read())
 					{
-						var CharacterId = mem_reader.GetUInt64("character_id");
+						var CharacterId = mem_reader.GetUInt64("characterId");
 						var MemberRank = mem_reader.GetByte("rank");
 						if (MemberRank == (byte)GuildMemberRank.Leader)
 						{
@@ -1179,9 +1206,6 @@ namespace Aura.World.Database
 			{
 				conn.Close();
 			}
-
-			Logger.Warning("Leader for guild {0} not found!", guildId);
-
 			return 0;
 		}
 
@@ -1192,9 +1216,7 @@ namespace Aura.World.Database
 			{
 				using (var l_reader = MabiDb.Instance.Query("SELECT name FROM characters WHERE characterId = " + characterId, conn))
 				{
-					if (!l_reader.Read())
-						Logger.Warning("Character {0} cannot be found!", characterId);
-					else
+					if (l_reader.Read())
 					{
 						return l_reader.GetString("name");
 					}
@@ -1236,7 +1258,13 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@gold", g.Gold);
 				mc.Parameters.AddWithValue("@stone_type", g.StoneClass);
 
-				mc.ExecuteNonQuery();
+				mc.ExecuteNonQuery().ToString();
+
+				using (var r = MabiDb.Instance.Query("SELECT LAST_INSERT_ID()", conn))
+				{
+					r.Read();
+					return (ulong)r.GetInt64(0); // TODO: Why doesn't the mc.LastInsertId work?
+				}
 
 				return (ulong)mc.LastInsertedId;
 			}
@@ -1251,14 +1279,15 @@ namespace Aura.World.Database
 			var conn = MabiDb.Instance.GetConnection();
 			try
 			{
-				var mc = new MySqlCommand("INSERT INTO `guild_members` (`character_id`, `guild_id`, `rank`, `joined`, `guild_points`) VALUES" +
-					"(@character_id, @guild_id, @rank, @joined, @guild_points) " +
-					"ON DUPLICATE KEY UPDATE `guild_points` = @guild_points", conn);
+				var mc = new MySqlCommand("INSERT INTO `guild_members` (`characterId`, `guildId`, `rank`, `joined`, `guildPoints`, `appMessage`) VALUES" +
+					"(@character_id, @guild_id, @rank, @joined, @guild_points, @appMessage) " +
+					"ON DUPLICATE KEY UPDATE `guildPoints` = @guild_points", conn);
 				mc.Parameters.AddWithValue("@character_id", m.CharacterId);
 				mc.Parameters.AddWithValue("@guild_id", guildId);
 				mc.Parameters.AddWithValue("@rank", m.MemberRank);
 				mc.Parameters.AddWithValue("@joined", m.JoinedDate);
 				mc.Parameters.AddWithValue("@guild_points", (uint)m.Gp);
+				mc.Parameters.AddWithValue("@appMessage", m.ApplicationText);
 
 				mc.ExecuteNonQuery();
 			}
@@ -1275,15 +1304,17 @@ namespace Aura.World.Database
 			List<MabiGuildMemberInfo> members = new List<MabiGuildMemberInfo>();
 			try
 			{
-				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE guild_id = " + g.BaseId, conn))
+				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE guildId = " + g.Id, conn))
 				{
 					while (mem_reader.Read())
 					{
 						var m = new MabiGuildMemberInfo();
-						m.CharacterId = mem_reader.GetUInt64("character_id");
+						m.CharacterId = mem_reader.GetUInt64("characterId");
 						m.MemberRank = mem_reader.GetByte("rank");
 						m.JoinedDate = mem_reader.GetDateTime("joined");
-						m.Gp = mem_reader.GetUInt32("guild_points");
+						m.Gp = mem_reader.GetUInt32("guildPoints");
+						m.ApplicationText = mem_reader.GetString("appMessage");
+
 						members.Add(m);
 					}
 				}
@@ -1301,20 +1332,19 @@ namespace Aura.World.Database
 			var conn = MabiDb.Instance.GetConnection();
 			try
 			{
-				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE character_id = " + characterId, conn))
+				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE characterId = " + characterId, conn))
 				{
 					if (mem_reader.Read())
 					{
 						var m = new MabiGuildMemberInfo();
-						m.CharacterId = mem_reader.GetUInt64("character_id");
+						m.CharacterId = mem_reader.GetUInt64("characterId");
 						m.MemberRank = mem_reader.GetByte("rank");
 						m.JoinedDate = mem_reader.GetDateTime("joined");
-						m.Gp = mem_reader.GetUInt32("guild_points");
+						m.Gp = mem_reader.GetUInt32("guildPoints");
+						m.ApplicationText = mem_reader.GetString("appMessage");
 
 						return m;
 					}
-					else
-						Logger.Warning("Attempted to get non-existant guild member info for {0:X}", characterId);
 				}
 			}
 			finally

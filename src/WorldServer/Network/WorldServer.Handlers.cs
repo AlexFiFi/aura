@@ -120,6 +120,7 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.ConvertGp, HandleConvertGp);
 			this.RegisterPacketHandler(Op.ConvertGpConfirm, HandleConvertGpConfirm);
 			this.RegisterPacketHandler(Op.GuildDonate, HandleGuildDonate);
+			this.RegisterPacketHandler(Op.GuildApply, HandleGuildApply);
 
 			this.RegisterPacketHandler(Op.CollectionRequest, HandleCollectionRequest);
 			this.RegisterPacketHandler(Op.ShamalaTransformationUse, HandleShamalaTransformation);
@@ -3023,7 +3024,7 @@ namespace Aura.World.Network
 			creature.GuildMemberInfo.Gp = 0;
 
 			creature.Guild.Save();
-			WorldDb.Instance.SaveGuildMember(creature.GuildMemberInfo, creature.Guild.BaseId);
+			WorldDb.Instance.SaveGuildMember(creature.GuildMemberInfo, creature.Guild.Id);
 
 			client.Send(new MabiPacket(Op.ConvertGpConfirmR, creature.Id).PutByte(1));
 			client.Send(new MabiPacket(Op.ConvertGpConfirmR, creature.Id).PutByte(0)); // TODO: Do we really need both of these?
@@ -3054,6 +3055,41 @@ namespace Aura.World.Network
 
 			client.Send(PacketCreator.GuildMessage(creature.Guild, creature, "You have donated " + amount + " Gold"));
 			client.Send(new MabiPacket(Op.GuildDonateR, creature.Id).PutByte(1));
+		}
+
+		protected void HandleGuildApply(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var gid = packet.GetLong();
+			var appText = packet.GetString();
+
+			if (WorldDb.Instance.GetGuildForChar(creature.Id) != null)
+			{
+				client.Send(PacketCreator.MsgBox(creature, "You are already a member of a guild"));
+				client.Send(new MabiPacket(Op.GuildApplyR, creature.Id).PutByte(0));
+				return;
+			}
+
+			var guild = WorldDb.Instance.GetGuild(gid);
+
+			if (guild == null)
+			{
+				client.Send(PacketCreator.MsgBox(creature, "Guild does not exist"));
+				client.Send(new MabiPacket(Op.GuildApplyR, creature.Id).PutByte(0));
+				return;
+			}
+
+			var memInfo = new MabiGuildMemberInfo() { CharacterId = creature.Id, JoinedDate = DateTime.Now,
+				Gp = 0, MemberRank = (byte)GuildMemberRank.Applied, MessageFlags = (byte)GuildMessageFlags.None, ApplicationText = appText};
+
+			WorldDb.Instance.SaveGuildMember(memInfo, gid);
+
+			client.Send(PacketCreator.GuildMessage(guild, creature, "Your application has been accepted.\nPlease wait for the Guild Leader to make the final confirmation."));
+
+			client.Send(new MabiPacket(Op.GuildApplyR, creature.Id).PutByte(1));
 		}
 
 		private void HandlePartyCreate(WorldClient client, MabiPacket packet)

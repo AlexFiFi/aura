@@ -269,10 +269,13 @@ namespace Aura.Login.Network
 		/// <param name="packet"></param>
 		public void BroadcastChannels(MabiPacket packet, string server = null)
 		{
-			foreach (var client in _clients.Where(a => a.Account != null))
+			lock (this.ChannelClients)
 			{
-				if (server == null || client.Account.Name.EndsWith("@" + server))
-					client.Send(packet);
+				foreach (var client in this.ChannelClients.Where(a => a.Account != null))
+				{
+					if (server == null || client.Account.Name.EndsWith("@" + server))
+						client.Send(packet);
+				}
 			}
 		}
 	}
