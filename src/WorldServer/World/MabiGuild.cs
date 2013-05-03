@@ -47,16 +47,17 @@ namespace Aura.World.World
 	public class MabiGuildMemberInfo
 	{
 		public ulong CharacterId;
-
 		public byte MemberRank;
-
 		public DateTime JoinedDate;
-
 		public double Gp;
-
 		public string ApplicationText;
-
 		public byte MessageFlags;
+
+		public MabiGuildMemberInfo()
+		{
+			this.JoinedDate = DateTime.Now;
+			this.ApplicationText = string.Empty;
+		}
 
 		public bool HasMessageFlag(GuildMessageFlags test)
 		{

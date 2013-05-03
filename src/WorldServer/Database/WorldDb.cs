@@ -1112,7 +1112,7 @@ namespace Aura.World.Database
 			g.Gold = reader.GetUInt32("gold");
 			g.StoneClass = reader.GetUInt32("stone_type");
 
-			g.Title = reader.GetString("title");
+			g.Title = reader.GetStringSafe("title");
 			g.Options = reader.GetByte("Options");
 
 			g.LeaderName = GetGuildLeaderName(g);

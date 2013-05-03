@@ -1462,14 +1462,18 @@ namespace Aura.World.World
 
 			var gid = g.Save();
 
-			WorldDb.Instance.SaveGuildMember(new MabiGuildMemberInfo() { CharacterId = leader.Id, Gp = 0, JoinedDate = DateTime.Now, MemberRank = (byte)GuildMemberRank.Leader }, gid);
+			leader.GuildMemberInfo = new MabiGuildMemberInfo() { CharacterId = leader.Id, MemberRank = (byte)GuildMemberRank.Leader };
+			WorldDb.Instance.SaveGuildMember(leader.GuildMemberInfo, gid);
 			foreach (var m in otherMembers)
-				WorldDb.Instance.SaveGuildMember(new MabiGuildMemberInfo() { CharacterId = m.Id, Gp = 0, JoinedDate = DateTime.Now, MemberRank = (byte)GuildMemberRank.SeniorMember }, gid);
-
+			{
+				m.GuildMemberInfo = new MabiGuildMemberInfo() { CharacterId = m.Id, MemberRank = (byte)GuildMemberRank.SeniorMember };
+				WorldDb.Instance.SaveGuildMember(m.GuildMemberInfo, gid);
+			}
 
 			g = WorldDb.Instance.GetGuild(gid); // Reload guild to make sure it gets initialized and gets an id
 
 			leader.Guild = g;
+
 			this.Broadcast(PacketCreator.GuildMembershipChanged(g, leader, (byte)GuildMemberRank.Leader), SendTargets.Range, leader);
 
 			foreach (var m in otherMembers)
