@@ -44,6 +44,7 @@ namespace Aura.Shared.Network
 	public class MabiChannel
 	{
 		public string Name;
+		public string FullName;
 		public string IP;
 		public ushort Port;
 		public DateTime LastUpdate = DateTime.MinValue;
@@ -70,14 +71,15 @@ namespace Aura.Shared.Network
 		/// </summary>
 		public byte Stress;
 
-		public MabiChannel(string name, string ip, ushort port, ChannelState state = 0, ChannelEvent events = 0)
+		public MabiChannel(string name, string server, string ip, ushort port)
 		{
 			this.Name = name;
+			this.FullName = name + "@" + server;
 			this.IP = ip;
 			this.Port = port;
 
-			this.State = state;
-			this.Events = events;
+			this.State = ChannelState.Normal;
+			this.Events = ChannelEvent.Normal;
 		}
 	}
 

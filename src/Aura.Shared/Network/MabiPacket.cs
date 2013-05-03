@@ -252,7 +252,7 @@ namespace Aura.Shared.Network
 			var header = new byte[20];
 			var headerLen = 12;
 
-			var body = new byte[4096];
+			var body = new byte[8192];
 			var bodyLen = 0;
 			var bodyCount = 0;
 
@@ -261,9 +261,9 @@ namespace Aura.Shared.Network
 				foreach (var element in _elements)
 				{
 					// Resize if we need more space
-					if (ptr + 2048 > body.Length)
+					if (ptr + 4096 > body.Length)
 					{
-						Array.Resize(ref body, body.Length + 512);
+						Array.Resize(ref body, body.Length + 4096);
 					}
 
 					if (element is byte)

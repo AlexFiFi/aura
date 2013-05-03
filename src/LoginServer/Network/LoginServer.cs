@@ -234,6 +234,27 @@ namespace Aura.Login.Network
 			{
 				lock (this.ChannelClients)
 					this.ChannelClients.Remove(client);
+
+				// Update channel
+				if (client.Account != null)
+				{
+					lock (this.ServerList)
+					{
+						foreach (var server in this.ServerList.Values)
+						{
+							foreach (var channel in server.Channels.Values)
+							{
+								if (channel.FullName == client.Account.Name)
+								{
+									channel.State = ChannelState.Maintenance;
+									break;
+								}
+							}
+						}
+					}
+
+					this.SendChannelUpdate();
+				}
 			}
 		}
 
@@ -256,7 +277,7 @@ namespace Aura.Login.Network
 		/// <param name="packet"></param>
 		public void Broadcast(MabiPacket packet)
 		{
-			foreach (var client in _clients)
+			foreach (var client in _clients.Where(a => a.State == ClientState.LoggedIn))
 			{
 				client.Send(packet);
 			}

@@ -935,28 +935,45 @@ namespace Aura.Login.Network
 
 			var serverName = packet.GetString();
 			var channelName = packet.GetString();
+			var fullName = channelName + "@" + serverName;
 			var host = packet.GetString();
 			var port = packet.GetShort();
 			var stress = packet.GetByte();
+			var update = false;
 
+			// Add server
 			if (!this.ServerList.ContainsKey(serverName))
 			{
 				this.ServerList[serverName] = new MabiServer(serverName);
 				Logger.Info("Added available server: {0}", serverName);
 			}
 
+			// Add channel
 			if (!this.ServerList[serverName].Channels.ContainsKey(channelName))
 			{
+				this.ServerList[serverName].Channels[channelName] = new MabiChannel(channelName, serverName, host, port);
+				Logger.Info("Added available channel: {0}", fullName);
+
+				update = true;
+			}
+
+			// Update if channel was in maint
+			if (this.ServerList[serverName].Channels[channelName].State == ChannelState.Maintenance)
+				update = true;
+
+			// A way to identify the channel of this client
+			if (client.Account == null)
+			{
 				client.Account = new Account();
-				client.Account.Name = channelName + "@" + serverName;
-
-				this.ServerList[serverName].Channels[channelName] = new MabiChannel(channelName, host, port, ChannelState.Normal, ChannelEvent.Normal);
-				Logger.Info("Added available channel: {0}", client.Account.Name);
-
+				client.Account.Name = fullName;
 			}
 
 			this.ServerList[serverName].Channels[channelName].Stress = stress;
 			this.ServerList[serverName].Channels[channelName].LastUpdate = DateTime.Now;
+			this.ServerList[serverName].Channels[channelName].State = ChannelState.Normal;
+
+			if (update)
+				this.SendChannelUpdate();
 		}
 	}
 }
