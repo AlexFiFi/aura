@@ -47,6 +47,8 @@ namespace Aura.World.World
 
 		public ushort Title, OptionTitle /*, TmpTitle ?*/;
 
+		public ulong TitleApplied;
+
 		public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
 		//public MabiSkill ActiveSkill;
 		public ushort ActiveSkillId;
@@ -274,8 +276,8 @@ namespace Aura.World.World
 		private ulong _exp;
 		public ulong Experience { get { return _exp; } set { _exp = Math.Min(value, ulong.MaxValue); } }
 
-		public uint Defense { get { return (this.RaceInfo != null ? this.RaceInfo.Defense : 0); } }
-		public float Protection { get { return (this.RaceInfo != null ? this.RaceInfo.Protection : 0); } }
+		public uint Defense { get; set; }
+		public float Protection { get; set; }
 
 		public bool IsPlayer { get { return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet); } }
 
@@ -362,6 +364,9 @@ namespace Aura.World.World
 				}
 				Logger.Warning("Race '" + this.Race.ToString() + "' not found, using human instead.");
 			}
+
+			this.Defense = dbInfo.Defense;
+			this.Protection = dbInfo.Protection;
 
 			this.RaceInfo = dbInfo;
 

@@ -240,7 +240,7 @@ namespace Aura.World.Network
 		{
 			try
 			{
-				Logger.Error("Oh no! Ferghus escaped his memory block and infected the rest of the server! We're going doooooown!!! ... Uh yeah, about that. Aura has encountered an unexpected and unrecoverable error. We're going to try to save as much as we can.");
+				Logger.Error("Oh no! Ferghus escaped his memory block and infected the rest of the server!\r\nAura has encountered an unexpected and unrecoverable error. We're going to try to save as much as we can.");
 			}
 			catch { }
 			try

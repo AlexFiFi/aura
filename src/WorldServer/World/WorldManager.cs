@@ -175,6 +175,29 @@ namespace Aura.World.World
 			{
 				_lastRlHour = rlHour; _lastRlMinute = rlMinute;
 				ServerEvents.Instance.OnRealTimeTick(this, new TimeEventArgs(mt));
+
+				if (WorldConf.AncientRate > 0)
+				{
+					var r = RandomProvider.Get();
+					System.Threading.Thread t = new Thread(() =>
+					{
+						for (int i = 0; i < this._creatures.Count; i++)
+						{
+							var c = _creatures[i] as MabiNPC;
+							if (c != null)
+							{
+								if (c.AncientEligible && c.AncientTime < DateTime.Now)
+								{
+									c.AncientEligible = false;
+									if (r.NextDouble() <= WorldConf.AncientRate)
+										this.Ancientify(c);
+								}
+							}
+						}
+					});
+
+					t.Start();
+				}
 			}
 
 			_firstHeartbeat = false;
@@ -813,13 +836,22 @@ namespace Aura.World.World
 
 			var pos = creature.GetPosition();
 			var rand = RandomProvider.Get();
-			e.Item.Region = creature.Region;
-			e.Item.Info.X = (uint)(pos.X + rand.Next(-100, 101));
-			e.Item.Info.Y = (uint)(pos.Y + rand.Next(-100, 101));
-			e.Item.Info.Pocket = (byte)Pocket.None;
-			e.Item.DisappearTime = DateTime.Now.AddSeconds((int)Math.Max(60, (e.Item.OptionInfo.Price / 100) * 60));
+			var x = (uint)(pos.X + rand.Next(-100, 101));
+			var y = (uint)(pos.Y + rand.Next(-100, 101));
 
-			WorldManager.Instance.AddItem(e.Item);
+			this.CreatureDropItem(e.Item, creature.Region, x, y);
+
+		}
+
+		public void CreatureDropItem(MabiItem item, uint region, uint x, uint y)
+		{
+			item.Info.Region = region;
+			item.Info.X = x;
+			item.Info.Y = y;
+			item.Info.Pocket = (byte)Pocket.None;
+			item.DisappearTime = DateTime.Now.AddSeconds((int)Math.Max(60, (item.OptionInfo.Price / 100) * 60));
+
+			WorldManager.Instance.AddItem(item);
 		}
 
 		public void CreatureChangeTitle(MabiCreature creature)
@@ -829,6 +861,8 @@ namespace Aura.World.World
 			p.PutShort(creature.OptionTitle); // SelectedOptionTitle?
 
 			this.Broadcast(p, SendTargets.Range, creature);
+
+			creature.TitleApplied = (ulong)DateTime.Now.Ticks;
 		}
 
 		public void CreatureSetTarget(MabiCreature creature, MabiCreature target)
@@ -1264,12 +1298,10 @@ namespace Aura.World.World
 								{
 									var item = new MabiItem(drop.ItemId);
 									item.Info.Amount = 1;
-									item.Info.Region = npc.Region;
-									item.Info.X = (uint)(action.OldPosition.X + rnd.Next(-50, 51));
-									item.Info.Y = (uint)(action.OldPosition.Y + rnd.Next(-50, 51));
-									item.DisappearTime = DateTime.Now.AddSeconds(60);
+									var x = (uint)(action.OldPosition.X + rnd.Next(-50, 51));
+									var y = (uint)(action.OldPosition.Y + rnd.Next(-50, 51));
 
-									this.AddItem(item);
+									this.CreatureDropItem(item, npc.Region, x, y);
 								}
 							}
 
@@ -1634,6 +1666,29 @@ namespace Aura.World.World
 
 			foreach (var member in party.Members)
 				member.Client.Send(new MabiPacket(Op.PartyChangeLeaderUpdate, member.Id).PutLong(leader.Id));
+		}
+
+		public void Ancientify(MabiNPC creature)
+		{
+			creature.Title = 30038;
+			this.CreatureChangeTitle(creature);
+
+			creature.GoldMax *= 20;
+			creature.GoldMin *= 20;
+
+			creature.Drops = new List<DropInfo>(MabiData.AncientDropDb.Entries);
+
+			creature.Defense += 10;
+			creature.Protection += 10;
+
+			creature.LifeMaxMod = creature.LifeMax * 10;
+			creature.FullHeal();
+
+			creature.BattleExp *= 20;
+
+			creature.Height *= 2;
+
+			this.CreatureStatsUpdate(creature);
 		}
 	}
 

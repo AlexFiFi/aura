@@ -488,6 +488,9 @@ namespace Aura.World.Scripting
 					monster.AIScript.Activate(0); // AI is intially active
 				}
 
+				monster.AncientEligible = true;
+				monster.AncientTime = DateTime.Now.AddMinutes(WorldConf.TimeBeforeAncient);
+
 				WorldManager.Instance.AddCreature(monster);
 
 				if (effect)

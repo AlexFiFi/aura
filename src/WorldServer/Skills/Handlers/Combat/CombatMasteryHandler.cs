@@ -5,6 +5,7 @@ using Aura.Shared.Const;
 using Aura.Shared.Util;
 using Aura.World.World;
 using Aura.World.Events;
+using System;
 
 namespace Aura.World.Skills
 {
@@ -107,6 +108,8 @@ namespace Aura.World.Skills
 					sourceAction.ActionType = CombatActionType.TakeDamage;
 					targetAction.ActionType = CombatActionType.Counter;
 				}
+
+				damage = Math.Max(1f, damage);
 
 				targetAction.CombatDamage = damage;
 				target.TakeDamage(damage);

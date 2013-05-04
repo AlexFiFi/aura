@@ -71,6 +71,10 @@ namespace Aura.World.Util
 		// Combat
 		public static bool DynamicCombat;
 
+		// Mobs
+		public static int TimeBeforeAncient;
+		public static float AncientRate;
+
 		private static Configuration _conf;
 
 		public static void Load(string[] args)
@@ -133,6 +137,9 @@ namespace Aura.World.Util
 			WorldConf.ColorChange = _conf.GetBool("world_colorchange", true);
 
 			WorldConf.DynamicCombat = _conf.GetBool("world.dynamic_combat", true);
+
+			WorldConf.TimeBeforeAncient = _conf.GetInt("world_time_before_ancient", 300);
+			WorldConf.AncientRate = _conf.Get<float>("world_ancient_rate", .33f);
 
 			try
 			{

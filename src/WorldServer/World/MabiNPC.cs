@@ -21,6 +21,9 @@ namespace Aura.World.World
 		public int GoldMin, GoldMax;
 		public List<DropInfo> Drops = new List<DropInfo>();
 
+		public DateTime AncientTime;
+		public bool AncientEligible = false;
+
 		public MabiNPC()
 		{
 			this.Name = "";

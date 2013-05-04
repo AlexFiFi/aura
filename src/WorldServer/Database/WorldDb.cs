@@ -247,7 +247,7 @@ namespace Aura.World.Database
 				character.Guild = this.GetGuildForChar(character.Id);
 				character.GuildMemberInfo = this.GetGuildMemberInfo(character.Id);
 
-				if (character.Guild != null && character.GuildMemberInfo.MemberRank < (byte)GuildMemberRank.Applied && character.Guild.Title != "")
+				if (character.Guild != null && character.GuildMemberInfo.MemberRank < (byte)GuildMemberRank.Applied && character.Guild.Title != null)
 					character.Titles.Add(50000, true);
 
 				character.Shamalas.Add(new ShamalaTransformation(1, 1, ShamalaState.Available));

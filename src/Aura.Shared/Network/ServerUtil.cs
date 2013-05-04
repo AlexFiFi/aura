@@ -93,144 +93,91 @@ namespace Aura.Shared.Network
 			{
 				if ((toLoad & DataLoad.Spawns) != 0)
 				{
-					MabiData.SpawnDb.Load(dataPath + "/db/spawns.txt", reload);
-					PrintDataWarnings(MabiData.SpawnDb.Warnings);
+					LoadDB(MabiData.SpawnDb, dataPath + "/db/spawns.txt", reload);
 
-					Logger.Info("Done loading " + MabiData.SpawnDb.Count + " entries from spawns.txt.");
+					LoadDB(MabiData.AncientDropDb, dataPath + "/db/ancient_drops.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Races) != 0)
 				{
-					MabiData.RaceSkillDb.Load(dataPath + "/db/race_skills.txt", reload);
-					PrintDataWarnings(MabiData.RaceSkillDb.Warnings);
+					LoadDB(MabiData.RaceSkillDb, dataPath + "/db/race_skills.txt", reload);
 
-					Logger.Info("Done loading " + MabiData.RaceSkillDb.Count + " entries from race_skills.txt.");
+					LoadDB(MabiData.SpeedDb, dataPath + "/db/speed.txt", reload, false);
 
-					MabiData.SpeedDb.Load(dataPath + "/db/speed.txt", reload);
-					PrintDataWarnings(MabiData.SpeedDb.Warnings);
+					LoadDB(MabiData.FlightDb, dataPath + "/db/flight.txt", reload, false);
 
-					MabiData.FlightDb.Load(dataPath + "/db/flight.txt", reload);
-					PrintDataWarnings(MabiData.FlightDb.Warnings);
-
-					MabiData.RaceDb.Load(dataPath + "/db/races.txt", reload);
-					PrintDataWarnings(MabiData.RaceDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.RaceDb.Count + " entries from races.txt.");
+					LoadDB(MabiData.RaceDb, dataPath + "/db/races.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.StatsBase) != 0)
 				{
-					MabiData.StatsBaseDb.Load(dataPath + "/db/stats_base.txt", reload);
-					PrintDataWarnings(MabiData.StatsBaseDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.StatsBaseDb.Count + " entries from stats_base.txt.");
+					LoadDB(MabiData.StatsBaseDb, dataPath + "/db/stats_base.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.StatsLevel) != 0)
 				{
-					MabiData.StatsLevelUpDb.Load(dataPath + "/db/stats_levelup.txt", reload);
-					PrintDataWarnings(MabiData.StatsLevelUpDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.StatsLevelUpDb.Count + " entries from stats_levelup.txt.");
+					LoadDB(MabiData.StatsLevelUpDb, dataPath + "/db/stats_levelup.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Motions) != 0)
 				{
-					MabiData.MotionDb.Load(dataPath + "/db/motions.txt", reload);
-					PrintDataWarnings(MabiData.MotionDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.MotionDb.Count + " entries from motions.txt.");
+					LoadDB(MabiData.MotionDb, dataPath + "/db/motions.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Cards) != 0)
 				{
-					MabiData.CharCardSetDb.Load(dataPath + "/db/charcardsets.txt", reload);
-					PrintDataWarnings(MabiData.CharCardSetDb.Warnings);
+					LoadDB(MabiData.CharCardSetDb, dataPath + "/db/charcardsets.txt", reload, false);
 
-					MabiData.CharCardDb.Load(dataPath + "/db/charcards.txt", reload);
-					PrintDataWarnings(MabiData.CharCardDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.CharCardSetDb.Count + " entries from charcardsets.txt.");
+					LoadDB(MabiData.CharCardDb, dataPath + "/db/charcards.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Colors) != 0)
 				{
-					MabiData.ColorMapDb.Load(dataPath + "/db/colormap.dat", reload);
-					PrintDataWarnings(MabiData.ColorMapDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.ColorMapDb.Count + " entries from colormap.dat.");
+					LoadDB(MabiData.ColorMapDb, dataPath + "/db/colormap.dat", reload);
 				}
 
 				if ((toLoad & DataLoad.Items) != 0)
 				{
-					MabiData.ItemDb.Load(dataPath + "/db/items.txt", reload);
-					PrintDataWarnings(MabiData.ItemDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.ItemDb.Count + " entries from items.txt.");
+					LoadDB(MabiData.ItemDb, dataPath + "/db/items.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Skills) != 0)
 				{
-					MabiData.SkillRankDb.Load(dataPath + "/db/skill_ranks.txt", reload);
-					PrintDataWarnings(MabiData.SkillRankDb.Warnings);
+					LoadDB(MabiData.SkillRankDb, dataPath + "/db/skill_ranks.txt", reload, false);
 
-					MabiData.SkillDb.Load(dataPath + "/db/skills.txt", reload);
-					PrintDataWarnings(MabiData.SkillDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.SkillDb.Count + " entries from skills.txt.");
+					LoadDB(MabiData.SkillDb, dataPath + "/db/skills.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Regions) != 0)
 				{
-					MabiData.MapDb.Load(dataPath + "/db/maps.txt", reload);
-					PrintDataWarnings(MabiData.MapDb.Warnings);
+					LoadDB(MabiData.MapDb, dataPath + "/db/maps.txt", reload);
 
-					Logger.Info("Done loading " + MabiData.MapDb.Count + " entries from maps.txt.");
-
-					MabiData.RegionDb.Load(dataPath + "/db/regioninfo.dat", reload);
-					PrintDataWarnings(MabiData.RegionDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.RegionDb.Count + " entries from regioninfo.dat.");
+					LoadDB(MabiData.RegionDb, dataPath + "/db/regioninfo.dat", reload);
 				}
 
 				if ((toLoad & DataLoad.Shamala) != 0)
 				{
-					MabiData.ShamalaDb.Load(dataPath + "/db/shamala.txt", reload);
-					PrintDataWarnings(MabiData.ShamalaDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.ShamalaDb.Count + " entries from shamala.txt.");
+					LoadDB(MabiData.ShamalaDb, dataPath + "/db/shamala.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.PropDrops) != 0)
 				{
-					MabiData.PropDropDb.Load(dataPath + "/db/prop_drops.txt", reload);
-					PrintDataWarnings(MabiData.PropDropDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.PropDropDb.Count + " entries from prop_drops.txt.");
+					LoadDB(MabiData.PropDropDb, dataPath + "/db/prop_drops.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Exp) != 0)
 				{
-					MabiData.ExpDb.Load(dataPath + "/db/exp.txt", reload);
-					PrintDataWarnings(MabiData.PropDropDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.ExpDb.Count + " levels from exp.txt.");
+					LoadDB(MabiData.ExpDb, dataPath + "/db/exp.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Pets) != 0)
 				{
-					MabiData.PetDb.Load(dataPath + "/db/pets.txt", reload);
-					PrintDataWarnings(MabiData.PetDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.PetDb.Count + " entries from pets.txt.");
+					LoadDB(MabiData.PetDb, dataPath + "/db/pets.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Weather) != 0)
 				{
-					MabiData.WeatherDb.Load(dataPath + "/db/weather.txt", reload);
-					PrintDataWarnings(MabiData.WeatherDb.Warnings);
-
-					Logger.Info("Done loading " + MabiData.WeatherDb.Count + " entries from weather.txt.");
+					LoadDB(MabiData.WeatherDb, dataPath + "/db/weather.txt", reload);
 				}
 			}
 			catch (FileNotFoundException ex)
@@ -243,6 +190,15 @@ namespace Aura.Shared.Network
 				Logger.Exception(ex, null, true);
 				Exit(1);
 			}
+		}
+
+		private static void LoadDB(IDatabase db, string path, bool reload, bool log = true)
+		{
+			db.Load(path, reload);
+			PrintDataWarnings(db.Warnings);
+
+			if (log)
+				Logger.Info("Done loading {0} entries from {1}.", db.Count, Path.GetFileName(path));
 		}
 
 		/// <summary>

@@ -12,12 +12,15 @@ namespace Aura.Data
 		void Clear();
 		int Load(string path);
 		int Load(string path, bool clear);
+		List<DatabaseWarningException> Warnings { get; }
 	}
 
 	public abstract class Database<TInfo> : IDatabase where TInfo : class, new()
 	{
 		public List<TInfo> Entries = new List<TInfo>();
-		public List<DatabaseWarningException> Warnings = new List<DatabaseWarningException>();
+		protected List<DatabaseWarningException> _warnings = new List<DatabaseWarningException>();
+
+		public List<DatabaseWarningException> Warnings { get { return _warnings; } }
 
 		public int Count
 		{
@@ -40,7 +43,9 @@ namespace Aura.Data
 	public abstract class DatabaseIndexed<TIndex, TInfo> : IDatabase where TInfo : class, new()
 	{
 		public Dictionary<TIndex, TInfo> Entries = new Dictionary<TIndex, TInfo>();
-		public List<DatabaseWarningException> Warnings = new List<DatabaseWarningException>();
+		protected List<DatabaseWarningException> _warnings = new List<DatabaseWarningException>();
+
+		public List<DatabaseWarningException> Warnings { get { return _warnings; } }
 
 		public TInfo Find(TIndex key)
 		{
@@ -57,7 +62,7 @@ namespace Aura.Data
 
 		public bool Has(TIndex key)
 		{
-			return this.Entries.ContainsKey(key); ;
+			return this.Entries.ContainsKey(key);
 		}
 
 		public virtual void Clear()

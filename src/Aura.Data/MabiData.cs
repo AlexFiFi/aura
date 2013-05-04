@@ -8,27 +8,28 @@ namespace Aura.Data
 	/// </summary>
 	public static class MabiData
 	{
-		public static SpeedDb SpeedDb = new SpeedDb();
-		public static FlightDb FlightDb = new FlightDb();
-		public static ColorMapDb ColorMapDb = new ColorMapDb();
-		public static ItemDb ItemDb = new ItemDb();
-		public static RaceDb RaceDb = new RaceDb();
-		public static StatsBaseDb StatsBaseDb = new StatsBaseDb();
-		public static StatsLevelUpDb StatsLevelUpDb = new StatsLevelUpDb();
+		public static AncientDropDb AncientDropDb = new AncientDropDb();
 		public static CharCardDb CharCardDb = new CharCardDb();
 		public static CharCardSetDb CharCardSetDb = new CharCardSetDb();
-		public static MotionDb MotionDb = new MotionDb();
-		public static SkillDb SkillDb = new SkillDb();
-		public static SkillRankDb SkillRankDb = new SkillRankDb();
-		public static RaceSkillDb RaceSkillDb = new RaceSkillDb();
-		public static SpawnDb SpawnDb = new SpawnDb();
+		public static ColorMapDb ColorMapDb = new ColorMapDb();
+		public static ExpDb ExpDb = new ExpDb();
+		public static FlightDb FlightDb = new FlightDb();
+		public static ItemDb ItemDb = new ItemDb();
 		public static MapDb MapDb = new MapDb();
-		public static RegionDb RegionDb = new RegionDb();
-		public static ShamalaDb ShamalaDb = new ShamalaDb();
+		public static MotionDb MotionDb = new MotionDb();
+		public static PetDb PetDb = new PetDb();
 		public static PropDropDb PropDropDb = new PropDropDb();
 		public static QuestDb QuestDb = new QuestDb();
-		public static ExpDb ExpDb = new ExpDb();
-		public static PetDb PetDb = new PetDb();
+		public static RaceDb RaceDb = new RaceDb();
+		public static RaceSkillDb RaceSkillDb = new RaceSkillDb();
+		public static RegionDb RegionDb = new RegionDb();
+		public static ShamalaDb ShamalaDb = new ShamalaDb();
+		public static SkillDb SkillDb = new SkillDb();
+		public static SkillRankDb SkillRankDb = new SkillRankDb();
+		public static SpawnDb SpawnDb = new SpawnDb();
+		public static SpeedDb SpeedDb = new SpeedDb();
+		public static StatsBaseDb StatsBaseDb = new StatsBaseDb();
+		public static StatsLevelUpDb StatsLevelUpDb = new StatsLevelUpDb();
 		public static WeatherDb WeatherDb = new WeatherDb();
 	}
 }

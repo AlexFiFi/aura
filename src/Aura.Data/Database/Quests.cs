@@ -111,7 +111,21 @@ namespace Aura.Data
 	{
 		public Dictionary<uint, QuestInfo> Entries = new Dictionary<uint, QuestInfo>();
 
-		public int Count { get { return this.Entries.Count; } }
+		public List<DatabaseWarningException> Warnings
+		{
+			get
+			{
+				return new List<DatabaseWarningException>();
+			}
+		}
+
+		public int Count
+		{
+			get
+			{
+				return this.Entries.Count;
+			}
+		}
 
 		public QuestInfo Find(uint id)
 		{

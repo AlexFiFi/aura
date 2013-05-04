@@ -16,7 +16,7 @@ namespace Aura.World.World
 			// Titles
 			// --------------------------------------------------------------
 			packet.PutShort(this.Title);		 // SelectedTitle
-			packet.PutLong(0);                   // TitleAppliedTime
+			packet.PutLong(this.TitleApplied);                   // TitleAppliedTime
 			packet.PutShort(this.OptionTitle);					 // SelectedOptionTitle
 
 			// Mate
