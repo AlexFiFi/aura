@@ -58,6 +58,26 @@ namespace Aura.World.Player
 			}
 		}
 
+		public void GiveTitle(ushort title, bool usable = false)
+		{
+			if (this.Titles.ContainsKey(title))
+				this.Titles[title] = usable;
+			else
+				this.Titles.Add(title, usable);
+
+			if (this.Client != null)
+			{
+				if (usable)
+				{
+					this.Client.Send(new MabiPacket(Op.AddTitle, this.Id).PutShort(title).PutInt(0));
+				}
+				else
+				{
+					this.Client.Send(new MabiPacket(Op.AddTitleKnowledge, this.Id).PutShort(title).PutInt(0));
+				}
+			}
+		}
+
 		public MabiQuest GetQuestOrNull(uint cls)
 		{
 			MabiQuest result = null;
@@ -87,7 +107,7 @@ namespace Aura.World.Player
 				packet.PutByte(title.Value);
 				packet.PutInt(0);
 			}
-			packet.PutShort(0);                  // SelectedOptionTitle
+			packet.PutShort(this.OptionTitle);                  // SelectedOptionTitle
 
 			// Mate
 			// --------------------------------------------------------------

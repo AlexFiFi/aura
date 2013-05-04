@@ -51,6 +51,7 @@ namespace Aura.World.World
 			this.AddCommand("ritem", Authority.GameMaster, Command_randomitem);
 			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
 			this.AddCommand("weather", "<clear|cloudy|rain|storm>", Authority.GameMaster, Command_weather);
+			this.AddCommand("title", "<title id> <usable>", Authority.GameMaster, Command_title);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
@@ -971,6 +972,19 @@ namespace Aura.World.World
 
 			WeatherManager.Instance.SetWeather(creature.Region, weather);
 
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_title(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 3)
+				return CommandResult.WrongParameter;
+
+			var character = creature as MabiPC;
+			var title = ushort.Parse(args[1]);
+			var usable = bool.Parse(args[2]);
+
+			character.GiveTitle(title, usable);
 			return CommandResult.Okay;
 		}
 	}

@@ -297,6 +297,8 @@ namespace Aura.Shared.Network
 		public readonly static uint GuildDonate = 0x8F07;
 		public readonly static uint GuildDonateR = 0x8F08;
 		public readonly static uint GuildMessage = 0x8F0F;
+		public readonly static uint AddTitleKnowledge = 0x8FC0;
+		public readonly static uint AddTitle = 0x8FC1;
 		public readonly static uint ChangeTitle = 0x8FC4;
 		public readonly static uint ChangedTitle = 0x8FC5;
 		public readonly static uint ChangeTitleR = 0x8FC6;

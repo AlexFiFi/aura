@@ -45,7 +45,7 @@ namespace Aura.World.World
 		public byte BattleState;
 		public bool IsFlying;
 
-		public ushort Title /*, TmpTitle ?*/;
+		public ushort Title, OptionTitle /*, TmpTitle ?*/;
 
 		public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
 		//public MabiSkill ActiveSkill;

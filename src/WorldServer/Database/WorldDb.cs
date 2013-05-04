@@ -229,6 +229,7 @@ namespace Aura.World.Database
 					//character.WillMod = reader.GetFloat("willBoost");
 					//character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
+					character.OptionTitle = reader.GetUInt16("optionTitle");
 					character.Color1 = reader.GetUInt32("color1");
 					character.Color2 = reader.GetUInt32("color2");
 					character.Color3 = reader.GetUInt32("color3");
@@ -241,6 +242,7 @@ namespace Aura.World.Database
 				this.GetItems(character);
 				this.GetKeywords(character);
 				this.GetSkills(character);
+				this.GetTitles(character);
 
 				character.Guild = this.GetGuildForChar(character.Id);
 				character.GuildMemberInfo = this.GetGuildMemberInfo(character.Id);
@@ -353,6 +355,25 @@ namespace Aura.World.Database
 
 				if (!character.HasSkill(SkillConst.MeleeCombatMastery))
 					character.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, character.Race));
+			}
+		}
+
+		private void GetTitles(MabiPC character)
+		{
+			var conn = MabiDb.Instance.GetConnection();
+			try
+			{
+				using (var reader = MabiDb.Instance.Query("SELECT titleId, usable FROM titles WHERE characterId = " + character.Id.ToString(), conn))
+				{
+					while (reader.Read())
+					{
+						character.Titles.Add(reader.GetUInt16("titleId"), reader.GetBoolean("usable"));
+					}
+				}
+			}
+			finally
+			{
+				conn.Close();
 			}
 		}
 
@@ -666,7 +687,7 @@ namespace Aura.World.Database
 				var mc = new MySqlCommand(
 					"UPDATE `characters` SET" +
 					" `race` = @race, `status` = @status, `height` = @height, `fatness` = @fatness, `upper` = @upper, `lower` = @lower," +
-					" `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet, `title` = @title," +
+					" `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet, `title` = @title, `optionTitle` = @optionTitle," +
 					" `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax," +
 					" `mana` = @mana, `manaMax` = @manaMax," +
 					" `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food," +
@@ -712,6 +733,7 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@lastDungeon", "");
 				mc.Parameters.AddWithValue("@birthday", DateTime.MinValue);
 				mc.Parameters.AddWithValue("@title", character.Title);
+				mc.Parameters.AddWithValue("@optionTitle", character.OptionTitle);
 				mc.Parameters.AddWithValue("@maxLevel", 200);
 				mc.Parameters.AddWithValue("@rebirthCount", character.RebirthCount);
 				mc.Parameters.AddWithValue("@jobId", 0);
@@ -726,6 +748,7 @@ namespace Aura.World.Database
 			this.SaveItems(character);
 			this.SaveKeywords(character);
 			this.SaveSkills(character);
+			this.SaveTitles(character);
 		}
 
 		private void SaveQuests(MabiPC character)
@@ -777,10 +800,10 @@ namespace Aura.World.Database
 
 					transaction.Commit();
 				}
-				catch (Exception ex)
+				catch
 				{
 					transaction.Rollback();
-					throw ex;
+					throw;
 				}
 			}
 		}
@@ -808,10 +831,10 @@ namespace Aura.World.Database
 
 					transaction.Commit();
 				}
-				catch (Exception ex)
+				catch
 				{
 					transaction.Rollback();
-					throw ex;
+					throw;
 				}
 			}
 		}
@@ -841,10 +864,45 @@ namespace Aura.World.Database
 
 					transaction.Commit();
 				}
-				catch (Exception ex)
+				catch
 				{
 					transaction.Rollback();
-					throw ex;
+					throw;
+				}
+			}
+		}
+
+		private void SaveTitles(MabiPC character)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				MySqlTransaction transaction = null;
+				try
+				{
+					transaction = conn.BeginTransaction();
+
+					var delmc = new MySqlCommand("DELETE FROM titles WHERE characterId = @characterId", conn, transaction);
+					delmc.Parameters.AddWithValue("@characterId", character.Id);
+					delmc.ExecuteNonQuery();
+
+					foreach (var title in character.Titles)
+					{
+						if (title.Key == 60000 || title.Key == 60001 || title.Key == 50000) // GM, devCAT, Guild. Dynamic title, so should not be saved
+							continue;
+
+						var mc = new MySqlCommand("INSERT INTO titles VALUES (@characterId, @titleId, @usable)", conn, transaction);
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.Parameters.AddWithValue("@titleId", title.Key);
+						mc.Parameters.AddWithValue("@usable", title.Value);
+						mc.ExecuteNonQuery();
+					}
+
+					transaction.Commit();
+				}
+				catch
+				{
+					transaction.Rollback();
+					throw;
 				}
 			}
 		}
@@ -930,6 +988,11 @@ namespace Aura.World.Database
 				mc.ExecuteNonQuery();
 
 				transaction.Commit();
+			}
+			catch
+			{
+				transaction.Rollback();
+				throw;
 			}
 			finally
 			{
@@ -1019,10 +1082,10 @@ namespace Aura.World.Database
 
 					transaction.Commit();
 				}
-				catch (Exception ex)
+				catch
 				{
 					transaction.Rollback();
-					throw ex;
+					throw;
 				}
 			}
 		}

@@ -826,7 +826,7 @@ namespace Aura.World.World
 		{
 			var p = new MabiPacket(Op.ChangedTitle, creature.Id);
 			p.PutShort(creature.Title);
-			p.PutShort(0);
+			p.PutShort(creature.OptionTitle); // SelectedOptionTitle?
 
 			this.Broadcast(p, SendTargets.Range, creature);
 		}

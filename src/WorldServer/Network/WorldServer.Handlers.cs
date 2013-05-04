@@ -1218,7 +1218,7 @@ namespace Aura.World.Network
 			{
 				var secSource = pocket + 2; // RightHand1/2
 				var secItem = creature.GetItemInPocket(secSource);
-				if (secItem != null || (secItem = creature.GetItemInPocket(secSource += 2)) != null)
+				if (secItem != null || (secItem = creature.GetItemInPocket(secSource = (Pocket)((byte)secSource + 2))) != null)
 				{
 					var secTarget = Pocket.Inventory;
 					var free = creature.GetFreeItemSpace(secItem, secTarget);
@@ -2017,18 +2017,39 @@ namespace Aura.World.Network
 				return;
 
 			var title = packet.GetShort();
+			var optTitle = packet.GetShort();
+
+			var answer = new MabiPacket(Op.ChangeTitleR, creature.Id);
+
+			bool update = false;
 
 			// Make sure the character has this title enabled
 			var character = creature as MabiPC;
-			if (title == 0 || (character.Titles.ContainsKey(title) && character.Titles[title]))
+			if (title == 0 || (character.Titles.ContainsKey(title)) && character.Titles[title])
 			{
 				creature.Title = title;
-				WorldManager.Instance.CreatureChangeTitle(creature);
+				answer.PutByte(1);
+				update = true;
+			}
+			else
+			{
+				answer.PutByte(0);
 			}
 
-			var answer = new MabiPacket(Op.ChangeTitleR, creature.Id);
-			answer.PutByte(1);
-			answer.PutByte(0);
+			if (optTitle == 0 || (character.Titles.ContainsKey(optTitle)) && character.Titles[optTitle])
+			{
+				creature.OptionTitle = optTitle;
+				answer.PutByte(1);
+				update = true;
+			}
+			else
+			{
+				answer.PutByte(0);
+			}
+
+			if (update)
+				WorldManager.Instance.CreatureChangeTitle(creature);
+
 			client.Send(answer);
 		}
 
