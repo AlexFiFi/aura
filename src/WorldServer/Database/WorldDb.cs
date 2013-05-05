@@ -243,6 +243,7 @@ namespace Aura.World.Database
 				this.GetKeywords(character);
 				this.GetSkills(character);
 				this.GetTitles(character);
+				this.GetCooldowns(character);
 
 				character.Guild = this.GetGuildForChar(character.Id);
 				character.GuildMemberInfo = this.GetGuildMemberInfo(character.Id);
@@ -749,6 +750,7 @@ namespace Aura.World.Database
 			this.SaveKeywords(character);
 			this.SaveSkills(character);
 			this.SaveTitles(character);
+			this.SaveCooldowns(character);
 		}
 
 		private void SaveQuests(MabiPC character)
@@ -1389,7 +1391,6 @@ namespace Aura.World.Database
 			return members;
 		}
 
-
 		public MabiGuildMemberInfo GetGuildMemberInfo(ulong characterId)
 		{
 			var conn = MabiDb.Instance.GetConnection();
@@ -1415,6 +1416,55 @@ namespace Aura.World.Database
 				conn.Close();
 			}
 			return null;
+		}
+
+		private void GetCooldowns(MabiCreature creature)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				using (var reader = MabiDb.Instance.Query("SELECT `type`+0, id, expires, errorMessage FROM cooldowns WHERE characterId = " + creature.Id, conn))
+				{
+					while (reader.Read())
+					{
+						creature.AddCooldown((CooldownType)reader.GetUInt16("`type`+0"), reader.GetUInt32("id"),
+							reader.GetDateTime("expires"), reader.GetStringSafe("errorMessage"));
+					}
+				}
+			}
+		}
+
+		private void SaveCooldowns(MabiCreature character)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				MySqlTransaction transaction = null;
+				try
+				{
+					transaction = conn.BeginTransaction();
+
+					var delmc = new MySqlCommand("DELETE FROM cooldowns WHERE characterId = @characterId", conn, transaction);
+					delmc.Parameters.AddWithValue("@characterId", character.Id);
+					delmc.ExecuteNonQuery();
+
+					foreach (var cooldown in character.Cooldowns)
+					{
+						var mc = new MySqlCommand("INSERT INTO cooldowns VALUES (@characterId, @type, @id, @expires, @errorMessage)", conn, transaction);
+						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.Parameters.AddWithValue("@type", (ushort)cooldown.Type);
+						mc.Parameters.AddWithValue("@id", cooldown.Id);
+						mc.Parameters.AddWithValue("@expires", cooldown.Expires);
+						mc.Parameters.AddWithValue("@errorMessage", cooldown.ErrorMessage);
+						mc.ExecuteNonQuery();
+					}
+
+					transaction.Commit();
+				}
+				catch
+				{
+					transaction.Rollback();
+					throw;
+				}
+			}
 		}
 	}
 }

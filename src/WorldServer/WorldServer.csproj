@@ -97,6 +97,7 @@
     <Compile Include="Util\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
     <Compile Include="World\CreatureTemp.cs" />
+    <Compile Include="World\MabiCooldown.cs" />
     <Compile Include="World\MabiCreature.Packet.cs" />
     <Compile Include="World\MabiCreature.cs" />
     <Compile Include="World\MabiCreature.Items.cs" />

@@ -181,7 +181,7 @@ namespace Aura.World.World
 					var r = RandomProvider.Get();
 					System.Threading.Thread t = new Thread(() =>
 					{
-						for (int i = 0; i < this._creatures.Count; i++)
+						for (int i = 0; i < _creatures.Count; i++)
 						{
 							var c = _creatures[i] as MabiNPC;
 							if (c != null)
@@ -1676,7 +1676,7 @@ namespace Aura.World.World
 			creature.GoldMax *= 20;
 			creature.GoldMin *= 20;
 
-			creature.Drops = new List<DropInfo>(MabiData.AncientDropDb.Entries);
+			creature.Drops.AddRange(MabiData.AncientDropDb.Entries);
 
 			creature.Defense += 10;
 			creature.Protection += 10;

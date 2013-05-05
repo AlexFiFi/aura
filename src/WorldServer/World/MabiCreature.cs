@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Aura.Data;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
@@ -59,6 +60,8 @@ namespace Aura.World.World
 		public uint SoulCount;
 
 		public CreatureTemp Temp = new CreatureTemp();
+
+		public List<MabiCooldown> Cooldowns = new List<MabiCooldown>();
 
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
@@ -420,6 +423,59 @@ namespace Aura.World.World
 				foreach (var mod in toRemove)
 					_statMods.Remove(mod);
 			}
+		}
+
+		/// <summary>
+		/// Adds a cooldown to the creature. If one already exists, the Expiry and Error messages are updated.
+		/// If the expiry has already passed, the cooldown is not added and removed if needed.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="id"></param>
+		/// <param name="expires"></param>
+		/// <param name="error">The error message to be shown. Use {0} to insert the time left.</param>
+		/// <returns></returns>
+		public void AddCooldown(CooldownType type, uint id, DateTime expires, string error)
+		{
+			var cooldown = Cooldowns.FirstOrDefault(c => c.Type == type && c.Id == id);
+			if (cooldown != null)
+			{
+				cooldown.Expires = expires;
+				cooldown.ErrorMessage = error;
+				if (cooldown.Expires < DateTime.Now)
+					Cooldowns.Remove(cooldown);
+				return;
+			}
+
+			if (expires < DateTime.Now)
+				return;
+
+			cooldown = new MabiCooldown(type, id, expires, error);
+			Cooldowns.Add(cooldown);
+		}
+
+		/// <summary>
+		/// Checks for a valid cooldown of the specified type and id. Optionally sends the error message to the client.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="id"></param>
+		/// <param name="sendError"></param>
+		/// <returns>True if a valid cooldown is found, false otherwise</returns>
+		public bool CheckForCooldown(CooldownType type, uint id, bool sendError = true)
+		{
+			var cooldown = Cooldowns.FirstOrDefault(c => c.Type == type && c.Id == id);
+			if (cooldown == null)
+				return false;
+
+			if (cooldown.Expires < DateTime.Now)
+			{
+				Cooldowns.Remove(cooldown);
+				return false;
+			}
+
+			if (sendError)
+				cooldown.SendErrorMessage(this);
+
+			return true;
 		}
 
 		public virtual void CalculateBaseStats()
