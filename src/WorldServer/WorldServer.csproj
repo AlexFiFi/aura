@@ -101,6 +101,7 @@
     <Compile Include="World\MabiCreature.Packet.cs" />
     <Compile Include="World\MabiCreature.cs" />
     <Compile Include="World\MabiCreature.Items.cs" />
+    <Compile Include="World\MabiCutscene.cs" />
     <Compile Include="World\MabiEntity.cs" />
     <Compile Include="World\MabiGuild.cs" />
     <Compile Include="World\MabiItem.cs" />

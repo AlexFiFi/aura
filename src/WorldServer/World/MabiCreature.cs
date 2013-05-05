@@ -63,6 +63,8 @@ namespace Aura.World.World
 
 		public List<MabiCooldown> Cooldowns = new List<MabiCooldown>();
 
+		public MabiCutscene CurrentCutscene;
+
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
 		public readonly MabiVertex _destination = new MabiVertex(0, 0);

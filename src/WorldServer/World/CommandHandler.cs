@@ -32,6 +32,7 @@ namespace Aura.World.World
 			this.AddCommand("gesture", "<gesture>", Authority.Player, Command_gesture);
 			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
 			this.AddCommand("guild", "<name>", Authority.Player, Command_guild);
+			this.AddCommand("cutscene", "[name]", Authority.Player, Command_cutscene);
 
 			this.AddCommand("go", "<destination>", Authority.VIP, Command_go);
 			this.AddCommand("shamala", "<race>", Authority.VIP, Command_shamala);
@@ -985,6 +986,23 @@ namespace Aura.World.World
 			var usable = bool.Parse(args[2]);
 
 			character.GiveTitle(title, usable);
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_cutscene(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			var name = "JG_nekojima_arrival";
+			if (args.Length >1 )
+				name = args[1];
+
+			name = name.Replace(@"\_", " ");
+
+			MabiCutscene scene = new MabiCutscene(creature, name);
+
+			scene.AddActor("me", creature);
+
+			scene.Send(client);
+
 			return CommandResult.Okay;
 		}
 	}

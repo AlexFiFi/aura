@@ -356,6 +356,10 @@ namespace Aura.Shared.Network
 		public readonly static uint NPCTalkSelectable = 0x13882;
 		public readonly static uint NPCTalkSelect = 0x13883;
 
+		public readonly static uint CutsceneFinished = 0x186A0;
+		public readonly static uint CutsceneStart = 0x186A6;
+		public readonly static uint CutsceneEnd = 0x186A7;
+
 		public readonly static uint Weather = 0x1ADB0; // ?
 		public readonly static uint PetMount = 0x1FBD0;
 		public readonly static uint PetMountR = 0x1FBD1;

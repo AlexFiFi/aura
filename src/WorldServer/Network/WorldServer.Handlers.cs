@@ -57,6 +57,8 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
 
+			this.RegisterPacketHandler(Op.CutsceneFinished, HandleCutsceneFinished);
+
 			this.RegisterPacketHandler(Op.PartyCreate, HandlePartyCreate);
 			this.RegisterPacketHandler(Op.PartyJoin, HandlePartyJoin);
 			this.RegisterPacketHandler(Op.PartyLeave, HandlePartyLeave);
@@ -3376,6 +3378,29 @@ namespace Aura.World.Network
 			client.State = ClientState.LoggedIn;
 			this.SendChannelStatus(null, null);
 		}
+
+		private void HandleCutsceneFinished(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			// TODO: Check if vaild (is leader and whatnot)
+			// if cutscene.IsLeader(creature)
+			client.Send(new MabiPacket(Op.CutsceneEnd, Id.World).PutLong(creature.Id));
+			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(creature), SendTargets.Range | SendTargets.ExcludeSender, creature);
+			client.Send(PacketCreator.EntitiesAppear(WorldManager.Instance.GetEntitiesInRange(creature)));
+			client.Send(PacketCreator.Unlock(creature));
+
+			if (creature.CurrentCutscene != null)
+			{
+				if (creature.CurrentCutscene.OnComplete != null)
+					creature.CurrentCutscene.OnComplete(client);
+
+				creature.CurrentCutscene = null;
+			}
+		}
+
 
 		private void HandleChannelStatus(WorldClient client, MabiPacket packet)
 		{
