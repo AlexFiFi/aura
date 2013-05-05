@@ -90,7 +90,7 @@ namespace Aura.World.Scripting
 		protected List<AIElement> Stack = new List<AIElement>();
 		protected List<AIDCooldown> Cooldowns = new List<AIDCooldown>();
 
-		public MabiCreature Creature;
+		public MabiNPC Creature;
 
 		public bool Active { get; protected set; }
 
@@ -249,9 +249,23 @@ namespace Aura.World.Scripting
 							this.Stack.RemoveAt(0);
 
 							var pos = this.Creature.GetPosition();
-							var x = (uint)(pos.X + rand.Next(-element.IntVal1, element.IntVal1 + 1));
-							var y = (uint)(pos.Y + rand.Next(-element.IntVal1, element.IntVal1 + 1));
-							var dest = new MabiVertex(x, y);
+
+							MabiVertex dest;
+
+							if (!WorldManager.InRange(pos, Creature.AnchorPoint, 2000))
+							{
+								dest = new MabiVertex(Creature.AnchorPoint.X, Creature.AnchorPoint.Y);
+							}
+							else
+							{
+								do 
+								{
+									var x = (uint)(pos.X + rand.Next(-element.IntVal1, element.IntVal1 + 1));
+									var y = (uint)(pos.Y + rand.Next(-element.IntVal1, element.IntVal1 + 1));
+									dest = new MabiVertex(x, y);
+								} while (!WorldManager.InRange(pos, Creature.AnchorPoint, 2000));
+
+							}
 
 							this.Creature.StartMove(dest, true);
 

@@ -20,6 +20,7 @@ namespace Aura.World.World
 		public uint SpawnId = 0;
 		public int GoldMin, GoldMax;
 		public List<DropInfo> Drops = new List<DropInfo>();
+		public MabiVertex AnchorPoint;
 
 		public DateTime AncientTime;
 		public bool AncientEligible = false;

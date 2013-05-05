@@ -455,6 +455,7 @@ namespace Aura.World.Scripting
 				monster.Name = raceInfo.Name;
 				var loc = info.GetRandomSpawnPoint(rand);
 				monster.SetLocation(info.Region, loc.X, loc.Y);
+				monster.AnchorPoint = new MabiVertex(loc.X, loc.Y);
 				monster.Color1 = raceInfo.ColorA;
 				monster.Color2 = raceInfo.ColorB;
 				monster.Color3 = raceInfo.ColorC;
