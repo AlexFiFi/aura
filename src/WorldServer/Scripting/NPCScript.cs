@@ -98,20 +98,30 @@ namespace Aura.World.Scripting
 		// Built in methods
 		// ------------------------------------------------------------------
 
-		protected void GiveItem(WorldClient client, string name, int color1 = 0, int color2 = 0, int color3 = 0, uint amount = 1)
+		protected void GiveItem(WorldClient client, string name, uint amount = 1)
 		{
 			var item = MabiData.ItemDb.Find(name);
 			if (item == null)
 			{
-				Logger.Warning("Unknown item '" + name + "' cannot be given. Try specifying the ID manually.");
+				Logger.Warning("Unknown item '{0}' in '{1}'.", name, this.ScriptName);
 				return;
 			}
-			GiveItem(client, item.Id, color1, color2, color3, amount);
+			this.GiveItem(client, item.Id, amount);
 		}
 
-		protected void GiveItem(WorldClient client, uint id, int color1 = 0, int color2 = 0, int color3 = 0, uint amount = 1)
+		protected void GiveItem(WorldClient client, string name, uint amount, uint color1, uint color2, uint color3)
+		{
+			this.GiveItem(client, name, amount);
+		}
+
+		protected void GiveItem(WorldClient client, uint id, uint amount = 1)
 		{
 			client.Character.GiveItem(id, amount);
+		}
+
+		protected void GiveItem(WorldClient client, uint id, uint amount, uint color1, uint color2, uint color3)
+		{
+			client.Character.GiveItem(id, amount, color1, color2, color3, false);
 		}
 
 		protected virtual void SetName(string name)

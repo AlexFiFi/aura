@@ -228,11 +228,11 @@ namespace Aura.World.World
 		{
 			var rand = RandomProvider.Get();
 
-			var item = MabiData.ItemDb.Entries[(uint)rand.Next(MabiData.ItemDb.Entries.Count - 1)];
-			var color1 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
-			var color2 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
-			var color3 = "0x" + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X") + rand.Next(0, 255).ToString("X");
-			var cmd = new string[] { "drop", item.Id.ToString(), color1, color2, color3 };
+			var itemInfo = MabiData.ItemDb.Entries.ElementAt(rand.Next(MabiData.ItemDb.Entries.Count)).Value;
+			var color1 = "0x" + (rand.NextDouble() < 0.5 ? rand.Next(0, 255) : 0).ToString("X2") + rand.Next(0, 255).ToString("X2") + rand.Next(0, 255).ToString("X2") + rand.Next(0, 255).ToString("X2");
+			var color2 = "0x" + (rand.NextDouble() < 0.5 ? rand.Next(0, 255) : 0).ToString("X2") + rand.Next(0, 255).ToString("X2") + rand.Next(0, 255).ToString("X2") + rand.Next(0, 255).ToString("X2");
+			var color3 = "0x" + (rand.NextDouble() < 0.5 ? rand.Next(0, 255) : 0).ToString("X2") + rand.Next(0, 255).ToString("X2") + rand.Next(0, 255).ToString("X2") + rand.Next(0, 255).ToString("X2");
+			var cmd = new string[] { "drop", itemInfo.Id.ToString(), color1, color2, color3 };
 
 			return Command_item(client, creature, cmd, msg);
 		}
@@ -992,7 +992,7 @@ namespace Aura.World.World
 		private CommandResult Command_cutscene(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var name = "JG_nekojima_arrival";
-			if (args.Length >1 )
+			if (args.Length > 1)
 				name = args[1];
 
 			name = name.Replace(@"\_", " ");
