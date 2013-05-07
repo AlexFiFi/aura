@@ -45,38 +45,54 @@ namespace Aura.Data
 
 			csv = csv.Trim();
 
+			// Check for empty and commented lines.
 			if (csv != string.Empty && !csv.StartsWith("//"))
 			{
-				bool quoteFound = false, quotation = false, comment = false;
-				for (int i = 0, ptr = 0; i < csv.Length; )
+				int ptr = 0, braces = 0;
+				bool inString = false, comment = false;
+				for (int i = 0; i < csv.Length; ++i)
 				{
-					while (csv[i] == ' ') ++i;
+					// End of line?
+					var eol = (i == csv.Length - 1);
 
-					if (csv[i] == '"' && csv[i - 1] != '\\')
+					// Quotes
+					if (csv[i] == '"' && braces == 0)
+						inString = !inString;
+
+					// Braces
+					if (!inString)
 					{
-						++i; quoteFound = !quoteFound;
-						if (!quotation) quotation = true;
-						continue;
+						if (csv[i] == '{')
+							braces++;
+						else if (csv[i] == '}')
+							braces--;
 					}
 
-					if (!quoteFound && csv[i] == '/' && csv[i + 1] == '/')
+					// Comments
+					if (!inString && csv[i] == '/' && csv[i + 1] == '/')
 						comment = true;
 
-					if ((csv[i] == this.Seperator && !quoteFound) || i == csv.Length - 1 || comment)
+					if ((csv[i] == Seperator && braces == 0 && !inString) || eol || comment)
 					{
-						if (ptr > 0) ++ptr;
-						if (i == csv.Length - 1) ++i;
+						// Inc by one to get the last char
+						if (eol) i++;
 
-						if (!quotation) result.Fields.Add(csv.Substring(ptr, i - ptr).Trim());
-						else result.Fields.Add(csv.Substring(ptr, i - ptr).Trim().Trim('"'));
+						// Get value
+						var v = csv.Substring(ptr, i - ptr).Trim(' ', '\t', '"');
 
-						ptr = i; quotation = false;
+						// Trim surrounding braces
+						if (v.Length >= 2 && v[0] == '{' && v[v.Length - 1] == '}')
+							v = v.Substring(1, v.Length - 2);
+
+						result.Fields.Add(v);
+
+						// Skip over seperator
+						ptr = i + 1;
+
+						// Stop at comments
+						if (comment)
+							break;
 					}
-
-					if (comment)
-						break;
-
-					++i;
 				}
 			}
 

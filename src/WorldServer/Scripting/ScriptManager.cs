@@ -105,6 +105,130 @@ namespace Aura.World.Scripting
 			Logger.Info("Done loading " + _loadedScripts + " scripts.");
 			if (!WorldConf.DisableScriptCaching)
 				Logger.Info("Cached " + _cached + " scripts.");
+
+			LoadItemScripts();
+		}
+
+		private Dictionary<uint, ItemScript> _itemScripts = new Dictionary<uint, ItemScript>();
+		private void LoadItemScripts()
+		{
+			Logger.Info("Loading item scripts...");
+
+			var tmpPath = Path.Combine(WorldConf.ScriptPath, "cache", "item", "inline.generated.cs");
+			var compiledPath = Path.ChangeExtension(tmpPath, "compiled");
+
+			// Create folders
+			string d;
+			if (!Directory.Exists(d = Path.Combine(WorldConf.ScriptPath, "cache")))
+				Directory.CreateDirectory(d);
+			if (!Directory.Exists(d = Path.Combine(WorldConf.ScriptPath, "cache", "item")))
+				Directory.CreateDirectory(d);
+
+			var updateInline = (File.GetLastWriteTime(Path.Combine(WorldConf.DataPath, "db", "items.txt")) >= File.GetLastWriteTime(compiledPath));
+
+			// Re-generate/compile if something has changed
+			var sb = new StringBuilder();
+
+			// Default usings
+			sb.AppendLine("using System;");
+			sb.AppendLine("using System.Collections;");
+			sb.AppendLine("using Aura.Shared.Const;");
+			sb.AppendLine("using Aura.World.Network;");
+			sb.AppendLine("using Aura.World.Scripting;");
+			sb.AppendLine("using Aura.World.World;");
+
+			foreach (var entry in MabiData.ItemDb.Entries.Values)
+			{
+				// Ignore empty script strings
+				if (string.IsNullOrWhiteSpace(entry.OnUse) && string.IsNullOrWhiteSpace(entry.OnUse) && string.IsNullOrWhiteSpace(entry.OnUse))
+					continue;
+
+				// Load include scripts directly
+				var match = Regex.Match(entry.OnUse, @"^\s*use\s*\(\s*""([^\)]+)""\s*\)\s*;?\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+				if (match.Success)
+				{
+					var path = Path.Combine(WorldConf.ScriptPath, "item", match.Groups[1].Value);
+					if (!File.Exists(path))
+					{
+						Logger.Warning("Item script not found: {0}", Path.GetFileName(path));
+					}
+					else
+					{
+						var scriptAsm = this.GetScript(path);
+						if (scriptAsm != null)
+						{
+							var iscr = scriptAsm.CreateObject("*") as ItemScript;
+							if (iscr == null)
+							{
+								Logger.Warning("Not an item script in '{0}'.", path);
+								continue;
+							}
+
+							_itemScripts[entry.Id] = iscr;
+						}
+					}
+					continue;
+				}
+
+				if (updateInline)
+				{
+					// Add inline scripts to the collection,
+					// wrapped in an ItemScript class.
+					sb.AppendFormat(
+						"public class ItemScript{0} : ItemScript {{" +
+						"	public override void OnUse(MabiCreature cr, MabiItem i)     {{ {1} }}" +
+						"	public override void OnEquip(MabiCreature cr, MabiItem i)   {{ {2} }}" +
+						"	public override void OnUnequip(MabiCreature cr, MabiItem i) {{ {3} }}" +
+						"}}"
+					, entry.Id, entry.OnUse, entry.OnEquip, entry.OnUnequip);
+				}
+			}
+
+			if (updateInline)
+			{
+				using (var sw = new StreamWriter(tmpPath))
+					sw.WriteLine(sb);
+			}
+
+			// Load compiled file
+			var ilScriptAsm = this.GetScript(tmpPath, compiledPath);
+			if (ilScriptAsm == null)
+			{
+				Logger.Info("Failed to load inline item scripts.");
+				return;
+			}
+
+			var types = ilScriptAsm.GetTypes();
+			foreach (var type in types)
+			{
+				var sType = type.ToString();
+
+				// Ignore compiler generated stuff
+				if (sType.Contains("+") || sType.Contains("<"))
+					continue;
+
+				var scriptObj = Activator.CreateInstance(type) as ItemScript;
+				if (scriptObj == null)
+					continue;
+
+				var itemId = Convert.ToUInt32(type.Name.Replace("ItemScript", ""));
+				_itemScripts[itemId] = scriptObj;
+			}
+
+			Logger.Info("Done loading item scripts.");
+		}
+
+		/// <summary>
+		/// Returns the ItemScript object for the item id,
+		/// or null if no script was found.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public ItemScript GetItemScript(uint itemId)
+		{
+			ItemScript result;
+			_itemScripts.TryGetValue(itemId, out result);
+			return result;
 		}
 
 		/// <summary>
@@ -123,6 +247,9 @@ namespace Aura.World.Scripting
 
 				// Load assembly and loop through the defined classes.
 				var scriptAsm = this.GetScript(scriptPath);
+				if (scriptAsm == null)
+					return;
+
 				var types = scriptAsm.GetTypes();
 				foreach (var type in types)
 				{
@@ -137,7 +264,8 @@ namespace Aura.World.Scripting
 						virtualLoadType = true;
 
 					// Create object from loaded assembly.
-					var scriptObj = scriptAsm.CreateObject(sType);
+					//var scriptObj = scriptAsm.CreateObject(sType);
+					var scriptObj = Activator.CreateInstance(type);
 
 					// Check if the object is derived from NPCScript. Needed to
 					// allow simpler scripts that only derive from BaseScript.
@@ -207,29 +335,6 @@ namespace Aura.World.Scripting
 
 				Interlocked.Increment(ref _loadedScripts);
 			}
-			catch (CompilerException ex)
-			{
-				var errors = ex.Data["Errors"] as CompilerErrorCollection;
-				var lines = File.ReadAllLines(scriptPath);
-
-				scriptPath = scriptPath.Replace(WorldConf.ScriptPath, "").Replace('\\', '/').TrimStart('/');
-
-				foreach (CompilerError err in errors)
-				{
-					// Error msg
-					Logger.Error("In {0} on line {1}", scriptPath, err.Line - 1);
-					Logger.Write("          " + err.ErrorText);
-
-					// Display lines around the error
-					int startIdx = err.Line - 2;
-					if (startIdx < 1)
-						startIdx = 1;
-					else if (startIdx + 3 > lines.Length)
-						startIdx = lines.Length - 2;
-					for (int i = startIdx; i < startIdx + 3; ++i)
-						Logger.Write("  {2} {0:0000}: {1}", i, lines[i - 1], (err.Line - 1 == i ? '*' : ' '));
-				}
-			}
 			catch (Exception ex)
 			{
 				try
@@ -268,40 +373,67 @@ namespace Aura.World.Scripting
 		/// </summary>
 		/// <param name="scriptPath"></param>
 		/// <returns></returns>
-		public Assembly GetScript(string scriptPath)
+		public Assembly GetScript(string scriptPath, string compiledPath = null)
 		{
-			var compiledPath = this.GetCompiledPath(scriptPath);
+			if (compiledPath == null)
+				compiledPath = this.GetCompiledPath(scriptPath);
 
-			Assembly asm;
-			if (!WorldConf.DisableScriptCaching && File.Exists(compiledPath) && File.GetLastWriteTime(compiledPath) >= File.GetLastWriteTime(scriptPath))
+			Assembly asm = null;
+			try
 			{
-				asm = Assembly.LoadFrom(compiledPath);
-			}
-			else
-			{
-				asm = CSScript.LoadCode(this.PreCompileScript(scriptPath));
-				if (!WorldConf.DisableScriptCaching)
+				if (!WorldConf.DisableScriptCaching && File.Exists(compiledPath) && File.GetLastWriteTime(compiledPath) >= File.GetLastWriteTime(scriptPath))
 				{
-					try
+					asm = Assembly.LoadFrom(compiledPath);
+				}
+				else
+				{
+					asm = CSScript.LoadCode(this.PreCompileScript(scriptPath));
+					if (!WorldConf.DisableScriptCaching)
 					{
-						if (File.Exists(compiledPath))
-							File.Delete(compiledPath);
-						else
-							Directory.CreateDirectory(Path.GetDirectoryName(compiledPath));
+						try
+						{
+							if (File.Exists(compiledPath))
+								File.Delete(compiledPath);
+							else
+								Directory.CreateDirectory(Path.GetDirectoryName(compiledPath));
 
-						File.Copy(asm.Location, compiledPath);
+							File.Copy(asm.Location, compiledPath);
 
-						Interlocked.Increment(ref _cached);
+							Interlocked.Increment(ref _cached);
+						}
+						catch (UnauthorizedAccessException)
+						{
+							// Thrown if file can't be copied. Happens if script was
+							// initially loaded from cache.
+						}
+						catch (Exception ex)
+						{
+							Logger.Warning(ex.Message);
+						}
 					}
-					catch (UnauthorizedAccessException)
-					{
-						// Thrown if file can't be copied. Happens if script was
-						// initially loaded from cache.
-					}
-					catch (Exception ex)
-					{
-						Logger.Warning(ex.Message);
-					}
+				}
+			}
+			catch (CompilerException ex)
+			{
+				var errors = ex.Data["Errors"] as CompilerErrorCollection;
+				var lines = File.ReadAllLines(scriptPath);
+
+				scriptPath = scriptPath.Replace(WorldConf.ScriptPath, "").Replace('\\', '/').TrimStart('/');
+
+				foreach (CompilerError err in errors)
+				{
+					// Error msg
+					Logger.Error("In {0} on line {1}", scriptPath, err.Line - 1);
+					Logger.Write("          " + err.ErrorText);
+
+					// Display lines around the error
+					int startIdx = err.Line - 2;
+					if (startIdx < 1)
+						startIdx = 1;
+					else if (startIdx + 3 > lines.Length)
+						startIdx = lines.Length - 2;
+					for (int i = startIdx; i < startIdx + 3; ++i)
+						Logger.Write("  {2} {0:0000}: {1}", i, lines[i - 1], (err.Line - 1 == i ? '*' : ' '));
 				}
 			}
 

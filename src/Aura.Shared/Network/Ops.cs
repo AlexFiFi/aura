@@ -444,7 +444,7 @@ namespace Aura.Shared.Network
 			{
 				ClientIdent = 0x1E;
 				Login = 0x0F010000;
-				CreatePartner += 0x11110000;	 // non-existent
+				CreatePartner += 0x11110000;  // non-existent
 				CreatePartnerR += 0x11110000; // non-existent
 				AccountInfoRequest = 0x45;
 				AccountInfoRequestR = 0x46;

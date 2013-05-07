@@ -415,78 +415,33 @@ namespace Aura.World.Network
 			if (creature == null || creature.IsDead)
 				return;
 
-			var itemId = packet.GetLong();
+			var itemOId = packet.GetLong();
 
-			var item = creature.GetItem(itemId);
-			if (item == null || item.DataInfo == null || item.Type != ItemType.Usable)
+			// Check for item
+			var item = creature.GetItem(itemOId);
+			if (item == null)
 			{
-				client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(0));
+				client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(false));
 				return;
 			}
 
-			// Doing this with ifs might be better.
-			switch ((UsableType)item.DataInfo.UsableType)
+			// Check for use script
+			var script = ScriptManager.Instance.GetItemScript(item.Info.Class);
+			if (script == null)
 			{
-				// TODO: Remaining positive and negative effects.
-				case UsableType.Life:
-					creature.Life += item.DataInfo.UsableVar;
-					break;
-				case UsableType.Mana:
-					creature.Mana += item.DataInfo.UsableVar;
-					break;
-				case UsableType.Stamina:
-					creature.Stamina += item.DataInfo.UsableVar;
-					break;
-				case UsableType.Injury:
-					creature.Injuries -= item.DataInfo.UsableVar;
-					break;
-				case UsableType.LifeMana:
-					creature.Life += item.DataInfo.UsableVar;
-					creature.Mana += item.DataInfo.UsableVar;
-					break;
-				case UsableType.LifeStamina:
-					creature.Life += item.DataInfo.UsableVar;
-					creature.Stamina += item.DataInfo.UsableVar;
-					break;
-				case UsableType.Food:
-					creature.Hunger -= item.DataInfo.UsableVar;
-					break;
-				case UsableType.Recovery:
-					// Full Recovery
-					if (item.DataInfo.UsableVar == 100)
-					{
-						// Manually, to handle multiple recovery items at
-						// once later, and we don't need 2 update packets.
-						creature.Injuries = 0;
-						creature.Hunger = 0;
-						creature.Life = creature.LifeMax;
-						creature.Mana = creature.ManaMax;
-						creature.Stamina = creature.StaminaMax;
-					}
-					// Various chocolates? Full recovery as well?
-					//else if (item.DataInfo.UsableVar == 300)
-					//{
-					//}
-					// Recovery booster
-					//else if (item.DataInfo.UsableVar == 1)
-					//{
-					//}
-					else goto default;
-					break;
-				case UsableType.Antidote:
-				case UsableType.Elixir:
-				case UsableType.Others:
-				default:
-					client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(0));
-					Logger.Unimplemented("This usable type is not supported yet.");
-					return;
+				Logger.Unimplemented("Missing script for item '{0}' ({1}).", item.DataInfo.Name, item.Info.Class);
+				client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(false));
+				return;
 			}
 
+			// Use item
+			script.OnUse(creature, item);
 			creature.DecItem(item);
 
+			// Mandatory stat update
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
-			client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(1).PutInt(item.Info.Class));
+			client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(true).PutInt(item.Info.Class));
 		}
 
 		public void HandleGMCPMove(WorldClient client, MabiPacket packet)
@@ -3105,8 +3060,15 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var memInfo = new MabiGuildMemberInfo() { CharacterId = creature.Id, JoinedDate = DateTime.Now,
-				Gp = 0, MemberRank = (byte)GuildMemberRank.Applied, MessageFlags = (byte)GuildMessageFlags.None, ApplicationText = appText};
+			var memInfo = new MabiGuildMemberInfo()
+			{
+				CharacterId = creature.Id,
+				JoinedDate = DateTime.Now,
+				Gp = 0,
+				MemberRank = (byte)GuildMemberRank.Applied,
+				MessageFlags = (byte)GuildMessageFlags.None,
+				ApplicationText = appText
+			};
 
 			WorldDb.Instance.SaveGuildMember(memInfo, gid);
 

@@ -29,8 +29,7 @@ namespace Aura.Data
 		public byte Balance;
 		public byte AttackSpeed;
 		public byte KnockCount;
-		public short UsableType, UsableVar, UsablePerc, UsableStr, UsableInt, UsableDex, UsableWill, UsableLuck, UsableLife, UsableMana, UsableStamina, UsableFat, UsableUpper, UsableLower;
-		public float UsableToxic;
+		public string OnUse, OnEquip, OnUnequip;
 	}
 
 	/// <summary>
@@ -52,8 +51,8 @@ namespace Aura.Data
 
 		protected override void ReadEntry(CSVEntry entry)
 		{
-			if (entry.Count < 25)
-				throw new FieldCountException(25);
+			if (entry.Count < 29)
+				throw new FieldCountException(29);
 
 			var info = new ItemInfo();
 			info.Id = entry.ReadUInt();
@@ -96,28 +95,16 @@ namespace Aura.Data
 				info.AttackSpeed = entry.ReadUByte();
 				info.KnockCount = entry.ReadUByte();
 			}
-			if ((info.Type < 400 || info.Type > 503) || info.Type == 502)
-			{
-				entry.Skip(15);
-			}
-			else
-			{
-				info.UsableType = entry.ReadSShort();
-				info.UsableVar = entry.ReadSShort();
-				info.UsablePerc = entry.ReadSShort();
-				info.UsableStr = entry.ReadSShort();
-				info.UsableInt = entry.ReadSShort();
-				info.UsableDex = entry.ReadSShort();
-				info.UsableWill = entry.ReadSShort();
-				info.UsableLuck = entry.ReadSShort();
-				info.UsableLife = entry.ReadSShort();
-				info.UsableMana = entry.ReadSShort();
-				info.UsableStamina = entry.ReadSShort();
-				info.UsableFat = entry.ReadSShort();
-				info.UsableUpper = entry.ReadSShort();
-				info.UsableLower = entry.ReadSShort();
-				info.UsableToxic = entry.ReadFloat();
-			}
+
+			info.OnUse = entry.ReadString();
+			info.OnEquip = entry.ReadString();
+			info.OnUnequip = entry.ReadString();
+			if (string.IsNullOrWhiteSpace(info.OnUse))
+				info.OnUse = null;
+			if (string.IsNullOrWhiteSpace(info.OnEquip))
+				info.OnEquip = null;
+			if (string.IsNullOrWhiteSpace(info.OnUnequip))
+				info.OnUnequip = null;
 
 			this.Entries.Add(info.Id, info);
 		}
