@@ -139,9 +139,13 @@ namespace Aura.World.Scripting
 
 			foreach (var entry in MabiData.ItemDb.Entries.Values)
 			{
-				// Ignore empty script strings
-				if (string.IsNullOrWhiteSpace(entry.OnUse) && string.IsNullOrWhiteSpace(entry.OnUse) && string.IsNullOrWhiteSpace(entry.OnUse))
-					continue;
+				// Look for a default script (script/item/<id>.cs) if everything is empty
+				var defaulting = false;
+				if (string.IsNullOrWhiteSpace(entry.OnUse) && string.IsNullOrWhiteSpace(entry.OnEquip) && string.IsNullOrWhiteSpace(entry.OnUnequip))
+				{
+					defaulting = true;
+					entry.OnUse = string.Format("use(\"{0}.cs\");", entry.Id);
+				}
 
 				// Load include scripts directly
 				var match = Regex.Match(entry.OnUse, @"^\s*use\s*\(\s*""([^\)]+)""\s*\)\s*;?\s*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -150,7 +154,8 @@ namespace Aura.World.Scripting
 					var path = Path.Combine(WorldConf.ScriptPath, "item", match.Groups[1].Value);
 					if (!File.Exists(path))
 					{
-						Logger.Warning("Item script not found: {0}", Path.GetFileName(path));
+						if (!defaulting)
+							Logger.Warning("Item script not found: {0}", Path.GetFileName(path));
 					}
 					else
 					{
