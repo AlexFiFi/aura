@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8">
+		<title>Guild Home</title>
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		
+		<link rel="stylesheet" href="../shared/css/reset.css" media="all" />
+		<link rel="stylesheet" href="css/style.css?<?php echo time() ?>" media="all" />
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+			$().ready(function() {
+<?php if(!isset($error)): ?>
+				var guildid  = '<?php echo $guildId ?>';
+				var userid   = '<?php echo $accountName ?>';
+				var userchar = '<?php echo $characterId ?>';
+				var key      = '<?php echo $sessionId ?>';
+		
+				// Menu
+				$('ul#menu a').click(function(e) {
+					e.preventDefault();
+					var href = this.getAttribute('href');
+					$('.content > div.site').hide();
+					$('.content > div#site_'+href.substr(1)).show();
+				});
+				
+				// Change rank
+				$('select.rank').change(function() {
+					var id = this.getAttribute('data-id');
+					var rank = parseInt(this.value);
+					
+					var $this = $(this);
+					$.get('action.php', { 'guildid':guildid, 'userid':userid, 'userchar':userchar, 'key':key, 'rank':rank, 'id':id }, function(data) {
+						if(data.success)
+						{
+							// Set class according to new rank.
+							var tr = $this.closest('tr');
+							tr.removeClass('officer');
+							switch(rank)
+							{
+								case 1: tr.addClass('officer'); break;
+								case 3: tr.addClass('senior'); break;
+								case 5: tr.addClass('member'); break;
+							}
+						}
+						else
+						{
+							alert('Failure.');
+						}
+					}, 'json');
+				});
+				
+				// Deleting
+				$('a.delete').click(function(e) {
+					e.preventDefault();
+					
+					var id = this.getAttribute('data-id');
+					var name = this.getAttribute('data-name');
+					
+					if(confirm(userchar != id ? 'Do you want to delete "' + name + "'?" : 'Do you want to leave?'))
+					{
+						var $this = $(this);
+						$.get('action.php', { 'guildid':guildid, 'userid':userid, 'userchar':userchar, 'key':key, 'delete':id }, function(data) {
+							if(data.success)
+							{
+								// Close window of layer left guild.
+								if(userchar != id)
+									$this.closest('tr').hide();
+								else
+									window.close();
+							}
+							else
+							{
+								alert('Failure.');
+							}
+						}, 'json');
+					}
+				});
+				
+				// Accepting
+				$('a.accept').click(function(e) {
+					e.preventDefault();
+					
+					var id = this.getAttribute('data-id');
+					var name = this.getAttribute('data-name');
+					
+					if(confirm('Do you want to accept "' + name + "'?"))
+					{
+						var $this = $(this);
+						$.get('action.php', { 'guildid':guildid, 'userid':userid, 'userchar':userchar, 'key':key, 'accept':id }, function(data) {
+							if(data.success)
+							{
+								// Hide li containing the accept link
+								$this.parent().hide();
+								
+								// Change class to member and set rank to 5 (Member)
+								$this.closest('tr').addClass('member').removeClass('applied').find('select.rank').val(5);
+							}
+							else
+							{
+								alert('Failure.');
+							}
+						}, 'json');
+					}
+				});
+				
+				// Save button enabling
+				$('.setting').on('input', function() {
+					$('#saveSettings').attr('disabled', false);
+				});
+				
+				// Max length count
+				$('span.maxCount').each(function() {
+					var $this = $(this);
+					var $input = $('textarea[name='+$this.attr('data-input')+']');
+					
+					var doo = function() {
+						$this.html('(' + $input.val().length + ' / ' + $input.attr('maxlength') + ')');
+					};
+					
+					doo();
+					$input.on('input', doo);
+				});
+				
+				// Saving
+				$('#saveSettings').click(function(e) {
+					var data = $('#settingsForm').serialize();
+					
+					$.post('action.php', data, function(data) {
+						if(data.success)
+						{
+							$('#saveSettings').attr('disabled', true);
+						}
+						else
+						{
+							alert('Failure.');
+						}
+					}, 'json');
+				});
+				
+				// Resets on reload
+				$('#saveSettings').attr('disabled', true);
+				$('select.loadSet').each(function() {
+					$(this).val(this.getAttribute('data-load'));
+				});
+<?php endif; ?>
+				$('#main').addClass('js');
+				$('#main #site_members').show();
+			});
+		</script>
+	</head>
+	<body>
+		<noscript>Please enable JavaScript in your internet settings.</noscript>
+		
+		<div id="main">
+		<?php if(isset($error)): ?>
+			<?php echo $error ?>
+		<?php else: ?>
+
+			<div class="head">
+				<h1><?php echo $guild['name'] ?></h1>
+				<h1 class="sub"><?php echo getGuildType($guild['type']) ?> (<?php echo getGuildLevel($guild['level']) ?>)</h2>
+			</div>
+			
+			<div class="info">
+				<?php echo $guild['gp'] ?> GP&nbsp;&nbsp;<?php echo $guild['gold'] ?> Gold
+			</div>
+			
+			<ul id="menu">
+				<li><a href="#members">Members</a></li>
+				<li><a href="#settings">Settings</a></li>
+			</ul>
+			
+			<div class="content">
+				<div class="site" id="site_members">
+					<h2>Members</h2>
+					<table id="members">
+					<?php for($i=0;$i<count($guild['members']); ++$i): ?>
+						<?php $member = $guild['members'][$i] ?>
+						<tr class="<?php echo getRankShort($member['rank']) ?>">
+							<td class="name"><span title="<?php echo $member['appMessage'] ?>"><?php echo $member['name'] ?></span></td>
+							<td class="options">
+								<ul>
+								<?php if($isLeader && $member['characterId'] !== $character['id']): ?>
+									<li>
+										<select class="rank loadSet" data-load="<?php  echo $member['rank'] ?>" data-id="<?php echo $member['characterId'] ?>">
+											<option <?php if($member['rank']==1): ?>selected<?php endif; ?> value="1">Officer</option>
+											<option <?php if($member['rank']==3): ?>selected<?php endif; ?> value="3">Senior</option>
+											<option <?php if($member['rank']>=5): ?>selected<?php endif; ?> value="5">Member</option>
+										</select>
+									</li>
+								<?php endif; ?>
+								<?php if(($isLeader || $isOfficer) && $member['rank'] == 254): ?>
+									<li><a class="accept" data-id="<?php echo $member['characterId'] ?>" data-name="<?php echo $member['name'] ?>" href="#">Accept</a></li>
+								<?php endif; ?>
+								<?php if(($isLeader || $isOfficer) && $member['characterId'] !== $character['id'] && $character['guildRank'] < $member['rank']): ?>
+									<li><a class="delete" data-id="<?php echo $member['characterId'] ?>" data-name="<?php echo $member['name'] ?>" href="#">Delete</a></li>
+								<?php endif; ?>
+								<?php if(!$isLeader && $member['characterId'] === $character['id']): ?>
+									<li><a class="delete" data-id="<?php echo $member['characterId'] ?>" data-name="<?php echo $member['name'] ?>" href="#">Leave</a></li>
+								<?php endif; ?>
+								</ul>
+							</td>
+						</tr>
+					<?php endfor; ?>
+					</table>
+				</div>
+				<div class="site" id="site_settings">
+					<h2>Settings</h2>
+					<?php if($isLeader || $isOfficer): ?>
+						<form id="settingsForm">
+							<input type="hidden" name="guildid" value="<?php echo $guildId ?>"/>
+							<input type="hidden" name="userid" value="<?php echo $accountName ?>"/>
+							<input type="hidden" name="userchar" value="<?php echo $characterId ?>"/>
+							<input type="hidden" name="key" value="<?php echo $sessionId ?>"/>
+							<input type="hidden" name="save" value="Save"/>
+							
+							<h3>Intro message <span class="maxCount" data-input="intro"></span></h3>
+							<textarea maxlength="500" class="setting" name="intro"><?php echo $guild['intro'] ?></textarea>
+							<br/>
+							<h3>Welcome message <span class="maxCount" data-input="welcome"></span></h3>
+							<textarea maxlength="100" class="setting" name="welcome"><?php echo $guild['welcome'] ?></textarea>
+							<br/>
+							<h3>Leaving message <span class="maxCount" data-input="leaving"></span></h3>
+							<textarea maxlength="100" class="setting" name="leaving"><?php echo $guild['leaving'] ?></textarea>
+							<br/>
+							<h3>Rejection message <span class="maxCount" data-input="rejection"></span></h3>
+							<textarea maxlength="100" class="setting" name="rejection"><?php echo $guild['rejection'] ?></textarea>
+							<br/>
+							<br/>
+							<input disabled="disabled" id="saveSettings" type="button" value="Save"/>
+						</form>
+					<? endif; ?>
+				</div>
+			</div>
+		
+		<?php endif;?>
+		</div>
+	</body>
+</html>

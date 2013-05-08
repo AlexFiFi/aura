@@ -48,4 +48,9 @@ class MySQL
 	{
 		return @mysql_real_escape_string($val, $this->connection);
 	}
+	
+	public function affected()
+	{
+		return @mysql_affected_rows($this->connection);
+	}
 }

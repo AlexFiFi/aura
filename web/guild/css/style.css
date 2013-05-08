@@ -1,0 +1,129 @@
+@import url(http://fonts.googleapis.com/css?family=Unkempt);
+
+html, body {
+	height: auto; }
+
+body {
+	font-family: Arial, Helvetica, Garuda, sans-serif;
+	font-size: 13px;
+	background: #508abf;
+	cursor: default; }
+
+a {
+	text-decoration: none;
+	color: #508abf; }
+	
+a:hover {
+	text-decoration: underline; }
+
+h1 {
+	font-family: 'Unkempt', cursive;
+	font-size: 32px;
+	margin: 0; }
+
+h1.sub {
+	font-family: Arial, Helvetica, Garuda, sans-serif;
+	font-size: 15px;
+	color: #aaa;
+	margin: -10px 0 0 0;
+	font-weight: normal; }
+
+h2 {
+	font-size: 15px;
+	margin: 0; }
+
+h3 {
+	font-size: 13px;
+	margin: 0; }
+
+#main {
+	display: none; }
+
+#main.js {
+	display: block; }
+
+#main {
+	margin: 10px;
+	padding: 20px;
+	position: relative;
+	background: #fff;
+	border-radius: 10px;
+	min-height: 550px; }
+
+ul#menu,
+ul#menu li {
+	margin: 0;
+	padding: 0;
+	list-style: none; }
+
+ul#menu {
+	margin: 8px 0 16px 0; }
+
+ul#menu li {
+	display: inline;
+	padding-right: 10px; }
+
+.info {
+	position: absolute;
+	top: 25px;
+	right: 25px; }
+
+.content .site {
+	display: none; }
+
+/* MEMBER TABLE
+--------------------------------------------------------------------------*/
+
+#members {
+	width: 100%; }
+
+#members td {
+	border-bottom: 1px dashed #ccc;
+	padding: 5px 5px 5px 27px;
+	vertical-align: middle; }
+
+#members td.name span {
+	cursor: help; }
+
+#members tr.leader td.name {
+	background: url('../images/crown1.png') no-repeat 3px center; }
+
+#members tr.officer td.name {
+	background: url('../images/crown2.png') no-repeat 3px center; }
+
+#members tr.bronze td.name {
+	background: url('../images/crown3.png') no-repeat 3px center; }
+
+#members tr.applied td.name {
+	background: url('../images/waiting.gif') no-repeat 3px center; }
+
+#members tr.applied td.options select {
+	visibility: hidden; }
+
+#members tr td.options {
+	text-align: right; }
+
+#members tr td.options select {
+	border: 1px solid #ccc;
+	padding: 3px;
+	width: 100px; }
+
+#members tr td.options ul,
+#members tr td.options ul li {
+	margin: 0;
+	padding: 0;
+	list-style: none; }
+
+#members tr td.options ul li {
+	display: inline;
+	padding-left: 5px; }
+
+#members tr:hover td {
+	background-color: #f0f0f0 !important; }
+
+/* SETTINGS
+--------------------------------------------------------------------------*/
+
+#site_settings textarea {
+	width: 400px;
+	height: 75px;
