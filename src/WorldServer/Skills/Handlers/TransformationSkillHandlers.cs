@@ -4,6 +4,7 @@
 using Aura.Shared.Network;
 using Aura.World.World;
 using System;
+using Aura.World.Network;
 
 namespace Aura.World.Skills
 {
@@ -75,6 +76,14 @@ namespace Aura.World.Skills
 	public class SoulOfChaosHandler : SpiritOfOrderHandler
 	{
 		protected override byte TransformId { get { return 2; } }
+
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
+		{
+			var r = base.Start(creature, skill);
+			if ((r & SkillResults.Okay) == SkillResults.Okay)
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/Glasgavelen_blowaway_endure.wav"), SendTargets.Range, creature);
+			return r;
+		}
 
 		// Bonuses must be stored somewhere, to properly remove them again.
 		//public override void AddStatBonus(MabiCreature creature, MabiSkill skill)
