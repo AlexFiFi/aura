@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Sion - Furnace/Windmill Boy
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -42,4 +48,61 @@ public class SionScript : NPCScript
 		Phrases.Add("Why does Bryce not like me?");
 		Phrases.Add("You have to pay. You have to pay to activate the switch!");
 	}
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "Wearing a sturdy overall over his pale yellow shirt, this boy has soot and dust all over his face, hands, and clothes.",
+            "His short and stubby fingers are quite calloused, and he repeatedly rubs his hands on the bulging pocket of his pants.",
+            "His dark green hair is so coarse that even his hair band can't keep it neat. But between his messy hair, his brown sparkly eyes shine bright with curiosity."
+        );
+        MsgSelect(c, "What's up?", Button("Start Conversation", "@talk"), Button("Use a Furnace", "@furnace"), Button("Upgrade Item", "@upgrade"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "You're not from this town, are you? I don't think I've seen you before.");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Sion is paying attention to me.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+            case "@furnace":
+            {
+                    Msg(c, "Do you want to use the furnace?<br/>You can use it for 1 minute with 100 Gold,<br/>and for 5 minutes with 450 Gold.");
+
+                    MsgSelect(c, "Hehe... It uses firewood, water, and other things...<br/>so I'm sorry but i have to charge you or I lose money. <br/>However, anyone can use it when it's running.",
+                    Button("1 Minute", "@onemin"), Button("5 Minutes", "@fivemin"), Button("Forget It", "@forget")
+                );
+                var duration = Wait();
+
+                if (duration == "@forget")
+                {
+                    Msg(c, "You're not going to pay? Then you can't make ingots.<br/>You need fire to refine ore...");
+                    End();
+                }
+
+                Msg(c, "(Unimplemented)");
+                End();
+            }
+            case "@upgrade":
+            {
+                MsgSelect(c,
+                    "The Pickaxe?<br/>Well, I used to play with it quite a bit as a kid...<br/>Do you think it needs to be upgraded? Leave it up to me.",
+                    Button("End Conversation", "@endupgrade")
+                );
+
+                r = Wait();
+
+                Msg(c, "Come see me anytime, especially if you need anything upgraded.");
+                End();
+            }
+        }
+    }
 }

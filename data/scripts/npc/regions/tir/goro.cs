@@ -25,6 +25,32 @@ public class GoroScript : NPCScript
 		EquipItem(Pocket.LeftHand1, 0x9C47, 0x405062, 0x7F7237, 0x729E);
 		EquipItem(Pocket.RightHand1, 0xB3B1, 0x4F4F4B, 0x746C54, 0x4D1D77);
 
+		Shop.AddTabs("Arena", "Potions");
+
+        //----------------
+        // Arena
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Arena", 63019, 10);	//Alby Battle Arena Coin
+        Shop.AddItem("Arena", 63019, 20);	//Alby Battle Arena Coin
+        Shop.AddItem("Arena", 63019, 50);	//Alby Battle Arena Coin
+        Shop.AddItem("Arena", 63019, 100);	//Alby Battle Arena Coin
+
+        //----------------
+        // Potions
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Potions", 60005, 10);	//Bandage
+        Shop.AddItem("Potions", 60005, 20);	//Bandage
+        Shop.AddItem("Potions", 63000, 10);	//Phoenix Feather
+        Shop.AddItem("Potions", 63000, 20);	//Phoenix Feather
+        Shop.AddItem("Potions", 51002);		//HP 30 Potion
+        Shop.AddItem("Potions", 51002, 20);	//HP 30 Potion
+        Shop.AddItem("Potions", 51012);		//Stamina 30 Potion
+        Shop.AddItem("Potions", 51012, 20);	//Stamina 30 Potion
+
 		Phrases.Add("Here, you may enter Alby Arena.");
 		Phrases.Add("Test your strength here, in Alby Arena!");
 		Phrases.Add("Wait, do not attack.");
@@ -39,7 +65,8 @@ public class GoroScript : NPCScript
 			"Yet, there is something different about this one.",
 			"Strangely, it appears to have a sense of noble demeanor that does not match its rugged looks."
 		);
-		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop");
+
+		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 		
 		var r = Wait();
 		switch (r)

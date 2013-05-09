@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Bryce - Banker
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -25,6 +31,18 @@ public class BryceScript : NPCScript
 
 		SetDirection(0);
 		SetStand("human/male/anim/male_natural_stand_npc_bryce");
+
+        Shop.AddTabs("License");
+
+        //----------------
+        // License
+        //----------------
+
+        //Page 1
+        Shop.AddItem("License", 60103); //Bangor Merchant License
+        Shop.AddItem("License", 81010); //Purple Personal Shop Brownie Work-For-Hire Contract
+        Shop.AddItem("License", 81011); //Pink Personal Shop Brownie Work-For-Hire Contract
+        Shop.AddItem("License", 81012); //Green Personal Shop Brownie Work-For-Hire Contract
         
 		Phrases.Add("*Cough* There's just too much dust in here.");
 		Phrases.Add("Anyway, where did Ibbie go again?");
@@ -40,4 +58,58 @@ public class BryceScript : NPCScript
 		Phrases.Add("What should I buy Ibbie today?");
 		Phrases.Add("When was I supposed to be contacted from Dunbarton?");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName, "He's dressed neatly in a high neck shirt and a brown vest.<br/>His cleft chin is cleanly shaved and his hair has been well groomed and flawlessly brushed back.<br/>He stares at you with shining hazelnut eyes that are deep-set in his pale face.");
+        MsgSelect(c, "What is it?", Button("Start Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "Welcome to the Bangor branch of the Erskin Bank.");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Bryce is looking at me.)");
+                ShowKeywords(c);
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+
+            case "@bank":
+            {
+                Msg(c, "(Unimplemented)");
+                End();
+            }
+
+            case "@redeem":
+            {
+                MsgInput(c, "Would you like to redeem your coupon?<br/>You're a blessed one.<br/>Please input the number of coupons you wish to redeem.", "Exchange Coupon", "Enter your coupon number");
+                var input = Wait();
+                if (input == "@cancel")
+                    End();
+
+                if (!CheckCode(c, input))
+                {
+                    Msg(c, "......<br/>I'm not sure what kind of coupon this is.<br/>Please make sure that you have inputted the correct coupon number.");
+                    End();
+                }
+
+                // Unofficial response.
+                Msg(c, "There you go, have a nice day.");
+                End();
+            }
+
+            case "@shop":
+            {
+                Msg(c, "You need a license to open a Personal Shop here.<br/>...I recommend buying one in case you need it.");
+                OpenShop(c);
+                End();
+            }
+        }
+    }
 }

@@ -64,6 +64,7 @@ namespace Aura.World.Util
 		// Skills
 		public static bool BunshinSouls;
 		public static bool PerfectPlay;
+		public static bool DkSoundFix;
 
 		// Shops
 		public static bool ColorChange;
@@ -133,6 +134,7 @@ namespace Aura.World.Util
 
 			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
 			WorldConf.PerfectPlay = _conf.GetBool("world.perfectplay", false);
+			WorldConf.DkSoundFix = _conf.GetBool("world_dk_sound_fix", true);
 
 			WorldConf.ColorChange = _conf.GetBool("world_colorchange", true);
 

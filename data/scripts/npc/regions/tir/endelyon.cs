@@ -26,7 +26,17 @@ public class EndelyonScript : NPCScript
 		EquipItem(Pocket.Armor, 15009, 0x303133, 0xC6D8EA, 0xDBC741);
 		EquipItem(Pocket.Shoe, 17015, 0x303133, 0xA0927D, 0x4F548D);
 		
-		Shop.AddTabs("Gifts");
+		Shop.AddTabs("Gift");
+
+        //----------------
+        // Gift
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Gift", 52012);	//Candlestick
+        Shop.AddItem("Gift", 52013);	//Flowerpot
+        Shop.AddItem("Gift", 52020);	//Flowerpot
+        Shop.AddItem("Gift", 52024);	//Boquet
 
 		Phrases.Add("Hmm... Something doesn't feel right.");
 		Phrases.Add("I really need some help here...");
@@ -41,7 +51,8 @@ public class EndelyonScript : NPCScript
 			"Her face is set in a calm, demur expression, and her eyes exude warmth.",
 			"A slight smile tugging at her lips hints at a strong will."
 		);
-		MsgSelect(c, "May I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Modify", "@modify");
+
+		MsgSelect(c, "May I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify", "@modify"));
 		
 		var r = Wait();
 		switch (r)
@@ -64,7 +75,7 @@ public class EndelyonScript : NPCScript
 			{
 				MsgSelect(c,
 					"Are you asking me...to modify your item?<br/>Honestly, I am not sure if I can, but if you still want me to, I'll give it a try<br/>Please choose an item to modify.",
-					"End Conversation", "@endmodify"
+					Button("End Conversation", "@endmodify")
 				);
 				r = Wait();
 				Msg(c, "Do you want me to stop...? Well, then... Next time...");

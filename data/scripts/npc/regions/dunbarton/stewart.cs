@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Stewart - Magic School Teacher
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -27,6 +33,57 @@ public class StewartScript : NPCScript
 
 		SetDirection(99);
 		SetStand("");
+
+        Shop.AddTabs("Magic Items", "Spellbook", "Magic Weapons", "Quest");
+
+        //----------------
+        // Magic Items
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Magic Items", 63000);		//Phoenix Feather
+        Shop.AddItem("Magic Items", 63000, 10);		//Phoenix Feather
+        Shop.AddItem("Magic Items", 63001);		//Wings of a Goddess
+        Shop.AddItem("Magic Items", 63001, 5);		//Wings of a Goddess
+        Shop.AddItem("Magic Items", 62003);		//Blessed Magic Powder
+        Shop.AddItem("Magic Items", 62003, 10);		//Blessed Magic Powder
+        Shop.AddItem("Magic Items", 62001);		//Elite Magic Powder
+        Shop.AddItem("Magic Items", 62001, 10);		//Elite Magic Powder
+        Shop.AddItem("Magic Items", 62014);		//Spirit Weapon Restoration Potion
+
+        //----------------
+        // Spellbook
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Spellbook", 1009);		//A Guidebook on Firebolt
+        Shop.AddItem("Spellbook", 1008);		//Icebolt Spell: Origin and Training
+        Shop.AddItem("Spellbook", 1010);		//Basics of Lightning Magic: the Lightning Bolt
+        Shop.AddItem("Spellbook", 1007);		//Healing: The Basics of Magic
+
+        //----------------
+        // Magic Weapons
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Magic Weapons", 40038);		//Lightning Wand
+        Shop.AddItem("Magic Weapons", 40039);		//Ice Wand
+        Shop.AddItem("Magic Weapons", 40040);		//Fire Wand
+        Shop.AddItem("Magic Weapons", 40041);		//Combat Wand
+        Shop.AddItem("Magic Weapons", 40090);		//Healing Wand
+        Shop.AddItem("Magic Weapons", 40231);		//Crystal Lightning Wand
+        Shop.AddItem("Magic Weapons", 40232);		//Crown Ice Wand
+        Shop.AddItem("Magic Weapons", 40233);		//Phoenix Fire Wand
+        Shop.AddItem("Magic Weapons", 40234);		//Tikka Wood Healing Wand
+
+        //----------------
+        // Quest
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Quest", 70023); //Collecting Quests
+        Shop.AddItem("Quest", 70023);
+        Shop.AddItem("Quest", 70023);
         
 		Phrases.Add("Hmm... I'll have to talk with Kristell about this.");
 		Phrases.Add("Hmm... There aren't enough textbooks available.");
@@ -38,4 +95,61 @@ public class StewartScript : NPCScript
 		Phrases.Add("Perhaps there's something wrong with my lecture?");
 
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "He is a young man with nerdy spectacles and tangled hair.",
+            "Beneath his glasses, his soft eyes are somewhat appealing,",
+	    "but his stained tunic and his hands with reek of herbs confirm that he is clumsy and unkempt."
+        );
+        MsgSelect(c, "How can I help you?", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "Mmm... How can I help you?");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Stewart is looking in my direction.)");
+                ShowKeywords(c);
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+            case "@shop":
+            {
+                Msg(c, "I have a few items related to magic here.<br/>You can buy some if you need any.");
+                OpenShop(c);
+                End();
+            }
+            case "@repair":
+            {
+                MsgSelect(c,
+                "Do you want to repair your magic weapon?<br/>All magic weapons are laden with Mana, so it's impossible to physically fix them.<br/>If you fix them the way blacksmiths fix swords, then they may lose all the magic powers that come with them.",
+                Button("End Conversation", "@endrepair")
+                );
+
+                r = Wait();
+
+                Msg(c, "Please handle with care..");
+                End();
+            }
+            case "@upgrade":
+            {
+                MsgSelect(c,
+                    "You want to upgrade something?<br/>First, let me see the item.<br/>Remember that the amount and type of upgrade varies with each item.",
+                    Button("End Conversation", "@endupgrade")
+                );
+
+                r = Wait();
+
+                Msg(c, "Come see me again next time if you have something else to upgrade.");
+                End();
+            }
+        }
+    }
 }

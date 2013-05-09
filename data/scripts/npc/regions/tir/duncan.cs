@@ -51,7 +51,7 @@ public class DuncanScript : NPCScript
 		
 		Hook(c, "quests");
 		
-		MsgSelect(c, "Please let me know if you need anything.", "Start Conversation", "@talk", "Shop", "@shop", "Retrive Lost Items", "@lostandfound");
+		MsgSelect(c, "Please let me know if you need anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Retrive Lost Items", "@lostandfound"));
 		
 		var r = Wait();
 		switch (r)

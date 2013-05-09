@@ -1,6 +1,6 @@
 // Aura Script
 // --------------------------------------------------------------------------
-// Bebhinn - Banker
+// Bebhinn - Banker 
 // --------------------------------------------------------------------------
 
 using System;
@@ -40,7 +40,17 @@ public class BebhinnScript : NPCScript
 			EquipItem(Pocket.Shoe, 17004, 0x4E435F, 0xA0927D, 0x4F548D);
 		}
 
-		Shop.AddTabs("Personal Shop License");
+		Shop.AddTabs("License");
+
+        //----------------
+        // License
+        //----------------
+
+        //Page 1
+        Shop.AddItem("License", 60101); //Tir Chonaill Merchant License
+        Shop.AddItem("License", 81010); //Purple Personal Shop Brownie Work-For-Hire Contract
+        Shop.AddItem("License", 81011); //Pink Personal Shop Brownie Work-For-Hire Contract
+        Shop.AddItem("License", 81012); //Green Personal Shop Brownie Work-For-Hire Contract
 
 		Phrases.Add("Any city would be better than here, right?");
 		Phrases.Add("I prefer rainy days over clear days.");
@@ -56,7 +66,8 @@ public class BebhinnScript : NPCScript
 	public override IEnumerable OnTalk(WorldClient c)
 	{
 		Msg(c, Options.FaceAndName, "A young lady is admiring her nails as you enter.<br/>When she notices you, she looks up expectantly, as if waiting for you to liven things up.<br/>Her big, blue eyes sparkle with charm and fun, and her subtle smile creates irresistable dimples.");
-		MsgSelect(c, "May I help you?", "Start Conversation", "@talk", "Open My Account", "@bank", "Redeem Coupon", "@redeem", "Shop", "@shop");
+
+		MsgSelect(c, "May I help you?", Button("Start Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
 		
 		var r = Wait();
 		switch (r)

@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Kristell - Churche Priestess
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -25,6 +31,18 @@ public class KristellScript : NPCScript
 
 		SetDirection(0);
 		SetStand("human/female/anim/female_natural_stand_npc_Kristell");
+
+        Shop.AddTabs("Gift");
+
+        //----------------
+        // Gift
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Gift", 52012);		//Candlestick
+        Shop.AddItem("Gift", 52013);		//Flowerpot
+        Shop.AddItem("Gift", 52020);		//Flowerpot
+        Shop.AddItem("Gift", 52024);		//Flowerpot
         
 		Phrases.Add("...");
 		Phrases.Add("I wish there was someone who could ring the bell on time...");
@@ -35,4 +53,36 @@ public class KristellScript : NPCScript
 		Phrases.Add("There should be a message from the Pontiff's Office any day now.");
 		Phrases.Add("Why do these villagers obsess so much over their current lives?");
 	}
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "This priestess, in her neat Lymilark priestess robe, has eyes and hair the color of red wine.",
+            "Gazing into the distance, she wears a tilted cross, a symbol of Lymilark, around her neck.",
+	    "She wears dangling earrings made of the same material which emanate a gentle glow."
+        );
+        MsgSelect(c, "Welcome to the Church of Lymilark.", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+                {
+                    Msg(c, "I am Priestess Kristell. Nice to meet you.");
+
+                L_Keywords:
+                    Msg(c, Options.Name, "(Kristell is waiting for me to say something.)");
+                    ShowKeywords(c);
+                    var keyword = Wait();
+
+                    Msg(c, "Can we change the subject?");
+                    goto L_Keywords;
+                }
+            case "@shop":
+                {
+                    Msg(c, "What is it that you are looking for?");
+                    OpenShop(c);
+                    End();
+                }
+}
+}
 }

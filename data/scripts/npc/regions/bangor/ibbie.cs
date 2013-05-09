@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Ibbie - Daughter of Sion
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -43,4 +49,35 @@ public class IbbieScript : NPCScript
 		Phrases.Add("Where is Sion?");
 
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "Under the wide brim of the Mongo hat, her lovely blonde hair dances in the gentle breeze.",
+            "Her delicate neck stretches out of the lace collar of her intricately tailored rosy-pink dress.",
+            "Her big, bright jade eyes twinkle",
+            "and her round face, like porcelain, is so fair that it looks pale."
+        );
+        MsgSelect(c, "Do you have something to say?", Button("Start Conversation", "@talk"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "You must be a visitor in this town, aren't you?");
+                Msg(c, "<username/>..");
+                Msg(c, "Me... I'm Ibbie.");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Ibbie is slowly looking me over.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+        }
+    }
 }

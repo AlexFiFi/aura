@@ -36,8 +36,8 @@ public class CommerceGoblinScript : NPCScript
 		Msg(c, Options.FaceAndName, "Shuffling about with boxes and sacks of trade goods, this fellow seems too busy to bother with you.");
 		MsgSelect(c,
 			"Money is something you can never have too much of.<br/>How much did you earn?",
-			"Trade", "@trade", "Repair Fomor Weapons", "@repair", "Commerce Explanation", "@explain",
-			"Ducats", "@ducats", "End Conversation", "@end"
+			Button("Trade"), Button("Repair Fomor Weapons", "@repair"), Button("Commerce Explanation", "@explain"),
+			Button("Ducats"), Button("End Conversation", "@end")
 		);
 		
 		var r = Wait();
@@ -51,7 +51,7 @@ public class CommerceGoblinScript : NPCScript
 				
 			case "@repair":
 			{
-				MsgSelect(c, "If it's a Fomor weapon, I can repair it.", "End Conversation", "@endcare");
+				MsgSelect(c, "If it's a Fomor weapon, I can repair it.", Button("End Conversation", "@endcare"));
 				Msg(c, "Okay, take good care of it.");
 				End();
 			}

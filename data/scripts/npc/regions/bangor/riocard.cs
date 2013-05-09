@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Riocard - NPC In the Cafe
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -37,4 +43,33 @@ public class RiocardScript : NPCScript
 		Phrases.Add("Well, work is work.");
 		Phrases.Add("Why should I clean up everyone's mess?");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "He wears a yellow beret backwards at a slight angle as his hair sticks out on the sides.",
+            "The yellow shirt that he seemed to have put on in a rush matches his hat.",
+            "Between the narrow shoulders, his face is still full of boyish charm.",
+            "Every time he blinks, his eyelid casts a slight shadow over his innocent, light green eyes."
+        );
+        MsgSelect(c, "Mmm? What is it?", Button("Start Conversation", "@talk"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "You've been here before, haven't you? I recognize your face.");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Riocard is looking at me.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+        }
+    }
 }

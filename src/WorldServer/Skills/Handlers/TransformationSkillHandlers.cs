@@ -80,8 +80,20 @@ namespace Aura.World.Skills
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			var r = base.Start(creature, skill);
-			if ((r & SkillResults.Okay) == SkillResults.Okay)
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/Glasgavelen_blowaway_endure.wav"), SendTargets.Range, creature);
+			if (Util.WorldConf.DkSoundFix && (r & SkillResults.Okay) == SkillResults.Okay)
+			{
+				System.Threading.Thread t = new System.Threading.Thread(() =>
+					{
+						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/Glasgavelen_blowaway_endure.wav"), SendTargets.Range, creature);
+						System.Threading.Thread.Sleep(420);
+						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/g1_darkmagic_0.wav"), SendTargets.Range, creature);
+						System.Threading.Thread.Sleep(2050);
+						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/g1_scene_change.wav"), SendTargets.Range, creature);
+						System.Threading.Thread.Sleep(470);
+						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/g1_scene_change.wav"), SendTargets.Range, creature);
+					});
+				t.Start();
+			}
 			return r;
 		}
 

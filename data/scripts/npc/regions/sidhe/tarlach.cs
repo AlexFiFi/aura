@@ -65,7 +65,7 @@ public class TarlachScript : NPCScript
 			"He has wavy blonde hair and white skin with a well defined chin that gives off a gentle impression.",
 			"Behind his thick glasses, however, are his cold emerald eyes filled with silent gloom."
 		);
-		MsgSelect(c, "...Mmm...", "Start Conversation", "@talk");
+		MsgSelect(c, "...Mmm...", Button("Start Conversation", "@talk"));
 		
 		var r = Wait();
 		if(r == "@talk")

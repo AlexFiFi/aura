@@ -1526,7 +1526,7 @@ namespace Aura.World.World
 			WorldManager.Instance.AddProp(p);
 			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
 
-			this.Broadcast(PacketCreator.Notice(name + " Guild has been created. Guild leader: " + leader.Name, NoticeType.Top), SendTargets.All);
+			this.Broadcast(PacketCreator.Notice(name + " Guild has been created. Guild leader: " + leader.Name, NoticeType.Top, 20000), SendTargets.All);
 
 			return true;
 		}

@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Manolin - Manolin's Revenge
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -37,4 +43,19 @@ public class ManolinScript : NPCScript
 		Phrases.Add("My father wanted to catch a Striped Marlin.");
 		Phrases.Add("Today feels like a good day for Mako hunting...");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        MsgSelect(c, "I caught a huge shark this morning.<br/>I'll show it to you later.", Button("Request from Manolin", "@requestm"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@requestm":
+            {
+                Msg(c, "(Unimplemented)");
+                End();
+            }
+	}
+}
 }

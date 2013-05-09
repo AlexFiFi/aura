@@ -1,6 +1,6 @@
 // Aura Script
 // --------------------------------------------------------------------------
-// Dilys - Healer
+// Dilys - Healer 
 // --------------------------------------------------------------------------
 
 using System;
@@ -32,6 +32,51 @@ public class DilysScript : NPCScript
 
 		Shop.AddTabs("Potions", "First Aid Kits", "Etc.");
 
+        //----------------
+        // Potions
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Potions", 51037, 10);	//Base Potion
+        Shop.AddItem("Potions", 51001);		//HP 10 Potion
+        Shop.AddItem("Potions", 51011);		//Stamina 10 Potion
+        Shop.AddItem("Potions", 51000);		//Potion Concoction Kit
+        Shop.AddItem("Potions", 51201, 1);	//Marionette 30 Potion
+        Shop.AddItem("Potions", 51201, 10);	//Marionette 30 Potion
+        Shop.AddItem("Potions", 51201, 20);	//Marionette 30 Potion
+        Shop.AddItem("Potions", 51202, 1);	//Marionette 50 Potion
+        Shop.AddItem("Potions", 51202, 10);	//Marionette 50 Potion
+        Shop.AddItem("Potions", 51202, 20);	//Marionette 50 Potion
+        Shop.AddItem("Potions", 51002, 1);	//HP 30 Potion
+        Shop.AddItem("Potions", 51002, 10);	//HP 30 Potion
+        Shop.AddItem("Potions", 51002, 20);	//HP 30 Potion
+        Shop.AddItem("Potions", 51012, 1);	//Stamina 30 Potion
+        Shop.AddItem("Potions", 51012, 10);	//Stamina 30 Potion
+        Shop.AddItem("Potions", 51012, 20);	//Stamina 30 Potion
+
+        //----------------
+        // First Aid Kits
+        //----------------
+
+        //Page 1
+        Shop.AddItem("First Aid Kits", 60005, 10);	//Bandage
+        Shop.AddItem("First Aid Kits", 60005, 20);	//Bandage
+        Shop.AddItem("First Aid Kits", 63000, 10);	//Phoenix Feather
+        Shop.AddItem("First Aid Kits", 63000, 20);	//Phoenix Feather
+        Shop.AddItem("First Aid Kits", 63032);		//Pet First-Aid Kit
+        Shop.AddItem("First Aid Kits", 63716, 10);	//Marionette Repair Set
+        Shop.AddItem("First Aid Kits", 63716, 20);	//Marionette Repair Set
+        Shop.AddItem("First Aid Kits", 63715, 10);	//Fine Marionette Repair Set
+        Shop.AddItem("First Aid Kits", 63715, 20);	//Fine Marionette Repair Set
+
+        //----------------
+        // Etc.
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Etc.", 91563, 1);		//Hot Spring Ticket
+        Shop.AddItem("Etc.", 91563, 5);		//Hot Spring Ticket
+
 		Phrases.Add("I wish I could see the stars.");
 		Phrases.Add("It's such a hassle to get all those ingredients for just one meal.");
 		Phrases.Add("Men are all the same.");
@@ -48,7 +93,8 @@ public class DilysScript : NPCScript
 			"Her dark hair is neatly combed, and her gentle brown eyes puts everyone who speaks to her at ease.",
 			"She smiles faintly, waiting for you to speak."
 		);
-		MsgSelect(c, "Welcome to the Healer's House", "Start Conversation", "@talk", "Shop", "@shop", "Get Treatment", "@heal", "Heal Pet", "@healpet");
+
+		MsgSelect(c, "Welcome to the Healer's House", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Get Treatment", "@heal"), Button("Heal Pet", "@healpet"));
 		
 		var r = Wait();
 		switch (r)
@@ -84,7 +130,7 @@ public class DilysScript : NPCScript
 				
 				MsgSelect(c,
 					"Goodness, " + c.Character.Name + "! Are you hurt? I must treat your wounds immediately.<br/>I can't understand why everyone gets injured so much around here...<br/>The fee is " + _healCost + " Gold but don't think about money right now. What's important is that you get treated.",
-					"Recieve Treatment", "@recieveheal", "Decline", "@end"
+					Button("Recieve Treatment", "@recieveheal"), Button("Decline", "@end")
 				);
 				
 				r = Wait();
@@ -125,7 +171,7 @@ public class DilysScript : NPCScript
 				
 				MsgSelect(c,
 					"Oh no! " + c.Character.Name + ", your animal friend is badly hurt and needs to be treated right away.<br/>I don't know why so many animals are getting injured lately. It makes me worry.<br/>The treatment will cost " + _petHealCost + " Gold, but don't think of the price. Your pet needs help immediatly",
-					"Recieve Treatment", "@recieveheal", "Decline the Treatment", "@end"
+					Button("Recieve Treatment", "@recieveheal"), Button("Decline the Treatment", "@end")
 				);
 					
 				r = Wait();

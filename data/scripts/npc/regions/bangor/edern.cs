@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Edern - Blacksmith
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -27,6 +33,34 @@ public class EdernScript : NPCScript
 
 		SetDirection(76);
 		SetStand("human/male/anim/male_natural_stand_npc_edern");
+
+        Shop.AddTabs("Weapon", "Advanced Weapon", "Armor");
+
+        //----------------
+        // Weapon
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Weapon", 40081);		//Leather Long Bow
+        Shop.AddItem("Weapon", 40079);		//Mace
+        Shop.AddItem("Weapon", 40078);		//Bipennis
+        Shop.AddItem("Weapon", 40080);		//Gladius
+        Shop.AddItem("Weapon", 40404);		//Physis Wooden Lance
+
+        //----------------
+        // Armor
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Armor", 16525);		//Arish Ashuvain Gauntlet
+        Shop.AddItem("Armor", 17518);		//Arish Ashuvain Boots (M)
+        Shop.AddItem("Armor", 17519);		//Arish Ashuvain Boots (F)
+        Shop.AddItem("Armor", 13047);		//Kirinusjin's Half-plate Armor (M)
+        Shop.AddItem("Armor", 13048);		//Kirinusjin's Half-plate Armor (F)
+        Shop.AddItem("Armor", 13045);		//Arish Ashuvain Armor (M)
+        Shop.AddItem("Armor", 13046);		//Arish Ashuvain Armor (F)
+        Shop.AddItem("Armor", 13043);		//Leminia's Holy Moon Armor (M)
+        Shop.AddItem("Armor", 13044);		//Leminia's Holy Moon Armor (F)
         
 		Phrases.Add("A true blacksmith never complains.");
 		Phrases.Add("Hahaha...");
@@ -42,4 +76,61 @@ public class EdernScript : NPCScript
 		Phrases.Add("The town is lively as usual.");
 		Phrases.Add("Yes... This is the true scent of metal.");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "Between the long strands of white hair, you can see the wrinkles on his face and neck that show his old age.",
+            "But his confidence and well-built torso with copper skin reveal that this man is anything but fragile.",
+            "His eyes encompass both the passion of youth and the wisdom of old age.",
+            "The thick brows that shoot upward with wrinkles add a fierce look, but his eyes are of soft amber tone."
+        );
+        MsgSelect(c, "You must have something to say to me.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "Welcome! You look familiar.");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Edern is slowly looking me over.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+            case "@shop":
+            {
+                Msg(c, "Are you looking for something?<br/>If you're looking for normal equipment, talk to Elen.<br/>I only deal with special equipment that you can't find anywhere else.");
+                OpenShop(c);
+                End();
+            }
+            case "@repair":
+            {
+                MsgSelect(c,
+                "If it's not urgent, would you mind talking to Elen?<br/>If it's something you particularly treasure, I can repair it myself.",
+                Button("End Conversation", "@endrepair")
+            );
+
+                r = Wait();
+
+                Msg(c, "You can figure out a person by looking at his equipment.<br/>Please do be careful with your equipment.");
+                End();
+            }
+            case "@modify":
+            {
+                MsgSelect(c,
+                    "Then give me the item to be modified<br/>I ask this for your own good, but, while the weapons are not affected,<br/>armor that has been modified will be yours only. You know that, right?<br/>It won't fit anyone else.",
+                    Button("End Conversation", "@endmodify")
+                );
+                r = Wait();
+                Msg(c, "Then come back to me when you have something you want to modify.");
+                End();
+            }
+        }
+    }
 }

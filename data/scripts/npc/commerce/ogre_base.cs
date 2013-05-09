@@ -33,13 +33,13 @@ public class CommerceOgreScript : NPCScript
 		Msg(c, Options.FaceAndName, "It has innocent eyes, but it's gobbling meat like a starving lion.");
 		MsgSelect(c,
 			"I have a... H-handcart, and a Wagon.<br/>Oh, and a Pack Elephant, too!<br/>Ogre has big hands, but Ogre can repair also! Heh heh.",
-			"Repair Fomor Weapons", "@repair", "End Conversation", "@end"
+			Button("Repair Fomor Weapons", "@repair"), Button("End Conversation", "@end")
 		);
 			
 		var r = Wait();
 		if(r == "@repair")
 		{
-			MsgSelect(c, "Ogre no good at repairs.<br/>But repair cost cheap.<br/>I only take enough money to buy meat. Heh heh.", "End Conversation", "@endmeat");
+			MsgSelect(c, "Ogre no good at repairs.<br/>But repair cost cheap.<br/>I only take enough money to buy meat. Heh heh.", Button("End Conversation", "@endmeat"));
 			r = Wait();
 			Msg(c, "Take good care of equipment. As valuable as meat.");
 			End();

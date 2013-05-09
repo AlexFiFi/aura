@@ -63,13 +63,13 @@ public class PartnerScript : NPCScript
 		Disable(c, Options.FaceAndName);
 		MsgSelect(c,
 			"(Choose a task.)",
-			"Grant Favor", "@favor",
-			"Gift", "@gift",
-			"Order a Dish", "@cook",
-			"Trade", "@trade",
-			"Repair", "@repair",
-			"Action", "@action",
-			"End Conversation", "@end"
+			Button("Grant Favor", "@favor"),
+			Button("Gift", "@gift"),
+			Button("Order a Dish", "@cook"),
+			Button("Trade", "@trade"),
+			Button("Repair", "@repair"),
+			Button("Action", "@action"),
+			Button("End Conversation", "@end")
 		);
 		
 		var r = Wait();

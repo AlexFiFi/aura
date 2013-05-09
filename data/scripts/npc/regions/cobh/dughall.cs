@@ -1,8 +1,15 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Dughall - Random Pirate
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
+using Aura.Shared.Util;
 
 public class DughallScript : NPCScript
 {
@@ -38,4 +45,20 @@ public class DughallScript : NPCScript
 		Phrases.Add("This is a peaceful town... I like it.");
 		Phrases.Add("Will I ever be forgiven?");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        switch(RandomProvider.Get().Next(0, 6))
+        {
+            case 0: Msg(c, "Someday, I will be forgiven."); break;
+            case 1: Msg(c, "This is a peaceful place..."); break;
+            case 2: Msg(c, "It was pretty dangerous where i used to live.<br/>You probably should stay away from me too."); break;
+            case 3: Msg(c, "I regret the things... awful things...I've done.<br/>But now I'm trying to make up for."); break;
+            case 4: Msg(c, "Sympathy is a luxury for pirates."); break;
+            case 5: Msg(c, "Slaves are weak, pitiable people.<br/>It is our duty to rescue and protect them."); break;
+            case 6: Msg(c, "Will you excuse me?<br/>I'd like to be alone right now..."); break;
+        }
+        End();
+    }
+
 }

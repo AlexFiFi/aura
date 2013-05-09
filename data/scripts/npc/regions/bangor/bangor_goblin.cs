@@ -9,7 +9,6 @@ public class Bangor_goblinScript : CommerceGoblinScript
 	public override void OnLoad()
 	{
 		base.OnLoad();
-        base.OnLoad();
         
 		SetName("_bangor_goblin");
 		SetRace(322);

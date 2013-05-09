@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Madoc - Nails for Stones quest.
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -38,4 +44,19 @@ public class MadocScript : NPCScript
 		Phrases.Add("Please, don't tell Tamon I said that...");
 		Phrases.Add("This is the way all businesses should be run.");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        MsgSelect(c, "What you're wearing doesn't look fancy at all...<br/>But would you like me to look at it anyway?", Button("Request from Madoc", "@requestm"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@requestm":
+            {
+                Msg(c, "(Unimplemented)");
+                End();
+            }
+        }
+    }
 }

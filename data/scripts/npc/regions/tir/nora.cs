@@ -28,6 +28,83 @@ public class NoraScript : NPCScript
 
 		Shop.AddTabs("Tailoring", "Sewing Patterns", "Gift", "Quest", "Cooking Appliances");
 
+        //----------------
+        // Tailoring
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Tailoring", 60001);		//Tailoring Kit
+        Shop.AddItem("Tailoring", 60015);		//Cheap Finishing Thread
+        Shop.AddItem("Tailoring", 60015, 5);		//Cheap Finishing Thread
+        Shop.AddItem("Tailoring", 60031);		//Regular Silk Weaving Gloves
+        Shop.AddItem("Tailoring", 60019);		//Cheap Fabric
+        Shop.AddItem("Tailoring", 60019, 5);		//Cheap Fabric
+        Shop.AddItem("Tailoring", 60016);		//Common Finishing Thread
+        Shop.AddItem("Tailoring", 60016, 5);		//Common Finishing Thread
+        Shop.AddItem("Tailoring", 60017);		//Fine Finishing Thread
+        Shop.AddItem("Tailoring", 60055);		//Fine Silk Weaving Gloves
+        Shop.AddItem("Tailoring", 60017, 5);		//Fine Finishing Thread
+        Shop.AddItem("Tailoring", 60046);		//Finest Silk Weaving Gloves
+        Shop.AddItem("Tailoring", 60018);		//Finest Finishing Thread
+        Shop.AddItem("Tailoring", 60057);		//Fine Fabric Weaving Gloves
+        Shop.AddItem("Tailoring", 60056);		//Finest Fabric Weaving Gloves
+        Shop.AddItem("Tailoring", 60020);		//Common Fabric
+        Shop.AddItem("Tailoring", 60018);		//Finest Finishing Thread
+        Shop.AddItem("Tailoring", 60020, 5);		//Common Fabric
+
+        //----------------
+        // Sewing Patterns
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+        Shop.AddItem("Sewing Patterns", 60000);		//Sewing Pattern
+
+        //----------------
+        // Gift
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Gift", 52014);		//Teddy Bear
+        Shop.AddItem("Gift", 52016);		//Bunny Doll
+        Shop.AddItem("Gift", 52015);		//Pearl Necklace
+        Shop.AddItem("Gift", 52025);		//Gift Ring
+
+        //----------------
+        // Quest
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+
+        //----------------
+        // Cooking Appliances
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Cooking Appliances", 40042);		//Cooking Knife
+        Shop.AddItem("Cooking Appliances", 40044);		//Ladle
+        Shop.AddItem("Cooking Appliances", 40043);		//Rolling Pin
+        Shop.AddItem("Cooking Appliances", 46005);		//Cooking Table
+        Shop.AddItem("Cooking Appliances", 46004);		//Cooking Pot
+
 		Phrases.Add("I hope the clothes dry quickly.");
 		Phrases.Add("I would love to listen to some music, but I don't see any musicians around.");
 		Phrases.Add("No way! There's no such thing as a huge spider.");
@@ -46,7 +123,8 @@ public class NoraScript : NPCScript
 			"Cross-shaped earrings dangle from her ears, dancing playfully between her honey-blonde hair.",
 			"Her hands are always busy, as she engages in some chore or another, though she often looks into the distance as if deep in thought."
 		);
-		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair");
+
+		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 		
 		var r = Wait();
 		switch (r)

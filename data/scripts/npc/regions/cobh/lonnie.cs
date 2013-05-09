@@ -1,8 +1,15 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Lonnie - Kid running around on dock.
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
+using Aura.Shared.Util;
 
 public class LonnieScript : NPCScript
 {
@@ -41,4 +48,17 @@ public class LonnieScript : NPCScript
 		Phrases.Add("Was Annick a scary pirate too?");
 		Phrases.Add("When do you think we'll have people going in and out of the dock?");
 	}
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        switch(RandomProvider.Get().Next(0, 5))
+        {
+            case 0: Msg(c, "I'm going to become a captain when i grow up!"); break;
+            case 1: Msg(c, "There are going to be a lot more people<br/>in Port Cobh when the dock is done.<br/>Someone HAS to be willing to let me on their ship right?"); break;
+            case 2: Msg(c, "I'm not afraid of pirates!"); break;
+            case 3: Msg(c, "Hey, are you from the city?"); break;
+            case 4: Msg(c, "How old will I have to be<br/>before I can board a ship?"); break;
+            case 5: Msg(c, "I heard you can get to a huge city with a lot of people<br/>when you sail out!"); break;
+        }
+        End();
+    }
 }

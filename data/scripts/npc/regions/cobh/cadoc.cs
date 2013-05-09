@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Cadoc - Fish Shop
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -27,6 +33,26 @@ public class CadocScript : NPCScript
 
 		SetDirection(3);
 		SetStand("chapter4/giant/male/anim/giant_npc_cadoc");
+
+        Shop.AddTabs("Fish");
+
+        //----------------
+        // Fish
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Fish", 50255); 		//Jellyfish
+        Shop.AddItem("Fish", 50204); 		//Golden Scale Fish
+        Shop.AddItem("Fish", 50254); 		//Flying Fish
+        Shop.AddItem("Fish", 50673); 		//Black Sea Bream
+        Shop.AddItem("Fish", 50672); 		//Blowfish
+        Shop.AddItem("Fish", 50674); 		//Red Sea Bream
+        Shop.AddItem("Fish", 50257); 		//Marine Pearl Oyster
+        Shop.AddItem("Fish", 50248); 		//Shellfish
+        Shop.AddItem("Fish", 50256); 		//King Crab
+        Shop.AddItem("Fish", 50518); 		//Sturgeon
+        Shop.AddItem("Fish", 50127); 		//Shrimp
+        Shop.AddItem("Fish", 50158); 		//Taitinn Carp
         
 		Phrases.Add("(Shrugs shoulders.)");
 		Phrases.Add("A real man has real muscles!");
@@ -38,4 +64,25 @@ public class CadocScript : NPCScript
 		Phrases.Add("Men these days are weaklings.");
 		Phrases.Add("Whenever I see a log, I test my stength by picking it up swinging it.");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "He is an extremely tall man. Huge muscles press his",
+            "veins against tanned skin. He looks much",
+            "too strong to handle something as delicate as fish."
+        );
+        MsgSelect(c, "I can't believe how skinny you are! I know what<br/>you need to build some bulk. Buy some of my fish.<br/>They're rich in protein and can be used as bait.", Button("Shop", "@shop"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@shop":
+            {
+                Msg(c, "How would you like your fish?");
+                OpenShop(c);
+                End();
+            }
+        }
+    }
 }

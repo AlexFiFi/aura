@@ -27,6 +27,34 @@ public class RanaldScript : NPCScript
 		EquipItem(Pocket.Shoe, 17012, 0x9C7D6C, 0xFFC9A3, 0xF7941D);
 		EquipItem(Pocket.LeftHand1, 40012, 0xDCDCDC, 0xC08B48, 0x808080);
 
+		Shop.AddTabs("Arena", "Quest", "Reference Book");
+
+        //----------------
+        // Arena
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Arena", 63019, 10);		//Alby Battle Arena Coin
+        Shop.AddItem("Arena", 63019, 20);		//Alby Battle Arena Coin
+        Shop.AddItem("Arena", 63019, 50);		//Alby Battle Arena Coin
+        Shop.AddItem("Arena", 63019, 100);		//Alby Battle Arena Coin
+
+        //----------------
+        // Quest
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+        Shop.AddItem("Quest", 70023);		//Collecting Quest
+
+        //----------------
+        // Reference Book
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Reference Book", 1078);	//Don't Give Up! Trefor's Training Towards Veteranship
+
 		Phrases.Add("I need a drink...");
 		Phrases.Add("I guess I drank too much last night...");
 		Phrases.Add("I need a nap...");
@@ -43,7 +71,8 @@ public class RanaldScript : NPCScript
 			"Long fringes of hair cover half of his forehead and right cheek. A strong nose bridge stands high between his shining hawkish eyes.",
 			"His deep, low voice has the power to command other people's attention."
 		);
-		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Modify Item", "@modify", "Get Ciar Beginner Dungeon Pass", "@pass");
+
+		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify Item", "@modify"), Button("Get Ciar Beginner Dungeon Pass", "@pass"));
 		
 		var r = Wait();
 		switch (r)

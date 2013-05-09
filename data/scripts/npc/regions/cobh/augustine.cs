@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Augustine - Banker
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -25,6 +31,18 @@ public class AugustineScript : NPCScript
 
 		SetDirection(245);
 		SetStand("chapter4/human/male/anim/male_c4_npc_augustine");
+
+        Shop.AddTabs("License");
+
+        //----------------
+        // License
+        //----------------
+
+        //Page 1
+        Shop.AddItem("License", 60117); //Cobh Personal Shop License
+        Shop.AddItem("License", 81010); //Purple Personal Shop Brownie Work-For-Hire Contract
+        Shop.AddItem("License", 81011); //Pink Personal Shop Brownie Work-For-Hire Contract
+        Shop.AddItem("License", 81012); //Green Personal Shop Brownie Work-For-Hire Contract
         
 		Phrases.Add("(Flinches)");
 		Phrases.Add("All these people come here to ride the ship, so I'm busy during the day.");
@@ -39,4 +57,64 @@ public class AugustineScript : NPCScript
 		Phrases.Add("Tsk. I just got a perm yesterday, but I don't like it.");
 		Phrases.Add("Yawn... I'm so sleepy.");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "His soft, shiny black hair exudes youth.",
+            "His tightly shut lips and sharp eyes give the",
+            "impression of experience beyond his years. ",
+	    "He glares at you with large, impatient eyes."
+        );
+        MsgSelect(c, "I'm busy, so just tell me what you are here for.", Button("Start a Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "Why are you here?");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Augustine is waiting for me to say something.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+
+            case "@bank":
+            {
+                Msg(c, "(Unimplemented)");
+                End();
+            }
+
+            case "@redeem":
+            {
+                MsgInput(c, "Tell me the coupon number.<br/>Make sure it's the right one.", "Exchange Coupon", "Enter your coupon number");
+                var input = Wait();
+                if (input == "@cancel")
+                    End();
+
+                if (!CheckCode(c, input))
+                {
+                    Msg(c, "This coupon number didn't work.<br/>I told you to make sure it's the right one.");
+                    End();
+                }
+
+                // Unofficial response.
+                Msg(c, "There you go, have a nice day.");
+                End();
+            }
+
+            case "@shop":
+            {
+                Msg(c, "You'll need a Shop License if you want to sell<br/>goods in Port Cobh. Luckily, I have them in stock.<br/>Get one while you still can.");
+                OpenShop(c);
+                End();
+            }
+        }
+    }
 }

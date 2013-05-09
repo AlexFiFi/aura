@@ -24,7 +24,7 @@ public class DevcatScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		MsgSelect(c, "Meeeoow", "End Conversation", "@end");
+		MsgSelect(c, "Meeeoow", Button("End Conversation", "@end"));
 		End();
 	}
 }

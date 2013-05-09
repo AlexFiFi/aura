@@ -1,8 +1,15 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Anghus - Some kind of dock swordsman
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
+using Aura.Shared.Util;
 
 public class AnghusScript : NPCScript
 {
@@ -36,4 +43,18 @@ public class AnghusScript : NPCScript
 		Phrases.Add("Only if I were a little younger...");
 		Phrases.Add("Why is Annick here? She's a pirate! Humph.");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        switch(RandomProvider.Get().Next(0, 5))
+        {
+            case 0: Msg(c, "I assisted Admiral Owen<br/>when he kicked the pirates out of Belvast.<br.>I'll never forget that sense of victory."); break;
+            case 1: Msg(c, "I thought I'd always work under his direction...<br/>It's just not the same now."); break;
+            case 2: Msg(c, "Admiral Owen is a respectable man."); break;
+            case 3: Msg(c, "The Admiral's enemies are my enemies too.<br/>I can't understand is why he<br/>doesn't do anything about<br/>a pirate like Annick.<br/>A pirate is a pirate for like."); break;
+            case 4: Msg(c, "I wonder if the Admiral would approve<br/>of me capturing Annick..."); break;
+            case 5: Msg(c, "Do you want to hear about my heroic exploits?"); break;
+        }
+        End();
+    }
 }

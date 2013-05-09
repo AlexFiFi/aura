@@ -41,7 +41,7 @@ public class ProffScript : NPCScript
 		);
 		
 	L_Start:
-		MsgSelect(c, "Oh, hello there, " + c.Character.Name + ". What can I do for you today?", "Where am I?", "@whereami", "What commands can I use?", "@whatcommands", "About commands", "@aboutcmd", "End Conversation", "@endconvo");			
+		MsgSelect(c, "Oh, hello there, <username/>. What can I do for you today?", Button("Where am I?", "@whereami"), Button("What commands can I use?", "@whatcommands"), Button("About commands", "@aboutcmd"), Button("End Conversation", "@endconvo"));			
 		
 		var r = Wait();
 		switch (r)
@@ -55,7 +55,7 @@ public class ProffScript : NPCScript
 			case "@whatcommands":
 			{
 				var commands = string.Join(", ", CommandHandler.Instance.GetAllCommandsForAuth(c.Account.Authority));
-				Msg(c, "Well, " + c.Character.Name + "... Let's see... At your current rank, the following commands are available to you: " + commands + ".<br/>Does that help to clear things up?");
+				Msg(c, "Well, <username/>... Let's see... At your current rank, the following commands are available to you: " + commands + ".<br/>Does that help to clear things up?");
 				goto L_Start;
 			}
 			
@@ -66,13 +66,13 @@ public class ProffScript : NPCScript
 					"<p/>You can execute a command by typing a '" + WorldConf.CommandPrefix + "' followed by the command name, and any arguments into the general chat, and pressing enter.",
 					"<p/>For example, to execute a \"where\" command on this server, you'd enter the following into General Chat:", "", WorldConf.CommandPrefix + "where"
 				);
-				Msg(c, "But remember, " + c.Character.Name + "... With great power comes great responsibility. " + ((c.Account.Authority > 0) ? "You've been given some extra powers, so " : "Should you ever get extra powers, ") + "use them wisely. Ranks can be removed as easily as they're given.");
+				Msg(c, "But remember, <username/>... With great power comes great responsibility. " + ((c.Account.Authority > 0) ? "You've been given some extra powers, so " : "Should you ever get extra powers, ") + "use them wisely. Ranks can be removed as easily as they're given.");
 				goto L_Start;
 			}
 			
 			case "@endconvo":
 			{
-				MsgSelect(c, "Is that all for now? Well, thanks for stopping by. Feel free to return any time.", "Continue", "@end");
+				MsgSelect(c, "Is that all for now? Well, thanks for stopping by. Feel free to return any time.", Button("Continue", "@end"));
 				End();
 			}
 		}

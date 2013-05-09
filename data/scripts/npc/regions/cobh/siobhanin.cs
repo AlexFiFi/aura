@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Siobhanin - General Store
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -25,6 +31,72 @@ public class SiobhaninScript : NPCScript
 
 		SetDirection(37);
 		SetStand("chapter4/elf/male/anim/elf_npc_siobhanin");
+
+        Shop.AddTabs("General Goods", "Cooking Tools","Gift", "Event");
+
+        //----------------
+        // General Goods
+        //----------------
+
+        //Page 1
+        Shop.AddItem("General Goods", 40093);		//Pet Instructor Stick
+        Shop.AddItem("General Goods", 61001);		//Score Scroll
+        Shop.AddItem("General Goods", 61001);		//Score Scroll
+        Shop.AddItem("General Goods", 61001);		//Score Scroll
+        Shop.AddItem("General Goods", 61001);		//Score Scroll
+        Shop.AddItem("General Goods", 64018, 10);	//Paper (Big)
+        Shop.AddItem("General Goods", 64018, 100);	//Paper (Big)
+        Shop.AddItem("General Goods", 62021, 100);	//Six-sided Die
+        Shop.AddItem("General Goods", 63020);		//Empty Bottle
+        Shop.AddItem("General Goods", 60045);		//Handicraft Kit
+        Shop.AddItem("General Goods", 4004);		//Lute
+        Shop.AddItem("General Goods", 4004);		//Lute
+        Shop.AddItem("General Goods", 4004);		//Lute
+        Shop.AddItem("General Goods", 50078);		//Ticking Quiz Bomb
+        Shop.AddItem("General Goods", 2001);		//Gold Pouch
+        Shop.AddItem("General Goods", 40215);		//Snare Drum
+        Shop.AddItem("General Goods", 2006);		//Big Gold Pouch
+        Shop.AddItem("General Goods", 40017);		//Mandolin
+        Shop.AddItem("General Goods", 40017);		//Mandolin
+        Shop.AddItem("General Goods", 40017);		//Mandolin
+
+        //Page 2
+        Shop.AddItem("General Goods", 2005);		//Item Bag (7x5)
+        Shop.AddItem("General Goods", 2029);		//Item Bag (8x6)
+        Shop.AddItem("General Goods", 2024);		//Item Bag (7x6)
+        Shop.AddItem("General Goods", 2026);		//Item Bag(44)
+        Shop.AddItem("General Goods", 18158);		//Conky Glasses
+        Shop.AddItem("General Goods", 91364);		//Seal Scroll (1-day)
+        Shop.AddItem("General Goods", 91364, 10);	//Seal Scroll (1-day)
+        Shop.AddItem("General Goods", 2038);		//Item Bag (8x10)
+        Shop.AddItem("General Goods", 18028);		//Folding Glasses
+        Shop.AddItem("General Goods", 91365);		//Seal Scroll (7-day)
+        Shop.AddItem("General Goods", 91365, 10);	//Seal Scroll (7-day)
+        Shop.AddItem("General Goods", 85571);		//Reforging Tool
+        Shop.AddItem("General Goods", 91366);		//Seal Scroll (30-day)
+        Shop.AddItem("General Goods", 91366, 10);	//Seal Scroll (30-day)
+
+        //----------------
+        // Gift
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Gift", 52011);			//Socks
+        Shop.AddItem("Gift", 52018);			//Hammer
+        Shop.AddItem("Gift", 52008);			//Anthology
+        Shop.AddItem("Gift", 52009);			//Cubic Puzzle
+        Shop.AddItem("Gift", 52017);			//Underwear Set
+
+        //----------------
+        // Cooking Appliances
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Cooking Tools", 40042);		//Cooking Knife
+        Shop.AddItem("Cooking Tools", 40044);		//Ladle
+        Shop.AddItem("Cooking Tools", 40043);		//Rolling Pin
+        Shop.AddItem("Cooking Tools", 46005);		//Cooking Table
+        Shop.AddItem("Cooking Tools", 46004);		//Cooking Pot
         
 		Phrases.Add("Admiral Owen really is quite an amazing person!");
 		Phrases.Add("Don't worry about buying something. You can look all you want.");
@@ -35,4 +107,38 @@ public class SiobhaninScript : NPCScript
 		Phrases.Add("That one is 50 Gold.");
 		Phrases.Add("What brings you here?");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "A young elven boy with snow-white skin and startlingly",
+            "blue eyes. His delicate fingers work at tidying the collar",
+	    "of his neat shirt. His smiling lips seem to ask: How much",
+	    "have you found out so far?"
+        );
+        MsgSelect(c, "Come look at my items. I have so much to offer!", Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@shop":
+            {
+                Msg(c, "Take a look around.");
+                OpenShop(c);
+                End();
+            }
+            case "@upgrade":
+            {
+                MsgSelect(c,
+                    "All right, what would you like to upgrade?",
+                    Button("End Conversation", "@endupgrade")
+                );
+
+                r = Wait();
+
+                Msg(c, "Yes, come again!");
+                End();
+            }
+        }
+    }
 }

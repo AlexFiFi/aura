@@ -1,8 +1,15 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Tamon - Random Pirate
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
+using Aura.Shared.Util;
 
 public class TamonScript : NPCScript
 {
@@ -39,4 +46,14 @@ public class TamonScript : NPCScript
 		Phrases.Add("Pirates need to just vanish from the seas.");
 		Phrases.Add("That's very expensive, so keep it safe.");
 	}
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        switch(RandomProvider.Get().Next(0, 2))
+        {
+            case 0: Msg(c, "Whoa, the clothes you're wearing seem fancy!<br/>Would you like me to sell them to me?"); break;
+            case 1: Msg(c, "Honesty and trust should be the basis for all business.<br/>Just so long as people don't end up like Madoc."); break;
+            case 2: Msg(c, "I haven't been able to conduct<br/>business in peace because of those blasted pirates."); break;
+        }
+        End();
+    }
 }

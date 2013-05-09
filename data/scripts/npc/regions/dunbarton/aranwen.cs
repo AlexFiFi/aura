@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Aranwen - School Combat Instructor
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -27,6 +33,23 @@ public class AranwenScript : NPCScript
 
 		SetDirection(125);
 		SetStand("");
+
+        Shop.AddTabs("Party Quest");
+
+        //----------------
+        // Party Quest
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Party Quest", 70025); //Party Quest
+        Shop.AddItem("Party Quest", 70025);
+        Shop.AddItem("Party Quest", 70025);
+        Shop.AddItem("Party Quest", 70025);
+        Shop.AddItem("Party Quest", 70025);
+        Shop.AddItem("Party Quest", 70025);
+        Shop.AddItem("Party Quest", 70025);
+        Shop.AddItem("Party Quest", 70025);
+        Shop.AddItem("Party Quest", 70025);
         
         Phrases.Add("...");
 		Phrases.Add("A sword does not betray its own will.");
@@ -39,4 +62,48 @@ public class AranwenScript : NPCScript
 		Phrases.Add("Put more into the wrists!");
 		Phrases.Add("That student may need to rest a while.");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "A lady decked out in shining armor is confidently training students in swordsmanship in front of the school.",
+            "Unlike a typical swordswoman, her moves seem delicate and elegant.",
+            "Her long, braided silver hair falls down her back, leaving her eyes sternly fixed on me."
+        );
+        MsgSelect(c, "What brings you here?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify Item", "@modify"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "Yes? Please don't block my view.");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Aranwen is waiting for me to say something.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+            case "@shop":
+            {
+                Msg(c, "Are you looking for a party quest scroll?");
+                OpenShop(c);
+                End();
+            }
+            case "@modify":
+            {
+                MsgSelect(c,
+                    "Please select the weapon you'd like to modify.<br/>Each weapon can be modified according to its kind.",
+                    Button("End Conversation", "@endmodify")
+                );
+                r = Wait();
+                Msg(c, "A bow is weaker than a crossbow?<br/>That's because you don't know a bow vers well.<br/>Crossbows are advanced weapons for sure,<br/>but a weapon that reflects your strength and senses is closer to nature than machinery.");
+                End();
+            }
+        }
+    }
 }

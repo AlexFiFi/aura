@@ -9,7 +9,6 @@ public class Bangor_ogreScript : CommerceOgreScript
 	public override void OnLoad()
 	{
 		base.OnLoad();
-        base.OnLoad();
 		SetName("_bangor_ogre");
         SetFace(skin: 27, eye: 0, eyeColor: 0, lip: 0);
 

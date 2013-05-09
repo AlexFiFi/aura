@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Ascon - Lighthouse Keeper
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -33,4 +39,33 @@ public class AsconScript : NPCScript
 		Phrases.Add("There is no better motivation to live than the memories of happier times.");
 		Phrases.Add("What I'd do to hold those hands again...");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "His blond hair is neatly slicked back exposing a wide forehead.",
+            "Despite his old age, he has maintained an upright",
+            "posture and healthy skin. His hands are",
+	    "covered with scars. His eyes stare into the ocean."
+        );
+        MsgSelect(c, "Hello, it's a nice day out.", Button("Start Conversation", "@talk"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "Hello. I'm the lighthouse keeper, Ascon.");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Ascon is looking at me.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+	}
+}
 }

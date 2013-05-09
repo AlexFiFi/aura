@@ -53,7 +53,7 @@ public class TarlachBearScript : NPCScript
 			"Steam flows out from the bear's mouth with every breath while the bear sniffs the ground from time to time, using its front paw to dig the grass.",
 			"It constantly looks around, seemingly watching out for some kind of threat or danger."
 		);
-		MsgSelect(c, "Grr...", "Start Conversation", "@talk");
+		MsgSelect(c, "Grr...", Button("Start Conversation", "@talk"));
 		
 		var r = Wait();
 		if(r == "@talk")

@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Carys - Captain to Port Quilla
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -26,4 +32,36 @@ public class Carys_to_iria_modelScript : NPCScript
 		SetDirection(93);
 		SetStand("");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "Many intricate tattoos cover his dark, tanned skin.",
+            "Beneath his shimmering white hair beams a calm, friendly smile."
+        );
+        MsgSelect(c, "Do you have business with me?", Button("Start Conversation", "@talk"), Button("Disembark", "@disembark"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "I'm Karis, the younger brother of Captain Carasek.<br/>It's good to meet you.<br/>Shall we set sail?");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Karis is waiting for me to say something.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+            case "@disembark":
+            {
+                Msg(c, "(Unimplemented)");
+                End();
+            }
+        }
+    }
 }

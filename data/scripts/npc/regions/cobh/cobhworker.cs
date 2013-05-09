@@ -1,9 +1,15 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Cobh Worker - Worker on Dock
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
-
+using Aura.Shared.Util;
 public class CobhworkerScript : NPCScript
 {
 	public override void OnLoad()
@@ -38,4 +44,20 @@ public class CobhworkerScript : NPCScript
 		Phrases.Add("Unemployment is so frustrating!");
 		Phrases.Add("When will the construction at the dock end?");
 	}
+    
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        switch(RandomProvider.Get().Next(0, 5))
+        {
+            case 0: Msg(c, "It's frustrating to spend my day doing nothing.<br/>I should be working and saving up money."); break;
+            case 1: Msg(c, "Someday, I'll become a wealthy merchant<br/>just like Tamon!");
+        Msg(c, "...");
+        Msg(c, "Well, Maybe I should lower my expectations..."); break;
+            case 2: Msg(c, "I can't wait until the construction at the<br/>dock is finished so I can start working again..."); break;
+            case 3: Msg(c, "Ugh, I'm so tired."); break;
+            case 4: Msg(c, "To tell you the truth, I haven't been there often...<br/>But it sure is an amazing place.<br/>You should visit if you get the oppertunity"); break;
+            case 5: Msg(c, "I lost my job all because of those miserable pirates!"); break;
+        }
+        End();
+    }
 }

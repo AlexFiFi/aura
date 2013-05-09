@@ -1,5 +1,11 @@
-using Aura.Shared.Const;
+// Aura Script
+// --------------------------------------------------------------------------
+// Carasek - Captain
+// --------------------------------------------------------------------------
+
 using System;
+using System.Collections;
+using Aura.Shared.Const;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -26,4 +32,36 @@ public class Carasek_cobh_modelScript : NPCScript
 		SetDirection(205);
 		SetStand("");
 	}
+    public override IEnumerable OnTalk(WorldClient c)
+    {
+        Msg(c, Options.FaceAndName,
+            "He has the provocative complexion of dark rum and has a detailed tattoo on him",
+            "And with his white hair like the foam of the ocean waters",
+            "he smiles a gentle smile that is much like the wet sand on the beach."
+        );
+        MsgSelect(c, "Seems like you want to talk to me about something.", Button("Start Conversation", "@talk"), Button("Disembark", "@disembark"));
+
+        var r = Wait();
+        switch (r)
+        {
+            case "@talk":
+            {
+                Msg(c, "I'm Carasek, the captain of this ship. Welcome aboard. Let's set sail!");
+
+            L_Keywords:
+                Msg(c, Options.Name, "(Carasek is paying attention to me.)");
+                ShowKeywords(c);
+
+                var keyword = Wait();
+
+                Msg(c, "Can we change the subject?");
+                goto L_Keywords;
+            }
+            case "@disembark":
+            {
+                Msg(c, "(Unimplemented)");
+                End();
+            }
+        }
+    }
 }

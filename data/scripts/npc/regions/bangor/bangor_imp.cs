@@ -9,7 +9,6 @@ public class Bangor_impScript : CommerceImpScript
 	public override void OnLoad()
 	{
 		base.OnLoad();
-        base.OnLoad();
         
 		SetName("_bangor_imp");
 

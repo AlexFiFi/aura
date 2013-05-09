@@ -29,6 +29,28 @@ public class DuncanScript : NPCScript
 		EquipItem(Pocket.Head, 18405, 0x191919, 0x293D52);
 		EquipItem(Pocket.LeftHand2, 40005, 0xB6B6C2, 0x404332, 0x22B653);
 
+		Shop.AddTabs("Party Quest", "Etc.");
+
+        //----------------
+        // Party Quest
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+
+        //----------------
+        // Etc.
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Etc.", 1051);		//Party Quest
+
 		Phrases.Add("(Fart)...");
 		Phrases.Add("(Spits out a loogie)");
 		Phrases.Add("Ah-choo!");
@@ -50,7 +72,8 @@ public class DuncanScript : NPCScript
 			"A medium-length sword hangs delicately from the scabbard at his waist. While definitely a sight to behold, it's difficult to see much of his face because of his lowered visor, but one cannot help but notice the flash in his eyes occasionally catching the light between the slits on his helmet.",
 			"His tightly pursed lips seem to belie his desire to not shot any emotion."
 		);
-		MsgSelect(c, "How can I help you?", "Start Conversation", "@talk", "Shop", "@shop", "Upgrade Item", "@upgrade", "Get Alby Beginner Dungeon Pass", "@pass");
+
+		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"), Button("Get Alby Beginner Dungeon Pass", "@pass"));
 		
 		var r = Wait();
 		switch (r)

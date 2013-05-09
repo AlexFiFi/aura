@@ -29,7 +29,27 @@ public class DeianScript : NPCScript
 		EquipItem(Pocket.Head, 18407, 0x343F2D);
 		EquipItem(Pocket.RightHand1, 40001, 0x755748, 0x5E9A49, 0x5E9A49);
 
-		Shop.AddTabs("Quest");
+		Shop.AddTabs("Party Quest", "Gathering Tools");
+
+        //----------------
+        // Party Quest
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+        Shop.AddItem("Party Quest", 70025);		//Party Quest
+
+        //----------------
+        // Gathering Tools
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Gathering Tools", 40023);		//Gathering Knife
 
 		Phrases.Add("Baa! Baa!");
 		Phrases.Add("Geez, these sheep are a pain in the neck.");
@@ -51,7 +71,7 @@ public class DeianScript : NPCScript
 			"Though he's young, he peers at you with so much confidence it almost seems like arrogance."
 		);
 			
-		MsgSelect(c, "What can I do for you?", "Start Conversation", "@talk", "Shop", "@shop", "Upgrade Item", "@upgrade");
+		MsgSelect(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
 		
 		var r = Wait();
 		switch (r)

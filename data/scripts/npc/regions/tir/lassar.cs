@@ -28,6 +28,48 @@ public class LassarScript : NPCScript
 		EquipItem(Pocket.LeftHand1, 0x9DE2, 0x808080, 0x0, 0x0);
 		EquipItem(Pocket.RightHand1, 0xB3C7, 0x808080, 0x0, 0x0);
 
+		Shop.AddTabs("Magic Items", "Magic Book", "Magic Weapon");
+
+        //----------------
+        // Magic Items
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Magic Items", 63000);		//Phoenix Feather
+        Shop.AddItem("Magic Items", 63000, 10);		//Phoenix Feather
+        Shop.AddItem("Magic Items", 63001);		//Wings of a Goddess
+        Shop.AddItem("Magic Items", 63001, 5);		//Wings of a Goddess
+        Shop.AddItem("Magic Items", 62012);		//Elemental Remover
+        Shop.AddItem("Magic Items", 62003);		//Blessed Magic Powder
+        Shop.AddItem("Magic Items", 62003, 10);		//Blessed Magic Powder
+        Shop.AddItem("Magic Items", 62001);		//Elite Magic Powder
+        Shop.AddItem("Magic Items", 62014);		//Spirit Weapon Restoration Potion
+        Shop.AddItem("Magic Items", 62001, 10);		//Elite Magic Powder
+
+        //----------------
+        // Magic Book
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Magic Book", 1009);	//A Guidebook on Firebolt
+        Shop.AddItem("Magic Book", 1008);	//Icebolt Spell: Origin and Training
+        Shop.AddItem("Magic Book", 1007);	//Healing: The Basics of Magic
+
+        //----------------
+        // Magic Weapon
+        //----------------
+
+        //Page 1
+        Shop.AddItem("Magic Weapon", 40038);	//Lightning Wand
+        Shop.AddItem("Magic Weapon", 40039);	//Ice Wand
+        Shop.AddItem("Magic Weapon", 40040);	//Fire Wand
+        Shop.AddItem("Magic Weapon", 40041);	//Combat Wand
+        Shop.AddItem("Magic Weapon", 40090);	//Healing Wand
+        Shop.AddItem("Magic Weapon", 40231);	//Crystal Lightning Wand
+        Shop.AddItem("Magic Weapon", 40232);	//Crown Ice Wand
+        Shop.AddItem("Magic Weapon", 40233);	//Phoenix Fire Wand
+        Shop.AddItem("Magic Weapon", 40234);	//Tikka Wood Healing Wand
+
 		Phrases.Add("....");
 		Phrases.Add("And I have to supervise an advancement test.");
 		Phrases.Add("Come to think of it, I have to come up with questions for the test.");
@@ -48,7 +90,8 @@ public class LassarScript : NPCScript
 			"Judging by her somewhat small stature, well-proportioned body, and a neat two-piece school uniform, it isn't had to tell that she is a teacher.",
 			"The intelligent look in her eyes, the clear lip line and eyebrows present her as a charming lady."
 		);
-		MsgSelect(c, "Is there anything I can help you with?", "Start Conversation", "@talk", "Shop", "@shop", "Repair Item", "@repair", "Upgrade Item", "@upgrade");
+
+		MsgSelect(c, "Is there anything I can help you with?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 		
 		var r = Wait();
 		switch (r)
