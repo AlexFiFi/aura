@@ -86,7 +86,7 @@ namespace Aura.World.Skills
 				var damage = creature.GetRndDamage(weapon);
 
 				damage -= target.Defense;
-				damage -= (damage * target.Protection);
+				damage -= (damage * (target.Protection / 100));
 
 				// Crit (temp)
 				if (rnd.NextDouble() < creature.CriticalChance)

@@ -186,7 +186,7 @@ namespace Aura.World.World
 							var c = _creatures[i] as MabiNPC;
 							if (c != null)
 							{
-								if (c.AncientEligible && c.AncientTime < DateTime.Now)
+								if (c.AncientEligible && !c.IsDead && c.AncientTime < DateTime.Now)
 								{
 									c.AncientEligible = false;
 									if (r.NextDouble() <= WorldConf.AncientRate)
@@ -1676,12 +1676,13 @@ namespace Aura.World.World
 			creature.GoldMax *= 20;
 			creature.GoldMin *= 20;
 
+			creature.Drops = new List<DropInfo>(creature.Drops);
 			creature.Drops.AddRange(MabiData.AncientDropDb.Entries);
 
 			creature.Defense += 10;
 			creature.Protection += 10;
 
-			creature.LifeMaxMod = creature.LifeMax * 10;
+			creature.LifeMaxMod = (creature.LifeMax * 10 ) - creature.LifeMaxBase;
 			creature.FullHeal();
 
 			creature.BattleExp *= 20;
