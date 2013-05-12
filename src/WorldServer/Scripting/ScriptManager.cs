@@ -136,6 +136,7 @@ namespace Aura.World.Scripting
 			sb.AppendLine("using Aura.World.Network;");
 			sb.AppendLine("using Aura.World.Scripting;");
 			sb.AppendLine("using Aura.World.World;");
+			sb.AppendLine("Aura.Shared.Util;");
 
 			foreach (var entry in MabiData.ItemDb.Entries.Values)
 			{
@@ -184,7 +185,7 @@ namespace Aura.World.Scripting
 						"	public override void OnUse(MabiCreature cr, MabiItem i)     {{ {1} }}" +
 						"	public override void OnEquip(MabiCreature cr, MabiItem i)   {{ {2} }}" +
 						"	public override void OnUnequip(MabiCreature cr, MabiItem i) {{ {3} }}" +
-						"}}"
+						"\r\n\r\n\r\n}}" // 3 newlines to help with error output.
 					, entry.Id, entry.OnUse, entry.OnEquip, entry.OnUnequip);
 				}
 			}

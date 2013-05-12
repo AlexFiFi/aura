@@ -565,6 +565,11 @@ namespace Aura.World.Scripting
 		{
 			message = "<npcportrait name=\"NONE\"/><title name=\"NONE\"/>" + message;
 
+			this.CloseCustom(client, message);
+		}
+
+		protected virtual void CloseCustom(WorldClient client, string message = "<end/>")
+		{
 			var p = new MabiPacket(Op.NPCTalkEndR, client.Character.Id);
 			p.PutByte(1);
 			p.PutLong(client.NPCSession.Target.Id);
@@ -607,6 +612,11 @@ namespace Aura.World.Scripting
 			return new NPCDialogListbox(title, cancelKw, height, elements);
 		}
 
+		protected virtual NPCDialogListbox Listbox(string title, params NPCDialogElement[] elements)
+		{
+			return new NPCDialogListbox(title, elements:elements);
+		}
+
 		public virtual void Msg(WorldClient client, Options disable = Options.None, params string[] lines)
 		{
 			this.Disable(client, disable);
@@ -627,6 +637,11 @@ namespace Aura.World.Scripting
 		protected virtual void MsgInput(WorldClient client, string message, string title = "Input", string description = "", byte maxLen = 20, bool cancelable = true)
 		{
 			new NPCDialogMsgSelect(Text(message)).Add(this.Input(title, description, maxLen, cancelable)).Send(client, this);
+		}
+
+		protected virtual void MsgListbox(WorldClient client, string message, string title, params NPCDialogElement[] elements)
+		{
+			new NPCDialogMsgSelect(Text(message)).Add(this.Listbox(title, elements:elements)).Send(client, this);
 		}
 
 		protected virtual void MsgListbox(WorldClient client, string message, string title, string cancelKw = "@end", uint height = 10, params NPCDialogElement[] elements)
