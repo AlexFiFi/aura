@@ -112,6 +112,7 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.AreaChange, HandleAreaChange);
 
 			this.RegisterPacketHandler(Op.ChangeTitle, HandleTitleChange);
+			this.RegisterPacketHandler(Op.TalentTitleChange, HandleTalentTitleChange);
 			this.RegisterPacketHandler(Op.MailsRequest, HandleMailsRequest);
 			this.RegisterPacketHandler(Op.SosButton, HandleSosButton);
 			this.RegisterPacketHandler(Op.MoonGateRequest, HandleMoonGateRequest);
@@ -3363,6 +3364,20 @@ namespace Aura.World.Network
 			}
 		}
 
+		private void HandleTalentTitleChange(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			// TODO: Check if vaild
+
+			var title = packet.GetShort();
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleChangedR, creature.Id).PutByte(1).PutShort(title), SendTargets.Range, creature);
+
+			creature.SelectedTalentTitle = (TalentTitle)title;
+		}
 
 		private void HandleChannelStatus(WorldClient client, MabiPacket packet)
 		{

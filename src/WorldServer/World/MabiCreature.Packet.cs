@@ -50,10 +50,18 @@ namespace Aura.World.World
 			if (Op.Version > 140400)
 				packet.PutByte(0);			     // {PLGCNT}
 
-			// Banner
+			// Party Banner
 			// --------------------------------------------------------------
-			packet.PutByte(0); 					 // IsActivate
-			packet.PutString("");				 // Content
+			if (this.Party != null)
+			{
+				packet.PutByte(this.Party.IsOpen); 					 // IsActivate
+				packet.PutString(this.Party.GetMemberWantedString());				 // Content
+			}
+			else
+			{
+				packet.PutByte(0);
+				packet.PutString("");
+			}
 
 			// PvP
 			// --------------------------------------------------------------
@@ -291,8 +299,8 @@ namespace Aura.World.World
 				packet.PutByte(0);
 				packet.PutFloat(1);
 				packet.PutLong(0);
-				packet.PutShort(0);
-				packet.PutByte(255);
+				packet.PutShort((ushort)this.SelectedTalentTitle);
+				packet.PutByte((byte)this.Grandmaster);
 
 				// Shamala Transformation
 				// ----------------------------------------------------------

@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Aura.Shared.Const;
 using Aura.Shared.Database;
-using Aura.Shared.Network;
+using Aura.Shared.Util;
 using Aura.World.Player;
 using Aura.World.World;
 using MySql.Data.MySqlClient;
-using Aura.Shared.Util;
 
 namespace Aura.World.Database
 {
@@ -230,6 +229,8 @@ namespace Aura.World.Database
 					//character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
 					character.OptionTitle = reader.GetUInt16("optionTitle");
+					character.SelectedTalentTitle = (TalentTitle)reader.GetUInt16("talentTitle");
+					character.Grandmaster = (TalentId)reader.GetByte("grandmasterTalent");
 					character.Color1 = reader.GetUInt32("color1");
 					character.Color2 = reader.GetUInt32("color2");
 					character.Color3 = reader.GetUInt32("color3");
@@ -347,6 +348,8 @@ namespace Aura.World.Database
 						if (skill.IsRankable)
 							skill.Info.Flag |= (ushort)SkillFlags.Rankable;
 						character.AddSkill(skill);
+
+						character.UpdateTalentExp(skill.Id, skill.Rank);
 					}
 				}
 			}
@@ -689,7 +692,7 @@ namespace Aura.World.Database
 					"UPDATE `characters` SET" +
 					" `race` = @race, `status` = @status, `height` = @height, `fatness` = @fatness, `upper` = @upper, `lower` = @lower," +
 					" `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet, `title` = @title, `optionTitle` = @optionTitle," +
-					" `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax," +
+					" `talentTitle` = @talentTitle, `grandmasterTalent` = @grandmasterTalent, `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax," +
 					" `mana` = @mana, `manaMax` = @manaMax," +
 					" `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food," +
 					" `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age," +
@@ -735,6 +738,8 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@birthday", DateTime.MinValue);
 				mc.Parameters.AddWithValue("@title", character.Title);
 				mc.Parameters.AddWithValue("@optionTitle", character.OptionTitle);
+				mc.Parameters.AddWithValue("@talentTitle", (ushort)character.SelectedTalentTitle);
+				mc.Parameters.AddWithValue("@grandmasterTalent", (byte)character.Grandmaster);
 				mc.Parameters.AddWithValue("@maxLevel", 200);
 				mc.Parameters.AddWithValue("@rebirthCount", character.RebirthCount);
 				mc.Parameters.AddWithValue("@jobId", 0);
@@ -1331,7 +1336,7 @@ namespace Aura.World.Database
 					return (ulong)r.GetInt64(0); // TODO: Why doesn't the mc.LastInsertId work?
 				}
 
-				return (ulong)mc.LastInsertedId;
+				//return (ulong)mc.LastInsertedId;
 			}
 			finally
 			{

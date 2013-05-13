@@ -55,6 +55,7 @@ namespace Aura.Shared.Const
 		Carpentry = 10033,
 		StageTicketMaking = 10036,
 		LureOfBallad = 30015,
+		SheepShearing = 55001,
 		WebSpinning = 50005,
 		WyvernFireBreath = 50115,
 		TransformationMastery = 56001,
@@ -418,5 +419,87 @@ namespace Aura.Shared.Const
 		Bad = 1,
 		Good = 2,
 		VeryGood = 3
+	}
+
+	public enum TalentId : byte
+	{
+		Adventure,
+		Warrior,
+		Mage,
+		Archer,
+		Merchant,
+		BattleAlchemy,
+		Fighter,
+		Bard,
+		Puppeteer,
+		Knight,
+		HolyArts,
+		Transmutaion,
+		Cooking,
+		Blacksmith,
+		Tailoring,
+		Medicine,
+		Carpentry,
+
+		None = 255
+	}
+
+	public enum TalentLevel : ushort
+	{
+		None = 0,
+		Fledgling,
+		Novice,
+		Amateur,
+		Green,
+		Naive,
+		Apprentice,
+		Senior,
+		Advanced,
+		Seasoned,
+		Skilled,
+		Expert,
+		Great,
+		Champion,
+		Wise,
+		Master,
+		Grandmaster,
+	}
+
+	public enum TalentTitle : ushort
+	{
+		Adventure = 10000,
+		Warrior = 10100,
+		Mage = 10200,
+		Archer = 10300,
+		Merchant = 10400,
+		BattleAlchemy = 10500,
+		Fighter = 10600,
+		Bard = 10700,
+		Puppeteer = 10800,
+		Knight = 10900,
+		HolyArts = 10000,
+		Transmutaion = 11100,
+		Cooking = 11200,
+		Blacksmith = 11300,
+		Tailoring = 11400,
+		Medicine = 11500,
+		Carpentry = 11600,
+	}
+
+	public enum TalentRace : byte
+	{
+		None = 0,
+		Human = 0x1,
+		Elf = 0x2,
+		Giant = 0x4,
+
+		HumanAndElf = Human | Elf,
+		HumanAndGiant = Human | Giant,
+
+		GiantAndElf = Giant | Elf,
+
+		All = Human | Elf | Giant
+
+		// NO IDEA.
 	}
 }

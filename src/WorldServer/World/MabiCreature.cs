@@ -59,6 +59,10 @@ namespace Aura.World.World
 		public DateTime ActiveSkillPrepareEnd;
 		public uint SoulCount;
 
+		public Dictionary<TalentId, Dictionary<SkillConst, uint>> TalentExps = new Dictionary<TalentId,Dictionary<SkillConst,uint>>();
+		public TalentId Grandmaster;
+		public TalentTitle SelectedTalentTitle;
+
 		public CreatureTemp Temp = new CreatureTemp();
 
 		public List<MabiCooldown> Cooldowns = new List<MabiCooldown>();
@@ -303,6 +307,180 @@ namespace Aura.World.World
 		public bool HasState(CreatureStates state)
 		{
 			return (this.State & state) != 0;
+		}
+
+		public static ushort GetTalentTitle(TalentTitle talent, TalentLevel level)
+		{
+			if (level == 0)
+				return 0;
+
+			return (ushort)((ushort)talent + (ushort)level);
+		}
+
+		public List<ushort> GetTalentTitles()
+		{
+			var titles = new List<ushort>();
+
+			titles.Add(GetTalentTitle(TalentTitle.Adventure, this.GetTalentLevel(TalentId.Adventure)));
+			titles.Add(GetTalentTitle(TalentTitle.Warrior, this.GetTalentLevel(TalentId.Warrior)));
+			titles.Add(GetTalentTitle(TalentTitle.Mage, this.GetTalentLevel(TalentId.Mage)));
+			titles.Add(GetTalentTitle(TalentTitle.Archer, this.GetTalentLevel(TalentId.Archer)));
+			titles.Add(GetTalentTitle(TalentTitle.Merchant, this.GetTalentLevel(TalentId.Merchant)));
+			titles.Add(GetTalentTitle(TalentTitle.BattleAlchemy, this.GetTalentLevel(TalentId.BattleAlchemy)));
+			titles.Add(GetTalentTitle(TalentTitle.Fighter, this.GetTalentLevel(TalentId.Fighter)));
+			titles.Add(GetTalentTitle(TalentTitle.Bard, this.GetTalentLevel(TalentId.Bard)));
+			titles.Add(GetTalentTitle(TalentTitle.Puppeteer, this.GetTalentLevel(TalentId.Puppeteer)));
+			titles.Add(GetTalentTitle(TalentTitle.Knight, this.GetTalentLevel(TalentId.Knight)));
+			titles.Add(GetTalentTitle(TalentTitle.HolyArts, this.GetTalentLevel(TalentId.HolyArts)));
+			titles.Add(GetTalentTitle(TalentTitle.Transmutaion, this.GetTalentLevel(TalentId.Transmutaion)));
+			titles.Add(GetTalentTitle(TalentTitle.Cooking, this.GetTalentLevel(TalentId.Cooking)));
+			titles.Add(GetTalentTitle(TalentTitle.Blacksmith, this.GetTalentLevel(TalentId.Blacksmith)));
+			titles.Add(GetTalentTitle(TalentTitle.Tailoring, this.GetTalentLevel(TalentId.Tailoring)));
+			titles.Add(GetTalentTitle(TalentTitle.Medicine, this.GetTalentLevel(TalentId.Medicine)));
+			titles.Add(GetTalentTitle(TalentTitle.Carpentry, this.GetTalentLevel(TalentId.Carpentry)));
+
+			return titles.Where(a => a != 0).ToList();
+		}
+
+		public TalentLevel GetTalentLevel(TalentId talent)
+		{
+			var exp = this.GetTalentExp(talent) / 1000;
+
+			if (exp < 1)
+				return TalentLevel.None;
+			if (exp < 11)
+				return TalentLevel.Fledgling;
+			if (exp < 36)
+				return TalentLevel.Novice;
+			if (exp < 76)
+				return TalentLevel.Amateur;
+			if (exp < 136)
+				return TalentLevel.Green;
+			if (exp < 216)
+				return TalentLevel.Naive;
+			if (exp < 316)
+				return TalentLevel.Apprentice;
+			if (exp < 436)
+				return TalentLevel.Senior;
+			if (exp < 576)
+				return TalentLevel.Advanced;
+			if (exp < 736)
+				return TalentLevel.Seasoned;
+			if (exp < 926)
+				return TalentLevel.Skilled;
+			if (exp < 1146)
+				return TalentLevel.Expert;
+			if (exp < 1396)
+				return TalentLevel.Great;
+			if (exp < 1696)
+				return TalentLevel.Champion;
+			if (exp < 2046)
+				return TalentLevel.Wise;
+
+			return (this.Grandmaster == talent ? TalentLevel.Grandmaster :  TalentLevel.Master);
+		}
+
+		public void UpdateTalentExp(SkillConst skill, SkillRank rank, bool notifyRankUp = false)
+		{
+			var mask = (byte)this.GetRaceMask();
+
+			var exps = MabiData.TalentExpDb.Entries.Where(a => a.SkillId == (ushort)skill && a.SkillRank <= (byte)rank && (a.Race & mask) != 0);
+			if (exps == null)
+				return;
+			var info = exps.FirstOrDefault(a => a.SkillRank == (ushort)rank);
+			if (info == null)
+				return;
+
+			foreach (var talent in info.Exps.Keys)
+			{
+				uint exp = (uint)exps.Sum(a => a.Exps[talent]);
+
+				if (!this.TalentExps.ContainsKey((TalentId)talent))
+					this.TalentExps.Add((TalentId)talent, new Dictionary<SkillConst,uint>());
+
+				var expInfo = this.TalentExps[(TalentId)talent];
+
+				if (!expInfo.ContainsKey(skill))
+					expInfo.Add(skill, 0);
+
+				expInfo[skill] = exp;
+
+				if (notifyRankUp)
+				{
+					UpdateTalentInfo();
+				}
+			}
+
+		}
+
+		public void UpdateTalentInfo()
+		{
+			if (this.Client == null)
+				return;
+
+			var p = new MabiPacket(Op.TalentInfoUpdate, this.Id);
+			p.PutByte(1);
+
+			p.PutShort((ushort)this.SelectedTalentTitle);              // Selected Talent Title
+			p.PutByte((byte)this.Grandmaster); // Grandmaster ID
+			p.PutInt(this.GetTalentExp(TalentId.Adventure)); // Adventure
+			p.PutInt(this.GetTalentExp(TalentId.Warrior)); // Warrior
+			p.PutInt(this.GetTalentExp(TalentId.Mage)); // Mage
+			p.PutInt(this.GetTalentExp(TalentId.Archer)); // Acher
+			p.PutInt(this.GetTalentExp(TalentId.Merchant)); //Merchant
+			p.PutInt(this.GetTalentExp(TalentId.BattleAlchemy)); // Battle Alch
+			p.PutInt(this.GetTalentExp(TalentId.Fighter)); // Fighter
+			p.PutInt(this.GetTalentExp(TalentId.Bard)); // Bard
+			p.PutInt(this.GetTalentExp(TalentId.Puppeteer)); // Puppeteer
+			p.PutInt(this.GetTalentExp(TalentId.Knight)); // Knight
+			p.PutInt(this.GetTalentExp(TalentId.HolyArts)); // Holy Arts
+			p.PutInt(this.GetTalentExp(TalentId.Transmutaion)); // Construct Alch
+			p.PutInt(this.GetTalentExp(TalentId.Cooking)); // Chef
+			p.PutInt(this.GetTalentExp(TalentId.Blacksmith)); // Blacksmith
+			p.PutInt(this.GetTalentExp(TalentId.Tailoring)); // Tailoring
+			p.PutInt(this.GetTalentExp(TalentId.Medicine)); // Apothecary
+			p.PutInt(this.GetTalentExp(TalentId.Carpentry)); // Carpenter
+
+#pragma warning disable 0162
+			if (Op.Version >= 180100)
+				p.PutInt(0);
+
+#pragma warning restore 0162
+
+			// Talent titles
+			// ----------------------------------------------------------
+			var titles = this.GetTalentTitles();
+
+			p.PutByte((byte)titles.Count);               // Count
+			foreach (var title in titles)
+				p.PutShort(title);
+
+			this.Client.Send(p);
+		}
+
+		public TalentRace GetRaceMask()
+		{
+			if (this.IsHuman)
+				return TalentRace.Human;
+			if (this.IsElf)
+				return TalentRace.Elf;
+			if (this.IsGiant)
+				return TalentRace.Giant;
+
+			return TalentRace.None;
+		}
+
+		public uint GetTalentExp(TalentId talent)
+		{
+			if (!this.TalentExps.ContainsKey(talent))
+				return 0;
+
+			uint exp = 0;
+
+			foreach (var skill in this.TalentExps[talent])
+				exp += skill.Value;
+
+			return exp;
 		}
 
 		/// <summary>
@@ -621,6 +799,8 @@ namespace Aura.World.World
 				skill.LoadRankInfo();
 				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, false);
 			}
+
+			this.UpdateTalentExp(skillId, rank, true);
 		}
 
 		public MabiSkill GetSkill(SkillConst skillId)

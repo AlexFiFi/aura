@@ -9,6 +9,7 @@ using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Events;
 using Aura.World.World;
+using Aura.Shared.Const;
 
 namespace Aura.World.Player
 {
@@ -451,33 +452,36 @@ namespace Aura.World.Player
 			// --------------------------------------------------------------
 			if (Op.Version >= 170100)
 			{
-				packet.PutShort(0);              // Selected Talent Title
-				packet.PutByte(255);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
+				packet.PutShort((ushort)this.SelectedTalentTitle);              // Selected Talent Title
+				packet.PutByte((byte)this.Grandmaster); // Grandmaster ID
+				packet.PutInt(this.GetTalentExp(TalentId.Adventure)); // Adventure
+				packet.PutInt(this.GetTalentExp(TalentId.Warrior)); // Warrior
+				packet.PutInt(this.GetTalentExp(TalentId.Mage)); // Mage
+				packet.PutInt(this.GetTalentExp(TalentId.Archer)); // Acher
+				packet.PutInt(this.GetTalentExp(TalentId.Merchant)); //Merchant
+				packet.PutInt(this.GetTalentExp(TalentId.BattleAlchemy)); // Battle Alch
+				packet.PutInt(this.GetTalentExp(TalentId.Fighter)); // Fighter
+				packet.PutInt(this.GetTalentExp(TalentId.Bard)); // Bard
+				packet.PutInt(this.GetTalentExp(TalentId.Puppeteer)); // Puppeteer
+				packet.PutInt(this.GetTalentExp(TalentId.Knight)); // Knight
+				packet.PutInt(this.GetTalentExp(TalentId.HolyArts)); // Holy Arts
+				packet.PutInt(this.GetTalentExp(TalentId.Transmutaion)); // Construct Alch
+				packet.PutInt(this.GetTalentExp(TalentId.Cooking)); // Chef
+				packet.PutInt(this.GetTalentExp(TalentId.Blacksmith)); // Blacksmith
+				packet.PutInt(this.GetTalentExp(TalentId.Tailoring)); // Tailoring
+				packet.PutInt(this.GetTalentExp(TalentId.Medicine)); // Apothecary
+				packet.PutInt(this.GetTalentExp(TalentId.Carpentry)); // Carpenter
 
 				if (Op.Version >= 180100)
 					packet.PutInt(0);
 
 				// Talent titles
 				// ----------------------------------------------------------
-				packet.PutByte(0);               // Count
-				//packet.PutShort(id);
+				var titles = this.GetTalentTitles(); 
+
+				packet.PutByte((byte)titles.Count);               // Count
+				foreach (var title in titles)
+					packet.PutShort(title);
 			}
 
 			// Transformations Diary (Shamala)

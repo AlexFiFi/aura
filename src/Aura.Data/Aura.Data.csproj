@@ -43,6 +43,7 @@
     <Compile Include="CSVReader.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Database\AncientDrops.cs" />
+    <Compile Include="Database\TalentExp.cs" />
     <Compile Include="Database\Exp.cs" />
     <Compile Include="Database\Weather.cs" />
     <Compile Include="Database\Pets.cs" />

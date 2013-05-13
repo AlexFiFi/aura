@@ -53,6 +53,7 @@ namespace Aura.World.World
 			this.AddCommand("who", "[region]", Authority.GameMaster, Command_who);
 			this.AddCommand("weather", "<clear|cloudy|rain|storm>", Authority.GameMaster, Command_weather);
 			this.AddCommand("title", "<title id> <usable>", Authority.GameMaster, Command_title);
+			this.AddCommand("grandmaster", "<talent id (0 - 16)>", Authority.GameMaster, Command_grandmaster);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
@@ -1002,6 +1003,20 @@ namespace Aura.World.World
 			scene.AddActor("me", creature);
 
 			scene.Send(client);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_grandmaster(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			byte id = byte.Parse(args[1]);
+
+			creature.Grandmaster = (TalentId)id;
+
+			creature.UpdateTalentInfo();
 
 			return CommandResult.Okay;
 		}
