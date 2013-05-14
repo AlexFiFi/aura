@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `lastDungeon` varchar(100) NOT NULL,
   `birthday` datetime NOT NULL,
   `title` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `optionTitle` SMALLINT( 5 ) usigned NOT NULL DEFAULT '0',
+  `optionTitle` SMALLINT( 5 ) unsigned NOT NULL DEFAULT '0',
   `talentTitle` SMALLINT( 5 ) unsigned NOT NULL DEFAULT  '0',
   `grandmasterTalent` TINYINT( 3 ) unsigned NOT NULL DEFAULT '255',
   `deletionTime` datetime DEFAULT NULL,
@@ -259,6 +259,13 @@ CREATE TABLE IF NOT EXISTS `cooldowns` (
   KEY `characterId` (`characterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE IF NOT EXISTS `titles` (
+  `characterId` bigint(20) unsigned NOT NULL,
+  `titleId` smallint(5) unsigned NOT NULL,
+  `usable` tinyint(1) NOT NULL DEFAULT '0',
+  KEY `characterId` (`characterId`),
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 ALTER TABLE `cards`
   ADD CONSTRAINT `cards_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -292,6 +299,9 @@ ALTER TABLE `guild_members`
   
 ALTER TABLE `cooldowns`
   ADD CONSTRAINT `cooldowns_ibfk_1` FOREIGN KEY (`characterId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+ALTER TABLE `titles`
+  ADD CONSTRAINT `titles_ibfk_1` FOREIGN KEY (`characterId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 CREATE TABLE IF NOT EXISTS `mail` (
   `messageId` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ,

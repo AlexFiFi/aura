@@ -444,7 +444,7 @@ namespace Aura.Shared.Const
 		None = 255
 	}
 
-	public enum TalentLevel : ushort
+	public enum TalentLevel : byte
 	{
 		None = 0,
 		Fledgling,
@@ -484,6 +484,59 @@ namespace Aura.Shared.Const
 		Tailoring = 11400,
 		Medicine = 11500,
 		Carpentry = 11600,
+
+		// Hybrid start
+		Artisan = 20900,
+		Artiste = 24800,
+		BattleBard = 22100,
+		BattleMage = 21600,
+		Bombardier = 21700,
+		Bowyer = 22900,
+		Brawler = 23800,
+		Challenger = 24500,
+		Cheerleader = 25000,
+		Choirmaster = 21400,
+		CostumeDesigner = 28000,
+		Doctor = 20800,
+		Elementalist = 21800,
+		Executioner = 22600,
+		FoodFighter = 21500,
+		FullAlchemist = 24100,
+		Gourmet = 21200,
+		Gypsy = 22400,
+		Hawker = 24900,
+		HolyArcher = 24200,
+		HolyKnight = 21900,
+		HolyWarrior = 21000,
+		HomeEconomist = 21300,
+		Idol = 26000,
+		IronFist = 24400,
+		JoySpreader = 30000,
+		KnightErrant = 24300,
+		Lumberjack = 24700,
+		MagicKnight = 20100,
+		Miner = 24600,
+		Missionary = 23700,
+		Monk = 21100,
+		Nutritionist = 23400,
+		Peddler = 23300,
+		Philosopher = 23500,
+		Polymath = 22200,
+		Puppetmancer = 27000,
+		Ranger = 20200,
+		Researcher = 33000,
+		Sage = 20700,
+		Scholar = 20300,
+		Slayer = 20400,
+		Spellsword = 20000,
+		Striker = 23100,
+		ToyMaker = 29000,
+		Tracker = 22000,
+		Trapper = 32000,
+		Troubadour = 23200,
+		Trouper = 31000,
+		Vagabond = 20600,
+		Vanguard = 20500,
 	}
 
 	public enum TalentRace : byte
@@ -499,7 +552,5 @@ namespace Aura.Shared.Const
 		GiantAndElf = Giant | Elf,
 
 		All = Human | Elf | Giant
-
-		// NO IDEA.
 	}
 }

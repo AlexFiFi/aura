@@ -54,6 +54,7 @@ namespace Aura.World.World
 			this.AddCommand("weather", "<clear|cloudy|rain|storm>", Authority.GameMaster, Command_weather);
 			this.AddCommand("title", "<title id> <usable>", Authority.GameMaster, Command_title);
 			this.AddCommand("grandmaster", "<talent id (0 - 16)>", Authority.GameMaster, Command_grandmaster);
+			this.AddCommand("over9000", "", Authority.GameMaster, Command_over9k);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
@@ -792,7 +793,7 @@ namespace Aura.World.World
 			if (args.Length > 2 && !byte.TryParse(args[2], out rank))
 				return CommandResult.Fail;
 
-			creature.GiveSkill(skillId, rank);
+			creature.GiveSkill(skillId, rank, true);
 
 			return CommandResult.Okay;
 		}
@@ -1017,6 +1018,20 @@ namespace Aura.World.World
 			creature.Grandmaster = (TalentId)id;
 
 			creature.UpdateTalentInfo();
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_over9k(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			var skills = Enum.GetValues(typeof(SkillConst));
+
+			foreach (var skill in skills)
+			{
+				creature.GiveSkill((SkillConst)skill, SkillRank.R1, true);
+			}
+
+			WorldManager.Instance.Broadcast(PacketCreator.Notice(creature.Name + "'S POWER IS OVER 9000!", NoticeType.TopRed, 20000), SendTargets.All);
 
 			return CommandResult.Okay;
 		}
