@@ -45,12 +45,6 @@ namespace Aura.World.Events
 				CreatureStatUpdates(c, new EntityEventArgs(c));
 		}
 
-		public void OnCreatureStatusEffectUpdate(MabiCreature c)
-		{
-			if (CreatureStatusEffectUpdate != null)
-				CreatureStatusEffectUpdate(c, new EntityEventArgs(c));
-		}
-
 		public void OnCreatureItemUpdate(MabiCreature creature, MabiItem item, bool isNew = false)
 		{
 			if (CreatureItemUpdate != null)

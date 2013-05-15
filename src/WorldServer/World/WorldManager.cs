@@ -27,7 +27,6 @@ namespace Aura.World.World
 		{
 			EntityEvents.Instance.CreatureLevelsUp += this.CreatureLevelsUp;
 			EntityEvents.Instance.CreatureStatUpdates += this.CreatureStatsUpdate;
-			EntityEvents.Instance.CreatureStatusEffectUpdate += this.CreatureStatusEffectsChange;
 			EntityEvents.Instance.CreatureItemUpdate += this.CreatureItemUpdate;
 			EntityEvents.Instance.CreatureDropItem += this.CreatureDropItem;
 			EntityEvents.Instance.CreatureSkillUpdate += this.CreatureSkillUpdate;
@@ -1053,25 +1052,6 @@ namespace Aura.World.World
 			this.CreatureStatsUpdate(e.Entity as MabiCreature);
 		}
 
-		public void CreatureStatusEffectsChange(object sender, EntityEventArgs e)
-		{
-			var creature = e.Entity as MabiCreature;
-
-			var p = new MabiPacket(Op.StatusEffectUpdate, creature.Id);
-			p.PutLong((ulong)creature.Conditions.A);
-			p.PutLong((ulong)creature.Conditions.B);
-			p.PutLong((ulong)creature.Conditions.C);
-			p.PutLong((ulong)creature.Conditions.D);
-			p.PutInt(0);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-		}
-
-		public void CreatureStatusEffectsChange(MabiCreature creature)
-		{
-			this.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
-		}
-
 		public void CreatureLevelsUp(object sender, EntityEventArgs e)
 		{
 			var creature = e.Entity as MabiCreature;
@@ -1165,16 +1145,23 @@ namespace Aura.World.World
 				if ((result & SkillResults.Okay) == 0)
 					return;
 
-				creature.Client.Send(new MabiPacket(Op.SkillStackUpdate, creature.Id).PutBytes(0, 1, 0).PutShort(creature.ActiveSkillId));
-				creature.Client.Send(new MabiPacket(Op.SkillCancel, creature.Id).PutBytes(0, 1));
+				creature.Client.SendSkillStackUpdate(creature, skill.Id, 0);
+				creature.Client.SendSkillCancel(creature);
 			}
 
 			creature.ActiveSkillId = 0;
 			creature.ActiveSkillStacks = 0;
 		}
 
-		public void CreatureRevive(MabiCreature creature)
+		/// <summary>
+		/// Revives creates and sends necessary packets.
+		/// </summary>
+		/// <param name="creature"></param>
+		public void ReviveCreature(MabiCreature creature)
 		{
+			if (!creature.IsDead)
+				return;
+
 			creature.Revive();
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead1, creature.Id), SendTargets.Range, creature);
@@ -1183,201 +1170,131 @@ namespace Aura.World.World
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 		}
 
-		public void CreatureCombatAction(MabiCreature source, MabiCreature target, CombatEventArgs combatArgs)
+		public void HandleCombatActionPack(CombatActionPack cap)
 		{
-			var combatPacket = new MabiPacket(Op.CombatActionBundle, Id.Broadcast);
-			combatPacket.PutInt(combatArgs.CombatActionId);
-			combatPacket.PutInt(combatArgs.PrevCombatActionId);
-			combatPacket.PutByte(combatArgs.Hit);
-			combatPacket.PutByte(combatArgs.HitsMax);
-			combatPacket.PutByte(0);
-
-			// List actions
-			combatPacket.PutInt((uint)combatArgs.CombatActions.Count);
-			foreach (var action in combatArgs.CombatActions)
+			foreach (var action in cap.Actions)
 			{
-				// Sub-packet
-				var actionPacket = new MabiPacket(Op.CombatAction, action.Creature.Id);
-				actionPacket.PutInt(combatArgs.CombatActionId);
-				actionPacket.PutLong(action.Creature.Id);
-				actionPacket.PutByte((byte)action.ActionType);
-				actionPacket.PutShort(action.StunTime);
-				actionPacket.PutShort((ushort)action.SkillId);
-				actionPacket.PutShort(0);
+				// Switch to battle stance
+				//if (tAction.Creature.BattleState == 0)
+				//{
+				//    tAction.Creature.BattleState = 1;
+				//    WorldManager.Instance.CreatureChangeStance(tAction.Creature, 0);
+				//}
 
-				// Creatures takes damage
-				if (action.ActionType.HasFlag(CombatActionType.TakeDamage))
+				// Cancel defense if applicable
+				if (action.Is(CombatActionType.Defended))
+					WorldManager.Instance.CreatureSkillCancel(action.Creature);
+
+				if (action.Creature.IsDead)
 				{
-					if (action.Creature.BattleState == 0)
-					{
-						action.Creature.BattleState = 1;
-						WorldManager.Instance.CreatureChangeStance(action.Creature, 0);
-					}
-
-					var pos = action.Creature.GetPosition();
-					var enemy = action.Target as MabiCreature;
-					var enemyPos = enemy.GetPosition();
-
-					if (action.ActionType.HasFlag(CombatActionType.Defense))
-					{
-						this.CreatureSkillCancel(action.Creature);
-
-						actionPacket.PutLong(enemy.Id);
-						actionPacket.PutInt(0);
-						actionPacket.PutByte(0);
-						actionPacket.PutByte(1);
-						actionPacket.PutInt(pos.X);
-						actionPacket.PutInt(pos.Y);
-					}
-
-					actionPacket.PutInt(action.GetAttackOption());
-					actionPacket.PutFloat(action.CombatDamage);
-					actionPacket.PutFloat(0);
-					actionPacket.PutInt(0);
-
-					actionPacket.PutFloat((float)enemyPos.X - pos.X);
-					actionPacket.PutFloat((float)enemyPos.Y - pos.Y);
-					if (action.IsKnock())
-					{
-						actionPacket.PutFloat(pos.X);
-						actionPacket.PutFloat(pos.Y);
-					}
-
-					actionPacket.PutByte(action.GetDefenseOption());
-					actionPacket.PutInt(action.ReactionDelay);
-					actionPacket.PutLong(enemy.Id);
-
-					if (action.Finish)
-					{
-						// Exp
-						if (enemy.LevelingEnabled)
-						{
-							// Give exp
-							var exp = action.Creature.BattleExp * WorldConf.ExpRate;
-							enemy.GiveExp((ulong)exp);
-
-							// If the creature is controlled by a client
-							// it probably wants to get some information.
-							if (enemy.Client != null)
-							{
-								var client = enemy.Client;
-								client.Send(PacketCreator.CombatMessage(enemy, "+" + exp.ToString() + " EXP"));
-							}
-
-							ServerEvents.Instance.OnCreatureKilled(new CreatureKilledEventArgs(action.Creature, enemy));
-							if (enemy is MabiPC)
-								ServerEvents.Instance.OnKilledByPlayer(new CreatureKilledEventArgs(action.Creature, enemy));
-						}
-
-						var npc = action.Creature as MabiNPC;
-						if (npc != null)
-						{
-							var rnd = RandomProvider.Get();
-
-							// Gold
-							if (rnd.NextDouble() < WorldConf.GoldDropRate)
-							{
-								var amount = rnd.Next(npc.GoldMin, npc.GoldMax + 1);
-								if (amount > 0)
-								{
-									var gold = new MabiItem(2000);
-									gold.Info.Amount = (ushort)amount;
-									gold.Info.Region = npc.Region;
-									gold.Info.X = (uint)(action.OldPosition.X + rnd.Next(-50, 51));
-									gold.Info.Y = (uint)(action.OldPosition.Y + rnd.Next(-50, 51));
-									gold.DisappearTime = DateTime.Now.AddSeconds(60);
-
-									this.AddItem(gold);
-								}
-							}
-
-							// Drops
-							foreach (var drop in npc.Drops)
-							{
-								if (rnd.NextDouble() < drop.Chance * WorldConf.DropRate)
-								{
-									var item = new MabiItem(drop.ItemId);
-									item.Info.Amount = 1;
-									var x = (uint)(action.OldPosition.X + rnd.Next(-50, 51));
-									var y = (uint)(action.OldPosition.Y + rnd.Next(-50, 51));
-
-									this.CreatureDropItem(item, npc.Region, x, y);
-								}
-							}
-
-							// Shadow Bunshin soul counter
-							if (action.SkillId != SkillConst.ShadowBunshin)
-								enemy.SoulCount++;
-						}
-
-						// Set finisher?
-						var finishPacket = new MabiPacket(Op.CombatSetFinisher, action.Creature.Id);
-						finishPacket.PutLong(enemy.Id);
-						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
-
-						// Clear target
-						WorldManager.Instance.CreatureSetTarget(enemy, null);
-
-						// Finish this finisher part?
-						finishPacket = new MabiPacket(Op.CombatSetFinisher2, action.Creature.Id);
-						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
-
-						// TODO: There appears to be something missing to let it lay there for finish, if we don't kill it with the following packets.
-						// TODO: Check for finishing.
-
-						// Make it dead
-						finishPacket = new MabiPacket(Op.IsNowDead, action.Creature.Id);
-						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
-
-						// Remove finisher?
-						finishPacket = new MabiPacket(Op.CombatSetFinisher, action.Creature.Id);
-						finishPacket.PutLong(0);
-						WorldManager.Instance.Broadcast(finishPacket, SendTargets.Range, action.Creature);
-
-						if (action.Creature.ActiveSkillId > 0)
-						{
-							this.CreatureSkillCancel(action.Creature);
-						}
-
-						if (action.Creature.Owner != null)
-						{
-							WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, action.Creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, action.Creature);
-							// TODO: Unmount.
-						}
-					}
+					// Exp, Drops, etc.
+					WorldManager.Instance.CreatureDies(action.Creature, cap.Attacker, action.OldPosition, action.SkillId);
 				}
-				// Creature deals damage
-				else if (action.ActionType.HasFlag(CombatActionType.Hit))
-				{
-					var pos = action.Creature.GetPosition();
-
-					actionPacket.PutLong(action.TargetId);
-					actionPacket.PutInt(action.GetAttackOption());
-					actionPacket.PutByte(0);
-					actionPacket.PutByte((byte)(!action.IsKnock() ? 2 : 1)); // must be 2 for correct non knockback animation?
-					actionPacket.PutInt(pos.X);
-					actionPacket.PutInt(pos.Y);
-
-					if (action.Creature.ActiveSkillId > 0)
-					{
-						this.CreatureSkillCancel(action.Creature);
-					}
-				}
-
-				var actionPacketB = actionPacket.Build(false);
-				combatPacket.PutInt((uint)actionPacketB.Length);
-				combatPacket.PutBin(actionPacketB);
 			}
 
-			WorldManager.Instance.Broadcast(combatPacket, SendTargets.Range, source);
+			// Start combat action
+			WorldManager.Instance.Broadcast(cap.GetPacket(), SendTargets.Range, cap.Attacker);
+
+			// Skill used
+			if (cap.SkillId != SkillConst.MeleeCombatMastery)
+				cap.Attacker.Client.Send(new MabiPacket(Op.CombatUsedSkill, cap.Attacker.Id).PutShort((ushort)cap.SkillId));
+
+			// End combat action
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatActionEnd, Id.Broadcast).PutInt(cap.CombatActionId), SendTargets.Range, cap.Attacker);
+
+			// Status updates
+			foreach (var action in cap.Actions)
+				WorldManager.Instance.CreatureStatsUpdate(action.Creature);
 		}
 
-		public void CreatureCombatSubmit(MabiCreature source, uint actionId)
+		public void CreatureDies(MabiCreature creature, MabiCreature killer, MabiVertex position, SkillConst skillId)
 		{
-			var p = new MabiPacket(Op.CombatActionEnd, Id.Broadcast);
-			p.PutInt(actionId);
+			if (killer != null)
+			{
+				// Shadow Bunshin soul counter
+				if (skillId != SkillConst.ShadowBunshin)
+					killer.SoulCount++;
 
-			this.Broadcast(p, SendTargets.Range, source);
+				// Exp
+				if (killer.LevelingEnabled)
+				{
+					// Give exp
+					var exp = creature.BattleExp * WorldConf.ExpRate;
+					killer.GiveExp((ulong)exp);
+
+					killer.Client.Send(PacketCreator.CombatMessage(killer, "+{0} EXP", exp));
+
+					ServerEvents.Instance.OnCreatureKilled(new CreatureKilledEventArgs(creature, killer));
+					if (killer is MabiPC)
+						ServerEvents.Instance.OnKilledByPlayer(new CreatureKilledEventArgs(creature, killer));
+				}
+			}
+
+			var npc = creature as MabiNPC;
+			if (npc != null)
+			{
+				var rnd = RandomProvider.Get();
+
+				// Gold
+				if (rnd.NextDouble() < WorldConf.GoldDropRate)
+				{
+					var amount = rnd.Next(npc.GoldMin, npc.GoldMax + 1);
+					if (amount > 0)
+					{
+						var gold = new MabiItem(2000);
+						gold.Info.Amount = (ushort)amount;
+						gold.Info.Region = npc.Region;
+						gold.Info.X = (uint)(position.X + rnd.Next(-50, 51));
+						gold.Info.Y = (uint)(position.Y + rnd.Next(-50, 51));
+						gold.DisappearTime = DateTime.Now.AddSeconds(60);
+
+						this.AddItem(gold);
+					}
+				}
+
+				// Drops
+				foreach (var drop in npc.Drops)
+				{
+					if (rnd.NextDouble() < drop.Chance * WorldConf.DropRate)
+					{
+						var item = new MabiItem(drop.ItemId);
+						item.Info.Amount = 1;
+						item.Info.Region = npc.Region;
+						item.Info.X = (uint)(position.X + rnd.Next(-50, 51));
+						item.Info.Y = (uint)(position.Y + rnd.Next(-50, 51));
+						item.DisappearTime = DateTime.Now.AddSeconds(60);
+
+						this.AddItem(item);
+					}
+				}
+			}
+
+			// Set finisher?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, creature.Id).PutLong(killer.Id), SendTargets.Range, creature);
+
+			// Clear target
+			WorldManager.Instance.CreatureSetTarget(killer, null);
+
+			// Finish this finisher part?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher2, creature.Id), SendTargets.Range, creature);
+
+			// TODO: There appears to be something missing to let it lay there for finish, if we don't kill it with the following packets.
+			// TODO: Check for finishing.
+
+			// Make it dead
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.IsNowDead, creature.Id), SendTargets.Range, creature);
+
+			// Remove finisher?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, creature.Id).PutLong(0), SendTargets.Range, creature);
+
+			if (creature.ActiveSkillId > 0)
+				this.CreatureSkillCancel(creature);
+
+			if (creature.Owner != null)
+			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
+				// TODO: Unmount.
+			}
 		}
 
 		public void CreatureReceivesQuest(MabiCreature creature, MabiQuest quest)
@@ -1676,13 +1593,14 @@ namespace Aura.World.World
 			creature.GoldMax *= 20;
 			creature.GoldMin *= 20;
 
+			/// XXX: Maybe do this by default for all monsters?
 			creature.Drops = new List<DropInfo>(creature.Drops);
 			creature.Drops.AddRange(MabiData.AncientDropDb.Entries);
 
 			creature.Defense += 10;
 			creature.Protection += 10;
 
-			creature.LifeMaxMod = (creature.LifeMax * 10 ) - creature.LifeMaxBase;
+			creature.LifeMaxMod = (creature.LifeMax * 10) - creature.LifeMaxBase;
 			creature.FullHeal();
 
 			creature.BattleExp *= 20;

@@ -170,6 +170,8 @@ namespace Aura.Shared.Network
 		{
 			try
 			{
+				//Logger.Debug(packet);
+
 				var handler = this.GetPacketHandler(packet.Op);
 				if (handler != null)
 				{

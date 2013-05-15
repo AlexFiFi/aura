@@ -6,131 +6,132 @@ using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Network;
 using Aura.World.World;
-using Aura.World.Events;
+using System.Collections.Generic;
 
 namespace Aura.World.Skills
 {
-	/// <summary>
-	/// Notes about official vs Aura:
-	/// Since Windmill doesn't take one target, but works with the attackable
-	/// entites around the player we get a pretty big number like
-	/// 0x30000001079E08F9 as target id, which is used in the hit part of the
-	/// combat action and in the reply to the use packet. Ignored for now,
-	/// since the function is unclear, and it works anyway. 
-	/// Also for some reason officially the skill id for Combat Mastery is
-	/// being sent in the target parts for some reason.
-	/// </summary>
 	public class WindmillHandler : SkillHandler
 	{
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			this.SetActive(creature, skill);
-			this.SkillInit(creature);
+			WorldManager.Instance.SendSkillInitEffect(creature);
+
+			if (creature.IsMoving)
+			{
+				creature.StopMove();
+				WorldManager.Instance.SendStopMove(creature);
+			}
+
+			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Ready(MabiCreature creature, MabiSkill skill)
 		{
+			SkillHelper.InitStack(creature, skill);
+			creature.Client.SendSkillReady(creature, skill.Id);
+
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Complete(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
+			creature.Client.SendSkillComplete(creature, skill.Id);
+
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Use(MabiCreature creature, MabiCreature target, MabiSkill skill)
+		public override SkillResults Use(MabiCreature attacker, MabiSkill skill, MabiPacket packet)
 		{
+			//Logger.Debug(packet);
+
+			var targetId = packet.GetLong();
+			var unk1 = packet.GetInt();
+			var unk2 = packet.GetInt();
+
 			// Determine range, doesn't seem to be included in rank info.
-			uint range = this.GetRange(skill);
+			var range = this.GetRange(skill);
 
-			var enemies = WorldManager.Instance.GetAttackableCreaturesInRange(creature, range);
+			// Add attack range from race, range must increase depending on "size".
+			range += (uint)attacker.RaceInfo.AttackRange;
+
+			var enemies = WorldManager.Instance.GetAttackableCreaturesInRange(attacker, range);
 			if (enemies.Count < 1)
 			{
-				if (creature.Client != null)
-				{
-					creature.Client.Send(PacketCreator.Notice("Unable to use when there is no target."));
-					creature.Client.Send(new MabiPacket(Op.SkillSilentCancel, creature.Id));
-				}
-				return SkillResults.OutOfRange | SkillResults.NoReply;
+				attacker.Client.SendNotice(Localization.Get("skills.wm_no_target")); // Unable to use when there is no target.
+				attacker.Client.SendSkillSilentCancel(attacker);
+
+				return SkillResults.OutOfRange | SkillResults.Failure;
 			}
 
 			var rnd = RandomProvider.Get();
 
-			creature.StopMove();
-			WorldManager.Instance.CreatureUseMotion(creature, 8, 4);
+			attacker.StopMove();
 
-			var combatArgs = new CombatEventArgs();
-			combatArgs.CombatActionId = CombatHelper.ActionId;
+			// Spin motion
+			WorldManager.Instance.CreatureUseMotion(attacker, 8, 4);
+
+			var cap = new CombatActionPack(attacker, skill.Id);
 
 			// One source action, target actions are added for every target
-			// and then we send the combatArgs on their way.
-			var sourceAction = new CombatAction();
-			sourceAction.ActionType = CombatActionType.Hit;
-			sourceAction.SkillId = skill.Id;
-			sourceAction.Creature = creature;
-			sourceAction.TargetId = 0; // big nr?
-			sourceAction.Knockdown = true;
-			sourceAction.StunTime = 2500;
-			combatArgs.CombatActions.Add(sourceAction);
+			// and then we send the pack on its way.
+			var sAction = new SourceAction(CombatActionType.Hit, attacker, skill.Id, targetId);
+			sAction.Options |= SourceOptions.Result | SourceOptions.KnockBackHit1;
 
-			creature.AddStun(sourceAction.StunTime, true);
+			cap.Add(sAction);
 
-			foreach (var enemy in enemies)
+			attacker.Stun = sAction.StunTime = 2500;
+
+			// For aggro selection, only one enemy gets it.
+			MabiCreature aggroTarget = null;
+			var survived = new List<MabiCreature>();
+
+			foreach (var target in enemies)
 			{
-				enemy.StopMove();
+				target.StopMove();
 
-				this.SetAggro(creature, enemy);
+				var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
+				cap.Add(tAction);
 
-				var targetAction = new CombatAction();
-				targetAction.Creature = enemy;
-				targetAction.Target = creature;
-				targetAction.ActionType = CombatActionType.TakeDamage;
-				targetAction.SkillId = skill.Id;
-
-				var damage = creature.GetRndTotalDamage();
+				var damage = attacker.GetRndTotalDamage();
 				damage *= skill.RankInfo.Var1 / 100;
 
-				// Crit
-				if (rnd.NextDouble() < creature.CriticalChance)
-				{
-					damage *= 1.5f; // R1
-					targetAction.Critical = true;
-				}
+				if (CombatHelper.TryAddCritical(attacker, ref damage, attacker.CriticalChance))
+					tAction.Options |= TargetOptions.Critical;
 
-				targetAction.CombatDamage = damage;
-				enemy.TakeDamage(damage);
-				targetAction.Finish = enemy.IsDead;
+				target.TakeDamage(tAction.Damage = damage);
+				if (target.IsDead)
+					tAction.Options |= TargetOptions.FinishingKnockDown;
 
-				targetAction.Knockdown = true;
-				targetAction.StunTime = 2000;
-				enemy.AddStun(targetAction.StunTime, true);
+				tAction.Options |= TargetOptions.KnockDown;
+				target.Stun = tAction.StunTime = CombatHelper.GetStunTarget(CombatHelper.GetAverageAttackSpeed(attacker), true);
 
-				targetAction.OldPosition = enemy.GetPosition().Copy();
-				var pos = WorldManager.CalculatePosOnLine(creature, enemy, 375);
-				enemy.SetPosition(pos.X, pos.Y);
+				tAction.OldPosition = CombatHelper.KnockBack(target, attacker, 375);
 
-				targetAction.ReactionDelay = (uint)rnd.Next(300, 351);
+				tAction.Delay = (uint)rnd.Next(300, 351);
 
-				combatArgs.CombatActions.Add(targetAction);
+				if (target.Target == attacker)
+					aggroTarget = target;
 
-				WorldManager.Instance.CreatureStatsUpdate(enemy);
+				if (!target.IsDead)
+					survived.Add(target);
 			}
 
-			WorldManager.Instance.CreatureCombatAction(creature, null, combatArgs);
+			// No aggro yet, random target.
+			if (aggroTarget == null && survived.Count > 0)
+				aggroTarget = survived[rnd.Next(0, survived.Count)];
 
-			// Officially sent (actually for all skills I guess)
-			//WorldManager.Instance.Broadcast(
-			//    new MabiPacket(0x7927, creature.Id)
-			//    .PutShort(22001)
-			//, SendTargets.Range, creature);
+			if (aggroTarget != null)
+				CombatHelper.SetAggro(attacker, aggroTarget);
 
-			WorldManager.Instance.CreatureCombatSubmit(creature, combatArgs.CombatActionId);
+			WorldManager.Instance.HandleCombatActionPack(cap);
 
-			WorldManager.Instance.CreatureStatsUpdate(creature);
+			attacker.Client.SendSkillUse(attacker, skill.Id, targetId, unk1, unk2);
+			//attacker.Client.SendSkillStackUpdate(attacker, skill.Id, 0);
 
-			this.GiveSkillExp(creature, skill, 20);
+			SkillHelper.DecStack(attacker, skill);
+			SkillHelper.GiveSkillExp(attacker, skill, 20);
 
 			return SkillResults.Okay;
 		}
@@ -140,7 +141,7 @@ namespace Aura.World.Skills
 			uint range = 300;
 			if (skill.Rank >= SkillRank.R5)
 				range += 100;
-			if (skill.Rank == SkillRank.R1)
+			if (skill.Rank >= SkillRank.R1)
 				range += 100;
 			return range;
 		}

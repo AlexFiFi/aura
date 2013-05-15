@@ -103,6 +103,7 @@ namespace Aura.Shared.Network
 		public readonly static uint AcquireInfo = 0x5271;
 		public readonly static uint WhisperChat = 0x5273;
 		public readonly static uint BeginnerChat = 0x5275;
+		public readonly static uint AcquireInfo2 = 0x5278; // ?
 		public readonly static uint VisualChat = 0x527A;
 		public readonly static uint PropAppears = 0x52D0;
 		public readonly static uint PropDisappears = 0x52D1;
@@ -149,7 +150,7 @@ namespace Aura.Shared.Network
 		public readonly static uint SwitchedSet = 0x5BCF;
 		public readonly static uint ItemStateChange = 0x5BD0;
 		public readonly static uint ItemStateChangeR = 0x5BD1;
-		public readonly static uint ItemTagsUpdate = 0x5BD4;
+		public readonly static uint ItemUpdate = 0x5BD4;
 		public readonly static uint ItemDurabilityUpdate = 0x5BD5;
 		public readonly static uint ItemStateChanged = 0x5BD9;
 		public readonly static uint ItemExpUpdate = 0x5BDA;
@@ -237,7 +238,7 @@ namespace Aura.Shared.Network
 		public readonly static uint CombatAction = 0x7924;
 		public readonly static uint CombatActionEnd = 0x7925;
 		public readonly static uint CombatActionBundle = 0x7926;
-		//public readonly static uint CombatUsedSkill = 0x7927; // ?
+		public readonly static uint CombatUsedSkill = 0x7927;
 		public readonly static uint CombatAttackR = 0x7D01;
 
 		public readonly static uint AreaChange = 0x88B8; // More like "event triggered"?
@@ -324,6 +325,10 @@ namespace Aura.Shared.Network
 		public readonly static uint DungeonInfo = 0x9470;
 
 		public readonly static uint StatusEffectUpdate = 0xA028;
+		public readonly static uint DyePaletteReq = 0xA418;
+		public readonly static uint DyePaletteReqR = 0xA419;
+		public readonly static uint DyePickColor = 0xA41A;
+		public readonly static uint DyePickColorR = 0xA41B;
 		public readonly static uint Transformation = 0xA41C;
 		//public readonly static uint Pet??? = 0xA41D;
 		public readonly static uint MoonGateRequest = 0xA428;

@@ -173,7 +173,7 @@ namespace Aura.World.Database
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns>Returns null if character doesn't exist.</returns>
-		private T GetCharacter<T>(ulong id) where T : MabiPC, new()
+		public T GetCharacter<T>(ulong id) where T : MabiPC, new()
 		{
 			var conn = MabiDb.Instance.GetConnection();
 			try

@@ -20,6 +20,14 @@ namespace Aura.Shared.Util
 		private Dictionary<string, object> _tags = new Dictionary<string, object>();
 		private string _cache = null;
 
+		public MabiTags()
+		{ }
+
+		public MabiTags(string toParse)
+		{
+			this.Parse(toParse);
+		}
+
 		private void Set<T>(string key, T val)
 		{
 			_tags[key] = val;
@@ -172,6 +180,23 @@ namespace Aura.Shared.Util
 					case "b": this.SetBool(key, val == "1"); break;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Parses string and tries to return the value.
+		/// Returns T's default if the key can't be found or the type is incorrect.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="from"></param>
+		/// <returns></returns>
+		public static T Fetch<T>(string key, string from)
+		{
+			var tags = new MabiTags(from);
+			var val = tags.Get(key);
+			if (val != null && val is T)
+				return (T)val;
+			return default(T);
 		}
 	}
 }

@@ -25,6 +25,8 @@ namespace Aura.Shared.Const
 
 	public enum SkillConst : ushort
 	{
+		None = 0,
+
 		// Life
 		Tailoring = 10001,
 		AdvancedBookReading = 10002,

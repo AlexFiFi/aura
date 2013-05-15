@@ -64,6 +64,11 @@
     <Compile Include="Events\EventsArgs.cs" />
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Network\PacketCreator.cs" />
+    <Compile Include="Network\Sending\Client.Skills.cs" />
+    <Compile Include="Network\Sending\Client.Items.cs" />
+    <Compile Include="Network\Sending\Client.General.cs" />
+    <Compile Include="Network\Sending\World.General.cs" />
+    <Compile Include="Network\Sending\World.Skills.cs" />
     <Compile Include="Network\WorldClient.cs" />
     <Compile Include="Network\WorldServer.Handlers.cs" />
     <Compile Include="Network\WorldServer.cs" />
@@ -82,18 +87,21 @@
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\NPCScript.cs" />
     <Compile Include="Scripting\NPCSession.cs" />
-    <Compile Include="Skills\Handlers\ActionSkillHandlers.cs" />
+    <Compile Include="Skills\CombatAction.cs" />
+    <Compile Include="Skills\Handlers\Actions\ActionSkillHandlers.cs" />
     <Compile Include="Skills\Handlers\Combat\DefenseHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\CombatMasteryHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\ShadowBunshinHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\WindmillHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\SmashHandler.cs" />
-    <Compile Include="Skills\Handlers\HiddenSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Hidden\DyeHandler.cs" />
+    <Compile Include="Skills\Handlers\Hidden\ResurrectionlHandler.cs" />
     <Compile Include="Skills\Handlers\Life\MusicSkillHandlers.cs" />
-    <Compile Include="Skills\Handlers\TransformationSkillHandlers.cs" />
-    <Compile Include="Skills\Handlers\MagicSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Transformations\TransformationSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Magic\MagicSkillHandlers.cs" />
     <Compile Include="Skills\Handlers\Life\LifeSkillHandlers.cs" />
     <Compile Include="Skills\SkillHandler.cs" />
+    <Compile Include="Skills\SkillHelper.cs" />
     <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Util\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
@@ -136,6 +144,7 @@
   <ItemGroup>
     <Content Include="mabioriginal.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

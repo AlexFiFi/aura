@@ -66,6 +66,8 @@ namespace Aura.Shared.Network
 		/// <param name="packet"></param>
 		public void Send(MabiPacket packet)
 		{
+			//Logger.Debug(packet);
+
 			this.Send(packet.Build());
 		}
 

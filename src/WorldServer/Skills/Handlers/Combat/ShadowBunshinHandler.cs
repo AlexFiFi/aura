@@ -10,6 +10,7 @@ using Aura.World.Player;
 using Aura.World.Util;
 using Aura.World.World;
 using Aura.World.Events;
+using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
@@ -21,60 +22,75 @@ namespace Aura.World.Skills
 		private const uint Radius = 400;
 		private const uint Range = 1200;
 
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
+			// Is this check done client sided in every client by now?
 			if (WorldConf.BunshinSouls && creature is MabiPC && creature.SoulCount < skill.RankInfo.Var1)
 			{
-				creature.Client.Send(PacketCreator.Notice(creature, "You need " + (skill.RankInfo.Var1 - creature.SoulCount).ToString() + " more souls\nto be able to use Shadow Bunshin."));
+				creature.Client.SendNotice("You need {0} more souls\nto be able to use Shadow Bunshin.", (skill.RankInfo.Var1 - creature.SoulCount));
 				return SkillResults.Failure;
 			}
 
-			this.SetActive(creature, skill);
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(262).PutByte(1), SendTargets.Range, creature);
+			if (creature.IsMoving)
+			{
+				creature.StopMove();
+				WorldManager.Instance.SendStopMove(creature);
+			}
 
-			creature.StopMove();
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.ShadowBunshin).PutByte(1), SendTargets.Range, creature);
+			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Ready(MabiCreature creature, MabiSkill skill)
 		{
+			creature.Client.SendSkillReady(creature, skill.Id);
+
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Complete(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
+			creature.Client.SendSkillComplete(creature, skill.Id);
+
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Cancel(MabiCreature creature, MabiSkill skill)
 		{
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(262).PutByte(4), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.ShadowBunshin).PutByte(4), SendTargets.Range, creature);
 
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Use(MabiCreature creature, MabiCreature target, MabiSkill skill)
+		public override SkillResults Use(MabiCreature attacker, MabiSkill skill, MabiPacket packet)
 		{
+			var targetId = packet.GetLong();
+			var unk1 = packet.GetInt();
+			var unk2 = packet.GetInt();
+
+			var target = WorldManager.Instance.GetCreatureById(targetId);
+			if (target == null)
+				return SkillResults.InvalidTarget;
+
 			//if (!WorldManager.InRange(creature, target, Range))
 			//    return SkillResults.OutOfRange;
 
-			var staminaCost = creature.Stamina * (skill.RankInfo.Var2 / 100f);
-			if (creature is MabiPC)
-			{
-				creature.Stamina -= staminaCost;
-				WorldManager.Instance.CreatureStatsUpdate(creature);
-			}
+			// X% of Stamina
+			var staminaCost = attacker.Stamina * (skill.RankInfo.Var2 / 100f);
+			if (attacker is MabiPC)
+				attacker.Stamina -= staminaCost;
 
 			target.StopMove();
 
 			var clones = (uint)skill.RankInfo.Var1;
-			creature.SoulCount = 0;
+			attacker.SoulCount = 0;
 
 			// Spawn clones
 			var pos = target.GetPosition();
 			WorldManager.Instance.Broadcast(
-				new MabiPacket(Op.Effect, creature.Id)
+				new MabiPacket(Op.Effect, attacker.Id)
 				.PutInt(262)
 				.PutByte(3)
 				.PutString("appear")
@@ -87,17 +103,19 @@ namespace Aura.World.Skills
 			, SendTargets.Range, target);
 
 			// Change char look direction.
-			WorldManager.Instance.Broadcast(PacketCreator.TurnTo(creature, target), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(PacketCreator.TurnTo(attacker, target), SendTargets.Range, attacker);
 
 			// Jump to clone circle
-			var toPos = WorldManager.CalculatePosOnLine(creature, target, -(int)Radius);
-			creature.SetPosition(toPos.X, toPos.Y);
+			var toPos = WorldManager.CalculatePosOnLine(attacker, target, -(int)Radius);
+			attacker.SetPosition(toPos.X, toPos.Y);
 			WorldManager.Instance.Broadcast(
-				new MabiPacket(Op.SetLocation, creature.Id)
+				new MabiPacket(Op.SetLocation, attacker.Id)
 				.PutByte(0)
 				.PutInt(toPos.X)
 				.PutInt(toPos.Y)
-			, SendTargets.Range, creature);
+			, SendTargets.Range, attacker);
+
+			bool alreadyDead = false;
 
 			uint i = 0;
 			Timer timer = null;
@@ -108,7 +126,7 @@ namespace Aura.World.Skills
 
 				// Move
 				WorldManager.Instance.Broadcast(
-					new MabiPacket(Op.Effect, creature.Id)
+					new MabiPacket(Op.Effect, attacker.Id)
 					.PutInt(262)
 					.PutByte(3)
 					.PutString("move")
@@ -118,38 +136,28 @@ namespace Aura.World.Skills
 					.PutInt(450)
 					.PutInt(clones) // ? (4)
 					.PutInt(120) // disappear time?
-				, SendTargets.Range, creature);
+				, SendTargets.Range, attacker);
 				// Attack
 				WorldManager.Instance.Broadcast(
-					new MabiPacket(Op.EffectDelayed, creature.Id)
+					new MabiPacket(Op.EffectDelayed, attacker.Id)
 					.PutInt(120) // delay?
 					.PutInt(262)
 					.PutByte(3)
 					.PutString("attack")
 					.PutInt(i) // clone nr
-				, SendTargets.Range, creature);
+				, SendTargets.Range, attacker);
 
-				var combatArgs = new CombatEventArgs();
-				combatArgs.CombatActionId = CombatHelper.ActionId;
+				var sAction = new SourceAction(CombatActionType.SpecialHit, attacker, skill.Id, targetId);
+				sAction.Options |= SourceOptions.Result;
 
-				var sourceAction = new CombatAction();
-				sourceAction.ActionType = CombatActionType.ShadowBunshin;
-				sourceAction.SkillId = skill.Id;
-				sourceAction.Creature = creature;
-				sourceAction.TargetId = target.Id;
-				combatArgs.CombatActions.Add(sourceAction);
+				var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
+				tAction.Delay = 100;
 
-				var targetAction = new CombatAction();
-				targetAction.ActionType = CombatActionType.TakeDamage;
-				targetAction.SkillId = skill.Id;
-				targetAction.Creature = target;
-				targetAction.Target = creature;
-				targetAction.ReactionDelay = 100;
-				targetAction.StunTime = 2000;
+				var cap = new CombatActionPack(attacker, skill.Id);
+				cap.Add(sAction);
 
-				target.AddStun(targetAction.StunTime, true);
-
-				this.SetAggro(creature, target);
+				target.Stun = tAction.StunTime = 2000;
+				CombatHelper.SetAggro(attacker, target);
 
 				var rnd = RandomProvider.Get();
 
@@ -157,45 +165,46 @@ namespace Aura.World.Skills
 				damage += skill.RankInfo.Var7 * staminaCost;
 
 				// Crit
-				if (rnd.NextDouble() < creature.CriticalChance)
-				{
-					damage *= 1.5f; // R1
-					targetAction.Critical = true;
-				}
+				if (CombatHelper.TryAddCritical(attacker, ref damage, (attacker.CriticalChance - target.Protection)))
+					tAction.Options |= TargetOptions.Critical;
 
-				targetAction.CombatDamage = damage;
+				// Def/Prot
+				CombatHelper.ReduceDamage(ref damage, target.Defense, target.Protection);
+
+				// Mana Shield
+				tAction.ManaDamage = CombatHelper.DealManaDamage(target, ref damage);
+
+				// Deal Life Damage
+				if (damage > 0)
+					target.TakeDamage(tAction.Damage = damage);
 
 				// Save if target was already dead, to not send
 				// finish action twice.
-				var alreadyDead = target.IsDead;
 				if (!alreadyDead)
 				{
-					target.TakeDamage(targetAction.CombatDamage);
+					target.TakeDamage(tAction.Damage);
 
 					// Only send damage taking part if target isn't dead yet.
-					combatArgs.CombatActions.Add(targetAction);
+					cap.Add(tAction);
 				}
+				alreadyDead = target.IsDead;
 
 				if (target.IsDead)
 				{
-					targetAction.OldPosition = pos;
+					tAction.OldPosition = pos;
 					if (!alreadyDead)
-						targetAction.Finish = true;
+						tAction.Options |= TargetOptions.FinishingKnockDown;
 					else
-						targetAction.Knockdown = true;
+						tAction.Options |= TargetOptions.KnockDown;
 				}
 				else if (i == clones)
 				{
 					// Knock back if not dead after last attack.
-					targetAction.Knockback = true;
-					var knockPos = WorldManager.CalculatePosOnLine(creature, target, 400);
-					target.SetPosition(knockPos.X, knockPos.Y);
+					tAction.Options |= TargetOptions.KnockDown;
+					tAction.OldPosition = CombatHelper.KnockBack(target, attacker, 400);
 				}
 
-				WorldManager.Instance.CreatureCombatAction(creature, target, combatArgs);
-				WorldManager.Instance.CreatureCombatSubmit(creature, combatArgs.CombatActionId);
-
-				WorldManager.Instance.CreatureStatsUpdate(target);
+				WorldManager.Instance.HandleCombatActionPack(cap);
 
 				if (i >= clones)
 				{
@@ -209,7 +218,13 @@ namespace Aura.World.Skills
 				GC.KeepAlive(timer);
 			}, null, 900, 450);
 
-			this.GiveSkillExp(creature, skill, 20);
+			// Something's messed up here, if the skill isn't explicitly
+			// canceled the client gets confused.
+			WorldManager.Instance.CreatureSkillCancel(attacker);
+
+			SkillHelper.GiveSkillExp(attacker, skill, 20);
+
+			attacker.Client.SendSkillUse(attacker, skill.Id, targetId, unk1, unk2);
 
 			return SkillResults.Okay;
 		}

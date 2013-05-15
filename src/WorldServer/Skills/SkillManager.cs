@@ -35,6 +35,7 @@ namespace Aura.World.Skills
 
 			// Hidden
 			_handlers.Add(SkillConst.HiddenResurrection, new HiddenResurrectionHandler());
+			_handlers.Add(SkillConst.Dye, new DyeHandler());
 
 			// Transformation
 			_handlers.Add(SkillConst.SpiritOfOrder, new SpiritOfOrderHandler());

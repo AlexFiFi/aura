@@ -60,6 +60,7 @@ namespace Aura.World.Util
 		public static int MailExpires;
 		public static bool EnableItemShop;
 		public static int ChalkOnDeath;
+		public static bool SafeDye;
 
 		// Skills
 		public static bool BunshinSouls;
@@ -131,6 +132,7 @@ namespace Aura.World.Util
 			WorldConf.MailExpires = _conf.GetInt("world_mail_expires", 30);
 			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
 			WorldConf.ChalkOnDeath = _conf.GetInt("world_chalk_on_death", (int)ChalkDeathFlags.None);
+			WorldConf.SafeDye = _conf.GetBool("world_safe_dye", false);
 
 			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
 			WorldConf.PerfectPlay = _conf.GetBool("world.perfectplay", false);

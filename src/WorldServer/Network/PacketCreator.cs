@@ -48,7 +48,7 @@ namespace Aura.World.Network
 
 		public static MabiPacket CombatMessage(MabiCreature target, string message, params object[] args)
 		{
-			return PacketCreator.SystemMessage(target, "<COMBAT>", message);
+			return PacketCreator.SystemMessage(target, "<COMBAT>", message, args);
 		}
 
 		public static MabiPacket MsgBox(MabiCreature target, string message, MsgBoxTitle title = MsgBoxTitle.Notice, MsgBoxButtons buttons = MsgBoxButtons.Close, MsgBoxAlign align = MsgBoxAlign.Center)
@@ -351,6 +351,13 @@ namespace Aura.World.Network
 				.PutInt(entity.Region)
 				.PutFloats(pos.X, pos.Y)
 				.PutByte((byte)type);
+		}
+
+		public static MabiPacket ItemUpdate(MabiCreature creature, MabiItem item)
+		{
+			var p = new MabiPacket(Op.ItemUpdate, creature.Id);
+			item.AddToPacket(p, ItemPacketType.Private);
+			return p;
 		}
 
 		public static MabiPacket StatUpdate(MabiCreature creature, StatUpdateType type, params Stat[] stats)

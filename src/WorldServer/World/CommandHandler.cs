@@ -18,6 +18,7 @@ using Aura.World.Scripting;
 using Aura.World.Util;
 using Aura.World.Events;
 using Aura.Shared.Database;
+using Aura.World.Database;
 
 namespace Aura.World.World
 {
@@ -708,7 +709,7 @@ namespace Aura.World.World
 			creature.Conditions.C = (CreatureConditionC)val3;
 			creature.Conditions.D = (CreatureConditionD)val4;
 
-			WorldManager.Instance.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
+			WorldManager.Instance.SendStatusEffectUpdate(creature);
 
 			return CommandResult.Okay;
 		}

@@ -20,7 +20,7 @@ namespace Aura.World.Skills
 	{
 		const int MMLMaxLength = 10000;
 
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
 			var itemId = packet.GetLong();
 			var title = packet.GetString();
@@ -47,7 +47,7 @@ namespace Aura.World.Skills
 			if (mmlParts.Length > 2 && mmlParts[2].Length > skill.RankInfo.Var3)
 				return SkillResults.Failure;
 
-			creature.ActiveSkillItem = item;
+			creature.Temp.SkillItem1 = item;
 
 			var level = SkillRank.Novice;
 
@@ -62,24 +62,24 @@ namespace Aura.World.Skills
 			item.Tags.SetByte("HIDDEN", hidden);
 			item.Tags.SetShort("LEVEL", (ushort)level);
 
-			creature.Client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(skill.Info.Id).PutLong(itemId));
+			creature.Client.SendSkillUse(creature, skill.Id, itemId);
 
-			return SkillResults.OkayNoReply;
+			return SkillResults.Okay;
 		}
 
-		public override SkillResults Complete(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
-			if (creature.ActiveSkillItem == null)
+			if (creature.Temp.SkillItem1 == null)
 				return SkillResults.Failure;
 
-			var p = new MabiPacket(Op.ItemTagsUpdate, creature.Id);
-			creature.ActiveSkillItem.AddToPacket(p, ItemPacketType.Private);
+			var p = new MabiPacket(Op.ItemUpdate, creature.Id);
+			creature.Temp.SkillItem1.AddToPacket(p, ItemPacketType.Private);
 
-			creature.Client.Send(p, new MabiPacket(Op.SkillComplete, creature.Id).PutShort(skill.Info.Id).PutLong(creature.ActiveSkillItem.Id));
+			creature.Client.SendSkillComplete(creature, skill.Id, creature.Temp.SkillItem1.Id);
 
-			creature.ActiveSkillItem = null;
+			creature.Temp.SkillItem1 = null;
 
-			return SkillResults.OkayNoReply;
+			return SkillResults.Okay;
 		}
 	}
 
@@ -89,7 +89,7 @@ namespace Aura.World.Skills
 		const int RandomScoreMin = 1, RandomScoreMax = 52;
 		const int DurabilityUse = 1000;
 
-		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet)
+		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
 			var rnd = RandomProvider.Get();
 
@@ -167,10 +167,10 @@ namespace Aura.World.Skills
 			//if (creature.RightHand.Info.Class == 40367)
 			//    WorldManager.Instance.CreatureUseMotion(creature, 88, 2, true);
 
-			return SkillResults.OkayNoReply;
+			return SkillResults.Okay;
 		}
 
-		public override SkillResults Complete(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			// Stop effect
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StopMusic), SendTargets.Range, creature);
@@ -179,6 +179,8 @@ namespace Aura.World.Skills
 			creature.Client.Send(PacketCreator.Notice(this.GetRandomComplete(creature.Temp.PlayingInstrumentQuality), NoticeType.Middle));
 
 			// skill training
+
+			creature.Client.SendSkillComplete(creature, skill.Id);
 
 			return SkillResults.Okay;
 		}

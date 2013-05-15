@@ -10,6 +10,7 @@ using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Events;
 using Aura.World.Player;
+using Aura.World.Skills;
 
 namespace Aura.World.World
 {
@@ -53,13 +54,11 @@ namespace Aura.World.World
 		public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
 		//public MabiSkill ActiveSkill;
 		public ushort ActiveSkillId;
-		public MabiItem ActiveSkillItem;
-		public MabiCreature ActiveSkillTarget;
 		public byte ActiveSkillStacks;
 		public DateTime ActiveSkillPrepareEnd;
 		public uint SoulCount;
 
-		public Dictionary<TalentId, Dictionary<SkillConst, uint>> TalentExps = new Dictionary<TalentId,Dictionary<SkillConst,uint>>();
+		public Dictionary<TalentId, Dictionary<SkillConst, uint>> TalentExps = new Dictionary<TalentId, Dictionary<SkillConst, uint>>();
 		public TalentId Grandmaster;
 		public TalentTitle SelectedTalentTitle;
 
@@ -79,8 +78,10 @@ namespace Aura.World.World
 
 		public MabiCreature Target = null;
 		public float _stun;
-		private DateTime _stunStart;
+		private DateTime _stunChange;
 		public bool WaitingForRes = false;
+		public float _knockBack;
+		private DateTime _knockBackChange;
 
 		public MabiCreature Owner, Pet, Vehicle;
 
@@ -125,24 +126,54 @@ namespace Aura.World.World
 			get { return 16; }
 		}
 
-		public float Stun
+		/// <summary>
+		/// No actions supposed to be possible, while being stunned.
+		/// </summary>
+		public ushort Stun
 		{
 			get
 			{
 				if (_stun <= 0)
 					return 0;
 
-				var result = _stun - (float)(DateTime.Now - _stunStart).TotalMilliseconds;
+				var result = _stun - (DateTime.Now - _stunChange).TotalMilliseconds;
 				if (result <= 0)
 					result = _stun = 0;
 
-				return result;
+				return (ushort)result;
+			}
+
+			set
+			{
+				if (value <= 0)
+					_stun = 0;
+
+				_stunChange = DateTime.Now;
+				_stun = value;
 			}
 		}
 
 		public virtual float CombatPower { get { return (this.RaceInfo != null ? this.RaceInfo.CombatPower : 1); } }
 
-		public float CriticalChance { get { return 0.3f; } }
+		public float KnockBack
+		{
+			get
+			{
+				if (_knockBack <= 0)
+					return 0;
+
+				var result = _knockBack - ((DateTime.Now - _knockBackChange).TotalMilliseconds / 60f);
+				if (result <= 0)
+					result = _knockBack = 0;
+
+				return (float)result;
+			}
+			set
+			{
+				_knockBack = Math.Min(CombatHelper.MaxKnockBack, value);
+				_knockBackChange = DateTime.Now;
+			}
+		}
 
 		public bool IsStunned { get { return (this.Stun > 0); } }
 		public bool IsDead { get { return ((this.State & CreatureStates.Dead) != 0); } }
@@ -285,8 +316,85 @@ namespace Aura.World.World
 		private ulong _exp;
 		public ulong Experience { get { return _exp; } set { _exp = Math.Min(value, ulong.MaxValue); } }
 
-		public uint Defense { get; set; }
-		public float Protection { get; set; }
+		private uint _defense;
+		private float _protection;
+
+		/// <summary>
+		/// Returns total defense, including passive and active Defense bonus.
+		/// </summary>
+		public uint Defense
+		{
+			get
+			{
+				float result = _defense;
+
+				if (this.RaceInfo != null)
+					result += this.RaceInfo.Defense;
+
+				// Add base def and def bonus if active
+				var defenseSkill = this.GetSkill(SkillConst.Defense);
+				if (defenseSkill != null)
+				{
+					result += defenseSkill.RankInfo.Var1;
+					if (this.ActiveSkillId == (ushort)SkillConst.Defense)
+						result += defenseSkill.RankInfo.Var3;
+				}
+
+				// Add shield
+				if (this.LeftHand != null && this.LeftHand.Type == ItemType.Shield)
+					result += this.LeftHand.OptionInfo.Defense;
+
+				return (uint)result;
+			}
+
+			set
+			{
+				_defense = value;
+			}
+		}
+
+		/// <summary>
+		/// Returns total protection as a float between 0 and 1, including active Defense bonus.
+		/// </summary>
+		public float Protection
+		{
+			get
+			{
+				float result = _protection;
+
+				if (this.RaceInfo != null)
+					result += this.RaceInfo.Protection;
+
+				// Add def bonus if active
+				var defenseSkill = this.GetSkill(SkillConst.Defense);
+				if (defenseSkill != null && this.ActiveSkillId == (ushort)SkillConst.Defense)
+					result += defenseSkill.RankInfo.Var4;
+
+				// Add shield
+				if (this.LeftHand != null && this.LeftHand.Type == ItemType.Shield)
+					result += this.LeftHand.OptionInfo.Protection;
+
+				return (uint)(result / 100);
+			}
+
+			set
+			{
+				_protection = value;
+			}
+		}
+
+		public float CriticalChance
+		{
+			get { return 0.3f; }
+		}
+
+		public float CriticalMultiplicator
+		{
+			get
+			{
+				return 1.5f; // R1 Critical Hit
+			}
+		}
 
 		public bool IsPlayer { get { return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet); } }
 
@@ -297,6 +405,13 @@ namespace Aura.World.World
 		public MabiCreature()
 		{
 		}
+
+		public bool Has(CreatureConditionA condition) { return ((this.Conditions.A & condition) != 0); }
+		public bool Has(CreatureConditionB condition) { return ((this.Conditions.B & condition) != 0); }
+		public bool Has(CreatureConditionC condition) { return ((this.Conditions.C & condition) != 0); }
+		public bool Has(CreatureConditionD condition) { return ((this.Conditions.D & condition) != 0); }
+
+		public bool HasSkillLoaded(SkillConst skill) { return this.ActiveSkillId == (ushort)skill; }
 
 		/// <summary>
 		/// Returns whether the creature has the given state, short for
@@ -420,7 +535,7 @@ namespace Aura.World.World
 			if ((byte)holyArtsLevel >= 6 && (byte)knightLevel >= 6)
 				titles.Add(GetTalentTitle(TalentTitle.HolyKnight, GetHybridTalentLevel(holyArtsLevel, knightLevel)));
 
-			if ((byte)holyArtsLevel >= 6 && (byte)warriorLevel >=6)
+			if ((byte)holyArtsLevel >= 6 && (byte)warriorLevel >= 6)
 				titles.Add(GetTalentTitle(TalentTitle.HolyWarrior, GetHybridTalentLevel(warriorLevel, holyArtsLevel)));
 
 			if ((byte)cookingLevel >= 12 && (byte)tailoringLevel >= 12)
@@ -477,7 +592,7 @@ namespace Aura.World.World
 			if ((byte)mageLevel >= 6 && (byte)holyArtsLevel >= 6)
 				titles.Add(GetTalentTitle(TalentTitle.Sage, GetHybridTalentLevel(mageLevel, holyArtsLevel)));
 
-			if((byte)mageLevel >= 6 && (byte)transmutaionLevel >= 6)
+			if ((byte)mageLevel >= 6 && (byte)transmutaionLevel >= 6)
 				titles.Add(GetTalentTitle(TalentTitle.Scholar, GetHybridTalentLevel(mageLevel, transmutaionLevel)));
 
 			if ((byte)warriorLevel >= 6 && (byte)knightLevel >= 6)
@@ -549,7 +664,7 @@ namespace Aura.World.World
 			if (exp < 2046)
 				return TalentLevel.Wise;
 
-			return (this.Grandmaster == talent ? TalentLevel.Grandmaster :  TalentLevel.Master);
+			return (this.Grandmaster == talent ? TalentLevel.Grandmaster : TalentLevel.Master);
 		}
 
 		public static TalentLevel GetHybridTalentLevel(params TalentLevel[] levels)
@@ -573,7 +688,7 @@ namespace Aura.World.World
 				uint exp = (uint)exps.Sum(a => a.Exps[talent]);
 
 				if (!this.TalentExps.ContainsKey((TalentId)talent))
-					this.TalentExps.Add((TalentId)talent, new Dictionary<SkillConst,uint>());
+					this.TalentExps.Add((TalentId)talent, new Dictionary<SkillConst, uint>());
 
 				var expInfo = this.TalentExps[(TalentId)talent];
 
@@ -926,24 +1041,6 @@ namespace Aura.World.World
 			return balance;
 		}
 
-		public void AddStun(ushort ms, bool total)
-		{
-			if (ms == 0)
-			{
-				_stun = 0;
-				return;
-			}
-
-			var stun = this.Stun;
-
-			_stunStart = DateTime.Now;
-
-			if (total)
-				_stun = ms;
-			else
-				_stun = stun + ms;
-		}
-
 		public bool HasSkill(ushort id)
 		{
 			return this.Skills.ContainsKey(id);
@@ -1105,10 +1202,10 @@ namespace Aura.World.World
 		/// Stops calculation of movement, doesn't actually stop movement
 		/// on the client side.
 		/// </summary>
-		public void StopMove()
+		public MabiVertex StopMove()
 		{
 			var pos = this.GetPosition();
-			this.SetPosition(pos.X, pos.Y, pos.H);
+			return this.SetPosition(pos.X, pos.Y, pos.H);
 		}
 
 		/// <summary>
@@ -1174,7 +1271,7 @@ namespace Aura.World.World
 				var p = new MabiProp(this.Region, MabiData.RegionDb.GetAreaId(this.Region, pos.X, pos.Y));
 				p.DisappearTime = ((Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Permanent) != 0 ? DateTime.MaxValue : DateTime.Now.AddMinutes(2));
 				p.Info.Class = 50;
-				p.Info.Direction = this.Direction+90; // Leave it to devCAT...
+				p.Info.Direction = this.Direction + 90; // Leave it to devCAT...
 				p.Info.X = pos.X;
 				p.Info.Y = pos.Y;
 

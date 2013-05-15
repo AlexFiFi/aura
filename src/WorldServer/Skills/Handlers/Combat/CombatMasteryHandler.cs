@@ -6,21 +6,24 @@ using Aura.Shared.Util;
 using Aura.World.World;
 using Aura.World.Events;
 using System;
+using Aura.Shared.Network;
 
 namespace Aura.World.Skills
 {
 	public class CombatMasteryHandler : SkillHandler
 	{
-		public override SkillResults Use(MabiCreature creature, MabiCreature target, MabiSkill skillfoo)
+		public override SkillResults Use(MabiCreature creature, MabiSkill skill, MabiPacket packet)
+		{
+			var targetId = packet.GetLong();
+			return this.Use(creature, targetId);
+		}
+
+		public SkillResults Use(MabiCreature creature, ulong targetId)
 		{
 			if (creature.IsStunned)
 				return SkillResults.AttackStunned;
 
-			if (!WorldManager.InRange(creature, target, (uint)(creature.RaceInfo.AttackRange + 50)))
-				return SkillResults.OutOfRange;
-
-			MabiSkill skill;
-			SkillHandler handler;
+			MabiSkill skill; SkillHandler handler;
 			if (creature.ActiveSkillId != 0)
 			{
 				skill = creature.GetSkill(creature.ActiveSkillId);
@@ -35,149 +38,136 @@ namespace Aura.World.Skills
 			if (handler == null)
 				return SkillResults.Unimplemented;
 
-			var sourceAction = new CombatAction();
-			sourceAction.ActionType = CombatActionType.Hit;
-			sourceAction.SkillId = (SkillConst)skill.Info.Id;
-			sourceAction.Creature = creature;
-			sourceAction.TargetId = (target != null ? target.Id : 0);
+			//var sourceAction = new CombatActionOld();
+			//sourceAction.ActionType = CombatActionTypeOld.Hit;
+			//sourceAction.SkillId = (SkillConst)skill.Info.Id;
+			//sourceAction.Creature = creature;
+			//sourceAction.TargetId = targetId;
 
-			return handler.UseCombat(creature, target, sourceAction, skill);
+			return handler.UseCombat(creature, targetId, skill);
 		}
 
-		public override SkillResults UseCombat(MabiCreature creature, MabiCreature target, CombatAction sourceAction, MabiSkill skill)
+		public override SkillResults UseCombat(MabiCreature attacker, ulong targetId, MabiSkill skill)
 		{
-			if (!WorldManager.InRange(creature, target, (uint)(creature.RaceInfo.AttackRange + 50)))
+			var target = WorldManager.Instance.GetCreatureById(targetId);
+			if (target == null)
+				return SkillResults.InvalidTarget;
+
+			if (!WorldManager.InRange(attacker, target, (uint)(attacker.RaceInfo.AttackRange + 50)))
 				return SkillResults.OutOfRange;
 
-			if (creature.IsStunned)
+			if (attacker.IsStunned)
 				return SkillResults.AttackStunned;
+
+			attacker.StopMove();
+			target.StopMove();
 
 			uint prevCombatActionId = 0;
 			var rnd = RandomProvider.Get();
 
-			creature.StopMove();
-			target.StopMove();
-
-			this.SetAggro(creature, target);
-
-			var rightHand = creature.RightHand;
-			var leftHand = creature.LeftHand;
+			var rightHand = attacker.RightHand;
+			var leftHand = attacker.LeftHand;
 			if (leftHand != null && !leftHand.IsOneHandWeapon)
 				leftHand = null;
 
-			sourceAction.DualWield = (rightHand != null && leftHand != null);
+			var sAction = new SourceAction(CombatActionType.Hit, attacker, skill.Id, targetId);
+			sAction.Options |= SourceOptions.Result;
+			if (rightHand != null && leftHand != null)
+				sAction.Options |= SourceOptions.DualWield;
 
 			// Do this for two weapons, break if there is no second hit.
 			for (byte i = 1; i <= 2; ++i)
 			{
-				var combatArgs = new CombatEventArgs();
-				combatArgs.CombatActionId = CombatHelper.ActionId;
-				combatArgs.PrevCombatActionId = prevCombatActionId;
-				combatArgs.Hit = i;
-				combatArgs.HitsMax = (byte)(sourceAction.DualWield ? 2 : 1);
-
-				var targetAction = new CombatAction();
-				targetAction.Creature = target;
-				targetAction.Target = creature;
-				targetAction.ActionType = CombatActionType.TakeDamage;
-				targetAction.SkillId = sourceAction.SkillId;
-
 				var weapon = (i == 1 ? rightHand : leftHand);
-				var damage = creature.GetRndDamage(weapon);
+				var atkSpeed = CombatHelper.GetAverageAttackSpeed(attacker);
 
-				damage -= target.Defense;
-				damage -= (damage * (target.Protection / 100));
+				var cap = new CombatActionPack(attacker, skill.Id);
+				cap.PrevCombatActionId = prevCombatActionId;
+				cap.Hit = i;
+				cap.HitsMax = (byte)(sAction.Has(SourceOptions.DualWield) ? 2 : 1);
 
-				// Crit (temp)
-				if (rnd.NextDouble() < creature.CriticalChance)
+				var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
+
+				cap.Add(sAction, tAction);
+
+				// Damage
 				{
-					damage *= 1.5f; // R1
-					targetAction.Critical = true;
+					var damage = attacker.GetRndDamage(weapon);
+					var protection = target.Protection;
+
+					// Crit
+					if (CombatHelper.TryAddCritical(attacker, ref damage, (attacker.CriticalChance - protection)))
+						tAction.Options |= TargetOptions.Critical;
+
+					// Def/Prot
+					CombatHelper.ReduceDamage(ref damage, target.Defense, protection);
+
+					// Mana Shield
+					tAction.ManaDamage = CombatHelper.DealManaDamage(target, ref damage);
+
+					// Deal Life Damage
+					if (damage > 0)
+						target.TakeDamage(tAction.Damage = damage);
 				}
 
-				// Def (temp)
-				if (target.ActiveSkillId == (ushort)SkillConst.Defense)
+				// Killed?
+				if (target.IsDead)
 				{
-					damage *= 0.1f;
-					targetAction.ActionType |= CombatActionType.Defense;
-				}
-
-				// Counter
-				if (target.ActiveSkillId == (ushort)SkillConst.MeleeCounterattack)
-				{
-					sourceAction.ActionType = CombatActionType.TakeDamage;
-					targetAction.ActionType = CombatActionType.Counter;
-				}
-
-				damage = Math.Max(1f, damage);
-
-				targetAction.CombatDamage = damage;
-				target.TakeDamage(damage);
-				targetAction.Finish = target.IsDead;
-				sourceAction.Finish = targetAction.Finish;
-
-				// Stuns
-				if (!targetAction.ActionType.HasFlag(CombatActionType.Defense))
-				{
-					var atkSpeed = (weapon == null ? creature.RaceInfo.AttackSpeed : weapon.OptionInfo.AttackSpeed);
-					var downHitCount = (weapon == null ? creature.RaceInfo.KnockCount : weapon.OptionInfo.KnockCount);
-					var targetStunTime = CombatHelper.CalculateStunTarget(atkSpeed, targetAction.IsKnock());
-
-					sourceAction.StunTime = CombatHelper.CalculateStunSource(atkSpeed, targetAction.IsKnock());
-					targetAction.StunTime = targetStunTime;
-
-					creature.AddStun(sourceAction.StunTime, true);
-					target.AddStun(targetAction.StunTime, false);
-
-					// Knockback/down
-					if (target.Stun > (downHitCount * targetStunTime))
-					{
-						targetAction.Knockback = true;
-						sourceAction.Knockback = true;
-						sourceAction.StunTime = CombatHelper.CalculateStunSource(atkSpeed, true);
-						targetAction.StunTime = CombatHelper.CalculateStunTarget(atkSpeed, true);
-						creature.AddStun(sourceAction.StunTime, true);
-						target.AddStun(targetAction.StunTime, true);
-					}
+					tAction.Options |= TargetOptions.FinishingKnockDown;
+					attacker.Stun = sAction.StunTime = CombatHelper.GetStunSource(atkSpeed, tAction.IsKnock);
 				}
 				else
 				{
-					sourceAction.StunTime = 2500;
-					targetAction.StunTime = 1000;
-					creature.AddStun(sourceAction.StunTime, true);
-					target.AddStun(targetAction.StunTime, true);
-					targetAction.SkillId = SkillConst.Defense;
+					// Defense
+					if (target.HasSkillLoaded(SkillConst.Defense))
+					{
+						tAction.Type = CombatActionType.Defended;
+						tAction.SkillId = SkillConst.Defense;
+						target.Stun = tAction.StunTime = 1000;
+						attacker.Stun = sAction.StunTime = 2500;
+					}
+					// Normal hit
+					else
+					{
+						// Knock back
+						target.KnockBack += CombatHelper.GetKnockDown(weapon) / cap.HitsMax;
+						if (target.KnockBack >= CombatHelper.LimitKnockBack)
+						{
+							// Knock down if critical
+							tAction.Options |= (tAction.Has(TargetOptions.Critical) ? TargetOptions.KnockDown : TargetOptions.KnockBack);
+						}
+
+						attacker.Stun = sAction.StunTime = CombatHelper.GetStunSource(atkSpeed, tAction.IsKnock);
+						target.Stun = tAction.StunTime = CombatHelper.GetStunTarget(atkSpeed, tAction.IsKnock);
+					}
 				}
 
-				if (targetAction.IsKnock())
+				// Stop on knock back
+				if (tAction.IsKnock)
 				{
-					targetAction.OldPosition = target.GetPosition().Copy();
-					var pos = WorldManager.CalculatePosOnLine(creature, target, 375);
-					target.SetPosition(pos.X, pos.Y);
-					targetAction.ActionType &= ~CombatActionType.Defense;
+					tAction.OldPosition = CombatHelper.KnockBack(target, attacker);
+					sAction.Options |= SourceOptions.KnockBackHit2;
+					cap.HitsMax = cap.Hit;
 				}
 
-				combatArgs.CombatActions.Add(sourceAction);
-				combatArgs.CombatActions.Add(targetAction);
+				// Weapon Exp
+				if (weapon != null)
+					SkillHelper.GiveItemExp(attacker, weapon);
 
-				if (targetAction.IsKnock())
-				{
-					combatArgs.HitsMax = combatArgs.Hit;
-				}
+				// Aggro
+				CombatHelper.SetAggro(attacker, target);
 
-				WorldManager.Instance.CreatureCombatAction(creature, target, combatArgs);
-				WorldManager.Instance.CreatureCombatSubmit(creature, combatArgs.CombatActionId);
+				// Submit
+				WorldManager.Instance.HandleCombatActionPack(cap);
 
-				WorldManager.Instance.CreatureStatsUpdate(creature);
-				WorldManager.Instance.CreatureStatsUpdate(target);
-
-				if (combatArgs.Hit == combatArgs.HitsMax)
+				// Stop when all hits are done
+				if (cap.Hit >= cap.HitsMax)
 					break;
 
-				prevCombatActionId = combatArgs.CombatActionId;
+				prevCombatActionId = cap.CombatActionId;
 			}
 
-			this.GiveSkillExp(creature, skill, 20);
+			SkillHelper.GiveSkillExp(attacker, skill, 20);
 
 			return SkillResults.Okay;
 		}

@@ -2,7 +2,9 @@
 // For more information, see licence.txt in the main folder
 
 using Aura.Shared.Network;
+using Aura.World.Network;
 using Aura.World.World;
+using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
@@ -10,19 +12,18 @@ namespace Aura.World.Skills
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
-			try
-			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.OpenUmbrella, creature.Id).PutInt(creature.GetItemInPocket(Pocket.RightHand1, true).Info.Class), SendTargets.Range, creature);
-				return SkillResults.Okay;
-			}
-			catch
-			{
+			if (creature.RightHand == null)
 				return SkillResults.Failure;
-			}
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.OpenUmbrella, creature.Id).PutInt(creature.RightHand.Info.Class), SendTargets.Range, creature);
+
+			return SkillResults.Okay;
 		}
+
 		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CloseUmbrella, creature.Id), SendTargets.Range, creature);
+
 			return SkillResults.Okay;
 		}
 	}

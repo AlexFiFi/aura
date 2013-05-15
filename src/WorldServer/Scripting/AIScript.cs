@@ -258,7 +258,7 @@ namespace Aura.World.Scripting
 							}
 							else
 							{
-								do 
+								do
 								{
 									var x = (uint)(pos.X + rand.Next(-element.IntVal1, element.IntVal1 + 1));
 									var y = (uint)(pos.Y + rand.Next(-element.IntVal1, element.IntVal1 + 1));
@@ -289,11 +289,11 @@ namespace Aura.World.Scripting
 
 					case AIAction.Attack:
 						{
-							SkillResults attackResult = SkillResults.Failure;
+							var attackResult = SkillResults.Failure;
 
-							var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery);
+							var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery) as CombatMasteryHandler;
 							if (handler != null)
-								attackResult = handler.Use(this.Creature, this.Creature.Target, null); // MabiCombat.MeleeAttack(this.Creature, this.Creature.Target);
+								attackResult = handler.Use(this.Creature, this.Creature.Target.Id);
 
 							if ((attackResult & SkillResults.OutOfRange) != 0)
 							{

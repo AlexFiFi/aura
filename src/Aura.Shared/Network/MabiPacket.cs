@@ -11,11 +11,11 @@ using System.Globalization;
 
 namespace Aura.Shared.Network
 {
+	public enum ElementType : byte { None = 0, Byte, Short, Int, Long, Float, String, Bin, Ptr }
+	public enum PacketType : byte { Normal, Chat }
+
 	public class MabiPacket
 	{
-		public enum ElementType : byte { None = 0, Byte, Short, Int, Long, Float, String, Bin, Ptr }
-		public enum PacketType : byte { Normal, Chat }
-
 		private List<object> _elements = new List<object>();
 
 		public byte[] _buffer;
@@ -131,6 +131,7 @@ namespace Aura.Shared.Network
 
 			return this.PutBin(arr);
 		}
+		public MabiPacket PutIntBin(byte[] val) { return this.PutSInt(val.Length).Put(val); }
 
 		// Getters
 		// ------------------------------------------------------------------

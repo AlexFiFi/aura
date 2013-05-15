@@ -58,6 +58,11 @@ namespace Aura.World.World
 			get { return this.Type == ItemType.Weapon2H; }
 		}
 
+		public AttackSpeed AttackSpeed
+		{
+			get { return (AttackSpeed)this.OptionInfo.AttackSpeed; }
+		}
+
 		public MabiItem(uint itemClass, bool worldId = true)
 		{
 			this.Info.Class = itemClass;
@@ -385,6 +390,8 @@ namespace Aura.World.World
 
 		Max,
 	}
+
+	public enum AttackSpeed { VeryFast, Fast, Normal, Slow, VerySlow }
 
 	public static class PocketExtensions
 	{

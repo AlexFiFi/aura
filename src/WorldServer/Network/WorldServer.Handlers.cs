@@ -47,6 +47,8 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.ViewEquipment, HandleViewEquipment);
 			this.RegisterPacketHandler(Op.UmbrellaJump, HandleUmbrellaJump);
 			this.RegisterPacketHandler(Op.UmbrellaLand, HandleUmbrellaLand);
+			this.RegisterPacketHandler(Op.DyePaletteReq, HandleDyePaletteReq);
+			this.RegisterPacketHandler(Op.DyePickColor, HandleDyePickColor);
 
 			this.RegisterPacketHandler(Op.QuestComplete, HandleQuestComplete);
 			this.RegisterPacketHandler(Op.QuestGiveUp, HandleQuestGiveUp);
@@ -502,7 +504,7 @@ namespace Aura.World.Network
 			response.PutInt(pos.Y);
 			client.Send(response);
 
-			WorldManager.Instance.CreatureRevive(creature);
+			WorldManager.Instance.ReviveCreature(creature);
 
 			creature.FullHeal();
 		}
@@ -555,7 +557,7 @@ namespace Aura.World.Network
 
 			var toggle = packet.GetByte();
 			creature.Conditions.A = (toggle == 1 ? (creature.Conditions.A | CreatureConditionA.Invisible) : (creature.Conditions.A & ~CreatureConditionA.Invisible));
-			WorldManager.Instance.CreatureStatusEffectsChange(creature, new EntityEventArgs(creature));
+			WorldManager.Instance.SendStatusEffectUpdate(creature);
 
 			var p = new MabiPacket(Op.GMCPInvisibilityR, creature.Id);
 			p.PutByte(1);
@@ -1564,6 +1566,11 @@ namespace Aura.World.Network
 			}
 		}
 
+		/// <summary>
+		/// Checks Stamina and Mana, sends fail response and stats update. No success response.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleSkillPrepare(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -1571,82 +1578,64 @@ namespace Aura.World.Network
 				return;
 
 			var skillId = packet.GetShort();
-			var parameters = packet.GetStringOrEmpty();
-
-			if (parameters.Length > 0)
-			{
-				var match = Regex.Match(parameters, "ITEMID:[0-9]+:([0-9]+);");
-				if (match.Success)
-				{
-					var itemId = Convert.ToUInt64(match.Groups[1].Value);
-					var item = creature.GetItem(itemId);
-					if (item == null)
-						return;
-
-					creature.ActiveSkillItem = item;
-				}
-			}
 
 			MabiSkill skill; SkillHandler handler;
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
 			if (skill == null || handler == null)
 			{
-				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+				client.SendSkillPrepareFail(creature);
 				return;
 			}
-
-			// Save time when preparation is finished.
-			var castTime = WorldConf.DynamicCombat ? skill.RankInfo.NewLoadTime : skill.RankInfo.LoadTime;
-			creature.ActiveSkillPrepareEnd = DateTime.Now.AddMilliseconds(castTime);
 
 			// Check Mana
 			if (creature.Mana < skill.RankInfo.ManaCost)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.insufficient_mana"))); // Insufficient Mana
-				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+				client.SendSystemMsg(creature, Localization.Get("skills.insufficient_mana")); // Insufficient Mana
+				client.SendSkillPrepareFail(creature);
 				return;
 			}
 
 			// Check Stamina
 			if (creature.Stamina < skill.RankInfo.StaminaCost)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.insufficient_stamina"))); // Insufficient Stamina
-				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+				client.SendSystemMsg(creature, Localization.Get("skills.insufficient_stamina")); // Insufficient Stamina
+				client.SendSkillPrepareFail(creature);
 				return;
 			}
 
-			var result = handler.Prepare(creature, skill, packet);
+			creature.ActiveSkillId = skill.Info.Id;
+
+			// Save cast time when preparation is finished.
+			var castTime = WorldConf.DynamicCombat ? skill.RankInfo.NewLoadTime : skill.RankInfo.LoadTime;
+			creature.ActiveSkillPrepareEnd = DateTime.Now.AddMilliseconds(castTime);
+
+			var result = handler.Prepare(creature, skill, packet, castTime);
 
 			if ((result & SkillResults.Failure) != 0)
 			{
-				client.Send(new MabiPacket(Op.SkillPrepare, creature.Id).PutShort(0));
+				client.SendSkillPrepareFail(creature);
 				return;
 			}
 
 			if (skill.RankInfo.ManaCost > 0)
-			{
 				creature.Mana -= skill.RankInfo.ManaCost;
-				WorldManager.Instance.CreatureStatsUpdate(creature);
-			}
-
 			if (skill.RankInfo.StaminaCost > 0)
-			{
 				creature.Stamina -= skill.RankInfo.StaminaCost;
-				WorldManager.Instance.CreatureStatsUpdate(creature);
-			}
 
-			if ((result & SkillResults.Okay) == 0 || (result & SkillResults.NoReply) != 0)
-				return;
+			WorldManager.Instance.CreatureStatsUpdate(creature);
 
-			var r = new MabiPacket(Op.SkillPrepare, creature.Id);
-			r.PutShort(skillId);
-			if (parameters.Length > 0)
-				r.PutString(parameters);
-			else
-				r.PutInt(castTime);
-			client.Send(r);
+			// Not Okay or NoReply
+			//if ((result & SkillResults.Okay) == 0 || (result & SkillResults.NoReply) != 0)
+			//    return;
+
+			//client.SendSkillPrepare(creature, skill.Id, castTime);
 		}
 
+		/// <summary>
+		/// No success response.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleSkillReady(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -1654,7 +1643,7 @@ namespace Aura.World.Network
 				return;
 
 			var skillId = packet.GetShort();
-			var parameters = packet.GetStringOrEmpty();
+			//var parameters = packet.GetStringOrEmpty();
 
 			MabiSkill skill; SkillHandler handler;
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
@@ -1666,13 +1655,14 @@ namespace Aura.World.Network
 			if ((result & SkillResults.Okay) == 0)
 				return;
 
-			var r = new MabiPacket(Op.SkillReady, creature.Id);
-			r.PutShort(creature.ActiveSkillId);
-			if (parameters.Length > 0)
-				r.PutString(parameters);
-			client.Send(r);
+			//client.SendSkillReady(creature, skill.Id, parameters);
 		}
 
+		/// <summary>
+		/// Sends insufficient Stamina msg. No success response.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleSkillUse(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -1680,67 +1670,23 @@ namespace Aura.World.Network
 				return;
 
 			var skillId = packet.GetShort();
-			var targetId = packet.GetLong();
-			uint unk1 = 0, unk2 = 0;
-			if (packet.GetElementType() == MabiPacket.ElementType.Int)
-				unk1 = packet.GetInt();
-			if (packet.GetElementType() == MabiPacket.ElementType.Int)
-				unk2 = packet.GetInt();
-
-			MabiCreature target = null;
-			// Windmill sends a huge nr as target id... a sign!? O___O
-			if (targetId < Id.Broadcast)
-			{
-				if (targetId != creature.Id)
-					target = WorldManager.Instance.GetCreatureById(targetId);
-				else
-					target = creature;
-
-				if (target == null)
-				{
-					client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.invalid_target"))); // Invalid target
-					client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(0));
-					return;
-				}
-			}
-
-			creature.ActiveSkillTarget = target;
 
 			MabiSkill skill; SkillHandler handler;
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
 			if (skill == null || handler == null)
 				return;
 
-			var result = handler.Use(creature, target, skill);
+			var result = handler.Use(creature, skill, packet);
 
 			if ((result & SkillResults.InsufficientStamina) != 0)
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.insufficient_stamina"))); // Insufficient Stamina
-
-			if ((result & SkillResults.InvalidTarget) != 0)
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("skills.invalid_target"))); // Invalid target
-
-			if ((result & SkillResults.NoReply) != 0)
-				return;
-
-			if ((result & SkillResults.Okay) == 0)
-			{
-				client.Send(new MabiPacket(Op.SkillUse, creature.Id).PutShort(0));
-				return;
-			}
-
-			var r = new MabiPacket(Op.SkillUse, creature.Id);
-			r.PutShort(skillId);
-			r.PutLong(targetId);
-			r.PutInt(unk1);
-			r.PutInt(unk2);
-			client.Send(r);
-
-			r = new MabiPacket(0x6992, creature.Id);
-			r.PutBytes(0, 1, 0);
-			r.PutShort(skillId);
-			client.Send(r);
+				client.SendSystemMsg(creature, Localization.Get("skills.insufficient_stamina")); // Insufficient Stamina
 		}
 
+		/// <summary>
+		/// No success response.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleSkillComplete(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -1754,27 +1700,37 @@ namespace Aura.World.Network
 			if (skill == null || handler == null)
 				return;
 
-			var result = handler.Complete(creature, skill);
+			var result = handler.Complete(creature, skill, packet);
 
-			if ((result & SkillResults.Okay) == 0)
-				return;
-
-			var r = new MabiPacket(Op.SkillComplete, creature.Id);
-			r.PutShort(skillId);
-			client.Send(r);
-
-			if (creature.ActiveSkillStacks > 0 && skill.RankInfo.Stack > 1)
-			{
-				// Send new ready packet if there are stacks left.
-				client.Send(new MabiPacket(Op.SkillReady, creature.Id).PutShort(creature.ActiveSkillId));
-			}
-			else
-			{
+			if (creature.ActiveSkillStacks < 1)
 				creature.ActiveSkillId = 0;
-				creature.ActiveSkillTarget = null;
-			}
+
+			//if ((result & SkillResults.Okay) == 0 || (result & SkillResults.NoReply) != 0)
+			//{
+			//    creature.ActiveSkillId = 0;
+			//    return;
+			//}
+
+			//client.SendSkillComplete(creature, skill.Id);
+
+			//if (creature.ActiveSkillStacks > 0 && skill.RankInfo.Stack > 1)
+			//{
+			//    // Send new ready packet if there are stacks left.
+			//    client.SendSkillReady(creature, skill.Id);
+			//}
+			//else
+			//{
+			//    creature.ActiveSkillId = 0;
+			//    creature.ActiveSkillTarget = null;
+			//}
 		}
 
+		/// <summary>
+		/// Properly cancels skill, calls skill's cancel handler,
+		/// but doesn't require manual success.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleSkillCancel(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -1784,6 +1740,11 @@ namespace Aura.World.Network
 			WorldManager.Instance.CreatureSkillCancel(creature);
 		}
 
+		/// <summary>
+		/// Full handling.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleSkillStart(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -1812,6 +1773,11 @@ namespace Aura.World.Network
 			client.Send(r);
 		}
 
+		/// <summary>
+		/// Full handling.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleSkillStop(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
@@ -2444,14 +2410,11 @@ namespace Aura.World.Network
 
 			var attackResult = SkillResults.Failure;
 
-			var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery);
+			var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery) as CombatMasteryHandler;
 			if (handler == null)
 				return;
 
-			if (target != null)
-			{
-				attackResult = handler.Use(creature, target, null); // MabiCombat.MeleeAttack(creature, target);
-			}
+			attackResult = handler.Use(creature, targetId);
 
 			var answer = new MabiPacket(Op.CombatAttackR, creature.Id);
 
@@ -2489,8 +2452,8 @@ namespace Aura.World.Network
 
 			client.Send(answer);
 
-			if (target != null)
-				client.Send(new MabiPacket(Op.StunMeter, creature.Id).PutLong(target.Id).PutByte(1).PutFloat(target.Stun));
+			//if (target != null)
+			//    client.Send(new MabiPacket(Op.StunMeter, creature.Id).PutLong(target.Id).PutByte(1).PutFloat(target.Stun));
 		}
 
 		public void HandleDeadMenu(WorldClient client, MabiPacket packet)
@@ -2536,7 +2499,7 @@ namespace Aura.World.Network
 			}
 			else
 			{
-				WorldManager.Instance.CreatureRevive(creature);
+				WorldManager.Instance.ReviveCreature(creature);
 
 				var pos = creature.GetPosition();
 				region = creature.Region;
@@ -3377,6 +3340,77 @@ namespace Aura.World.Network
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleChangedR, creature.Id).PutByte(1).PutShort(title), SendTargets.Range, creature);
 
 			creature.SelectedTalentTitle = (TalentTitle)title;
+		}
+
+		/// <summary>
+		/// Parameters: None
+		/// Description: Sent after Dye skill was prepared.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
+		private void HandleDyePaletteReq(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+
+			// Wave parameters for the client's "color pattern change algo".
+			var p = new MabiPacket(Op.DyePaletteReqR, creature.Id);
+			p.PutByte(true);
+			//p.PutInt(62);
+			//p.PutInt(123);
+			//p.PutInt(6);
+			//p.PutInt(238);
+			p.PutInt(0);
+			p.PutInt(0);
+			p.PutInt(0);
+			p.PutInt(0);
+			client.Send(p);
+		}
+
+		/// <summary>
+		/// Parameters:
+		///		ulong  Item Object Id
+		/// Description: Sent when clicking "Pick Color".
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
+		private void HandleDyePickColor(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			var itemId = packet.GetLong();
+			var item = creature.GetItem(itemId);
+			if (item == null)
+			{
+				client.Send(new MabiPacket(Op.DyePickColorR, creature.Id).PutByte(false));
+				return;
+			}
+
+			if (WorldConf.SafeDye)
+			{
+				creature.Temp.DyeCursors = new byte[20];
+			}
+			else
+			{
+				// 5x x+y. First byte is +, second -?
+				creature.Temp.DyeCursors = new byte[]
+				{ 
+					0x00, 0x00, 0x00, 0x00, // Color Picker 1
+					0xF5, 0xFF, 0xF5, 0xFF, // Color Picker 2
+					0x0A, 0x00, 0xF5, 0xFF, // Color Picker 3
+					0xF5, 0xFF, 0x0A, 0x00,	// Color Picker 4
+					0x0A, 0x00, 0x0A, 0x00,	// Color Picker 5
+				};
+			}
+
+			var p = new MabiPacket(Op.DyePickColorR, creature.Id);
+			p.PutByte(true);
+			p.PutBin(creature.Temp.DyeCursors);
+			client.Send(p);
 		}
 
 		private void HandleChannelStatus(WorldClient client, MabiPacket packet)

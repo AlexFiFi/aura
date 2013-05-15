@@ -13,7 +13,7 @@ namespace Aura.World.Skills
 			creature.State |= CreatureStates.SitDown;
 			WorldManager.Instance.CreatureSitDown(creature);
 
-			this.GiveSkillExp(creature, skill, 20);
+			SkillHelper.GiveSkillExp(creature, skill, 20);
 
 			return SkillResults.Okay;
 		}
@@ -22,6 +22,7 @@ namespace Aura.World.Skills
 		{
 			creature.State &= ~CreatureStates.SitDown;
 			WorldManager.Instance.CreatureStandUp(creature);
+
 			return SkillResults.Okay;
 		}
 	}
