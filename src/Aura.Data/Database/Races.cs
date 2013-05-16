@@ -25,7 +25,7 @@ namespace Aura.Data
 		public uint Critical;
 		public uint SplashRadius, SplashAngle;
 		public float SplashDamage;
-		public int Stand;
+		public RaceStands Stand;
 
 		public string AI;
 		public uint ColorA, ColorB, ColorC;
@@ -43,12 +43,23 @@ namespace Aura.Data
 		public float SpeedRun, SpeedWalk;
 		public FlightInfo FlightInfo;
 		public List<RaceSkillInfo> Skills = new List<RaceSkillInfo>();
+
+		public bool Is(RaceStands stand)
+		{
+			return (this.Stand & stand) != 0;
+		}
 	}
 
 	public class DropInfo
 	{
 		public uint ItemId;
 		public float Chance;
+	}
+
+	public enum RaceStands : int
+	{
+		KnockBackable = 0x01,
+		KnockDownable = 0x02
 	}
 
 	/// <summary>
@@ -87,7 +98,7 @@ namespace Aura.Data
 			info.SplashRadius = entry.ReadUInt();
 			info.SplashAngle = entry.ReadUInt();
 			info.SplashDamage = entry.ReadFloat();
-			info.Stand = entry.ReadSIntHex();
+			info.Stand = (RaceStands)entry.ReadSIntHex();
 
 			// Stat Info
 			info.AI = entry.ReadString();

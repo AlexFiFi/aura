@@ -137,6 +137,7 @@ namespace Aura.World.Scripting
 			sb.AppendLine("using Aura.World.Scripting;");
 			sb.AppendLine("using Aura.World.World;");
 			sb.AppendLine("using Aura.Shared.Util;");
+			sb.AppendLine();
 
 			foreach (var entry in MabiData.ItemDb.Entries.Values)
 			{
@@ -180,13 +181,16 @@ namespace Aura.World.Scripting
 				{
 					// Add inline scripts to the collection,
 					// wrapped in an ItemScript class.
-					sb.AppendFormat(
-						"public class ItemScript{0} : ItemScript {{" +
-						"	public override void OnUse(MabiCreature cr, MabiItem i)     {{ {1} }}" +
-						"	public override void OnEquip(MabiCreature cr, MabiItem i)   {{ {2} }}" +
-						"	public override void OnUnequip(MabiCreature cr, MabiItem i) {{ {3} }}" +
-						"\r\n\r\n\r\n}}" // 3 newlines to help with error output.
-					, entry.Id, entry.OnUse, entry.OnEquip, entry.OnUnequip);
+					sb.AppendFormat("public class ItemScript{0} : ItemScript {{" + Environment.NewLine, entry.Id);
+					{
+						if (!string.IsNullOrWhiteSpace(entry.OnUse))
+							sb.AppendFormat("	public override void OnUse(MabiCreature cr, MabiItem i)     {{ {0} }}" + Environment.NewLine, entry.OnUse.Trim());
+						if (!string.IsNullOrWhiteSpace(entry.OnEquip))
+							sb.AppendFormat("	public override void OnEquip(MabiCreature cr, MabiItem i)   {{ {0} }}" + Environment.NewLine, entry.OnEquip.Trim());
+						if (!string.IsNullOrWhiteSpace(entry.OnUnequip))
+							sb.AppendFormat("	public override void OnUnequip(MabiCreature cr, MabiItem i) {{ {0} }}" + Environment.NewLine, entry.OnUnequip.Trim());
+					}
+					sb.AppendFormat("}}" + Environment.NewLine + Environment.NewLine);
 				}
 			}
 

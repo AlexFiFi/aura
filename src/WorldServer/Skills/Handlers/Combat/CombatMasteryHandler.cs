@@ -7,6 +7,7 @@ using Aura.World.World;
 using Aura.World.Events;
 using System;
 using Aura.Shared.Network;
+using Aura.Data;
 
 namespace Aura.World.Skills
 {
@@ -135,11 +136,14 @@ namespace Aura.World.Skills
 					else
 					{
 						// Knock back
-						target.KnockBack += CombatHelper.GetKnockDown(weapon) / cap.HitsMax;
-						if (target.KnockBack >= CombatHelper.LimitKnockBack)
+						if (target.RaceInfo.Is(RaceStands.KnockBackable))
 						{
-							// Knock down if critical
-							tAction.Options |= (tAction.Has(TargetOptions.Critical) ? TargetOptions.KnockDown : TargetOptions.KnockBack);
+							target.KnockBack += CombatHelper.GetKnockDown(weapon) / cap.HitsMax;
+							if (target.KnockBack >= CombatHelper.LimitKnockBack)
+							{
+								// Knock down if critical
+								tAction.Options |= (tAction.Has(TargetOptions.Critical) ? TargetOptions.KnockDown : TargetOptions.KnockBack);
+							}
 						}
 
 						attacker.Stun = sAction.StunTime = CombatHelper.GetStunSource(atkSpeed, tAction.IsKnock);
@@ -148,7 +152,7 @@ namespace Aura.World.Skills
 				}
 
 				// Stop on knock back
-				if (tAction.IsKnock)
+				if (tAction.IsKnock && target.RaceInfo.Is(RaceStands.KnockBackable))
 				{
 					tAction.OldPosition = CombatHelper.KnockBack(target, attacker);
 					sAction.Options |= SourceOptions.KnockBackHit2;

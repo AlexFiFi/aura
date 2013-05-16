@@ -9,6 +9,6 @@ public class NoneAI : AIScript
 	public override void Definition()
 	{
 		Define(AIState.Idle, AIAction.WalkRandom, intVal1: 600, cooldown: 5000);
-		Define(AIState.Aggro, AIAction.Attack);
+		//Define(AIState.Aggro, AIAction.Attack);
 	}
 }

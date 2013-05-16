@@ -99,12 +99,6 @@ namespace Aura.Data
 			info.OnUse = entry.ReadString();
 			info.OnEquip = entry.ReadString();
 			info.OnUnequip = entry.ReadString();
-			if (string.IsNullOrWhiteSpace(info.OnUse))
-				info.OnUse = null;
-			if (string.IsNullOrWhiteSpace(info.OnEquip))
-				info.OnEquip = null;
-			if (string.IsNullOrWhiteSpace(info.OnUnequip))
-				info.OnUnequip = null;
 
 			this.Entries.Add(info.Id, info);
 		}

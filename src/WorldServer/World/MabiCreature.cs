@@ -375,7 +375,7 @@ namespace Aura.World.World
 
 			set
 			{
-				_protection = (int)(value * 100 );
+				_protection = (int)(value * 100);
 			}
 		}
 
@@ -406,7 +406,7 @@ namespace Aura.World.World
 
 		/// <summary>
 		/// Returns whether the creature has the given state, short for
-		/// (x.State & state) != 0
+		/// (x.State &amp; state) != 0
 		/// </summary>
 		/// <param name="state"></param>
 		/// <returns></returns>
