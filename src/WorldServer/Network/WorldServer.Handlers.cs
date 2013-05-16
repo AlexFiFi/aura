@@ -102,6 +102,8 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.SkillStop, HandleSkillStop);
 			this.RegisterPacketHandler(Op.SkillAdvance, HandleSkillAdvance);
 
+			this.RegisterPacketHandler(Op.CombatSetAim, HandleCombatSetAim);
+
 			this.RegisterPacketHandler(Op.PetSummon, HandlePetSummon);
 			this.RegisterPacketHandler(Op.PetUnsummon, HandlePetUnsummon);
 			this.RegisterPacketHandler(Op.PetMount, HandlePetMount);
@@ -240,6 +242,12 @@ namespace Aura.World.Network
 			client.Creatures.Add(creature);
 			client.Character = creature;
 			client.Character.Client = client;
+
+			foreach (var skill in creature.Skills)
+			{
+				client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Value.Info));
+				client.Send(new MabiPacket(0x699E, creature.Id).PutShort(skill.Key).PutByte(1));
+			}
 
 			//p = new MabiPacket(0x90A1, creature.Id);
 			//p.PutByte(0);
@@ -3340,6 +3348,22 @@ namespace Aura.World.Network
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleChangedR, creature.Id).PutByte(1).PutShort(title), SendTargets.Range, creature);
 
 			creature.SelectedTalentTitle = (TalentTitle)title;
+		}
+
+		private void HandleCombatSetAim(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			if (creature == null)
+				return;
+
+			var targetId = packet.GetLong();
+			creature.AimStart = DateTime.Now;
+
+			client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id)
+			.PutByte(1)
+			.PutLong(targetId)
+			.PutShort(creature.ActiveSkillId)
+			.PutByte(0));
 		}
 
 		/// <summary>

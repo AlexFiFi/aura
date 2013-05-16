@@ -232,6 +232,8 @@ namespace Aura.Shared.Network
 		public readonly static uint StatUpdatePrivate = 0x7530;
 		public readonly static uint StatUpdatePublic = 0x7532;
 		public readonly static uint CombatTargetSet = 0x791A;
+		public readonly static uint CombatSetAim = 0x791D;
+		public readonly static uint CombatSetAimR = 0x791E;
 		public readonly static uint CombatSetTarget = 0x7920;
 		public readonly static uint CombatSetFinisher = 0x7921;
 		public readonly static uint CombatSetFinisher2 = 0x7922;

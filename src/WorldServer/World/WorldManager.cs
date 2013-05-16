@@ -1597,10 +1597,10 @@ namespace Aura.World.World
 			creature.Drops = new List<DropInfo>(creature.Drops);
 			creature.Drops.AddRange(MabiData.AncientDropDb.Entries);
 
-			creature.Defense += 10;
-			creature.Protection += 10;
+			creature.StatMods.Add(Stat.ProtectMod, 10, StatModSource.Title, 30038);
+			creature.StatMods.Add(Stat.DefenseMod, 10, StatModSource.Title, 30038);
+			creature.StatMods.Add(Stat.LifeMaxMod, creature.LifeMax * 10 - creature.LifeMaxBase, StatModSource.Title, 30038);
 
-			creature.LifeMaxMod = (creature.LifeMax * 10) - creature.LifeMaxBase;
 			creature.FullHeal();
 
 			creature.BattleExp *= 20;

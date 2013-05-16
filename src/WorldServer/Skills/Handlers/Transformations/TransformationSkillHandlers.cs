@@ -5,6 +5,7 @@ using Aura.Shared.Network;
 using Aura.World.World;
 using System;
 using Aura.World.Network;
+using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
@@ -42,22 +43,21 @@ namespace Aura.World.Skills
 
 		public virtual void AddStatBonus(MabiCreature creature, MabiSkill skill)
 		{
-			creature.LifeMaxMod += skill.RankInfo.Var1;
-			creature.ManaMaxMod += skill.RankInfo.Var2;
-			creature.StaminaMaxMod += skill.RankInfo.Var3;
-			creature.StrMod += 100 + 10 * skill.Info.Rank;
-			creature.DexMod += 100 + 10 * skill.Info.Rank;
+			creature.StatMods.Add(Stat.LifeMaxMod, skill.RankInfo.Var1, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Add(Stat.ManaMaxMod, skill.RankInfo.Var2, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Add(Stat.StaminaMaxMod, skill.RankInfo.Var3, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Add(Stat.StrMod, 100 + 10 * skill.Info.Rank, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Add(Stat.DexMod, 100 + 10 * skill.Info.Rank, StatModSource.Skill, (ulong)skill.Id);
 		}
 
 		public virtual void RemoveStatBonus(MabiCreature creature, MabiSkill skill)
 		{
-			creature.LifeMaxMod -= skill.RankInfo.Var1;
-			creature.ManaMaxMod -= skill.RankInfo.Var2;
-			creature.StaminaMaxMod -= skill.RankInfo.Var3;
-			creature.StrMod -= 100 + 10 * skill.Info.Rank;
-			creature.DexMod -= 100 + 10 * skill.Info.Rank;
+			creature.StatMods.Remove(Stat.LifeMaxMod, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Remove(Stat.ManaMaxMod, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Remove(Stat.StaminaMaxMod, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Remove(Stat.StrMod, StatModSource.Skill, (ulong)skill.Id);
+			creature.StatMods.Remove(Stat.DexMod, StatModSource.Skill, (ulong)skill.Id);
 		}
-
 		private MabiPacket GetPacket(MabiCreature creature, MabiSkill skill, bool transforming)
 		{
 			// TODO: Add actual transform level from rank info.

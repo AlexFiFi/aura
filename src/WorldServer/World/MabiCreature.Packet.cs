@@ -3,6 +3,7 @@
 
 using Aura.Data;
 using Aura.Shared.Network;
+using Aura.Shared.Const;
 
 namespace Aura.World.World
 {
@@ -410,13 +411,13 @@ namespace Aura.World.World
 				packet.PutFloat(this.Life);
 				packet.PutFloat(this.LifeInjured);
 				packet.PutFloat(this.LifeMaxBase);
-				packet.PutFloat(this.LifeMaxMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.LifeMaxMod));
 				packet.PutFloat(this.Mana);
 				packet.PutFloat(this.ManaMaxBase);
-				packet.PutFloat(this.ManaMaxMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.ManaMaxMod));
 				packet.PutFloat(this.Stamina);
 				packet.PutFloat(this.StaminaMaxBase);
-				packet.PutFloat(this.StaminaMaxMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.StaminaMaxMod));
 				packet.PutFloat(this.StaminaHunger);
 				packet.PutFloat(0.5f);
 				packet.PutShort(this.Level);
@@ -427,15 +428,15 @@ namespace Aura.World.World
 				packet.PutLong(MabiData.ExpDb.CalculateRemaining(this.Level, this.Experience) * 1000);
 				packet.PutShort(Age);
 				packet.PutFloat(this.StrBase);
-				packet.PutFloat(this.StrMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.StrMod));
 				packet.PutFloat(this.DexBase);
-				packet.PutFloat(this.DexMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.DexMod));
 				packet.PutFloat(this.IntBase);
-				packet.PutFloat(this.IntMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.IntMod));
 				packet.PutFloat(this.WillBase);
-				packet.PutFloat(this.WillMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.WillMod));
 				packet.PutFloat(this.LuckBase);
-				packet.PutFloat(this.LuckMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.LuckMod));
 				packet.PutFloat(0);					 // LifeMaxByFood
 				packet.PutFloat(0);					 // ManaMaxByFood
 				packet.PutFloat(0);					 // StaminaMaxByFood
@@ -530,19 +531,19 @@ namespace Aura.World.World
 				packet.PutByte(0);					 // ElementFire
 				packet.PutByte(0);					 // ElementIce
 
-				packet.PutInt((uint)_statMods.Count);
-				foreach (var mod in _statMods)
+				packet.PutInt((uint)_statRegens.Count);
+				foreach (var mod in _statRegens)
 					mod.AddToPacket(packet);
 			}
 			else
 			{
 				packet.PutFloat(this.Life);
 				packet.PutFloat(this.LifeMaxBase);
-				packet.PutFloat(this.LifeMaxMod);
+				packet.PutFloat(this.StatMods.GetMod(Stat.LifeMaxMod));
 				packet.PutFloat(this.LifeInjured);
 
-				packet.PutInt((uint)_statMods.Count);
-				foreach (var mod in _statMods)
+				packet.PutInt((uint)_statRegens.Count);
+				foreach (var mod in _statRegens)
 					mod.AddToPacket(packet);
 
 				packet.PutInt(0);

@@ -32,8 +32,8 @@ namespace Aura.Data
 		public float Size;
 		public float CombatPower;
 		public float Life;
-		public uint Defense;
-		public float Protection;
+		public int Defense;
+		public int Protection;
 		public Element Element;
 		public uint Exp;
 
@@ -97,8 +97,8 @@ namespace Aura.Data
 			info.Size = entry.ReadFloat();
 			info.CombatPower = entry.ReadFloat();
 			info.Life = entry.ReadFloat();
-			info.Defense = entry.ReadUIntHex();
-			info.Protection = entry.ReadFloat() / 100f;
+			info.Defense = entry.ReadSIntHex();
+			info.Protection = (int)entry.ReadFloat();
 			info.Element = (Element)entry.ReadUByte();
 			info.Exp = entry.ReadUInt();
 			info.GoldMin = entry.ReadSInt();
@@ -109,7 +109,7 @@ namespace Aura.Data
 			{
 				// Drop format: <itemId>:<chance>, skip this drop if incorrect.
 				var drop = entry.ReadString().Split(':');
-				if (drop.Length < 2)
+				if (drop.Length != 2)
 					throw new DatabaseWarningException("Incomplete drop information.");
 
 				var di = new DropInfo();

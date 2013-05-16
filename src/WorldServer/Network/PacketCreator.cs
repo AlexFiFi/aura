@@ -385,21 +385,21 @@ namespace Aura.World.Network
 
 					case Stat.Life: packet.PutFloat(creature.Life); break;
 					case Stat.LifeMax: packet.PutFloat(creature.LifeMaxBase); break;
-					case Stat.LifeMaxMod: packet.PutFloat(creature.LifeMaxMod); break;
+					case Stat.LifeMaxMod: packet.PutFloat(creature.StatMods.GetMod(Stat.LifeMaxMod)); break;
 					case Stat.LifeInjured: packet.PutFloat(creature.LifeInjured); break;
 					case Stat.Mana: packet.PutFloat(creature.Mana); break;
 					case Stat.ManaMax: packet.PutFloat(creature.ManaMaxBase); break;
-					case Stat.ManaMaxMod: packet.PutFloat(creature.ManaMaxMod); break;
+					case Stat.ManaMaxMod: packet.PutFloat(creature.StatMods.GetMod(Stat.ManaMaxMod)); break;
 					case Stat.Stamina: packet.PutFloat(creature.Stamina); break;
 					case Stat.Food: packet.PutFloat(creature.StaminaHunger); break;
-					case Stat.StaminaMax: packet.PutFloat(creature.StaminaMax); break;
-					case Stat.StaminaMaxMod: packet.PutFloat(creature.StaminaMaxMod); break;
+					case Stat.StaminaMax: packet.PutFloat(creature.StaminaMaxBase); break;
+					case Stat.StaminaMaxMod: packet.PutFloat(creature.StatMods.GetMod(Stat.StaminaMaxMod)); break;
 
-					case Stat.StrMod: packet.PutFloat(creature.StrMod); break;
-					case Stat.DexMod: packet.PutFloat(creature.DexMod); break;
-					case Stat.IntMod: packet.PutFloat(creature.IntMod); break;
-					case Stat.LuckMod: packet.PutFloat(creature.LuckMod); break;
-					case Stat.WillMod: packet.PutFloat(creature.WillMod); break;
+					case Stat.StrMod: packet.PutFloat(creature.StatMods.GetMod(Stat.StrMod)); break;
+					case Stat.DexMod: packet.PutFloat(creature.StatMods.GetMod(Stat.DexMod)); break;
+					case Stat.IntMod: packet.PutFloat(creature.StatMods.GetMod(Stat.IntMod)); break;
+					case Stat.LuckMod: packet.PutFloat(creature.StatMods.GetMod(Stat.LuckMod)); break;
+					case Stat.WillMod: packet.PutFloat(creature.StatMods.GetMod(Stat.WillMod)); break;
 					case Stat.Str: packet.PutFloat(creature.StrBase); break;
 					case Stat.Int: packet.PutFloat(creature.IntBase); break;
 					case Stat.Dex: packet.PutFloat(creature.DexBase); break;
@@ -415,8 +415,8 @@ namespace Aura.World.Network
 			// Stat mods
 			if (type == StatUpdateType.Public)
 			{
-				packet.PutSInt(creature.StatMods.Count);
-				foreach (var mod in creature.StatMods)
+				packet.PutSInt(creature.StatRegens.Count);
+				foreach (var mod in creature.StatRegens)
 					mod.AddToPacket(packet);
 			}
 			else

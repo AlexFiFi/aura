@@ -136,7 +136,7 @@ namespace Aura.World.Scripting
 			sb.AppendLine("using Aura.World.Network;");
 			sb.AppendLine("using Aura.World.Scripting;");
 			sb.AppendLine("using Aura.World.World;");
-			sb.AppendLine("Aura.Shared.Util;");
+			sb.AppendLine("using Aura.Shared.Util;");
 
 			foreach (var entry in MabiData.ItemDb.Entries.Values)
 			{

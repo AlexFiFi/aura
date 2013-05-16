@@ -32,8 +32,9 @@ namespace Aura.World.World
 
 		private Dictionary<Stat, object> _stats = new Dictionary<Stat, object>();
 
-		private List<MabiStatMod> _statMods = new List<MabiStatMod>();
-		public MabiStatMod LifeRegen, ManaRegen, StaminaRegen;
+		private List<MabiStatRegen> _statRegens = new List<MabiStatRegen>();
+		public readonly MabiStatMods StatMods = new MabiStatMods();
+		public MabiStatRegen LifeRegen, ManaRegen, StaminaRegen;
 
 		public byte SkinColor, Eye, EyeColor, Lip;
 		public string StandStyle = "";
@@ -155,6 +156,7 @@ namespace Aura.World.World
 
 		public virtual float CombatPower { get { return (this.RaceInfo != null ? this.RaceInfo.CombatPower : 1); } }
 
+		public float CriticalChance { get { return ((this.Will - 10) / 10) + ((this.Luck - 10) / 5) + this.StatMods.GetMod(Stat.CriticalMod); } }
 		public float KnockBack
 		{
 			get
@@ -186,7 +188,7 @@ namespace Aura.World.World
 		public float Upper { get { return _upper; } set { _upper = value; } }
 		public float Lower { get { return _lower; } set { _lower = value; } }
 
-		private float _life, _lifeMaxBase, _lifeMaxMod, _injuries;
+		private float _life, _lifeMaxBase, _injuries;
 		public float Life
 		{
 			get { return _life; }
@@ -230,11 +232,10 @@ namespace Aura.World.World
 			}
 		}
 		public float LifeMaxBase { get { return _lifeMaxBase; } set { _lifeMaxBase = value; } }
-		public float LifeMaxMod { get { return _lifeMaxMod; } set { _lifeMaxMod = value; } }
-		public float LifeMax { get { return _lifeMaxBase + _lifeMaxMod; } }
+		public float LifeMax { get { return _lifeMaxBase + this.StatMods.GetMod(Stat.LifeMaxMod); } }
 		public float LifeInjured { get { return this.LifeMax - _injuries; } }
 
-		private float _mana, _manaMaxBase, _manaMaxMod;
+		private float _mana, _manaMaxBase;
 		public float Mana
 		{
 			get { return _mana; }
@@ -249,10 +250,9 @@ namespace Aura.World.World
 			}
 		}
 		public float ManaMaxBase { get { return _manaMaxBase; } set { _manaMaxBase = value; } }
-		public float ManaMaxMod { get { return _manaMaxMod; } set { _manaMaxMod = value; } }
-		public float ManaMax { get { return _manaMaxBase + _manaMaxMod; } }
+		public float ManaMax { get { return _manaMaxBase + this.StatMods.GetMod(Stat.ManaMaxMod); } }
 
-		private float _stamina, _staminaMaxBase, _staminaMaxMod, _hunger;
+		private float _stamina, _staminaMaxBase, _hunger;
 		public float Stamina
 		{
 			get { return _stamina; }
@@ -278,29 +278,22 @@ namespace Aura.World.World
 			}
 		}
 		public float StaminaMaxBase { get { return _staminaMaxBase; } set { _staminaMaxBase = value; } }
-		public float StaminaMaxMod { get { return _staminaMaxMod; } set { _staminaMaxMod = value; } }
-		public float StaminaMax { get { return _staminaMaxBase + _staminaMaxMod; } }
+		public float StaminaMax { get { return _staminaMaxBase + this.StatMods.GetMod(Stat.StaminaMaxMod); } }
 		public float StaminaHunger { get { return this.StaminaMax - _hunger; } }
 
-		public List<MabiStatMod> StatMods { get { return _statMods; } }
+		public List<MabiStatRegen> StatRegens { get { return _statRegens; } }
 
 		private float _strBase, _dexBase, _intBase, _willBase, _luckBase;
-		private float _strMod, _dexMod, _intMod, _willMod, _luckMod;
 		public float StrBase { get { return _strBase; } set { _strBase = value; } }
 		public float DexBase { get { return _dexBase; } set { _dexBase = value; } }
 		public float IntBase { get { return _intBase; } set { _intBase = value; } }
 		public float WillBase { get { return _willBase; } set { _willBase = value; } }
 		public float LuckBase { get { return _luckBase; } set { _luckBase = value; } }
-		public float StrMod { get { return _strMod; } set { _strMod = value; } }
-		public float DexMod { get { return _dexMod; } set { _dexMod = value; } }
-		public float IntMod { get { return _intMod; } set { _intMod = value; } }
-		public float WillMod { get { return _willMod; } set { _willMod = value; } }
-		public float LuckMod { get { return _luckMod; } set { _luckMod = value; } }
-		public float Str { get { return _strBase + _strMod; } }
-		public float Dex { get { return _dexBase + _dexMod; } }
-		public float Int { get { return _intBase + _intMod; } }
-		public float Will { get { return _willBase + _willMod; } }
-		public float Luck { get { return _luckBase + _luckMod; } }
+		public float Str { get { return _strBase + this.StatMods.GetMod(Stat.StrMod); } }
+		public float Dex { get { return _dexBase + this.StatMods.GetMod(Stat.DexMod); } }
+		public float Int { get { return _intBase + this.StatMods.GetMod(Stat.IntMod); } }
+		public float Will { get { return _willBase + this.StatMods.GetMod(Stat.WillMod); } }
+		public float Luck { get { return _luckBase + this.StatMods.GetMod(Stat.LuckMod); } }
 
 		private byte _age;
 		public byte Age { get { return _age; } set { _age = value; } }
@@ -316,13 +309,13 @@ namespace Aura.World.World
 		private ulong _exp;
 		public ulong Experience { get { return _exp; } set { _exp = Math.Min(value, ulong.MaxValue); } }
 
-		private uint _defense;
-		private float _protection;
+		protected int _defense, _protection;
+		public DateTime AimStart;
 
 		/// <summary>
 		/// Returns total defense, including passive and active Defense bonus.
 		/// </summary>
-		public uint Defense
+		public int Defense
 		{
 			get
 			{
@@ -344,7 +337,7 @@ namespace Aura.World.World
 				if (this.LeftHand != null && this.LeftHand.Type == ItemType.Shield)
 					result += this.LeftHand.OptionInfo.Defense;
 
-				return (uint)result;
+				return (int)result;
 			}
 
 			set
@@ -374,18 +367,15 @@ namespace Aura.World.World
 				if (this.LeftHand != null && this.LeftHand.Type == ItemType.Shield)
 					result += this.LeftHand.OptionInfo.Protection;
 
+				result += this.StatMods.GetMod(Stat.ProtectMod);
+
 				return (uint)(result / 100);
 			}
 
 			set
 			{
-				_protection = value;
+				_protection = (int)(value * 100 );
 			}
-		}
-
-		public float CriticalChance
-		{
-			get { return 0.3f; }
 		}
 
 		public float CriticalMultiplicator
@@ -702,7 +692,6 @@ namespace Aura.World.World
 					UpdateTalentInfo();
 				}
 			}
-
 		}
 
 		public void UpdateTalentInfo()
@@ -840,14 +829,14 @@ namespace Aura.World.World
 				Logger.Warning("Race '" + this.Race.ToString() + "' not found, using human instead.");
 			}
 
-			this.Defense = dbInfo.Defense;
-			this.Protection = dbInfo.Protection;
+			_defense = dbInfo.Defense;
+			_protection = dbInfo.Protection;
 
 			this.RaceInfo = dbInfo;
 
-			_statMods.Add(this.LifeRegen = new MabiStatMod(Stat.Life, 0.12f, this.LifeMax));
-			_statMods.Add(this.ManaRegen = new MabiStatMod(Stat.Mana, 0.05f, this.ManaMax));
-			_statMods.Add(this.StaminaRegen = new MabiStatMod(Stat.Stamina, 0.4f, this.StaminaMax));
+			_statRegens.Add(this.LifeRegen = new MabiStatRegen(Stat.Life, 0.12f, this.LifeMax));
+			_statRegens.Add(this.ManaRegen = new MabiStatRegen(Stat.Mana, 0.05f, this.ManaMax));
+			_statRegens.Add(this.StaminaRegen = new MabiStatRegen(Stat.Stamina, 0.4f, this.StaminaMax));
 			//_statMods.Add(new MabiStatMod(Stat.Food, -0.01f, this.StaminaMax / 2));
 
 			if (MabiTime.Now.IsNight)
@@ -873,10 +862,10 @@ namespace Aura.World.World
 			if (this.IsDead)
 				return;
 
-			lock (_statMods)
+			lock (_statRegens)
 			{
-				var toRemove = new List<MabiStatMod>();
-				foreach (var mod in _statMods)
+				var toRemove = new List<MabiStatRegen>();
+				foreach (var mod in _statRegens)
 				{
 					if (mod.TimeLeft < 1)
 					{
@@ -893,7 +882,7 @@ namespace Aura.World.World
 					}
 				}
 				foreach (var mod in toRemove)
-					_statMods.Remove(mod);
+					_statRegens.Remove(mod);
 			}
 		}
 
