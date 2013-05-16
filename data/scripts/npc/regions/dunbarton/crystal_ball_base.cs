@@ -1902,7 +1902,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_41_b_Glas_override_glasgavelen.Color3 = 0x808080;
 				G1_41_b_Glas_override_glasgavelen.Life = 120f;
 				G1_41_b_Glas_override_glasgavelen.LifeMaxBase = 20f;
-				G1_41_b_Glas_override_glasgavelen.LifeMaxMod = 100f;
+
 
 				return _G1_41_b_Glas_override_glasgavelen;
 			}
@@ -1958,7 +1958,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_41_b_Glas_override_mores.Lower = 1f;
 				G1_41_b_Glas_override_mores.Life = 394f;
 				G1_41_b_Glas_override_mores.LifeMaxBase = 344f;
-				G1_41_b_Glas_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -2022,7 +2022,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_41_b_Glas_override_player1.Lower = 0.6f;
 				G1_41_b_Glas_override_player1.Life = 302f;
 				G1_41_b_Glas_override_player1.LifeMaxBase = 252f;
-				G1_41_b_Glas_override_player1.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -2095,7 +2095,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_41_b_Glas_override_player2.Lower = 1.2f;
 				G1_41_b_Glas_override_player2.Life = 269f;
 				G1_41_b_Glas_override_player2.LifeMaxBase = 199f;
-				G1_41_b_Glas_override_player2.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -2222,7 +2222,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_b_Cichol_override_player1.Lower = 0.6f;
 				G1_40_b_Cichol_override_player1.Life = 302f;
 				G1_40_b_Cichol_override_player1.LifeMaxBase = 252f;
-				G1_40_b_Cichol_override_player1.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -2295,7 +2295,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_b_Cichol_override_player2.Lower = 1.2f;
 				G1_40_b_Cichol_override_player2.Life = 269f;
 				G1_40_b_Cichol_override_player2.LifeMaxBase = 199f;
-				G1_40_b_Cichol_override_player2.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -2366,7 +2366,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_b_Cichol_override_dark_lord.Color3 = 0x808080;
 				G1_40_b_Cichol_override_dark_lord.Life = 30f;
 				G1_40_b_Cichol_override_dark_lord.LifeMaxBase = 20f;
-				G1_40_b_Cichol_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -2409,7 +2409,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_b_Cichol_override_rat.Color3 = 0x333333;
 				G1_40_b_Cichol_override_rat.Life = 80f;
 				G1_40_b_Cichol_override_rat.LifeMaxBase = 70f;
-				G1_40_b_Cichol_override_rat.LifeMaxMod = 10f;
+
 
 				return _G1_40_b_Cichol_override_rat;
 			}
@@ -2465,7 +2465,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_b_Cichol_override_mores.Lower = 1f;
 				G1_40_b_Cichol_override_mores.Life = 394f;
 				G1_40_b_Cichol_override_mores.LifeMaxBase = 344f;
-				G1_40_b_Cichol_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -2533,7 +2533,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_b_Cichol_override_glasgavelen.Color3 = 0x808080;
 				G1_40_b_Cichol_override_glasgavelen.Life = 120f;
 				G1_40_b_Cichol_override_glasgavelen.LifeMaxBase = 20f;
-				G1_40_b_Cichol_override_glasgavelen.LifeMaxMod = 100f;
+
 
 				return _G1_40_b_Cichol_override_glasgavelen;
 			}
@@ -2563,7 +2563,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_a_Cichol_override_dark_lord.Color3 = 0x808080;
 				G1_40_a_Cichol_override_dark_lord.Life = 30f;
 				G1_40_a_Cichol_override_dark_lord.LifeMaxBase = 20f;
-				G1_40_a_Cichol_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -2603,7 +2603,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_a_Cichol_override_player1.Lower = 0.6f;
 				G1_40_a_Cichol_override_player1.Life = 302f;
 				G1_40_a_Cichol_override_player1.LifeMaxBase = 252f;
-				G1_40_a_Cichol_override_player1.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -2676,7 +2676,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_40_a_Cichol_override_player2.Lower = 1.2f;
 				G1_40_a_Cichol_override_player2.Life = 269f;
 				G1_40_a_Cichol_override_player2.LifeMaxBase = 199f;
-				G1_40_a_Cichol_override_player2.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -2805,7 +2805,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_c_ShielaRP_override_dark_lord.Color3 = 0x808080;
 				G1_31_c_ShielaRP_override_dark_lord.Life = 30f;
 				G1_31_c_ShielaRP_override_dark_lord.LifeMaxBase = 20f;
-				G1_31_c_ShielaRP_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -2849,7 +2849,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_c_ShielaRP_override_ghost_armor.Color3 = 0x808080;
 				G1_31_c_ShielaRP_override_ghost_armor.Life = 30f;
 				G1_31_c_ShielaRP_override_ghost_armor.LifeMaxBase = 20f;
-				G1_31_c_ShielaRP_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -2895,7 +2895,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_c_ShielaRP_override_mores.Lower = 1f;
 				G1_31_c_ShielaRP_override_mores.Life = 394f;
 				G1_31_c_ShielaRP_override_mores.LifeMaxBase = 344f;
-				G1_31_c_ShielaRP_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -2963,7 +2963,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_c_ShielaRP_override_shiela.Color3 = 0xEEEEEE;
 				G1_31_c_ShielaRP_override_shiela.Life = 129f;
 				G1_31_c_ShielaRP_override_shiela.LifeMaxBase = 109f;
-				G1_31_c_ShielaRP_override_shiela.LifeMaxMod = 20f;
+
 
 				return _G1_31_c_ShielaRP_override_shiela;
 			}
@@ -3156,7 +3156,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_b_ShielaRP_override_ghost_armor.Color3 = 0x808080;
 				G1_31_b_ShielaRP_override_ghost_armor.Life = 30f;
 				G1_31_b_ShielaRP_override_ghost_armor.LifeMaxBase = 20f;
-				G1_31_b_ShielaRP_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -3206,7 +3206,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_b_ShielaRP_override_shiela.Color3 = 0xEEEEEE;
 				G1_31_b_ShielaRP_override_shiela.Life = 129f;
 				G1_31_b_ShielaRP_override_shiela.LifeMaxBase = 109f;
-				G1_31_b_ShielaRP_override_shiela.LifeMaxMod = 20f;
+
 
 				return _G1_31_b_ShielaRP_override_shiela;
 			}
@@ -3233,7 +3233,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_b_ShielaRP_override_mores.Lower = 1f;
 				G1_31_b_ShielaRP_override_mores.Life = 394f;
 				G1_31_b_ShielaRP_override_mores.LifeMaxBase = 344f;
-				G1_31_b_ShielaRP_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -3297,7 +3297,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_a_ShielaRP_override_mores.Lower = 1f;
 				G1_31_a_ShielaRP_override_mores.Life = 394f;
 				G1_31_a_ShielaRP_override_mores.LifeMaxBase = 344f;
-				G1_31_a_ShielaRP_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -3365,7 +3365,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_a_ShielaRP_override_shiela.Color3 = 0xEEEEEE;
 				G1_31_a_ShielaRP_override_shiela.Life = 129f;
 				G1_31_a_ShielaRP_override_shiela.LifeMaxBase = 109f;
-				G1_31_a_ShielaRP_override_shiela.LifeMaxMod = 20f;
+
 
 				return _G1_31_a_ShielaRP_override_shiela;
 			}
@@ -3392,7 +3392,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_0_ShielaRP_override_mores.Lower = 1f;
 				G1_31_0_ShielaRP_override_mores.Life = 394f;
 				G1_31_0_ShielaRP_override_mores.LifeMaxBase = 344f;
-				G1_31_0_ShielaRP_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -3460,7 +3460,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_31_0_ShielaRP_override_shiela.Color3 = 0xEEEEEE;
 				G1_31_0_ShielaRP_override_shiela.Life = 129f;
 				G1_31_0_ShielaRP_override_shiela.LifeMaxBase = 109f;
-				G1_31_0_ShielaRP_override_shiela.LifeMaxMod = 20f;
+
 
 				return _G1_31_0_ShielaRP_override_shiela;
 			}
@@ -3520,7 +3520,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_28_a_Morrighan_override_glasgavelen.Color3 = 0x808080;
 				G1_28_a_Morrighan_override_glasgavelen.Life = 120f;
 				G1_28_a_Morrighan_override_glasgavelen.LifeMaxBase = 20f;
-				G1_28_a_Morrighan_override_glasgavelen.LifeMaxMod = 100f;
+
 
 				return _G1_28_a_Morrighan_override_glasgavelen;
 			}
@@ -3547,7 +3547,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_d_3WarriorsRP2_override_tarlach.Lower = 0.6f;
 				G1_25_d_3WarriorsRP2_override_tarlach.Life = 302f;
 				G1_25_d_3WarriorsRP2_override_tarlach.LifeMaxBase = 252f;
-				G1_25_d_3WarriorsRP2_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -3620,7 +3620,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_d_3WarriorsRP2_override_mari.Lower = 1.2f;
 				G1_25_d_3WarriorsRP2_override_mari.Life = 269f;
 				G1_25_d_3WarriorsRP2_override_mari.LifeMaxBase = 199f;
-				G1_25_d_3WarriorsRP2_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -3689,7 +3689,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_d_3WarriorsRP2_override_ruairi.Lower = 1f;
 				G1_25_d_3WarriorsRP2_override_ruairi.Life = 454f;
 				G1_25_d_3WarriorsRP2_override_ruairi.LifeMaxBase = 354f;
-				G1_25_d_3WarriorsRP2_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 10670985;
 				item0.Info.ColorB = 15637822;
@@ -3755,7 +3755,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_d_3WarriorsRP2_override_mores.Lower = 1f;
 				G1_25_d_3WarriorsRP2_override_mores.Life = 394f;
 				G1_25_d_3WarriorsRP2_override_mores.LifeMaxBase = 344f;
-				G1_25_d_3WarriorsRP2_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -3822,7 +3822,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_d_3WarriorsRP2_override_dark_lord.Color3 = 0x808080;
 				G1_25_d_3WarriorsRP2_override_dark_lord.Life = 30f;
 				G1_25_d_3WarriorsRP2_override_dark_lord.LifeMaxBase = 20f;
-				G1_25_d_3WarriorsRP2_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -3866,7 +3866,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_d_3WarriorsRP2_override_ghost_armor.Color3 = 0x808080;
 				G1_25_d_3WarriorsRP2_override_ghost_armor.Life = 30f;
 				G1_25_d_3WarriorsRP2_override_ghost_armor.LifeMaxBase = 20f;
-				G1_25_d_3WarriorsRP2_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -3984,7 +3984,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_c_3WarriorsRP2_override_tarlach.Lower = 0.6f;
 				G1_25_c_3WarriorsRP2_override_tarlach.Life = 302f;
 				G1_25_c_3WarriorsRP2_override_tarlach.LifeMaxBase = 252f;
-				G1_25_c_3WarriorsRP2_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -4057,7 +4057,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_c_3WarriorsRP2_override_mari.Lower = 1.2f;
 				G1_25_c_3WarriorsRP2_override_mari.Life = 269f;
 				G1_25_c_3WarriorsRP2_override_mari.LifeMaxBase = 199f;
-				G1_25_c_3WarriorsRP2_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -4126,7 +4126,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_c_3WarriorsRP2_override_ruairi.Lower = 1f;
 				G1_25_c_3WarriorsRP2_override_ruairi.Life = 454f;
 				G1_25_c_3WarriorsRP2_override_ruairi.LifeMaxBase = 354f;
-				G1_25_c_3WarriorsRP2_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 10670985;
 				item0.Info.ColorB = 15637822;
@@ -4195,7 +4195,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_c_3WarriorsRP2_override_dark_lord.Color3 = 0x808080;
 				G1_25_c_3WarriorsRP2_override_dark_lord.Life = 30f;
 				G1_25_c_3WarriorsRP2_override_dark_lord.LifeMaxBase = 20f;
-				G1_25_c_3WarriorsRP2_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -4235,7 +4235,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_b_3WarriorsRP2_override_tarlach.Lower = 0.6f;
 				G1_25_b_3WarriorsRP2_override_tarlach.Life = 302f;
 				G1_25_b_3WarriorsRP2_override_tarlach.LifeMaxBase = 252f;
-				G1_25_b_3WarriorsRP2_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -4308,7 +4308,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_b_3WarriorsRP2_override_mari.Lower = 1.2f;
 				G1_25_b_3WarriorsRP2_override_mari.Life = 269f;
 				G1_25_b_3WarriorsRP2_override_mari.LifeMaxBase = 199f;
-				G1_25_b_3WarriorsRP2_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -4377,7 +4377,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_b_3WarriorsRP2_override_ruairi.Lower = 1f;
 				G1_25_b_3WarriorsRP2_override_ruairi.Life = 454f;
 				G1_25_b_3WarriorsRP2_override_ruairi.LifeMaxBase = 354f;
-				G1_25_b_3WarriorsRP2_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 10670985;
 				item0.Info.ColorB = 15637822;
@@ -4446,7 +4446,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_b_3WarriorsRP2_override_dark_lord.Color3 = 0x808080;
 				G1_25_b_3WarriorsRP2_override_dark_lord.Life = 30f;
 				G1_25_b_3WarriorsRP2_override_dark_lord.LifeMaxBase = 20f;
-				G1_25_b_3WarriorsRP2_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -4486,7 +4486,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_a_3WarriorsRP2_override_tarlach.Lower = 0.6f;
 				G1_25_a_3WarriorsRP2_override_tarlach.Life = 302f;
 				G1_25_a_3WarriorsRP2_override_tarlach.LifeMaxBase = 252f;
-				G1_25_a_3WarriorsRP2_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -4559,7 +4559,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_a_3WarriorsRP2_override_mari.Lower = 1.2f;
 				G1_25_a_3WarriorsRP2_override_mari.Life = 269f;
 				G1_25_a_3WarriorsRP2_override_mari.LifeMaxBase = 199f;
-				G1_25_a_3WarriorsRP2_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -4628,7 +4628,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_25_a_3WarriorsRP2_override_ruairi.Lower = 1f;
 				G1_25_a_3WarriorsRP2_override_ruairi.Life = 454f;
 				G1_25_a_3WarriorsRP2_override_ruairi.LifeMaxBase = 354f;
-				G1_25_a_3WarriorsRP2_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 10670985;
 				item0.Info.ColorB = 15637822;
@@ -4697,7 +4697,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_18_c_MoresRP_override_dark_lord.Color3 = 0x808080;
 				G1_18_c_MoresRP_override_dark_lord.Life = 30f;
 				G1_18_c_MoresRP_override_dark_lord.LifeMaxBase = 20f;
-				G1_18_c_MoresRP_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -4741,7 +4741,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_18_c_MoresRP_override_ghost_armor.Color3 = 0x808080;
 				G1_18_c_MoresRP_override_ghost_armor.Life = 30f;
 				G1_18_c_MoresRP_override_ghost_armor.LifeMaxBase = 20f;
-				G1_18_c_MoresRP_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -4787,7 +4787,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_18_c_MoresRP_override_mores.Lower = 1f;
 				G1_18_c_MoresRP_override_mores.Life = 394f;
 				G1_18_c_MoresRP_override_mores.LifeMaxBase = 344f;
-				G1_18_c_MoresRP_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -4988,7 +4988,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_18_b_MoresRP_override_ghost_armor.Color3 = 0x808080;
 				G1_18_b_MoresRP_override_ghost_armor.Life = 30f;
 				G1_18_b_MoresRP_override_ghost_armor.LifeMaxBase = 20f;
-				G1_18_b_MoresRP_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -5034,7 +5034,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_18_b_MoresRP_override_mores.Lower = 1f;
 				G1_18_b_MoresRP_override_mores.Life = 394f;
 				G1_18_b_MoresRP_override_mores.LifeMaxBase = 344f;
-				G1_18_b_MoresRP_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -5098,7 +5098,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_18_a_MoresRP_override_mores.Lower = 1f;
 				G1_18_a_MoresRP_override_mores.Life = 394f;
 				G1_18_a_MoresRP_override_mores.LifeMaxBase = 344f;
-				G1_18_a_MoresRP_override_mores.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4903);
 				item0.Info.ColorA = 42214;
 				item0.Info.ColorB = 4073606;
@@ -5162,7 +5162,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_15_c_TarlachRP_override_tarlach.Lower = 0.6f;
 				G1_15_c_TarlachRP_override_tarlach.Life = 302f;
 				G1_15_c_TarlachRP_override_tarlach.LifeMaxBase = 252f;
-				G1_15_c_TarlachRP_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -5278,7 +5278,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_15_b_TarlachRP_override_tarlach.Lower = 0.6f;
 				G1_15_b_TarlachRP_override_tarlach.Life = 302f;
 				G1_15_b_TarlachRP_override_tarlach.LifeMaxBase = 252f;
-				G1_15_b_TarlachRP_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -5394,7 +5394,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_15_a_TarlachRP_override_tarlach.Lower = 0.6f;
 				G1_15_a_TarlachRP_override_tarlach.Life = 302f;
 				G1_15_a_TarlachRP_override_tarlach.LifeMaxBase = 252f;
-				G1_15_a_TarlachRP_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -5467,7 +5467,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_10_a_BlackWizard_override_player1.Lower = 0.6f;
 				G1_10_a_BlackWizard_override_player1.Life = 302f;
 				G1_10_a_BlackWizard_override_player1.LifeMaxBase = 252f;
-				G1_10_a_BlackWizard_override_player1.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -5540,7 +5540,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_10_a_BlackWizard_override_player2.Lower = 1.2f;
 				G1_10_a_BlackWizard_override_player2.Life = 269f;
 				G1_10_a_BlackWizard_override_player2.LifeMaxBase = 199f;
-				G1_10_a_BlackWizard_override_player2.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -5608,7 +5608,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_10_a_BlackWizard_override_black_wizard.Lower = 1f;
 				G1_10_a_BlackWizard_override_black_wizard.Life = 1210f;
 				G1_10_a_BlackWizard_override_black_wizard.LifeMaxBase = 1200f;
-				G1_10_a_BlackWizard_override_black_wizard.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(4906);
 				item0.Info.ColorA = 15718376;
 				item0.Info.ColorB = 16361797;
@@ -5661,7 +5661,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_c_3WarriorsRP_override_tarlach.Lower = 0.6f;
 				G1_5_c_3WarriorsRP_override_tarlach.Life = 302f;
 				G1_5_c_3WarriorsRP_override_tarlach.LifeMaxBase = 252f;
-				G1_5_c_3WarriorsRP_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -5734,7 +5734,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_c_3WarriorsRP_override_mari.Lower = 1.2f;
 				G1_5_c_3WarriorsRP_override_mari.Life = 269f;
 				G1_5_c_3WarriorsRP_override_mari.LifeMaxBase = 199f;
-				G1_5_c_3WarriorsRP_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -5803,7 +5803,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_c_3WarriorsRP_override_ruairi.Lower = 1f;
 				G1_5_c_3WarriorsRP_override_ruairi.Life = 454f;
 				G1_5_c_3WarriorsRP_override_ruairi.LifeMaxBase = 354f;
-				G1_5_c_3WarriorsRP_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 10670985;
 				item0.Info.ColorB = 15637822;
@@ -5871,7 +5871,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_c_3WarriorsRP_override_giant_spider.Color1 = 0x773355;
 				G1_5_c_3WarriorsRP_override_giant_spider.Life = 510f;
 				G1_5_c_3WarriorsRP_override_giant_spider.LifeMaxBase = 500f;
-				G1_5_c_3WarriorsRP_override_giant_spider.LifeMaxMod = 10f;
+
 
 				return _G1_5_c_3WarriorsRP_override_giant_spider;
 			}
@@ -5899,7 +5899,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_b_3WarriorsRP_override_ruairi.Lower = 1f;
 				G1_5_b_3WarriorsRP_override_ruairi.Life = 454f;
 				G1_5_b_3WarriorsRP_override_ruairi.LifeMaxBase = 354f;
-				G1_5_b_3WarriorsRP_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 10670985;
 				item0.Info.ColorB = 15637822;
@@ -5965,7 +5965,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_b_3WarriorsRP_override_mari.Lower = 1.2f;
 				G1_5_b_3WarriorsRP_override_mari.Life = 269f;
 				G1_5_b_3WarriorsRP_override_mari.LifeMaxBase = 199f;
-				G1_5_b_3WarriorsRP_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -6033,7 +6033,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_b_3WarriorsRP_override_tarlach.Lower = 0.6f;
 				G1_5_b_3WarriorsRP_override_tarlach.Life = 302f;
 				G1_5_b_3WarriorsRP_override_tarlach.LifeMaxBase = 252f;
-				G1_5_b_3WarriorsRP_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -6106,7 +6106,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_a_3WarriorsRP_override_tarlach.Lower = 0.6f;
 				G1_5_a_3WarriorsRP_override_tarlach.Life = 302f;
 				G1_5_a_3WarriorsRP_override_tarlach.LifeMaxBase = 252f;
-				G1_5_a_3WarriorsRP_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -6179,7 +6179,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_a_3WarriorsRP_override_mari.Lower = 1.2f;
 				G1_5_a_3WarriorsRP_override_mari.Life = 269f;
 				G1_5_a_3WarriorsRP_override_mari.LifeMaxBase = 199f;
-				G1_5_a_3WarriorsRP_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -6248,7 +6248,7 @@ public class CrystalBallBaseScript : NPCScript
 				G1_5_a_3WarriorsRP_override_ruairi.Lower = 1f;
 				G1_5_a_3WarriorsRP_override_ruairi.Life = 454f;
 				G1_5_a_3WarriorsRP_override_ruairi.LifeMaxBase = 354f;
-				G1_5_a_3WarriorsRP_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 10670985;
 				item0.Info.ColorB = 15637822;
@@ -6668,7 +6668,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_37_d_override_dark_lord.Color3 = 0x808080;
 				G2_37_d_override_dark_lord.Life = 30f;
 				G2_37_d_override_dark_lord.LifeMaxBase = 20f;
-				G2_37_d_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -6768,7 +6768,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_37_d_override_metal_skeleton.Lower = 1f;
 				G2_37_d_override_metal_skeleton.Life = 510f;
 				G2_37_d_override_metal_skeleton.LifeMaxBase = 500f;
-				G2_37_d_override_metal_skeleton.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40010);
 				item0.Info.ColorA = 12632256;
 				item0.Info.ColorB = 10066329;
@@ -6875,7 +6875,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_37_c_override_tar.Color3 = 0x808080;
 				G2_37_c_override_tar.Life = 5010f;
 				G2_37_c_override_tar.LifeMaxBase = 5000f;
-				G2_37_c_override_tar.LifeMaxMod = 10f;
+
 
 				return _G2_37_c_override_tar;
 			}
@@ -7137,7 +7137,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_37_b_override_tar.Color3 = 0x808080;
 				G2_37_b_override_tar.Life = 5010f;
 				G2_37_b_override_tar.LifeMaxBase = 5000f;
-				G2_37_b_override_tar.LifeMaxMod = 10f;
+
 
 				return _G2_37_b_override_tar;
 			}
@@ -7347,7 +7347,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_28_c_override_giant_white_wolf.Color1 = 0xD0D0D0;
 				G2_28_c_override_giant_white_wolf.Life = 160f;
 				G2_28_c_override_giant_white_wolf.LifeMaxBase = 150f;
-				G2_28_c_override_giant_white_wolf.LifeMaxMod = 10f;
+
 
 				return _G2_28_c_override_giant_white_wolf;
 			}
@@ -7374,7 +7374,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_28_c_override_g2RP_whitewolf.Color3 = 0x808080;
 				G2_28_c_override_g2RP_whitewolf.Life = 162f;
 				G2_28_c_override_g2RP_whitewolf.LifeMaxBase = 152f;
-				G2_28_c_override_g2RP_whitewolf.LifeMaxMod = 10f;
+
 
 				return _G2_28_c_override_g2RP_whitewolf;
 			}
@@ -7403,7 +7403,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_28_b_override_giant_white_wolf.Color1 = 0xD0D0D0;
 				G2_28_b_override_giant_white_wolf.Life = 160f;
 				G2_28_b_override_giant_white_wolf.LifeMaxBase = 150f;
-				G2_28_b_override_giant_white_wolf.LifeMaxMod = 10f;
+
 
 				return _G2_28_b_override_giant_white_wolf;
 			}
@@ -7430,7 +7430,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_28_b_override_g2RP_whitewolf.Color3 = 0x808080;
 				G2_28_b_override_g2RP_whitewolf.Life = 162f;
 				G2_28_b_override_g2RP_whitewolf.LifeMaxBase = 152f;
-				G2_28_b_override_g2RP_whitewolf.LifeMaxMod = 10f;
+
 
 				return _G2_28_b_override_g2RP_whitewolf;
 			}
@@ -7457,7 +7457,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_28_a_override_g2RP_whitewolf.Color3 = 0x808080;
 				G2_28_a_override_g2RP_whitewolf.Life = 162f;
 				G2_28_a_override_g2RP_whitewolf.LifeMaxBase = 152f;
-				G2_28_a_override_g2RP_whitewolf.LifeMaxMod = 10f;
+
 
 				return _G2_28_a_override_g2RP_whitewolf;
 			}
@@ -7542,7 +7542,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_18_a_override_dark_lord.Color3 = 0x808080;
 				G2_18_a_override_dark_lord.Life = 30f;
 				G2_18_a_override_dark_lord.LifeMaxBase = 20f;
-				G2_18_a_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -7650,7 +7650,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_18_a_override_goblin.Lower = 1f;
 				G2_18_a_override_goblin.Life = 200f;
 				G2_18_a_override_goblin.LifeMaxBase = 190f;
-				G2_18_a_override_goblin.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40007);
 				item0.Info.ColorA = 9540227;
 				item0.Info.ColorB = 6446916;
@@ -7958,7 +7958,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_10_a_override_dark_lord.Color3 = 0x808080;
 				G2_10_a_override_dark_lord.Life = 30f;
 				G2_10_a_override_dark_lord.LifeMaxBase = 20f;
-				G2_10_a_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -8384,7 +8384,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_08_d_Paladin_exercises_override_dark_lord.Color3 = 0x808080;
 				G2_08_d_Paladin_exercises_override_dark_lord.Life = 30f;
 				G2_08_d_Paladin_exercises_override_dark_lord.LifeMaxBase = 20f;
-				G2_08_d_Paladin_exercises_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -9094,7 +9094,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_07_a_Darkload_override_dark_lord.Color3 = 0x808080;
 				G2_07_a_Darkload_override_dark_lord.Life = 30f;
 				G2_07_a_Darkload_override_dark_lord.LifeMaxBase = 20f;
-				G2_07_a_Darkload_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -9247,7 +9247,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_05_a_Ruairi_override_ruairi.Lower = 1f;
 				G2_05_a_Ruairi_override_ruairi.Life = 454f;
 				G2_05_a_Ruairi_override_ruairi.LifeMaxBase = 354f;
-				G2_05_a_Ruairi_override_ruairi.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 8987702;
 				item0.Info.ColorB = 11055463;
@@ -9313,7 +9313,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_05_a_Ruairi_override_mari.Lower = 1.2f;
 				G2_05_a_Ruairi_override_mari.Life = 269f;
 				G2_05_a_Ruairi_override_mari.LifeMaxBase = 199f;
-				G2_05_a_Ruairi_override_mari.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 7575595;
 				item0.Info.ColorB = 6514540;
@@ -9381,7 +9381,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_05_a_Ruairi_override_tarlach.Lower = 0.6f;
 				G2_05_a_Ruairi_override_tarlach.Life = 302f;
 				G2_05_a_Ruairi_override_tarlach.LifeMaxBase = 252f;
-				G2_05_a_Ruairi_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 12075919;
 				item0.Info.ColorB = 16763269;
@@ -9456,7 +9456,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_05_a_Ruairi_override_giant_spider.Color1 = 0x773355;
 				G2_05_a_Ruairi_override_giant_spider.Life = 510f;
 				G2_05_a_Ruairi_override_giant_spider.LifeMaxBase = 500f;
-				G2_05_a_Ruairi_override_giant_spider.LifeMaxMod = 10f;
+
 
 				return _G2_05_a_Ruairi_override_giant_spider;
 			}
@@ -9486,7 +9486,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_05_a_Ruairi_override_dark_lord.Color3 = 0x808080;
 				G2_05_a_Ruairi_override_dark_lord.Life = 30f;
 				G2_05_a_Ruairi_override_dark_lord.LifeMaxBase = 20f;
-				G2_05_a_Ruairi_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -9530,7 +9530,7 @@ public class CrystalBallBaseScript : NPCScript
 				G2_05_a_Ruairi_override_ghost_armor.Color3 = 0x808080;
 				G2_05_a_Ruairi_override_ghost_armor.Life = 30f;
 				G2_05_a_Ruairi_override_ghost_armor.LifeMaxBase = 20f;
-				G2_05_a_Ruairi_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -9904,7 +9904,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_19_a_EndingDragon_override_player1.Lower = 0.6f;
 				g3_19_a_EndingDragon_override_player1.Life = 302f;
 				g3_19_a_EndingDragon_override_player1.LifeMaxBase = 252f;
-				g3_19_a_EndingDragon_override_player1.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -9977,7 +9977,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_19_a_EndingDragon_override_player2.Lower = 1.2f;
 				g3_19_a_EndingDragon_override_player2.Life = 269f;
 				g3_19_a_EndingDragon_override_player2.LifeMaxBase = 199f;
-				g3_19_a_EndingDragon_override_player2.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -10127,7 +10127,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_19_a_EndingDragon_override_dark_lord.Color3 = 0x808080;
 				g3_19_a_EndingDragon_override_dark_lord.Life = 30f;
 				g3_19_a_EndingDragon_override_dark_lord.LifeMaxBase = 20f;
-				g3_19_a_EndingDragon_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -10167,7 +10167,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_17_b_AllStarShow_override_player2.Lower = 1.2f;
 				g3_17_b_AllStarShow_override_player2.Life = 269f;
 				g3_17_b_AllStarShow_override_player2.LifeMaxBase = 199f;
-				g3_17_b_AllStarShow_override_player2.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -10235,7 +10235,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_17_b_AllStarShow_override_player1.Lower = 0.6f;
 				g3_17_b_AllStarShow_override_player1.Life = 302f;
 				g3_17_b_AllStarShow_override_player1.LifeMaxBase = 252f;
-				g3_17_b_AllStarShow_override_player1.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -10311,7 +10311,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_17_b_AllStarShow_override_dark_lord.Color3 = 0x808080;
 				g3_17_b_AllStarShow_override_dark_lord.Life = 30f;
 				g3_17_b_AllStarShow_override_dark_lord.LifeMaxBase = 20f;
-				g3_17_b_AllStarShow_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -10410,7 +10410,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_17_b_AllStarShow_override_tarlach.Lower = 0.6f;
 				g3_17_b_AllStarShow_override_tarlach.Life = 302f;
 				g3_17_b_AllStarShow_override_tarlach.LifeMaxBase = 252f;
-				g3_17_b_AllStarShow_override_tarlach.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -10659,7 +10659,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.Color3 = 0x808080;
 				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.Life = 30f;
 				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.LifeMaxBase = 20f;
-				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -10699,7 +10699,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_17_a_Ruairi_VS_Morgant_override_player1.Lower = 0.6f;
 				g3_17_a_Ruairi_VS_Morgant_override_player1.Life = 302f;
 				g3_17_a_Ruairi_VS_Morgant_override_player1.LifeMaxBase = 252f;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4901);
 				item0.Info.ColorA = 16499802;
 				item0.Info.ColorB = 11338;
@@ -10772,7 +10772,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_17_a_Ruairi_VS_Morgant_override_player2.Lower = 1.2f;
 				g3_17_a_Ruairi_VS_Morgant_override_player2.Life = 269f;
 				g3_17_a_Ruairi_VS_Morgant_override_player2.LifeMaxBase = 199f;
-				g3_17_a_Ruairi_VS_Morgant_override_player2.LifeMaxMod = 70f;
+
 				var item0 = new MabiItem(3900);
 				item0.Info.ColorA = 15800187;
 				item0.Info.ColorB = 16157484;
@@ -10873,7 +10873,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_12_a_DiscoverTheDragon_override_ghost_armor.Color3 = 0x808080;
 				g3_12_a_DiscoverTheDragon_override_ghost_armor.Life = 30f;
 				g3_12_a_DiscoverTheDragon_override_ghost_armor.LifeMaxBase = 20f;
-				g3_12_a_DiscoverTheDragon_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -10974,7 +10974,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_12_a_DiscoverTheDragon_override_dark_lord.Color3 = 0x808080;
 				g3_12_a_DiscoverTheDragon_override_dark_lord.Life = 30f;
 				g3_12_a_DiscoverTheDragon_override_dark_lord.LifeMaxBase = 20f;
-				g3_12_a_DiscoverTheDragon_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -11189,7 +11189,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_06_e_MeetRuairi_override_ghost_armor.Color3 = 0x808080;
 				g3_06_e_MeetRuairi_override_ghost_armor.Life = 30f;
 				g3_06_e_MeetRuairi_override_ghost_armor.LifeMaxBase = 20f;
-				g3_06_e_MeetRuairi_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -11267,7 +11267,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_06_e_MeetRuairi_override_dark_lord.Color3 = 0x808080;
 				g3_06_e_MeetRuairi_override_dark_lord.Life = 30f;
 				g3_06_e_MeetRuairi_override_dark_lord.LifeMaxBase = 20f;
-				g3_06_e_MeetRuairi_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -11428,7 +11428,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_06_d_GrandBattle_override_ghost_armor.Color3 = 0x808080;
 				g3_06_d_GrandBattle_override_ghost_armor.Life = 30f;
 				g3_06_d_GrandBattle_override_ghost_armor.LifeMaxBase = 20f;
-				g3_06_d_GrandBattle_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -11603,7 +11603,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_06_c_DestroyStatue_override_ghost_armor.Color3 = 0x808080;
 				g3_06_c_DestroyStatue_override_ghost_armor.Life = 30f;
 				g3_06_c_DestroyStatue_override_ghost_armor.LifeMaxBase = 20f;
-				g3_06_c_DestroyStatue_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -11868,7 +11868,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_06_b_Redire_override_goblin.Lower = 1f;
 				g3_06_b_Redire_override_goblin.Life = 200f;
 				g3_06_b_Redire_override_goblin.LifeMaxBase = 190f;
-				g3_06_b_Redire_override_goblin.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40007);
 				item0.Info.ColorA = 8935772;
 				item0.Info.ColorB = 8352311;
@@ -12458,7 +12458,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Color3 = 0x808080;
 				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Life = 30f;
 				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.LifeMaxBase = 20f;
-				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23004);
 				item0.Info.ColorA = 5263440;
 				item0.Info.ColorB = 5716254;
@@ -12595,7 +12595,7 @@ public class CrystalBallBaseScript : NPCScript
 				g3_05_a_RuairiBeDarkKnight_override_dark_lord.Color3 = 0x808080;
 				g3_05_a_RuairiBeDarkKnight_override_dark_lord.Life = 30f;
 				g3_05_a_RuairiBeDarkKnight_override_dark_lord.LifeMaxBase = 20f;
-				g3_05_a_RuairiBeDarkKnight_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -12888,7 +12888,7 @@ public class CrystalBallBaseScript : NPCScript
 				Dungeon_mirror_withch_override_Mirror_Witch.Color3 = 0x6B757D;
 				Dungeon_mirror_withch_override_Mirror_Witch.Life = 2010f;
 				Dungeon_mirror_withch_override_Mirror_Witch.LifeMaxBase = 2000f;
-				Dungeon_mirror_withch_override_Mirror_Witch.LifeMaxMod = 10f;
+
 
 				return _Dungeon_mirror_withch_override_Mirror_Witch;
 			}
@@ -12940,7 +12940,7 @@ public class CrystalBallBaseScript : NPCScript
 				g7s3_rp_03_override_DesertFanaticSpecter2.Color2 = 0x4A4646;
 				g7s3_rp_03_override_DesertFanaticSpecter2.Life = 90f;
 				g7s3_rp_03_override_DesertFanaticSpecter2.LifeMaxBase = 80f;
-				g7s3_rp_03_override_DesertFanaticSpecter2.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40006);
 				item0.Info.ColorA = 11579568;
 				item0.Info.ColorB = 16239997;
@@ -12973,7 +12973,7 @@ public class CrystalBallBaseScript : NPCScript
 				g7s3_rp_03_override_DesertFanaticPriestSpecter.Color2 = 0x202021;
 				g7s3_rp_03_override_DesertFanaticPriestSpecter.Life = 120f;
 				g7s3_rp_03_override_DesertFanaticPriestSpecter.LifeMaxBase = 110f;
-				g7s3_rp_03_override_DesertFanaticPriestSpecter.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40041);
 				item0.Info.ColorA = 4473924;
 				item0.Info.ColorB = 10066329;
@@ -13065,7 +13065,7 @@ public class CrystalBallBaseScript : NPCScript
 				g7s3_rp_02_override_DesertFanaticPriestSpecter.Color2 = 0x202021;
 				g7s3_rp_02_override_DesertFanaticPriestSpecter.Life = 120f;
 				g7s3_rp_02_override_DesertFanaticPriestSpecter.LifeMaxBase = 110f;
-				g7s3_rp_02_override_DesertFanaticPriestSpecter.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40041);
 				item0.Info.ColorA = 4473924;
 				item0.Info.ColorB = 10066329;
@@ -13098,7 +13098,7 @@ public class CrystalBallBaseScript : NPCScript
 				g7s3_rp_01_override_DesertFanaticSpecter.Color2 = 0x4A4646;
 				g7s3_rp_01_override_DesertFanaticSpecter.Life = 90f;
 				g7s3_rp_01_override_DesertFanaticSpecter.LifeMaxBase = 80f;
-				g7s3_rp_01_override_DesertFanaticSpecter.LifeMaxMod = 10f;
+
 
 				return _g7s3_rp_01_override_DesertFanaticSpecter;
 			}
@@ -13124,7 +13124,7 @@ public class CrystalBallBaseScript : NPCScript
 				g7s3_rp_01_override_DesertFanaticPriestSpecter.Color2 = 0x202021;
 				g7s3_rp_01_override_DesertFanaticPriestSpecter.Life = 120f;
 				g7s3_rp_01_override_DesertFanaticPriestSpecter.LifeMaxBase = 110f;
-				g7s3_rp_01_override_DesertFanaticPriestSpecter.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40041);
 				item0.Info.ColorA = 4473924;
 				item0.Info.ColorB = 10066329;
@@ -13218,7 +13218,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_ending_override_carasek.Lower = 1f;
 				g8s1_ending_override_carasek.Life = 1009f;
 				g8s1_ending_override_carasek.LifeMaxBase = 999f;
-				g8s1_ending_override_carasek.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 16294712;
 				item0.Info.ColorB = 7813471;
@@ -13270,7 +13270,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_kill_red_dragon_override_crummena.Color2 = 0x808080;
 				g8s1_kill_red_dragon_override_crummena.Color3 = 0x808080;
 				g8s1_kill_red_dragon_override_crummena.Life = 40f;
-				g8s1_kill_red_dragon_override_crummena.LifeMaxMod = 40f;
+
 
 				return _g8s1_kill_red_dragon_override_crummena;
 			}
@@ -13391,7 +13391,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_kill_red_dragon_override_dungeon_unicorn_heavy.Color3 = 0x808080;
 				g8s1_kill_red_dragon_override_dungeon_unicorn_heavy.Life = 1009f;
 				g8s1_kill_red_dragon_override_dungeon_unicorn_heavy.LifeMaxBase = 999f;
-				g8s1_kill_red_dragon_override_dungeon_unicorn_heavy.LifeMaxMod = 10f;
+
 
 				return _g8s1_kill_red_dragon_override_dungeon_unicorn_heavy;
 			}
@@ -13417,7 +13417,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_kill_red_dragon_override_adniel.Color2 = 0x808080;
 				g8s1_kill_red_dragon_override_adniel.Color3 = 0x808080;
 				g8s1_kill_red_dragon_override_adniel.Life = 10f;
-				g8s1_kill_red_dragon_override_adniel.LifeMaxMod = 10f;
+
 
 				return _g8s1_kill_red_dragon_override_adniel;
 			}
@@ -13443,7 +13443,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_kill_red_dragon_override_legatus.Color2 = 0x808080;
 				g8s1_kill_red_dragon_override_legatus.Color3 = 0x808080;
 				g8s1_kill_red_dragon_override_legatus.Life = 10f;
-				g8s1_kill_red_dragon_override_legatus.LifeMaxMod = 10f;
+
 
 				return _g8s1_kill_red_dragon_override_legatus;
 			}
@@ -13528,7 +13528,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_GoldDragon2_override_crummena.Color2 = 0x808080;
 				g8s1_GoldDragon2_override_crummena.Color3 = 0x808080;
 				g8s1_GoldDragon2_override_crummena.Life = 40f;
-				g8s1_GoldDragon2_override_crummena.LifeMaxMod = 40f;
+
 
 				return _g8s1_GoldDragon2_override_crummena;
 			}
@@ -13614,7 +13614,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_to_dragon_lair_override_legatus.Color2 = 0x808080;
 				g8s1_to_dragon_lair_override_legatus.Color3 = 0x808080;
 				g8s1_to_dragon_lair_override_legatus.Life = 10f;
-				g8s1_to_dragon_lair_override_legatus.LifeMaxMod = 10f;
+
 
 				return _g8s1_to_dragon_lair_override_legatus;
 			}
@@ -13699,7 +13699,7 @@ public class CrystalBallBaseScript : NPCScript
 				kill_Cruaich_override_crummena.Color2 = 0x808080;
 				kill_Cruaich_override_crummena.Color3 = 0x808080;
 				kill_Cruaich_override_crummena.Life = 40f;
-				kill_Cruaich_override_crummena.LifeMaxMod = 40f;
+
 
 				return _kill_Cruaich_override_crummena;
 			}
@@ -13820,7 +13820,7 @@ public class CrystalBallBaseScript : NPCScript
 				surveying_volcanism_override_crummena.Color2 = 0x808080;
 				surveying_volcanism_override_crummena.Color3 = 0x808080;
 				surveying_volcanism_override_crummena.Life = 40f;
-				surveying_volcanism_override_crummena.LifeMaxMod = 40f;
+
 
 				return _surveying_volcanism_override_crummena;
 			}
@@ -13845,7 +13845,7 @@ public class CrystalBallBaseScript : NPCScript
 				surveying_volcanism_override_firewyvern.Color1 = 0x808080;
 				surveying_volcanism_override_firewyvern.Life = 1009f;
 				surveying_volcanism_override_firewyvern.LifeMaxBase = 999f;
-				surveying_volcanism_override_firewyvern.LifeMaxMod = 10f;
+
 
 				return _surveying_volcanism_override_firewyvern;
 			}
@@ -13984,7 +13984,7 @@ public class CrystalBallBaseScript : NPCScript
 				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Color3 = 0x808080;
 				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Life = 128f;
 				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.LifeMaxBase = 78f;
-				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.LifeMaxMod = 50f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 16225568;
 				item0.Info.ColorB = 10249644;
@@ -14045,7 +14045,7 @@ public class CrystalBallBaseScript : NPCScript
 				Dungeon_success_Effie_Brother_override_DesertFanaticSpecter2.Color2 = 0x4A4646;
 				Dungeon_success_Effie_Brother_override_DesertFanaticSpecter2.Life = 90f;
 				Dungeon_success_Effie_Brother_override_DesertFanaticSpecter2.LifeMaxBase = 80f;
-				Dungeon_success_Effie_Brother_override_DesertFanaticSpecter2.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40006);
 				item0.Info.ColorA = 11579568;
 				item0.Info.ColorB = 16239997;
@@ -14187,7 +14187,7 @@ public class CrystalBallBaseScript : NPCScript
 				Dungeon_into_Effie_Brother_override_DesertFanaticSpecter2.Color2 = 0x4A4646;
 				Dungeon_into_Effie_Brother_override_DesertFanaticSpecter2.Life = 90f;
 				Dungeon_into_Effie_Brother_override_DesertFanaticSpecter2.LifeMaxBase = 80f;
-				Dungeon_into_Effie_Brother_override_DesertFanaticSpecter2.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40006);
 				item0.Info.ColorA = 11579568;
 				item0.Info.ColorB = 16239997;
@@ -14221,7 +14221,7 @@ public class CrystalBallBaseScript : NPCScript
 				g8s1_unicorn_override_dungeon_unicorn.Color3 = 0x808080;
 				g8s1_unicorn_override_dungeon_unicorn.Life = 1009f;
 				g8s1_unicorn_override_dungeon_unicorn.LifeMaxBase = 999f;
-				g8s1_unicorn_override_dungeon_unicorn.LifeMaxMod = 10f;
+
 
 				return _g8s1_unicorn_override_dungeon_unicorn;
 			}
@@ -15298,7 +15298,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Life = 185f;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15338,7 +15338,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_7_destruct_alchemical_machine_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -15372,7 +15372,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Life = 185f;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15412,7 +15412,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.Color3 = 0x808080;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.Life = 185f;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.LifeMaxBase = 175f;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 4079424;
 				item0.Info.ColorB = 6438912;
@@ -15450,7 +15450,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_7_destruct_alchemical_machine_override_LancerB.Color1 = 0x808080;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_LancerB.Life = 185f;
 				C3G9S1_S16_7_destruct_alchemical_machine_override_LancerB.LifeMaxBase = 175f;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_LancerB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15535,7 +15535,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_2_rescue_cai_2_override_LancerB.Color1 = 0x808080;
 				C3G9S1_S16_6_2_rescue_cai_2_override_LancerB.Life = 185f;
 				C3G9S1_S16_6_2_rescue_cai_2_override_LancerB.LifeMaxBase = 175f;
-				C3G9S1_S16_6_2_rescue_cai_2_override_LancerB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15592,7 +15592,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Life = 185f;
 				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15632,7 +15632,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.Color3 = 0x808080;
 				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.Life = 185f;
 				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.LifeMaxBase = 175f;
-				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 4079424;
 				item0.Info.ColorB = 6438912;
@@ -15672,7 +15672,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Life = 185f;
 				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15712,7 +15712,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_2_rescue_cai_2_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_6_2_rescue_cai_2_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_6_2_rescue_cai_2_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_6_2_rescue_cai_2_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -15800,7 +15800,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_rescue_cai_override_LancerB.Color1 = 0x808080;
 				C3G9S1_S16_6_rescue_cai_override_LancerB.Life = 185f;
 				C3G9S1_S16_6_rescue_cai_override_LancerB.LifeMaxBase = 175f;
-				C3G9S1_S16_6_rescue_cai_override_LancerB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15857,7 +15857,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_rescue_cai_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_6_rescue_cai_override_FighterA.Life = 185f;
 				C3G9S1_S16_6_rescue_cai_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_6_rescue_cai_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15897,7 +15897,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_rescue_cai_override_Warrior.Color3 = 0x808080;
 				C3G9S1_S16_6_rescue_cai_override_Warrior.Life = 185f;
 				C3G9S1_S16_6_rescue_cai_override_Warrior.LifeMaxBase = 175f;
-				C3G9S1_S16_6_rescue_cai_override_Warrior.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 4079424;
 				item0.Info.ColorB = 6438912;
@@ -15937,7 +15937,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_rescue_cai_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_6_rescue_cai_override_FighterB.Life = 185f;
 				C3G9S1_S16_6_rescue_cai_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_6_rescue_cai_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -15977,7 +15977,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_6_rescue_cai_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_6_rescue_cai_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_6_rescue_cai_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_6_rescue_cai_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -16011,7 +16011,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_5_tethra_dead_override_Tethra.Color3 = 0x808080;
 				C3G9S1_S16_5_tethra_dead_override_Tethra.Life = 185f;
 				C3G9S1_S16_5_tethra_dead_override_Tethra.LifeMaxBase = 175f;
-				C3G9S1_S16_5_tethra_dead_override_Tethra.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 10855845;
 				item0.Info.ColorB = 12156201;
@@ -16924,7 +16924,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_5_tethra_dead_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_5_tethra_dead_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_5_tethra_dead_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_5_tethra_dead_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -16958,7 +16958,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_5_tethra_dead_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_5_tethra_dead_override_FighterB.Life = 185f;
 				C3G9S1_S16_5_tethra_dead_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_5_tethra_dead_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -16998,7 +16998,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_5_tethra_dead_override_jaco_archer.Color3 = 0x808080;
 				C3G9S1_S16_5_tethra_dead_override_jaco_archer.Life = 100f;
 				C3G9S1_S16_5_tethra_dead_override_jaco_archer.LifeMaxBase = 90f;
-				C3G9S1_S16_5_tethra_dead_override_jaco_archer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 17280;
@@ -17040,7 +17040,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_5_tethra_dead_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_5_tethra_dead_override_FighterA.Life = 185f;
 				C3G9S1_S16_5_tethra_dead_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_5_tethra_dead_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -17078,7 +17078,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_5_tethra_dead_override_golem.Color1 = 0x808080;
 				C3G9S1_S16_5_tethra_dead_override_golem.Life = 510f;
 				C3G9S1_S16_5_tethra_dead_override_golem.LifeMaxBase = 500f;
-				C3G9S1_S16_5_tethra_dead_override_golem.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S16_5_tethra_dead_override_golem;
 			}
@@ -17105,7 +17105,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_4_vs_tethra_again_override_Tethra.Color3 = 0x808080;
 				C3G9S1_S16_4_vs_tethra_again_override_Tethra.Life = 185f;
 				C3G9S1_S16_4_vs_tethra_again_override_Tethra.LifeMaxBase = 175f;
-				C3G9S1_S16_4_vs_tethra_again_override_Tethra.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 10855845;
 				item0.Info.ColorB = 12156201;
@@ -18018,7 +18018,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_4_vs_tethra_again_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_4_vs_tethra_again_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_4_vs_tethra_again_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_4_vs_tethra_again_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -18052,7 +18052,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.Color3 = 0x808080;
 				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.Life = 100f;
 				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.LifeMaxBase = 90f;
-				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 17280;
@@ -18094,7 +18094,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Life = 185f;
 				C3G9S1_S16_4_vs_tethra_again_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -18134,7 +18134,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Life = 185f;
 				C3G9S1_S16_4_vs_tethra_again_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -18172,7 +18172,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_4_vs_tethra_again_override_golem.Color1 = 0x808080;
 				C3G9S1_S16_4_vs_tethra_again_override_golem.Life = 510f;
 				C3G9S1_S16_4_vs_tethra_again_override_golem.LifeMaxBase = 500f;
-				C3G9S1_S16_4_vs_tethra_again_override_golem.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_golem;
 			}
@@ -19047,7 +19047,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_3_stop_the_clau_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_3_stop_the_clau_override_FighterB.Life = 185f;
 				C3G9S1_S16_3_stop_the_clau_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_3_stop_the_clau_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -19087,7 +19087,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.Color3 = 0x808080;
 				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.Life = 100f;
 				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.LifeMaxBase = 90f;
-				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 17280;
@@ -19129,7 +19129,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_3_stop_the_clau_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_3_stop_the_clau_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_3_stop_the_clau_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_3_stop_the_clau_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -19194,7 +19194,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_3_stop_the_clau_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_3_stop_the_clau_override_FighterA.Life = 185f;
 				C3G9S1_S16_3_stop_the_clau_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_3_stop_the_clau_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -19232,7 +19232,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_3_stop_the_clau_override_golem.Color1 = 0x808080;
 				C3G9S1_S16_3_stop_the_clau_override_golem.Life = 510f;
 				C3G9S1_S16_3_stop_the_clau_override_golem.LifeMaxBase = 500f;
-				C3G9S1_S16_3_stop_the_clau_override_golem.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S16_3_stop_the_clau_override_golem;
 			}
@@ -20056,7 +20056,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_2_good_vs_bad_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_2_good_vs_bad_override_FighterA.Life = 185f;
 				C3G9S1_S16_2_good_vs_bad_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_2_good_vs_bad_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -20096,7 +20096,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.Color3 = 0x808080;
 				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.Life = 100f;
 				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.LifeMaxBase = 90f;
-				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 17280;
@@ -20138,7 +20138,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_2_good_vs_bad_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_2_good_vs_bad_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_2_good_vs_bad_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_2_good_vs_bad_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -20203,7 +20203,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_2_good_vs_bad_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_2_good_vs_bad_override_FighterB.Life = 185f;
 				C3G9S1_S16_2_good_vs_bad_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_2_good_vs_bad_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -20241,7 +20241,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_2_good_vs_bad_override_golem.Color1 = 0x808080;
 				C3G9S1_S16_2_good_vs_bad_override_golem.Life = 510f;
 				C3G9S1_S16_2_good_vs_bad_override_golem.LifeMaxBase = 500f;
-				C3G9S1_S16_2_good_vs_bad_override_golem.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S16_2_good_vs_bad_override_golem;
 			}
@@ -20380,7 +20380,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_1_fallon_identity_override_Warrior.Color3 = 0x808080;
 				C3G9S1_S16_1_fallon_identity_override_Warrior.Life = 185f;
 				C3G9S1_S16_1_fallon_identity_override_Warrior.LifeMaxBase = 175f;
-				C3G9S1_S16_1_fallon_identity_override_Warrior.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 4079424;
 				item0.Info.ColorB = 6438912;
@@ -20418,7 +20418,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_1_fallon_identity_override_LancerB.Color1 = 0x808080;
 				C3G9S1_S16_1_fallon_identity_override_LancerB.Life = 185f;
 				C3G9S1_S16_1_fallon_identity_override_LancerB.LifeMaxBase = 175f;
-				C3G9S1_S16_1_fallon_identity_override_LancerB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -20475,7 +20475,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_1_fallon_identity_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S16_1_fallon_identity_override_jaco_lancer.Life = 100f;
 				C3G9S1_S16_1_fallon_identity_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S16_1_fallon_identity_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -20509,7 +20509,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_1_fallon_identity_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S16_1_fallon_identity_override_FighterB.Life = 185f;
 				C3G9S1_S16_1_fallon_identity_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S16_1_fallon_identity_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -20549,7 +20549,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S16_1_fallon_identity_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S16_1_fallon_identity_override_FighterA.Life = 185f;
 				C3G9S1_S16_1_fallon_identity_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S16_1_fallon_identity_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -20588,7 +20588,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S15_meet_adniel_override_adniel.Color2 = 0x808080;
 				C3G9S1_S15_meet_adniel_override_adniel.Color3 = 0x808080;
 				C3G9S1_S15_meet_adniel_override_adniel.Life = 10f;
-				C3G9S1_S15_meet_adniel_override_adniel.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S15_meet_adniel_override_adniel;
 			}
@@ -21717,7 +21717,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_2_another_race_help_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S14_2_another_race_help_override_FighterB.Life = 185f;
 				C3G9S1_S14_2_another_race_help_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S14_2_another_race_help_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -21757,7 +21757,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_2_another_race_help_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S14_2_another_race_help_override_jaco_lancer.Life = 100f;
 				C3G9S1_S14_2_another_race_help_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S14_2_another_race_help_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -21791,7 +21791,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_2_another_race_help_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S14_2_another_race_help_override_FighterA.Life = 185f;
 				C3G9S1_S14_2_another_race_help_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S14_2_another_race_help_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -21831,7 +21831,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_2_another_race_help_override_jaco_archer.Color3 = 0x808080;
 				C3G9S1_S14_2_another_race_help_override_jaco_archer.Life = 100f;
 				C3G9S1_S14_2_another_race_help_override_jaco_archer.LifeMaxBase = 90f;
-				C3G9S1_S14_2_another_race_help_override_jaco_archer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 17280;
@@ -21951,7 +21951,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Life = 185f;
 				C3G9S1_S14_1_meet_again_jenna_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -21991,7 +21991,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_1_meet_again_jenna_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S14_1_meet_again_jenna_override_jaco_lancer.Life = 100f;
 				C3G9S1_S14_1_meet_again_jenna_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S14_1_meet_again_jenna_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -22025,7 +22025,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Life = 185f;
 				C3G9S1_S14_1_meet_again_jenna_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -22065,7 +22065,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.Color3 = 0x808080;
 				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.Life = 100f;
 				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.LifeMaxBase = 90f;
-				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 17280;
@@ -22328,7 +22328,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S12_2_fight_magicion_override_glasgavelenII.Color3 = 0x808080;
 				C3G9S1_S12_2_fight_magicion_override_glasgavelenII.Life = 1049f;
 				C3G9S1_S12_2_fight_magicion_override_glasgavelenII.LifeMaxBase = 999f;
-				C3G9S1_S12_2_fight_magicion_override_glasgavelenII.LifeMaxMod = 50f;
+
 
 				return _C3G9S1_S12_2_fight_magicion_override_glasgavelenII;
 			}
@@ -22386,7 +22386,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S12_1_fight_glasgavelen_override_glasgavelenII.Color3 = 0x808080;
 				C3G9S1_S12_1_fight_glasgavelen_override_glasgavelenII.Life = 1049f;
 				C3G9S1_S12_1_fight_glasgavelen_override_glasgavelenII.LifeMaxBase = 999f;
-				C3G9S1_S12_1_fight_glasgavelen_override_glasgavelenII.LifeMaxMod = 50f;
+
 
 				return _C3G9S1_S12_1_fight_glasgavelen_override_glasgavelenII;
 			}
@@ -22547,7 +22547,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S11_kill_leymore_override_Cragcow.Color3 = 0x808080;
 				C3G9S1_S11_kill_leymore_override_Cragcow.Life = 100f;
 				C3G9S1_S11_kill_leymore_override_Cragcow.LifeMaxBase = 90f;
-				C3G9S1_S11_kill_leymore_override_Cragcow.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S11_kill_leymore_override_Cragcow;
 			}
@@ -22652,7 +22652,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_4_lose_player_override_Tethra.Color3 = 0x808080;
 				C3G9S1_S9_4_lose_player_override_Tethra.Life = 185f;
 				C3G9S1_S9_4_lose_player_override_Tethra.LifeMaxBase = 175f;
-				C3G9S1_S9_4_lose_player_override_Tethra.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 10855845;
 				item0.Info.ColorB = 12156201;
@@ -22748,7 +22748,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_3_enter_the_tethra_override_Tethra.Color3 = 0x808080;
 				C3G9S1_S9_3_enter_the_tethra_override_Tethra.Life = 185f;
 				C3G9S1_S9_3_enter_the_tethra_override_Tethra.LifeMaxBase = 175f;
-				C3G9S1_S9_3_enter_the_tethra_override_Tethra.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40954);
 				item0.Info.ColorA = 10855845;
 				item0.Info.ColorB = 12156201;
@@ -22788,7 +22788,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_3_enter_the_tethra_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S9_3_enter_the_tethra_override_jaco_lancer.Life = 100f;
 				C3G9S1_S9_3_enter_the_tethra_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S9_3_enter_the_tethra_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -22822,7 +22822,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Life = 185f;
 				C3G9S1_S9_3_enter_the_tethra_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -22862,7 +22862,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Life = 185f;
 				C3G9S1_S9_3_enter_the_tethra_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -22989,7 +22989,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_2_meet_leymore_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S9_2_meet_leymore_override_jaco_lancer.Life = 100f;
 				C3G9S1_S9_2_meet_leymore_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S9_2_meet_leymore_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -23023,7 +23023,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_2_meet_leymore_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S9_2_meet_leymore_override_FighterA.Life = 185f;
 				C3G9S1_S9_2_meet_leymore_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S9_2_meet_leymore_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -23063,7 +23063,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_2_meet_leymore_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S9_2_meet_leymore_override_FighterB.Life = 185f;
 				C3G9S1_S9_2_meet_leymore_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S9_2_meet_leymore_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -23190,7 +23190,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_1_leymore_with_enemy_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S9_1_leymore_with_enemy_override_jaco_lancer.Life = 100f;
 				C3G9S1_S9_1_leymore_with_enemy_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S9_1_leymore_with_enemy_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -23224,7 +23224,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Life = 185f;
 				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -23264,7 +23264,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Life = 185f;
 				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -23331,7 +23331,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.Color3 = 0x808080;
 				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.Life = 3010f;
 				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.LifeMaxBase = 3000f;
-				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(15166);
 				item0.Info.ColorA = 7472145;
 				item0.Info.ColorB = 15975003;
@@ -23510,7 +23510,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S7_2_jenna_fail_override_c3_glasgavelen.Color3 = 0x3B2121;
 				C3G9S1_S7_2_jenna_fail_override_c3_glasgavelen.Life = 1049f;
 				C3G9S1_S7_2_jenna_fail_override_c3_glasgavelen.LifeMaxBase = 999f;
-				C3G9S1_S7_2_jenna_fail_override_c3_glasgavelen.LifeMaxMod = 50f;
+
 
 				return _C3G9S1_S7_2_jenna_fail_override_c3_glasgavelen;
 			}
@@ -24121,7 +24121,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S5_2_use_ice_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S5_2_use_ice_override_jaco_lancer.Life = 100f;
 				C3G9S1_S5_2_use_ice_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S5_2_use_ice_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -24155,7 +24155,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S5_2_use_ice_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S5_2_use_ice_override_FighterB.Life = 185f;
 				C3G9S1_S5_2_use_ice_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S5_2_use_ice_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -24195,7 +24195,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S5_2_use_ice_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S5_2_use_ice_override_FighterA.Life = 185f;
 				C3G9S1_S5_2_use_ice_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S5_2_use_ice_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -24809,7 +24809,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Color3 = 0x808080;
 				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Life = 185f;
 				C3G9S1_S5_1_first_meet_jenna_override_FighterB.LifeMaxBase = 175f;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterB.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -24849,7 +24849,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S5_1_first_meet_jenna_override_jaco_lancer.Color3 = 0x808080;
 				C3G9S1_S5_1_first_meet_jenna_override_jaco_lancer.Life = 100f;
 				C3G9S1_S5_1_first_meet_jenna_override_jaco_lancer.LifeMaxBase = 90f;
-				C3G9S1_S5_1_first_meet_jenna_override_jaco_lancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 16105564;
@@ -24883,7 +24883,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Color3 = 0x808080;
 				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Life = 185f;
 				C3G9S1_S5_1_first_meet_jenna_override_FighterA.LifeMaxBase = 175f;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterA.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -24923,7 +24923,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S4_help_fallon_override_glasgavelenII.Color3 = 0x808080;
 				C3G9S1_S4_help_fallon_override_glasgavelenII.Life = 1049f;
 				C3G9S1_S4_help_fallon_override_glasgavelenII.LifeMaxBase = 999f;
-				C3G9S1_S4_help_fallon_override_glasgavelenII.LifeMaxMod = 50f;
+
 
 				return _C3G9S1_S4_help_fallon_override_glasgavelenII;
 			}
@@ -25393,7 +25393,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S3_2_appear_glasgavelen_override_Hell_CowA.Color3 = 0x808080;
 				C3G9S1_S3_2_appear_glasgavelen_override_Hell_CowA.Life = 185f;
 				C3G9S1_S3_2_appear_glasgavelen_override_Hell_CowA.LifeMaxBase = 175f;
-				C3G9S1_S3_2_appear_glasgavelen_override_Hell_CowA.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S3_2_appear_glasgavelen_override_Hell_CowA;
 			}
@@ -25420,7 +25420,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S3_2_appear_glasgavelen_override_c3_glasgavelen.Color3 = 0x3B2121;
 				C3G9S1_S3_2_appear_glasgavelen_override_c3_glasgavelen.Life = 1049f;
 				C3G9S1_S3_2_appear_glasgavelen_override_c3_glasgavelen.LifeMaxBase = 999f;
-				C3G9S1_S3_2_appear_glasgavelen_override_c3_glasgavelen.LifeMaxMod = 50f;
+
 
 				return _C3G9S1_S3_2_appear_glasgavelen_override_c3_glasgavelen;
 			}
@@ -25559,7 +25559,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S3_1_shadow_world_override_DarkWildBoarA.Color3 = 0x808080;
 				C3G9S1_S3_1_shadow_world_override_DarkWildBoarA.Life = 185f;
 				C3G9S1_S3_1_shadow_world_override_DarkWildBoarA.LifeMaxBase = 175f;
-				C3G9S1_S3_1_shadow_world_override_DarkWildBoarA.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S3_1_shadow_world_override_DarkWildBoarA;
 			}
@@ -25642,7 +25642,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S2_2_ru_save_us_override_Lugh3.Color3 = 0x808080;
 				C3G9S1_S2_2_ru_save_us_override_Lugh3.Life = 185f;
 				C3G9S1_S2_2_ru_save_us_override_Lugh3.LifeMaxBase = 175f;
-				C3G9S1_S2_2_ru_save_us_override_Lugh3.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40907);
 				item0.Info.ColorA = 9670035;
 				item0.Info.ColorB = 8813702;
@@ -25676,7 +25676,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S2_2_ru_save_us_override_dungeon_unicorn.Color3 = 0x808080;
 				C3G9S1_S2_2_ru_save_us_override_dungeon_unicorn.Life = 1009f;
 				C3G9S1_S2_2_ru_save_us_override_dungeon_unicorn.LifeMaxBase = 999f;
-				C3G9S1_S2_2_ru_save_us_override_dungeon_unicorn.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S2_2_ru_save_us_override_dungeon_unicorn;
 			}
@@ -26254,7 +26254,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Lower = 0.8f;
 				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Life = 1009f;
 				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.LifeMaxBase = 999f;
-				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(4950);
 				item0.Info.ColorA = 22095;
 				item0.Info.ColorB = 8465490;
@@ -26318,7 +26318,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.Lower = 1f;
 				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.Life = 100f;
 				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.LifeMaxBase = 90f;
-				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40007);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 7629908;
@@ -26690,7 +26690,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S2_1_fallon_attack_override_black_wizard.Lower = 1f;
 				C3G9S1_S2_1_fallon_attack_override_black_wizard.Life = 1210f;
 				C3G9S1_S2_1_fallon_attack_override_black_wizard.LifeMaxBase = 1200f;
-				C3G9S1_S2_1_fallon_attack_override_black_wizard.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(4906);
 				item0.Info.ColorA = 15718376;
 				item0.Info.ColorB = 16361797;
@@ -26742,7 +26742,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.Lower = 1f;
 				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.Life = 100f;
 				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.LifeMaxBase = 90f;
-				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40007);
 				item0.Info.ColorA = 12237498;
 				item0.Info.ColorB = 7629908;
@@ -26781,7 +26781,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G9S1_S1_call_of_adniel_override_adniel.Color2 = 0x808080;
 				C3G9S1_S1_call_of_adniel_override_adniel.Color3 = 0x808080;
 				C3G9S1_S1_call_of_adniel_override_adniel.Life = 10f;
-				C3G9S1_S1_call_of_adniel_override_adniel.LifeMaxMod = 10f;
+
 
 				return _C3G9S1_S1_call_of_adniel_override_adniel;
 			}
@@ -27027,7 +27027,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S14_1_doubleganger_override_elatha_rp.Color3 = 0x808080;
 				C3G10_S14_1_doubleganger_override_elatha_rp.Life = 516f;
 				C3G10_S14_1_doubleganger_override_elatha_rp.LifeMaxBase = 386f;
-				C3G10_S14_1_doubleganger_override_elatha_rp.LifeMaxMod = 130f;
+
 				var item0 = new MabiItem(4920);
 				item0.Info.ColorA = 2818088;
 				item0.Info.ColorB = 1254981;
@@ -28292,7 +28292,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S13_2_Neamhain_entrance_override_bonefighter.Color2 = 0xFFFFFF;
 				C3G10_S13_2_Neamhain_entrance_override_bonefighter.Life = 190f;
 				C3G10_S13_2_Neamhain_entrance_override_bonefighter.LifeMaxBase = 180f;
-				C3G10_S13_2_Neamhain_entrance_override_bonefighter.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -28331,7 +28331,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S13_2_Neamhain_entrance_override_bonearcher.Color2 = 0xFFFFFF;
 				C3G10_S13_2_Neamhain_entrance_override_bonearcher.Life = 100f;
 				C3G10_S13_2_Neamhain_entrance_override_bonearcher.LifeMaxBase = 90f;
-				C3G10_S13_2_Neamhain_entrance_override_bonearcher.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 10467295;
@@ -28372,7 +28372,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S13_2_Neamhain_entrance_override_bonelancer.Color2 = 0xFFFFFF;
 				C3G10_S13_2_Neamhain_entrance_override_bonelancer.Life = 140f;
 				C3G10_S13_2_Neamhain_entrance_override_bonelancer.LifeMaxBase = 130f;
-				C3G10_S13_2_Neamhain_entrance_override_bonelancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 11579568;
 				item0.Info.ColorB = 12240082;
@@ -28404,7 +28404,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S13_2_Neamhain_entrance_override_golem.Color1 = 0x808080;
 				C3G10_S13_2_Neamhain_entrance_override_golem.Life = 510f;
 				C3G10_S13_2_Neamhain_entrance_override_golem.LifeMaxBase = 500f;
-				C3G10_S13_2_Neamhain_entrance_override_golem.LifeMaxMod = 10f;
+
 
 				return _C3G10_S13_2_Neamhain_entrance_override_golem;
 			}
@@ -28431,7 +28431,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S13_2_Neamhain_entrance_override_mata.Color3 = 0x808080;
 				C3G10_S13_2_Neamhain_entrance_override_mata.Life = 1009f;
 				C3G10_S13_2_Neamhain_entrance_override_mata.LifeMaxBase = 999f;
-				C3G10_S13_2_Neamhain_entrance_override_mata.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40966);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -28471,7 +28471,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S13_2_Neamhain_entrance_override_shadowghost.Color3 = 0x808080;
 				C3G10_S13_2_Neamhain_entrance_override_shadowghost.Life = 810f;
 				C3G10_S13_2_Neamhain_entrance_override_shadowghost.LifeMaxBase = 800f;
-				C3G10_S13_2_Neamhain_entrance_override_shadowghost.LifeMaxMod = 10f;
+
 
 				return _C3G10_S13_2_Neamhain_entrance_override_shadowghost;
 			}
@@ -28498,7 +28498,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S12_3_Neamhain_secret_override_mata.Color3 = 0x808080;
 				C3G10_S12_3_Neamhain_secret_override_mata.Life = 1009f;
 				C3G10_S12_3_Neamhain_secret_override_mata.LifeMaxBase = 999f;
-				C3G10_S12_3_Neamhain_secret_override_mata.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40966);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -28671,7 +28671,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S11_2_shdow_cai_override_defender_of_ruins_horse.Color3 = 0x808080;
 				C3G10_S11_2_shdow_cai_override_defender_of_ruins_horse.Life = 150f;
 				C3G10_S11_2_shdow_cai_override_defender_of_ruins_horse.LifeMaxBase = 100f;
-				C3G10_S11_2_shdow_cai_override_defender_of_ruins_horse.LifeMaxMod = 50f;
+
 
 				return _C3G10_S11_2_shdow_cai_override_defender_of_ruins_horse;
 			}
@@ -28699,7 +28699,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Color3 = 0x808080;
 				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Life = 110f;
 				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.LifeMaxBase = 100f;
-				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40014);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
@@ -28820,7 +28820,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Color3 = 0x808080;
 				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Life = 290f;
 				C3G10_S10_4_voight_loveaffair_outro_override_arneng.LifeMaxBase = 190f;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 16637651;
 				item0.Info.ColorB = 441825;
@@ -29013,7 +29013,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Color3 = 0x808080;
 				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Life = 290f;
 				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.LifeMaxBase = 190f;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 16637651;
 				item0.Info.ColorB = 441825;
@@ -29206,7 +29206,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Color3 = 0x808080;
 				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Life = 290f;
 				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.LifeMaxBase = 190f;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.LifeMaxMod = 100f;
+
 				var item0 = new MabiItem(4900);
 				item0.Info.ColorA = 16637651;
 				item0.Info.ColorB = 441825;
@@ -29290,7 +29290,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S8_darklord_elatha_override_elatha_rp.Color3 = 0x808080;
 				C3G10_S8_darklord_elatha_override_elatha_rp.Life = 516f;
 				C3G10_S8_darklord_elatha_override_elatha_rp.LifeMaxBase = 386f;
-				C3G10_S8_darklord_elatha_override_elatha_rp.LifeMaxMod = 130f;
+
 				var item0 = new MabiItem(4920);
 				item0.Info.ColorA = 2818088;
 				item0.Info.ColorB = 1254981;
@@ -29354,7 +29354,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S8_darklord_elatha_override_dark_lord.Color3 = 0x808080;
 				C3G10_S8_darklord_elatha_override_dark_lord.Life = 30f;
 				C3G10_S8_darklord_elatha_override_dark_lord.LifeMaxBase = 20f;
-				C3G10_S8_darklord_elatha_override_dark_lord.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(23005);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 16519;
@@ -29741,7 +29741,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S3_3_shadow_witness_override_bonelancer.Color2 = 0xFFFFFF;
 				C3G10_S3_3_shadow_witness_override_bonelancer.Life = 140f;
 				C3G10_S3_3_shadow_witness_override_bonelancer.LifeMaxBase = 130f;
-				C3G10_S3_3_shadow_witness_override_bonelancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 11579568;
 				item0.Info.ColorB = 12240082;
@@ -29774,7 +29774,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S3_3_shadow_witness_override_bonefighter.Color2 = 0xFFFFFF;
 				C3G10_S3_3_shadow_witness_override_bonefighter.Life = 190f;
 				C3G10_S3_3_shadow_witness_override_bonefighter.LifeMaxBase = 180f;
-				C3G10_S3_3_shadow_witness_override_bonefighter.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -29813,7 +29813,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G10_S3_3_shadow_witness_override_bonearcher.Color2 = 0xFFFFFF;
 				C3G10_S3_3_shadow_witness_override_bonearcher.Life = 100f;
 				C3G10_S3_3_shadow_witness_override_bonearcher.LifeMaxBase = 90f;
-				C3G10_S3_3_shadow_witness_override_bonearcher.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40257);
 				item0.Info.ColorA = 7629908;
 				item0.Info.ColorB = 10467295;
@@ -30004,7 +30004,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S9_2_shadowknight_returns_override_shadow_knight.Color1 = 0x808080;
 				C3G11_S9_2_shadowknight_returns_override_shadow_knight.Life = 3510f;
 				C3G11_S9_2_shadowknight_returns_override_shadow_knight.LifeMaxBase = 3500f;
-				C3G11_S9_2_shadowknight_returns_override_shadow_knight.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40310);
 				item0.Info.ColorA = 12500669;
 				item0.Info.ColorB = 4474937;
@@ -30037,7 +30037,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S9_2_shadowknight_returns_override_python_army.Color2 = 0x808080;
 				C3G11_S9_2_shadowknight_returns_override_python_army.Life = 190f;
 				C3G11_S9_2_shadowknight_returns_override_python_army.LifeMaxBase = 180f;
-				C3G11_S9_2_shadowknight_returns_override_python_army.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -30508,7 +30508,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S8_3_shadowknight_retreat_override_shadow_knight.Color1 = 0x808080;
 				C3G11_S8_3_shadowknight_retreat_override_shadow_knight.Life = 3510f;
 				C3G11_S8_3_shadowknight_retreat_override_shadow_knight.LifeMaxBase = 3500f;
-				C3G11_S8_3_shadowknight_retreat_override_shadow_knight.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40310);
 				item0.Info.ColorA = 12500669;
 				item0.Info.ColorB = 4474937;
@@ -30573,7 +30573,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S8_3_shadowknight_retreat_override_python_army.Color2 = 0x808080;
 				C3G11_S8_3_shadowknight_retreat_override_python_army.Life = 190f;
 				C3G11_S8_3_shadowknight_retreat_override_python_army.LifeMaxBase = 180f;
-				C3G11_S8_3_shadowknight_retreat_override_python_army.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -30611,7 +30611,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S8_1_shadowknight_truth_override_shadow_knight_mask.Color1 = 0x808080;
 				C3G11_S8_1_shadowknight_truth_override_shadow_knight_mask.Life = 810f;
 				C3G11_S8_1_shadowknight_truth_override_shadow_knight_mask.LifeMaxBase = 800f;
-				C3G11_S8_1_shadowknight_truth_override_shadow_knight_mask.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40310);
 				item0.Info.ColorA = 12500669;
 				item0.Info.ColorB = 4474937;
@@ -30643,7 +30643,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S8_1_shadowknight_truth_override_shadow_knight.Color1 = 0x808080;
 				C3G11_S8_1_shadowknight_truth_override_shadow_knight.Life = 3510f;
 				C3G11_S8_1_shadowknight_truth_override_shadow_knight.LifeMaxBase = 3500f;
-				C3G11_S8_1_shadowknight_truth_override_shadow_knight.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40310);
 				item0.Info.ColorA = 12500669;
 				item0.Info.ColorB = 4474937;
@@ -30676,7 +30676,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S8_1_shadowknight_truth_override_python_army.Color2 = 0x808080;
 				C3G11_S8_1_shadowknight_truth_override_python_army.Life = 190f;
 				C3G11_S8_1_shadowknight_truth_override_python_army.LifeMaxBase = 180f;
-				C3G11_S8_1_shadowknight_truth_override_python_army.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -31560,7 +31560,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S4_pythonknight_advent_override_shadow_knight_mask.Color1 = 0x808080;
 				C3G11_S4_pythonknight_advent_override_shadow_knight_mask.Life = 810f;
 				C3G11_S4_pythonknight_advent_override_shadow_knight_mask.LifeMaxBase = 800f;
-				C3G11_S4_pythonknight_advent_override_shadow_knight_mask.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40310);
 				item0.Info.ColorA = 12500669;
 				item0.Info.ColorB = 4474937;
@@ -31594,7 +31594,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S4_pythonknight_advent_override_mata.Color3 = 0x808080;
 				C3G11_S4_pythonknight_advent_override_mata.Life = 1009f;
 				C3G11_S4_pythonknight_advent_override_mata.LifeMaxBase = 999f;
-				C3G11_S4_pythonknight_advent_override_mata.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40966);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -31633,7 +31633,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S4_pythonknight_advent_override_bonefighter.Color2 = 0xFFFFFF;
 				C3G11_S4_pythonknight_advent_override_bonefighter.Life = 190f;
 				C3G11_S4_pythonknight_advent_override_bonefighter.LifeMaxBase = 180f;
-				C3G11_S4_pythonknight_advent_override_bonefighter.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40261);
 				item0.Info.ColorA = 8421504;
 				item0.Info.ColorB = 8421504;
@@ -31672,7 +31672,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S4_pythonknight_advent_override_bonelancer.Color2 = 0xFFFFFF;
 				C3G11_S4_pythonknight_advent_override_bonelancer.Life = 140f;
 				C3G11_S4_pythonknight_advent_override_bonelancer.LifeMaxBase = 130f;
-				C3G11_S4_pythonknight_advent_override_bonelancer.LifeMaxMod = 10f;
+
 				var item0 = new MabiItem(40256);
 				item0.Info.ColorA = 11579568;
 				item0.Info.ColorB = 12240082;
@@ -31958,7 +31958,7 @@ public class CrystalBallBaseScript : NPCScript
 				C3G11_S1_2_meeting_buchanan_override_rat.Color3 = 0x333333;
 				C3G11_S1_2_meeting_buchanan_override_rat.Life = 80f;
 				C3G11_S1_2_meeting_buchanan_override_rat.LifeMaxBase = 70f;
-				C3G11_S1_2_meeting_buchanan_override_rat.LifeMaxMod = 10f;
+
 
 				return _C3G11_S1_2_meeting_buchanan_override_rat;
 			}
