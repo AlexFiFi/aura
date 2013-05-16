@@ -220,7 +220,7 @@ namespace Aura.World.Skills
 
 			// Something's messed up here, if the skill isn't explicitly
 			// canceled the client gets confused.
-			WorldManager.Instance.CreatureSkillCancel(attacker);
+			//WorldManager.Instance.CreatureSkillCancel(attacker);
 
 			SkillHelper.GiveSkillExp(attacker, skill, 20);
 

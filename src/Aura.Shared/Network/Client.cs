@@ -33,7 +33,7 @@ namespace Aura.Shared.Network
 		/// Encodes array if necessary and sends it to the client.
 		/// </summary>
 		/// <param name="raw"></param>
-		public void Send(byte[] raw)
+		public virtual void Send(byte[] raw)
 		{
 			if (this.State == ClientState.Dead)
 				return;
@@ -64,7 +64,7 @@ namespace Aura.Shared.Network
 		/// Builts packet and sends it.
 		/// </summary>
 		/// <param name="packet"></param>
-		public void Send(MabiPacket packet)
+		public virtual void Send(MabiPacket packet)
 		{
 			//Logger.Debug(packet);
 

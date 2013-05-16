@@ -35,8 +35,7 @@ namespace Aura.World.Skills
 				skill.Info.Experience += (int)exp * 1000;
 				if (skill.IsRankable)
 					skill.Info.Flag |= (ushort)SkillFlags.Rankable;
-				if (creature.Client != null)
-					creature.Client.Send(new MabiPacket(Op.SkillTrainingUp, creature.Id).PutBin(skill.Info).PutFloat(exp).PutByte(1).PutString("" /* (Specialized Skill Bonus: x2) */));
+				creature.Client.Send(new MabiPacket(Op.SkillTrainingUp, creature.Id).PutBin(skill.Info).PutFloat(exp).PutByte(1).PutString("" /* (Specialized Skill Bonus: x2) */));
 			}
 		}
 

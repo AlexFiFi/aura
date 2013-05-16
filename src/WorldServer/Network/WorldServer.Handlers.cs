@@ -526,8 +526,8 @@ namespace Aura.World.Network
 			}
 
 			var targetName = packet.GetString();
-			var target = WorldManager.Instance.GetCharacterByName(targetName);
-			if (target == null || target.Client == null)
+			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
+			if (target == null)
 			{
 				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
 				return;
@@ -581,8 +581,8 @@ namespace Aura.World.Network
 			}
 
 			var targetName = packet.GetString();
-			var target = WorldManager.Instance.GetCharacterByName(targetName);
-			if (target == null || target.Client == null)
+			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
+			if (target == null)
 			{
 				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
 				return;
@@ -603,8 +603,8 @@ namespace Aura.World.Network
 			}
 
 			var targetName = packet.GetString();
-			var target = WorldManager.Instance.GetCharacterByName(targetName);
-			if (target == null || target.Client == null || !(target.Client is WorldClient))
+			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
+			if (target == null)
 			{
 				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
 				return;
@@ -1611,7 +1611,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			creature.ActiveSkillId = skill.Info.Id;
+			creature.ActiveSkillId = skill.Id;
 
 			// Save cast time when preparation is finished.
 			var castTime = WorldConf.DynamicCombat ? skill.RankInfo.NewLoadTime : skill.RankInfo.LoadTime;
@@ -1711,7 +1711,7 @@ namespace Aura.World.Network
 			var result = handler.Complete(creature, skill, packet);
 
 			if (creature.ActiveSkillStacks < 1)
-				creature.ActiveSkillId = 0;
+				creature.ActiveSkillId = SkillConst.None;
 
 			//if ((result & SkillResults.Okay) == 0 || (result & SkillResults.NoReply) != 0)
 			//{
@@ -3362,7 +3362,7 @@ namespace Aura.World.Network
 			client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id)
 			.PutByte(1)
 			.PutLong(targetId)
-			.PutShort(creature.ActiveSkillId)
+			.PutShort((ushort)creature.ActiveSkillId)
 			.PutByte(0));
 		}
 
@@ -3378,18 +3378,13 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-
 			// Wave parameters for the client's "color pattern change algo".
 			var p = new MabiPacket(Op.DyePaletteReqR, creature.Id);
 			p.PutByte(true);
-			//p.PutInt(62);
-			//p.PutInt(123);
-			//p.PutInt(6);
-			//p.PutInt(238);
-			p.PutInt(0);
-			p.PutInt(0);
-			p.PutInt(0);
-			p.PutInt(0);
+			p.PutInt(0); //p.PutInt(62);
+			p.PutInt(0); //p.PutInt(123);
+			p.PutInt(0); //p.PutInt(6);
+			p.PutInt(0); //p.PutInt(238);
 			client.Send(p);
 		}
 

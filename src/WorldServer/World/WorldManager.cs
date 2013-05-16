@@ -511,16 +511,16 @@ namespace Aura.World.World
 				if (!_creatures.Contains(creature))
 				{
 					_creatures.Add(creature);
-					if (creature.Client != null)
+					if (creature is MabiPC)
 						this.ActivateMobs(creature, creature.GetPosition(), creature.GetPosition());
 				}
 			}
-			if (creature.Client != null)
+			if (creature.Client is WorldClient)
 			{
 				lock (_clients)
 				{
-					if (!_clients.Contains((WorldClient)creature.Client))
-						_clients.Add((WorldClient)creature.Client);
+					if (!_clients.Contains(creature.Client as WorldClient))
+						_clients.Add(creature.Client as WorldClient);
 				}
 			}
 
@@ -560,11 +560,11 @@ namespace Aura.World.World
 			{
 				_creatures.Remove(creature);
 			}
-			if (creature.Client != null)
+			if (creature.Client is WorldClient)
 			{
 				lock (_clients)
 				{
-					_clients.Remove((WorldClient)creature.Client);
+					_clients.Remove(creature.Client as WorldClient);
 				}
 			}
 
@@ -882,7 +882,7 @@ namespace Aura.World.World
 
 			this.Broadcast(p, SendTargets.Range, creature);
 
-			if (creature.Client != null)
+			if (creature is MabiPC)
 				ActivateMobs(creature, from, to);
 
 			ServerEvents.Instance.OnCreatureMoves(creature, new MoveEventArgs(from, to));
@@ -965,8 +965,6 @@ namespace Aura.World.World
 		public void CreatureItemUpdate(object sender, ItemUpdateEventArgs ie)
 		{
 			var creature = sender as MabiCreature;
-			if (creature.Client == null)
-				return;
 
 			if (!ie.IsNew)
 			{
@@ -990,14 +988,13 @@ namespace Aura.World.World
 		public void CreatureSkillUpdate(object sender, SkillUpdateEventArgs args)
 		{
 			var creature = sender as MabiCreature;
-			if (args.IsNew && creature.Client != null)
+			if (args.IsNew)
 			{
 				creature.Client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(args.Skill.Info));
 			}
 			else
 			{
-				if (creature.Client != null)
-					creature.Client.Send(new MabiPacket(Op.SkillRankUp, creature.Id).PutByte(1).PutBin(args.Skill.Info).PutFloat(0));
+				creature.Client.Send(new MabiPacket(Op.SkillRankUp, creature.Id).PutByte(1).PutBin(args.Skill.Info).PutFloat(0));
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, creature.Id).PutShorts(args.Skill.Info.Id, 1), SendTargets.Range, creature);
 			}
 		}
@@ -1032,19 +1029,16 @@ namespace Aura.World.World
 			, SendTargets.Range, creature);
 
 			// Private
-			if (creature.Client != null)
-			{
-				creature.Client.Send(
-					PacketCreator.StatUpdate(creature, StatUpdateType.Private,
-						Stat.Life, Stat.LifeInjured, Stat.LifeMax, Stat.LifeMaxMod,
-						Stat.Mana, Stat.ManaMax, Stat.ManaMaxMod,
-						Stat.Stamina, Stat.Food, Stat.StaminaMax, Stat.StaminaMaxMod,
-						Stat.Str, Stat.Dex, Stat.Int, Stat.Luck, Stat.Will,
-						Stat.StrMod, Stat.DexMod, Stat.IntMod, Stat.LuckMod, Stat.WillMod,
-						Stat.Level, Stat.Experience, Stat.AbilityPoints
-					)
-				);
-			}
+			creature.Client.Send(
+				PacketCreator.StatUpdate(creature, StatUpdateType.Private,
+					Stat.Life, Stat.LifeInjured, Stat.LifeMax, Stat.LifeMaxMod,
+					Stat.Mana, Stat.ManaMax, Stat.ManaMaxMod,
+					Stat.Stamina, Stat.Food, Stat.StaminaMax, Stat.StaminaMaxMod,
+					Stat.Str, Stat.Dex, Stat.Int, Stat.Luck, Stat.Will,
+					Stat.StrMod, Stat.DexMod, Stat.IntMod, Stat.LuckMod, Stat.WillMod,
+					Stat.Level, Stat.Experience, Stat.AbilityPoints
+				)
+			);
 		}
 
 		public void CreatureStatsUpdate(object sender, EntityEventArgs e)
@@ -1062,15 +1056,12 @@ namespace Aura.World.World
 
 			this.Broadcast(PacketCreator.StatUpdate(creature, StatUpdateType.Public, Stat.LifeMax), SendTargets.Range, creature);
 
-			if (creature.Client != null)
-			{
-				creature.Client.Send(
-					PacketCreator.StatUpdate(creature, StatUpdateType.Private,
-						Stat.LifeMax, Stat.ManaMax, Stat.StaminaMax,
-						Stat.Str, Stat.Int, Stat.Dex, Stat.Will, Stat.Luck
-					)
-				);
-			}
+			creature.Client.Send(
+				PacketCreator.StatUpdate(creature, StatUpdateType.Private,
+					Stat.LifeMax, Stat.ManaMax, Stat.StaminaMax,
+					Stat.Str, Stat.Int, Stat.Dex, Stat.Will, Stat.Luck
+				)
+			);
 		}
 
 		public void VehicleBind(MabiCreature creature, MabiCreature vehicle)
@@ -1133,10 +1124,10 @@ namespace Aura.World.World
 
 		public void CreatureSkillCancel(MabiCreature creature)
 		{
-			if (creature.ActiveSkillId > 0)
+			if (creature.ActiveSkillId != SkillConst.None)
 			{
 				MabiSkill skill; SkillHandler handler;
-				SkillManager.CheckOutSkill(creature, creature.ActiveSkillId, out skill, out handler);
+				SkillManager.CheckOutSkill(creature, (ushort)creature.ActiveSkillId, out skill, out handler);
 				if (skill == null || handler == null)
 					return;
 
@@ -1149,7 +1140,7 @@ namespace Aura.World.World
 				creature.Client.SendSkillCancel(creature);
 			}
 
-			creature.ActiveSkillId = 0;
+			creature.ActiveSkillId = SkillConst.None;
 			creature.ActiveSkillStacks = 0;
 		}
 
@@ -1287,7 +1278,7 @@ namespace Aura.World.World
 			// Remove finisher?
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, creature.Id).PutLong(0), SendTargets.Range, creature);
 
-			if (creature.ActiveSkillId > 0)
+			if (creature.ActiveSkillId != SkillConst.None)
 				this.CreatureSkillCancel(creature);
 
 			if (creature.Owner != null)

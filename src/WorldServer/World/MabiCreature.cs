@@ -9,6 +9,7 @@ using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.World.Events;
+using Aura.World.Network;
 using Aura.World.Player;
 using Aura.World.Skills;
 
@@ -18,7 +19,7 @@ namespace Aura.World.World
 	{
 		public const float HandBalance = 0.3f;
 
-		public Client Client = null;
+		public Client Client = new DummyClient();
 
 		public string Name;
 
@@ -54,7 +55,7 @@ namespace Aura.World.World
 
 		public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
 		//public MabiSkill ActiveSkill;
-		public ushort ActiveSkillId;
+		public SkillConst ActiveSkillId;
 		public byte ActiveSkillStacks;
 		public DateTime ActiveSkillPrepareEnd;
 		public uint SoulCount;
@@ -329,7 +330,7 @@ namespace Aura.World.World
 				if (defenseSkill != null)
 				{
 					result += defenseSkill.RankInfo.Var1;
-					if (this.ActiveSkillId == (ushort)SkillConst.Defense)
+					if (this.ActiveSkillId == SkillConst.Defense)
 						result += defenseSkill.RankInfo.Var3;
 				}
 
@@ -360,7 +361,7 @@ namespace Aura.World.World
 
 				// Add def bonus if active
 				var defenseSkill = this.GetSkill(SkillConst.Defense);
-				if (defenseSkill != null && this.ActiveSkillId == (ushort)SkillConst.Defense)
+				if (defenseSkill != null && this.ActiveSkillId == SkillConst.Defense)
 					result += defenseSkill.RankInfo.Var4;
 
 				// Add shield
@@ -401,7 +402,7 @@ namespace Aura.World.World
 		public bool Has(CreatureConditionC condition) { return ((this.Conditions.C & condition) != 0); }
 		public bool Has(CreatureConditionD condition) { return ((this.Conditions.D & condition) != 0); }
 
-		public bool HasSkillLoaded(SkillConst skill) { return this.ActiveSkillId == (ushort)skill; }
+		public bool HasSkillLoaded(SkillConst skill) { return this.ActiveSkillId == skill; }
 
 		/// <summary>
 		/// Returns whether the creature has the given state, short for
@@ -696,9 +697,6 @@ namespace Aura.World.World
 
 		public void UpdateTalentInfo()
 		{
-			if (this.Client == null)
-				return;
-
 			var p = new MabiPacket(Op.TalentInfoUpdate, this.Id);
 			p.PutByte(1);
 

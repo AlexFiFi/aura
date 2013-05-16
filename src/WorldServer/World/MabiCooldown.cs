@@ -31,8 +31,7 @@ namespace Aura.World.World
 
 		public void SendErrorMessage(MabiCreature creature)
 		{
-			if (creature.Client != null)
-				this.SendErrorMessage(creature.Client);
+			this.SendErrorMessage(creature.Client);
 		}
 
 		public void SendErrorMessage(Client client)

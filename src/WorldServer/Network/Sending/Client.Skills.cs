@@ -236,7 +236,7 @@ namespace Aura.World.Network
 		{
 			var p = new MabiPacket(Op.SkillStackSet, creature.Id);
 			p.PutBytes(creature.ActiveSkillStacks, 1);
-			p.PutShort(creature.ActiveSkillId);
+			p.PutShort((ushort)creature.ActiveSkillId);
 
 			client.Send(p);
 		}

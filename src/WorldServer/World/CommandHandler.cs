@@ -861,7 +861,7 @@ namespace Aura.World.World
 			{
 				var characterName = args[3];
 
-				target = WorldManager.Instance.GetCharacterByName(characterName);
+				target = WorldManager.Instance.GetCharacterByName(characterName) as MabiPC;
 				if (target == null)
 				{
 					client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.addcard_char"), characterName)); // Character '{0}' not found.
@@ -869,7 +869,7 @@ namespace Aura.World.World
 				}
 			}
 
-			if (target != null && target.Client != null && target.Client is WorldClient)
+			if (target != null)
 			{
 				var type = args[1];
 

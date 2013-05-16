@@ -66,16 +66,13 @@ namespace Aura.World.Player
 			else
 				this.Titles.Add(title, usable);
 
-			if (this.Client != null)
+			if (usable)
 			{
-				if (usable)
-				{
-					this.Client.Send(new MabiPacket(Op.AddTitle, this.Id).PutShort(title).PutInt(0));
-				}
-				else
-				{
-					this.Client.Send(new MabiPacket(Op.AddTitleKnowledge, this.Id).PutShort(title).PutInt(0));
-				}
+				this.Client.Send(new MabiPacket(Op.AddTitle, this.Id).PutShort(title).PutInt(0));
+			}
+			else
+			{
+				this.Client.Send(new MabiPacket(Op.AddTitleKnowledge, this.Id).PutShort(title).PutInt(0));
 			}
 		}
 
@@ -477,7 +474,7 @@ namespace Aura.World.Player
 
 				// Talent titles
 				// ----------------------------------------------------------
-				var titles = this.GetTalentTitles(); 
+				var titles = this.GetTalentTitles();
 
 				packet.PutByte((byte)titles.Count);               // Count
 				foreach (var title in titles)

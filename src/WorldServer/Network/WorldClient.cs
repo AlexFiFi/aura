@@ -113,4 +113,16 @@ namespace Aura.World.Network
 			this.Send(new MabiPacket(Op.WarpUnk3, this.Character.Id).PutLong(0).PutInt(0));
 		}
 	}
+
+	/// <summary>
+	/// Used as default client, so we don't have to worry about null checks.
+	/// </summary>
+	public class DummyClient : Client
+	{
+		public override void Send(byte[] buffer)
+		{ }
+
+		public override void Send(MabiPacket packet)
+		{ }
+	}
 }

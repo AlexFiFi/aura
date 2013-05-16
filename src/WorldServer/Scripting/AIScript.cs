@@ -101,7 +101,7 @@ namespace Aura.World.Scripting
 		// This controls the "speed" at which the AI can think.
 		// If it's too long things like following a target becomes choppy,
 		// because changing direction takes longer.
-		private const int _heartbeat = 50;//ms
+		private const int Heartbeat = 50;//ms
 
 		private AIState _prevState;
 
@@ -110,7 +110,7 @@ namespace Aura.World.Scripting
 		/// </summary>
 		public override void OnLoad()
 		{
-			_heartbeatTimer = new Timer(_heartbeat);
+			_heartbeatTimer = new Timer(Heartbeat);
 			_heartbeatTimer.AutoReset = true;
 			_heartbeatTimer.Elapsed += new ElapsedEventHandler(OnHeartbeat);
 			this.Definition();
@@ -145,7 +145,7 @@ namespace Aura.World.Scripting
 		/// <returns></returns>
 		public int GetBeats(int ms)
 		{
-			return (ms / _heartbeat);
+			return (ms / Heartbeat);
 		}
 
 		/// <summary>
@@ -289,20 +289,27 @@ namespace Aura.World.Scripting
 
 					case AIAction.Attack:
 						{
-							var attackResult = SkillResults.Failure;
-
-							var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery) as CombatMasteryHandler;
-							if (handler != null)
-								attackResult = handler.Use(this.Creature, this.Creature.Target.Id);
-
-							if ((attackResult & SkillResults.OutOfRange) != 0)
+							try
 							{
-								var targetPos = this.Creature.Target.GetPosition();
-								this.Stack.Insert(0, new AIElement(AIState.Aggro, AIAction.Run, intVal1: (int)targetPos.X, intVal2: (int)targetPos.Y));
+								var attackResult = SkillResults.Failure;
+
+								var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery) as CombatMasteryHandler;
+								if (handler != null)
+									attackResult = handler.Use(this.Creature, this.Creature.Target.Id);
+
+								if ((attackResult & SkillResults.OutOfRange) != 0)
+								{
+									var targetPos = WorldManager.CalculatePosOnLine(this.Creature, this.Creature.Target, -40); //this.Creature.Target.GetPosition();
+									this.Stack.Insert(0, new AIElement(AIState.Aggro, AIAction.Run, intVal1: (int)targetPos.X, intVal2: (int)targetPos.Y));
+								}
+								else if ((attackResult & SkillResults.Okay) != 0)
+								{
+									this.Stack.RemoveAt(0);
+								}
 							}
-							else if ((attackResult & SkillResults.Okay) != 0)
+							catch (Exception ex)
 							{
-								this.Stack.RemoveAt(0);
+								Logger.Exception(ex, null, true);
 							}
 							break;
 						}

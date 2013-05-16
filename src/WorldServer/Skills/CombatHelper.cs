@@ -283,6 +283,25 @@ namespace Aura.World.Skills
 			target.SetPosition(pos.X, pos.Y);
 			return oldPos;
 		}
+
+		/// <summary>
+		/// Runs counter attack handler if applicable, returns None otherwise.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="attacker"></param>
+		/// <returns></returns>
+		public static SkillResults TryCounter(MabiCreature target, MabiCreature attacker)
+		{
+			if (target.ActiveSkillId == SkillConst.MeleeCounterattack)
+			{
+				SkillHandler handler; MabiSkill counterSkill;
+				SkillManager.CheckOutSkill(target, (ushort)target.ActiveSkillId, out counterSkill, out handler);
+				if (handler != null && counterSkill != null)
+					return handler.UseCombat(target, attacker.Id, counterSkill);
+			}
+
+			return SkillResults.None;
+		}
 	}
 
 	public enum StrengthRating

@@ -18,7 +18,7 @@ namespace Aura.World.Skills
 			_handlers.Add(SkillConst.Smash, new SmashHandler());
 			_handlers.Add(SkillConst.Defense, new DefenseHandler());
 			_handlers.Add(SkillConst.Windmill, new WindmillHandler());
-			//_handlers.Add(SkillConst.MeleeCounterattack, new CounterHandler());
+			_handlers.Add(SkillConst.MeleeCounterattack, new CounterHandler());
 			_handlers.Add(SkillConst.ShadowBunshin, new ShadowBunshinHandler());
 
 			// Life

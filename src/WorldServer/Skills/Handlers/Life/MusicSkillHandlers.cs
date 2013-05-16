@@ -72,9 +72,7 @@ namespace Aura.World.Skills
 			if (creature.Temp.SkillItem1 == null)
 				return SkillResults.Failure;
 
-			var p = new MabiPacket(Op.ItemUpdate, creature.Id);
-			creature.Temp.SkillItem1.AddToPacket(p, ItemPacketType.Private);
-
+			creature.Client.Send(PacketCreator.ItemUpdate(creature, creature.Temp.SkillItem1));
 			creature.Client.SendSkillComplete(creature, skill.Id, creature.Temp.SkillItem1.Id);
 
 			creature.Temp.SkillItem1 = null;
@@ -160,7 +158,7 @@ namespace Aura.World.Skills
 				use.PutByte(0);
 				creature.Client.Send(use);
 
-				creature.ActiveSkillId = (ushort)skill.Id;
+				creature.ActiveSkillId = skill.Id;
 			}
 
 			// Change motion for Battle Mandolin (no idea if this official, but I like it =P) [exec]

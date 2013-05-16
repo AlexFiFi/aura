@@ -89,6 +89,7 @@
     <Compile Include="Scripting\NPCSession.cs" />
     <Compile Include="Skills\CombatAction.cs" />
     <Compile Include="Skills\Handlers\Actions\ActionSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Combat\CounterHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\DefenseHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\CombatMasteryHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\ShadowBunshinHandler.cs" />

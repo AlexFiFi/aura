@@ -24,7 +24,7 @@ namespace Aura.World.Skills
 				return SkillResults.AttackStunned;
 
 			MabiSkill skill; SkillHandler handler;
-			if (creature.ActiveSkillId != 0)
+			if (creature.ActiveSkillId != SkillConst.None)
 			{
 				skill = creature.GetSkill(creature.ActiveSkillId);
 				handler = SkillManager.GetHandler(skill.Id);
@@ -61,6 +61,11 @@ namespace Aura.World.Skills
 
 			attacker.StopMove();
 			target.StopMove();
+
+			// Check counter
+			var counter = CombatHelper.TryCounter(target, attacker);
+			if (counter != SkillResults.None)
+				return SkillResults.Okay;
 
 			uint prevCombatActionId = 0;
 			var rnd = RandomProvider.Get();
