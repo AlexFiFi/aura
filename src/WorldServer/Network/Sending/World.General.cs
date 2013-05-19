@@ -32,6 +32,11 @@ namespace Aura.World.Network
 			wm.Broadcast(p, SendTargets.Range, creature);
 		}
 
+		/// <summary>
+		/// Sends conditions update to all players in range of creature.
+		/// </summary>
+		/// <param name="wm"></param>
+		/// <param name="creature"></param>
 		public static void SendStatusEffectUpdate(this WorldManager wm, MabiCreature creature)
 		{
 			var p = new MabiPacket(Op.StatusEffectUpdate, creature.Id);

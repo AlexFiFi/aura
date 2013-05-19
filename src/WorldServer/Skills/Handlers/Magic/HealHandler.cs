@@ -10,26 +10,6 @@ using Aura.World.World;
 
 namespace Aura.World.Skills
 {
-	public class ManaShieldHandler : SkillHandler
-	{
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
-		{
-			creature.Conditions.A |= CreatureConditionA.ManaShield;
-			WorldManager.Instance.SendStatusEffectUpdate(creature);
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.ManaShield), SendTargets.Range, creature);
-
-			return SkillResults.Okay;
-		}
-
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
-		{
-			creature.Conditions.A &= ~CreatureConditionA.ManaShield;
-			WorldManager.Instance.SendStatusEffectUpdate(creature);
-
-			return SkillResults.Okay;
-		}
-	}
-
 	public class HealingHandler : SkillHandler
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
@@ -42,7 +22,7 @@ namespace Aura.World.Skills
 
 		public override SkillResults Ready(MabiCreature creature, MabiSkill skill)
 		{
-			SkillHelper.InitStack(creature, skill);
+			SkillHelper.FillStack(creature, skill);
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StackUpdate).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Healing).PutString("healing"), SendTargets.Range, creature);

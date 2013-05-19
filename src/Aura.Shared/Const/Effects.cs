@@ -77,6 +77,12 @@ namespace Aura.Shared.Const
 		/// </summary>
 		public static readonly uint ManaShield = 122;
 
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		public static readonly uint Casting = 247;
+
 		/// <summary>
 		/// Shadow Bunshin casting, clones, etc.
 		/// </summary>

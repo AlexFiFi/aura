@@ -64,3 +64,6 @@
 
 // Red Spider
 30003, 23002, F   // Combat Mastery
+
+// Brown Bear
+70001, 23002, F   // Combat Mastery

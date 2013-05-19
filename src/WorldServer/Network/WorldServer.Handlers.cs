@@ -59,6 +59,8 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
 
+			this.RegisterPacketHandler(Op.CancelBeautyShop, HandleCancelBeautyShop);
+
 			this.RegisterPacketHandler(Op.CutsceneFinished, HandleCutsceneFinished);
 
 			this.RegisterPacketHandler(Op.PartyCreate, HandlePartyCreate);
@@ -3435,6 +3437,11 @@ namespace Aura.World.Network
 		private void HandleChannelStatus(WorldClient client, MabiPacket packet)
 		{
 			// TODO: Fill channel list
+		}
+
+		private void HandleCancelBeautyShop(WorldClient client, MabiPacket packet)
+		{
+			client.Send(new MabiPacket(Op.CancelBeautyShopR, client.Character.Id));
 		}
 	}
 }

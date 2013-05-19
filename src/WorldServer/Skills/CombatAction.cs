@@ -129,7 +129,7 @@ namespace Aura.World.Skills
 
 		public List<CombatAction> Actions = new List<CombatAction>();
 
-		public CombatActionPack()
+		private CombatActionPack()
 		{
 			this.CombatActionId = CombatHelper.GetNewActionId();
 			this.Hit = 1;

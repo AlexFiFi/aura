@@ -349,11 +349,15 @@ namespace Aura.Shared.Network
 		public readonly static uint SosButtonR = 0xA9AA;
 		public readonly static uint SubsribeStun = 0xAA1C; // ?
 		public readonly static uint StunMeter = 0xAA1D;
+		//public readonly static uint StunMeter? = 0xAA1E;
 		public readonly static uint HomesteadInfoRequest = 0xAA54;
 		public readonly static uint HomesteadInfoRequestR = 0xAA55;
 		public readonly static uint CollectionRequest = 0xAA85;
 		public readonly static uint CollectionRequestR = 0xAA86;
 		public readonly static uint GoBeautyShop = 0xAAEC;
+		public readonly static uint OpenBeautyShop = 0xAAED;
+		public readonly static uint CancelBeautyShop = 0xAAF9;
+		public readonly static uint CancelBeautyShopR = 0xAAFA;
 		public readonly static uint TalentInfoUpdate = 0xAB11;
 		public readonly static uint TalentTitleChange = 0xAB12;
 		public readonly static uint TalentTitleChangedR = 0xAB13;
@@ -495,6 +499,7 @@ namespace Aura.Shared.Network
 			if (Op.Version >= 170401)
 			{
 				GoBeautyShop = 0xAAF2;
+				OpenBeautyShop = 0xAAF6;
 				ShamalaTransformationUpdate = 0xAB15;
 				ShamalaTransformationUse = 0xAB16;
 				ShamalaTransformation = 0xAB17;

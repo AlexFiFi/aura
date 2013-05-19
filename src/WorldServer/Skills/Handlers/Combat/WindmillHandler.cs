@@ -29,7 +29,7 @@ namespace Aura.World.Skills
 
 		public override SkillResults Ready(MabiCreature creature, MabiSkill skill)
 		{
-			SkillHelper.InitStack(creature, skill);
+			SkillHelper.FillStack(creature, skill);
 			creature.Client.SendSkillReady(creature, skill.Id);
 
 			return SkillResults.Okay;

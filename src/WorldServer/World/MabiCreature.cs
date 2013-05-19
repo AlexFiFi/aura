@@ -387,6 +387,14 @@ namespace Aura.World.World
 			}
 		}
 
+		public float MagicAttack
+		{
+			get
+			{
+				return this.Int / 20f;
+			}
+		}
+
 		public bool IsPlayer { get { return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet); } }
 
 		public bool IsHuman { get { return (this.Race == 10001 || this.Race == 10002); } }
@@ -1026,6 +1034,15 @@ namespace Aura.World.World
 			balance = (float)Math.Max(0f, Math.Round(balance, 2));
 
 			return balance;
+		}
+
+		public float GetMagicDamage(MabiItem item, float spellDamage)
+		{
+			double damage = spellDamage;
+
+			damage *= (1 + this.MagicAttack / 100f);
+
+			return (float)damage;
 		}
 
 		public bool HasSkill(ushort id)

@@ -15,16 +15,50 @@ namespace Aura.World.Skills
 {
 	public static class SkillHelper
 	{
-		public static void InitStack(MabiCreature creature, MabiSkill skill)
+		/// <summary>
+		/// Fills stack and sends update.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skill"></param>
+		public static void FillStack(MabiCreature creature, MabiSkill skill)
 		{
-			creature.ActiveSkillStacks = skill.RankInfo.Stack;
+			IncStack(creature, skill, skill.RankInfo.StackMax);
+		}
+
+		/// <summary>
+		/// Increases stack and sends update.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skill"></param>
+		/// <param name="amount"></param>
+		public static void IncStack(MabiCreature creature, MabiSkill skill, byte amount = 1)
+		{
+			creature.ActiveSkillStacks = (byte)Math.Min(creature.ActiveSkillStacks + amount, skill.RankInfo.StackMax);
 			creature.Client.SendSkillStackSet(creature, skill.Id, creature.ActiveSkillStacks);
 		}
 
-		public static void DecStack(MabiCreature creature, MabiSkill skill)
+		/// <summary>
+		/// Removes stack and sends update.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skill"></param>
+		public static void ClearStack(MabiCreature creature, MabiSkill skill)
 		{
-			if (creature.ActiveSkillStacks > 0)
-				creature.ActiveSkillStacks--;
+			DecStack(creature, skill, byte.MaxValue);
+		}
+
+		/// <summary>
+		/// Decreases stack and sends update.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skill"></param>
+		/// <param name="amount"></param>
+		public static void DecStack(MabiCreature creature, MabiSkill skill, byte amount = 1)
+		{
+			if (creature.ActiveSkillStacks > amount)
+				creature.ActiveSkillStacks -= amount;
+			else
+				creature.ActiveSkillStacks = 0;
 			creature.Client.SendSkillStackUpdate(creature, skill.Id, creature.ActiveSkillStacks);
 		}
 

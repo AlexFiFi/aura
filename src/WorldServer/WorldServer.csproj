@@ -98,8 +98,9 @@
     <Compile Include="Skills\Handlers\Hidden\DyeHandler.cs" />
     <Compile Include="Skills\Handlers\Hidden\ResurrectionlHandler.cs" />
     <Compile Include="Skills\Handlers\Life\MusicSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Magic\ManaShieldHandler.cs" />
     <Compile Include="Skills\Handlers\Transformations\TransformationSkillHandlers.cs" />
-    <Compile Include="Skills\Handlers\Magic\MagicSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Magic\HealHandler.cs" />
     <Compile Include="Skills\Handlers\Life\LifeSkillHandlers.cs" />
     <Compile Include="Skills\SkillHandler.cs" />
     <Compile Include="Skills\SkillHelper.cs" />
