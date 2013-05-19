@@ -479,7 +479,7 @@ namespace Aura.Shared.Const
 		Bard = 10700,
 		Puppeteer = 10800,
 		Knight = 10900,
-		HolyArts = 10000,
+		HolyArts = 11000,
 		Transmutaion = 11100,
 		Cooking = 11200,
 		Blacksmith = 11300,
