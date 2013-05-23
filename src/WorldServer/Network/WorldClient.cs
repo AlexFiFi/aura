@@ -98,7 +98,7 @@ namespace Aura.World.Network
 			this.Send(PacketCreator.Lock(this.Character));
 			this.Character.SetLocation(region, x, y);
 
-			EntityEvents.Instance.OnPlayerChangesRegion(this.Character);
+			//EntityEvents.Instance.OnPlayerChangesRegion(this.Character);
 
 			this.Send(PacketCreator.EnterRegionPermission(this.Character));
 

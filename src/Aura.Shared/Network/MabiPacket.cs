@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-using Aura.Shared.Util;
 using System.Globalization;
 
 namespace Aura.Shared.Network
@@ -107,7 +106,6 @@ namespace Aura.Shared.Network
 		public MabiPacket PutSLong(long val) { return this.Put((ulong)val); }
 		public MabiPacket PutLong(DateTime val) { return this.Put((ulong)(val.Ticks / 10000)); }
 		public MabiPacket PutLong(TimeSpan val) { return this.Put((ulong)(val.Ticks / 10000)); }
-		public MabiPacket PutLong(MabiTime val) { return this.Put((ulong)val.MabiTimeStamp); }
 		public MabiPacket PutLongs(params ulong[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
 
 		public MabiPacket PutFloat(float val) { return this.Put(val); }

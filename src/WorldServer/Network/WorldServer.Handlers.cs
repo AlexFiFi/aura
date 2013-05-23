@@ -261,7 +261,7 @@ namespace Aura.World.Network
 			p = new MabiPacket(Op.LoginWR, Id.World);
 			p.PutByte(1);
 			p.PutLong(creature.Id);
-			p.PutLong(MabiTime.Now);
+			p.PutLong(MabiTime.Now.DateTime);
 			p.PutInt(1);
 			p.PutString("");
 			client.Send(p);
@@ -1541,7 +1541,7 @@ namespace Aura.World.Network
 			client.Send(PacketCreator.Unlock(creature));
 
 			// Sent on log in, but not when switching regions?
-			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(MabiTime.Now));
+			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(MabiTime.Now.DateTime));
 			WorldManager.Instance.AddCreature(creature);
 
 			if (creature == client.Character)
@@ -1556,6 +1556,8 @@ namespace Aura.World.Network
 
 			var pos = creature.GetPosition();
 			client.Send(new MabiPacket(Op.WarpRegion, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
+
+			EntityEvents.Instance.OnPlayerChangesRegion(creature);
 
 			// Send Conformation?
 			client.Send(new MabiPacket(0xA925, Id.Broadcast).PutInts(creature.Region, 0));
