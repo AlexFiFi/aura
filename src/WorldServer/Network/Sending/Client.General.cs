@@ -28,5 +28,22 @@ namespace Aura.World.Network
 
 			client.Send(p);
 		}
+
+		public static void SendLock(this Client client, MabiCreature creature, uint lockType = 0xEFFFFFFE)
+		{
+			var p = new MabiPacket(Op.CharacterLock, creature.Id);
+			p.PutInt(lockType);
+			p.PutInt(0);
+
+			client.Send(p);
+		}
+
+		public static void SendUnlock(this Client client, MabiCreature creature, uint lockType = 0xEFFFFFFE)
+		{
+			var p = new MabiPacket(Op.CharacterUnlock, creature.Id);
+			p.PutInt(lockType);
+
+			client.Send(p);
+		}
 	}
 }

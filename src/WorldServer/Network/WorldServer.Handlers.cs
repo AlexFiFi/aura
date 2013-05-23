@@ -1538,7 +1538,7 @@ namespace Aura.World.Network
 
 			// TODO: Maybe check if this action is valid.
 
-			client.Send(PacketCreator.Unlock(creature));
+			client.SendUnlock(creature);
 
 			// Sent on log in, but not when switching regions?
 			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(MabiTime.Now.DateTime));
@@ -2078,9 +2078,9 @@ namespace Aura.World.Network
 			{
 				if (pet.IsFlying)
 				{
-					client.Send(PacketCreator.Unlock(pet, 0xFFFFBDFF));
+					client.SendUnlock(pet, 0xFFFFBDFF);
 					foreach (var rider in pet.Riders)
-						client.Send(PacketCreator.Unlock(rider, 0xFFFFBDFF));
+						client.SendUnlock(rider, 0xFFFFBDFF);
 					pet.IsFlying = false;
 				}
 				foreach (var rider in pet.Riders)
@@ -2303,9 +2303,9 @@ namespace Aura.World.Network
 
 			var ascentTime = packet.GetFloat();
 
-			client.Send(PacketCreator.Lock(creature, 0xFFFFBDDF));
+			client.SendLock(creature, 0xFFFFBDDF);
 			foreach (var rider in creature.Riders)
-				client.Send(PacketCreator.Lock(rider, 0xFFFFBDDF));
+				client.SendLock(rider, 0xFFFFBDDF);
 
 			var pos = creature.GetPosition();
 			creature.SetPosition(pos.X, pos.Y, 10000);
@@ -2356,9 +2356,9 @@ namespace Aura.World.Network
 				return;
 			}
 
-			client.Send(PacketCreator.Unlock(creature, 0xFFFFBDFF));
+			client.SendUnlock(creature, 0xFFFFBDFF);
 			foreach (var rider in creature.Riders)
-				client.Send(PacketCreator.Unlock(rider, 0xFFFFBDFF));
+				client.SendUnlock(rider, 0xFFFFBDFF);
 
 			// TODO: angled decent
 			creature.SetPosition(pos.X, pos.Y, 0);
@@ -3328,7 +3328,7 @@ namespace Aura.World.Network
 			client.Send(new MabiPacket(Op.CutsceneEnd, Id.World).PutLong(creature.Id));
 			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(creature), SendTargets.Range | SendTargets.ExcludeSender, creature);
 			client.Send(PacketCreator.EntitiesAppear(WorldManager.Instance.GetEntitiesInRange(creature)));
-			client.Send(PacketCreator.Unlock(creature));
+			client.SendUnlock(creature);
 
 			if (creature.CurrentCutscene != null)
 			{

@@ -257,21 +257,6 @@ namespace Aura.World.Network
 			return p;
 		}
 
-		public static MabiPacket Lock(MabiCreature creature, uint lockType = 0xEFFFFFFE)
-		{
-			var p = new MabiPacket(Op.CharacterLock, creature.Id);
-			p.PutInt(lockType);
-			p.PutInt(0);
-			return p;
-		}
-
-		public static MabiPacket Unlock(MabiCreature creature, uint lockType = 0xEFFFFFFE)
-		{
-			var p = new MabiPacket(Op.CharacterUnlock, creature.Id);
-			p.PutInt(lockType);
-			return p;
-		}
-
 		//public static MabiPacket Effect(MabiCreature creature, uint id, params object[] args)
 		//{
 		//    var p = new MabiPacket(Op.Effect, creature.Id);

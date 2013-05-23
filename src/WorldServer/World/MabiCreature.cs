@@ -157,7 +157,6 @@ namespace Aura.World.World
 
 		public virtual float CombatPower { get { return (this.RaceInfo != null ? this.RaceInfo.CombatPower : 1); } }
 
-		public float CriticalChance { get { return ((this.Will - 10) / 10) + ((this.Luck - 10) / 5) + this.StatMods.GetMod(Stat.CriticalMod); } }
 		public float KnockBack
 		{
 			get
@@ -376,6 +375,20 @@ namespace Aura.World.World
 			set
 			{
 				_protection = (int)(value * 100);
+			}
+		}
+
+		public float CriticalChance
+		{
+			get
+			{
+				float result = 0;
+
+				result += (this.Will - 10) / 10f;
+				result += (this.Luck - 10) / 5f;
+				result += this.StatMods.GetMod(Stat.CriticalMod);
+
+				return result / 100f;
 			}
 		}
 

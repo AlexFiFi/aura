@@ -95,7 +95,7 @@ namespace Aura.World.Network
 				this.Send(PacketCreator.EntitiesLeave(this.Creatures.Where(c => c != this.Character)));
 			}
 
-			this.Send(PacketCreator.Lock(this.Character));
+			this.SendLock(this.Character);
 			this.Character.SetLocation(region, x, y);
 
 			//EntityEvents.Instance.OnPlayerChangesRegion(this.Character);
@@ -106,7 +106,7 @@ namespace Aura.World.Network
 
 			foreach (var c in this.Creatures.Where(c => c != this.Character))
 			{
-				this.Send(PacketCreator.Lock(c));
+				this.SendLock(c);
 				c.OnAltar = DungeonAltar.None;
 			}
 

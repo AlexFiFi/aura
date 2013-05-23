@@ -468,6 +468,8 @@ namespace Aura.World.World
 				packet.PutShort(0);			         // RightRateMod
 				packet.PutFloat(0);			         // MagicDefenseMod
 				packet.PutFloat(0);			         // MagicAttackMod
+				if (Op.Version >= 180300)
+					packet.PutFloat(0);			     // ?
 				packet.PutShort(15);		         // MeleeAttackRateMod
 				packet.PutShort(15);		         // RangeAttackRateMod
 				packet.PutFloat(0);			         // CriticalBase
@@ -480,6 +482,8 @@ namespace Aura.World.World
 				packet.PutShort(0);			         // RateMod
 				packet.PutShort(0);			         // Rank1
 				packet.PutShort(0);			         // Rank2
+				if (Op.Version >= 180300)
+					packet.PutShort(0);			     // ?
 				packet.PutLong(0);			         // Score
 				packet.PutShort(0);			         // AttackMinBaseMod
 				packet.PutShort(8);			         // AttackMaxBaseMod

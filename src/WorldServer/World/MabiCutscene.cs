@@ -42,7 +42,7 @@ namespace Aura.World.World
 		{
 			WorldManager.Instance.Broadcast(PacketCreator.EntityLeaves(client.Character), SendTargets.Range, client.Character);
 			client.Send(PacketCreator.EntitiesLeave(WorldManager.Instance.GetCreaturesInRange(client.Character)));
-			client.Send(PacketCreator.Lock(client.Character));
+			client.SendLock(client.Character);
 
 			var p = new MabiPacket(Op.CutsceneStart, Id.World);
 			p.PutLongs(client.Character.Id, _leader.Id);

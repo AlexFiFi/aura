@@ -24,8 +24,8 @@ public class CustomBGMScript : BaseScript
 		// The files reside in the mp3 folder; play type can be Once,
 		// or Indefinitely (the default, if omitted).
 		
-		Add(1, "NPC_Castanea.mp3", PlayType.Once);
-		Add(3001, "Field_Osna_Sail.mp3");
+		//Add(1, "NPC_Castanea.mp3", PlayType.Once);
+		//Add(3001, "Field_Osna_Sail.mp3");
 
 		// -- </configuration> ----------------------------------------------
 	}
