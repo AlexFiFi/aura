@@ -323,8 +323,8 @@
 4008,belfast_cutscene
 4009,belfast_courthouse
 4010,cobh_to_belfast
-4010,cobh_to_kela
-4010,cobh_to_belfast_quest
+4011,cobh_to_kela
+4012,cobh_to_belfast_quest
 4013,belfast_to_cobh
 4014,scathach
 4015,scathach_cave

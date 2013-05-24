@@ -1268,7 +1268,7 @@ namespace Aura.World.Network
 			//ITID2++;
 			//INSTANCEID++;
 
-			client.Send(PacketCreator.Lock(creature));
+			client.SendLock(creature);
 
 			// Done
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);

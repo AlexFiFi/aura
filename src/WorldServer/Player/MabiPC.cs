@@ -169,8 +169,8 @@ namespace Aura.World.Player
 			packet.PutInt(0);                    // PenaltyPoint
 			packet.PutByte(1);					 // IsCommonPVP
 
-			// Apperantly added in 170400, new PvP data maybe?
-			if (Op.Version >= 170400)
+			// New PvP data maybe?
+			if (Op.Version >= 170300)
 			{
 				packet.PutByte(0);
 				packet.PutInt(0);
@@ -380,8 +380,7 @@ namespace Aura.World.Player
 			// packet.PutInt					 // HitPoint
 			// packet.PutInt					 // MaxHitPoint
 
-			// Apperantly added in 170400
-			if (Op.Version >= 170400)
+			if (Op.Version >= 170300)
 			{
 				packet.PutString("");
 				packet.PutByte(0);
@@ -522,7 +521,7 @@ namespace Aura.World.Player
 			packet.PutByte(1);                   // Premium Gestures
 			packet.PutByte(0);
 			packet.PutByte(0);
-			if (Op.Version >= 170402)
+			if (Op.Version >= 170402 || (Op.Version >= 170300 && Op.Region == MabiRegion.TW))
 				packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutByte(0);

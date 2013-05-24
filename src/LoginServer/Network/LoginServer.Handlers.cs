@@ -64,7 +64,7 @@ namespace Aura.Login.Network
 #pragma warning disable 0162
 		private void HandleLogin(LoginClient client, MabiPacket packet)
 		{
-			var loginType = (LoginType)packet.GetByte(); // Known: 0x00 (KR), 0x0C, 0x12 (EU) (Normal), 0x5 (New), 0x2 (Coming from channel)
+			var loginType = (LoginType)packet.GetByte();
 			var username = packet.GetString();
 			var password = "";
 			var secPassword = "";
@@ -76,6 +76,7 @@ namespace Aura.Login.Network
 				case LoginType.Normal:
 				case LoginType.EU:
 				case LoginType.KR:
+				case LoginType.CmdLogin:
 
 					var passbin = packet.GetBin();
 					password = System.Text.Encoding.UTF8.GetString(passbin);
@@ -277,7 +278,7 @@ namespace Aura.Login.Network
 		}
 
 		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, SecondaryReq = 90, SecondaryFail = 91, Banned = 101 }
-		private enum LoginType { KR = 0x00, FromChannel = 0x02, NewHash = 0x05, Normal = 0x0C, EU = 0x12, SecondaryPassword = 0x14 }
+		private enum LoginType { KR = 0x00, FromChannel = 0x02, NewHash = 0x05, Normal = 0x0C, CmdLogin = 0x10, EU = 0x12, SecondaryPassword = 0x14 }
 
 		private void HandleCharacterInfoRequest(LoginClient client, MabiPacket packet)
 		{

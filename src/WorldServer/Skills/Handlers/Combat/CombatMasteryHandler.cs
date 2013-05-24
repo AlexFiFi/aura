@@ -39,12 +39,6 @@ namespace Aura.World.Skills
 			if (handler == null)
 				return SkillResults.Unimplemented;
 
-			//var sourceAction = new CombatActionOld();
-			//sourceAction.ActionType = CombatActionTypeOld.Hit;
-			//sourceAction.SkillId = (SkillConst)skill.Info.Id;
-			//sourceAction.Creature = creature;
-			//sourceAction.TargetId = targetId;
-
 			return handler.UseCombat(creature, targetId, skill);
 		}
 

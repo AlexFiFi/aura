@@ -7,18 +7,17 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Aura.Shared.Const;
 using Aura.Data;
+using Aura.Shared.Const;
+using Aura.Shared.Database;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
-using Aura.World.Player;
-using CSScriptLibrary;
+using Aura.World.Events;
 using Aura.World.Network;
+using Aura.World.Player;
 using Aura.World.Scripting;
 using Aura.World.Util;
-using Aura.World.Events;
-using Aura.Shared.Database;
-using Aura.World.Database;
+using CSScriptLibrary;
 
 namespace Aura.World.World
 {
