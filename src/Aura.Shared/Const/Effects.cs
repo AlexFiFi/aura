@@ -16,16 +16,16 @@ namespace Aura.Shared.Const
 		public static readonly uint PickUpKey = 8;
 
 		/// <summary>
-		/// Logged values: "", "healing", "flashing"
+		/// Logged values: "", "healing", "flashing", "thunder", "icespear"
 		/// string:?
 		/// </summary>
 		public static readonly uint SkillInit = 11;
 
 		/// <summary>
-		/// Logged values: "healing"
+		/// Logged values: "healing", "thunder", "icespear"
 		/// string:?
 		/// </summary>
-		public static readonly uint Healing = 12;
+		public static readonly uint HoldMagic = 12;
 
 		/// <summary>
 		/// Logged values: "healing_stack"
@@ -34,7 +34,7 @@ namespace Aura.Shared.Const
 		public static readonly uint StackUpdate = 13;
 
 		/// <summary>
-		/// Logged values: "healing_firstaid", "healing", "healing_phoenix"
+		/// Logged values: "healing_firstaid", "healing", "healing_phoenix", "thunder"
 		/// string:?, long:targetCreatureId
 		/// Healing Effects?
 		/// </summary>
@@ -68,6 +68,23 @@ namespace Aura.Shared.Const
 		public static readonly uint Spawn = 29;
 
 		/// <summary>
+		/// Sent by thunder
+		/// </summary>
+		public static readonly uint Lightningbolt = 30;
+
+		/// <summary>
+		/// Fireball in the air. int:Region, float:fromx, float:fromy, float:tox, float:toy, int:time, byte:0
+		/// </summary>
+		public static readonly uint FireballFly = 39;
+
+		/// <summary>
+		/// The frozen effect of Ice Spear
+		/// </summary>
+		public static readonly uint IcespearFreeze = 65;
+
+		public static readonly uint IcespearBoom = 66;
+
+		/// <summary>
 		/// Chef Owl
 		/// </summary>
 		public static readonly uint ChefOwl = 121;
@@ -87,6 +104,11 @@ namespace Aura.Shared.Const
 		/// Shadow Bunshin casting, clones, etc.
 		/// </summary>
 		public static readonly uint ShadowBunshin = 262;
+
+		/// <summary>
+		/// Used in thunder's final stage
+		/// </summary>
+		public static readonly uint Thunderbolt = 297;
 	}
 
 	public enum SpawnEffect : byte

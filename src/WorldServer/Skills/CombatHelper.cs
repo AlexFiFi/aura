@@ -130,7 +130,7 @@ namespace Aura.World.Skills
 		/// <returns>Returns whether a crit happened.</returns>
 		public static bool TryAddCritical(MabiCreature creature, ref float damage, float chance)
 		{
-			if (RandomProvider.Get().NextDouble() < chance)
+			if (RandomProvider.Get().NextDouble() < Math.Min(.33, chance))
 			{
 				damage *= creature.CriticalMultiplicator;
 				return true;
@@ -276,7 +276,7 @@ namespace Aura.World.Skills
 		/// <param name="attacker">Creature that attacked</param>
 		/// <param name="distance">Knock back distance</param>
 		/// <returns>Position of creature, before the knock back</returns>
-		public static MabiVertex KnockBack(MabiCreature target, MabiCreature attacker, int distance = 375)
+		public static MabiVertex KnockBack(MabiCreature target, MabiEntity attacker, int distance = 375)
 		{
 			var oldPos = target.GetPosition();
 			var pos = WorldManager.CalculatePosOnLine(attacker, target, distance);

@@ -399,7 +399,7 @@ namespace Aura.World.World
 		/// <param name="target"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
-		public static MabiVertex CalculatePosOnLine(MabiCreature source, MabiCreature target, int distance)
+		public static MabiVertex CalculatePosOnLine(MabiEntity source, MabiEntity target, int distance)
 		{
 			return CalculatePosOnLine(source.GetPosition(), target.GetPosition(), distance);
 		}

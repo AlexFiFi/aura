@@ -29,6 +29,12 @@ namespace Aura.World.Skills
 			// Magic
 			_handlers.Add(SkillConst.ManaShield, new ManaShieldHandler());
 			_handlers.Add(SkillConst.Healing, new HealingHandler());
+			_handlers.Add(SkillConst.Icebolt, new IceboltHandler());
+			_handlers.Add(SkillConst.Firebolt, new FireboltHandler());
+			_handlers.Add(SkillConst.Lightningbolt, new LightningboltHandler());
+			_handlers.Add(SkillConst.Thunder, new ThunderHandler());
+			_handlers.Add(SkillConst.IceSpear, new IcespearHandler());
+			_handlers.Add(SkillConst.Fireball, new FireballHandler());
 
 			// Action
 			_handlers.Add(SkillConst.UseUmbrella, new UmbrellaSkillHandler());

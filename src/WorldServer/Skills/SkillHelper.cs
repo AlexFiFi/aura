@@ -89,5 +89,13 @@ namespace Aura.World.Skills
 			//    creature.Client.Send(PacketCreator.ItemProfUpdate(creature, item));
 			//}
 		}
+
+		/// <summary>
+		/// Calculates the target ID for a particular area. Used in Fireball, Icespear, WM, others?
+		/// </summary>
+		public static ulong GetAreaTargetID(uint region, uint x, uint y)
+		{
+			return  0x3000000000000000 + ((ulong)region << 32) + ((x / 20) << 16)+ (y / 20);
+		}
 	}
 }

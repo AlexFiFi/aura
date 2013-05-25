@@ -27,12 +27,12 @@ namespace Aura.World.Skills
 		KnockBackHit2 = 0x04,
 
 		/// <summary>
-		/// Fireball Explosion (0x08)
+		/// Prop effect? Thunderbolts and fireball explosion
 		/// </summary>
 		UseEffect = 0x08,
 
 		/// <summary>
-		/// Req for some skills, didn't show for fireball (0x20)
+		/// Req for some skills, didn't show for fireball or thunder (0x20)
 		/// </summary>
 		Result = 0x20,
 
@@ -72,6 +72,7 @@ namespace Aura.World.Skills
 	// Most likely flags
 	public enum CombatActionType : byte
 	{
+		None = 0,
 		/// <summary>
 		/// Target takes simple hit (1)
 		/// </summary>
@@ -161,10 +162,7 @@ namespace Aura.World.Skills
 			foreach (var action in this.Actions)
 			{
 				p.PutIntBin(action.GetPacket(this.CombatActionId).Build(false));
-				//Logger.Debug(action.GetPacket(this.CombatActionId));
 			}
-
-			//Logger.Debug(p);
 
 			return p;
 		}
@@ -216,6 +214,7 @@ namespace Aura.World.Skills
 	{
 		public SourceOptions Options { get; set; }
 		public ulong TargetId { get; set; }
+		public ulong PropId { get; set; }
 
 		/// <summary>
 		/// Returns true if the specified option is set.
@@ -235,12 +234,13 @@ namespace Aura.World.Skills
 			get { return this.Has(SourceOptions.KnockBackHit2) || this.Has(SourceOptions.KnockBackHit1); }
 		}
 
-		public SourceAction(CombatActionType type, MabiCreature creature, SkillConst skillId, ulong targetId)
+		public SourceAction(CombatActionType type, MabiCreature creature, SkillConst skillId, ulong targetId, ulong propId = 0)
 		{
 			this.Type = type;
 			this.Creature = creature;
 			this.SkillId = skillId;
 			this.TargetId = targetId;
+			this.PropId = propId;
 		}
 
 		public override MabiPacket GetPacket(uint actionId)
@@ -253,7 +253,8 @@ namespace Aura.World.Skills
 			result.PutByte(0);
 			result.PutByte((byte)(!this.Has(SourceOptions.KnockBackHit2) ? 2 : 1));
 			result.PutInts(pos.X, pos.Y);
-			// prop id
+			if (this.PropId != 0)
+				result.PutLong(this.PropId);
 
 			return result;
 		}
@@ -300,10 +301,13 @@ namespace Aura.World.Skills
 
 		public override MabiPacket GetPacket(uint actionId)
 		{
+			var result = base.GetPacket(actionId);
+
+			if (this.Is(CombatActionType.None))
+				return result;
+
 			var pos = this.Creature.GetPosition();
 			var enemyPos = this.Attacker.GetPosition();
-
-			var result = base.GetPacket(actionId);
 
 			if (this.Is(CombatActionType.Defended) || this.Is(CombatActionType.CounteredHit))
 			{

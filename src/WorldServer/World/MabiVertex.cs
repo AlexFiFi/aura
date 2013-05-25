@@ -21,6 +21,16 @@ namespace Aura.World.World
 			this.H = (uint)h;
 		}
 
+		public static MabiVertex operator +(MabiVertex a, MabiVertex b)
+		{
+			return new MabiVertex(a.X + b.X, a.Y + b.Y);
+		}
+
+		public static MabiVertex operator -(MabiVertex a, MabiVertex b)
+		{
+			return new MabiVertex(a.X - b.X, a.Y - b.Y);
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (obj == null)

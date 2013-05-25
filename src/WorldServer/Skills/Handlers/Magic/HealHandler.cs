@@ -25,7 +25,7 @@ namespace Aura.World.Skills
 			SkillHelper.FillStack(creature, skill);
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StackUpdate).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Healing).PutString("healing"), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.HoldMagic).PutString("healing"), SendTargets.Range, creature);
 
 			creature.Client.SendSkillReady(creature, skill.Id);
 
