@@ -39,5 +39,7 @@ namespace Aura.Shared.Const
 
 		// Default type for pet/partner cards.
 		public const uint PetCardType = 102;
+
+		public const ulong Nao = 0x0010FFFFFFFFFFFF;
 	}
 }

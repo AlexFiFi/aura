@@ -100,7 +100,7 @@ namespace Aura.World.Network
 
 			//EntityEvents.Instance.OnPlayerChangesRegion(this.Character);
 
-			this.Send(PacketCreator.EnterRegionPermission(this.Character));
+			this.SendEnterRegionPermission(this.Character);
 
 			this.Character.OnAltar = DungeonAltar.None;
 

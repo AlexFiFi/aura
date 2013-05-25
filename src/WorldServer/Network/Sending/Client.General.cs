@@ -45,5 +45,26 @@ namespace Aura.World.Network
 
 			client.Send(p);
 		}
+
+		public static void SendEnterRegionPermission(this Client client, MabiCreature creature, bool permission = true)
+		{
+			var p = new MabiPacket(Op.EnterRegionPermission, Id.World);
+			var pos = creature.GetPosition();
+
+			p.PutLong(creature.Id);
+			if (permission)
+			{
+				p.PutByte(1);
+				p.PutInt(creature.Region);
+				p.PutInt(pos.X);
+				p.PutInt(pos.Y);
+			}
+			else
+			{
+				p.PutByte(0);
+			}
+
+			client.Send(p);
+		}
 	}
 }

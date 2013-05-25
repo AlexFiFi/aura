@@ -178,7 +178,7 @@ namespace Aura.World.World
 		}
 
 		public bool IsStunned { get { return (this.Stun > 0); } }
-		public bool IsDead { get { return ((this.State & CreatureStates.Dead) != 0); } }
+		public bool IsDead { get { return this.Has(CreatureStates.Dead); } }
 
 		public bool IsMoving { get { return (!_position.Equals(_destination)); } }
 
@@ -422,19 +422,9 @@ namespace Aura.World.World
 		public bool Has(CreatureConditionB condition) { return ((this.Conditions.B & condition) != 0); }
 		public bool Has(CreatureConditionC condition) { return ((this.Conditions.C & condition) != 0); }
 		public bool Has(CreatureConditionD condition) { return ((this.Conditions.D & condition) != 0); }
+		public bool Has(CreatureStates state) { return ((this.State & state) != 0); }
 
 		public bool HasSkillLoaded(SkillConst skill) { return this.ActiveSkillId == skill; }
-
-		/// <summary>
-		/// Returns whether the creature has the given state, short for
-		/// (x.State &amp; state) != 0
-		/// </summary>
-		/// <param name="state"></param>
-		/// <returns></returns>
-		public bool HasState(CreatureStates state)
-		{
-			return (this.State & state) != 0;
-		}
 
 		public static ushort GetTalentTitle(TalentTitle talent, TalentLevel level)
 		{

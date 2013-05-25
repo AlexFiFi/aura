@@ -12,9 +12,9 @@ namespace Aura.Shared.Network
 		// Season, and Sub-Season. Not setting it correclty will usually
 		// result in characters not moving or crashes.
 		// NA:      170402
-		// KR:      170400
-		// KR test: 180100 ?
-		// TW:      170200
+		// KR:      180400
+		// KR test: 180300 ?
+		// TW:      170300
 		// EU:      140400
 		public const uint Version = 170402;
 
@@ -370,12 +370,19 @@ namespace Aura.Shared.Network
 		public readonly static uint ShamalaTransformationEnd = 0xAB16;
 		public readonly static uint ShamalaTransformationEndR = 0xAB17;
 
-		public readonly static uint NPCTalkSelectable = 0x13882;
+		public readonly static uint NPCTalk = 0x13882;
 		public readonly static uint NPCTalkSelect = 0x13883;
+
+		public readonly static uint SpecialLogin = 0x15F90; // ?
+		public readonly static uint EnterSoulStream = 0x15F91;
+		//public readonly static uint ? = 0x15F92;
+		public readonly static uint LeaveSoulStream = 0x15F93;
+		public readonly static uint LeaveSoulStreamR = 0x15F94;
 
 		public readonly static uint CutsceneFinished = 0x186A0;
 		public readonly static uint CutsceneStart = 0x186A6;
 		public readonly static uint CutsceneEnd = 0x186A7;
+		//public readonly static uint ? = 0x186A8;
 
 		public readonly static uint Weather = 0x1ADB0; // ?
 		public readonly static uint PetMount = 0x1FBD0;

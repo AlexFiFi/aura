@@ -3,7 +3,6 @@
 
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Aura.Data;
 using Aura.Shared.Const;
 using Aura.Shared.Database;
@@ -58,6 +57,8 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.NPCTalkPartner, HandleNPCTalkPartner);
 			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
+
+			this.RegisterPacketHandler(Op.LeaveSoulStream, HandleLeaveSoulStream);
 
 			this.RegisterPacketHandler(Op.CancelBeautyShop, HandleCancelBeautyShop);
 
@@ -245,18 +246,12 @@ namespace Aura.World.Network
 			client.Character = creature;
 			client.Character.Client = client;
 
-			foreach (var skill in creature.Skills)
-			{
-				client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Value.Info));
-				client.Send(new MabiPacket(0x699E, creature.Id).PutShort(skill.Key).PutByte(1));
-			}
-
-			//p = new MabiPacket(0x90A1, creature.Id);
-			//p.PutByte(0);
-			//p.PutByte(1);
-			//p.PutInt(0);
-			//p.PutInt(0);
-			//client.Send(p);
+			// Purpose not clear, doesn't seem necessary.
+			//foreach (var skill in creature.Skills)
+			//{
+			//    client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Value.Info));
+			//    client.Send(new MabiPacket(0x699E, creature.Id).PutShort(skill.Key).PutByte(1));
+			//}
 
 			p = new MabiPacket(Op.LoginWR, Id.World);
 			p.PutByte(1);
@@ -266,14 +261,43 @@ namespace Aura.World.Network
 			p.PutString("");
 			client.Send(p);
 
-			p = new MabiPacket(Op.CharacterLock, creature.Id);
-			p.PutInt(0xEFFFFFFE);
-			p.PutInt(0);
-			client.Send(p);
+			//EntityEvents.Instance.OnPlayerChangesRegion(creature);
 
-			EntityEvents.Instance.OnPlayerChangesRegion(creature);
+			if (creature.Has(CreatureStates.EverEnterWorld))
+			{
+				p = new MabiPacket(Op.CharacterLock, creature.Id);
+				p.PutInt(0xEFFFFFFE);
+				p.PutInt(0);
+				client.Send(p);
 
-			client.Send(PacketCreator.EnterRegionPermission(creature));
+				client.SendEnterRegionPermission(creature);
+			}
+			else
+			{
+				//var pp = new MabiPacket(0x000065C2, 0x1000000000000001);
+				//pp.PutByte(1);
+				//pp.PutByte(0);
+				//client.Send(pp);
+
+				// Set location, so character can talk to Nao,
+				// and doesn't appear in the world.
+				creature.SetLocation(1000, 6300, 7200);
+
+				// Update state, so we don't get here again automatically.
+				creature.State |= CreatureStates.EverEnterWorld;
+
+				if (WorldManager.Instance.GetCreatureById(Id.Nao) == null)
+					Logger.Warning("Nao NPC not found.");
+
+				var charInfo = new MabiPacket(Op.SpecialLogin, Id.World);
+				charInfo.PutByte(1);
+				charInfo.PutInt(1000);
+				charInfo.PutInt(3200);
+				charInfo.PutInt(3200);
+				charInfo.PutLong(Id.Nao);
+				creature.AddPrivateToPacket(charInfo);
+				client.Send(charInfo);
+			}
 
 			client.State = ClientState.LoggedIn;
 
@@ -633,7 +657,7 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCreatureById(npcId) as MabiNPC;
 			if (target == null)
 			{
-				Logger.Warning("Unknown NPC: " + npcId.ToString());
+				Logger.Warning("Unknown NPC: " + npcId.ToString("X"));
 			}
 			else if (target.Script == null)
 			{
@@ -720,11 +744,11 @@ namespace Aura.World.Network
 			var npcId = packet.GetLong();
 			var target = client.NPCSession.Target;
 
-			var p = new MabiPacket(Op.NPCTalkEndR, creature.Id);
-			p.PutByte(1);
-			p.PutLong(target.Id);
-			p.PutString("");
-			client.Send(p);
+			//var p = new MabiPacket(Op.NPCTalkEndR, creature.Id);
+			//p.PutByte(1);
+			//p.PutLong(target.Id);
+			//p.PutString("");
+			//client.Send(p);
 
 			if (target == null || target.Script == null)
 			{
@@ -791,13 +815,15 @@ namespace Aura.World.Network
 
 			response = response.Substring(pos, response.IndexOf('<', pos) - pos);
 
-			if (response == "@end")
+			// End shouldn't be handled implicitly.
+			/*if (response == "@end")
 			{
 				client.Send(new MabiPacket(Op.NPCTalkSelectEnd, creature.Id));
 
 				target.Script.OnEnd(client);
 			}
-			else if (response.StartsWith("@input"))
+			else*/
+			if (response.StartsWith("@input"))
 			{
 				var splitted = response.Split(':');
 				if (client.NPCSession.Response != null)
@@ -1252,9 +1278,8 @@ namespace Aura.World.Network
 		/// </summary>
 		uint DGID1 = 10001;
 		uint DGID2 = 10002;
-		uint ITID2 = 2000;
 		ulong INSTANCEID = Id.Instances;
-		string DGDESIGN = "Gairech_Fiodh_Dungeon";
+		string DGDESIGN = "TirCho_Alby_Low_Dungeon";
 		private bool HandleDungeonDrop(WorldClient client, MabiCreature creature, MabiItem item)
 		{
 			// TODO: Go through the list of dungeons (scriptable?), check the
@@ -1287,8 +1312,9 @@ namespace Aura.World.Network
 
 			dunp.PutByte(1);
 			dunp.PutString(DGDESIGN);            // Dungeon name (dungeondb.xml)
-			dunp.PutInt(ITID2);
-			dunp.PutInt(0);
+
+			dunp.PutInt(1234567890);
+			dunp.PutInt(0987654321);
 			dunp.PutInt(0);
 
 			dunp.PutInt(2);                      // ? Count, Entry + Floors?
@@ -1307,10 +1333,10 @@ namespace Aura.World.Network
 					dunp.PutByte(0);
 					dunp.PutByte(0);
 
-					dunp.PutByte(5);
-					dunp.PutByte(1);
+					dunp.PutByte(0);
+					dunp.PutByte(0);
 
-					dunp.PutByte(5);
+					dunp.PutByte(0);
 					dunp.PutByte(0);
 				}
 			}
@@ -1318,7 +1344,7 @@ namespace Aura.World.Network
 			dunp.PutInt(0);
 			dunp.PutInt(1);					     // Floor Count?
 			{
-				dunp.PutInt(0);
+				dunp.PutInt(543210987);
 				dunp.PutInt(0);
 			}
 
@@ -1571,7 +1597,7 @@ namespace Aura.World.Network
 			if (creature.Pet != null)
 			{
 				creature.Pet.SetLocation(creature.Region, pos.X, pos.Y);
-				client.Send(PacketCreator.EnterRegionPermission(creature.Pet));
+				client.SendEnterRegionPermission(creature.Pet);
 
 				foreach (var rider in creature.Pet.Riders.Where(c => c.Client != client))
 					((WorldClient)rider.Client).Warp(creature.Region, pos.X, pos.Y);
@@ -2045,7 +2071,7 @@ namespace Aura.World.Network
 			p.PutInt(0);
 			client.Send(p);
 
-			client.Send(PacketCreator.EnterRegionPermission(pet));
+			client.SendEnterRegionPermission(pet);
 		}
 
 		private void HandlePetUnsummon(WorldClient client, MabiPacket packet)
@@ -2116,7 +2142,7 @@ namespace Aura.World.Network
 
 			var petId = packet.GetLong();
 
-			var creatureIsSitting = creature.HasState(CreatureStates.SitDown);
+			var creatureIsSitting = creature.Has(CreatureStates.SitDown);
 
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == petId);
 			if (pet == null || pet.IsDead || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17 || creatureIsSitting || !WorldManager.InRange(creature, pet, 200))
@@ -2207,7 +2233,7 @@ namespace Aura.World.Network
 					client.Send(new MabiPacket(Op.CharacterLock, creature.Id).PutInts(0xEFFFFFFE, 0));
 
 					creature.SetLocation(DGID2, 5992, 5614);
-					client.Send(PacketCreator.EnterRegionPermission(creature));
+					client.SendEnterRegionPermission(creature);
 
 					success = 1;
 				}
@@ -2409,7 +2435,7 @@ namespace Aura.World.Network
 			var targetId = packet.GetLong();
 			var target = WorldManager.Instance.GetCreatureById(targetId);
 			// This should fix killing everything for now.
-			if (target == null || !target.HasState(CreatureStates.Npc) || target.HasState(CreatureStates.GoodNpc))
+			if (target == null || !target.Has(CreatureStates.Npc) || target.Has(CreatureStates.GoodNpc))
 			{
 				client.Send(new MabiPacket(Op.CombatAttackR, creature.Id));
 				return;
@@ -3325,10 +3351,15 @@ namespace Aura.World.Network
 
 			// TODO: Check if vaild (is leader and whatnot)
 			// if cutscene.IsLeader(creature)
+
 			client.Send(new MabiPacket(Op.CutsceneEnd, Id.World).PutLong(creature.Id));
+
 			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(creature), SendTargets.Range | SendTargets.ExcludeSender, creature);
 			client.Send(PacketCreator.EntitiesAppear(WorldManager.Instance.GetEntitiesInRange(creature)));
+
 			client.SendUnlock(creature);
+
+			//client.Send(new MabiPacket(Op.CutsceneEnd+1, Id.World).PutLong(creature.Id));
 
 			if (creature.CurrentCutscene != null)
 			{
@@ -3444,6 +3475,24 @@ namespace Aura.World.Network
 		private void HandleCancelBeautyShop(WorldClient client, MabiPacket packet)
 		{
 			client.Send(new MabiPacket(Op.CancelBeautyShopR, client.Character.Id));
+		}
+
+		/// <summary>
+		/// Parameters: None
+		/// Description: Sent when closing the chat with Nao.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
+		private void HandleLeaveSoulStream(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			client.Send(new MabiPacket(Op.LeaveSoulStreamR, Id.World));
+
+			client.SendLock(creature);
+			client.SendEnterRegionPermission(creature);
 		}
 	}
 }

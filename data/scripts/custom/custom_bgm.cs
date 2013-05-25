@@ -47,6 +47,8 @@ public class CustomBGMScript : BaseScript
 	public override void Dispose()
 	{
 		EntityEvents.Instance.PlayerChangesRegion -= OnPlayerChangesRegion;
+
+		base.Dispose();
 	}
 
 	public void OnPlayerChangesRegion(object sender, EntityEventArgs args)

@@ -474,7 +474,7 @@ namespace Aura.World.World
 			if (range < 1)
 				range = WorldConf.SightRange;
 
-			return _creatures.FindAll(a => a != entity && a is MabiNPC && ((a as MabiNPC).State & CreatureStates.GoodNpc) == 0 && !a.IsDead && InRange(a, entity, range));
+			return _creatures.FindAll(a => a != entity && a is MabiNPC && !(a as MabiNPC).Has(CreatureStates.GoodNpc) && !a.IsDead && InRange(a, entity, range));
 		}
 
 		public List<MabiCreature> GetPlayersInRange(MabiEntity entity, uint range = 0)

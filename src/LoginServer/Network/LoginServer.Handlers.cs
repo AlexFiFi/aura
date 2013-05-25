@@ -535,9 +535,20 @@ namespace Aura.Login.Network
 		{
 			var serverName = packet.GetString();
 			var channelName = packet.GetString();
-			var unk1 = packet.GetByte();
-			var unk2 = packet.GetInt();
-			var characterId = packet.GetLong();
+			var rebirth = packet.GetBool();
+
+			ulong characterId = 0;
+
+			if (!rebirth)
+			{
+				var unk = packet.GetInt();
+				characterId = packet.GetLong();
+			}
+			else
+			{
+				characterId = packet.GetLong();
+				var unk = packet.GetLong();
+			}
 
 			MabiServer server = null;
 			MabiChannel channel = null;
@@ -564,12 +575,12 @@ namespace Aura.Login.Network
 				response.PutByte(1);
 				response.PutString(server.Name);
 				response.PutString(channel.Name);
-				response.PutShort(6);
+				response.PutShort(6); // Channel "Id"? (seems to be equal to channel nr)
 				response.PutString(channel.IP);
 				response.PutString(channel.IP);
 				response.PutShort(channel.Port);
 				response.PutShort((ushort)(channel.Port + 2));
-				response.PutInt(unk2);
+				response.PutInt(1);
 				response.PutLong(characterId);
 			}
 

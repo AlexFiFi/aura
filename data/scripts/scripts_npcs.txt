@@ -24,7 +24,8 @@ virtual: npc/regions/emain/beanrua_base.cs
 // Global                                                                   |
 //===========================================================================
 
-npc/global/partner.cs
+npc/beginner.cs
+npc/global/mailbox.cs
 npc/global/mailbox.cs
 
 //===========================================================================

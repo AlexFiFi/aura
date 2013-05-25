@@ -176,27 +176,6 @@ namespace Aura.World.Network
 			return p;
 		}
 
-		public static MabiPacket EnterRegionPermission(MabiEntity entity, bool permission = true)
-		{
-			var p = new MabiPacket(Op.EnterRegionPermission, Id.World);
-			var pos = entity.GetPosition();
-
-			p.PutLong(entity.Id);
-			if (permission)
-			{
-				p.PutByte(1);
-				p.PutInt(entity.Region);
-				p.PutInt(pos.X);
-				p.PutInt(pos.Y);
-			}
-			else
-			{
-				p.PutByte(0);
-			}
-
-			return p;
-		}
-
 		public static MabiPacket GuildMessage(MabiGuild guild, MabiCreature target, string message)
 		{
 			var character = target as MabiPC;

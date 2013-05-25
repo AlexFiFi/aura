@@ -47,7 +47,7 @@ namespace Aura.World.Scripting
 				  "<call convention=\"thiscall\" syncmode=\"non-sync\">" +
 					  "<this type=\"character\">{0}</this>" +
 					  "<function>" +
-						    "<prototype>void character::ShowTalkMessage(character, string)</prototype>" +
+							"<prototype>void character::ShowTalkMessage(character, string)</prototype>" +
 							"<arguments>" +
 								"<argument type=\"character\">{0}</argument>" +
 								"<argument type=\"string\">{1}</argument>" +
@@ -76,7 +76,7 @@ namespace Aura.World.Scripting
 
 		protected void SendScript(WorldClient client, string script)
 		{
-			var p = new MabiPacket(Op.NPCTalkSelectable, client.Character.Id);
+			var p = new MabiPacket(Op.NPCTalk, client.Character.Id);
 			p.PutString(script);
 			p.PutBin(new byte[] { 0 });
 			client.Send(p);
@@ -181,7 +181,8 @@ namespace Aura.World.Scripting
 
 	public class NPCDialogMsgSelect : NPCDialogMsg
 	{
-		public NPCDialogMsgSelect(params NPCDialogElement[] elements) : base(elements)
+		public NPCDialogMsgSelect(params NPCDialogElement[] elements)
+			: base(elements)
 		{
 		}
 
@@ -422,6 +423,11 @@ namespace Aura.World.Scripting
 			client.Character.GiveItem(id, amount, color1, color2, color3, false);
 		}
 
+		protected virtual void SetId(ulong id)
+		{
+			this.NPC.Id = id;
+		}
+
 		protected virtual void SetName(string name)
 		{
 			this.NPC.Name = name;
@@ -614,7 +620,7 @@ namespace Aura.World.Scripting
 
 		protected virtual NPCDialogListbox Listbox(string title, params NPCDialogElement[] elements)
 		{
-			return new NPCDialogListbox(title, elements:elements);
+			return new NPCDialogListbox(title, elements: elements);
 		}
 
 		public virtual void Msg(WorldClient client, Options disable = Options.None, params string[] lines)
@@ -631,7 +637,7 @@ namespace Aura.World.Scripting
 
 		public virtual NPCDialogMsg Msg(params string[] lines)
 		{
-			return new NPCDialogMsg(Text(lines));	
+			return new NPCDialogMsg(Text(lines));
 		}
 
 		protected virtual void MsgInput(WorldClient client, string message, string title = "Input", string description = "", byte maxLen = 20, bool cancelable = true)
@@ -641,7 +647,7 @@ namespace Aura.World.Scripting
 
 		protected virtual void MsgListbox(WorldClient client, string message, string title, params NPCDialogElement[] elements)
 		{
-			new NPCDialogMsgSelect(Text(message)).Add(this.Listbox(title, elements:elements)).Send(client, this);
+			new NPCDialogMsgSelect(Text(message)).Add(this.Listbox(title, elements: elements)).Send(client, this);
 		}
 
 		protected virtual void MsgListbox(WorldClient client, string message, string title, string cancelKw = "@end", uint height = 10, params NPCDialogElement[] elements)
@@ -649,19 +655,19 @@ namespace Aura.World.Scripting
 			new NPCDialogMsgSelect(Text(message)).Add(this.Listbox(title, cancelKw, height, elements)).Send(client, this);
 		}
 
-		public virtual void MsgSelect(WorldClient client, string message, params NPCDialogButton[] buttons)
+		public virtual void MsgSelect(WorldClient client, string message, params NPCDialogElement[] buttons)
 		{
 			this.MsgSelect(message, buttons).Send(client, this);
 		}
 
-		public virtual void MsgSelect(WorldClient client, Options disable, string message, params NPCDialogButton[] buttons)
+		public virtual void MsgSelect(WorldClient client, Options disable, string message, params NPCDialogElement[] buttons)
 		{
 			this.Disable(client, disable);
 			this.MsgSelect(message, buttons).Send(client, this);
 			this.Enable(client, disable);
 		}
 
-		public virtual NPCDialogMsgSelect MsgSelect(string message, params NPCDialogButton[] buttons)
+		public virtual NPCDialogMsgSelect MsgSelect(string message, params NPCDialogElement[] buttons)
 		{
 			return new NPCDialogMsgSelect(Text(message)).Add(buttons) as NPCDialogMsgSelect;
 		}
@@ -674,6 +680,12 @@ namespace Aura.World.Scripting
 		protected virtual NPCDialogText Text(params string[] lines)
 		{
 			return new NPCDialogText(string.Join("<br/>", lines));
+		}
+
+		protected virtual void EndDialog(WorldClient client, string msg)
+		{
+			client.Send(new MabiPacket(Op.NPCTalkSelectEnd, client.Character.Id));
+			this.CloseCustom(client, msg);
 		}
 
 		// End dialog functions

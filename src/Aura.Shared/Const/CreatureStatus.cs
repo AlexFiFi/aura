@@ -43,7 +43,7 @@ namespace Aura.Shared.Const
 		NoHitDelay = 0x00000080,
 		Hibernation = 0x00000100,
 		SummonedByGiant = 0x00000200,
-		NotenableMeleeAttack = 0x00000400,
+		DisableMeleeAttack = 0x00000400,
 		SyncFrameworkEffect = 0x00000800,
 		CloakingAfterRevival = 0x00001000,
 		Bubble = 0x00002000,
