@@ -121,9 +121,9 @@ public class CaitinScript : NPCScript
 				{
 					case "personal_info":
 					{
-						Msg(c, "My grandmother named me.", "I work here at the Grocery Store, so I know one important thing.", "You have to eat to survive!", "Food helps you regain your Stamina.");
-						Msg(c, "That doesn't mean you can eat just everything.", "You shouldn't have too much greasy food", "because you could gain a lot of weight.");
-						Msg(c, "Huh? You have food with you but don't know how to eat it?", "Okay, open the Inventory and right-click on the food.", "Then, click \"Use\" to eat.", "If you have bread in your Inventory, and your Stamina is low,", "try eating it now.");
+						Msg(c, "My grandmother named me.<br/>I work here at the Grocery Store, so I know one important thing.<br/>You have to eat to survive!<br/>Food helps you regain your Stamina.");
+						Msg(c, "That doesn't mean you can eat just everything.<br/>You shouldn't have too much greasy food<br/>because you could gain a lot of weight.");
+						Msg(c, "Huh? You have food with you but don't know how to eat it?<br/>Okay, open the Inventory and right-click on the food.<br/>Then, click \"Use\" to eat.<br/>If you have bread in your Inventory, and your Stamina is low,<br/>try eating it now.");
 						break;
 					}
 					

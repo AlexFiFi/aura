@@ -50,11 +50,7 @@ public class SionScript : NPCScript
 	}
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "Wearing a sturdy overall over his pale yellow shirt, this boy has soot and dust all over his face, hands, and clothes.",
-            "His short and stubby fingers are quite calloused, and he repeatedly rubs his hands on the bulging pocket of his pants.",
-            "His dark green hair is so coarse that even his hair band can't keep it neat. But between his messy hair, his brown sparkly eyes shine bright with curiosity."
-        );
+        Msg(c, Options.FaceAndName, "Wearing a sturdy overall over his pale yellow shirt, this boy has soot and dust all over his face, hands, and clothes.<br/>His short and stubby fingers are quite calloused, and he repeatedly rubs his hands on the bulging pocket of his pants.<br/>His dark green hair is so coarse that even his hair band can't keep it neat. But between his messy hair, his brown sparkly eyes shine bright with curiosity.");
         MsgSelect(c, "What's up?", Button("Start Conversation", "@talk"), Button("Use a Furnace", "@furnace"), Button("Upgrade Item", "@upgrade"));
 
         var r = Wait();

@@ -16,7 +16,6 @@ virtual: npc/commerce/goblin_base.cs
 virtual: npc/commerce/ogre_base.cs
 virtual: npc/regions/courcle/courcleinhabitant_base.cs
 virtual: npc/regions/courcle/docknpc_base.cs
-virtual: npc/regions/dunbarton/crystal_ball_base.cs
 virtual: npc/regions/emain/emain_guardsman_base.cs
 virtual: npc/regions/emain/beanrua_base.cs
 

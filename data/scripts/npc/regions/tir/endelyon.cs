@@ -46,11 +46,7 @@ public class EndelyonScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"An elegent young lady wears the simple black dress of a Lymilark priestess.",
-			"Her face is set in a calm, demur expression, and her eyes exude warmth.",
-			"A slight smile tugging at her lips hints at a strong will."
-		);
+		Msg(c, Options.FaceAndName, "An elegent young lady wears the simple black dress of a Lymilark priestess.<br/>Her face is set in a calm, demur expression, and her eyes exude warmth.<br/>A slight smile tugging at her lips hints at a strong will.");
 
 		MsgSelect(c, "May I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify", "@modify"));
 		

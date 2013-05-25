@@ -43,11 +43,7 @@ public class DuncanScript : NPCScript
 	{
 		Bgm(c, "NPC_Duncan.mp3");
 		
-		Msg(c, Options.FaceAndName,
-			"An elderly man gazes softly at the world around him with a calm air of confidence.",
-			"Although his face appears weather-beaten, and his hair and beard are gray, his large beaming eyes make him look youthful somehow.",
-			"As he speaks, his voice resonates with a kind of gentle authority."
-		);
+		Msg(c, Options.FaceAndName, "An elderly man gazes softly at the world around him with a calm air of confidence.<br/>Although his face appears weather-beaten, and his hair and beard are gray, his large beaming eyes make him look youthful somehow.<br/>As he speaks, his voice resonates with a kind of gentle authority.");
 		
 		Hook(c, "quests");
 		
@@ -79,17 +75,10 @@ public class DuncanScript : NPCScript
 
 			case "@lostandfound":
 			{
-				Msg(c,
-					"If you are knocked unconcious in a dungeon or field, any item you've dropped will be lost unless you get resurrected right at the spot.",
-					"Lost items can usually be recovered from a Town Office or a Lost-and-Found.",
-					"<p/>Unfortunatly, Tir Chonaill does not have a Town Office, so I run the Lost-and-Found myself.",
-					"The lost items are recovered with magic,",
-					"so unless you've dropped them on purpose, you can recover those items with their blessings intact.",
-					"You will, however, need to pay a fee.",
-					"<p/>As you can see, I have limited space in my home. So I can only keep 20 items for you.",
-					"If there are more than 20 lost items, I'll have to throw out the oldest items to make room.",
-					"I strongly suggest you retrieve any lost items you don't want to lose as soon as possible."
-				);
+				Msg(c, "If you are knocked unconcious in a dungeon or field, any item you've dropped will be lost unless you get resurrected right at the spot.<br/>Lost items can usually be recovered from a Town Office or a Lost-and-Found.");
+				Msg(c, "Unfortunatly, Tir Chonaill does not have a Town Office, so I run the Lost-and-Found myself.<br/>The lost items are recovered with magic,<br/>so unless you've dropped them on purpose, you can recover those items with their blessings intact.<br/>You will, however, need to pay a fee.");
+				Msg(c, "As you can see, I have limited space in my home. So I can only keep 20 items for you.<br/>If there are more than 20 lost items, I'll have to throw out the oldest items to make room.<br/>I strongly suggest you retrieve any lost items you don't want to lose as soon as possible.");
+
 				End();
 			}
 		}

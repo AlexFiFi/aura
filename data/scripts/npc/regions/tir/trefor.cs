@@ -67,11 +67,7 @@ public class DuncanScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"Quite a specimen of physical fitness appears before you wearing well-polished armor that fits closely the contours of his body.",
-			"A medium-length sword hangs delicately from the scabbard at his waist. While definitely a sight to behold, it's difficult to see much of his face because of his lowered visor, but one cannot help but notice the flash in his eyes occasionally catching the light between the slits on his helmet.",
-			"His tightly pursed lips seem to belie his desire to not shot any emotion."
-		);
+		Msg(c, Options.FaceAndName, "Quite a specimen of physical fitness appears before you wearing well-polished armor that fits closely the contours of his body.<br/>A medium-length sword hangs delicately from the scabbard at his waist. While definitely a sight to behold, it's difficult to see much of his face because of his lowered visor, but one cannot help but notice the flash in his eyes occasionally catching the light between the slits on his helmet.<br/>His tightly pursed lips seem to belie his desire to not shot any emotion.");
 
 		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"), Button("Get Alby Beginner Dungeon Pass", "@pass"));
 		
@@ -101,11 +97,7 @@ public class DuncanScript : NPCScript
 
 			case "@upgrade":
 			{
-				Msg(c,
-					"Do you want to modify an item?",
-					"You don't need to go too far; I'll do it for you. Select an item that you'd like me to modify.",
-					"I'm sure you know that the number of times it can be modified, as well as the types of modifications available depend on the item, right?"
-				);
+				Msg(c, "Do you want to modify an item?<br/>You don't need to go too far; I'll do it for you. Select an item that you'd like me to modify.<br/>I'm sure you know that the number of times it can be modified, as well as the types of modifications available depend on the item, right?");
 				End();
 			}
 

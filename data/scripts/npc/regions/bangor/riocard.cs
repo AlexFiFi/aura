@@ -46,12 +46,7 @@ public class RiocardScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "He wears a yellow beret backwards at a slight angle as his hair sticks out on the sides.",
-            "The yellow shirt that he seemed to have put on in a rush matches his hat.",
-            "Between the narrow shoulders, his face is still full of boyish charm.",
-            "Every time he blinks, his eyelid casts a slight shadow over his innocent, light green eyes."
-        );
+        Msg(c, Options.FaceAndName, "He wears a yellow beret backwards at a slight angle as his hair sticks out on the sides.<br/>The yellow shirt that he seemed to have put on in a rush matches his hat.<br/>Between the narrow shoulders, his face is still full of boyish charm.<br/>Every time he blinks, his eyelid casts a slight shadow over his innocent, light green eyes.");
         MsgSelect(c, "Mmm? What is it?", Button("Start Conversation", "@talk"));
 
         var r = Wait();

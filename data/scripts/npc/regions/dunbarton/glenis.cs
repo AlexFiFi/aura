@@ -119,34 +119,30 @@ public class GlenisScript : NPCScript
 	}
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "With her round face and large, sparkling eyes, this middle aged woman appears to have a big heart.",
-            "Her face, devoid of makeup, is dominated by her large eyes and a playful smile.",
-	    "Over her lace collar she wears and old but well-polished locket."
-        );
+        Msg(c, Options.FaceAndName, "With her round face and large, sparkling eyes, this middle aged woman appears to have a big heart.<br/>Her face, devoid of makeup, is dominated by her large eyes and a playful smile.<br/>Over her lace collar she wears and old but well-polished locket.");
         MsgSelect(c, "Welcome!<br/>This is Glenis' Restaurant.", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"));
 
         var r = Wait();
         switch (r)
         {
             case "@talk":
-                {
-                    Msg(c, "Come on in... Welcome to our restaurant.");
+			{
+				Msg(c, "Come on in... Welcome to our restaurant.");
 
-                L_Keywords:
-                    Msg(c, Options.Name, "(Glenis is waiting for me to say something.)");
-                    ShowKeywords(c);
-                    var keyword = Wait();
+			L_Keywords:
+				Msg(c, Options.Name, "(Glenis is waiting for me to say something.)");
+				ShowKeywords(c);
+				var keyword = Wait();
 
-                    Msg(c, "Can we change the subject?");
-                    goto L_Keywords;
-                }
+				Msg(c, "Can we change the subject?");
+				goto L_Keywords;
+			}
             case "@shop":
-                {
-                    Msg(c, "Are you looking for any kind of food in particular?<br/>Take your pick.");
-                    OpenShop(c);
-                    End();
-                }
-}
-}
+			{
+				Msg(c, "Are you looking for any kind of food in particular?<br/>Take your pick.");
+				OpenShop(c);
+				End();
+			}
+		}
+	}
 }

@@ -42,9 +42,7 @@ public class MevenScript : NPCScript
 	public override IEnumerable OnTalk(WorldClient c)
 	{
 		Disable(c, Options.FaceAndName);
-		Msg(c, "Dressed in a robe, this composed man of moderate build maintains a very calm posture.",
-			"Every bit of his appearance and the air surrounding him show that he is unfailingly a man of the clergy.",
-			"Silvery hair frames his friendly face, and his gentle eyes suggest a rather quaint and quiet mood with flashes of hidden humor.");
+		Msg(c, "Dressed in a robe, this composed man of moderate build maintains a very calm posture.<br/>Every bit of his appearance and the air surrounding him show that he is unfailingly a man of the clergy.<br/>Silvery hair frames his friendly face, and his gentle eyes suggest a rather quaint and quiet mood with flashes of hidden humor.");
 
 		Enable(c, Options.FaceAndName);
 		MsgSelect(c, "Welcome to the Church of Lymilark.", Button("Start Conversation", "@talk"));

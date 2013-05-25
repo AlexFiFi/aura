@@ -58,20 +58,10 @@ public class CommerceGoblinScript : NPCScript
 			
 			case "@explain":
 			{
-				Msg(c,
-					"Buy low, sell high!<br/>This is the number one principle of trading.",
-					"You purchase trade goods and sell them in other towns.",
-					"<p/>If you carry goods to far away places, or places where they are rare,",
-					"you'll make quite a bit more. Always check the market price",
-					"and head into the direction of the highest profit, but keep the travel times in mind.",
-					"<p/>Of course, there's more to it than that.",
-					"Bandits prowl the trade routes, looking to steal whatever they can.",
-					"Listen to the guide Imp and be cautious, but your best bet",
-					"is to always be ready for a fight.",
-					"<p/>You'll start with a Backpack to carry goods, but you can get others from the Ogre.",
-					"Y'know, instead of listening to me go on and on, try it yourself!",
-					"Start by purchasing some goods from me to trade."
-				);
+				Msg(c, "Buy low, sell high!<br/>This is the number one principle of trading.<br/>You purchase trade goods and sell them in other towns.");
+				Msg(c, "If you carry goods to far away places, or places where they are rare,<br/>you'll make quite a bit more. Always check the market price<br/>and head into the direction of the highest profit, but keep the travel times in mind.");
+				Msg(c, "Of course, there's more to it than that.<br/>Bandits prowl the trade routes, looking to steal whatever they can.<br/>Listen to the guide Imp and be cautious, but your best bet<br/>is to always be ready for a fight.");
+				Msg(c, "You'll start with a Backpack to carry goods, but you can get others from the Ogre.<br/>Y'know, instead of listening to me go on and on, try it yourself!<br/>Start by purchasing some goods from me to trade.");
 				End();
 			}
 			

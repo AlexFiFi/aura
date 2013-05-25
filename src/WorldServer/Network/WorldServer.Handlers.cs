@@ -815,15 +815,14 @@ namespace Aura.World.Network
 
 			response = response.Substring(pos, response.IndexOf('<', pos) - pos);
 
-			// End shouldn't be handled implicitly.
-			/*if (response == "@end")
+			// Maybe @end shouldn't be handled implicitly.
+			if (response == "@end")
 			{
 				client.Send(new MabiPacket(Op.NPCTalkSelectEnd, creature.Id));
 
 				target.Script.OnEnd(client);
 			}
-			else*/
-			if (response.StartsWith("@input"))
+			else if (response.StartsWith("@input"))
 			{
 				var splitted = response.Split(':');
 				if (client.NPCSession.Response != null)

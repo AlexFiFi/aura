@@ -66,11 +66,7 @@ public class RanaldScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"From his appearance and posture, there is no doubt that he is well into middle age, but he is surprisingly well-built and in good shape.",
-			"Long fringes of hair cover half of his forehead and right cheek. A strong nose bridge stands high between his shining hawkish eyes.",
-			"His deep, low voice has the power to command other people's attention."
-		);
+		Msg(c, Options.FaceAndName, "From his appearance and posture, there is no doubt that he is well into middle age, but he is surprisingly well-built and in good shape.<br/>Long fringes of hair cover half of his forehead and right cheek. A strong nose bridge stands high between his shining hawkish eyes.<br/>His deep, low voice has the power to command other people's attention.");
 
 		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify Item", "@modify"), Button("Get Ciar Beginner Dungeon Pass", "@pass"));
 		
@@ -100,12 +96,7 @@ public class RanaldScript : NPCScript
 			
 			case "@modify":
 			{
-				Msg(c,
-					"Hmm... You want me to modify your item? You got some nerve!",
-					"Ha ha. Just joking. Do you need to modify an item? Count on Ranald.",
-					"Pick an item to modify.",
-					"Oh, before that. Types or numbers of modifications are different depending on what item you want to modify. Always remember that."
-				);
+				Msg(c, "Hmm... You want me to modify your item? You got some nerve!<br/>Ha ha. Just joking. Do you need to modify an item? Count on Ranald.<br/>Pick an item to modify.<br/>Oh, before that. Types or numbers of modifications are different depending on what item you want to modify. Always remember that." );
 				End();
 			}
 

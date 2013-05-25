@@ -155,12 +155,7 @@ public class KaynaScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "She's a middle age woman with round features.",
-            "Her clothes are worn with the smoke and soot",
-	    "of her forge. Her two pigtails allow her pearl earrings",
-	    "to glitter in the sunlight."
-        );
+        Msg(c, Options.FaceAndName, "She's a middle age woman with round features.<br/>Her clothes are worn with the smoke and soot<br/>of her forge. Her two pigtails allow her pearl earrings<br/>to glitter in the sunlight.");
         MsgSelect(c, "Hi there! Anything I can help you with?", Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 
         var r = Wait();

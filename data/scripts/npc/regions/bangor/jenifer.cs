@@ -84,12 +84,7 @@ public class JeniferScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "Well-groomed purple hair, a face as smooth as flawless porcelain,",
-            "and brown eyes with thick mascara complemented by a mole that adds beauty to her oval faced.",
-            "The jasmine scent fills the air every time her light sepia healer dress moves,",
-            "and her red cross earrings dangle and shine as her smile spreads across her lips."
-        );
+        Msg(c, Options.FaceAndName, "Well-groomed purple hair, a face as smooth as flawless porcelain,<br/>and brown eyes with thick mascara complemented by a mole that adds beauty to her oval faced.<br/>The jasmine scent fills the air every time her light sepia healer dress moves,<br/>and her red cross earrings dangle and shine as her smile spreads across her lips.");
         MsgSelect(c, "Mmm? How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 
         var r = Wait();

@@ -64,12 +64,7 @@ public class DeianScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"An adolescent boy carrying a shepherd's staff watches over a flock of sheep.",
-			"Now and then, he hollers at some sheep that've wandered too far, and his voice cracks every time.",
-			"His skin is tanned and his muscles are strong from his daily work.",
-			"Though he's young, he peers at you with so much confidence it almost seems like arrogance."
-		);
+		Msg(c, Options.FaceAndName, "An adolescent boy carrying a shepherd's staff watches over a flock of sheep.<br/>Now and then, he hollers at some sheep that've wandered too far, and his voice cracks every time.<br/>His skin is tanned and his muscles are strong from his daily work.<br/>Though he's young, he peers at you with so much confidence it almost seems like arrogance.");
 			
 		MsgSelect(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
 		
@@ -99,11 +94,7 @@ public class DeianScript : NPCScript
 
 			case "@upgrade":
 			{
-				Msg(c,
-					"Upgrades! Who else would know more about that than the great Deian? Hehe...",
-					"Now, what do you want to upgrade?",
-					"Don't forget to check how many times you can upgrade that item and what type of upgrade it is before you give it to me..."
-				);
+				Msg(c, "Upgrades! Who else would know more about that than the great Deian? Hehe...<br/>Now, what do you want to upgrade?<br/>Don't forget to check how many times you can upgrade that item and what type of upgrade it is before you give it to me...");
 				End();
 			}
 		}

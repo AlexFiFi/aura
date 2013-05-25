@@ -8,7 +8,6 @@ using Aura.World.World;
 
 namespace Aura.World.Scripting
 {
-	[Flags]
 	public enum Options { None = 0, Face = 1, Name = 2, FaceAndName = 3 }
 
 	public class NPCSession

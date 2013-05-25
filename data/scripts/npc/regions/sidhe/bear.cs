@@ -47,12 +47,7 @@ public class TarlachBearScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"The Brown Bear is stout and well built.",
-			"Standing solemnly in a white field of snow, it seems to be searching for something.",
-			"Steam flows out from the bear's mouth with every breath while the bear sniffs the ground from time to time, using its front paw to dig the grass.",
-			"It constantly looks around, seemingly watching out for some kind of threat or danger."
-		);
+		Msg(c, Options.FaceAndName, "The Brown Bear is stout and well built.<br/>Standing solemnly in a white field of snow, it seems to be searching for something.<br/>Steam flows out from the bear's mouth with every breath while the bear sniffs the ground from time to time, using its front paw to dig the grass.<br/>It constantly looks around, seemingly watching out for some kind of threat or danger.");
 		MsgSelect(c, "Grr...", Button("Start Conversation", "@talk"));
 		
 		var r = Wait();

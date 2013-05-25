@@ -35,10 +35,7 @@ public class Carys_to_iria_modelScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "Many intricate tattoos cover his dark, tanned skin.",
-            "Beneath his shimmering white hair beams a calm, friendly smile."
-        );
+        Msg(c, Options.FaceAndName, "Many intricate tattoos cover his dark, tanned skin.<br/>Beneath his shimmering white hair beams a calm, friendly smile.");
         MsgSelect(c, "Do you have business with me?", Button("Start Conversation", "@talk"), Button("Disembark", "@disembark"));
 
         var r = Wait();

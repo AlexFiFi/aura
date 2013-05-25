@@ -132,11 +132,7 @@ public class AeiraScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "This girl seems to be in her late teens with big thick glasses resting at the tip of her nose.",
-            "Behind the glasses are two large, round brown eyes shining brilliantly.",
-            "Wearing a loose-fitting dress, she has a ribbon made of soft and thin material around her neck."
-        );
+        Msg(c, Options.FaceAndName, "This girl seems to be in her late teens with big thick glasses resting at the tip of her nose.<br/>Behind the glasses are two large, round brown eyes shining brilliantly.<br/>Wearing a loose-fitting dress, she has a ribbon made of soft and thin material around her neck.");
         MsgSelect(c, "So, what can i help you with?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 
         var r = Wait();

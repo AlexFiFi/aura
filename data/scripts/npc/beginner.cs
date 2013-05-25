@@ -39,7 +39,7 @@ public class NaoScript : NPCScript
 			//Do not hesitate to ask questions. I am more than happy to answer them for you.
 			//If you have any questions before heading off to Erinn, please feel free to ask.
 			MsgSelect(c, "If there is something you'd like to know more of, please ask me now.",
-				Listbox("Talk to Nao", "@end", 4,
+				List("Talk to Nao", 4, "@break",
 					Button("About Mabinogi", "@mabinogi"),
 					Button("About Erinn", "@erinn"),
 					Button("What to do?", "@what"),
@@ -84,7 +84,7 @@ public class NaoScript : NPCScript
 		// End
 		Msg(c, "Soon, you'll be able to go to Erinn.");
 		Msg(c, "When you arrive in Erinn, please go see Chief Duncan<br/>and show him my letter of introduction.<br/>I'm sure he will be a great help to you.");
-		Msg(c, Options.FaceAndName, "<image name='Novice_item_g9Korea'/>(Received Bread, Traveler's Guide, and Soul Stones from Nao.)");
+		Msg(c, Options.FaceAndName, "(Received Bread, Traveler's Guide, and Soul Stones from Nao.)", Image("Novice_item_g9Korea"));
 		EndDialog(c, "I wish you the best of luck in Erinn.<br/>See you around.");
 
 		// Move to Uladh Beginner Area

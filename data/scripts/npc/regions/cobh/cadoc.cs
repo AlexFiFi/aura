@@ -67,11 +67,7 @@ public class CadocScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "He is an extremely tall man. Huge muscles press his",
-            "veins against tanned skin. He looks much",
-            "too strong to handle something as delicate as fish."
-        );
+        Msg(c, Options.FaceAndName, "He is an extremely tall man. Huge muscles press his<br/>veins against tanned skin. He looks much<br/>too strong to handle something as delicate as fish.");
         MsgSelect(c, "I can't believe how skinny you are! I know what<br/>you need to build some bulk. Buy some of my fish.<br/>They're rich in protein and can be used as bait.", Button("Shop", "@shop"));
 
         var r = Wait();

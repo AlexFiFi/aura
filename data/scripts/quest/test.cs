@@ -22,7 +22,7 @@ public class TestQuestScript : QuestScript
 		AddReward(RewardType.Exp, 2000);
 		AddReward(RewardType.Item, 63016, 2);
 		AddReward(RewardType.Gold, 500);
-		AddReward(RewardType.Skill, SkillConst.Assault, SkillRank.R2);
+		//AddReward(RewardType.Skill, SkillConst.Assault, SkillRank.R2);
 		
 		AddHook("_duncan", "quests", TalkDuncan);
 	}

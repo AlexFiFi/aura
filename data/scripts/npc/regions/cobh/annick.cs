@@ -86,10 +86,7 @@ public class AnnickScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "Light wrinkles are beginning to appear on her tanned face.",
-            "She rushes around while talking and laughing."
-        );
+        Msg(c, Options.FaceAndName, "Light wrinkles are beginning to appear on her tanned face.<br/>She rushes around while talking and laughing.");
         MsgSelect(c, "Don't hesitate to ask if you're curious about anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 
         var r = Wait();

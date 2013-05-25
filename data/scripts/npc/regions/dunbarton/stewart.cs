@@ -98,11 +98,7 @@ public class StewartScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "He is a young man with nerdy spectacles and tangled hair.",
-            "Beneath his glasses, his soft eyes are somewhat appealing,",
-	    "but his stained tunic and his hands with reek of herbs confirm that he is clumsy and unkempt."
-        );
+        Msg(c, Options.FaceAndName, "He is a young man with nerdy spectacles and tangled hair.<br/>Beneath his glasses, his soft eyes are somewhat appealing,<br/>but his stained tunic and his hands with reek of herbs confirm that he is clumsy and unkempt.");
         MsgSelect(c, "How can I help you?", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 
         var r = Wait();

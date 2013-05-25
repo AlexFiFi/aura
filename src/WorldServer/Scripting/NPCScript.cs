@@ -11,309 +11,11 @@ using Aura.Shared.Util;
 using Aura.World.Network;
 using Aura.World.World;
 using Aura.World.Events;
+using System.Web;
 
 namespace Aura.World.Scripting
 {
 	public enum NPCLoadType { Real = 1, Virtual = 2 }
-
-	public abstract class NPCDialogElement
-	{
-		public List<NPCDialogElement> Children = new List<NPCDialogElement>();
-
-		public NPCDialogElement Add(params NPCDialogElement[] elements)
-		{
-			Children.AddRange(elements);
-			return this;
-		}
-
-		public virtual void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			foreach (var child in Children)
-				child.Render(client, sb, script);
-		}
-
-		protected string MakeXmlSafe(string message)
-		{
-			return System.Web.HttpUtility.HtmlEncode(message);
-		}
-
-		public virtual void Send(WorldClient client, NPCScript script)
-		{
-			var sb = new StringBuilder();
-
-			this.Render(client, sb, script);
-
-			var xmlScript = string.Format(
-				  "<call convention=\"thiscall\" syncmode=\"non-sync\">" +
-					  "<this type=\"character\">{0}</this>" +
-					  "<function>" +
-							"<prototype>void character::ShowTalkMessage(character, string)</prototype>" +
-							"<arguments>" +
-								"<argument type=\"character\">{0}</argument>" +
-								"<argument type=\"string\">{1}</argument>" +
-							"</arguments>" +
-						  "</function>" +
-				  "</call>",
-				client.Character.Id, MakeXmlSafe(sb.ToString()));
-
-			this.SendScript(client, xmlScript);
-		}
-
-		protected virtual void Select(WorldClient client)
-		{
-			var script = string.Format(
-				"<call convention=\"thiscall\" syncmode=\"sync\" session=\"{1}\">" +
-					"<this type=\"character\">{0}</this>" +
-					"<function>" +
-						"<prototype>string character::SelectInTalk(string)</prototype>" +
-						"<arguments><argument type=\"string\">&#60;keyword&#62;&#60;gift&#62;</argument></arguments>" +
-					"</function>" +
-				"</call>",
-				client.Character.Id, client.NPCSession.SessionId);
-
-			this.SendScript(client, script);
-		}
-
-		protected void SendScript(WorldClient client, string script)
-		{
-			var p = new MabiPacket(Op.NPCTalk, client.Character.Id);
-			p.PutString(script);
-			p.PutBin(new byte[] { 0 });
-			client.Send(p);
-		}
-	}
-
-	public class NPCDialogMsg : NPCDialogElement
-	{
-		public NPCDialogMsg(params NPCDialogElement[] elements)
-		{
-			this.Add(elements);
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			// Check wheather a face tag has to be included, to disable the
-			// face/name, or activate a custom one.
-			if (script.IsEnabled(client, Options.Face))
-			{
-				var dval = script.GetDialogFace(client);
-				if (dval != null)
-					sb.AppendFormat("<npcportrait name=\"{0}\"/>", dval);
-			}
-			else
-				sb.Append("<npcportrait name=\"NONE\"/>");
-
-			if (script.IsEnabled(client, Options.Name))
-			{
-				var dval = script.GetDialogName(client);
-				if (dval != null)
-					sb.AppendFormat("<title name=\"{0}\"/>", dval);
-			}
-			else
-				sb.Append("<title name=\"NONE\"/>");
-
-			base.Render(client, sb, script);
-		}
-	}
-
-	public class NPCDialogImage : NPCDialogElement
-	{
-		string _path;
-		uint _h, _w;
-		bool _local;
-
-		public NPCDialogImage(string name, bool localize = false, uint width = 0, uint height = 0)
-		{
-			_path = name;
-			_local = localize;
-			_w = width;
-			_h = height;
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			sb.Append("<image");
-			if (_local)
-				sb.Append(" local=\"true\"");
-			sb.AppendFormat(" name=\"{0}\"", _path);
-			if (_w != 0)
-				sb.AppendFormat(" width=\"{0}\"", _w);
-			if (_h != 0)
-				sb.AppendFormat(" height=\"{0}\"", _h);
-
-			sb.Append("/>");
-
-			base.Render(client, sb, null);
-		}
-	}
-
-	public class NPCDialogHotkey : NPCDialogElement
-	{
-		string _name;
-
-		public NPCDialogHotkey(string name)
-		{
-			_name = name;
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			sb.AppendFormat("<hotkey name=\"{0}\"/>", _name);
-			base.Render(client, sb, null);
-		}
-	}
-
-	public class NPCDialogText : NPCDialogElement
-	{
-		private string _msg;
-
-		public NPCDialogText(string msg)
-		{
-			_msg = msg;
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			sb.Append(_msg);
-			base.Render(client, sb, null);
-		}
-	}
-
-	public class NPCDialogMsgSelect : NPCDialogMsg
-	{
-		public NPCDialogMsgSelect(params NPCDialogElement[] elements)
-			: base(elements)
-		{
-		}
-
-		public override void Send(WorldClient client, NPCScript script)
-		{
-			base.Send(client, script);
-			Select(client);
-		}
-	}
-
-	public class NPCDialogListbox : NPCDialogElement
-	{
-		uint _visible;
-		string _text, _cancelKW;
-
-		public NPCDialogListbox(string title, string cancelKw = "@end", uint height = 10, params NPCDialogElement[] elements)
-		{
-			_visible = height;
-			_text = title;
-			_cancelKW = cancelKw;
-			this.Add(elements);
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			sb.AppendFormat("<listbox page_size =\"{0}\" title = \"{1}\" cancel = \"{2}\">", _visible, _text, _cancelKW);
-			base.Render(client, sb, null);
-			sb.Append("</listbox>");
-		}
-
-		public override void Send(WorldClient client, NPCScript script)
-		{
-			base.Send(client, script);
-			this.Select(client);
-		}
-	}
-
-	public class NPCDialogButton : NPCDialogElement
-	{
-		private string _text, _kw, _onframe;
-
-		public NPCDialogButton(string text, string keyword = null, string onframe = null)
-		{
-			if (keyword == null)
-				keyword = "@" + text.Replace(" ", "_").ToLower();
-
-			_text = text;
-			_kw = keyword;
-			_onframe = onframe;
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			sb.AppendFormat("<button title=\"{0}\" keyword=\"{1}\"", _text, _kw);
-			if (_onframe != null)
-				sb.AppendFormat(" onframe=\"{0}\"", _onframe);
-			sb.Append("/>");
-			base.Render(client, sb, null);
-		}
-	}
-
-	public class NPCDialogBGM : NPCDialogElement
-	{
-		string _music;
-
-		public NPCDialogBGM(string filename)
-		{
-			_music = filename;
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			sb.AppendFormat("<music name=\"{0}\"/>", _music);
-			base.Render(client, sb, null);
-		}
-	}
-
-	public class NPCDialogKeywords : NPCDialogElement
-	{
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			throw new InvalidOperationException("This element cannot be nested!");
-		}
-
-		public override void Send(WorldClient client, NPCScript script)
-		{
-			var xmlScript = string.Format(
-									   "<call convention=\"thiscall\" syncmode=\"non-sync\">" +
-									   "<this type=\"character\">{0}</this>" +
-									   "<function>" +
-									   "<prototype>void character::OpenTravelerMemo(string)</prototype>" +
-									   "<arguments>" +
-									   "<argument type=\"string\">(null)</argument>" +
-									   "</arguments>" +
-									   "</function>" +
-									   "</call>",
-				client.Character.Id);
-
-			this.SendScript(client, xmlScript);
-
-			this.Select(client);
-		}
-	}
-
-	public class NPCDialogInput : NPCDialogElement
-	{
-		string _title, _desc;
-		byte _maxLen;
-		bool _cancelable;
-
-		public NPCDialogInput(string title = "Input", string description = "", byte maxLen = 20, bool cancelable = true)
-		{
-			_title = title;
-			_desc = description;
-			_maxLen = maxLen;
-			_cancelable = cancelable;
-		}
-
-		public override void Render(WorldClient client, StringBuilder sb, NPCScript script)
-		{
-			sb.AppendFormat("<inputbox title=\"{0}\" caption=\"{1}\" max_len=\"{2}\" allow_cancel=\"{3}\"/>",
-				_title, _desc, _maxLen.ToString(), _cancelable ? "true" : "false");
-			base.Render(client, sb, null);
-		}
-
-		public override void Send(WorldClient client, NPCScript script)
-		{
-			base.Send(client, script);
-			this.Select(client);
-		}
-	}
 
 	public abstract class NPCScript : BaseScript
 	{
@@ -344,7 +46,7 @@ namespace Aura.World.Scripting
 
 		public virtual IEnumerable OnTalk(WorldClient client)
 		{
-			this.MsgSelect(client, "I don't feel like talking now. Please come back later!", Button("End Conversation", "@end"));
+			this.Msg(client, "I don't feel like talking now. Please come back later.");
 			yield break;
 		}
 
@@ -450,7 +152,7 @@ namespace Aura.World.Scripting
 
 		protected virtual void SetLocation(string region, uint x, uint y)
 		{
-			this.SetLocation(region, x, y, 0);
+			this.SetLocation(region, x, y, this.NPC.Direction);
 		}
 
 		protected virtual void SetLocation(string region, uint x, uint y, byte direction)
@@ -463,7 +165,7 @@ namespace Aura.World.Scripting
 					regionid = mapInfo.Id;
 				else
 				{
-					Logger.Warning(this.ScriptName + " : Map '" + region + "' not found.");
+					Logger.Warning("{0} : Map '{1}' not found.", this.ScriptName, region);
 				}
 			}
 
@@ -480,23 +182,6 @@ namespace Aura.World.Scripting
 			this.NPC.Region = region;
 			this.NPC.SetPosition(x, y);
 			this.SetDirection(direction);
-		}
-
-		protected void WarpNPC(uint region, uint x, uint y, bool flash = true)
-		{
-			if (flash)
-			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
-			}
-			WorldManager.Instance.CreatureLeaveRegion(this.NPC);
-			SetLocation(region, x, y);
-			if (flash)
-			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
-			}
-			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(this.NPC), SendTargets.Range, this.NPC);
 		}
 
 		protected virtual void SetBody(float height = 1.0f, float fat = 1.0f, float lower = 1.0f, float upper = 1.0f)
@@ -549,147 +234,27 @@ namespace Aura.World.Scripting
 			return _dialogName;
 		}
 
-		// ============================================================
-		// Dialog functions
-
-		protected virtual void Bgm(WorldClient client, string fileName)
+		protected void AddPhrases(params string[] phrases)
 		{
-			this.Bgm(fileName).Send(client, this);
+			this.Phrases.AddRange(phrases);
 		}
 
-		protected virtual NPCDialogBGM Bgm(string filename)
+		protected void WarpNPC(uint region, uint x, uint y, bool flash = true)
 		{
-			return new NPCDialogBGM(filename);
+			if (flash)
+			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
+			}
+			WorldManager.Instance.CreatureLeaveRegion(this.NPC);
+			SetLocation(region, x, y);
+			if (flash)
+			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
+			}
+			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(this.NPC), SendTargets.Range, this.NPC);
 		}
-
-		protected virtual NPCDialogButton Button(string text, string keyword = null)
-		{
-			return new NPCDialogButton(text, keyword);
-		}
-
-		protected virtual void Close(WorldClient client, string message = "")
-		{
-			message = "<npcportrait name=\"NONE\"/><title name=\"NONE\"/>" + message;
-
-			this.CloseCustom(client, message);
-		}
-
-		protected virtual void CloseCustom(WorldClient client, string message = "<end/>")
-		{
-			var p = new MabiPacket(Op.NPCTalkEndR, client.Character.Id);
-			p.PutByte(1);
-			p.PutLong(client.NPCSession.Target.Id);
-			p.PutString(message);
-			client.Send(p);
-		}
-
-		protected virtual NPCDialogHotkey Hotkey(string name)
-		{
-			return new NPCDialogHotkey(name);
-		}
-
-		protected NPCDialogImage Image(string name)
-		{
-			return Image(name, false, 0, 0);
-		}
-
-		protected NPCDialogImage Image(string name, bool localize)
-		{
-			return Image(name, localize, 0, 0);
-		}
-
-		protected virtual NPCDialogImage Image(string name, uint width, uint height)
-		{
-			return Image(name, false, width, height);
-		}
-
-		protected virtual NPCDialogImage Image(string name, bool localize, uint width, uint height)
-		{
-			return new NPCDialogImage(name, localize, width, height);
-		}
-
-		protected virtual NPCDialogInput Input(string title = "Input", string description = "", byte maxLen = 20, bool cancelable = true)
-		{
-			return new NPCDialogInput(title, description, maxLen, cancelable);
-		}
-
-		protected virtual NPCDialogListbox Listbox(string title, string cancelKw = "@end", uint height = 10, params NPCDialogElement[] elements)
-		{
-			return new NPCDialogListbox(title, cancelKw, height, elements);
-		}
-
-		protected virtual NPCDialogListbox Listbox(string title, params NPCDialogElement[] elements)
-		{
-			return new NPCDialogListbox(title, elements: elements);
-		}
-
-		public virtual void Msg(WorldClient client, Options disable = Options.None, params string[] lines)
-		{
-			this.Disable(client, disable);
-			this.Msg(lines).Send(client, this);
-			this.Enable(client, disable);
-		}
-
-		public virtual void Msg(WorldClient client, params string[] lines)
-		{
-			this.Msg(lines).Send(client, this);
-		}
-
-		public virtual NPCDialogMsg Msg(params string[] lines)
-		{
-			return new NPCDialogMsg(Text(lines));
-		}
-
-		protected virtual void MsgInput(WorldClient client, string message, string title = "Input", string description = "", byte maxLen = 20, bool cancelable = true)
-		{
-			new NPCDialogMsgSelect(Text(message)).Add(this.Input(title, description, maxLen, cancelable)).Send(client, this);
-		}
-
-		protected virtual void MsgListbox(WorldClient client, string message, string title, params NPCDialogElement[] elements)
-		{
-			new NPCDialogMsgSelect(Text(message)).Add(this.Listbox(title, elements: elements)).Send(client, this);
-		}
-
-		protected virtual void MsgListbox(WorldClient client, string message, string title, string cancelKw = "@end", uint height = 10, params NPCDialogElement[] elements)
-		{
-			new NPCDialogMsgSelect(Text(message)).Add(this.Listbox(title, cancelKw, height, elements)).Send(client, this);
-		}
-
-		public virtual void MsgSelect(WorldClient client, string message, params NPCDialogElement[] buttons)
-		{
-			this.MsgSelect(message, buttons).Send(client, this);
-		}
-
-		public virtual void MsgSelect(WorldClient client, Options disable, string message, params NPCDialogElement[] buttons)
-		{
-			this.Disable(client, disable);
-			this.MsgSelect(message, buttons).Send(client, this);
-			this.Enable(client, disable);
-		}
-
-		public virtual NPCDialogMsgSelect MsgSelect(string message, params NPCDialogElement[] buttons)
-		{
-			return new NPCDialogMsgSelect(Text(message)).Add(buttons) as NPCDialogMsgSelect;
-		}
-
-		protected virtual void ShowKeywords(WorldClient client)
-		{
-			new NPCDialogKeywords().Send(client, this);
-		}
-
-		protected virtual NPCDialogText Text(params string[] lines)
-		{
-			return new NPCDialogText(string.Join("<br/>", lines));
-		}
-
-		protected virtual void EndDialog(WorldClient client, string msg)
-		{
-			client.Send(new MabiPacket(Op.NPCTalkSelectEnd, client.Character.Id));
-			this.CloseCustom(client, msg);
-		}
-
-		// End dialog functions
-		// =========================================================
 
 		protected virtual void Speak(string message)
 		{
@@ -747,11 +312,6 @@ namespace Aura.World.Scripting
 			this.EquipItem(slot, dbInfo.Id, color1, color2, color3);
 		}
 
-		protected void AddPhrases(params string[] phrases)
-		{
-			this.Phrases.AddRange(phrases);
-		}
-
 		protected bool CheckCode(WorldClient client, string code)
 		{
 			// TODO: Add creation of codes and actually checking them.
@@ -768,6 +328,176 @@ namespace Aura.World.Scripting
 		protected void OpenMailbox(WorldClient client)
 		{
 			client.Send(new MabiPacket(Op.OpenMail, client.Character.Id).PutLong(this.NPC.Id));
+		}
+
+		protected virtual void ShowKeywords(WorldClient client)
+		{
+			var xml = string.Format(
+				"<call convention='thiscall' syncmode='non-sync'>" +
+					"<this type=\"character\">{0}</this>" +
+					"<function>" +
+						"<prototype>void character::OpenTravelerMemo(string)</prototype>" +
+						"<arguments>" +
+							"<argument type=\"string\">(null)</argument>" +
+						"</arguments>" +
+					"</function>" +
+				"</call>"
+			, client.Character.Id);
+
+			this.SendScript(client, xml);
+			this.Select(client);
+		}
+
+		// Dialog functions
+		// ------------------------------------------------------------------
+
+		public virtual void Msg(WorldClient client, Options disable, string text, params DialogElement[] elements)
+		{
+			this.Disable(client, disable);
+			this.Msg(client, text, elements);
+			this.Enable(client, disable);
+		}
+
+		public virtual void Msg(WorldClient client, string text, params DialogElement[] elements)
+		{
+			var msg = new DialogElement();
+
+			// Check for a custom face
+			if (this.IsEnabled(client, Options.Face))
+			{
+				var dval = this.GetDialogFace(client);
+				if (dval != null)
+					msg.Add(new DialogPortrait(dval));
+			}
+			else
+				msg.Add(new DialogPortrait(null));
+
+			// Check for a custom title
+			if (this.IsEnabled(client, Options.Name))
+			{
+				var dval = this.GetDialogName(client);
+				if (dval != null)
+					msg.Add(new DialogTitle(dval));
+			}
+			else
+				msg.Add(new DialogTitle(null));
+
+			msg.Add(new DialogText(text));
+			msg.Add(elements);
+
+			this.SendScript(client, msg);
+		}
+
+		public virtual void MsgSelect(WorldClient client, string text, params DialogElement[] elements)
+		{
+			this.Msg(client, text, elements);
+			this.Select(client);
+		}
+
+		public virtual void MsgSelect(WorldClient client, Options disable, string text, params DialogElement[] elements)
+		{
+			this.Msg(client, disable, text, elements);
+			this.Select(client);
+		}
+
+		public virtual void Select(WorldClient client)
+		{
+			var script = string.Format(
+				"<call convention='thiscall' syncmode='sync' session='{1}'>" +
+					"<this type='character'>{0}</this>" +
+					"<function>" +
+						"<prototype>string character::SelectInTalk(string)</prototype>" +
+						"<arguments><argument type='string'>&#60;keyword&#62;&#60;gift&#62;</argument></arguments>" +
+					"</function>" +
+				"</call>"
+			, client.Character.Id, client.NPCSession.SessionId);
+
+			this.SendScript(client, script);
+		}
+
+		public virtual void Close(WorldClient client, string message = "<end/>")
+		{
+			var p = new MabiPacket(Op.NPCTalkEndR, client.Character.Id);
+			p.PutByte(1);
+			p.PutLong(client.NPCSession.Target.Id);
+			p.PutString(message);
+			client.Send(p);
+		}
+
+		public virtual void EndDialog(WorldClient client, string msg)
+		{
+			client.Send(new MabiPacket(Op.NPCTalkSelectEnd, client.Character.Id));
+			this.Close(client, msg);
+		}
+
+		public virtual void Bgm(WorldClient client, string file)
+		{
+			this.SendScript(client, new DialogBgm(file));
+		}
+
+		// Dialog element factory
+		// ------------------------------------------------------------------
+
+		public DialogButton Button(string text, string keyword = null, string onFrame = null)
+		{
+			return new DialogButton(text, keyword, onFrame);
+		}
+
+		public DialogList List(string text, uint height, string cancelKeyword, params DialogButton[] elements)
+		{
+			return new DialogList(text, height, cancelKeyword, elements);
+		}
+
+		public DialogList List(string text, params DialogButton[] elements)
+		{
+			return new DialogList(text, elements);
+		}
+
+		public DialogList List(string text, uint height, params DialogButton[] elements)
+		{
+			return new DialogList(text, height, elements);
+		}
+
+		public DialogInput Input(string title = "Input", string text = "", byte maxLength = 20, bool cancelable = true)
+		{
+			return new DialogInput(title, text, maxLength, cancelable);
+		}
+
+		public DialogImage Image(string name, bool localize = false, uint width = 0, uint height = 0)
+		{
+			return new DialogImage(name, localize, width, height);
+		}
+
+		// ------------------------------------------------------------------
+
+		protected void SendScript(WorldClient client, DialogElement de)
+		{
+			var sb = new StringBuilder();
+			de.Render(ref sb);
+
+			var xml = string.Format(
+				"<call convention='thiscall' syncmode='non-sync'>" +
+					"<this type='character'>{0}</this>" +
+					"<function>" +
+						"<prototype>void character::ShowTalkMessage(character, string)</prototype>" +
+							"<arguments>" +
+								"<argument type='character'>{0}</argument>" +
+								"<argument type='string'>{1}</argument>" +
+							"</arguments>" +
+						"</function>" +
+				"</call>",
+			client.Character.Id, HttpUtility.HtmlEncode(sb.ToString()));
+
+			this.SendScript(client, xml);
+		}
+
+		protected void SendScript(WorldClient client, string xml)
+		{
+
+			var p = new MabiPacket(Op.NPCTalk, client.Character.Id);
+			p.PutString(xml);
+			p.PutBin(new byte[] { 0 });
+			client.Send(p);
 		}
 	}
 

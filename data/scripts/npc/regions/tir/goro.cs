@@ -59,12 +59,7 @@ public class GoroScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"With his rough skin, menacing face, and his constant hard-breathing,",
-			"he has the sure look of a Goblin.",
-			"Yet, there is something different about this one.",
-			"Strangely, it appears to have a sense of noble demeanor that does not match its rugged looks."
-		);
+		Msg(c, Options.FaceAndName, "With his rough skin, menacing face, and his constant hard-breathing,<br/>he has the sure look of a Goblin.<br/>Yet, there is something different about this one.<br/>Strangely, it appears to have a sense of noble demeanor that does not match its rugged looks.");
 
 		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 		

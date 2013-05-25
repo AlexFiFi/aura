@@ -87,12 +87,7 @@ public class DilysScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"A tall, slim lady tinkers with various ointments, herbs, and bandages.",
-			"She looks wise beyond her years, maybe because of the green healer dress she's wearing.",
-			"Her dark hair is neatly combed, and her gentle brown eyes puts everyone who speaks to her at ease.",
-			"She smiles faintly, waiting for you to speak."
-		);
+		Msg(c, Options.FaceAndName, "A tall, slim lady tinkers with various ointments, herbs, and bandages.<br/>She looks wise beyond her years, maybe because of the green healer dress she's wearing.<br/>Her dark hair is neatly combed, and her gentle brown eyes puts everyone who speaks to her at ease.<br/>She smiles faintly, waiting for you to speak.");
 
 		MsgSelect(c, "Welcome to the Healer's House", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Get Treatment", "@heal"), Button("Heal Pet", "@healpet"));
 		
@@ -129,7 +124,7 @@ public class DilysScript : NPCScript
 				}
 				
 				MsgSelect(c,
-					"Goodness, " + c.Character.Name + "! Are you hurt? I must treat your wounds immediately.<br/>I can't understand why everyone gets injured so much around here...<br/>The fee is " + _healCost + " Gold but don't think about money right now. What's important is that you get treated.",
+					"Goodness, <username/>! Are you hurt? I must treat your wounds immediately.<br/>I can't understand why everyone gets injured so much around here...<br/>The fee is " + _healCost + " Gold but don't think about money right now. What's important is that you get treated.",
 					Button("Recieve Treatment", "@recieveheal"), Button("Decline", "@end")
 				);
 				

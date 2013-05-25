@@ -88,8 +88,8 @@ public class BryceScript : NPCScript
 
             case "@redeem":
             {
-                MsgInput(c, "Would you like to redeem your coupon?<br/>You're a blessed one.<br/>Please input the number of coupons you wish to redeem.", "Exchange Coupon", "Enter your coupon number");
-                var input = Wait();
+				MsgSelect(c, "Would you like to redeem your coupon?<br/>You're a blessed one.<br/>Please input the number of coupons you wish to redeem.", Input("Exchange Coupon", "Enter your coupon number"));
+				var input = Wait();
                 if (input == "@cancel")
                     End();
 

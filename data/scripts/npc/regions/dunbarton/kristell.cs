@@ -55,34 +55,30 @@ public class KristellScript : NPCScript
 	}
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "This priestess, in her neat Lymilark priestess robe, has eyes and hair the color of red wine.",
-            "Gazing into the distance, she wears a tilted cross, a symbol of Lymilark, around her neck.",
-	    "She wears dangling earrings made of the same material which emanate a gentle glow."
-        );
+        Msg(c, Options.FaceAndName, "This priestess, in her neat Lymilark priestess robe, has eyes and hair the color of red wine.<br/>Gazing into the distance, she wears a tilted cross, a symbol of Lymilark, around her neck.<br/>She wears dangling earrings made of the same material which emanate a gentle glow.");
         MsgSelect(c, "Welcome to the Church of Lymilark.", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"));
 
         var r = Wait();
         switch (r)
         {
             case "@talk":
-                {
-                    Msg(c, "I am Priestess Kristell. Nice to meet you.");
+			{
+				Msg(c, "I am Priestess Kristell. Nice to meet you.");
 
-                L_Keywords:
-                    Msg(c, Options.Name, "(Kristell is waiting for me to say something.)");
-                    ShowKeywords(c);
-                    var keyword = Wait();
+			L_Keywords:
+				Msg(c, Options.Name, "(Kristell is waiting for me to say something.)");
+				ShowKeywords(c);
+				var keyword = Wait();
 
-                    Msg(c, "Can we change the subject?");
-                    goto L_Keywords;
-                }
+				Msg(c, "Can we change the subject?");
+				goto L_Keywords;
+			}
             case "@shop":
-                {
-                    Msg(c, "What is it that you are looking for?");
-                    OpenShop(c);
-                    End();
-                }
-}
-}
+			{
+				Msg(c, "What is it that you are looking for?");
+				OpenShop(c);
+				End();
+			}
+		}
+	}
 }

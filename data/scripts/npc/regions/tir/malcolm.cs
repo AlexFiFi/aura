@@ -170,12 +170,7 @@ public class MalcolmScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"While his thin face makes him look weak,",
-			"and his soft and delicate hands seem much too feminine,",
-			"his cool long blonde hair gives him a suave look.",
-			"He looks like he just came out of a workshop since he's wearing a heavy leather apron."
-		);
+		Msg(c, Options.FaceAndName, "While his thin face makes him look weak,<br/>and his soft and delicate hands seem much too feminine,<br/>his cool long blonde hair gives him a suave look.<br/>He looks like he just came out of a workshop since he's wearing a heavy leather apron.");
 
 		MsgSelect(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 		

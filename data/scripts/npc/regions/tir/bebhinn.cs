@@ -93,7 +93,7 @@ public class BebhinnScript : NPCScript
 				
 			case "@redeem":
 			{
-				MsgInput(c, "Are you here to redeem your coupon?<br/>Please enter the coupon number you wish to redeem.", "Exchange Coupon", "Enter your coupon number");
+				MsgSelect(c, "Are you here to redeem your coupon?<br/>Please enter the coupon number you wish to redeem.", Input("Exchange Coupon", "Enter your coupon number"));
 				var input = Wait();
 				if(input == "@cancel")
 					End();

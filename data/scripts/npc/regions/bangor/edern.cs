@@ -79,12 +79,7 @@ public class EdernScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "Between the long strands of white hair, you can see the wrinkles on his face and neck that show his old age.",
-            "But his confidence and well-built torso with copper skin reveal that this man is anything but fragile.",
-            "His eyes encompass both the passion of youth and the wisdom of old age.",
-            "The thick brows that shoot upward with wrinkles add a fierce look, but his eyes are of soft amber tone."
-        );
+        Msg(c, Options.FaceAndName, "Between the long strands of white hair, you can see the wrinkles on his face and neck that show his old age.<br/>But his confidence and well-built torso with copper skin reveal that this man is anything but fragile.<br/>His eyes encompass both the passion of youth and the wisdom of old age.<br/>The thick brows that shoot upward with wrinkles add a fierce look, but his eyes are of soft amber tone.");
         MsgSelect(c, "You must have something to say to me.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
         var r = Wait();

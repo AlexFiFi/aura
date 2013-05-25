@@ -166,11 +166,7 @@ public class WalterScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "A middle-aged man with a dark complexion and average height, Walter is wearing suspenders and stroking his stubby fingers.",
-            "Under his dark-brown eyes, his tightly sealed lips are covered by a thick mustache.",
-            "You can see his mustache and his Adam's apple slightly move as if he is about to say something."
-        );
+        Msg(c, Options.FaceAndName, "A middle-aged man with a dark complexion and average height, Walter is wearing suspenders and stroking his stubby fingers.<br/>Under his dark-brown eyes, his tightly sealed lips are covered by a thick mustache.<br/>You can see his mustache and his Adam's apple slightly move as if he is about to say something.");
         MsgSelect(c, "Um? What do you want?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
         var r = Wait();

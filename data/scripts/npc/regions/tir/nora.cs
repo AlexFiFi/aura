@@ -117,12 +117,7 @@ public class NoraScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"A girl wearing a well-ironed green apron leans forward, gazing cheerfully at her sorroundings.",
-			"Her bright eyes are azure blue and a faint smile plays on her lips.",
-			"Cross-shaped earrings dangle from her ears, dancing playfully between her honey-blonde hair.",
-			"Her hands are always busy, as she engages in some chore or another, though she often looks into the distance as if deep in thought."
-		);
+		Msg(c, Options.FaceAndName, "A girl wearing a well-ironed green apron leans forward, gazing cheerfully at her sorroundings.<br/>Her bright eyes are azure blue and a faint smile plays on her lips.<br/>Cross-shaped earrings dangle from her ears, dancing playfully between her honey-blonde hair.<br/>Her hands are always busy, as she engages in some chore or another, though she often looks into the distance as if deep in thought.");
 
 		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 		

@@ -163,12 +163,7 @@ public class GilmoreScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "This wiry man with a slight hump has his hands folded behind his back, and light brown hair hangs over his wide, wrinkled forehead.",
-            "The reading glasses, so thick that you can't see what's behind them, rest on the wrinkles of his nose and flash every time he turns his face.",
-            "Over his firmly sealed, stubborn-looking lips, he has a light-brown mustache.",
-            "Frowning, he tilts down his head and stares at you over his reading glasses with grumpy brown eyes."
-        );
+        Msg(c, Options.FaceAndName, "This wiry man with a slight hump has his hands folded behind his back, and light brown hair hangs over his wide, wrinkled forehead.<br/>The reading glasses, so thick that you can't see what's behind them, rest on the wrinkles of his nose and flash every time he turns his face.<br/>Over his firmly sealed, stubborn-looking lips, he has a light-brown mustache.<br/>Frowning, he tilts down his head and stares at you over his reading glasses with grumpy brown eyes.");
         MsgSelect(c, "What brings you here?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 
         var r = Wait();

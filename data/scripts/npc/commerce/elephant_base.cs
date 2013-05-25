@@ -26,12 +26,8 @@ public class CommerceElephantScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"It has been trumpeting and shuffling non-stop.",
-			"As it stomps the ground with its giant feel, it bellows again.",
-			"Now, it stares softly at you with its two innocent eyes."
-		);
-		Msg(c, "Boooo?", "Bhoo!<p/>Bhooo!", "Bhoo, bhoooo!");
+		Msg(c, Options.FaceAndName, "It has been trumpeting and shuffling non-stop.<br/>As it stomps the ground with its giant feel, it bellows again.<br/>Now, it stares softly at you with its two innocent eyes.");
+		Msg(c, "Boooo?<br/>Bhoo!<p/>Bhooo!<br/>Bhoo, bhoooo!");
 		End();
 	}
 }

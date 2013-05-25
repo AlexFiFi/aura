@@ -177,11 +177,7 @@ public class ElenScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "Her lovely blonde hair, pushed back with a red and white headband to keep it out of her face, comes down to her waist in a wave and covers her entire back.",
-            "Her small face with dark emerald eyes shines brightly and her full lips create an inquisitive look.",
-            "The sleeveless shirt she is wearing due to the heat of the shop exposes her soft tanned skin, showing how healthy she is."
-        );
+        Msg(c, Options.FaceAndName, "Her lovely blonde hair, pushed back with a red and white headband to keep it out of her face, comes down to her waist in a wave and covers her entire back.<br/>Her small face with dark emerald eyes shines brightly and her full lips create an inquisitive look.<br/>The sleeveless shirt she is wearing due to the heat of the shop exposes her soft tanned skin, showing how healthy she is.");
         MsgSelect(c, "Mmm? Is there something you would like to say to me?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
         var r = Wait();

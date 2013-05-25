@@ -85,11 +85,7 @@ public class LassarScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"Waves of her red hair come down to her shoulders.",
-			"Judging by her somewhat small stature, well-proportioned body, and a neat two-piece school uniform, it isn't had to tell that she is a teacher.",
-			"The intelligent look in her eyes, the clear lip line and eyebrows present her as a charming lady."
-		);
+		Msg(c, Options.FaceAndName, "Waves of her red hair come down to her shoulders.<br/>Judging by her somewhat small stature, well-proportioned body, and a neat two-piece school uniform, it isn't had to tell that she is a teacher.<br/>The intelligent look in her eyes, the clear lip line and eyebrows present her as a charming lady.");
 
 		MsgSelect(c, "Is there anything I can help you with?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 		

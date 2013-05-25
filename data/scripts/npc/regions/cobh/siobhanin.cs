@@ -110,12 +110,7 @@ public class SiobhaninScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "A young elven boy with snow-white skin and startlingly",
-            "blue eyes. His delicate fingers work at tidying the collar",
-	    "of his neat shirt. His smiling lips seem to ask: How much",
-	    "have you found out so far?"
-        );
+        Msg(c, Options.FaceAndName, "A young elven boy with snow-white skin and startlingly<br/>blue eyes. His delicate fingers work at tidying the collar<br/>of his neat shirt. His smiling lips seem to ask: How much<br/>have you found out so far?");
         MsgSelect(c, "Come look at my items. I have so much to offer!", Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
 
         var r = Wait();

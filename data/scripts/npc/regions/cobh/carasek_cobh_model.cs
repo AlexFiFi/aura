@@ -34,11 +34,7 @@ public class Carasek_cobh_modelScript : NPCScript
 	}
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "He has the provocative complexion of dark rum and has a detailed tattoo on him",
-            "And with his white hair like the foam of the ocean waters",
-            "he smiles a gentle smile that is much like the wet sand on the beach."
-        );
+        Msg(c, Options.FaceAndName, "He has the provocative complexion of dark rum and has a detailed tattoo on him<br/>And with his white hair like the foam of the ocean waters<br/>he smiles a gentle smile that is much like the wet sand on the beach.");
         MsgSelect(c, "Seems like you want to talk to me about something.", Button("Start Conversation", "@talk"), Button("Disembark", "@disembark"));
 
         var r = Wait();

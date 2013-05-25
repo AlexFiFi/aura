@@ -82,6 +82,7 @@
     <Compile Include="Scripting\AIScript.cs" />
     <Compile Include="Scripting\BaseScript.cs" />
     <Compile Include="Scripting\BaseScript.Quests.cs" />
+    <Compile Include="Scripting\DialogElements.cs" />
     <Compile Include="Scripting\ItemScript.cs" />
     <Compile Include="Scripting\QuestScript.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />

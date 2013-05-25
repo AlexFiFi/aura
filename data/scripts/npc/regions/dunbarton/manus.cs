@@ -97,12 +97,8 @@ public class ManusScript : NPCScript
 	}
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"This man is wearing a green and white healer's dress.",
-			"His thick, dark hair is immaculately combed and reaches down to his neck,",
-			"his straight bangs accentuating a strong jaw and prominent cheeckbones."
-		);
-                Msg(c, "You've never been here before, have you? Where does it hurt?");
+		Msg(c, Options.FaceAndName, "This man is wearing a green and white healer's dress.<br/>His thick, dark hair is immaculately combed and reaches down to his neck,<br/>his straight bangs accentuating a strong jaw and prominent cheeckbones.");
+		Msg(c, "You've never been here before, have you? Where does it hurt?");
 		MsgSelect(c, "Ha! Tell me everything you need!", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 		
 		var r = Wait();

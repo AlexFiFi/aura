@@ -60,12 +60,7 @@ public class AugustineScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        Msg(c, Options.FaceAndName,
-            "His soft, shiny black hair exudes youth.",
-            "His tightly shut lips and sharp eyes give the",
-            "impression of experience beyond his years. ",
-	    "He glares at you with large, impatient eyes."
-        );
+        Msg(c, Options.FaceAndName, "His soft, shiny black hair exudes youth.<br/>His tightly shut lips and sharp eyes give the<br/>impression of experience beyond his years.<br/>He glares at you with large, impatient eyes.");
         MsgSelect(c, "I'm busy, so just tell me what you are here for.", Button("Start a Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
 
         var r = Wait();
@@ -93,8 +88,8 @@ public class AugustineScript : NPCScript
 
             case "@redeem":
             {
-                MsgInput(c, "Tell me the coupon number.<br/>Make sure it's the right one.", "Exchange Coupon", "Enter your coupon number");
-                var input = Wait();
+				MsgSelect(c, "Tell me the coupon number.<br/>Make sure it's the right one.", Input("Exchange Coupon", "Enter your coupon number"));
+				var input = Wait();
                 if (input == "@cancel")
                     End();
 

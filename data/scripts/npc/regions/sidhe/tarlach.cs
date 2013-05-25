@@ -60,11 +60,7 @@ public class TarlachScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
-			"A man wearing a light brown robe silently glares this way.", 
-			"He has wavy blonde hair and white skin with a well defined chin that gives off a gentle impression.",
-			"Behind his thick glasses, however, are his cold emerald eyes filled with silent gloom."
-		);
+		Msg(c, Options.FaceAndName, "A man wearing a light brown robe silently glares this way.<br/>He has wavy blonde hair and white skin with a well defined chin that gives off a gentle impression.<br/>Behind his thick glasses, however, are his cold emerald eyes filled with silent gloom.");
 		MsgSelect(c, "...Mmm...", Button("Start Conversation", "@talk"));
 		
 		var r = Wait();
