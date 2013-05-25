@@ -8,6 +8,7 @@ using Aura.Shared.Network;
 using Aura.World.World;
 using Aura.Data;
 using Aura.World.Player;
+using Aura.Shared.Util;
 
 namespace Aura.World.Network
 {
@@ -470,6 +471,16 @@ namespace Aura.World.Network
 			p.PutByte(0);
 			p.PutByte(1);
 			return p;
+		}
+
+		public static MabiPacket SharpMind(MabiCreature user, MabiCreature target, SkillConst skillId, SharpMindStatus state)
+		{
+			return new MabiPacket(Op.SharpMind, target.Id)
+				.PutLong(user.Id)
+				.PutByte(1)
+				.PutByte(1)
+				.PutShort((ushort)skillId)
+				.PutInt((uint)state);
 		}
 	}
 

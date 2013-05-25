@@ -41,7 +41,7 @@ namespace Aura.World.Skills
 			if (creature.ActiveSkillStacks < skill.RankInfo.StackMax)
 			{
 				// Stack
-				if (!creature.HasSkill(SkillConst.ChainCastingofMores))
+				if (!creature.HasSkill(SkillConst.ChainCasting))
 					SkillHelper.IncStack(creature, skill);
 				else
 					SkillHelper.FillStack(creature, skill);

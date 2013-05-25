@@ -55,7 +55,7 @@ namespace Aura.World.World
 			// --------------------------------------------------------------
 			if (this.Party != null)
 			{
-				packet.PutByte(this.Party.IsOpen); 					 // IsActivate
+				packet.PutByte(this.Party.IsOpen && this.Party.Leader == this); 					 // IsActivate
 				packet.PutString(this.Party.GetMemberWantedString());				 // Content
 			}
 			else

@@ -1164,8 +1164,8 @@ namespace Aura.World.Network
 					case 41061:
 					case 41062:
 					case 41063:
-						if (!creature.HasSkill(SkillConst.UseUmbrella))
-							creature.GiveSkill(SkillConst.UseUmbrella, SkillRank.Novice);
+						if (!creature.HasSkill(SkillConst.Umbrella))
+							creature.GiveSkill(SkillConst.Umbrella, SkillRank.Novice);
 						break;
 				}
 			}

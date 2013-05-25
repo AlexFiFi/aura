@@ -23,7 +23,7 @@ namespace Aura.World.Skills
 
 			// Life
 			_handlers.Add(SkillConst.Rest, new RestHandler());
-			_handlers.Add(SkillConst.Compose, new ComposingHandler());
+			_handlers.Add(SkillConst.Composing, new ComposingHandler());
 			_handlers.Add(SkillConst.PlayingInstrument, new PlayingInstrumentHandler());
 
 			// Magic
@@ -37,7 +37,7 @@ namespace Aura.World.Skills
 			_handlers.Add(SkillConst.Fireball, new FireballHandler());
 
 			// Action
-			_handlers.Add(SkillConst.UseUmbrella, new UmbrellaSkillHandler());
+			_handlers.Add(SkillConst.Umbrella, new UmbrellaSkillHandler());
 
 			// Hidden
 			_handlers.Add(SkillConst.HiddenResurrection, new HiddenResurrectionHandler());
@@ -49,7 +49,7 @@ namespace Aura.World.Skills
 			_handlers.Add(SkillConst.FuryOfConnous, new FuryOfConnousHandler());
 
 			// GM
-			_handlers.Add(SkillConst.SuperWindmill, new SuperWindmillHandler());
+			_handlers.Add(SkillConst.SuperWindmillGMSkill, new SuperWindmillHandler());
 		}
 
 		private static Dictionary<SkillConst, SkillHandler> _handlers = new Dictionary<SkillConst, SkillHandler>();

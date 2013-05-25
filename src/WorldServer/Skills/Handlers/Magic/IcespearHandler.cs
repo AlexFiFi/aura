@@ -35,7 +35,7 @@ namespace Aura.World.Skills
 			if (creature.ActiveSkillStacks < skill.RankInfo.StackMax)
 			{
 				// Stack
-				if (!creature.HasSkill(SkillConst.ChainCastingofMores))
+				if (!creature.HasSkill(SkillConst.ChainCasting))
 					SkillHelper.IncStack(creature, skill);
 				else
 					SkillHelper.FillStack(creature, skill);
@@ -261,7 +261,7 @@ namespace Aura.World.Skills
 		public override SkillResults Cancel(MabiCreature creature, MabiSkill skill)
 		{
 			SkillHelper.ClearStack(creature, skill);
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StackUpdate).PutString("lightningbolt").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StackUpdate).PutString("icespear").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.MotionCancel2, creature.Id).PutByte(1), SendTargets.Range, creature);
 
