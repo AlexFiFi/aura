@@ -129,7 +129,7 @@ namespace Aura.World.Skills
 				{
 					this.Explode(attacker, target, skill, casterProp, dmg);
 					var tmpTargets = new List<MabiCreature>();
-					GetIceSpearExplosionChain(target, tmpTargets, 16, (uint)skill.RankInfo.Var4);
+					GetIceSpearExplosionChain(attacker, target, tmpTargets, 16, (uint)skill.RankInfo.Var4);
 					if (tmpTargets.Contains(target))
 						tmpTargets.Remove(target);
 
@@ -217,7 +217,7 @@ namespace Aura.World.Skills
 			targets = targets.FindAll((c) =>
 				{
 					var pos = c.GetPosition();
-					return !c.IsDead && c is MabiNPC && (minX < pos.X && pos.X < maxX) && ( (m*pos.X + bL) < pos.Y && pos.Y < (m*pos.X + bH));
+					return !c.IsDead && c.IsAttackableBy(attacker) && (minX < pos.X && pos.X < maxX) && ( (m*pos.X + bL) < pos.Y && pos.Y < (m*pos.X + bH));
 				});
 
 			if (!targets.Contains(target))
@@ -226,9 +226,9 @@ namespace Aura.World.Skills
 			return targets;
 		}
 
-		public void GetIceSpearExplosionChain(MabiCreature initialTarget, List<MabiCreature> targets, int maxTargets, uint range)
+		public void GetIceSpearExplosionChain(MabiCreature attacker, MabiCreature initialTarget, List<MabiCreature> targets, int maxTargets, uint range)
 		{
-			var inrange = WorldManager.Instance.GetCreaturesInRange(initialTarget, range).Where(c => c is MabiNPC && !c.IsDead).ToList();
+			var inrange = WorldManager.Instance.GetCreaturesInRange(initialTarget, range).Where(c => c.IsAttackableBy(attacker) && !c.IsDead).ToList();
 
 			foreach (var t in inrange)
 			{
@@ -244,7 +244,7 @@ namespace Aura.World.Skills
 					return;
 
 				if (!targets.Contains(t))
-					GetIceSpearExplosionChain(t, targets, maxTargets, range);
+					GetIceSpearExplosionChain(attacker, t, targets, maxTargets, range);
 			}
 		}
 

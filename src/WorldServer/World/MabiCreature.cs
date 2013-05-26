@@ -989,6 +989,11 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
+		/// Returns true if the current creature can be attacked by other.
+		/// </summary>
+		public abstract bool IsAttackableBy(MabiCreature other);
+
+		/// <summary>
 		/// Returns randomized average balance, taking both weapons into consideration.
 		/// </summary>
 		/// <returns></returns>

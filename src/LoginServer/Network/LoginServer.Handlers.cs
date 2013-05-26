@@ -473,7 +473,6 @@ namespace Aura.Login.Network
 				new Skill(SkillConst.ThrowConfetti),
 				new Skill(SkillConst.UsePartyPopper),
 				new Skill(SkillConst.HammerGame),
-				new Skill(SkillConst.HammerGame),
 				new Skill(SkillConst.SpiritShift),
 				new Skill(SkillConst.EmergencyEscapeBomb),
 				new Skill(SkillConst.EmergencyIceBomb),

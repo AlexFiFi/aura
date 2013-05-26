@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Aura.Shared.Const;
 using Aura.Data;
 using Aura.World.Scripting;
+using Aura.World.Player;
 
 namespace Aura.World.World
 {
@@ -49,6 +50,14 @@ namespace Aura.World.World
 		public override EntityType EntityType
 		{
 			get { return EntityType.NPC; }
+		}
+
+		public override bool IsAttackableBy(MabiCreature other)
+		{
+			if (other is MabiPC)
+				return (this.State & CreatureStates.GoodNpc) == 0; // Attackable if bad npc
+			else
+				return (this.State & CreatureStates.GoodNpc) != (other.State & CreatureStates.GoodNpc);
 		}
 
 		public override void Die()

@@ -107,7 +107,7 @@ namespace Aura.World.Skills
 		{
 			System.Threading.Thread.Sleep(4000);
 
-			var victims = WorldManager.Instance.GetCreaturesInRange(bomb, 800).Where(c => c is MabiNPC).ToList();
+			var victims = WorldManager.Instance.GetCreaturesInRange(bomb, 800).Where(c => c.IsAttackableBy(attacker)).ToList();
 
 			ulong areaTarget = SkillHelper.GetAreaTargetID(bomb.Region, (uint)bomb.Info.X, (uint)bomb.Info.Y);
 

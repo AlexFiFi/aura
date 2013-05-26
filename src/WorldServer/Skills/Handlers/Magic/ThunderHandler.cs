@@ -66,7 +66,7 @@ namespace Aura.World.Skills
 			var charges = attacker.ActiveSkillStacks;
 
 			List<MabiCreature> targets = new List<MabiCreature>() { itarget };
-			this.GetThunderChain(itarget, targets, ((byte)skill.Rank >= (byte)SkillRank.R1 ? 4 : 1) + (charges - 1) * 2);
+			this.GetThunderChain(attacker, itarget, targets, ((byte)skill.Rank >= (byte)SkillRank.R1 ? 4 : 1) + (charges - 1) * 2);
 
 			var pos = itarget.GetPosition();
 			var cloud = new MabiProp(itarget.Region, MabiData.RegionDb.GetAreaId(itarget.Region, pos.X, pos.Y));
@@ -244,9 +244,9 @@ namespace Aura.World.Skills
 			WorldManager.Instance.HandleCombatActionPack(cap);
 		}
 
-		public void GetThunderChain(MabiCreature initialTarget, List<MabiCreature> targets, int maxTargets)
+		public void GetThunderChain(MabiCreature attacker, MabiCreature initialTarget, List<MabiCreature> targets, int maxTargets)
 		{
-			var inrange = WorldManager.Instance.GetCreaturesInRange(initialTarget, 500).Where(c => c is MabiNPC && !c.IsDead).ToList();
+			var inrange = WorldManager.Instance.GetCreaturesInRange(initialTarget, 500).Where(c => c.IsAttackableBy(attacker) && !c.IsDead).ToList();
 
 			foreach (var t in inrange)
 			{
@@ -262,7 +262,7 @@ namespace Aura.World.Skills
 					return;
 
 				if (!targets.Contains(t))
-					GetThunderChain(t, targets, maxTargets);
+					GetThunderChain(attacker, t, targets, maxTargets);
 			}
 		}
 

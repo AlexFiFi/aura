@@ -2433,8 +2433,8 @@ namespace Aura.World.Network
 
 			var targetId = packet.GetLong();
 			var target = WorldManager.Instance.GetCreatureById(targetId);
-			// This should fix killing everything for now.
-			if (target == null || !target.Has(CreatureStates.Npc) || target.Has(CreatureStates.GoodNpc))
+
+			if (target == null || !target.IsAttackableBy(creature))
 			{
 				client.Send(new MabiPacket(Op.CombatAttackR, creature.Id));
 				return;

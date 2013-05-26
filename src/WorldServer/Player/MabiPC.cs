@@ -59,6 +59,16 @@ namespace Aura.World.Player
 			}
 		}
 
+		public override bool IsAttackableBy(MabiCreature other)
+		{
+			if (other is MabiNPC)
+				return (other.State & CreatureStates.GoodNpc) == 0;
+			else
+			{
+				return false; // For now... add PvP later and other stuff
+			}
+		}
+
 		public void GiveTitle(ushort title, bool usable = false)
 		{
 			if (this.Titles.ContainsKey(title))
