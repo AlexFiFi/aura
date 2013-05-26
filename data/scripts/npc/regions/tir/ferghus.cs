@@ -109,9 +109,9 @@ public class FerghusScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "His bronze complexion shines with the glow of vitality. His distinctive facial outline ends with a strong jaw line covered with dark beard.<br/>The first impression clearly shows he is a seasoned blacksmith with years of experience.<br/>The wide-shouldered man keeps humming with a deep voice while his muscular torso swings gently to the rhythm of the tune.");
 
-		MsgSelect(c, "Welcome to my Blacksmith's Shop", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
+		Msg(c, "Welcome to my Blacksmith's Shop", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -122,7 +122,7 @@ public class FerghusScript : NPCScript
 				Msg(c, Options.Name, "(Ferghus is looking in my direction.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "*Yawn* I don't know.");
 				goto L_Keywords;
@@ -137,12 +137,12 @@ public class FerghusScript : NPCScript
 
 			case "@repair":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"If you want to have armor, kits of weapons repaired, you've come to the right place.<br/>I sometimes make mistakes, but I offer the best deal for repair work.<br/>For rare and expensive items, I think you should go to a big city. I can't guarantee anything.",
 					Button("End Conversation", "@endrepair")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				
 				Msg(c, "By the way, do you know you can bless your items with the Holy Water of Lymilark?<br/>I don't know why, but I make fewer mistakes<br/>while repairing blessed items. Haha.");
 				Msg(c, "Well, come again when you have items to fix.");
@@ -151,12 +151,12 @@ public class FerghusScript : NPCScript
 
 			case "@upgrade":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"Will you select items to be modified?<br/>The number and types of modifications are different depending on the items.<br/>When I modify them, my hands never slip or make mistakes. So don't worry, trust me.",
 					Button("End Conversation", "@endupgrade")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				
 				Msg(c, "If you have something to modify, let me know anytime.");
 				End();

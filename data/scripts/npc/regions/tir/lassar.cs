@@ -87,9 +87,9 @@ public class LassarScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "Waves of her red hair come down to her shoulders.<br/>Judging by her somewhat small stature, well-proportioned body, and a neat two-piece school uniform, it isn't had to tell that she is a teacher.<br/>The intelligent look in her eyes, the clear lip line and eyebrows present her as a charming lady.");
 
-		MsgSelect(c, "Is there anything I can help you with?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
+		Msg(c, "Is there anything I can help you with?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -100,7 +100,7 @@ public class LassarScript : NPCScript
 				Msg(c, Options.Name, "(Lassar is waiting for me to say something.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Why don't you ask other people? I'm afraid I would be of little help.");
 				goto L_Keywords;

@@ -61,9 +61,9 @@ public class TarlachScript : NPCScript
 	public override IEnumerable OnTalk(WorldClient c)
 	{
 		Msg(c, Options.FaceAndName, "A man wearing a light brown robe silently glares this way.<br/>He has wavy blonde hair and white skin with a well defined chin that gives off a gentle impression.<br/>Behind his thick glasses, however, are his cold emerald eyes filled with silent gloom.");
-		MsgSelect(c, "...Mmm...", Button("Start Conversation", "@talk"));
+		Msg(c, "...Mmm...", Button("Start Conversation", "@talk"));
 		
-		var r = Wait();
+		var r = Select(c);
 		if(r == "@talk")
 		{
 			Msg(c, "(Cough, Cough)...<br/>So you have made it through the barrier and have reached this desolate place.");
@@ -72,7 +72,7 @@ public class TarlachScript : NPCScript
 			Msg(c, Options.Name, "(Tarlach is looking at me.)");
 			ShowKeywords(c);
 			
-			var keyword = Wait();
+			var keyword = Select(c);
 			
 			Msg(c, "Can we change the subject?");
 			goto L_Keywords;

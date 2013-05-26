@@ -99,9 +99,9 @@ public class ManusScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "This man is wearing a green and white healer's dress.<br/>His thick, dark hair is immaculately combed and reaches down to his neck,<br/>his straight bangs accentuating a strong jaw and prominent cheeckbones.");
 		Msg(c, "You've never been here before, have you? Where does it hurt?");
-		MsgSelect(c, "Ha! Tell me everything you need!", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
+		Msg(c, "Ha! Tell me everything you need!", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -112,7 +112,7 @@ public class ManusScript : NPCScript
 				Msg(c, Options.Name, "(Manus is looking at me.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;
@@ -132,12 +132,12 @@ public class ManusScript : NPCScript
 					End();
 				}
 				
-				MsgSelect(c,
+				Msg(c,
 					"Goodness, " + c.Character.Name + "! Are you hurt? I must treat your wounds immediately.<br/>I can't understand why everyone gets injured so much around here...<br/>The fee is " + _healCost + " Gold but don't think about money right now. What's important is that you get treated.",
 					Button("Recieve Treatment", "@recieveheal"), Button("Decline", "@end")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				if(r == "@recieveheal")
 				{
 					if (!c.Character.HasGold(_healCost))
@@ -173,12 +173,12 @@ public class ManusScript : NPCScript
 					End();
 				}
 				
-				MsgSelect(c,
+				Msg(c,
 					"Oh my goodness... " + c.Character.Name + ", your animal friend needs to be treated right away.<br/>It will cost " + _petHealCost + " Gold to go ahead with it... would you like to treat your pet?",
 					Button("Recieve Treatment", "@recieveheal"), Button("Decline the Treatment", "@end")
 				);
 					
-				r = Wait();
+				r = Select(c);
 				if(r == "@recieveheal")
 				{
 					if (!c.Character.HasGold(_petHealCost))

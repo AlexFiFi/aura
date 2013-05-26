@@ -167,9 +167,9 @@ public class WalterScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "A middle-aged man with a dark complexion and average height, Walter is wearing suspenders and stroking his stubby fingers.<br/>Under his dark-brown eyes, his tightly sealed lips are covered by a thick mustache.<br/>You can see his mustache and his Adam's apple slightly move as if he is about to say something.");
-        MsgSelect(c, "Um? What do you want?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
+        Msg(c, "Um? What do you want?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -180,7 +180,7 @@ public class WalterScript : NPCScript
                 Msg(c, Options.Name, "(Walter is slowly looking me over.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -193,23 +193,23 @@ public class WalterScript : NPCScript
             }
             case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "Repair? What is it that you want to repair? let's have a look.<br/>I can take care of general goods like instruments, glasses, and tools.<br/>My skills are not what they used to be, so I won't charge you a lot...",
                 Button("End Conversation", "@endrepair")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "If you're not careful with it, it will break easily.<br/>So take good care of it.");
                 End();
             }
             case "@modify":
             {
-                MsgSelect(c,
+                Msg(c,
                     "...<br/>Give me what you want to modify.<br/>I'm sure you have checked the number and type of the modification you want?",
                     Button("End Conversation", "@endmodify")
                 );
-                r = Wait();
+                r = Select(c);
                 Msg(c, "This is it? Well, then...");
                 End();
             }

@@ -12,7 +12,7 @@ using Aura.World.World;
 
 public class BebhinnScript : NPCScript
 {
-	const bool _kr = false; // White Bebhinn
+	const bool KR = false; // White Bebhinn
 
 	public override void OnLoad()
 	{
@@ -21,7 +21,7 @@ public class BebhinnScript : NPCScript
 		SetStand("human/female/anim/female_natural_stand_npc_Bebhinn");
 		SetLocation("tir_bank", 1364, 1785, 228);
 
-		if(!_kr)
+		if(!KR)
 		{
 			SetBody(height: 1f, fat: 1f, upper: 1f, lower: 1f);
 			SetFace(skin: 27, eye: 59, eyeColor: 55, lip: 1);
@@ -67,9 +67,9 @@ public class BebhinnScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "A young lady is admiring her nails as you enter.<br/>When she notices you, she looks up expectantly, as if waiting for you to liven things up.<br/>Her big, blue eyes sparkle with charm and fun, and her subtle smile creates irresistable dimples.");
 
-		MsgSelect(c, "May I help you?", Button("Start Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
+		Msg(c, "May I help you?", Button("Start Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -79,7 +79,7 @@ public class BebhinnScript : NPCScript
 			L_Keywords:
 				Msg(c, Options.Name, "(Bebhinn is looking at me.)");
 				ShowKeywords(c);
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;
@@ -93,8 +93,8 @@ public class BebhinnScript : NPCScript
 				
 			case "@redeem":
 			{
-				MsgSelect(c, "Are you here to redeem your coupon?<br/>Please enter the coupon number you wish to redeem.", Input("Exchange Coupon", "Enter your coupon number"));
-				var input = Wait();
+				Msg(c, "Are you here to redeem your coupon?<br/>Please enter the coupon number you wish to redeem.", Input("Exchange Coupon", "Enter your coupon number"));
+				var input = Select(c);
 				if(input == "@cancel")
 					End();
 				

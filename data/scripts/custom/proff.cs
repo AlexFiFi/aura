@@ -41,9 +41,9 @@ public class ProffScript : NPCScript
 		);
 		
 	L_Start:
-		MsgSelect(c, "Oh, hello there, <username/>. What can I do for you today?", Button("Where am I?", "@whereami"), Button("What commands can I use?", "@whatcommands"), Button("About commands", "@aboutcmd"), Button("End Conversation", "@endconvo"));			
+		Msg(c, "Oh, hello there, <username/>. What can I do for you today?", Button("Where am I?", "@whereami"), Button("What commands can I use?", "@whatcommands"), Button("About commands", "@aboutcmd"), Button("End Conversation", "@endconvo"));			
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@whereami":
@@ -72,7 +72,7 @@ public class ProffScript : NPCScript
 			
 			case "@endconvo":
 			{
-				MsgSelect(c, "Is that all for now? Well, thanks for stopping by. Feel free to return any time.", Button("Continue", "@end"));
+				Msg(c, "Is that all for now? Well, thanks for stopping by. Feel free to return any time.");
 				End();
 			}
 		}

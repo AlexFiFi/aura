@@ -61,7 +61,7 @@ public class PartnerScript : NPCScript
 		
 	L_Task:
 		Disable(c, Options.FaceAndName);
-		MsgSelect(c,
+		Msg(c,
 			"(Choose a task.)",
 			Button("Grant Favor", "@favor"),
 			Button("Gift", "@gift"),
@@ -72,7 +72,7 @@ public class PartnerScript : NPCScript
 			Button("End Conversation", "@end")
 		);
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@trade":

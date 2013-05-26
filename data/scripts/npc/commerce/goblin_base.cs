@@ -34,13 +34,13 @@ public class CommerceGoblinScript : NPCScript
 	public override IEnumerable OnTalk(WorldClient c)
 	{
 		Msg(c, Options.FaceAndName, "Shuffling about with boxes and sacks of trade goods, this fellow seems too busy to bother with you.");
-		MsgSelect(c,
+		Msg(c,
 			"Money is something you can never have too much of.<br/>How much did you earn?",
 			Button("Trade"), Button("Repair Fomor Weapons", "@repair"), Button("Commerce Explanation", "@explain"),
 			Button("Ducats"), Button("End Conversation", "@end")
 		);
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@trade":
@@ -51,7 +51,7 @@ public class CommerceGoblinScript : NPCScript
 				
 			case "@repair":
 			{
-				MsgSelect(c, "If it's a Fomor weapon, I can repair it.", Button("End Conversation", "@endcare"));
+				Msg(c, "If it's a Fomor weapon, I can repair it.", Button("End Conversation", "@endcare"));
 				Msg(c, "Okay, take good care of it.");
 				End();
 			}

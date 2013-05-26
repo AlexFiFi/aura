@@ -27,7 +27,7 @@ public class _TelephantBaseScript : NPCScript
 		Msg(c, "Hello! I am Telephant, and I'm here to carry you all over the world!");
 	
 	L_Selection:
-		MsgSelect(c,
+		Msg(c,
 			"Where do you want to go?",
 			Button("Events / Customized", "@custom"),
 			Button("Uladh", "@uladh"),
@@ -39,12 +39,12 @@ public class _TelephantBaseScript : NPCScript
 			Button("Never Mind", "@end")
 		);
 		
-		var r = Wait();
+		var r = Select(c);
 		switch(r)
 		{
 			case "@custom":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"What custom location do you want to go to?",
 					Button("Nekojima", "@neko"),
 					Button("The Moon", "@moon"),
@@ -52,7 +52,7 @@ public class _TelephantBaseScript : NPCScript
 					Button("Back", "@startingpoint")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				if(r == "@startingpoint")
 					goto L_Selection;
 					
@@ -60,15 +60,15 @@ public class _TelephantBaseScript : NPCScript
 				{
 					case "@neko":
 						c.Warp(600, 93757, 88234);
-						MsgSelect(c, "You will be teleported to Nekojima soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Nekojima soon.", Button("Okay", "@end"));
 						End();
 					case "@moon":
 						c.Warp(1003, 7058, 6724);
-						MsgSelect(c, "You will be teleported to the moon soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to the moon soon.", Button("Okay", "@end"));
 						End();
 					case "@soul":
 						c.Warp(1000, 6368, 7150);
-						MsgSelect(c, "You will be teleported to the soul stream soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to the soul stream soon.", Button("Okay", "@end"));
 						End();
 				}
 				
@@ -77,7 +77,7 @@ public class _TelephantBaseScript : NPCScript
 			
 			case "@uladh":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"What location in Uladh do you want to go to?",
 					Button("Tir Chonaill", "@tir"), 
 					Button("Dunbarton", "@dun"),
@@ -90,7 +90,7 @@ public class _TelephantBaseScript : NPCScript
 					Button("Back", "@startingpoint")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				if(r == "@startingpoint")
 					goto L_Selection;
 					
@@ -98,35 +98,35 @@ public class _TelephantBaseScript : NPCScript
 				{
 					case "@tir":
 						c.Warp(1, 12991, 38549);
-						MsgSelect(c, "You will be teleported to Tir Chonaill soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Tir Chonaill soon.", Button("Okay", "@end"));
 						End();
 					case "@dun":
 						c.Warp(14, 38001, 38802);
-						MsgSelect(c, "You will be teleported to Dunbarton soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Dunbarton soon.", Button("Okay", "@end"));
 						End();
 					case "@bangor":
 						c.Warp(31, 12904, 12200);
-						MsgSelect(c, "You will be teleported to Bangor soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Bangor soon.", Button("Okay", "@end"));
 						End();
 					case "@emain":
 						c.Warp(52, 39818, 41621);
-						MsgSelect(c, "You will be teleported to Emain Macha soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Emain Macha soon.", Button("Okay", "@end"));
 						End();
 					case "@tail":
 						c.Warp(300, 212749, 192720);
-						MsgSelect(c, "You will be teleported to Taillteann soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Taillteann soon.", Button("Okay", "@end"));
 						End();
 					case "@tara":
 						c.Warp(401, 99793, 91209);
-						MsgSelect(c, "You will be teleported to Tara soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Tara soon.", Button("Okay", "@end"));
 						End();
 					case "@cobh":
 						c.Warp(23, 28559, 37693);
-						MsgSelect(c, "You will be teleported to Port Cobh soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Port Cobh soon.", Button("Okay", "@end"));
 						End();
 					case "@ceo":
 						c.Warp(56, 8743, 9299);
-						MsgSelect(c, "You will be teleported to Ceo Island soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Ceo Island soon.", Button("Okay", "@end"));
 						End();
 				}
 				
@@ -135,7 +135,7 @@ public class _TelephantBaseScript : NPCScript
 			
 			case "@iria":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"What location in Iria do you want to go to?",
 					Button("Quilla Base Camp", "@quilla"),
 					Button("Filia", "@filia"),
@@ -145,7 +145,7 @@ public class _TelephantBaseScript : NPCScript
 					Button("Back", "@startingpoint")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				if(r == "@startingpoint")
 					goto L_Selection;
 					
@@ -153,23 +153,23 @@ public class _TelephantBaseScript : NPCScript
 				{
 					case "@quilla":
 						c.Warp(3001, 166562, 168930);
-						MsgSelect(c, "You will be teleported to Quilla Base Camp soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Quilla Base Camp soon.", Button("Okay", "@end"));
 						End();
 					case "@filia":
 						c.Warp(3100, 373654, 424901);
-						MsgSelect(c, "You will be teleported to Filia soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Filia soon.", Button("Okay", "@end"));
 						End();
 					case "@vales":
 						c.Warp(3200, 289556, 211936);
-						MsgSelect(c, "You will be teleported to Vales soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Vales soon.", Button("Okay", "@end"));
 						End();
 					case "@cor":
 						c.Warp(3300, 254233, 186929);
-						MsgSelect(c, "You will be teleported to Cor soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Cor soon.", Button("Okay", "@end"));
 						End();
 					case "@calida":
 						c.Warp(3400, 328825, 176094);
-						MsgSelect(c, "You will be teleported to Calida Lake soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Calida Lake soon.", Button("Okay", "@end"));
 						End();
 				}
 				
@@ -178,7 +178,7 @@ public class _TelephantBaseScript : NPCScript
 			
 			case "@a_world":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"What location in Another World do you want to go to?",
 					Button("Crossroads", "@cross"),
 					Button("Bangor (A)", "@bangor_a"),
@@ -187,7 +187,7 @@ public class _TelephantBaseScript : NPCScript
 					Button("Back", "@startingpoint")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				if(r == "@startingpoint")
 					goto L_Selection;
 					
@@ -195,19 +195,19 @@ public class _TelephantBaseScript : NPCScript
 				{
 					case "@cross":
 						c.Warp(51, 10410, 10371);
-						MsgSelect(c, "You will be teleported to Crossroads soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Crossroads soon.", Button("Okay", "@end"));
 						End();
 					case "@tir_a":
 						c.Warp(35, 12801, 38380);
-						MsgSelect(c, "You will be teleported to Tir Chonaill (A) soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Tir Chonaill (A) soon.", Button("Okay", "@end"));
 						End();
 					case "@bangor_a":
 						c.Warp(84, 12888, 7986);
-						MsgSelect(c, "You will be teleported to Bangor (A) soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Bangor (A) soon.", Button("Okay", "@end"));
 						End();
 					case "@gairech_a":
 						c.Warp(83, 38405, 47366);
-						MsgSelect(c, "You will be teleported to Gairech Hills (A) soon.", Button("Okay", "@end"));
+						Msg(c, "You will be teleported to Gairech Hills (A) soon.", Button("Okay", "@end"));
 						End();
 				}
 				
@@ -217,21 +217,21 @@ public class _TelephantBaseScript : NPCScript
 			case "@belvast":
 			{
 				c.Warp(4005, 63373, 26475);
-				MsgSelect(c, "You will be teleported to Belvast soon.", Button("Okay", "@end"));
+				Msg(c, "You will be teleported to Belvast soon.", Button("Okay", "@end"));
 				End();
 			}
 
 			case "@avon":
 			{
 				c.Warp(501, 64195, 63211);
-				MsgSelect(c, "You will be teleported to Avon soon.", Button("Okay", "@end"));
+				Msg(c, "You will be teleported to Avon soon.", Button("Okay", "@end"));
 				End();
 			}
 
 			case "@falias":
 			{
 				c.Warp(500, 11839, 23832);
-				MsgSelect(c, "You will be teleported to Falias soon.", Button("Okay", "@end"));
+				Msg(c, "You will be teleported to Falias soon.", Button("Okay", "@end"));
 				End();
 			}
 		}

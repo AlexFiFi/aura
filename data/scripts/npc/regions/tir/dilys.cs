@@ -89,9 +89,9 @@ public class DilysScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "A tall, slim lady tinkers with various ointments, herbs, and bandages.<br/>She looks wise beyond her years, maybe because of the green healer dress she's wearing.<br/>Her dark hair is neatly combed, and her gentle brown eyes puts everyone who speaks to her at ease.<br/>She smiles faintly, waiting for you to speak.");
 
-		MsgSelect(c, "Welcome to the Healer's House", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Get Treatment", "@heal"), Button("Heal Pet", "@healpet"));
+		Msg(c, "Welcome to the Healer's House", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Get Treatment", "@heal"), Button("Heal Pet", "@healpet"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -102,7 +102,7 @@ public class DilysScript : NPCScript
 				Msg(c, Options.Name, "(Dilys is waiting for me to say something.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;
@@ -123,12 +123,12 @@ public class DilysScript : NPCScript
 					End();
 				}
 				
-				MsgSelect(c,
+				Msg(c,
 					"Goodness, <username/>! Are you hurt? I must treat your wounds immediately.<br/>I can't understand why everyone gets injured so much around here...<br/>The fee is " + _healCost + " Gold but don't think about money right now. What's important is that you get treated.",
 					Button("Recieve Treatment", "@recieveheal"), Button("Decline", "@end")
 				);
 				
-				r = Wait();
+				r = Select(c);
 				if(r == "@recieveheal")
 				{
 					if (!c.Character.HasGold(_healCost))
@@ -164,12 +164,12 @@ public class DilysScript : NPCScript
 					End();
 				}
 				
-				MsgSelect(c,
+				Msg(c,
 					"Oh no! " + c.Character.Name + ", your animal friend is badly hurt and needs to be treated right away.<br/>I don't know why so many animals are getting injured lately. It makes me worry.<br/>The treatment will cost " + _petHealCost + " Gold, but don't think of the price. Your pet needs help immediatly",
 					Button("Recieve Treatment", "@recieveheal"), Button("Decline the Treatment", "@end")
 				);
 					
-				r = Wait();
+				r = Select(c);
 				if(r == "@recieveheal")
 				{
 					if (!c.Character.HasGold(_petHealCost))

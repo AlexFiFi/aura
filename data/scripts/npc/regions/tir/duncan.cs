@@ -47,9 +47,9 @@ public class DuncanScript : NPCScript
 		
 		Hook(c, "quests");
 		
-		MsgSelect(c, "Please let me know if you need anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Retrive Lost Items", "@lostandfound"));
+		Msg(c, "Please let me know if you need anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Retrive Lost Items", "@lostandfound"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -60,7 +60,7 @@ public class DuncanScript : NPCScript
 				Msg(c, Options.Name, "(Duncan is waiting for me to say something.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Oh, is that so?");
 				goto L_Keywords;

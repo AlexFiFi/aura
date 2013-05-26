@@ -178,9 +178,9 @@ public class ElenScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "Her lovely blonde hair, pushed back with a red and white headband to keep it out of her face, comes down to her waist in a wave and covers her entire back.<br/>Her small face with dark emerald eyes shines brightly and her full lips create an inquisitive look.<br/>The sleeveless shirt she is wearing due to the heat of the shop exposes her soft tanned skin, showing how healthy she is.");
-        MsgSelect(c, "Mmm? Is there something you would like to say to me?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
+        Msg(c, "Mmm? Is there something you would like to say to me?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -191,7 +191,7 @@ public class ElenScript : NPCScript
                 Msg(c, Options.Name, "(Elen is looking in my direction.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -204,23 +204,23 @@ public class ElenScript : NPCScript
             }
             case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "Is there something you want to repair?<br/>I'm far from being as good as my grandpa,<br/>but I am a blacksmith myself, so I'll so my best to live up to the title.",
                 Button("End Conversation", "@endrepair")
             );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "If you don't trust me, talk to grandpa.<br/>He's the best blacksmith in town.");
                 End();
             }
             case "@modify":
             {
-                MsgSelect(c,
+                Msg(c,
                     "Mmm? You are asking me for an item modification?<br/>Ha ha. If you are,<br/>I'll do it just for you!<br/>You know that armor can't be worn by anyone else once it's modified, right?",
                     Button("End Conversation", "@endmodify")
                 );
-                r = Wait();
+                r = Select(c);
                 Msg(c, "Then, can i get back to my other tasks?<br/>Just let me know if you have something else to modify.");
                 End();
             }

@@ -36,9 +36,9 @@ public class Carys_to_iria_modelScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "Many intricate tattoos cover his dark, tanned skin.<br/>Beneath his shimmering white hair beams a calm, friendly smile.");
-        MsgSelect(c, "Do you have business with me?", Button("Start Conversation", "@talk"), Button("Disembark", "@disembark"));
+        Msg(c, "Do you have business with me?", Button("Start Conversation", "@talk"), Button("Disembark", "@disembark"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -49,7 +49,7 @@ public class Carys_to_iria_modelScript : NPCScript
                 Msg(c, Options.Name, "(Karis is waiting for me to say something.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;

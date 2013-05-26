@@ -164,9 +164,9 @@ public class GilmoreScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "This wiry man with a slight hump has his hands folded behind his back, and light brown hair hangs over his wide, wrinkled forehead.<br/>The reading glasses, so thick that you can't see what's behind them, rest on the wrinkles of his nose and flash every time he turns his face.<br/>Over his firmly sealed, stubborn-looking lips, he has a light-brown mustache.<br/>Frowning, he tilts down his head and stares at you over his reading glasses with grumpy brown eyes.");
-        MsgSelect(c, "What brings you here?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
+        Msg(c, "What brings you here?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -177,7 +177,7 @@ public class GilmoreScript : NPCScript
                 Msg(c, Options.Name, "(Gilmore is paying attention to me.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -190,12 +190,12 @@ public class GilmoreScript : NPCScript
             }
             case "@upgrade":
             {
-                MsgSelect(c,
+                Msg(c,
                     "...<br/>Is there something you need to upgrade?<br/>Sigh... Fine, let's see it..",
                     Button("End Conversation", "@endupgrade")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "Is that it? Well then...");
                 End();

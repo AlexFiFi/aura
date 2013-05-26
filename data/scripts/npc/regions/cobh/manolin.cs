@@ -46,9 +46,9 @@ public class ManolinScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        MsgSelect(c, "I caught a huge shark this morning.<br/>I'll show it to you later.", Button("Request from Manolin", "@requestm"));
+        Msg(c, "I caught a huge shark this morning.<br/>I'll show it to you later.", Button("Request from Manolin", "@requestm"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@requestm":
@@ -56,6 +56,6 @@ public class ManolinScript : NPCScript
                 Msg(c, "(Unimplemented)");
                 End();
             }
+		}
 	}
-}
 }

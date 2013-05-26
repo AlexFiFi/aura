@@ -150,9 +150,9 @@ public class SimonScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "With a long face, narrow shoulders, and a pale complexion, this man crosses his delicate hands in front of the chest and sways left and right.<br/>His demeanor is exaggerated and the voice nasal. He seems to have a habit of glancing sideways with those light brown eyes.<br/>His fashionable shirt has an intricate pattern and was made with great care.");
-        MsgSelect(c, "What do you want?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
+        Msg(c, "What do you want?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -163,7 +163,7 @@ public class SimonScript : NPCScript
                 Msg(c, Options.Name, "(Simon is paying attention to me.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -176,23 +176,23 @@ public class SimonScript : NPCScript
             }
             case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "Want to mend your clothes?<br/>Rest assured, I am the best this kingdom has to offer. I never make mistakes.<br/>Because of that, I charge a higher repair fee.<br/>If you can stomach a cheap repair, go find someone else. I only work with top quality.",
                 Button("End Conversation", "@endrepair")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "No more?<br/>Then, bye!");
                 End();
             }
             case "@modify":
             {
-                MsgSelect(c,
+                Msg(c,
                     "Hmm... You want to modify your clothes? Like custom-made?<br/>Well, show me what you want modified. I'll make sure it fits you like a glove.<br/>But, you know that once I modify it, no one else can wear it anymore, right?",
                     Button("End Conversation", "@endmodify")
                 );
-                r = Wait();
+                r = Select(c);
                 Msg(c, "If you have something to modify, come see me anytime.");
                 End();
             }

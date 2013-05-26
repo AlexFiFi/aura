@@ -31,16 +31,16 @@ public class CommerceOgreScript : NPCScript
 	public override IEnumerable OnTalk(WorldClient c)
 	{
 		Msg(c, Options.FaceAndName, "It has innocent eyes, but it's gobbling meat like a starving lion.");
-		MsgSelect(c,
+		Msg(c,
 			"I have a... H-handcart, and a Wagon.<br/>Oh, and a Pack Elephant, too!<br/>Ogre has big hands, but Ogre can repair also! Heh heh.",
 			Button("Repair Fomor Weapons", "@repair"), Button("End Conversation", "@end")
 		);
 			
-		var r = Wait();
+		var r = Select(c);
 		if(r == "@repair")
 		{
-			MsgSelect(c, "Ogre no good at repairs.<br/>But repair cost cheap.<br/>I only take enough money to buy meat. Heh heh.", Button("End Conversation", "@endmeat"));
-			r = Wait();
+			Msg(c, "Ogre no good at repairs.<br/>But repair cost cheap.<br/>I only take enough money to buy meat. Heh heh.", Button("End Conversation", "@endmeat"));
+			r = Select(c);
 			Msg(c, "Take good care of equipment. As valuable as meat.");
 			End();
 		}

@@ -12,6 +12,7 @@ using Aura.World.Network;
 using Aura.World.World;
 using Aura.World.Events;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace Aura.World.Scripting
 {
@@ -345,7 +346,7 @@ namespace Aura.World.Scripting
 			, client.Character.Id);
 
 			this.SendScript(client, xml);
-			this.Select(client);
+			//this.Select(client);
 		}
 
 		// Dialog functions
@@ -388,17 +389,17 @@ namespace Aura.World.Scripting
 			this.SendScript(client, msg);
 		}
 
-		public virtual void MsgSelect(WorldClient client, string text, params DialogElement[] elements)
-		{
-			this.Msg(client, text, elements);
-			this.Select(client);
-		}
+		//public virtual void MsgSelect(WorldClient client, string text, params DialogElement[] elements)
+		//{
+		//    this.Msg(client, text, elements);
+		//    this.Select(client);
+		//}
 
-		public virtual void MsgSelect(WorldClient client, Options disable, string text, params DialogElement[] elements)
-		{
-			this.Msg(client, disable, text, elements);
-			this.Select(client);
-		}
+		//public virtual void MsgSelect(WorldClient client, Options disable, string text, params DialogElement[] elements)
+		//{
+		//    this.Msg(client, disable, text, elements);
+		//    this.Select(client);
+		//}
 
 		public virtual void Select(WorldClient client)
 		{
@@ -410,7 +411,7 @@ namespace Aura.World.Scripting
 						"<arguments><argument type='string'>&#60;keyword&#62;&#60;gift&#62;</argument></arguments>" +
 					"</function>" +
 				"</call>"
-			, client.Character.Id, client.NPCSession.SessionId);
+			, client.Character.Id, client.NPCSession.Id);
 
 			this.SendScript(client, script);
 		}
@@ -493,7 +494,6 @@ namespace Aura.World.Scripting
 
 		protected void SendScript(WorldClient client, string xml)
 		{
-
 			var p = new MabiPacket(Op.NPCTalk, client.Character.Id);
 			p.PutString(xml);
 			p.PutBin(new byte[] { 0 });

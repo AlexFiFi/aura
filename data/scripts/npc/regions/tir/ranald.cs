@@ -68,9 +68,9 @@ public class RanaldScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "From his appearance and posture, there is no doubt that he is well into middle age, but he is surprisingly well-built and in good shape.<br/>Long fringes of hair cover half of his forehead and right cheek. A strong nose bridge stands high between his shining hawkish eyes.<br/>His deep, low voice has the power to command other people's attention.");
 
-		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify Item", "@modify"), Button("Get Ciar Beginner Dungeon Pass", "@pass"));
+		Msg(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify Item", "@modify"), Button("Get Ciar Beginner Dungeon Pass", "@pass"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -81,7 +81,7 @@ public class RanaldScript : NPCScript
 				Msg(c, Options.Name, "(Ranald is paying attention to me.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Well, I don't really know...");
 				goto L_Keywords;

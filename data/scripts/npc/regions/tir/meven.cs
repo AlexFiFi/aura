@@ -45,9 +45,9 @@ public class MevenScript : NPCScript
 		Msg(c, "Dressed in a robe, this composed man of moderate build maintains a very calm posture.<br/>Every bit of his appearance and the air surrounding him show that he is unfailingly a man of the clergy.<br/>Silvery hair frames his friendly face, and his gentle eyes suggest a rather quaint and quiet mood with flashes of hidden humor.");
 
 		Enable(c, Options.FaceAndName);
-		MsgSelect(c, "Welcome to the Church of Lymilark.", Button("Start Conversation", "@talk"));
+		Msg(c, "Welcome to the Church of Lymilark.", Button("Start Conversation", "@talk"));
 		
-		var r = Wait();
+		var r = Select(c);
 		if(r == "@talk")
 		{
 			Msg(c, "It's nice to see you again.");
@@ -56,7 +56,7 @@ public class MevenScript : NPCScript
 			Msg(c, Options.Name, "(Meven is waiting for me to say something.)");
 			ShowKeywords(c);
 			
-			var keyword = Wait();
+			var keyword = Select(c);
 			
 			Msg(c, "...<br/>I really don't know.");
 			goto L_Keywords;

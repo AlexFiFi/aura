@@ -87,9 +87,9 @@ public class AnnickScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "Light wrinkles are beginning to appear on her tanned face.<br/>She rushes around while talking and laughing.");
-        MsgSelect(c, "Don't hesitate to ask if you're curious about anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
+        Msg(c, "Don't hesitate to ask if you're curious about anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -100,7 +100,7 @@ public class AnnickScript : NPCScript
                 Msg(c, Options.Name, "(Annick is looking at me.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;

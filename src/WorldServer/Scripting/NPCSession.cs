@@ -12,8 +12,8 @@ namespace Aura.World.Scripting
 
 	public class NPCSession
 	{
-		public MabiNPC Target = null;
-		public int SessionId = -1;
+		public MabiNPC Target { get; private set; }
+		public int Id { get; private set; }
 
 		public Options Options = Options.FaceAndName;
 		public string DialogFace = null;
@@ -22,23 +22,32 @@ namespace Aura.World.Scripting
 		public IEnumerator State = null;
 		public Response Response = null;
 
-		public int Start(MabiNPC target)
+		public bool IsValid
+		{
+			get
+			{
+				return (this.Target != null && this.State != null);
+			}
+		}
+
+		public NPCSession()
+		{
+			// We'll only set this once for every char, for the entire session.
+			// In some cases the client doesn't seem to take the new id,
+			// which results in a mismatch.
+			this.Id = RandomProvider.Get().Next(1, 5000);
+		}
+
+		public void Start(MabiNPC target)
 		{
 			this.Target = target;
-			return (this.SessionId = RandomProvider.Get().Next(0, 5000));
 		}
 
 		public void Clear()
 		{
 			this.Target = null;
-			this.SessionId = -1;
 			this.State = null;
 			this.Response = null;
-		}
-
-		public bool IsValid
-		{
-			get { return (this.SessionId >= 0 && this.SessionId <= 5000); }
 		}
 	}
 }

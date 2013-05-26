@@ -43,9 +43,9 @@ public class AsconScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "His blond hair is neatly slicked back exposing a wide forehead.<br/>Despite his old age, he has maintained an upright<br/>posture and healthy skin. His hands are<br/>covered with scars. His eyes stare into the ocean.");
-        MsgSelect(c, "Hello, it's a nice day out.", Button("Start Conversation", "@talk"));
+        Msg(c, "Hello, it's a nice day out.", Button("Start Conversation", "@talk"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -56,11 +56,11 @@ public class AsconScript : NPCScript
                 Msg(c, Options.Name, "(Ascon is looking at me.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
             }
+		}
 	}
-}
 }

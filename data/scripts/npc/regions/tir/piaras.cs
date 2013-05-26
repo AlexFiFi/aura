@@ -74,9 +74,9 @@ public class PiarasScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "His straight posture gives him a strong, resolute impression even though he's only slightly taller than average height. Clean shaven, well groomed hair, spotless appearance and dark green vest make him look like a dandy.<br/>His neat looks, dark and thick eyebrows and the strong jaw line harmonized with the deep baritone voice complete the impression of an affable gentleman.");
 
-		MsgSelect(c, "Welcome to my Inn.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
+		Msg(c, "Welcome to my Inn.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -87,7 +87,7 @@ public class PiarasScript : NPCScript
 				Msg(c, Options.Name, "(Piaras is waiting for me to say something.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "I'd love to listen to you, but about something else.");
 				goto L_Keywords;

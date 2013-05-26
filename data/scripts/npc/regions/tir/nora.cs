@@ -119,9 +119,9 @@ public class NoraScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "A girl wearing a well-ironed green apron leans forward, gazing cheerfully at her sorroundings.<br/>Her bright eyes are azure blue and a faint smile plays on her lips.<br/>Cross-shaped earrings dangle from her ears, dancing playfully between her honey-blonde hair.<br/>Her hands are always busy, as she engages in some chore or another, though she often looks into the distance as if deep in thought.");
 
-		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
+		Msg(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -132,7 +132,7 @@ public class NoraScript : NPCScript
 				Msg(c, Options.Name, "(Nora is looking in my direction.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;

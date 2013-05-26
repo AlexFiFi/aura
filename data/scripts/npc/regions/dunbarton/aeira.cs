@@ -133,9 +133,9 @@ public class AeiraScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "This girl seems to be in her late teens with big thick glasses resting at the tip of her nose.<br/>Behind the glasses are two large, round brown eyes shining brilliantly.<br/>Wearing a loose-fitting dress, she has a ribbon made of soft and thin material around her neck.");
-        MsgSelect(c, "So, what can i help you with?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
+        Msg(c, "So, what can i help you with?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -146,7 +146,7 @@ public class AeiraScript : NPCScript
                 Msg(c, Options.Name, "(Aeira is slowly looking me over.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;

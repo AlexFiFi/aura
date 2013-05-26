@@ -99,9 +99,9 @@ public class StewartScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "He is a young man with nerdy spectacles and tangled hair.<br/>Beneath his glasses, his soft eyes are somewhat appealing,<br/>but his stained tunic and his hands with reek of herbs confirm that he is clumsy and unkempt.");
-        MsgSelect(c, "How can I help you?", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
+        Msg(c, "How can I help you?", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -111,7 +111,7 @@ public class StewartScript : NPCScript
             L_Keywords:
                 Msg(c, Options.Name, "(Stewart is looking in my direction.)");
                 ShowKeywords(c);
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -124,24 +124,24 @@ public class StewartScript : NPCScript
             }
             case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "Do you want to repair your magic weapon?<br/>All magic weapons are laden with Mana, so it's impossible to physically fix them.<br/>If you fix them the way blacksmiths fix swords, then they may lose all the magic powers that come with them.",
                 Button("End Conversation", "@endrepair")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "Please handle with care..");
                 End();
             }
             case "@upgrade":
             {
-                MsgSelect(c,
+                Msg(c,
                     "You want to upgrade something?<br/>First, let me see the item.<br/>Remember that the amount and type of upgrade varies with each item.",
                     Button("End Conversation", "@endupgrade")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "Come see me again next time if you have something else to upgrade.");
                 End();

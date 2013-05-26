@@ -156,9 +156,9 @@ public class KaynaScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "She's a middle age woman with round features.<br/>Her clothes are worn with the smoke and soot<br/>of her forge. Her two pigtails allow her pearl earrings<br/>to glitter in the sunlight.");
-        MsgSelect(c, "Hi there! Anything I can help you with?", Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
+        Msg(c, "Hi there! Anything I can help you with?", Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Upgrade Item", "@upgrade"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@shop":
@@ -169,24 +169,24 @@ public class KaynaScript : NPCScript
             }
             case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "Give the item you would like to repair.",
                 Button("End Conversation", "@endrepair")
             );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "Come again.");
                 End();
             }
             case "@upgrade":
             {
-                MsgSelect(c,
+                Msg(c,
                     "What kind of upgrade would you like?",
                     Button("End Conversation", "@endupgrade")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "Come by again soon!");
                 End();

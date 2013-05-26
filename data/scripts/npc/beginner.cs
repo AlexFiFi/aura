@@ -16,7 +16,7 @@ public class NaoScript : NPCScript
 		SetId(Id.Nao);
 		SetName("_nao");
 		SetRace(1);
-		SetLocation(1000, 6392, 7203);
+		SetLocation(1000, 0, 0);
 	}
 
 	// Ending the talk with Nao means leaving the Soul Stream.
@@ -29,8 +29,8 @@ public class NaoScript : NPCScript
 		//<prototype>void character::SetNPCDirection()</prototype><arguments></arguments>
 
 		Msg(c, "Hello, there... You are <username/>, right?<br/>I have been waiting for you.<br/>It's good to see a lady like you here.<p/>My name is Nao. <br/>It is my duty to lead pure souls like yours to Erinn.");
-		MsgSelect(c, "<username/>, we have some time before I guide you to Erinn.<br/>Do you have any questions for me?", Button("No"), Button("Yes"));
-		var r = Wait();
+		Msg(c, "<username/>, we have some time before I guide you to Erinn.<br/>Do you have any questions for me?", Button("No"), Button("Yes"));
+		var r = Select(c);
 
 		// Information about Mabi
 		if(r == "@yes")
@@ -38,8 +38,9 @@ public class NaoScript : NPCScript
 		L_Info:
 			//Do not hesitate to ask questions. I am more than happy to answer them for you.
 			//If you have any questions before heading off to Erinn, please feel free to ask.
-			MsgSelect(c, "If there is something you'd like to know more of, please ask me now.",
-				List("Talk to Nao", 4, "@break",
+			Msg(c, "If there is something you'd like to know more of, please ask me now.",
+				Button("End Conversation"),
+				List("Talk to Nao", 4, "@end",
 					Button("About Mabinogi", "@mabinogi"),
 					Button("About Erinn", "@erinn"),
 					Button("What to do?", "@what"),
@@ -47,7 +48,7 @@ public class NaoScript : NPCScript
 				)
 			);
 
-			var info = Wait();
+			var info = Select(c);
 			switch(info)
 			{
 				case "@mabinogi":
@@ -69,9 +70,9 @@ public class NaoScript : NPCScript
 		// Talent selection
 		if (SelectTalent)
 		{
-			MsgSelect(c, "<username/>, you have the freedom to do whatever you wish in life.<br/>But having a goal will make life more meaningful, don't you think?<br/>This goal, also known as a Talent, will help you train specific skills.<br/>It will also grant bonuses to related stats.<p/><username/>, would you like to choose an active Talent?<br/>You can change this Talent anytime you rebirth.<br/>So take a look, and see which Talent you'd like. <talent_select />");
+			Msg(c, "<username/>, you have the freedom to do whatever you wish in life.<br/>But having a goal will make life more meaningful, don't you think?<br/>This goal, also known as a Talent, will help you train specific skills.<br/>It will also grant bonuses to related stats.<p/><username/>, would you like to choose an active Talent?<br/>You can change this Talent anytime you rebirth.<br/>So take a look, and see which Talent you'd like. <talent_select />");
 
-			var talent = Wait();
+			var talent = Select(c);
 			//switch(talent)
 			//{
 			//    case "@talent7": ...

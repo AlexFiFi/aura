@@ -42,9 +42,9 @@ public class AlissaScript : NPCScript
 		Bgm(c, "NPC_Alissa.mp3");
 		
 		Msg(c, Options.FaceAndName, "A young girl stands with her habds on her hips like she's a person of great importance.<br/>She wears a worn out hat that frames her soft hair, round face, and button nose.<br/>As she stands there, you notice that her apron is actually too big, and she's discreetly trying to keep it from slipping.<br/>In spite of all that, her cherry eyes sparkle with curiosity.");
-		MsgSelect(c, "So, what can I do for you?", Button("Start Conversation", "@talk"), Button("Operate the Windmill", "@windmill"));
+		Msg(c, "So, what can I do for you?", Button("Start Conversation", "@talk"), Button("Operate the Windmill", "@windmill"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch(r)
 		{
 			case "@talk":
@@ -54,7 +54,7 @@ public class AlissaScript : NPCScript
 			L_Keywords:
 				Msg(c, Options.Name, "(Alissa is looking at me.)");
 				ShowKeywords(c);
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;
@@ -62,11 +62,11 @@ public class AlissaScript : NPCScript
 			
 			case "@windmill":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"How long do you want to use the Mill?<br/>It's 100 Gold for one minute and 450 Gold for 5 minutes.<br/>Once it starts working, anyone can use the Mill.",
 					Button("1 Minute", "@onemin"), Button("5 Minutes", "@fivemin"), Button("Forget It", "@forget")
 				);
-				var duration = Wait();
+				var duration = Select(c);
 				
 				if(duration == "@forget")
 				{

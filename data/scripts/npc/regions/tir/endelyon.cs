@@ -48,9 +48,9 @@ public class EndelyonScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "An elegent young lady wears the simple black dress of a Lymilark priestess.<br/>Her face is set in a calm, demur expression, and her eyes exude warmth.<br/>A slight smile tugging at her lips hints at a strong will.");
 
-		MsgSelect(c, "May I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify", "@modify"));
+		Msg(c, "May I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify", "@modify"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -61,7 +61,7 @@ public class EndelyonScript : NPCScript
 				Msg(c, Options.Name, "(Endelyon is looking in my direction.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "It doesn't sound familiar to me. I mean...");
 				goto L_Keywords;
@@ -69,11 +69,11 @@ public class EndelyonScript : NPCScript
 			
 			case "@modify":
 			{
-				MsgSelect(c,
+				Msg(c,
 					"Are you asking me...to modify your item?<br/>Honestly, I am not sure if I can, but if you still want me to, I'll give it a try<br/>Please choose an item to modify.",
 					Button("End Conversation", "@endmodify")
 				);
-				r = Wait();
+				r = Select(c);
 				Msg(c, "Do you want me to stop...? Well, then... Next time...");
 				End();
 			}

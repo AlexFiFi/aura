@@ -141,9 +141,9 @@ public class EavanScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "Wearing a rosy pink blouse, her shoulders are gently covered by her blonde hair that seems to wave in the breeze.<br/>An oval face, a pair of calm eyes with depth, and a slightly small nose right a rounded tip...<br/>Beneath are the lips that shine in the same color as her blouse.");
-        MsgSelect(c, "This is the Adventurers' Association.", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"), Button("Retrieve Lost Items", "@retrieve"), Button("About Daily Events", "@aboutdaily"));
+        Msg(c, "This is the Adventurers' Association.", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"), Button("Retrieve Lost Items", "@retrieve"), Button("About Daily Events", "@aboutdaily"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -153,7 +153,7 @@ public class EavanScript : NPCScript
                 L_Keywords:
                     Msg(c, Options.Name, "(Eavan is paying attention to me.)");
                     ShowKeywords(c);
-                    var keyword = Wait();
+                    var keyword = Select(c);
 
                     Msg(c, "Can we change the subject?");
                     goto L_Keywords;

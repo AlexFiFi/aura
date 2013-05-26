@@ -124,9 +124,9 @@ public class ComganScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
 	{
 		Msg(c, Options.FaceAndName, "This boy is wearing a priest's robe with wide necklines showing that he has on many layers of clothing.<br/>The color of his thick hair looks like feather clouds floating above the Bangor sky.<br/>Blue eyes like a deep, trainquil ocean add a gentle radiance to his slightly tilted face.<br/>His gentle smile shows his godly manner.");
-		MsgSelect(c, "Do you... believe in God?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
+		Msg(c, "Do you... believe in God?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -137,7 +137,7 @@ public class ComganScript : NPCScript
 				Msg(c, Options.Name, "(Comgan is slowly looking me over.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;

@@ -85,9 +85,9 @@ public class JeniferScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "Well-groomed purple hair, a face as smooth as flawless porcelain,<br/>and brown eyes with thick mascara complemented by a mole that adds beauty to her oval faced.<br/>The jasmine scent fills the air every time her light sepia healer dress moves,<br/>and her red cross earrings dangle and shine as her smile spreads across her lips.");
-        MsgSelect(c, "Mmm? How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
+        Msg(c, "Mmm? How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -98,7 +98,7 @@ public class JeniferScript : NPCScript
                 Msg(c, Options.Name, "(Jennifer is looking in my direction.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -113,12 +113,12 @@ public class JeniferScript : NPCScript
 
 			case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "I can fix accessories.<br/>I know this sounds funny coming from me, but it's not very good to repair accessories.<br/>First off, it costs to much.<br/>You might be better off buying a new one than repairing it. But if you still want to repair it...",
                 Button("End Conversation", "@endrepair")
             );
             
-            r = Wait();
+            r = Select(c);
             
             Msg(c, "It must be very precious to you if you want to repair an accessory.<br/>I totally understand. But it takes on another kind of charm as it tarnishes, you know?");
             Msg(c, "Well, see you again.");

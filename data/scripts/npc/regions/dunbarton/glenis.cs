@@ -120,9 +120,9 @@ public class GlenisScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "With her round face and large, sparkling eyes, this middle aged woman appears to have a big heart.<br/>Her face, devoid of makeup, is dominated by her large eyes and a playful smile.<br/>Over her lace collar she wears and old but well-polished locket.");
-        MsgSelect(c, "Welcome!<br/>This is Glenis' Restaurant.", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"));
+        Msg(c, "Welcome!<br/>This is Glenis' Restaurant.", Button("Start a Conversation", "@talk"), Button("Shop", "@shop"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -132,7 +132,7 @@ public class GlenisScript : NPCScript
 			L_Keywords:
 				Msg(c, Options.Name, "(Glenis is waiting for me to say something.)");
 				ShowKeywords(c);
-				var keyword = Wait();
+				var keyword = Select(c);
 
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;

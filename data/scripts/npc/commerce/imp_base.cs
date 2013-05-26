@@ -33,14 +33,14 @@ public class CommerceImpScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		MsgSelect(c,
+		Msg(c,
 			"Your wine is aging, your wine is aging!<br/>Buy interesting goods and trade in Bandit Badges!",
 			Button("Trade", "@shop"), Button("Trade In Bandit Badges", "@trade"), 
 			Button("Exchange Bandit Badges","@exchange"), Button("Repair Fomor Weapons",
 			"@repair"), Button("Ferment wine", "@ferment"), Button("End Conversation", "@end")
 		);
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@shop":
@@ -52,22 +52,31 @@ public class CommerceImpScript : NPCScript
 				
 			case "@trade":
 			{
-				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>I'll give you some Ducats for proof that you took care of them.", Button("End Conversation", "@endtrade"));
-				MsgSelect(c, "I'll be seeing you, then.", Button("Continue", "@end"));
+				Msg(c, "So, were you able to catch plenty of those bandits?<br/>I'll give you some Ducats for proof that you took care of them.");
+				
+				// selection window
+				
+				Msg(c, "I'll be seeing you, then.");
 				End();
 			}
 				
 			case "@exchange":
 			{
-				MsgSelect(c, "So, were you able to catch plenty of those bandits?<br/>Hey, if you're sick of carrying all those badges, I'll trade you<br/>for a better one. I know how heavy they can get.", Button("End Conversation", "@endexchange"));
-				MsgSelect(c, "I'll be seeing you, then.", Button("Continue", "@end"));
+				Msg(c, "So, were you able to catch plenty of those bandits?<br/>Hey, if you're sick of carrying all those badges, I'll trade you<br/>for a better one. I know how heavy they can get.");
+
+				// selection window
+				
+				Msg(c, "I'll be seeing you, then.");
 				End();
 			}
 				
 			case "@repair":
 			{
-				MsgSelect(c, "If it's a Fomor weapon, just leave it to me.",  Button("Continue", "@endme"));
-				MsgSelect(c, "If it breaks again, come to me for repairs. Just me. Not the others. Me.", Button("Continue", "@end"));
+				Msg(c, "If it's a Fomor weapon, just leave it to me.");
+
+				// selection window
+				
+				Msg(c, "If it breaks again, come to me for repairs. Just me. Not the others. Me.");
 				End();
 			}
 				

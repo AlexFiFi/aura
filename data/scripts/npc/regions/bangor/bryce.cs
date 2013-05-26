@@ -62,9 +62,9 @@ public class BryceScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "He's dressed neatly in a high neck shirt and a brown vest.<br/>His cleft chin is cleanly shaved and his hair has been well groomed and flawlessly brushed back.<br/>He stares at you with shining hazelnut eyes that are deep-set in his pale face.");
-        MsgSelect(c, "What is it?", Button("Start Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
+        Msg(c, "What is it?", Button("Start Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -74,7 +74,7 @@ public class BryceScript : NPCScript
             L_Keywords:
                 Msg(c, Options.Name, "(Bryce is looking at me.)");
                 ShowKeywords(c);
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -88,8 +88,8 @@ public class BryceScript : NPCScript
 
             case "@redeem":
             {
-				MsgSelect(c, "Would you like to redeem your coupon?<br/>You're a blessed one.<br/>Please input the number of coupons you wish to redeem.", Input("Exchange Coupon", "Enter your coupon number"));
-				var input = Wait();
+				Msg(c, "Would you like to redeem your coupon?<br/>You're a blessed one.<br/>Please input the number of coupons you wish to redeem.", Input("Exchange Coupon", "Enter your coupon number"));
+				var input = Select(c);
                 if (input == "@cancel")
                     End();
 

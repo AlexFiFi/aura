@@ -111,9 +111,9 @@ public class SiobhaninScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "A young elven boy with snow-white skin and startlingly<br/>blue eyes. His delicate fingers work at tidying the collar<br/>of his neat shirt. His smiling lips seem to ask: How much<br/>have you found out so far?");
-        MsgSelect(c, "Come look at my items. I have so much to offer!", Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
+        Msg(c, "Come look at my items. I have so much to offer!", Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@shop":
@@ -124,12 +124,12 @@ public class SiobhaninScript : NPCScript
             }
             case "@upgrade":
             {
-                MsgSelect(c,
+                Msg(c,
                     "All right, what would you like to upgrade?",
                     Button("End Conversation", "@endupgrade")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "Yes, come again!");
                 End();

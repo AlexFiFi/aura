@@ -61,9 +61,9 @@ public class AugustineScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "His soft, shiny black hair exudes youth.<br/>His tightly shut lips and sharp eyes give the<br/>impression of experience beyond his years.<br/>He glares at you with large, impatient eyes.");
-        MsgSelect(c, "I'm busy, so just tell me what you are here for.", Button("Start a Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
+        Msg(c, "I'm busy, so just tell me what you are here for.", Button("Start a Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Shop", "@shop"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -74,7 +74,7 @@ public class AugustineScript : NPCScript
                 Msg(c, Options.Name, "(Augustine is waiting for me to say something.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -88,8 +88,8 @@ public class AugustineScript : NPCScript
 
             case "@redeem":
             {
-				MsgSelect(c, "Tell me the coupon number.<br/>Make sure it's the right one.", Input("Exchange Coupon", "Enter your coupon number"));
-				var input = Wait();
+				Msg(c, "Tell me the coupon number.<br/>Make sure it's the right one.", Input("Exchange Coupon", "Enter your coupon number"));
+				var input = Select(c);
                 if (input == "@cancel")
                     End();
 

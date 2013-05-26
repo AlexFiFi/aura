@@ -486,9 +486,13 @@ namespace Aura.World.Scripting
 			{
 				// [var] <variable> = Wait();
 				// --> [var] <variable>Object = new Response(); yield return <variable>Object; [var] <variable> = <variable>Object.Value;
+				//file = Regex.Replace(file,
+				//    @"([\{\}:;\t ])(var )?[\t ]*([^\s\)]*)\s*=\s*Wait\s*\(\s*([^)]*)\s*\)\s*;",
+				//    "$1$2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;",
+				//    RegexOptions.Compiled);
 				file = Regex.Replace(file,
-					@"([\{\}:;\t ])(var )?[\t ]*([^\s\)]*)\s*=\s*Wait\s*\(\s*\)\s*;",
-					"$1$2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;",
+					@"([\{\}:;\t ])?(var )?[\t ]*([^\s\)]*)\s*=\s*Select\s*\(\s*([^)]*)\s*\)\s*;",
+					"$1Select($4); $2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;",
 					RegexOptions.Compiled);
 
 				// End();

@@ -29,10 +29,10 @@ public class CrystalBallBaseScript : NPCScript
 
 		// TODO: Filter based on G completion
 
-		MsgSelect(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
+		Msg(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
 			Button("Chapter 1 (G1-3)", "@c1"), Button("Chapter 2 (G4-8)", "@c2"), Button("Chapter 3 (G9-12)", "@c3"), Button("Chapter 4 (G13-17)", "@g4"), Button("Quit", "@end"));
 
-		var r = Wait();
+		var r = Select(c);
 
 		switch (r)
 		{
@@ -55,22 +55,22 @@ public class CrystalBallBaseScript : NPCScript
 
 	protected IEnumerable C1(WorldClient c)
 	{
-		MsgSelect(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
+		Msg(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
 			Button("The Advent of the Goddess", "@g1"), Button("Paladin", "@g2"), Button("Dark Knight", "@g3"), Button("Quit", "@end"));
 
-		var r = Wait();
+		var r = Select(c);
 
 		MabiCutscene s = null;
 
 		switch (r)
 		{
 			case "@g1":
-				MsgSelect(c, "Here's the first great adventure, The Advent of the Goddess.<br/>You'll be able to see the memories of your adventures with the 3 lost warriors.<br/>Your comrades will be shown here as Mari and Tarlach.<br/>Which memory would you like to see?",
+				Msg(c, "Here's the first great adventure, The Advent of the Goddess.<br/>You'll be able to see the memories of your adventures with the 3 lost warriors.<br/>Your comrades will be shown here as Mari and Tarlach.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G1: The Advent of the Goddess", 10, Button("A Request from the Goddess (100 Gold)", "@G1_0_a_Morrighan_override"), Button("3 Dungeon Warriors (200 Gold)", "@G1_5_a_3WarriorsRP_override"), Button("Campfire (300 Gold)", "@G1_5_b_3WarriorsRP_override"), Button("The Dream of the Goddess (200 Gold)", "@G1_5_c_3WarriorsRP_override"), Button("Black Wizard (200 Gold)", "@G1_10_a_BlackWizard_override"), Button("The Prayer of Tarlach (300 Gold)", "@G1_15_a_TarlachRP_override"), Button("The Song of Succubus (500 Gold)", "@G1_15_b_TarlachRP_override"), Button("The Love She Did Not Know (400 Gold)", "@G1_15_c_TarlachRP_override"), Button("Mores and His Vow (200 Gold)", "@G1_18_a_MoresRP_override"), Button("Ghost Armor Troop (300 Gold)", "@G1_18_b_MoresRP_override"), Button("The Wrath of Mores (300 Gold)", "@G1_18_c_MoresRP_override"), Button("At the Gateway to Paradise (300 Gold)", "@G1_25_a_3WarriorsRP2_override"), Button("The Monarch of Darkness (200 Gold)", "@G1_25_b_3WarriorsRP2_override"), Button("The Prophecy of the Dark Lord (200 Gold)", "@G1_25_c_3WarriorsRP2_override"), Button("The Demise of the 3 Warriors (500 Gold)", "@G1_25_d_3WarriorsRP2_override"), Button("The Prophecy of the Goddess (100 Gold)", "@G1_28_a_Morrighan_override"), Button("The Ghost of Shiela (200 Gold)", "@G1_31_0_ShielaRP_override"), Button("Mores and His Vow(2) (200 Gold)", "@G1_31_a_ShielaRP_override"), Button("Ghost Armor Troop (2) (200 Gold)", "@G1_31_b_ShielaRP_override"), Button("The True Colors of the Goddess (300 Gold)", "@G1_31_c_ShielaRP_override"), Button("The Path to the Other World (200 Gold)", "@G1_33_a_Morrighan_override"), Button("Breaking the Seal (300 Gold)", "@G1_38_a_Morrighan_override"), Button("The Obstruction of the Dark Lord (500 Gold)", "@G1_40_a_Cichol_override"), Button("The Resurrection of the Giant (700 Gold)", "@G1_40_b_Cichol_override"), Button("G1 Ending (800 Gold)", "@G1_41_b_Glas_override"))
 				);
 				
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -265,12 +265,12 @@ public class CrystalBallBaseScript : NPCScript
 				break;
 
 			case "@g2":
-				MsgSelect(c, "Here's the second great adventure, the Paladin.<br/>You'll be able to see the difficulties you and your comrades faced throughout your adventures.<br/>Which memory would you like to see?",
+				Msg(c, "Here's the second great adventure, the Paladin.<br/>You'll be able to see the difficulties you and your comrades faced throughout your adventures.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G2: Paladin", 10, Button("Ruairi (500 Gold)", "@G2_05_a_Ruairi_override"), Button("Triona (500 Gold)", "@G2_06_a_Triona_override"), Button("Morgant (500 Gold)", "@G2_07_a_Darkload_override"), Button("Adieu (400 Gold)", "@G2_08_a_Paladin_exercises_override"), Button("Triona in Trouble (400 Gold)", "@G2_08_b_Paladin_exercises_override"), Button("The Return of Ruairi (500 Gold)", "@G2_08_c_Paladin_exercises_override"), Button("Paladin Training Complete (600 Gold)", "@G2_08_d_Paladin_exercises_override"), Button("Finding Lugh (100 Gold)", "@G2_09_a_override"), Button("Definition (400 Gold)", "@G2_10_a_override"), Button("The Ghost of Lugh (100 Gold)", "@G2_11_a_override"), Button("The Tragedy of Emain Macha (400 Gold)", "@G2_18_a_override"), Button("To Tarlach (200 Gold)", "@G2_20_a_override"), Button("The Song of Nele (400 Gold)", "@G2_23_a_override"), Button("The Test of Nature (100 Gold)", "@G2_28_a_override"), Button("The Final Test (100 Gold)", "@G2_28_b_override"), Button("The Blessing of Nature (100 Gold)", "@G2_28_c_override"), Button("The Evil Scheme of Esras (300 Gold)", "@G2_36_a_override"), Button("Entering Barri Dungeon (100 Gold)", "@G2_37_a_override"), Button("Tabhartas (300 Gold)", "@G2_37_b_override"), Button("The Awakening (500 Gold)", "@G2_37_c_override"), Button("The Misunderstanding (600 Gold)", "@G2_37_d_override"), Button("G2 Ending (800 Gold)", "@G2_37_e_override"))
 				);
 				
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -447,12 +447,12 @@ public class CrystalBallBaseScript : NPCScript
 				break;
 
 			case "@g3":
-				MsgSelect(c, "This is the third great adventure, the Dark Knight.<br/>You can see the memory of the reunion and the parting of the three warriors, as well as the adventure you took part with them.<br/>Your friends will appear as Tarlach and Mari.<br/>Which memory would you like to see?",
+				Msg(c, "This is the third great adventure, the Dark Knight.<br/>You can see the memory of the reunion and the parting of the three warriors, as well as the adventure you took part with them.<br/>Your friends will appear as Tarlach and Mari.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G3: Dark Knight", 10, Button("The Request of the Goddess (100 Gold)", "@g3_01_a_Morrighan_override"), Button("The Dream of Ruairi (500 Gold)", "@g3_03_a_RuairisDream_override"), Button("Ruairi, the Dark Knight (400 Gold)", "@g3_05_a_RuairiBeDarkKnight_override"), Button("Restoration of Alby Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_01_Alby_override"), Button("Restoration of Ciar Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_02_Ciar_override"), Button("Restoration of Rabbie Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_03_Rabbie_override"), Button("Restoration of Math Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_04_Math_override"), Button("Restoration of Barri Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_05_Barri_override"), Button("Restoration of Fiodh Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_06_Fiodh_override"), Button("Restoration of Peaca Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_07_Peaca_override"), Button("Restoration of Coill Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_08_Coil_override"), Button("Restoration of Rundal Dungeon (100 Gold)", "@g3_06_a_DungeonRecovery_09_Runda_override"), Button("People Who Fight Against Fomors (300 Gold)", "@g3_06_b_Redire_override"), Button("Ruairi, Who Destroys the Goddess Statue (400 Gold)", "@g3_06_c_DestroyStatue_override"), Button("Ruairi, Who Defeats Humans (400 Gold)", "@g3_06_d_GrandBattle_override"), Button("Defeated by Ruairi (400 Gold)", "@g3_06_e_MeetRuairi_override"), Button("Triona and Ruairi (500 Gold)", "@g3_10_a_RuairiTriona_override"), Button("Discovery of the Petrified Dragon (500 Gold)", "@g3_12_a_DiscoverTheDragon_override"), Button("The Memory of Eavan (500 Gold)", "@g3_13_a_Recollection_Eavan_override"), Button("The Request from the Goddess (100 Gold)", "@g3_14_a_Morrighan_override"), Button("Ruairi and Morgant (300 Gold)", "@g3_17_a_Ruairi_VS_Morgant_override"), Button("Reunion of the Three Warriors (500 Gold)", "@g3_17_b_AllStarShow_override"), Button("G3 Ending (800 Gold)", "@g3_19_a_EndingDragon_override"), Button("Epilogue- Eavan (500 Gold)", "@g3_19_d_EndingNNN_female_override"))
 				);
 				
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -623,9 +623,9 @@ public class CrystalBallBaseScript : NPCScript
 
 		if (s != null)
 		{
-			MsgSelect(c, "Enjoy reminiscing...", Button("View", "@null"));
+			Msg(c, "Enjoy reminiscing...", Button("View", "@null"));
 
-			r = Wait();
+			r = Select(c);
 
 			Close(c);
 			s.Send(c);
@@ -636,22 +636,22 @@ public class CrystalBallBaseScript : NPCScript
 
 	protected IEnumerable C2(WorldClient c)
 	{
-		MsgSelect(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
+		Msg(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
 			Button("Ancient Secrets of Irinid", "@g7"), Button("Dragon", "@g8"), Button("Quit", "@end"));
 
-		var r = Wait();
+		var r = Select(c);
 
 		MabiCutscene s = null;
 
 		switch (r)
 		{
 			case "@g7":
-				MsgSelect(c, "This is the seventh great adventure, Ancient Secrets of Irinid.<br/>You can see the memory of Ruairi and the hidden ruins, the adventures of Ruwai, and the love between Atrata and Taunes.<br/>Which memory would you like to see?",
+				Msg(c, "This is the seventh great adventure, Ancient Secrets of Irinid.<br/>You can see the memory of Ruairi and the hidden ruins, the adventures of Ruwai, and the love between Atrata and Taunes.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G7: Ancient Secrets of Irinid", 10, Button("The sealed memories of the Elves. (200 Gold)", "@weather_changer_sunshine_override"), Button("The sealed memories of the Giants. (200 Gold)", "@weather_changer_snow_override"), Button("The sealed memories of the Natives. (200 Gold)", "@weather_changer_lightning_override"), Button("Awakening Ruairi (300 Gold)", "@weather_changer_center_override"), Button("Memory of Courcle (300 Gold)", "@g7s3_intro_human_override"), Button("Heart of Courcle (200 Gold)", "@g7s3_rp_01_override"), Button("Fate of the Dark Lands (200 Gold)", "@g7s3_rp_02_override"), Button("Ruwai in Danger (500 Gold)", "@g7s3_rp_03_override"), Button("The Mirror Witch and the Mirror of Memory (400 Gold)", "@Dungeon_mirror_withch_override"), Button("Atrata and Taunes (200 Gold)", "@Dungeon_success_atrata_override"), Button("Follow the sound of the Wind Bell (500 Gold)", "@Atrata_meet_taunes_1_override"), Button("Person Worth Finding (500 Gold)", "@Atrata_meet_taunes_2_override"))
 				);
 
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -723,12 +723,12 @@ public class CrystalBallBaseScript : NPCScript
 				break;
 
 			case "@g8":
-				MsgSelect(c, "This is the eighth great adventure, Dragon.<br/>You can see the memory of Ruairi and the Conductor and the adventures of the three different colored Dragons.<br/>Which memory would you like to see?",
+				Msg(c, "This is the eighth great adventure, Dragon.<br/>You can see the memory of Ruairi and the Conductor and the adventures of the three different colored Dragons.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G8: Dragon", 10, Button("Zardine (200 Gold)", "@entrance_zardine_override"), Button("Conduction Ceremony (300 Gold)", "@g8s1_cruaich_override"), Button("Black-Haired Elf (300 Gold)", "@g8s1_atrata_override"), Button("Unicorn of the Mirror Witch (100 Gold)", "@g8s1_unicorn_override"), Button("The Memory of Kelpie (300 Gold)", "@g8s1_kelpie_override"), Button("Phaselus (100 Gold)", "@Dungeon_into_Effie_Brother_override"), Button("The Secret of the Elves (400 Gold)", "@Dungeon_success_Effie_Brother_override"), Button("Help from Crumena (300 Gold)", "@surveying_volcanism_override"), Button("The True Identity of Crumena (500 Gold)", "@kill_Cruaich_override"), Button("Awakened Ruairi (200 Gold)", "@meet_Ruari_override"), Button("The Calling of the Conductor (100 Gold)", "@g8s1_GoldDragon1_override"), Button("Towards Renes (200 Gold)", "@g8s1_to_dragon_lair_override"), Button("Decisive Battle (300 Gold)", "@g8s1_GoldDragon2_override"), Button("A New Hope (900 Gold)", "@g8s1_kill_red_dragon_override"), Button("G8 Ending (200 Gold)", "@g8s1_ending_override"))
 				);
 
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -849,9 +849,9 @@ public class CrystalBallBaseScript : NPCScript
 
 		if (s != null)
 		{
-			MsgSelect(c, "Enjoy reminiscing...", Button("View", "@null"));
+			Msg(c, "Enjoy reminiscing...", Button("View", "@null"));
 
-			r = Wait();
+			r = Select(c);
 
 			Close(c);
 			s.Send(c);
@@ -862,22 +862,22 @@ public class CrystalBallBaseScript : NPCScript
 
 	protected IEnumerable C3(WorldClient c)
 	{
-		MsgSelect(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
+		Msg(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
 			Button("Alchemist", "@g9"), Button("Goddess of Light", "@g10"), Button("Sword of the Gods", "@g11"), Button("Return of the Hero", "@g12"), Button("Quit", "@end"));
 
-		var r = Wait();
+		var r = Select(c);
 
 		MabiCutscene s = null;
 
 		switch (r)
 		{
 			case "@g9":
-				MsgSelect(c, "This is the ninth great adventure, Alchemist.<br/>You can see the memory of the mysterious Alchemists, the Shadow Realm, and Glas Ghaibhleann.<br/>Which memory would you like to see?",
+				Msg(c, "This is the ninth great adventure, Alchemist.<br/>You can see the memory of the mysterious Alchemists, the Shadow Realm, and Glas Ghaibhleann.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G9: Alchemist", 10, Button("The Call of Adniel (200 Gold)", "@C3G9S1_S#1_call_of_adniel_override"), Button("The 2nd Battle of Mag Tuireadh (200 Gold)", "@C3G9S1_S#2_1_fallon_attack_override"), Button("Lugh Lavada, the Knight of Light (300 Gold)", "@C3G9S1_S#2_2_ru_save_us_override"), Button("Shadow Realm (200 Gold)", "@C3G9S1_S#3_1_shadow_world_override"), Button("Glas Ghaibhleann (300 Gold)", "@C3G9S1_S#3_2_appear_glasgavelen_override"), Button("The Summon of Fallon (200 Gold)", "@C3G9S1_S#4_help_fallon_override"), Button("Jenna (200 Gold)", "@C3G9S1_S#5_1_first_meet_jenna_override"), Button("Ice Mines (100 Gold)", "@C3G9S1_S#5_2_use_ice_override"), Button("Temple Knights (200 Gold)", "@C3G9S1_S#6_1_jail_rescue_override"), Button("The Rescue of Jenna (100 Gold)", "@C3G9S1_S#6_2_jenna_confession_override"), Button("The Memory of Jenna (300 Gold)", "@C3G9S1_S#7_1_doubt_jenna_override"), Button("Hesitation (200 Gold)", "@C3G9S1_S#7_2_jenna_fail_override"), Button("Shadow Walker (100 Gold)", "@C3G9S1_S#8_meet_incubus_override"), Button("Elatha and Lebbaeus (200 Gold)", "@C3G9S1_S#8_2_Elatha_fight_override"), Button("Danger (200 Gold)", "@C3G9S1_S#9_1_leymore_with_enemy_override"), Button("Barrier Spikes (200 Gold)", "@C3G9S1_S#9_2_meet_leymore_override"), Button("Tethra (200 Gold)", "@C3G9S1_S#9_3_enter_the_tethra_override"), Button("Life Drain (300 Gold)", "@C3G9S1_S#9_4_lose_player_override"), Button("The Torque of Leymore (100 Gold)", "@C3G9S1_S#10_jenna_help_override"), Button("Meeting between Leymore and Jenna (300 Gold)", "@C3G9S1_S#11_kill_leymore_override"), Button("Battle! Glas Ghaibhleann (200 Gold)", "@C3G9S1_S#12_1_fight_glasgavelen_override"), Button("Battle! Tiamat (100 Gold)", "@C3G9S1_S#12_2_fight_magicion_override"), Button("Cai (500 Gold)", "@C3G9S1_S#12_3_enter_the_cai_override"), Button("Second Parting (200 Gold)", "@C3G9S1_S#13_leave_leymore_override"), Button("Reunited with Jenna (100 Gold)", "@C3G9S1_S#14_1_meet_again_jenna_override"), Button("Shadow Expeditionary Force (400 Gold)", "@C3G9S1_S#14_2_another_race_help_override"), Button("Promise from Adniel (200 Gold)", "@C3G9S1_S#15_meet_adniel_override"), Button("Betrayal of Fallon (300 Gold)", "@C3G9S1_S#16_1_fallon_identity_override"), Button("Scuffle (200 Gold)", "@C3G9S1_S#16_2_good_vs_bad_override"), Button("Attack (200 Gold)", "@C3G9S1_S#16_3_stop_the_clau_override"), Button("Reunited with Tethra (300 Gold)", "@C3G9S1_S#16_4_vs_tethra_again_override"), Button("The End of Tethra (400 Gold)", "@C3G9S1_S#16_5_tethra_dead_override"), Button("Rescue of Cai (100 Gold)", "@C3G9S1_S#16_6_rescue_cai_override"), Button("Together with Cai (100 Gold)", "@C3G9S1_S#16_6_2_rescue_cai_2_override"), Button("Destruction of the Transmutation Device (100 Gold)", "@C3G9S1_S#16_7_destruct_alchemical_machine_override"), Button("Claimh Solas (500 Gold)", "@C3G9S1_S#16_8_appear_claimhsolas_override"), Button("Self Transmutation of Claimh Solas (300 Gold)", "@C3G9S1_S#16_9_claimhsolas_change_override"), Button("Destruction of the Wall (300 Gold)", "@C3G9S1_S#16_10_broken_wall_override"), Button("The Sacrifice of Cai (1000 Gold)", "@C3G9S1_S#16_11_kill_solas_override"), Button("G9 Ending (500 Gold)", "@C3G9S1_S#16_12_end_and_override"))
 				);
 
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -1369,12 +1369,12 @@ public class CrystalBallBaseScript : NPCScript
 				break;
 
 			case "@g10":
-				MsgSelect(c, "This is the tenth great adventure, Goddess of Light.<br/>You can see the memory of Neamhainn, the Goddess of Light,<br/> and the Hero who rescues Erinn.<br/>Which memory would you like to see?",
+				Msg(c, "This is the tenth great adventure, Goddess of Light.<br/>You can see the memory of Neamhainn, the Goddess of Light,<br/> and the Hero who rescues Erinn.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G10: Goddess of Light", 10, Button("A Prophetic Dream (200 Gold)", "@C3G10_S#1_prophecy_dream_override"), Button("Report of the Soldier (200 Gold)", "@C3G10_S#3_3_shadow_witness_override"), Button("Memories of Leymore (200 Gold)", "@C3G10_S#4_1_in_memory_of_leymore_override"), Button("Elatha and Leymore (200 Gold)", "@C3G10_S#4_2_elatha_and_leymore_override"), Button("Scar of Elatha (200 Gold)", "@C3G10_S#5_0_elatha_override"), Button("Prophecy of Irinid (200 Gold)", "@C3G10_S#7_2_memory_of_Neamhain_override"), Button("The Dark Lord and Elatha (200 Gold)", "@C3G10_S#8_darklord_elatha_override"), Button("Hopeful Footsteps (200 Gold)", "@C3G10_S#10_1_arneng_loveaffair_intro_override"), Button("The Days of Youth... (200 Gold)", "@C3G10_S#10_2_arneng_loveaffair_outro_override"), Button("Betrayal and Truth (200 Gold)", "@C3G10_S#10_4_voight_loveaffair_outro_override"), Button("Possessed Cai (200 Gold)", "@C3G10_S#11_2_shdow_cai_override"), Button("Waboka Helps (200 Gold)", "@C3G10_S#11_3_James_rescue_override"), Button("Secrets of Mata (200 Gold)", "@C3G10_S#12_3_Neamhain_secret_override"), Button("Heart to Its Owner (300 Gold)", "@C3G10_S#13_2_Neamhain_entrance_override"), Button("Light to Shadow (400 Gold)", "@C3G10_S#14_1_doubleganger_override"), Button("G10 Ending (500 Gold)", "@C3G10_S#15_3_ending_override"))
 				);
 
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -1538,12 +1538,12 @@ public class CrystalBallBaseScript : NPCScript
 				break;
 
 			case "@g11":
-				MsgSelect(c, "This is the eleventh great adventure, Sword of the Gods.<br/>You can see the memories about Brionac, the sword of the gods, and the Partholons.<br/>Which memory would you like to see?",
+				Msg(c, "This is the eleventh great adventure, Sword of the Gods.<br/>You can see the memories about Brionac, the sword of the gods, and the Partholons.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G11: Sword of the Gods", 10, Button("A Prophetic Dream (200 Gold)", "@C3G10_S#1_prophecy_dream_override"), Button("Report of the Soldier (200 Gold)", "@C3G10_S#3_3_shadow_witness_override"), Button("Memories of Leymore (200 Gold)", "@C3G10_S#4_1_in_memory_of_leymore_override"), Button("Elatha and Leymore (200 Gold)", "@C3G10_S#4_2_elatha_and_leymore_override"), Button("Scar of Elatha (200 Gold)", "@C3G10_S#5_0_elatha_override"), Button("Prophecy of Irinid (200 Gold)", "@C3G10_S#7_2_memory_of_Neamhain_override"), Button("The Dark Lord and Elatha (200 Gold)", "@C3G10_S#8_darklord_elatha_override"), Button("Hopeful Footsteps (200 Gold)", "@C3G10_S#10_1_arneng_loveaffair_intro_override"), Button("The Days of Youth... (200 Gold)", "@C3G10_S#10_2_arneng_loveaffair_outro_override"), Button("Betrayal and Truth (200 Gold)", "@C3G10_S#10_4_voight_loveaffair_outro_override"), Button("Possessed Cai (200 Gold)", "@C3G10_S#11_2_shdow_cai_override"), Button("Waboka Helps (200 Gold)", "@C3G10_S#11_3_James_rescue_override"), Button("Secrets of Mata (200 Gold)", "@C3G10_S#12_3_Neamhain_secret_override"), Button("Heart to Its Owner (300 Gold)", "@C3G10_S#13_2_Neamhain_entrance_override"), Button("Light to Shadow (400 Gold)", "@C3G10_S#14_1_doubleganger_override"), Button("G10 Ending (500 Gold)", "@C3G10_S#15_3_ending_override"))
 				);
 
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -1699,12 +1699,12 @@ public class CrystalBallBaseScript : NPCScript
 
 			case "@g12":
 
-				MsgSelect(c, "This is the twelfth great adventure, Return of the Hero.<br/>You can see the memories about the conflict between Nuadha, the king of the gods, and the other gods.<br/>Which memory would you like to see?",
+				Msg(c, "This is the twelfth great adventure, Return of the Hero.<br/>You can see the memories about the conflict between Nuadha, the king of the gods, and the other gods.<br/>Which memory would you like to see?",
 					Button("End"),
 					List("G12: Return of the Hero", 10, Button("Nuadha of the Silver Arm (200 Gold)", "@C3G12_S#1_opening_override"), Button("Helvetius the Recluse (200 Gold)", "@C3G12_S#1_2_helvetius_override"), Button("Return of the Hero (200 Gold)", "@C3G12_S#2_rebirth_nuadha_override"), Button("Into the Waterway (200 Gold)", "@C3G12_S#3_1_enter_the_canal_override"), Button("The King of the Gods and the Goddess (200 Gold)", "@C3G12_S#4_1_neamhain_snare_override"), Button("Stolen Power (200 Gold)", "@C3G12_S#4_2_neamhain_snare_override"), Button("The Wedding (200 Gold)", "@C3G12_S#4_3_wedding_override"), Button("Alliance (200 Gold)", "@C3G12_S#5_1_meet_lennox_override"), Button("Death of the Alchemists (200 Gold)", "@C3G12_S#5_2_death_helvetius_override"), Button("Eabha in the Dream 1 (200 Gold)", "@C3G12_S#6_eabha_dream1_override"), Button("Eabha in the Dream 2 (200 Gold)", "@C3G12_S#8_eabha_dream2_override"), Button("Counterattack (200 Gold)", "@C3G12_S#9_1_counterattack_override"), Button("Eabha in the Dream 3 (200 Gold)", "@C3G12_S#10_eabha_dream3_override"), Button("To the Holy Throne of Falias (200 Gold)", "@C3G12_S#11_restore_brionac_override"))
 				);
 
-				r = Wait();
+				r = Select(c);
 
 				switch (r)
 				{
@@ -1864,9 +1864,9 @@ public class CrystalBallBaseScript : NPCScript
 
 		if (s != null)
 		{
-			MsgSelect(c, "Enjoy reminiscing...", Button("View", "@null"));
+			Msg(c, "Enjoy reminiscing...", Button("View", "@null"));
 
-			r = Wait();
+			r = Select(c);
 
 			Close(c);
 			s.Send(c);
@@ -1877,7 +1877,7 @@ public class CrystalBallBaseScript : NPCScript
 
 	protected IEnumerable C4(WorldClient c)
 	{
-		MsgSelect(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
+		Msg(c, "Use this powerful crystal ball to<br/>see your experiences in Erinn unfold right before your eyes.<br/>You will have to pay a little to view this.<br/>Which memory would you like to see?",
 			 Button("Quit", "@end"));
 
 		End();

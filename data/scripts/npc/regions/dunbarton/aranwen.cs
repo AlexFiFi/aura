@@ -66,9 +66,9 @@ public class AranwenScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "A lady decked out in shining armor is confidently training students in swordsmanship in front of the school.<br/>Unlike a typical swordswoman, her moves seem delicate and elegant.<br/>Her long, braided silver hair falls down her back, leaving her eyes sternly fixed on me.");
-        MsgSelect(c, "What brings you here?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify Item", "@modify"));
+        Msg(c, "What brings you here?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Modify Item", "@modify"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -79,7 +79,7 @@ public class AranwenScript : NPCScript
                 Msg(c, Options.Name, "(Aranwen is waiting for me to say something.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -92,11 +92,11 @@ public class AranwenScript : NPCScript
             }
             case "@modify":
             {
-                MsgSelect(c,
+                Msg(c,
                     "Please select the weapon you'd like to modify.<br/>Each weapon can be modified according to its kind.",
                     Button("End Conversation", "@endmodify")
                 );
-                r = Wait();
+                r = Select(c);
                 Msg(c, "A bow is weaker than a crossbow?<br/>That's because you don't know a bow vers well.<br/>Crossbows are advanced weapons for sure,<br/>but a weapon that reflects your strength and senses is closer to nature than machinery.");
                 End();
             }

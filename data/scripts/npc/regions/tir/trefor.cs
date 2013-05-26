@@ -69,9 +69,9 @@ public class DuncanScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "Quite a specimen of physical fitness appears before you wearing well-polished armor that fits closely the contours of his body.<br/>A medium-length sword hangs delicately from the scabbard at his waist. While definitely a sight to behold, it's difficult to see much of his face because of his lowered visor, but one cannot help but notice the flash in his eyes occasionally catching the light between the slits on his helmet.<br/>His tightly pursed lips seem to belie his desire to not shot any emotion.");
 
-		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"), Button("Get Alby Beginner Dungeon Pass", "@pass"));
+		Msg(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"), Button("Get Alby Beginner Dungeon Pass", "@pass"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -82,7 +82,7 @@ public class DuncanScript : NPCScript
 				Msg(c, Options.Name, "(Trefor is waiting for me to say something.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Oh, is that so?");
 				goto L_Keywords;

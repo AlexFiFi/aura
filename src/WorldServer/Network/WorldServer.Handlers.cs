@@ -281,7 +281,7 @@ namespace Aura.World.Network
 
 				// Set location, so character can talk to Nao,
 				// and doesn't appear in the world.
-				creature.SetLocation(1000, 6300, 7200);
+				creature.SetLocation(1000, 0, 0);
 
 				// Update state, so we don't get here again automatically.
 				creature.State |= CreatureStates.EverEnterWorld;
@@ -761,16 +761,24 @@ namespace Aura.World.Network
 			client.NPCSession.Clear();
 		}
 
+		/// <summary>
+		/// Parameters:
+		///		string  Keyword
+		///	Description:
+		///		Sent when selecting a keyword. Purpose unknown,
+		///		NPCTalkSelect is sent as well.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="packet"></param>
 		private void HandleNPCTalkKeyword(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || !client.NPCSession.IsValid)
+			if (creature == null)
 				return;
 
 			var keyword = packet.GetString();
 
-			var target = client.NPCSession.Target;
-			if (target == null || client.NPCSession.SessionId == -1)
+			if (client.NPCSession.IsValid)
 			{
 				Logger.Debug("No target or no session.");
 				return;
@@ -796,11 +804,10 @@ namespace Aura.World.Network
 
 			var response = packet.GetString();
 			var sessionId = packet.GetInt();
-			var target = client.NPCSession.Target;
 
-			if (target == null || sessionId != client.NPCSession.SessionId)
+			if (sessionId != client.NPCSession.Id)
 			{
-				Logger.Debug("No target or session id incorrect ({0}:{1})", sessionId, client.NPCSession.SessionId);
+				Logger.Debug("No target or session id incorrect ({0}:{1})", sessionId, client.NPCSession.Id);
 				return;
 			}
 
@@ -810,17 +817,13 @@ namespace Aura.World.Network
 				Logger.Debug("No return value found.");
 				return;
 			}
+			response = response.Substring(pos += 22, response.IndexOf('<', pos) - pos);
 
-			pos += 22;
-
-			response = response.Substring(pos, response.IndexOf('<', pos) - pos);
-
-			// Maybe @end shouldn't be handled implicitly.
 			if (response == "@end")
 			{
 				client.Send(new MabiPacket(Op.NPCTalkSelectEnd, creature.Id));
 
-				target.Script.OnEnd(client);
+				client.NPCSession.Target.Script.OnEnd(client);
 			}
 			else if (response.StartsWith("@input"))
 			{

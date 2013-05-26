@@ -53,9 +53,9 @@ public class IbbieScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "Under the wide brim of the Mongo hat, her lovely blonde hair dances in the gentle breeze.<br/>Her delicate neck stretches out of the lace collar of her intricately tailored rosy-pink dress.<br/>Her big, bright jade eyes twinkle<br/>and her round face, like porcelain, is so fair that it looks pale.");
-        MsgSelect(c, "Do you have something to say?", Button("Start Conversation", "@talk"));
+        Msg(c, "Do you have something to say?", Button("Start Conversation", "@talk"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -68,7 +68,7 @@ public class IbbieScript : NPCScript
                 Msg(c, Options.Name, "(Ibbie is slowly looking me over.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;

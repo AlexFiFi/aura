@@ -172,9 +172,9 @@ public class MalcolmScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "While his thin face makes him look weak,<br/>and his soft and delicate hands seem much too feminine,<br/>his cool long blonde hair gives him a suave look.<br/>He looks like he just came out of a workshop since he's wearing a heavy leather apron.");
 
-		MsgSelect(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
+		Msg(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -185,7 +185,7 @@ public class MalcolmScript : NPCScript
 				Msg(c, Options.Name, "(Malcolm is waiting for me to say something.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Sorry, I don't know.<br/>Hmm... Maybe I should have a travel diary to write things down.");
 				goto L_Keywords;

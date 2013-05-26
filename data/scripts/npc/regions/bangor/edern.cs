@@ -80,9 +80,9 @@ public class EdernScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "Between the long strands of white hair, you can see the wrinkles on his face and neck that show his old age.<br/>But his confidence and well-built torso with copper skin reveal that this man is anything but fragile.<br/>His eyes encompass both the passion of youth and the wisdom of old age.<br/>The thick brows that shoot upward with wrinkles add a fierce look, but his eyes are of soft amber tone.");
-        MsgSelect(c, "You must have something to say to me.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
+        Msg(c, "You must have something to say to me.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -93,7 +93,7 @@ public class EdernScript : NPCScript
                 Msg(c, Options.Name, "(Edern is slowly looking me over.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -106,23 +106,23 @@ public class EdernScript : NPCScript
             }
             case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "If it's not urgent, would you mind talking to Elen?<br/>If it's something you particularly treasure, I can repair it myself.",
                 Button("End Conversation", "@endrepair")
             );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "You can figure out a person by looking at his equipment.<br/>Please do be careful with your equipment.");
                 End();
             }
             case "@modify":
             {
-                MsgSelect(c,
+                Msg(c,
                     "Then give me the item to be modified<br/>I ask this for your own good, but, while the weapons are not affected,<br/>armor that has been modified will be yours only. You know that, right?<br/>It won't fit anyone else.",
                     Button("End Conversation", "@endmodify")
                 );
-                r = Wait();
+                r = Select(c);
                 Msg(c, "Then come back to me when you have something you want to modify.");
                 End();
             }

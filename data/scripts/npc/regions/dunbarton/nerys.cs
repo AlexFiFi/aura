@@ -152,9 +152,9 @@ public class NerysScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "This lady has a slender build and wears comfortable clothing.<br/>The subtle softness of her short red hair is brought out by being tightly combed back.<br/>Thick ruby earrings matching her hair dangle from her ears and<br/>slightly waver and glitter every time she looks up.");
-        MsgSelect(c, "Tell me if you need anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
+        Msg(c, "Tell me if you need anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Repair Item", "@repair"), Button("Modify Item", "@modify"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@talk":
@@ -165,7 +165,7 @@ public class NerysScript : NPCScript
                 Msg(c, Options.Name, "(Nerys is slowly looking me over.)");
                 ShowKeywords(c);
 
-                var keyword = Wait();
+                var keyword = Select(c);
 
                 Msg(c, "Can we change the subject?");
                 goto L_Keywords;
@@ -178,23 +178,23 @@ public class NerysScript : NPCScript
             }
             case "@repair":
             {
-                MsgSelect(c,
+                Msg(c,
                 "You can repair weapons, armor, and equipment here.<br/>I use expensive repair tools, so the fee is fairly hihg. Is that okay with you?<br/>I do make fewer mistakes because of that, though.",
                 Button("End Conversation", "@endrepair")
                 );
 
-                r = Wait();
+                r = Select(c);
 
                 Msg(c, "If the repair fee is too much for you,<br/>try using some Holy Water of Lymilar.<br/>It should be a big help.<br/>Now, come again if there's anything that needs to be repaired.");
                 End();
             }
             case "@modify":
             {
-                MsgSelect(c,
+                Msg(c,
                     "Modification? Pick an item.<br/>I don't have to explain to you about<br/>the number of possible modification and the types, do I?",
                     Button("End Conversation", "@endmodify")
                 );
-                r = Wait();
+                r = Select(c);
                 Msg(c, "Is that all for today? Well, come back anytime you need me.");
                 End();
             }

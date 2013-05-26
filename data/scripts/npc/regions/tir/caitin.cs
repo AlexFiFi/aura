@@ -102,9 +102,9 @@ public class CaitinScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		MsgSelect(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop"));
+		Msg(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -116,7 +116,7 @@ public class CaitinScript : NPCScript
 				//Msg(c, Options.Name, "(That was a great conversation!)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				switch(keyword)
 				{
 					case "personal_info":

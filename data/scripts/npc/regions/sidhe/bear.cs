@@ -48,9 +48,9 @@ public class TarlachBearScript : NPCScript
 	public override IEnumerable OnTalk(WorldClient c)
 	{
 		Msg(c, Options.FaceAndName, "The Brown Bear is stout and well built.<br/>Standing solemnly in a white field of snow, it seems to be searching for something.<br/>Steam flows out from the bear's mouth with every breath while the bear sniffs the ground from time to time, using its front paw to dig the grass.<br/>It constantly looks around, seemingly watching out for some kind of threat or danger.");
-		MsgSelect(c, "Grr...", Button("Start Conversation", "@talk"));
+		Msg(c, "Grr...", Button("Start Conversation", "@talk"));
 		
-		var r = Wait();
+		var r = Select(c);
 		if(r == "@talk")
 		{
 			Msg(c, "...");
@@ -59,7 +59,7 @@ public class TarlachBearScript : NPCScript
 			Msg(c, Options.Name, "(Bear is waiting for me to say something.)");
 			ShowKeywords(c);
 			
-			var keyword = Wait();
+			var keyword = Select(c);
 			
 				Msg(c, ".....<br/>(I can't possibly communicate with it.)");
 			goto L_Keywords;

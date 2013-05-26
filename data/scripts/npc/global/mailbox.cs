@@ -21,7 +21,8 @@ public class _MailboxBaseScript : NPCScript
 	public override IEnumerable OnTalk(WorldClient c)
 	{
 		OpenMailbox(c);
-		MsgSelect(c, Options.Name, "(You can check your mail through the mailbox.)", Button("Quit", "@end"));
+		Msg(c, Options.Name, "(You can check your mail through the mailbox.)", Button("Quit", "@end"));
+		Select(c);
 		End();
 	}
 	

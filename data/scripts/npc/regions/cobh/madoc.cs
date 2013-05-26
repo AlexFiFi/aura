@@ -47,9 +47,9 @@ public class MadocScript : NPCScript
     
     public override IEnumerable OnTalk(WorldClient c)
     {
-        MsgSelect(c, "What you're wearing doesn't look fancy at all...<br/>But would you like me to look at it anyway?", Button("Request from Madoc", "@requestm"));
+        Msg(c, "What you're wearing doesn't look fancy at all...<br/>But would you like me to look at it anyway?", Button("Request from Madoc", "@requestm"));
 
-        var r = Wait();
+        var r = Select(c);
         switch (r)
         {
             case "@requestm":

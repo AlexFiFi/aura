@@ -61,9 +61,9 @@ public class GoroScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "With his rough skin, menacing face, and his constant hard-breathing,<br/>he has the sure look of a Goblin.<br/>Yet, there is something different about this one.<br/>Strangely, it appears to have a sense of noble demeanor that does not match its rugged looks.");
 
-		MsgSelect(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
+		Msg(c, "How can I help you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -74,7 +74,7 @@ public class GoroScript : NPCScript
 				Msg(c, Options.Name, "(Goro is looking at me)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;

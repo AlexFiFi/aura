@@ -66,9 +66,9 @@ public class DeianScript : NPCScript
 	{
 		Msg(c, Options.FaceAndName, "An adolescent boy carrying a shepherd's staff watches over a flock of sheep.<br/>Now and then, he hollers at some sheep that've wandered too far, and his voice cracks every time.<br/>His skin is tanned and his muscles are strong from his daily work.<br/>Though he's young, he peers at you with so much confidence it almost seems like arrogance.");
 			
-		MsgSelect(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
+		Msg(c, "What can I do for you?", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Upgrade Item", "@upgrade"));
 		
-		var r = Wait();
+		var r = Select(c);
 		switch (r)
 		{
 			case "@talk":
@@ -79,7 +79,7 @@ public class DeianScript : NPCScript
 				Msg(c, Options.Name, "(Shepherd Boy Deian is paying attention to me.)");
 				ShowKeywords(c);
 				
-				var keyword = Wait();
+				var keyword = Select(c);
 				
 				Msg(c, "Can we change the subject?");
 				goto L_Keywords;
