@@ -21,8 +21,8 @@ public class DuncanScript : NPCScript
 		SetStand("human/male/anim/male_natural_stand_npc_duncan_new");
 		SetLocation("tir", 15409, 38310, 122);
 
-		EquipItem(Pocket.Face, 4950, 9633884);
-		EquipItem(Pocket.Hair, 4083, 12234138);
+		EquipItem(Pocket.Face, 4950, 0x93005C);
+		EquipItem(Pocket.Hair, 4083, 0xBAAD9A);
 		EquipItem(Pocket.Armor, 15004, 0x5E3E48, 0xD4975C, 0x3D3645);
 		EquipItem(Pocket.Shoe, 17021, 0xCBBBAD);
 
@@ -43,9 +43,13 @@ public class DuncanScript : NPCScript
 	{
 		Bgm(c, "NPC_Duncan.mp3");
 		
-		Msg(c, Options.FaceAndName, "An elderly man gazes softly at the world around him with a calm air of confidence.<br/>Although his face appears weather-beaten, and his hair and beard are gray, his large beaming eyes make him look youthful somehow.<br/>As he speaks, his voice resonates with a kind of gentle authority.");
+		Intro(c,
+			"An elderly man gazes softly at the world around him with a calm air of confidence.",
+			"Although his face appears weather-beaten, and his hair and beard are gray, his large beaming eyes make him look youthful somehow.",
+			"As he speaks, his voice resonates with a kind of gentle authority."
+		);
 		
-		Hook(c, "quests");
+		Hook(c, "after_intro");
 		
 		Msg(c, "Please let me know if you need anything.", Button("Start Conversation", "@talk"), Button("Shop", "@shop"), Button("Retrive Lost Items", "@lostandfound"));
 		

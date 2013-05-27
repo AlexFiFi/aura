@@ -33,6 +33,9 @@ namespace Aura.World.Scripting
 
 		private Dictionary<string, Dictionary<string, List<ScriptHook>>> _hooks = new Dictionary<string, Dictionary<string, List<ScriptHook>>>();
 
+		private Dictionary<uint, ItemScript> _itemScripts = new Dictionary<uint, ItemScript>();
+		private Dictionary<uint, QuestScript> _questScripts = new Dictionary<uint, QuestScript>();
+
 		public void LoadScripts()
 		{
 			CSScript.GlobalSettings.HideCompilerWarnings = true;
@@ -75,6 +78,7 @@ namespace Aura.World.Scripting
 				Logger.Info("Caching the scripts may take a few minutes initially.");
 
 			_hooks.Clear();
+			_questScripts.Clear();
 
 			// Load scripts
 			int loaded = 0;
@@ -109,7 +113,6 @@ namespace Aura.World.Scripting
 			LoadItemScripts();
 		}
 
-		private Dictionary<uint, ItemScript> _itemScripts = new Dictionary<uint, ItemScript>();
 		private void LoadItemScripts()
 		{
 			Logger.Info("Loading item scripts...");
@@ -323,6 +326,7 @@ namespace Aura.World.Scripting
 							Logger.Warning("Double quest id '{0}', overwriting from '{1}'.", script.Info.Class, cleanScriptPath);
 
 						MabiData.QuestDb.Entries[script.Info.Class] = script.Info;
+						_questScripts.Add(script.Id, script);
 					}
 					else if (scriptObj is BaseScript)
 					{
@@ -491,14 +495,14 @@ namespace Aura.World.Scripting
 				//    "$1$2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;",
 				//    RegexOptions.Compiled);
 				file = Regex.Replace(file,
-					@"([\{\}:;\t ])?(var )?[\t ]*([^\s\)]*)\s*=\s*Select\s*\(\s*([^)]*)\s*\)\s*;",
-					"$1Select($4); $2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;",
+					@"([\{\}:;\t ])?(var )?[\t ]*([^\s\)]*)\s*=\s*([^\.]\.)?Select\s*\(\s*([^)]*)\s*\)\s*;",
+					"$1$4Select($5); $2$3Object = new Response(); yield return $3Object; $2$3 = $3Object.Value;",
 					RegexOptions.Compiled);
 
-				// End();
+				// (obsolete)End(); / Result();
 				// --> yield break;
 				file = Regex.Replace(file,
-					@"([\{\}:;\t ])End\s*\(\s*\)\s*;",
+					@"([\{\}:;\t ])?(End|Return)\s*\(\s*\)\s*;",
 					"yield break;",
 					RegexOptions.Compiled);
 
@@ -689,6 +693,19 @@ namespace Aura.World.Scripting
 				_hooks[npc][hook] = new List<ScriptHook>();
 
 			_hooks[npc][hook].Add(func);
+		}
+
+		/// <summary>
+		/// Returns the quest script with the given id,
+		/// or null if it couldn't be found.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public QuestScript GetQuestScript(uint id)
+		{
+			QuestScript result;
+			_questScripts.TryGetValue(id, out result);
+			return result;
 		}
 	}
 

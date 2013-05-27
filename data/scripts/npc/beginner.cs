@@ -1,8 +1,7 @@
 using System.Collections;
+using Aura.Data;
 using Aura.Shared.Const;
-using Aura.World.Events;
 using Aura.World.Network;
-using Aura.World.Player;
 using Aura.World.Scripting;
 using Aura.World.World;
 
@@ -25,15 +24,18 @@ public class NaoScript : NPCScript
 	{
 		Bgm(c, "Nao_talk.mp3");
 
-		Msg(c, Options.FaceAndName, "A beautiful girl in a black dress with intricate patterns.<br/>Her deep azure eyes remind everyone of an endless blue sea full of mystique.<br/>With her pale skin and her distinctively sublime silhouette, she seems like she belongs in another world.");
-		//<prototype>void character::SetNPCDirection()</prototype><arguments></arguments>
+		Intro(c,
+			"A beautiful girl in a black dress with intricate patterns.",
+			"Her deep azure eyes remind everyone of an endless blue sea full of mystique.",
+			"With her pale skin and her distinctively sublime silhouette, she seems like she belongs in another world."
+		);
 
-		Msg(c, "Hello, there... You are <username/>, right?<br/>I have been waiting for you.<br/>It's good to see a lady like you here.<p/>My name is Nao. <br/>It is my duty to lead pure souls like yours to Erinn.");
+		Msg(c, "Hello, there... You are <username/>, right?<br/>I have been waiting for you.<br/>It's good to see a " + (c.Character.IsMale ? "gentleman" : "lady") + " like you here.<p/>My name is Nao. <br/>It is my duty to lead pure souls like yours to Erinn.");
 		Msg(c, "<username/>, we have some time before I guide you to Erinn.<br/>Do you have any questions for me?", Button("No"), Button("Yes"));
 		var r = Select(c);
 
 		// Information about Mabi
-		if(r == "@yes")
+		if (r == "@yes")
 		{
 		L_Info:
 			//Do not hesitate to ask questions. I am more than happy to answer them for you.
@@ -49,10 +51,10 @@ public class NaoScript : NPCScript
 			);
 
 			var info = Select(c);
-			switch(info)
+			switch (info)
 			{
 				case "@mabinogi":
-					Msg(c, "Mabinogi can be defined as the songs of bards, although in some cases, the bards themselves are referred to as Mabinogi.<br/>To the residents at Erinn, music is a big part of their lives and nothing brings joy to them quite like music and Mabinogi.<br/>Once you get there, I highly recommend joining them in composing songs and playing musical instruments."); 
+					Msg(c, "Mabinogi can be defined as the songs of bards, although in some cases, the bards themselves are referred to as Mabinogi.<br/>To the residents at Erinn, music is a big part of their lives and nothing brings joy to them quite like music and Mabinogi.<br/>Once you get there, I highly recommend joining them in composing songs and playing musical instruments.");
 					goto L_Info;
 				case "@erinn":
 					Msg(c, "Erinn is the name of the place you will be going to, <username/>.<br/>The place commonly known as the world of Mabinogi is called Erinn.<br/>It has become so lively since outsiders such as yourself began to come.");
@@ -91,14 +93,10 @@ public class NaoScript : NPCScript
 		// Move to Uladh Beginner Area
 		c.Character.SetLocation(125, 21489, 76421);
 		c.Character.Direction = 233;
+		
+		StartQuest(c, 200501); // Nao's Letter of Introduction
 
-		// wrong place, and seems to be bugged.
-		//var scene = new MabiCutscene(c.Character, "tuto_meet_tin");
-		//scene.AddActor("me", c.Character);
-		//scene.AddActor("#tin", c.Character);
-		//scene.Send(c);
-
-		End();
+		Return();
 	}
 }
 
@@ -130,7 +128,7 @@ public class TinScript : NPCScript
 		//Msg(c, "You're wondering how to give it back to me, aren't you?<br/>Don't worry. When the right time comes, it will leave you of its own accord.");
 		//Msg(c, "Oh my! I almost forgot.<br/>I just gave you the Spirit Weapon and almost forgot to introduce you to the spirit. <p/>The spirit's name is Eiry.<br/> If you want to talk to her, simply click on the wing-shaped button on the bottom right side of your screen.");
 
-		End();
+		Return();
 	}
 }
 
@@ -141,12 +139,6 @@ public class TinPortalTir : BaseScript
 		DefineProp(45036533145010200, 125, 27651, 72620, (c, cr, pr) =>
 		{
 			c.Warp(1, 15250, 38467);
-
-			// wrong place, and seems to be bugged.
-			//var scene = new MabiCutscene(cr, "into_the_Tir_Chonaill");
-			//scene.AddActor("me", cr);
-			//scene.AddActor("_duncan", cr);
-			//scene.Send(c);
 		});
 	}
 }

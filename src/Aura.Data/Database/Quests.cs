@@ -28,6 +28,7 @@ namespace Aura.Data
 		public uint Id;
 		public uint Amount = 1;
 		public string Target;
+		public readonly List<uint> Races = new List<uint>();
 
 		public uint Region, X, Y;
 

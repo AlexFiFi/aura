@@ -85,6 +85,7 @@
     <Compile Include="Scripting\CreatureScript.cs" />
     <Compile Include="Scripting\DialogElements.cs" />
     <Compile Include="Scripting\ItemScript.cs" />
+    <Compile Include="Scripting\QuestScript.RewardFactory.cs" />
     <Compile Include="Scripting\QuestScript.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\NPCScript.cs" />
@@ -152,7 +153,9 @@
   <ItemGroup>
     <Content Include="mabioriginal.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Scripting\QuestScript.ObjectiveFactory.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

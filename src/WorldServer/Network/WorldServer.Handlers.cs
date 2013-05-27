@@ -289,11 +289,13 @@ namespace Aura.World.Network
 				if (WorldManager.Instance.GetCreatureById(Id.Nao) == null)
 					Logger.Warning("Nao NPC not found.");
 
+				// With this packet many buttons and stuff are disabled,
+				// until you're really logged in.
 				var charInfo = new MabiPacket(Op.SpecialLogin, Id.World);
 				charInfo.PutByte(1);
-				charInfo.PutInt(1000);
-				charInfo.PutInt(3200);
-				charInfo.PutInt(3200);
+				charInfo.PutInt(1000); // Region
+				charInfo.PutInt(3200); // X
+				charInfo.PutInt(3200); // Y
 				charInfo.PutLong(Id.Nao);
 				creature.AddPrivateToPacket(charInfo);
 				client.Send(charInfo);

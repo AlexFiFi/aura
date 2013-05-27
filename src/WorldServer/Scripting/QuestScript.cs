@@ -7,16 +7,14 @@ using Aura.Shared.Util;
 using Aura.World.Player;
 using Aura.World.World;
 using Aura.World.Events;
+using Aura.World.Network;
 
 namespace Aura.World.Scripting
 {
-	public class QuestScript : BaseScript
+	public partial class QuestScript : BaseScript
 	{
 		public QuestInfo Info = new QuestInfo();
 		public Receive ReceiveMethod = Receive.Manually;
-
-		private bool _killedSubscription = false;
-		private bool _itemActionSubscription = false;
 
 		public uint Id { get { return this.Info.Class; } }
 
@@ -63,14 +61,11 @@ namespace Aura.World.Scripting
 		{
 			base.Dispose();
 
-			if (this.ReceiveMethod == Receive.OnLogin)
-				ServerEvents.Instance.PlayerLoggedIn -= this.OnPlayerLoggedIn;
-
-			if (_killedSubscription)
-				ServerEvents.Instance.KilledByPlayer -= this.OnKilledByPlayer;
-
-			if (_itemActionSubscription)
-				EntityEvents.Instance.CreatureItemAction -= this.OnCreatureItemAction;
+			// Just remove the subscribtions, no problem if they
+			// weren't subscribed to them.
+			ServerEvents.Instance.PlayerLoggedIn -= this.OnPlayerLoggedIn;
+			ServerEvents.Instance.KilledByPlayer -= this.OnKilledByPlayer;
+			EntityEvents.Instance.CreatureItemAction -= this.OnCreatureItemAction;
 		}
 
 		public void OnPlayerLoggedIn(object sender, EventArgs args)
@@ -114,7 +109,7 @@ namespace Aura.World.Scripting
 				return;
 
 			// Correct monster?
-			if (objective.Id != ea.Victim.Race)
+			if (!objective.Races.Contains(ea.Victim.Race))
 				return;
 
 			// Target amount reached?
@@ -189,153 +184,51 @@ namespace Aura.World.Scripting
 			WorldManager.Instance.CreatureUpdateQuest(character, quest);
 		}
 
-		public void AddObjective(string ident, string description, ObjectiveType type, params dynamic[] args)
+		public void AddObjective(string ident, string description, uint region, uint x, uint y, QuestObjectiveInfo info)
 		{
-			this.AddObjective(ident, description, false, type, args);
+			this.AddObjective(ident, description, false, region, x, y, info);
 		}
 
-		/// <summary>
-		/// Adds and objective to the quest.
-		/// </summary>
-		/// <param name="type"></param>
-		/// <param name="description"></param>
-		/// <param name="unlocked">Whether the objective is visible (not "???") by default.</param>
-		public void AddObjective(string ident, string description, bool unlocked, ObjectiveType type, params dynamic[] args)
+		public void AddObjective(string ident, string description, bool unlocked, uint region, uint x, uint y, QuestObjectiveInfo info)
 		{
-			var qoi = new QuestObjectiveInfo();
-			qoi.Type = type;
-			qoi.Description = description;
-			qoi.Unlocked = unlocked;
+			info.Description = description;
+			info.Unlocked = unlocked;
 
-			int i = 0;
-
-			// Args parsing based on type.
-			switch (type)
-			{
-				// ii
-				case ObjectiveType.Kill:
-				case ObjectiveType.Collect:
-				case ObjectiveType.ReachRank:
-					if (args.Length < 2)
-					{
-						ArgErrorLog(type, args.Length, 2, this.ScriptPath);
-						return;
-					}
-					qoi.Id = (uint)args[i++];
-					qoi.Amount = (uint)args[i++];
-					break;
-
-				// s
-				case ObjectiveType.Talk:
-					if (args.Length < 1)
-					{
-						ArgErrorLog(type, args.Length, 1, this.ScriptPath);
-						return;
-					}
-					qoi.Target = args[i++];
-					break;
-
-				// si
-				case ObjectiveType.Deliver:
-					if (args.Length < 2)
-					{
-						ArgErrorLog(type, args.Length, 2, this.ScriptPath);
-						return;
-					}
-					qoi.Target = args[i++];
-					qoi.Id = (uint)args[i++];
-					break;
-
-				// i
-				case ObjectiveType.ReachLevel:
-					if (args.Length < 1)
-					{
-						ArgErrorLog(type, args.Length, 1, this.ScriptPath);
-						return;
-					}
-					qoi.Id = (uint)args[i++];
-					break;
-
-				default:
-					Logger.Warning("Unsupported objective type '{0}'.", type);
-					return;
-			}
+			info.Region = region;
+			info.X = x;
+			info.Y = y;
 
 			// Subscribe to KilledByPlayer once for this quest, if needed for this objective.
-			if (type == ObjectiveType.Kill && !_killedSubscription)
+			if (info.Type == ObjectiveType.Kill)
 			{
+				ServerEvents.Instance.KilledByPlayer -= this.OnKilledByPlayer;
 				ServerEvents.Instance.KilledByPlayer += this.OnKilledByPlayer;
-				_killedSubscription = true;
 			}
 
 			// Subscribe to OnCreatureItemAction once for this quest, if needed for this objective.
-			if (type == ObjectiveType.Collect && !_itemActionSubscription)
+			if (info.Type == ObjectiveType.Collect)
 			{
+				EntityEvents.Instance.CreatureItemAction -= this.OnCreatureItemAction;
 				EntityEvents.Instance.CreatureItemAction += this.OnCreatureItemAction;
-				_itemActionSubscription = true;
 			}
 
-			// Check for 3 more args afterwards (target location).
-			if (args.Length - i >= 3)
-			{
-				qoi.Region = (uint)args[i++];
-				qoi.X = (uint)args[i++];
-				qoi.Y = (uint)args[i++];
-			}
-
-			this.Info.Objectives.Add(ident, qoi);
+			this.Info.Objectives.Add(ident, info);
 		}
 
-		private void ArgErrorLog(Enum type, int args, int expected, string path)
+		public void AddReward(QuestRewardInfo info)
 		{
-			Logger.Error("Insufficient amount of paramters for '{4}.{0}' ({1}/{2}) in '{3}'.", type, args, expected, path, type.GetType());
+			this.AddReward(0, info);
 		}
 
-		public void AddReward(RewardType type, params dynamic[] args)
+		public void AddReward(byte group, QuestRewardInfo info)
 		{
-			this.AddReward(0, type, args);
+			info.Group = group;
+
+			this.Info.Rewards.Add(info);
 		}
 
-		public void AddReward(byte group, RewardType type, params dynamic[] args)
-		{
-			var qri = new QuestRewardInfo();
-			qri.Type = type;
-			qri.Group = group;
-
-			switch (type)
-			{
-				// ii
-				case RewardType.Item:
-				case RewardType.Skill:
-					if (args.Length < 2)
-					{
-						ArgErrorLog(type, args.Length, 2, this.ScriptPath);
-						return;
-					}
-					qri.Id = (uint)args[0];
-					qri.Amount = (uint)args[1];
-					break;
-
-				// i
-				case RewardType.Gold:
-				case RewardType.Exp:
-				case RewardType.ExplExp:
-				case RewardType.AP:
-					if (args.Length < 1)
-					{
-						ArgErrorLog(type, args.Length, 1, this.ScriptPath);
-						return;
-					}
-					qri.Amount = (uint)args[0];
-					break;
-
-				default:
-					Logger.Warning("Unsupported reward type '{0}'.", type);
-					return;
-			}
-
-			this.Info.Rewards.Add(qri);
-		}
+		public virtual void OnCompleted(WorldClient client, MabiQuest quest)
+		{ }
 	}
 
 	public enum Receive : byte { Manually, OnLogin }

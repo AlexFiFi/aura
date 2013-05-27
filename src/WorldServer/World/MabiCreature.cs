@@ -414,6 +414,9 @@ namespace Aura.World.World
 		public bool IsElf { get { return (this.Race == 9001 || this.Race == 9002); } }
 		public bool IsGiant { get { return (this.Race == 8001 || this.Race == 8002); } }
 
+		public bool IsMale { get { return (this.RaceInfo != null && this.RaceInfo.Gender == Gender.Male); } }
+		public bool IsFemale { get { return (this.RaceInfo != null && this.RaceInfo.Gender == Gender.Female); } }
+
 		public MabiCreature()
 		{
 		}

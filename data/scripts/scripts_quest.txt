@@ -4,4 +4,6 @@
 // All NPCs listed here will be loaded.
 //---------------------------------------------------------------------------
 
-quest/test.cs
+//quest/test.cs
+
+quest/beginner/uladh.cs

@@ -1346,6 +1346,12 @@ namespace Aura.World.World
 							break;
 					}
 				}
+
+				// Only call this if there were rewards, we're using this
+				// method to clear quests as well.
+				var script = ScriptManager.Instance.GetQuestScript(quest.Info.Class);
+				if (script != null)
+					script.OnCompleted(creature.Client as WorldClient, quest);
 			}
 
 			creature.Client.Send(PacketCreator.ItemInfo(creature, quest.QuestItem));

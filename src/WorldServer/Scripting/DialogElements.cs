@@ -82,6 +82,23 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	public class DialogHotkey : DialogElement
+	{
+		public string Text { get; set; }
+
+		public DialogHotkey(string text)
+		{
+			this.Text = text;
+		}
+
+		public override void Render(ref StringBuilder sb)
+		{
+			sb.AppendFormat("<hotkey name='{0}' />", this.Text);
+
+			base.Render(ref sb);
+		}
+	}
+
 	public class DialogButton : DialogElement
 	{
 		public string Text { get; set; }
@@ -96,7 +113,23 @@ namespace Aura.World.Scripting
 			if (keyword != null)
 				this.Keyword = keyword;
 			else
-				this.Keyword = '@' + Regex.Replace(text, "[^a-z0-9]", "_", RegexOptions.Compiled | RegexOptions.IgnoreCase).ToLower();
+			{
+				// Take text, prepend @, replace all non-numerics with _ and
+				// make the string lower case, if no keyword was given.
+				// Yea... hey, this is 10 times faster than Regex + ToLower!
+				var sb = new StringBuilder();
+				sb.Append('@');
+				foreach (var c in text)
+				{
+					if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z'))
+						sb.Append(c);
+					else if (c >= 'A' && c <= 'Z')
+						sb.Append((char)(c + 32));
+					else
+						sb.Append('_');
+				}
+				this.Keyword = sb.ToString();
+			}
 		}
 
 		public override void Render(ref StringBuilder sb)

@@ -219,11 +219,20 @@ namespace Aura.World.Scripting
 			, client.Character.Id);
 
 			this.SendScript(client, xml);
-			//this.Select(client);
 		}
 
 		// Dialog functions
 		// ------------------------------------------------------------------
+
+		public virtual void Msg(WorldClient client, Options disable, params DialogElement[] elements)
+		{
+			this.Msg(client, disable, string.Empty, elements);
+		}
+
+		public virtual void Msg(WorldClient client, params DialogElement[] elements)
+		{
+			this.Msg(client, string.Empty, elements);
+		}
 
 		public virtual void Msg(WorldClient client, Options disable, string text, params DialogElement[] elements)
 		{
@@ -262,18 +271,6 @@ namespace Aura.World.Scripting
 			this.SendScript(client, msg);
 		}
 
-		//public virtual void MsgSelect(WorldClient client, string text, params DialogElement[] elements)
-		//{
-		//    this.Msg(client, text, elements);
-		//    this.Select(client);
-		//}
-
-		//public virtual void MsgSelect(WorldClient client, Options disable, string text, params DialogElement[] elements)
-		//{
-		//    this.Msg(client, disable, text, elements);
-		//    this.Select(client);
-		//}
-
 		public virtual void Select(WorldClient client)
 		{
 			var script = string.Format(
@@ -309,8 +306,26 @@ namespace Aura.World.Scripting
 			this.SendScript(client, new DialogBgm(file));
 		}
 
+		/// <summary>
+		/// Sends a message without face and name, but only once per char.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="lines"></param>
+		public virtual void Intro(WorldClient client, params string[] lines)
+		{
+			// TODO: Check if char has already seen it.
+
+			var msg = string.Join("<br/>", lines);
+			this.Msg(client, Options.FaceAndName, msg);
+		}
+
 		// Dialog element factory
 		// ------------------------------------------------------------------
+
+		public DialogText Text(string format, params object[] args)
+		{
+			return new DialogText(format, args);
+		}
 
 		public DialogButton Button(string text, string keyword = null, string onFrame = null)
 		{
@@ -340,6 +355,11 @@ namespace Aura.World.Scripting
 		public DialogImage Image(string name, bool localize = false, uint width = 0, uint height = 0)
 		{
 			return new DialogImage(name, localize, width, height);
+		}
+
+		public DialogHotkey Hotkey(string name)
+		{
+			return new DialogHotkey(name);
 		}
 
 		// ------------------------------------------------------------------
