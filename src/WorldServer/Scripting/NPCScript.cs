@@ -18,9 +18,9 @@ namespace Aura.World.Scripting
 {
 	public enum NPCLoadType { Real = 1, Virtual = 2 }
 
-	public abstract class NPCScript : BaseScript
+	public abstract class NPCScript : CreatureScript
 	{
-		public MabiNPC NPC { get; set; }
+		public MabiNPC NPC { get { return this.Creature as MabiNPC; } set { this.Creature = value; } }
 		public MabiShop Shop = new MabiShop();
 
 		public List<string> Phrases = new List<string>();
@@ -126,16 +126,6 @@ namespace Aura.World.Scripting
 			client.Character.GiveItem(id, amount, color1, color2, color3, false);
 		}
 
-		protected virtual void SetId(ulong id)
-		{
-			this.NPC.Id = id;
-		}
-
-		protected virtual void SetName(string name)
-		{
-			this.NPC.Name = name;
-		}
-
 		protected virtual void SetDialogName(string val)
 		{
 			_dialogName = val;
@@ -144,79 +134,6 @@ namespace Aura.World.Scripting
 		protected virtual void SetDialogFace(string val)
 		{
 			_dialogFace = val;
-		}
-
-		protected virtual void SetRace(uint race)
-		{
-			this.NPC.Race = race;
-		}
-
-		protected virtual void SetLocation(string region, uint x, uint y)
-		{
-			this.SetLocation(region, x, y, this.NPC.Direction);
-		}
-
-		protected virtual void SetLocation(string region, uint x, uint y, byte direction)
-		{
-			uint regionid = 0;
-			if (!uint.TryParse(region, out regionid))
-			{
-				var mapInfo = MabiData.MapDb.Find(region);
-				if (mapInfo != null)
-					regionid = mapInfo.Id;
-				else
-				{
-					Logger.Warning("{0} : Map '{1}' not found.", this.ScriptName, region);
-				}
-			}
-
-			this.SetLocation(regionid, x, y, direction);
-		}
-
-		protected virtual void SetLocation(uint region, uint x, uint y)
-		{
-			this.SetLocation(region, x, y, this.NPC.Direction);
-		}
-
-		protected virtual void SetLocation(uint region, uint x, uint y, byte direction)
-		{
-			this.NPC.Region = region;
-			this.NPC.SetPosition(x, y);
-			this.SetDirection(direction);
-		}
-
-		protected virtual void SetBody(float height = 1.0f, float fat = 1.0f, float lower = 1.0f, float upper = 1.0f)
-		{
-			this.NPC.Height = height;
-			this.NPC.Fat = fat;
-			this.NPC.Lower = lower;
-			this.NPC.Upper = upper;
-		}
-
-		protected virtual void SetFace(byte skin, byte eye, byte eyeColor, byte lip)
-		{
-			this.NPC.SkinColor = skin;
-			this.NPC.Eye = eye;
-			this.NPC.EyeColor = eyeColor;
-			this.NPC.Lip = lip;
-		}
-
-		protected virtual void SetColor(uint c1 = 0x808080, uint c2 = 0x808080, uint c3 = 0x808080)
-		{
-			NPC.Color1 = c1;
-			NPC.Color2 = c2;
-			NPC.Color3 = c3;
-		}
-
-		protected virtual void SetDirection(byte direction)
-		{
-			this.NPC.Direction = direction;
-		}
-
-		protected virtual void SetStand(string style, string talkStyle = "")
-		{
-			this.NPC.StandStyle = style;
-			this.NPC.StandStyleTalk = talkStyle;
 		}
 
 		public string GetDialogFace(WorldClient client)
@@ -238,23 +155,6 @@ namespace Aura.World.Scripting
 		protected void AddPhrases(params string[] phrases)
 		{
 			this.Phrases.AddRange(phrases);
-		}
-
-		protected void WarpNPC(uint region, uint x, uint y, bool flash = true)
-		{
-			if (flash)
-			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
-			}
-			WorldManager.Instance.CreatureLeaveRegion(this.NPC);
-			SetLocation(region, x, y);
-			if (flash)
-			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.NPC.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.NPC);
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.NPC.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.NPC);
-			}
-			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(this.NPC), SendTargets.Range, this.NPC);
 		}
 
 		protected virtual void Speak(string message)
@@ -285,33 +185,6 @@ namespace Aura.World.Scripting
 			client.Send(p);
 		}
 #pragma warning restore 0162
-
-		protected virtual void EquipItem(Pocket slot, uint itemClass, uint color1 = 0, uint color2 = 0, uint color3 = 0)
-		{
-			var item = new MabiItem(itemClass);
-			item.Info.ColorA = color1;
-			item.Info.ColorB = color2;
-			item.Info.ColorC = color3;
-			item.Info.Pocket = (byte)slot;
-
-			//var inPocket = this.NPC.GetItemInPocket(slot);
-			//if (inPocket != null)
-			//    this.NPC.Items.Remove(inPocket);
-
-			this.NPC.Items.Add(item);
-		}
-
-		protected virtual void EquipItem(Pocket slot, string itemName, uint color1 = 0, uint color2 = 0, uint color3 = 0)
-		{
-			var dbInfo = MabiData.ItemDb.Find(itemName);
-			if (dbInfo == null)
-			{
-				Logger.Warning("Unknown item '" + itemName + "' cannot be eqipped. Try specifying the ID manually.");
-				return;
-			}
-
-			this.EquipItem(slot, dbInfo.Id, color1, color2, color3);
-		}
 
 		protected bool CheckCode(WorldClient client, string code)
 		{

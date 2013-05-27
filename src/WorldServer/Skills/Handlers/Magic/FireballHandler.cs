@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see licence.txt in the main folder
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,7 +110,7 @@ namespace Aura.World.Skills
 		{
 			System.Threading.Thread.Sleep(4000);
 
-			var victims = WorldManager.Instance.GetCreaturesInRange(bomb, 800).Where(c => c.IsAttackableBy(attacker)).ToList();
+			var victims = WorldManager.Instance.GetCreaturesInRange(bomb, 800).Where(c => !c.IsDead && c.IsAttackableBy(attacker)).ToList();
 
 			ulong areaTarget = SkillHelper.GetAreaTargetID(bomb.Region, (uint)bomb.Info.X, (uint)bomb.Info.Y);
 

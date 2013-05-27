@@ -1600,6 +1600,15 @@ namespace Aura.World.World
 
 			this.CreatureStatsUpdate(creature);
 		}
+
+		public void SharpMind(MabiCreature user, SharpMindStatus state, SkillConst skill)
+		{
+			var inRange = this.GetPlayersInRange(user, WorldConf.SightRange);
+			foreach (var c in inRange)
+			{
+				c.Client.Send(PacketCreator.SharpMind(user, c, skill, state));
+			}
+		}
 	}
 
 	[Flags]

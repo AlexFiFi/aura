@@ -67,3 +67,7 @@
 
 // Brown Bear
 70001, 23002, F   // Combat Mastery
+
+// Succubus
+10301, 23002, F   // Combat Mastery
+10301, 30201, F   // Firebolt

@@ -3,107 +3,62 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using Aura.Shared.Const;
 using Aura.Shared.Util;
 using Aura.World.Skills;
 using Aura.World.World;
+using System.Collections;
+using Aura.Shared.Network;
+using Aura.World.Util;
 
 namespace Aura.World.Scripting
 {
-	public enum AIState { Any, Idle, Dead, Noticed, Aggro }
-	public enum AIAction
+	public enum AggroState : byte
 	{
-		// Walk to a random spot inside the defined radius.
-		// intVal1 = Radius
-		WalkRandom,
-
-		// intVal1 = X
-		// intVal2 = Y
-		Run,
-
-		// Say the specified line
-		// strVal1 = Message
-		// TODO: Need more options, for more random texts.
-		Say,
-
-		Attack,
-
-		// Don't do anything for the specified amount of beats
-		// intVal1 = Beats
-		Wait,
+		None = 0,
+		Notice = 1,
+		Aggro = 2
 	}
 
-	public class AIElement
+	public abstract class AIScript : CreatureScript
 	{
-		public AIState State;
-		public AIAction Action;
+		public delegate bool Trigger(out int totalConditions); // Returns T/F if conditions match. 
+		//Out param is the number of conditions the trigger has, so we can always choose the moust specific one.
+		public delegate IEnumerable Behavior();
 
-		public int IntVal1, IntVal2;
-		public string StrVal1;
+		public bool Active { get; private set; }
+		public uint MinimumActiveBeats { get; private set; }
 
-		public int WaitBeats;
-		public int Cooldown;
+		public new MabiNPC Creature { get { return base.Creature as MabiNPC; } set { base.Creature = value; } }
 
-		/// <summary>
-		/// AI elements are summaries of an actions with parameters, and a state
-		/// in which they can be chosen to be added to the stack, to be executed.
-		/// </summary>
-		/// <param name="state">State in which this action can be chosen.</param>
-		/// <param name="action">Action to be done.</param>
-		/// <param name="intVal1">Int parameter for this action.</param>
-		/// <param name="strVal1">String parameter for this action.</param>
-		/// <param name="cooldown">Beats till this action can be used again.</param>
-		public AIElement(AIState state, AIAction action, int intVal1 = 0, int intVal2 = 0, string strVal1 = null, int cooldown = 0)
+		protected class AiAction
 		{
-			this.State = state;
-			this.Action = action;
-			this.IntVal1 = intVal1;
-			this.IntVal2 = intVal2;
-			this.StrVal1 = strVal1;
-			this.Cooldown = cooldown;
+			public Trigger Trigger;
+			public Behavior Behavior;
+
+			public AiAction(Trigger t, Behavior b)
+			{
+				this.Trigger = t;
+				this.Behavior = b;
+			}
 		}
-	}
 
-	public class AIDCooldown
-	{
-		public AIAction Action;
-		public int Beats, BeatCount;
-
-		/// <summary>
-		/// Information holder, for how many beats we have to wait,
-		/// till the action can be used again. BeatCount must be updated
-		/// once a beat.
-		/// </summary>
-		/// <param name="action">Action this delay is for</param>
-		/// <param name="beats">Number of beats to wait</param>
-		public AIDCooldown(AIAction action, int beats)
-		{
-			this.Action = action;
-			this.Beats = beats;
-		}
-	}
-
-	public class AIScript : BaseScript
-	{
-		protected List<AIElement> Elements = new List<AIElement>();
-		protected List<AIElement> Stack = new List<AIElement>();
-		protected List<AIDCooldown> Cooldowns = new List<AIDCooldown>();
-
-		public MabiNPC Creature;
-
-		public bool Active { get; protected set; }
-
-		public uint MinimumActiveBeats { get; protected set; }
-
+		private IEnumerator _brain;
+		private AiAction _currentAction;
+		protected IEnumerator Brain { get { return _brain; } }
+		protected AiAction CurrentAction { get { return _currentAction; } set { _currentAction = value; _brain = _currentAction == null ? null : _currentAction.Behavior().GetEnumerator(); } }
+		protected List<AiAction> _actions = new List<AiAction>();
+		protected uint _aggroRange = 500;
+		protected AggroState _aggroState;
+		
 		private Timer _heartbeatTimer;
 
 		// This controls the "speed" at which the AI can think.
 		// If it's too long things like following a target becomes choppy,
 		// because changing direction takes longer.
 		private const int Heartbeat = 50;//ms
-
-		private AIState _prevState;
 
 		/// <summary>
 		/// To be executed when the script is added to the creature.
@@ -114,27 +69,6 @@ namespace Aura.World.Scripting
 			_heartbeatTimer.AutoReset = true;
 			_heartbeatTimer.Elapsed += new ElapsedEventHandler(OnHeartbeat);
 			this.Definition();
-		}
-
-		/// <summary>
-		/// Executed from OnLoad. Should be overriden by AI scripts,
-		/// to define actions.
-		/// </summary>
-		public virtual void Definition()
-		{
-		}
-
-		/// <summary>
-		/// Adds AI element to this script, that may be chosen to be executed.
-		/// </summary>
-		/// <param name="state">State in which this action can be chosen.</param>
-		/// <param name="action">Action to be done.</param>
-		/// <param name="intVal1">Int parameter for this action.</param>
-		/// <param name="strVal1">String parameter for this action.</param>
-		/// <param name="cooldown">Ms till this action can be used again.</param>
-		public void Define(AIState state, AIAction action, int intVal1 = 0, int intVal2 = 0, string strVal1 = null, int cooldown = 0)
-		{
-			this.Elements.Add(new AIElement(state, action, intVal1, intVal2, strVal1, this.GetBeats(cooldown)));
 		}
 
 		/// <summary>
@@ -160,13 +94,17 @@ namespace Aura.World.Scripting
 			// TODO: try, catch, logging
 
 			// Stop if there are no actions or no creature
-			if (this.Creature == null && this.Elements.Count < 1)
+			if (this.Creature == null && _actions.Count == 0)
 				return;
 
 			// Stop if there are no characters in range
 			var inSight = WorldManager.Instance.GetPlayersInRange(this.Creature, 2900);
 			if (inSight.Count < 1 && MinimumActiveBeats == 0)
 			{
+				if (this.Creature.Target != null)
+				{
+					ResetTarget();
+				}
 				this.Deactivate();
 				return;
 			}
@@ -174,170 +112,44 @@ namespace Aura.World.Scripting
 			// Stop if creature is unable to do anything
 			if (this.Creature.IsDead || this.Creature.IsStunned)
 			{
-				// TODO: Empty stack?
 				// TODO: Stun should later be a state.
 				return;
 			}
 
-			// TODO: Proper randomization, the mobs seem to be random walking at the exact same time.
-			var rand = RandomProvider.Get();
-
-			var inRange = WorldManager.Instance.GetPlayersInRange(this.Creature, 1500); // TODO: Use race default
-			if (inRange.Count > 0 /* && AutoAggro && Ready && etc */)
-			{
-				//this.Creature.Target = inRange[rand.Next(inRange.Count)];
-			}
-
-			// Decide what state we're in
-			var curState = AIState.Idle;
 			if (this.Creature.Target != null)
 			{
 				if (this.Creature.Target.IsDead || !WorldManager.InRange(this.Creature, this.Creature.Target, 2900))
 				{
-					this.Stack.Clear();
-					this.Creature.Target = null;
-				}
-				else
-				{
-					curState = AIState.Aggro;
+					ResetTarget();
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(0), SendTargets.Range, this.Creature);
+					this.Creature.BattleExp = 0;
+					WorldManager.Instance.CreatureChangeStance(this.Creature);
 				}
 			}
 
-			// Update cooldown stack
-			this.Cooldowns.RemoveAll(a => a.BeatCount++ >= a.Beats);
-
-			// No stack? Gotta fill it!
-			if (this.Stack.Count < 1)
+			if (this.Creature.Target != null && _aggroState == AggroState.None) // Mob was attacked
 			{
-				// Decide what to do
-				var elements = this.Elements.FindAll(a => a.State == curState || a.State == AIState.Any);
-				if (elements.Count > 0)
-				{
-					// Find an element that can be used
-					AIElement element = null;
-					for (int i = 0; element == null && i < elements.Count; ++i)
-					{
-						var tmpElement = elements[rand.Next(elements.Count)];
+				foreach (var a in Aggro()) 
+					;
 
-						// Check for cooldown
-						if (!this.Cooldowns.Exists(a => a.Action == tmpElement.Action))
-							element = tmpElement;
-					}
-
-					// Add the element if one was found
-					if (element != null)
-					{
-						switch (element.Action)
-						{
-							default:
-								this.Stack.Add(element);
-								break;
-						}
-					}
-				}
+				CheckForInterrupt();
 			}
 
-			// Handle stack
-			if (this.Stack.Count > 0)
-			{
-				var element = this.Stack[0];
+			Think();
+		}
 
-				switch (element.Action)
-				{
-					case AIAction.WalkRandom:
-						{
-							this.Stack.RemoveAt(0);
+		protected void ResetTarget()
+		{
+			this.Creature.Target = null;
+			_aggroState = AggroState.None;
+			CheckForInterrupt();
+		}
 
-							var pos = this.Creature.GetPosition();
+		public abstract void Definition(); // TODO: Base implementation?
 
-							MabiVertex dest;
-
-							if (!WorldManager.InRange(pos, Creature.AnchorPoint, 2000))
-							{
-								dest = new MabiVertex(Creature.AnchorPoint.X, Creature.AnchorPoint.Y);
-							}
-							else
-							{
-								do
-								{
-									var x = (uint)(pos.X + rand.Next(-element.IntVal1, element.IntVal1 + 1));
-									var y = (uint)(pos.Y + rand.Next(-element.IntVal1, element.IntVal1 + 1));
-									dest = new MabiVertex(x, y);
-								} while (!WorldManager.InRange(pos, Creature.AnchorPoint, 2000));
-
-							}
-
-							this.Creature.StartMove(dest, true);
-
-							WorldManager.Instance.CreatureMove(this.Creature, pos, dest, true);
-							break;
-						}
-
-					case AIAction.Run:
-						{
-							this.Stack.RemoveAt(0);
-
-							var to = new MabiVertex((uint)element.IntVal1, (uint)element.IntVal2);
-
-							if (!this.Creature.IsDestination(to))
-							{
-								var from = this.Creature.StartMove(to, false);
-								WorldManager.Instance.CreatureMove(this.Creature, from, to, false);
-							}
-							break;
-						}
-
-					case AIAction.Attack:
-						{
-							try
-							{
-								var attackResult = SkillResults.Failure;
-
-								var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery) as CombatMasteryHandler;
-								if (handler != null)
-									attackResult = handler.Use(this.Creature, this.Creature.Target.Id);
-
-								if ((attackResult & SkillResults.OutOfRange) != 0)
-								{
-									var targetPos = WorldManager.CalculatePosOnLine(this.Creature, this.Creature.Target, -40); //this.Creature.Target.GetPosition();
-									this.Stack.Insert(0, new AIElement(AIState.Aggro, AIAction.Run, intVal1: (int)targetPos.X, intVal2: (int)targetPos.Y));
-								}
-								else if ((attackResult & SkillResults.Okay) != 0)
-								{
-									this.Stack.RemoveAt(0);
-								}
-							}
-							catch (Exception ex)
-							{
-								Logger.Exception(ex, null, true);
-							}
-							break;
-						}
-
-					case AIAction.Say:
-						{
-							this.Stack.RemoveAt(0);
-							WorldManager.Instance.CreatureTalk(this.Creature, element.StrVal1);
-							break;
-						}
-
-					case AIAction.Wait:
-						{
-							if (element.WaitBeats++ < element.IntVal1)
-								return;
-
-							this.Stack.RemoveAt(0);
-							break;
-						}
-				}
-
-				if (element.Cooldown > 0)
-				{
-					this.Cooldowns.Add(new AIDCooldown(element.Action, element.Cooldown));
-				}
-			}
-
-			_prevState = curState;
+		protected virtual void DefineAction(Trigger t, Behavior b)
+		{
+			_actions.Add(new AiAction(t, b));
 		}
 
 		public void Activate(uint timeTillArrive)
@@ -355,6 +167,351 @@ namespace Aura.World.Scripting
 		{
 			this.Active = false;
 			_heartbeatTimer.Stop();
+		}
+
+		private void Think()
+		{
+			if (Brain == null || !Brain.MoveNext())
+				this.SelectBehavior();
+
+			var result = Brain.Current;
+
+			if (result is bool && !(bool)result)
+			{
+				CurrentAction = null;
+			}
+		}
+
+		protected void SelectBehavior()
+		{
+			var matches = GetPotentialActions();
+
+			CurrentAction = matches.Count == 0 ? null : matches[rnd.Next(0, matches.Count)].Key;
+
+			if (CurrentAction == null)
+			{
+				//Logger.Warning("AI " + this.Creature.RaceInfo.AI + " does not define a condition. Using wait instead"); // TODO: Dump state
+				CurrentAction = new AiAction(null, NullBehavior);
+			}
+		}
+
+		private IEnumerable NullBehavior()
+		{
+			foreach (var a in Wait(1))
+				yield return a;
+		}
+
+		private List<KeyValuePair<AiAction, int>> GetPotentialActions()
+		{
+			var potential = new Dictionary<AiAction, int>();
+
+			foreach (var t in _actions)
+			{
+				int n;
+				if (t.Trigger(out n))
+					potential.Add(t, n);
+			}
+
+			if (potential.Count == 0)
+				return new List<KeyValuePair<AiAction, int>>();
+
+			var max = potential.Max(kvp => kvp.Value);
+
+			var matches = potential.Where(kvp => kvp.Value == max).ToList();
+			return matches;
+		}
+
+		/// <summary>
+		/// Checks to see if there are any better actions to execute.
+		/// ***WILL RESET THE BRAIN IF IT FINDS ONE.***
+		/// </summary>
+		protected void CheckForInterrupt()
+		{
+			if (!GetPotentialActions().Exists(kvp => kvp.Key == CurrentAction))
+				SelectBehavior();
+		}
+
+
+		// Built-in triggers --------------------------
+		protected bool IsIdleTrigger(out int x)
+		{
+			x = 1;
+			return _aggroState == AggroState.None;
+		}
+
+		protected bool OnNoticeTrigger(out int x)
+		{
+			x = 1;
+			return _aggroState == AggroState.Notice;
+		}
+
+		protected bool OnAggroTrigger(out int x)
+		{
+			x = 1;
+			return _aggroState == AggroState.Aggro;
+		}
+
+		// Built-in Behaviors --------------------------
+		protected IEnumerable WalkTo(MabiVertex dest, bool wait)
+		{
+			var pos = this.Creature.GetPosition();
+			this.Creature.StartMove(dest, true);
+
+			WorldManager.Instance.CreatureMove(this.Creature, pos, dest, true);
+
+			while (wait && Creature.IsMoving)
+			{
+				CheckForInterrupt();
+				yield return true;
+			}
+		}
+
+		protected IEnumerable RunTo(MabiVertex dest, bool wait)
+		{
+			if (!this.Creature.IsDestination(dest))
+			{
+				var pos = this.Creature.StartMove(dest, false);
+
+				WorldManager.Instance.CreatureMove(this.Creature, pos, dest, false);
+
+				while (wait && this.Creature.IsMoving)
+				{
+					CheckForInterrupt();
+					yield return true;
+				}
+			}
+		}
+
+		protected IEnumerable Circle(MabiEntity center, bool clockwise, int radius, bool wait)
+		{
+			var centerPos = center.GetPosition();
+			var myPos = this.Creature.GetPosition();
+
+			var deltaX = (double)myPos.X - (double)centerPos.X;
+			var deltaY = (double)myPos.Y - (double)centerPos.Y;
+
+			var angle = Math.Atan2(deltaY, deltaX);
+
+			angle += (clockwise ? -1 : 1) * rnd.NextDouble() * (Math.PI / 6);
+
+			var x = (int)(Math.Cos(angle) * radius);
+			var y = (int)(Math.Sin(angle) * radius);
+
+			var dest = new MabiVertex(centerPos.X + x, centerPos.Y + y);
+
+			foreach (var a in WalkTo(dest, wait))
+				yield return a;
+		}
+
+		protected IEnumerable Wander(bool checkForNoticeWhileIdle, bool changeStanceOnNotice)
+		{
+			var pos = this.Creature.GetPosition();
+
+			MabiVertex dest;
+
+			if (!WorldManager.InRange(pos, this.Creature.AnchorPoint, 2000))
+			{
+				dest = new MabiVertex(this.Creature.AnchorPoint.X, this.Creature.AnchorPoint.Y);
+			}
+			else
+			{
+				do
+				{
+					var x = (uint)(pos.X + rnd.Next(-600, 600 + 1));
+					var y = (uint)(pos.Y + rnd.Next(-600, 600 + 1));
+					dest = new MabiVertex(x, y);
+				} while (!WorldManager.InRange(pos, this.Creature.AnchorPoint, 2000));
+			}
+
+			foreach (var a in this.WalkTo(dest, true))
+				yield return a;
+
+			var waitTime = this.GetBeats(rnd.Next(5000, 10000));
+
+			if (checkForNoticeWhileIdle)
+			{
+				var beats = 0;
+				while (beats < waitTime)
+				{
+					beats++;
+					yield return true;
+					foreach (var a in this.TryNotice(true, changeStanceOnNotice))
+					{
+						beats++;
+						yield return true;
+					}
+				}
+			}
+			else
+			{
+				foreach (var a in this.Wait(waitTime))
+					yield return a;
+			}
+		}
+
+		protected IEnumerable WalkPath(params MabiVertex[] points)
+		{
+			foreach (var p in points)
+				foreach (var a in this.WalkTo(p, true))
+					yield return a;
+		}
+
+		protected IEnumerable PrepareSkill(SkillConst skillId, bool wait, MabiPacket args)
+		{
+			MabiSkill skill; SkillHandler handler;
+			SkillManager.CheckOutSkill(this.Creature, (ushort)skillId, out skill, out handler);
+
+			if (this.Creature.ActiveSkillId != 0)
+				foreach (var a in CancelSkill())
+					yield return a;
+
+			this.Creature.ActiveSkillId = skill.Id;
+
+			// Save cast time when preparation is finished.
+			var castTime = skill.RankInfo.LoadTime;
+			this.Creature.ActiveSkillPrepareEnd = DateTime.Now.AddMilliseconds(castTime);
+
+			var r = handler.Prepare(this.Creature, skill, args, castTime);
+
+			if ((r & SkillResults.Okay) == 0)
+				yield return false;
+
+			WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Loading, skillId);
+
+			System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(() => 
+			{
+				System.Threading.Thread.Sleep((int)castTime);
+				if (Creature.ActiveSkillId == skill.Id)
+				{
+					handler.Ready(this.Creature, skill);
+					WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Loaded, skillId);
+				}
+			}));
+
+			t.Start();
+
+			yield return true;
+
+			if (wait)
+				foreach (var a in Wait(GetBeats((int)castTime)))
+					yield return a;
+		}
+
+		protected IEnumerable CancelSkill()
+		{
+			if (this.Creature.ActiveSkillId != 0)
+			{
+				WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Cancelling, this.Creature.ActiveSkillId);
+				var handler = SkillManager.GetHandler(this.Creature.ActiveSkillId);
+
+				var res = handler.Cancel(this.Creature, this.Creature.GetSkill(this.Creature.ActiveSkillId));
+
+				yield return (res & SkillResults.Okay) != 0;
+
+				WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.None, this.Creature.ActiveSkillId);
+			}
+			yield return true;
+		}
+
+		protected IEnumerable Say(string text)
+		{
+			WorldManager.Instance.CreatureTalk(this.Creature, text);
+			yield return true;
+		}
+
+		protected IEnumerable Wait(int beats)
+		{
+			for (int i = 0; i < beats; i++)
+			{
+				CheckForInterrupt();
+				yield return true;
+			}
+		}
+
+		protected IEnumerable Attack()
+		{
+			if (Creature.Target == null || Creature.Target.IsDead)
+				yield return false;
+
+			var aResult = SkillResults.Failure;
+
+			var handler = SkillManager.GetHandler(SkillConst.MeleeCombatMastery) as CombatMasteryHandler;
+
+			try
+			{
+				if (handler != null)
+					aResult = handler.Use(this.Creature, this.Creature.Target.Id);
+			}
+			catch
+			{
+				aResult = SkillResults.Failure;
+			}
+
+			if ((aResult & SkillResults.OutOfRange) != 0)
+			{
+				var targetPos = WorldManager.CalculatePosOnLine(this.Creature, this.Creature.Target, -40);
+				foreach (var a in RunTo(targetPos, false))
+					yield return a;
+			}
+			else
+				yield return (aResult & SkillResults.Okay) != 0;
+		}
+
+		/// <summary>
+		/// Sends the notice packet (!) and switches the aggro state to "Notice"
+		/// </summary>
+		/// <param name="showMark"></param>
+		/// <returns></returns>
+		protected IEnumerable TryNotice(bool showMark, bool changeStance)
+		{
+			var inRange = WorldManager.Instance.GetCreaturesInRange(this.Creature, _aggroRange).FindAll(c => c.IsAttackableBy(this.Creature));
+
+			if (inRange.Count != 0)
+			{
+				// Select mob and aggro
+				Creature.Target = inRange[rnd.Next(0, inRange.Count)];
+
+				_aggroState = AggroState.Notice;
+				if (showMark)
+				{
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(Creature.Target.Id).PutByte(1).PutString(""), SendTargets.Range, this.Creature);
+					WorldManager.Instance.CreatureTalk(this.Creature, "!");
+				}
+				if (changeStance)
+				{
+					this.Creature.BattleState = 1;
+					WorldManager.Instance.CreatureChangeStance(this.Creature);
+				}
+
+				CheckForInterrupt();
+
+				yield return true;
+			}
+
+			yield return false;
+		}
+
+		/// <summary>
+		/// Sends the aggro packet (!!) and switches the aggro state to "Aggro". 
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable Aggro()
+		{
+			if (Creature.Target == null || Creature.Target.IsDead)
+				foreach (var a in TryNotice(false, false))
+					yield return a;
+
+			_aggroState = AggroState.Aggro;
+			this.Creature.BattleState = 1;
+			WorldManager.Instance.CreatureChangeStance(this.Creature);
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(Creature.Target.Id).PutByte(2).PutString(""), SendTargets.Range, this.Creature);
+
+			WorldManager.Instance.CreatureTalk(this.Creature, "*!!*");
+
+			CheckForInterrupt();
+
+			yield return true;
 		}
 	}
 }

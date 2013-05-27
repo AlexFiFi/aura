@@ -276,7 +276,7 @@ namespace Aura.World.Skills
 
 			attacker.Stun = sAction.StunTime = UseStun;
 
-			var targets = WorldManager.Instance.GetCreaturesInRange(target, 500).Where(c => c.IsAttackableBy(attacker)).ToList();
+			var targets = WorldManager.Instance.GetCreaturesInRange(target, 500).Where(c => !c.IsDead && c.IsAttackableBy(attacker)).ToList();
 			targets.Insert(0, target);
 			for (byte i = 0; i < attacker.ActiveSkillStacks && i < targets.Count; i++)
 			{

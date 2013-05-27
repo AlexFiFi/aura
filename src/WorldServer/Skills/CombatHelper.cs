@@ -204,8 +204,15 @@ namespace Aura.World.Skills
 			if (!target.IsDead && target.Target != attacker)
 			{
 				target.Target = attacker;
-				target.BattleState = 1;
-				WorldManager.Instance.CreatureChangeStance(target, 0);
+				if (target is MabiNPC && ((MabiNPC)target).AIScript != null)
+				{
+					foreach (var a in ((MabiNPC)target).AIScript.Aggro()) ;
+				}
+				else
+				{
+					target.BattleState = 1;
+					WorldManager.Instance.CreatureChangeStance(target, 0);
+				}
 			}
 		}
 

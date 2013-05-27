@@ -18,6 +18,12 @@ namespace Aura.World.Scripting
 
 		public bool Disposed { get; protected set; }
 
+		/// <summary>
+		/// Use this rnd to avoid "syncronized randomness"
+		/// </summary>
+		protected static readonly Random rnd = RandomProvider.Get();
+
+
 		public virtual void OnLoad()
 		{
 		}
@@ -222,7 +228,7 @@ namespace Aura.World.Scripting
 		/// </summary>
 		protected int Rnd(int from, int to)
 		{
-			return RandomProvider.Get().Next(from, to);
+			return rnd.Next(from, to);
 		}
 
 		/// <summary>
@@ -230,7 +236,7 @@ namespace Aura.World.Scripting
 		/// </summary>
 		protected double Rnd()
 		{
-			return RandomProvider.Get().NextDouble();
+			return rnd.NextDouble();
 		}
 
 		protected void Notice(WorldClient client, string msg, NoticeType type = NoticeType.MiddleTop)

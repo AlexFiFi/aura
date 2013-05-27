@@ -260,7 +260,7 @@ namespace Aura.World.Scripting
 				if (scriptAsm == null)
 					return;
 
-				var types = scriptAsm.GetTypes();
+				var types = scriptAsm.GetTypes().Where(t => t.IsSubclassOf(typeof(BaseScript)));
 				foreach (var type in types)
 				{
 					var sType = type.ToString();
@@ -502,11 +502,11 @@ namespace Aura.World.Scripting
 					"yield break;",
 					RegexOptions.Compiled);
 
-				// SubTalk(<method_call>);
-				// --> foreach(var __subTalkResponse in <method_call>) yield return __subTalkResponse;
+				// Sub(Talk|Action)(<method_call>);
+				// --> foreach(var __subTalkResponse in <method_call>) yield return __sub(Talk|Action)Response;
 				file = Regex.Replace(file,
-					@"([\{\}:;\t ])SubTalk\s*\(([^;]*)\)\s*;",
-					"$1foreach(var __subTalkResponse in $2) yield return __subTalkResponse;",
+					@"([\{\}:;\t ])Sub(Talk|Action)\s*\(([^;]*)\)\s*;",
+					"$1foreach(var __subTalkResponse in $3) yield return __subTalkResponse;",
 					RegexOptions.Compiled);
 
 				// Hook(<client>, <"hook">);
@@ -627,12 +627,28 @@ namespace Aura.World.Scripting
 				if (monster.Life < 1)
 					monster.Life = monster.LifeMaxBase = 10;
 
-				if (aiFilePath != null)
+				try
 				{
-					monster.AIScript = this.GetScript(aiFilePath).CreateObject("*") as AIScript;
-					monster.AIScript.Creature = monster;
-					monster.AIScript.OnLoad();
-					monster.AIScript.Activate(0); // AI is intially active
+					if (aiFilePath != null)
+					{
+						var aiscriptAsm = this.GetScript(aiFilePath);
+						if (aiscriptAsm != null)
+						{
+							var types = aiscriptAsm.GetTypes().Where(t => t.IsSubclassOf(typeof(AIScript)));
+							monster.AIScript = Activator.CreateInstance(types.First()) as AIScript;
+							monster.AIScript.Creature = monster;
+							monster.AIScript.OnLoad();
+							monster.AIScript.Activate(0); // AI is intially active
+						}
+						else
+						{
+							raceInfo.AI = null; // Suppress future attempts to load this AI
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					Logger.Exception(ex);
 				}
 
 				monster.AncientEligible = true;

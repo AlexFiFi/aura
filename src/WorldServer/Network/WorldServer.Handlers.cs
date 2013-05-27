@@ -1643,6 +1643,11 @@ namespace Aura.World.Network
 				return;
 			}
 
+			if (creature.ActiveSkillId != 0)
+			{
+				SkillManager.GetHandler(creature.ActiveSkillId).Cancel(creature, creature.GetSkill(creature.ActiveSkillId));
+			}
+
 			creature.ActiveSkillId = skill.Id;
 
 			// Save cast time when preparation is finished.
