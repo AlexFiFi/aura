@@ -83,13 +83,15 @@
     <Compile Include="Scripting\BaseScript.cs" />
     <Compile Include="Scripting\BaseScript.Quests.cs" />
     <Compile Include="Scripting\CreatureScript.cs" />
-    <Compile Include="Scripting\DialogElements.cs" />
+    <Compile Include="Scripting\NPC\DialogElements.cs" />
     <Compile Include="Scripting\ItemScript.cs" />
-    <Compile Include="Scripting\QuestScript.RewardFactory.cs" />
-    <Compile Include="Scripting\QuestScript.cs" />
+    <Compile Include="Scripting\Quest\QuestScript.Prerequisites.cs" />
+    <Compile Include="Scripting\Quest\QuestPrerequisit.cs" />
+    <Compile Include="Scripting\Quest\QuestScript.Rewards.cs" />
+    <Compile Include="Scripting\Quest\QuestScript.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
-    <Compile Include="Scripting\NPCScript.cs" />
-    <Compile Include="Scripting\NPCSession.cs" />
+    <Compile Include="Scripting\NPC\NPCScript.cs" />
+    <Compile Include="Scripting\NPC\NPCSession.cs" />
     <Compile Include="Skills\CombatAction.cs" />
     <Compile Include="Skills\Handlers\Actions\ActionSkillHandlers.cs" />
     <Compile Include="Skills\Handlers\Combat\CounterHandler.cs" />
@@ -154,7 +156,7 @@
     <Content Include="mabioriginal.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scripting\QuestScript.ObjectiveFactory.cs" />
+    <Compile Include="Scripting\Quest\QuestScript.Objectives.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

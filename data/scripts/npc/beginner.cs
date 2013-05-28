@@ -88,13 +88,16 @@ public class NaoScript : NPCScript
 		Msg(c, "Soon, you'll be able to go to Erinn.");
 		Msg(c, "When you arrive in Erinn, please go see Chief Duncan<br/>and show him my letter of introduction.<br/>I'm sure he will be a great help to you.");
 		Msg(c, Options.FaceAndName, "(Received Bread, Traveler's Guide, and Soul Stones from Nao.)", Image("Novice_item_g9Korea"));
-		EndDialog(c, "I wish you the best of luck in Erinn.<br/>See you around.");
+		Msg(c, "I wish you the best of luck in Erinn.<br/>See you around.", Button("End Conversation"));
+		r = Select(c);
 
 		// Move to Uladh Beginner Area
 		c.Character.SetLocation(125, 21489, 76421);
 		c.Character.Direction = 233;
 		
 		StartQuest(c, 200501); // Nao's Letter of Introduction
+		
+		Close(c);
 
 		Return();
 	}

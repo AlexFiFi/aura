@@ -9,7 +9,7 @@ namespace Aura.Data
 {
 	public class QuestInfo
 	{
-		public uint Class = 0;
+		public uint Id = 0;
 		public string Name = "Untitled";
 		public string Description = "";
 		public string AdditionalInfo = "";

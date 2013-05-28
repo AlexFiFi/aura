@@ -147,8 +147,16 @@ namespace Aura.World.Scripting
 		/// <param name="id"></param>
 		public void StartQuest(WorldClient client, uint id)
 		{
-			var character = client.Character as MabiPC;
+			this.StartQuest(client.Character as MabiPC, id);
+		}
 
+		/// <summary>
+		/// Starts a quest. Yep. That's it.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="id"></param>
+		public void StartQuest(MabiPC character, uint id)
+		{
 			// This would prevent restarting of quests.
 			//if (this.HasQuest(client, id))
 			//{

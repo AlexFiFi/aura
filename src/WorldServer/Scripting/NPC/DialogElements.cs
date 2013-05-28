@@ -25,6 +25,9 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// Simple text. Strings passed to Msg are converted into this.
+	/// </summary>
 	public class DialogText : DialogElement
 	{
 		public string Text { get; set; }
@@ -42,6 +45,7 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	// Changes the NPC portrait, displayed at the upper left of the dialog.
 	public class DialogPortrait : DialogElement
 	{
 		public string Text { get; set; }
@@ -62,6 +66,9 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// Changes the name of the speaking person (at the top of the dialog).
+	/// </summary>
 	public class DialogTitle : DialogElement
 	{
 		public string Text { get; set; }
@@ -82,6 +89,9 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// Shows the configured hotkey for the given id.
+	/// </summary>
 	public class DialogHotkey : DialogElement
 	{
 		public string Text { get; set; }
@@ -99,6 +109,10 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// A button is displayed at the bottom of the dialog, and can be clicked.
+	/// The keyword of the button is sent to the server and can be read using Select.
+	/// </summary>
 	public class DialogButton : DialogElement
 	{
 		public string Text { get; set; }
@@ -141,6 +155,9 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// Changes the background music, for the duration of the dialog.
+	/// </summary>
 	public class DialogBgm : DialogElement
 	{
 		public string File { get; set; }
@@ -156,6 +173,9 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// Shows an image in the center of the screen.
+	/// </summary>
 	public class DialogImage : DialogElement
 	{
 		public string File { get; set; }
@@ -185,6 +205,10 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// Displays a list of options (buttons) in a separate window.
+	/// Result is sent like a regular button click.
+	/// </summary>
 	public class DialogList : DialogElement
 	{
 		public string Text { get; set; }
@@ -215,6 +239,10 @@ namespace Aura.World.Scripting
 		}
 	}
 
+	/// <summary>
+	/// Shows a single lined input box. The result is sent as a regular
+	/// Select result.
+	/// </summary>
 	public class DialogInput : DialogElement
 	{
 		public string Title { get; set; }
@@ -235,6 +263,43 @@ namespace Aura.World.Scripting
 			sb.AppendFormat("<inputbox title='{0}' caption='{1}' max_len='{2}' allow_cancel='{3}' />", this.Title, this.Text, this.MaxLength, this.Cancelable);
 
 			base.Render(ref sb);
+		}
+	}
+
+	/// <summary>
+	/// Dialog automatically continues after x ms.
+	/// </summary>
+	public class DialogAutoContinue : DialogElement
+	{
+		public uint Duration { get; set; }
+
+		public DialogAutoContinue(uint duration)
+		{
+			this.Duration = duration;
+		}
+
+		public override void Render(ref StringBuilder sb)
+		{
+			sb.AppendFormat("<autopass duration='{0}'/>", this.Duration);
+		}
+	}
+
+	/// <summary>
+	/// Changes the facial expression of the portrait.
+	/// (Defined client sided in the db/npc/npcportrait_ani_* files.)
+	/// </summary>
+	public class DialogFace : DialogElement
+	{
+		public string Expression { get; set; }
+
+		public DialogFace(string expression)
+		{
+			this.Expression = expression;
+		}
+
+		public override void Render(ref StringBuilder sb)
+		{
+			sb.AppendFormat("<face name='{0}'/>", this.Expression);
 		}
 	}
 }

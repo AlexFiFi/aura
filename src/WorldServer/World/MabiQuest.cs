@@ -192,7 +192,7 @@ namespace Aura.World.World
 
 			packet.PutByte(2); // 0 = blue icon, 7 (shadow? changes structure slightly)
 
-			packet.PutInt(this.Info.Class); // 200076, range important for the tabs.
+			packet.PutInt(this.Info.Id); // 200076, range important for the tabs.
 
 			packet.PutString(this.Info.Name);
 			packet.PutString(this.Info.Description);

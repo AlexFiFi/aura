@@ -100,7 +100,7 @@ namespace Aura.World.Scripting
 		// Built in methods
 		// ------------------------------------------------------------------
 
-		protected void GiveItem(WorldClient client, string name, uint amount = 1)
+		public void GiveItem(WorldClient client, string name, uint amount = 1)
 		{
 			var item = MabiData.ItemDb.Find(name);
 			if (item == null)
@@ -111,17 +111,17 @@ namespace Aura.World.Scripting
 			this.GiveItem(client, item.Id, amount);
 		}
 
-		protected void GiveItem(WorldClient client, string name, uint amount, uint color1, uint color2, uint color3)
+		public void GiveItem(WorldClient client, string name, uint amount, uint color1, uint color2, uint color3)
 		{
 			this.GiveItem(client, name, amount);
 		}
 
-		protected void GiveItem(WorldClient client, uint id, uint amount = 1)
+		public void GiveItem(WorldClient client, uint id, uint amount = 1)
 		{
 			client.Character.GiveItem(id, amount);
 		}
 
-		protected void GiveItem(WorldClient client, uint id, uint amount, uint color1, uint color2, uint color3)
+		public void GiveItem(WorldClient client, uint id, uint amount, uint color1, uint color2, uint color3)
 		{
 			client.Character.GiveItem(id, amount, color1, color2, color3, false);
 		}
@@ -352,6 +352,11 @@ namespace Aura.World.Scripting
 			return new DialogInput(title, text, maxLength, cancelable);
 		}
 
+		public DialogImage Image(string name, uint width, uint height)
+		{
+			return new DialogImage(name, false, width, height);
+		}
+
 		public DialogImage Image(string name, bool localize = false, uint width = 0, uint height = 0)
 		{
 			return new DialogImage(name, localize, width, height);
@@ -360,6 +365,16 @@ namespace Aura.World.Scripting
 		public DialogHotkey Hotkey(string name)
 		{
 			return new DialogHotkey(name);
+		}
+
+		public DialogAutoContinue AutoContinue(uint duration)
+		{
+			return new DialogAutoContinue(duration);
+		}
+
+		public DialogFace Face(string name)
+		{
+			return new DialogFace(name);
 		}
 
 		// ------------------------------------------------------------------

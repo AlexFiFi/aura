@@ -74,7 +74,7 @@ public class DuncanScript : NPCScript
 			{
 				Msg(c, "Choose a quest you would like to do.");
 				OpenShop(c);
-				End();
+				Return();
 			}
 
 			case "@lostandfound":
@@ -83,7 +83,7 @@ public class DuncanScript : NPCScript
 				Msg(c, "Unfortunatly, Tir Chonaill does not have a Town Office, so I run the Lost-and-Found myself.<br/>The lost items are recovered with magic,<br/>so unless you've dropped them on purpose, you can recover those items with their blessings intact.<br/>You will, however, need to pay a fee.");
 				Msg(c, "As you can see, I have limited space in my home. So I can only keep 20 items for you.<br/>If there are more than 20 lost items, I'll have to throw out the oldest items to make room.<br/>I strongly suggest you retrieve any lost items you don't want to lose as soon as possible.");
 
-				End();
+				Return();
 			}
 		}
 	}

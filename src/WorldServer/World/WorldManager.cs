@@ -1349,7 +1349,7 @@ namespace Aura.World.World
 
 				// Only call this if there were rewards, we're using this
 				// method to clear quests as well.
-				var script = ScriptManager.Instance.GetQuestScript(quest.Info.Class);
+				var script = ScriptManager.Instance.GetQuestScript(quest.Info.Id);
 				if (script != null)
 					script.OnCompleted(creature.Client as WorldClient, quest);
 			}

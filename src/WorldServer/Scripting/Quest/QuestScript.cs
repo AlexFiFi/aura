@@ -8,6 +8,7 @@ using Aura.World.Player;
 using Aura.World.World;
 using Aura.World.Events;
 using Aura.World.Network;
+using System.Collections.Generic;
 
 namespace Aura.World.Scripting
 {
@@ -16,11 +17,13 @@ namespace Aura.World.Scripting
 		public QuestInfo Info = new QuestInfo();
 		public Receive ReceiveMethod = Receive.Manually;
 
-		public uint Id { get { return this.Info.Class; } }
+		public List<QuestPrerequisite> Prerequisites = new List<QuestPrerequisite>();
+
+		public uint Id { get { return this.Info.Id; } }
 
 		public void SetId(uint id)
 		{
-			this.Info.Class = id;
+			this.Info.Id = id;
 		}
 
 		public void SetName(string name)
@@ -53,7 +56,7 @@ namespace Aura.World.Scripting
 			if (this.Info.Objectives.Count > 0)
 				(this.Info.Objectives[0] as QuestObjectiveInfo).Unlocked = true;
 
-			if (this.ReceiveMethod == Receive.OnLogin)
+			if (this.ReceiveMethod == Receive.Auto)
 				ServerEvents.Instance.PlayerLoggedIn += this.OnPlayerLoggedIn;
 		}
 
@@ -70,16 +73,56 @@ namespace Aura.World.Scripting
 
 		public void OnPlayerLoggedIn(object sender, EventArgs args)
 		{
-			if (this.ReceiveMethod == Receive.OnLogin)
+			var character = sender as MabiPC;
+
+			//if (this.ReceiveMethod == Receive.Auto)
+			//{
+			//    if (!this.HasQuest(character, this.Id))
+			//    {
+			//        var quest = new MabiQuest(this.Id);
+			//        character.Quests[this.Id] = quest;
+			//        WorldManager.Instance.CreatureReceivesQuest(character, quest);
+			//    }
+			//}
+
+			// Check prerequisits, for new quests, or ones that aren't given
+			// automatically upon completion of the previous one.
+			this.CheckPrerequisites(character);
+		}
+
+		/// <summary>
+		/// Looks for follow up quests and starts them,
+		/// if the prerequisites are met.
+		/// </summary>
+		/// <param name="client"></param>
+		/// <param name="quest"></param>
+		public virtual void OnCompleted(WorldClient client, MabiQuest quest)
+		{
+			var character = client.Character as MabiPC;
+
+			foreach (var followUp in ScriptManager.Instance.GetFollowUpQuestScripts(this.Id))
+				followUp.CheckPrerequisites(character);
+		}
+
+		/// <summary>
+		/// Checks all prerequisites, and starts the quest if all are met.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool CheckPrerequisites(MabiPC character)
+		{
+			if (this.HasQuest(character, this.Id))
+				return false;
+
+			foreach (var p in this.Prerequisites)
 			{
-				var character = sender as MabiPC;
-				if (!this.HasQuest(character, this.Info.Class))
-				{
-					var quest = new MabiQuest(this.Info.Class);
-					character.Quests[this.Info.Class] = quest;
-					WorldManager.Instance.CreatureReceivesQuest(character, quest);
-				}
+				if (!p.Met(character))
+					return false;
 			}
+
+			this.StartQuest(character, this.Id);
+
+			return true;
 		}
 
 		/// <summary>
@@ -93,7 +136,7 @@ namespace Aura.World.Scripting
 			var character = ea.Killer as MabiPC;
 
 			// Has quest?
-			var quest = character.GetQuestOrNull(this.Info.Class);
+			var quest = character.GetQuestOrNull(this.Id);
 			if (quest == null)
 				return;
 
@@ -139,7 +182,7 @@ namespace Aura.World.Scripting
 				return;
 
 			// Has quest?
-			var quest = character.GetQuestOrNull(this.Info.Class);
+			var quest = character.GetQuestOrNull(this.Id);
 			if (quest == null)
 				return;
 
@@ -227,9 +270,11 @@ namespace Aura.World.Scripting
 			this.Info.Rewards.Add(info);
 		}
 
-		public virtual void OnCompleted(WorldClient client, MabiQuest quest)
-		{ }
+		public void AddPrerequisite(QuestPrerequisite prereq)
+		{
+			this.Prerequisites.Add(prereq);
+		}
 	}
 
-	public enum Receive : byte { Manually, OnLogin }
+	public enum Receive : byte { Manually, Auto }
 }

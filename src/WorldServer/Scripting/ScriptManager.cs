@@ -322,10 +322,10 @@ namespace Aura.World.Scripting
 						script.OnLoad();
 						script.OnLoadDone();
 
-						if (MabiData.QuestDb.Entries.ContainsKey(script.Info.Class))
-							Logger.Warning("Double quest id '{0}', overwriting from '{1}'.", script.Info.Class, cleanScriptPath);
+						if (MabiData.QuestDb.Entries.ContainsKey(script.Info.Id))
+							Logger.Warning("Double quest id '{0}', overwriting from '{1}'.", script.Info.Id, cleanScriptPath);
 
-						MabiData.QuestDb.Entries[script.Info.Class] = script.Info;
+						MabiData.QuestDb.Entries[script.Info.Id] = script.Info;
 						_questScripts.Add(script.Id, script);
 					}
 					else if (scriptObj is BaseScript)
@@ -705,6 +705,28 @@ namespace Aura.World.Scripting
 		{
 			QuestScript result;
 			_questScripts.TryGetValue(id, out result);
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a list of quests that have the given one listed as prerequisite.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public List<QuestScript> GetFollowUpQuestScripts(uint id)
+		{
+			var result = new List<QuestScript>();
+
+			foreach (var questScript in _questScripts.Values)
+			{
+				foreach (var p in questScript.Prerequisites)
+				{
+					var pqc = p as PrerequisiteQuestCompleted;
+					if (pqc != null && pqc.Id == id)
+						result.Add(questScript);
+				}
+			}
+
 			return result;
 		}
 	}

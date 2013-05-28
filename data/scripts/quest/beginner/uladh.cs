@@ -21,17 +21,11 @@ public class NaosLetterOfIntroductionQuest : QuestScript
 		AddHook("_duncan", "after_intro", TalkDuncan);
 	}
 	
-	public override void OnCompleted(WorldClient c, MabiQuest q)
-	{
-		//StartQuest(c, 200502); // visit_the_healers_house
-	}
-	
 	public IEnumerable TalkDuncan(WorldClient c, NPCScript n)
 	{
-		// Nao's Letter of Introduction
-		if (QuestActive(c, 200501))
+		if (QuestActive(c, this.Id))
 		{
-			FinishQuestObjective(c, 200501, "talk_duncan");
+			FinishQuestObjective(c, this.Id, "talk_duncan");
 			
 			n.Msg(c, Options.Name, "(You hand Nao's Letter of Introduction to Duncan.)");
 			n.Msg(c, "Ah, a letter from Nao.<br/>Hard to believe that little<br/>tomboy's all grown up...");
@@ -56,6 +50,69 @@ public class NaosLetterOfIntroductionQuest : QuestScript
 			n.Msg(c, "Soon, you will recieve a quest from an owl.<br/>Then, you will be able to start your training for real.");
 
 			Break();
+		}
+		
+		End();
+	}
+}
+
+public class RescueResidentQuest : QuestScript
+{
+	public override void OnLoad()
+	{
+		SetId(200502);
+		SetName("Rescue Resident");
+		SetDescription("I'm Trefor, serving as a guard in the north part of the town, past the Healer's House. One of the residents of this town went to Alby Dungeon and has not come back yet. I'm worried about it, so I need you to help me search for the lost resident. - Trefor -");
+		SetReceive(Receive.Auto);
+
+		AddPrerequisite(QuestCompleted(200501));
+
+		AddObjective("talk_trefor", "Talk with Trefor", 1, 8692, 52637, Talk("trefor"));
+		AddObjective("kill_foxes", "Hunt 5 Young Brown Foxes", 1, 9124, 52108, Kill(5, 50001, 50007));
+		AddObjective("talk_trefor2", "Talk with Trefor", 1, 8692, 52637, Talk("trefor"));
+		AddObjective("clear_alby", "Rescue a town resident from Alby Dungeon", 13, 3203, 3199, Talk("trefor"));
+		
+		AddReward(Exp(300));
+		AddReward(Gold(1800));
+		AddReward(AP(3));
+		
+		AddHook("_trefor", "after_intro", TalkTrefor);
+	}
+	
+	public IEnumerable TalkTrefor(WorldClient c, NPCScript n)
+	{
+		if (QuestActive(c, this.Id))
+		{
+			switch(QuestObjective(c, this.Id))
+			{
+				case "talk_trefor":
+				{
+					FinishQuestObjective(c, this.Id, "talk_trefor");
+					
+					n.Msg(c, "Welcome, I am Trefor, the guard.<br/>Someone from the town went into Alby Dungeon a while ago, but hasn't returned yet.<br/>I wish I could go there myself, but I can't leave my post. I'd really appreciate it if you can go and look for in Alby Dungeon.");
+					n.Msg(c, "Since the dungeon is a dangerous place to be in, I'll teach you a skill that will help you in an emergency situation.<br/>It's called the Smash skill. If you use it, you can knock down a monster with a single blow!<br/>It is also highly effective when you sneak up on a target and deliver the blow without warning.");
+					n.Msg(c, "Against monsters that are using the Defense skill,<br/>Smash will be the only way to penetrate that skill and deliver a killer blow.");
+					n.Msg(c, "However... looking at the way you're holding your sword, I'm not sure if you are up to the task.<br/>Let me test your skills first. Do you see those brown foxes wandering in front of me?<br/>They're quite a nuisance, praying on those roosters in town.<br/>I want you to go and hunt 5 Young Brown Foxes right now.");
+					n.Msg(c, "Foxes use the Defense Skill a lot, and as I told you before, regular attacks do not work against defending targets.<br/>That's then the Smash skill comes in handy.<br/><br/>Watch how I do it, and try picking up the important parts so you can use it too.<br/>You don't need to overstrain yourself by going for the Brown Foxes. Young Brown Foxes will do just fine.");
+
+					// cutscene
+					
+					Break();
+				}
+				break;
+				case "talk_trefor2":
+				{
+					FinishQuestObjective(c, this.Id, "talk_trefor2");
+					
+					n.Msg(c, "Good, I see that you're getting the hang of it.<br/>Well, I was able to do that when I was 8, but whatever...<br/>It is now time for you to go and search for the missing Villager.");
+					n.Msg(c, "Follow the road up and turn right and you'll find the Alby Dungeon.<br/>You can enter the dungeon by dropping this item on the altar.<br/>If you either lose it or fail to rescue her, come back to me so I can give you another one. Please be careful.", n.Image("dungeonpass", 128, 128));
+					
+					n.GiveItem(c, 63140, 1);
+					
+					Break();
+				}
+				break;
+			}
 		}
 		
 		End();
