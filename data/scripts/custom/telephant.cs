@@ -27,214 +27,126 @@ public class _TelephantBaseScript : NPCScript
 		Msg(c, "Hello! I am Telephant, and I'm here to carry you all over the world!");
 	
 	L_Selection:
-		Msg(c,
-			"Where do you want to go?",
-			Button("Events / Customized", "@custom"),
-			Button("Uladh", "@uladh"),
-			Button("Iria", "@iria"),
-			Button("Belvast", "@belvast"),
-			Button("Avon", "@avon"),
-			Button("Falias", "@falias"),
-			Button("Another World", "@a_world"),
-			Button("Never Mind", "@end")
+		Msg(c, "Where would you like to go?",
+			Button("Never Mind", "@nvm"),
+			List("Categories", 10, "@nvm",
+				Button("Events / Customized", "@custom"),
+				Button("Uladh", "@uladh"),
+				Button("Iria", "@iria"),
+				Button("Another World", "@a_world"),
+				Button("Others", "@others")
+			)
 		);
+		var category = Select(c);
 		
-		var r = Select(c);
-		switch(r)
+		if(category == "@nvm")
+		{
+			Close(c, "Come back any time!");
+			End();
+		}
+		
+		var list = List("Locations", 10, "@back");
+		
+		switch(category)
 		{
 			case "@custom":
 			{
-				Msg(c,
-					"What custom location do you want to go to?",
-					Button("Nekojima", "@neko"),
-					Button("The Moon", "@moon"),
-					Button("Soul Stream", "@soul"),
-					Button("Back", "@startingpoint")
-				);
-				
-				r = Select(c);
-				if(r == "@startingpoint")
-					goto L_Selection;
-					
-				switch(r)
-				{
-					case "@neko":
-						c.Warp(600, 93757, 88234);
-						Msg(c, "You will be teleported to Nekojima soon.", Button("Okay", "@end"));
-						End();
-					case "@moon":
-						c.Warp(1003, 7058, 6724);
-						Msg(c, "You will be teleported to the moon soon.", Button("Okay", "@end"));
-						End();
-					case "@soul":
-						c.Warp(1000, 6368, 7150);
-						Msg(c, "You will be teleported to the soul stream soon.", Button("Okay", "@end"));
-						End();
-				}
-				
-				break;
+				list.Add(Button("Nekojima", "@neko"));
+				list.Add(Button("The Moon", "@moon"));
+				list.Add(Button("Soul Stream", "@soul"));
 			}
-			
+			break;
 			case "@uladh":
 			{
-				Msg(c,
-					"What location in Uladh do you want to go to?",
-					Button("Tir Chonaill", "@tir"), 
-					Button("Dunbarton", "@dun"),
-					Button("Bangor", "@bangor"), 
-					Button("Emain Macha", "@emain"), 
-					Button("Taillteann", "@tail"), 
-					Button("Tara", "@tara"), 
-					Button("Port Cobh", "@cobh"), 
-					Button("Ceo Island", "@ceo"), 
-					Button("Back", "@startingpoint")
-				);
-				
-				r = Select(c);
-				if(r == "@startingpoint")
-					goto L_Selection;
-					
-				switch(r)
-				{
-					case "@tir":
-						c.Warp(1, 12991, 38549);
-						Msg(c, "You will be teleported to Tir Chonaill soon.", Button("Okay", "@end"));
-						End();
-					case "@dun":
-						c.Warp(14, 38001, 38802);
-						Msg(c, "You will be teleported to Dunbarton soon.", Button("Okay", "@end"));
-						End();
-					case "@bangor":
-						c.Warp(31, 12904, 12200);
-						Msg(c, "You will be teleported to Bangor soon.", Button("Okay", "@end"));
-						End();
-					case "@emain":
-						c.Warp(52, 39818, 41621);
-						Msg(c, "You will be teleported to Emain Macha soon.", Button("Okay", "@end"));
-						End();
-					case "@tail":
-						c.Warp(300, 212749, 192720);
-						Msg(c, "You will be teleported to Taillteann soon.", Button("Okay", "@end"));
-						End();
-					case "@tara":
-						c.Warp(401, 99793, 91209);
-						Msg(c, "You will be teleported to Tara soon.", Button("Okay", "@end"));
-						End();
-					case "@cobh":
-						c.Warp(23, 28559, 37693);
-						Msg(c, "You will be teleported to Port Cobh soon.", Button("Okay", "@end"));
-						End();
-					case "@ceo":
-						c.Warp(56, 8743, 9299);
-						Msg(c, "You will be teleported to Ceo Island soon.", Button("Okay", "@end"));
-						End();
-				}
-				
-				break;
+				list.Add(Button("Tir Chonaill", "@tir"));
+				list.Add(Button("Dunbarton", "@dun"));
+				list.Add(Button("Bangor", "@bangor"));
+				list.Add(Button("Emain Macha", "@emain"));
+				list.Add(Button("Taillteann", "@tail"));
+				list.Add(Button("Tara", "@tara"));
+				list.Add(Button("Port Cobh", "@cobh"));
+				list.Add(Button("Ceo Island", "@ceo"));
 			}
-			
+			break;
 			case "@iria":
 			{
-				Msg(c,
-					"What location in Iria do you want to go to?",
-					Button("Quilla Base Camp", "@quilla"),
-					Button("Filia", "@filia"),
-					Button("Vales", "@vales"),
-					Button("Cor", "@cor"),
-					Button("Calida", "@calida"),
-					Button("Back", "@startingpoint")
-				);
-				
-				r = Select(c);
-				if(r == "@startingpoint")
-					goto L_Selection;
-					
-				switch(r)
-				{
-					case "@quilla":
-						c.Warp(3001, 166562, 168930);
-						Msg(c, "You will be teleported to Quilla Base Camp soon.", Button("Okay", "@end"));
-						End();
-					case "@filia":
-						c.Warp(3100, 373654, 424901);
-						Msg(c, "You will be teleported to Filia soon.", Button("Okay", "@end"));
-						End();
-					case "@vales":
-						c.Warp(3200, 289556, 211936);
-						Msg(c, "You will be teleported to Vales soon.", Button("Okay", "@end"));
-						End();
-					case "@cor":
-						c.Warp(3300, 254233, 186929);
-						Msg(c, "You will be teleported to Cor soon.", Button("Okay", "@end"));
-						End();
-					case "@calida":
-						c.Warp(3400, 328825, 176094);
-						Msg(c, "You will be teleported to Calida Lake soon.", Button("Okay", "@end"));
-						End();
-				}
-				
-				break;
+				list.Add(Button("Quilla Base Camp", "@quilla"));
+				list.Add(Button("Filia", "@filia"));
+				list.Add(Button("Vales", "@vales"));
+				list.Add(Button("Cor", "@cor"));
+				list.Add(Button("Calida", "@calida"));
 			}
-			
+			break;
 			case "@a_world":
 			{
-				Msg(c,
-					"What location in Another World do you want to go to?",
-					Button("Crossroads", "@cross"),
-					Button("Bangor (A)", "@bangor_a"),
-					Button("Gairech Hills (A)", "@gairech_a"),
-					Button("Tir Chonaill (A)", "@tir_a"),
-					Button("Back", "@startingpoint")
-				);
-				
-				r = Select(c);
-				if(r == "@startingpoint")
-					goto L_Selection;
-					
-				switch(r)
-				{
-					case "@cross":
-						c.Warp(51, 10410, 10371);
-						Msg(c, "You will be teleported to Crossroads soon.", Button("Okay", "@end"));
-						End();
-					case "@tir_a":
-						c.Warp(35, 12801, 38380);
-						Msg(c, "You will be teleported to Tir Chonaill (A) soon.", Button("Okay", "@end"));
-						End();
-					case "@bangor_a":
-						c.Warp(84, 12888, 7986);
-						Msg(c, "You will be teleported to Bangor (A) soon.", Button("Okay", "@end"));
-						End();
-					case "@gairech_a":
-						c.Warp(83, 38405, 47366);
-						Msg(c, "You will be teleported to Gairech Hills (A) soon.", Button("Okay", "@end"));
-						End();
-				}
-				
-				break;
+				list.Add(Button("Crossroads", "@cross"));
+				list.Add(Button("Bangor (A)", "@bangor_a"));
+				list.Add(Button("Gairech Hills (A)", "@gairech_a"));
+				list.Add(Button("Tir Chonaill (A)", "@tir_a"));
 			}
-			
-			case "@belvast":
+			break;
+			case "@others":
 			{
-				c.Warp(4005, 63373, 26475);
-				Msg(c, "You will be teleported to Belvast soon.", Button("Okay", "@end"));
-				End();
+				list.Add(Button("Belvast", "@belvast"));
+				list.Add(Button("Avon", "@avon"));
+				list.Add(Button("Falias", "@falias"));
 			}
-
-			case "@avon":
-			{
-				c.Warp(501, 64195, 63211);
-				Msg(c, "You will be teleported to Avon soon.", Button("Okay", "@end"));
-				End();
-			}
-
-			case "@falias":
-			{
-				c.Warp(500, 11839, 23832);
-				Msg(c, "You will be teleported to Falias soon.", Button("Okay", "@end"));
-				End();
-			}
+			break;
 		}
+		
+		Msg(c, "What location would you like to go to?", list);
+		var location = Select(c);
+		
+		if(location == "@back")
+			goto L_Selection;
+		
+		SubTalk(Warp(c, location));
+	}
+	
+	private IEnumerable Warp(WorldClient c, string location)
+	{
+		uint region = 0, x = 0, y = 0;
+		
+		switch(location)
+		{
+			case "@neko": region = 600; x = 93757; y = 88234; break;
+			case "@moon": region = 1003; x = 7058; y = 6724; break;
+			case "@soul": region = 1000; x = 6368; y = 7150; break;
+				
+			case "@tir": region = 1; x = 12991; y = 38549; break;
+			case "@dun": region = 14; x = 38001; y = 38802; break;
+			case "@bangor": region = 31; x = 12904; y = 12200; break;
+			case "@emain": region = 52; x = 39818; y = 41621; break;
+			case "@tail": region = 300; x = 212749; y = 192720; break;
+			case "@tara": region = 401; x = 99793; y = 91209; break;
+			case "@cobh": region = 23; x = 28559; y = 37693; break;
+			case "@ceo": region = 56; x = 8743; y = 9299; break;
+				
+			case "@quilla": region = 3001; x = 166562; y = 168930; break;
+			case "@filia": region = 3100; x = 373654; y = 424901; break;
+			case "@vales": region = 3200; x = 289556; y = 211936; break;
+			case "@cor": region = 3300; x = 254233; y = 186929; break;
+			case "@calida": region = 3400; x = 328825; y = 176094; break;
+				
+			case "@cross": region = 51; x = 10410; y = 10371; break;
+			case "@tir_a": region = 35; x = 12801; y = 38380; break;
+			case "@bangor_a": region = 84; x = 12888; y = 7986; break;
+			case "@gairech_a": region = 83; x = 38405; y = 47366; break;
+			
+			case "@belvast": region = 4005; x = 63373; y = 26475; break;
+			case "@avon": region = 501; x = 64195; y = 63211; break;
+			case "@falias": region = 500; x = 11839; y = 23832; break;
+			
+			// Unknown location, just cancel.
+			default: Close(c); Stop(); break;
+		}
+		
+		Msg(c, "You will be teleported now, see you on the other side!", Button("Okay"));
+		var r = Select(c);
+		
+		c.Warp(region, x, y);
+		
+		Close(c);
 	}
 }
 

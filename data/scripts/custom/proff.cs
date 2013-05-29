@@ -34,7 +34,7 @@ public class ProffScript : NPCScript
 	
 	public override IEnumerable OnTalk(WorldClient c)
 	{
-		Msg(c, Options.FaceAndName,
+		Intro(c,
 			"A handsome young man stands before you. He has an air of intelligence and sophistication about him.",
 			"His clear blue eyes are focused intently on the bottles in his hands, constantly pouring one into the other.",
 			"He glances at you as you approach."
@@ -61,11 +61,9 @@ public class ProffScript : NPCScript
 			
 			case "@aboutcmd":
 			{
-				Msg(c,
-					"Commands are special chat messages that let you interact with the server. Some, like the \"where\" command, give you information. Others actually affect the behavior of the server.",
-					"<p/>You can execute a command by typing a '" + WorldConf.CommandPrefix + "' followed by the command name, and any arguments into the general chat, and pressing enter.",
-					"<p/>For example, to execute a \"where\" command on this server, you'd enter the following into General Chat:", "", WorldConf.CommandPrefix + "where"
-				);
+				Msg(c, "Commands are special chat messages that let you interact with the server. Some, like the \"where\" command, give you information. Others actually affect the behavior of the server.");
+				Msg(c, "You can execute a command by typing a '" + WorldConf.CommandPrefix + "' followed by the command name, and any arguments into the general chat, and pressing enter.");
+				Msg(c, "For example, to execute a \"where\" command on this server, you'd enter the following into General Chat:<br/><br/>" + WorldConf.CommandPrefix + "where");
 				Msg(c, "But remember, <username/>... With great power comes great responsibility. " + ((c.Account.Authority > 0) ? "You've been given some extra powers, so " : "Should you ever get extra powers, ") + "use them wisely. Ranks can be removed as easily as they're given.");
 				goto L_Start;
 			}

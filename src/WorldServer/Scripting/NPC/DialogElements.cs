@@ -302,4 +302,29 @@ namespace Aura.World.Scripting
 			sb.AppendFormat("<face name='{0}'/>", this.Expression);
 		}
 	}
+
+	/// <summary>
+	/// Plays a movie in a box in the center of the screen.
+	/// Files are taken from movie/.
+	/// </summary>
+	public class DialogMovie : DialogElement
+	{
+		public string File { get; set; }
+		public uint Width { get; set; }
+		public uint Height { get; set; }
+		public bool Loop { get; set; }
+
+		public DialogMovie(string file, uint width, uint height, bool loop = true)
+		{
+			this.File = file;
+			this.Width = width;
+			this.Height = height;
+			this.Loop = loop;
+		}
+
+		public override void Render(ref StringBuilder sb)
+		{
+			sb.AppendFormat("<movie name='{0}' width='{1}' height='{2}' loop='{3}' />", this.File, this.Width, this.Height, this.Loop);
+		}
+	}
 }

@@ -93,11 +93,17 @@ public class RescueResidentQuest : QuestScript
 					n.Msg(c, "Since the dungeon is a dangerous place to be in, I'll teach you a skill that will help you in an emergency situation.<br/>It's called the Smash skill. If you use it, you can knock down a monster with a single blow!<br/>It is also highly effective when you sneak up on a target and deliver the blow without warning.");
 					n.Msg(c, "Against monsters that are using the Defense skill,<br/>Smash will be the only way to penetrate that skill and deliver a killer blow.");
 					n.Msg(c, "However... looking at the way you're holding your sword, I'm not sure if you are up to the task.<br/>Let me test your skills first. Do you see those brown foxes wandering in front of me?<br/>They're quite a nuisance, praying on those roosters in town.<br/>I want you to go and hunt 5 Young Brown Foxes right now.");
-					n.Msg(c, "Foxes use the Defense Skill a lot, and as I told you before, regular attacks do not work against defending targets.<br/>That's then the Smash skill comes in handy.<br/><br/>Watch how I do it, and try picking up the important parts so you can use it too.<br/>You don't need to overstrain yourself by going for the Brown Foxes. Young Brown Foxes will do just fine.");
+					n.Msg(c, "Foxes use the Defense Skill a lot, and as I told you before, regular attacks do not work against defending targets.<br/>That's then the Smash skill comes in handy.<br/><br/>Watch how I do it, and try picking up the important parts so you can use it too.<br/>You don't need to overstrain yourself by going for the Brown Foxes. Young Brown Foxes will do just fine.", n.Movie("skillbar_guide_us.wmv", 500, 300), n.Button("Continue"));
+					var r = n.Select(c);
+					n.Close(c);
 
-					// cutscene
+					var scene = new MabiCutscene(c.Character, "tuto_smash");
+					scene.AddActor("me", c.Character);
+					scene.AddActor("#trefor", n.NPC);
+					scene.AddActor("#brownfox", c.Character);
+					scene.Send(c);
 					
-					Break();
+					Stop();
 				}
 				break;
 				case "talk_trefor2":

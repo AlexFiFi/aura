@@ -66,7 +66,7 @@ namespace Aura.World.World
 			this.AddCommand("set_inventory", "/c [/p:<pocket>]", Authority.GameMaster, Command_set_inventory);
 
 			// Aliases
-			this.AddAlias("reloadscripts", "reloadnpcs");
+			this.AddAlias("reloadscripts", "reloadnpcs", "rs");
 			this.AddAlias("item", "drop");
 			this.AddAlias("iteminfo", "ii");
 			this.AddAlias("raceinfo", "ri");

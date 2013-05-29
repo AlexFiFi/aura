@@ -377,6 +377,11 @@ namespace Aura.World.Scripting
 			return new DialogFace(name);
 		}
 
+		public DialogMovie Movie(string file, uint width, uint height, bool loop = true)
+		{
+			return new DialogMovie(file, width, height, loop);
+		}
+
 		// ------------------------------------------------------------------
 
 		protected void SendScript(WorldClient client, DialogElement de)

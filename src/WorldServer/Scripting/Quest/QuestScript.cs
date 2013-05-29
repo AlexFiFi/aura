@@ -2,6 +2,7 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.Linq;
 using Aura.Data;
 using Aura.Shared.Util;
 using Aura.World.Player;
@@ -234,6 +235,15 @@ namespace Aura.World.Scripting
 
 		public void AddObjective(string ident, string description, bool unlocked, uint region, uint x, uint y, QuestObjectiveInfo info)
 		{
+			foreach (string o in this.Info.Objectives.Keys)
+			{
+				if (o == ident)
+				{
+					Logger.Warning("Multiple objectives with the same name ({1}) found in quest '{0}'. All but the first one will be ignored.", this.Id, ident);
+					return;
+				}
+			}
+
 			info.Description = description;
 			info.Unlocked = unlocked;
 

@@ -115,6 +115,8 @@ namespace Aura.World.Scripting
 
 		private void LoadItemScripts()
 		{
+			_itemScripts.Clear();
+
 			Logger.Info("Loading item scripts...");
 
 			var tmpPath = Path.Combine(WorldConf.ScriptPath, "cache", "item", "inline.generated.cs");
@@ -177,6 +179,11 @@ namespace Aura.World.Scripting
 							_itemScripts[entry.Id] = iscr;
 						}
 					}
+
+					// Reset, to avoid warning on reload.
+					if (defaulting)
+						entry.OnUse = string.Empty;
+
 					continue;
 				}
 
@@ -325,8 +332,8 @@ namespace Aura.World.Scripting
 						if (MabiData.QuestDb.Entries.ContainsKey(script.Info.Id))
 							Logger.Warning("Double quest id '{0}', overwriting from '{1}'.", script.Info.Id, cleanScriptPath);
 
-						MabiData.QuestDb.Entries[script.Info.Id] = script.Info;
-						_questScripts.Add(script.Id, script);
+						MabiData.QuestDb.Entries[script.Id] = script.Info;
+						_questScripts[script.Id] = script;
 					}
 					else if (scriptObj is BaseScript)
 					{
