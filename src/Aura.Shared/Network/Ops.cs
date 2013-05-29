@@ -11,12 +11,12 @@ namespace Aura.Shared.Network
 		// Version specifies the "packet version", based on Generation,
 		// Season, and Sub-Season. Not setting it correclty will usually
 		// result in characters not moving or crashes.
-		// NA:      170402
+		// NA:      170403
 		// KR:      180400
 		// KR test: 180300 ?
 		// TW:      170300
 		// EU:      140400
-		public const uint Version = 170402;
+		public const uint Version = 170403;
 
 		// In a few cases Version is not enough to identify changes in the
 		// packets, so set this as well, just in case.

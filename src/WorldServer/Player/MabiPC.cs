@@ -511,6 +511,17 @@ namespace Aura.World.Player
 				packet.PutInt(0);
 			}
 
+			// ?
+			// --------------------------------------------------------------
+			if (Op.Version >= 170403 && Op.Region == MabiRegion.NA)
+			{
+				packet.PutInt(0);
+				packet.PutLong(21474836485000);
+				packet.PutLong(5000);
+				packet.PutString("");
+				packet.PutByte(0);
+			}
+
 			// 
 			// --------------------------------------------------------------
 			packet.PutByte(0);					 // IsGhost
