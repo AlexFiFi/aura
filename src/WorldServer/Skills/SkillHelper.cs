@@ -33,7 +33,10 @@ namespace Aura.World.Skills
 		/// <param name="amount"></param>
 		public static void IncStack(MabiCreature creature, MabiSkill skill, byte amount = 1)
 		{
-			creature.ActiveSkillStacks = (byte)Math.Min(creature.ActiveSkillStacks + amount, skill.RankInfo.StackMax);
+			if (creature.ActiveSkillStacks + amount > skill.RankInfo.StackMax)
+				creature.ActiveSkillStacks = skill.RankInfo.StackMax;
+			else
+				creature.ActiveSkillStacks += amount;
 			creature.Client.SendSkillStackSet(creature, skill.Id, creature.ActiveSkillStacks);
 		}
 
@@ -95,7 +98,7 @@ namespace Aura.World.Skills
 		/// </summary>
 		public static ulong GetAreaTargetID(uint region, uint x, uint y)
 		{
-			return  0x3000000000000000 + ((ulong)region << 32) + ((x / 20) << 16)+ (y / 20);
+			return 0x3000000000000000 + ((ulong)region << 32) + ((x / 20) << 16) + (y / 20);
 		}
 	}
 }

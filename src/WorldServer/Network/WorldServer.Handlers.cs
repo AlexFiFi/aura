@@ -1645,7 +1645,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			if (creature.ActiveSkillId != 0)
+			if (creature.ActiveSkillId != 0 && creature.ActiveSkillId != skill.Id)
 			{
 				SkillManager.GetHandler(creature.ActiveSkillId).Cancel(creature, creature.GetSkill(creature.ActiveSkillId));
 			}
