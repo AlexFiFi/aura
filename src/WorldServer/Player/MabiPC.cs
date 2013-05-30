@@ -516,8 +516,8 @@ namespace Aura.World.Player
 			if (Op.Version >= 170403 && Op.Region == MabiRegion.NA)
 			{
 				packet.PutInt(0);
-				packet.PutLong(21474836485000);
-				packet.PutLong(5000);
+				packet.PutLong(0);
+				packet.PutLong(0);
 				packet.PutString("");
 				packet.PutByte(0);
 			}
