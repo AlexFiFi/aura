@@ -72,8 +72,7 @@ namespace Aura.World.Skills
 			this.GetThunderChain(attacker, itarget, targets, ((byte)skill.Rank >= (byte)SkillRank.R1 ? 4 : 1) + (charges - 1) * 2);
 
 			var pos = itarget.GetPosition();
-			var cloud = new MabiProp(itarget.Region, MabiData.RegionDb.GetAreaId(itarget.Region, pos.X, pos.Y));
-			cloud.Info.Class = 280;
+			var cloud = new MabiProp(280, itarget.Region, pos.X, pos.Y, 0);
 			WorldManager.Instance.AddProp(cloud);
 
 			var lbPacket = new MabiPacket(Op.Effect, Id.Broadcast).PutInt(Effect.Lightningbolt).PutLong(attacker.Id).PutInt((uint)targets.Count);
@@ -172,7 +171,7 @@ namespace Aura.World.Skills
 				WorldManager.Instance.Broadcast(lbPacket, SendTargets.Range, attacker);
 			}
 
-			for (int i = 1; i < stack; i++ )
+			for (int i = 1; i < stack; i++)
 			{
 				HitWithThunderbolt(attacker, skill, targets, cloud);
 				System.Threading.Thread.Sleep(500);

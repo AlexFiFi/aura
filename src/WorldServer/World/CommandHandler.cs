@@ -475,11 +475,7 @@ namespace Aura.World.World
 			var pos = creature.GetPosition();
 			var area = MabiData.RegionDb.GetAreaId(creature.Region, pos.X, pos.Y);
 
-			var prop = new MabiProp(creature.Region, area);
-			prop.Info.Class = propClass;
-			prop.Info.X = pos.X;
-			prop.Info.Y = pos.Y;
-			prop.Info.Direction = creature.Direction;
+			var prop = new MabiProp(propClass, creature.Region, pos.X, pos.Y, creature.Direction);
 			WorldManager.Instance.AddProp(prop);
 
 			return CommandResult.Okay;

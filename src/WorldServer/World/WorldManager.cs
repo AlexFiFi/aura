@@ -1428,15 +1428,7 @@ namespace Aura.World.World
 				this.Broadcast(PacketCreator.GuildMembershipChanged(g, m, (byte)GuildMemberRank.SeniorMember), SendTargets.Range, m);
 			}
 
-			var p = new MabiProp(g.Region, g.Area);
-			p.Info.Class = g.StoneClass;
-			p.Info.Direction = g.Rotation;
-			p.Info.Region = g.Region;
-			p.Info.X = g.X;
-			p.Info.Y = g.Y;
-			p.Title = g.Name;
-			p.ExtraData = string.Format("<xml guildid=\"{0}\"/>", g.Id);
-
+			var p = new MabiProp("", g.Name, string.Format("<xml guildid=\"{0}\"/>", g.Id), g.StoneClass, g.Region, g.X, g.Y, g.Rotation);
 			WorldManager.Instance.AddProp(p);
 			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
 
@@ -1451,15 +1443,8 @@ namespace Aura.World.World
 
 			foreach (var guild in guilds)
 			{
-				var p = new MabiProp(guild.Region, guild.Area);
-				p.Info.Class = guild.StoneClass;
-				p.Info.Direction = guild.Rotation;
-				p.Info.Region = guild.Region;
-				p.Info.X = guild.X;
-				p.Info.Y = guild.Y;
-				p.Title = guild.Name;
-				p.ExtraData = string.Format("<xml guildid=\"{0}\" {1}/>", guild.Id,
-					guild.HasOption(GuildOptionFlags.Warp) ? "gh_warp=\"true\"" : "");
+				var extra = string.Format("<xml guildid=\"{0}\" {1}/>", guild.Id, guild.HasOption(GuildOptionFlags.Warp) ? "gh_warp=\"true\"" : "");
+				var p = new MabiProp("", guild.Name, extra, guild.StoneClass, guild.Region, guild.X, guild.Y, guild.Rotation);
 
 				WorldManager.Instance.AddProp(p);
 				WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));

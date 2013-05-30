@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Aura.Shared.Network;
 using Aura.World.World;
 using Aura.World.Network;
+using Aura.Data;
 
 namespace Aura.World.World
 {
@@ -35,41 +36,15 @@ namespace Aura.World.World
 
 	public class MabiProp : MabiEntity
 	{
-		public MabiPropInfo Info;
-		public string Title;
-
-		public string ExtraData = "";
-
 		private static ulong _propIndex = Aura.Shared.Const.Id.Props;
 
-		public MabiProp(uint region = 0, uint area = 0)
-		{
-			this.Title = "";
-			this.Region = region;
+		public MabiPropInfo Info;
 
-			this.Id = ++_propIndex;
-			this.Id += (ulong)region << 32;
-			this.Id += area << 16;
+		public string Name { get; set; }
+		public string Title { get; set; }
 
-			this.Info.Scale = 1f;
-			this.Info.Color1 =
-			this.Info.Color2 =
-			this.Info.Color3 =
-			this.Info.Color4 =
-			this.Info.Color5 =
-			this.Info.Color6 =
-			this.Info.Color7 =
-			this.Info.Color8 =
-			this.Info.Color9 = 0xFF808080;
-		}
-
-		public MabiProp(ulong id, uint region, uint x, uint y)
-		{
-			this.Id = id;
-			this.Region = region;
-			this.Info.X = x;
-			this.Info.Y = y;
-		}
+		public string State { get; set; }
+		public string ExtraData { get; set; }
 
 		public override EntityType EntityType
 		{
@@ -92,18 +67,69 @@ namespace Aura.World.World
 			get { return 160; }
 		}
 
+		private MabiProp()
+		{
+			this.Name = "";
+			this.Title = "";
+			this.State = "single";
+			this.ExtraData = "";
+
+			this.Info.Scale = 1f;
+			this.Info.Color1 =
+			this.Info.Color2 =
+			this.Info.Color3 =
+			this.Info.Color4 =
+			this.Info.Color5 =
+			this.Info.Color6 =
+			this.Info.Color7 =
+			this.Info.Color8 =
+			this.Info.Color9 = 0xFF808080;
+		}
+
+		public MabiProp(ulong id, uint region, uint x, uint y)
+			: this()
+		{
+			this.Id = id;
+			this.Region = region;
+			this.Info.X = x;
+			this.Info.Y = y;
+		}
+
+		public MabiProp(uint cls, uint region, uint x, uint y, float direction, float scale = 1f, float altitude = 0)
+			: this()
+		{
+			this.Info.Class = cls;
+			this.Info.Region = region;
+			this.Info.X = x;
+			this.Info.Y = y;
+			this.Info.Direction = direction;
+			this.Info.Scale = scale;
+
+			this.Id = ++_propIndex;
+			this.Id += (ulong)region << 32;
+			this.Id += MabiData.RegionDb.GetAreaId(region, x, y) << 16;
+		}
+
+		public MabiProp(string name, string title, string extra, uint cls, uint region, uint x, uint y, float direction, float scale = 1, float altitude = 0)
+			: this(cls, region, x, y, direction, scale, altitude)
+		{
+			this.Name = name;
+			this.Title = title;
+			this.ExtraData = extra;
+		}
+
 		public override void AddToPacket(MabiPacket packet)
 		{
 			packet.PutLong(this.Id);
 			packet.PutInt(this.Info.Class);
-			packet.PutString("");
+			packet.PutString(this.Name);
 			packet.PutString(this.Title);
 			packet.PutBin(this.Info);
-			packet.PutString("single");
+			packet.PutString(this.State);
 			packet.PutLong(0);
 
-			packet.PutByte(1);
-			packet.PutString(ExtraData);
+			packet.PutByte(true); // Extra data?
+			packet.PutString(this.ExtraData);
 
 			packet.PutInt(0);
 			packet.PutShort(0);

@@ -72,11 +72,7 @@ namespace Aura.World.Skills
 			}
 
 			var aPos = attacker.GetPosition();
-			var casterProp = new MabiProp(attacker.Region, MabiData.RegionDb.GetAreaId(attacker.Region, aPos.X, aPos.Y)); // 3
-			casterProp.Info.X = aPos.X;
-			casterProp.Info.Y = aPos.Y;
-			casterProp.Info.Class = 280;
-
+			var casterProp = new MabiProp(280, attacker.Region, aPos.X, aPos.Y, 0); // 3
 			WorldManager.Instance.AddProp(casterProp);
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, attacker.Id).PutInt(Effect.UseMagic).PutString("icespear").PutByte(1).PutLong(targetId).PutShort((ushort)skill.Id), SendTargets.Range, attacker);
@@ -149,10 +145,7 @@ namespace Aura.World.Skills
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, target.Id).PutInt(Effect.IcespearFreeze).PutByte(1).PutInt(0), SendTargets.Range, target); // Cancel freeze
 
 			var tPos = target.GetPosition();
-			var bombProp = new MabiProp(target.Region, MabiData.RegionDb.GetAreaId(target.Region, tPos.X, tPos.Y)); //4
-			bombProp.Info.X = tPos.X;
-			bombProp.Info.Y = tPos.Y;
-			bombProp.Info.Class = 280;
+			var bombProp = new MabiProp(280, target.Region, tPos.X, tPos.Y, 0); //4
 			WorldManager.Instance.AddProp(bombProp);
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, bombProp.Id).PutInts(Effect.IcespearBoom, target.Region, tPos.X, tPos.Y), SendTargets.Range, bombProp);
@@ -220,7 +213,7 @@ namespace Aura.World.Skills
 			targets = targets.FindAll((c) =>
 				{
 					var pos = c.GetPosition();
-					return !c.IsDead && c.IsAttackableBy(attacker) && (minX < pos.X && pos.X < maxX) && ( (m*pos.X + bL) < pos.Y && pos.Y < (m*pos.X + bH));
+					return !c.IsDead && c.IsAttackableBy(attacker) && (minX < pos.X && pos.X < maxX) && ((m * pos.X + bL) < pos.Y && pos.Y < (m * pos.X + bH));
 				});
 
 			if (!targets.Contains(target))

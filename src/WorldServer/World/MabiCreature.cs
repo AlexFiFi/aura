@@ -1283,12 +1283,8 @@ namespace Aura.World.World
 				((this is MabiPC) && (Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Player) != 0))
 			{
 				var pos = this.GetPosition();
-				var p = new MabiProp(this.Region, MabiData.RegionDb.GetAreaId(this.Region, pos.X, pos.Y));
+				var p = new MabiProp(50, this.Region, pos.X, pos.Y, this.Direction + 90);
 				p.DisappearTime = ((Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Permanent) != 0 ? DateTime.MaxValue : DateTime.Now.AddMinutes(2));
-				p.Info.Class = 50;
-				p.Info.Direction = this.Direction + 90; // Leave it to devCAT...
-				p.Info.X = pos.X;
-				p.Info.Y = pos.Y;
 
 				WorldManager.Instance.AddProp(p);
 			}

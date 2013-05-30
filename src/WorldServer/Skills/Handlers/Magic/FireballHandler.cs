@@ -77,11 +77,7 @@ namespace Aura.World.Skills
 			WorldManager.Instance.Broadcast(PacketCreator.TurnTo(attacker, target).PutByte(1), SendTargets.Range, attacker);
 
 			var pos = target.GetPosition();
-			var bomb = new MabiProp(target.Region, MabiData.RegionDb.GetAreaId(target.Region, pos.X, pos.Y));
-			bomb.Info.X = pos.X;
-			bomb.Info.Y = pos.Y;
-			bomb.Info.Scale = bomb.Info.Direction = 1f;
-			bomb.Info.Class = 280;
+			var bomb = new MabiProp(280, target.Region, pos.X, pos.Y, 1f);
 			WorldManager.Instance.AddProp(bomb);
 
 			var frompos = attacker.GetPosition();

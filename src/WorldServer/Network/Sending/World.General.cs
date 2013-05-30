@@ -48,5 +48,24 @@ namespace Aura.World.Network
 
 			wm.Broadcast(p, SendTargets.Range, creature);
 		}
+
+		public static void SendPropUpdate(this WorldManager wm, MabiProp prop)
+		{
+			var p = new MabiPacket(Op.PropUpdate, prop.Id);
+			p.PutString(prop.State);
+			p.PutLong(DateTime.Now);
+			p.PutByte(true);
+			p.PutString(prop.ExtraData);
+			p.PutFloat(prop.Info.Direction);
+			p.PutShort(0);
+
+			wm.BroadcastRegion(p, prop.Region);
+		}
+
+		public static void SendRegionNotice(this WorldManager wm, uint region, string format, params object[] args)
+		{
+			var p = PacketCreator.Notice(string.Format(format, args));
+			wm.BroadcastRegion(p, region);
+		}
 	}
 }
