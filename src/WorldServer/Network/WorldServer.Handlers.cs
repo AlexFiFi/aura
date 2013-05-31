@@ -2213,8 +2213,8 @@ namespace Aura.World.Network
 
 		private void HandleTouchProp(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var character = client.Creatures.FirstOrDefault(a => a.Id == packet.Id) as MabiPC;
+			if (character == null)
 				return;
 
 			byte success = 0;
@@ -2223,26 +2223,26 @@ namespace Aura.World.Network
 			var pb = WorldManager.Instance.GetPropBehavior(propId);
 			if (pb != null)
 			{
-				if (creature.Region == pb.Prop.Region && WorldManager.InRange(creature, (uint)pb.Prop.Info.X, (uint)pb.Prop.Info.Y, 1500))
+				if (character.Region == pb.Prop.Region && WorldManager.InRange(character, (uint)pb.Prop.Info.X, (uint)pb.Prop.Info.Y, 1500))
 				{
 					success = 1;
-					pb.Func(client, creature, pb.Prop);
+					pb.Func(client, character, pb.Prop);
 				}
 			}
 			else
 			{
 				// Dungeon test stuff
-				if (creature.Region == DGID1)
+				if (character.Region == DGID1)
 				{
-					var pos = creature.GetPosition();
+					var pos = character.GetPosition();
 					//client.Send(new MabiPacket(Op.WARP_ENTER, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
 					//
 					//
-					WorldManager.Instance.CreatureLeaveRegion(creature);
-					client.Send(new MabiPacket(Op.CharacterLock, creature.Id).PutInts(0xEFFFFFFE, 0));
+					WorldManager.Instance.CreatureLeaveRegion(character);
+					client.Send(new MabiPacket(Op.CharacterLock, character.Id).PutInts(0xEFFFFFFE, 0));
 
-					creature.SetLocation(DGID2, 5992, 5614);
-					client.SendEnterRegionPermission(creature);
+					character.SetLocation(DGID2, 5992, 5614);
+					client.SendEnterRegionPermission(character);
 
 					success = 1;
 				}
@@ -2252,30 +2252,30 @@ namespace Aura.World.Network
 				}
 			}
 
-			var p = new MabiPacket(Op.TouchPropR, creature.Id);
+			var p = new MabiPacket(Op.TouchPropR, character.Id);
 			p.PutByte(success);
 			client.Send(p);
 		}
 
 		public void HandleHitProp(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || creature.IsDead)
+			var character = client.Creatures.FirstOrDefault(a => a.Id == packet.Id) as MabiPC;
+			if (character == null || character.IsDead)
 				return;
 
 			var propId = packet.GetLong();
 
 			// Hit prop animation
-			var pos = creature.GetPosition();
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.HittingProp, creature.Id).PutLong(propId).PutInt(2000).PutFloat(pos.X).PutFloat(pos.Y), SendTargets.Region, creature);
+			var pos = character.GetPosition();
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.HittingProp, character.Id).PutLong(propId).PutInt(2000).PutFloat(pos.X).PutFloat(pos.Y), SendTargets.Region, character);
 
 			// Check for behavior and run it.
 			var pb = WorldManager.Instance.GetPropBehavior(propId);
 			if (pb != null)
 			{
-				if (creature.Region == pb.Prop.Region && WorldManager.InRange(creature, (uint)pb.Prop.Info.X, (uint)pb.Prop.Info.Y, 1500))
+				if (character.Region == pb.Prop.Region && WorldManager.InRange(character, (uint)pb.Prop.Info.X, (uint)pb.Prop.Info.Y, 1500))
 				{
-					pb.Func(client, creature, pb.Prop);
+					pb.Func(client, character, pb.Prop);
 				}
 			}
 			else
@@ -2284,7 +2284,7 @@ namespace Aura.World.Network
 			}
 
 			// Send success in any case, just like hit ani.
-			client.Send(new MabiPacket(Op.HitPropR, creature.Id).PutByte(1));
+			client.Send(new MabiPacket(Op.HitPropR, character.Id).PutByte(1));
 		}
 
 		private void HandleMove(WorldClient client, MabiPacket packet)

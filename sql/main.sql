@@ -220,7 +220,7 @@ INSERT INTO `items` (`characterId`, `itemID`, `class`, `pocketId`, `pos_x`, `pos
 (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0, '2012-12-23 00:00:00', '');
 
 CREATE TABLE IF NOT EXISTS `keywords` (
-  `keywordId` tinyint(3) unsigned NOT NULL,
+  `keywordId` smallint(5) unsigned NOT NULL,
   `characterId` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`keywordId`,`characterId`),
   KEY `keywords_ibfk_1` (`characterId`)

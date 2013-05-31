@@ -193,9 +193,11 @@ namespace Aura.Shared.Network
 		/// </summary>
 		/// <param name="op"></param>
 		/// <param name="handler"></param>
-		protected void RegisterPacketHandler(uint op, PacketHandlerFunc handler)
+		public void RegisterPacketHandler(uint op, PacketHandlerFunc handler)
 		{
-			_handlers.Add(op, handler);
+			if (_handlers.ContainsKey(op))
+				Logger.Info("Packet handler '{0:X8}' is being overwritten.", op);
+			_handlers[op] = handler;
 		}
 
 		/// <summary>

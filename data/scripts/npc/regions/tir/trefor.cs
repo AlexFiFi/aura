@@ -10,7 +10,7 @@ using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
 
-public class DuncanScript : NPCScript
+public class TreforScript : NPCScript
 {
 	public override void OnLoad()
 	{

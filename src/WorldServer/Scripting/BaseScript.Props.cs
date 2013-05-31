@@ -40,7 +40,7 @@ namespace Aura.World.Scripting
 		/// Without "area" props are not hit or touchable.
 		/// </summary>
 		/// <returns>New prop</returns>
-		protected MabiProp SpawnProp(uint propClass, string region, uint x, uint y, float direction = 1f, float scale = 1f)
+		protected MabiProp SpawnProp(uint propClass, string region, uint x, uint y, float direction = 0, float scale = 1)
 		{
 			uint regionId = MabiData.MapDb.TryGetRegionId(region);
 			return this.SpawnProp(propClass, regionId, x, y, direction, scale);
@@ -51,11 +51,22 @@ namespace Aura.World.Scripting
 		/// Without "area" props are not hit or touchable.
 		/// </summary>
 		/// <returns>New prop</returns>
-		protected MabiProp SpawnProp(uint propClass, uint region, uint x, uint y, float direction = 1f, float scale = 1f)
+		protected MabiProp SpawnProp(uint propClass, uint region, uint x, uint y, float direction = 0, float scale = 1)
 		{
 			var prop = new MabiProp(propClass, region, x, y, direction, scale);
 
 			WorldManager.Instance.AddProp(prop);
+
+			return prop;
+		}
+
+		protected MabiProp SpawnProp(ulong id, string name, string title, string extra, uint propClass, uint region, uint x, uint y, float direction, float scale, MabiPropFunc behavior)
+		{
+			var prop = new MabiProp(id, name, title, extra, propClass, region, x, y, direction, scale);
+
+			WorldManager.Instance.AddProp(prop);
+			if (behavior != null)
+				this.DefineProp(prop, behavior);
 
 			return prop;
 		}

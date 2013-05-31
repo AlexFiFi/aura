@@ -52,12 +52,7 @@ namespace Aura.World.Network
 		public static void SendPropUpdate(this WorldManager wm, MabiProp prop)
 		{
 			var p = new MabiPacket(Op.PropUpdate, prop.Id);
-			p.PutString(prop.State);
-			p.PutLong(DateTime.Now);
-			p.PutByte(true);
-			p.PutString(prop.ExtraData);
-			p.PutFloat(prop.Info.Direction);
-			p.PutShort(0);
+			prop.AddToUpdatePacket(p);
 
 			wm.BroadcastRegion(p, prop.Region);
 		}

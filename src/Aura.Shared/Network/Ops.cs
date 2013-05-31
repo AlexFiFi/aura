@@ -336,6 +336,9 @@ namespace Aura.Shared.Network
 		public readonly static uint SharpMind = 0xA41E;
 		public readonly static uint MoonGateRequest = 0xA428;
 		public readonly static uint MoonGateRequestR = 0xA429;
+		public readonly static uint MoonGateMap = 0xA42D;
+		public readonly static uint MoonGateUse = 0xA42E;
+		public readonly static uint MoonGateUseR = 0xA42F;
 		public readonly static uint ItemShopInfo = 0xA436;
 		public readonly static uint PartyWindowUpdate = 0xA43C;
 		public readonly static uint PartyTypeUpdate = 0xA44B;

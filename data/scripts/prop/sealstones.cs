@@ -352,7 +352,7 @@ public abstract class _SealStoneScript : BaseScript
 		SpawnProp(stone, OnHit);
 	}
 	
-	public void OnHit(WorldClient c, MabiCreature cr, MabiProp p)
+	public void OnHit(WorldClient c, MabiPC cr, MabiProp pr)
 	{
 		var character = cr as MabiPC;
 		
@@ -375,7 +375,7 @@ public abstract class _SealStoneScript : BaseScript
 			}
 			
 			// Fulfilling the requirements?
-			if(!Check(c, character, p))
+			if(!Check(c, character, pr))
 			{
 				c.SendNotice(_help);
 				return;
@@ -388,20 +388,20 @@ public abstract class _SealStoneScript : BaseScript
 			// Done
 			if(_hits == _required)
 			{
-				p.State = "state3";
-				p.ExtraData = string.Format("<xml breaker_id=\"{0}\" breaker_name=\"{1}\"/>", cr.Id, cr.Name);
+				pr.State = "state3";
+				pr.ExtraData = string.Format("<xml breaker_id=\"{0}\" breaker_name=\"{1}\"/>", cr.Id, cr.Name);
 				
 				OnBreak(character);
 				
-				WorldManager.Instance.SendPropUpdate(p);
+				WorldManager.Instance.SendPropUpdate(pr);
 				WorldManager.Instance.SendRegionNotice(cr.Region, "{0} successfully broke {1} apart.", cr.Name, _name);
 			}
 			// Cracks after half.
 			else if(_hits == Math.Floor(_required / 2f))
 			{
-				p.State = "state2";
+				pr.State = "state2";
 				
-				WorldManager.Instance.SendPropUpdate(p);
+				WorldManager.Instance.SendPropUpdate(pr);
 				WorldManager.Instance.SendRegionNotice(cr.Region, "{0} has started breaking {1} apart.", cr.Name, _name);
 			}
 		}

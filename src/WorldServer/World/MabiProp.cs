@@ -6,6 +6,9 @@ using Aura.Shared.Network;
 using Aura.World.World;
 using Aura.World.Network;
 using Aura.Data;
+using Aura.World.Player;
+using System;
+using Aura.Shared.Util;
 
 namespace Aura.World.World
 {
@@ -67,14 +70,41 @@ namespace Aura.World.World
 			get { return 160; }
 		}
 
-		private MabiProp()
+		public MabiProp(ulong id, uint region, uint x, uint y)
 		{
-			this.Name = "";
-			this.Title = "";
-			this.State = "single";
-			this.ExtraData = "";
+			this.Id = id;
+			this.Region = region;
+			this.Info.X = x;
+			this.Info.Y = y;
+		}
 
-			this.Info.Scale = 1f;
+		public MabiProp(uint cls, uint region, uint x, uint y, float direction, float scale = 1f, float altitude = 0)
+			: this("", "", "", cls, region, x, y, direction, scale, altitude)
+		{ }
+
+		public MabiProp(string name, string title, string extra, uint cls, uint region, uint x, uint y, float direction, float scale = 1, float altitude = 0)
+			: this(0, name, title, extra, cls, region, x, y, direction, scale, altitude)
+		{
+			this.Id = ++_propIndex;
+			this.Id += (ulong)region << 32;
+			this.Id += MabiData.RegionDb.GetAreaId(region, x, y) << 16;
+		}
+
+		public MabiProp(ulong id, string name, string title, string extra, uint cls, uint region, uint x, uint y, float direction, float scale = 1, float altitude = 0)
+		{
+			this.Id = id;
+
+			this.Name = name;
+			this.Title = title;
+			this.ExtraData = extra;
+
+			this.Info.Class = cls;
+			this.Info.Region = region;
+			this.Info.X = x;
+			this.Info.Y = y;
+			this.Info.Direction = direction;
+			this.Info.Scale = scale;
+
 			this.Info.Color1 =
 			this.Info.Color2 =
 			this.Info.Color3 =
@@ -86,57 +116,60 @@ namespace Aura.World.World
 			this.Info.Color9 = 0xFF808080;
 		}
 
-		public MabiProp(ulong id, uint region, uint x, uint y)
-			: this()
-		{
-			this.Id = id;
-			this.Region = region;
-			this.Info.X = x;
-			this.Info.Y = y;
-		}
-
-		public MabiProp(uint cls, uint region, uint x, uint y, float direction, float scale = 1f, float altitude = 0)
-			: this()
-		{
-			this.Info.Class = cls;
-			this.Info.Region = region;
-			this.Info.X = x;
-			this.Info.Y = y;
-			this.Info.Direction = direction;
-			this.Info.Scale = scale;
-
-			this.Id = ++_propIndex;
-			this.Id += (ulong)region << 32;
-			this.Id += MabiData.RegionDb.GetAreaId(region, x, y) << 16;
-		}
-
-		public MabiProp(string name, string title, string extra, uint cls, uint region, uint x, uint y, float direction, float scale = 1, float altitude = 0)
-			: this(cls, region, x, y, direction, scale, altitude)
-		{
-			this.Name = name;
-			this.Title = title;
-			this.ExtraData = extra;
-		}
-
 		public override void AddToPacket(MabiPacket packet)
 		{
-			packet.PutLong(this.Id);
-			packet.PutInt(this.Info.Class);
-			packet.PutString(this.Name);
-			packet.PutString(this.Title);
-			packet.PutBin(this.Info);
-			packet.PutString(this.State);
-			packet.PutLong(0);
+			// Client side props (A0 range, instead of A1) look a bit different.
+			if (this.Id >= Aura.Shared.Const.Id.Props)
+			{
+				packet.PutLong(this.Id);
+				packet.PutInt(this.Info.Class);
+				packet.PutString(this.Name);
+				packet.PutString(this.Title);
+				packet.PutBin(this.Info);
+				packet.PutString(this.State);
+				packet.PutLong(0);
 
-			packet.PutByte(true); // Extra data?
-			packet.PutString(this.ExtraData);
+				packet.PutByte(true); // Extra data?
+				packet.PutString(this.ExtraData);
 
-			packet.PutInt(0);
-			packet.PutShort(0);
+				packet.PutInt(0);
+				packet.PutShort(0);
+			}
+			else
+			{
+				packet.PutLong(this.Id);
+				packet.PutInt(this.Info.Class);
+				packet.PutString(this.State);
+				packet.PutLong(DateTime.Now);
+				packet.PutByte(false);
+				packet.PutFloat(this.Info.Direction);
+			}
+		}
+
+		public void AddToUpdatePacket(MabiPacket packet)
+		{
+			// Client side props (A0 range, instead of A1) look a bit different.
+			if (this.Id >= Aura.Shared.Const.Id.Props)
+			{
+				packet.PutString(this.State);
+				packet.PutLong(DateTime.Now);
+				packet.PutByte(true);
+				packet.PutString(this.ExtraData);
+				packet.PutFloat(this.Info.Direction);
+				packet.PutShort(0);
+			}
+			else
+			{
+				packet.PutString(this.State);
+				packet.PutLong(DateTime.Now);
+				packet.PutByte(false);
+				packet.PutFloat(this.Info.Direction);
+				packet.PutShort(0);
+			}
 		}
 	}
 
-	public delegate void MabiPropFunc(WorldClient client, MabiCreature creature, MabiProp prop);
+	public delegate void MabiPropFunc(WorldClient client, MabiPC character, MabiProp prop);
 
 	public class MabiPropBehavior
 	{
