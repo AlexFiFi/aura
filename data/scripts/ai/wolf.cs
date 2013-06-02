@@ -28,6 +28,8 @@ public class WolfAI : AIScript
 			SubAction(Aggro());
 		}
 
+		
+/*
 		var rndAction = rnd.NextDouble(); // 33% each of loading def, counter, or doing nothing
 		if (rndAction < .33)
 		{
@@ -39,7 +41,7 @@ public class WolfAI : AIScript
 			SubAction(Wait(GetBeats(rnd.Next(2000, 5000))));
 			SubAction(CancelSkill());
 		}
-
+*/
 		var clockwise = rnd.NextDouble() < .5;
 		for (int i = 0, t = rnd.Next(1, 5); i < t; i++)
 			SubAction(Circle(Creature.Target, clockwise, 600, true));

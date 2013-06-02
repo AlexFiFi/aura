@@ -332,20 +332,18 @@ namespace Aura.Login.Database
 					"INSERT INTO `characters`"
 					+ " (`characterId`, `server`, `type`, `accountId`, `name`, `race`, `skinColor`, `eyeType`, `eyeColor`, `mouthType`,"
 					+ " `status`, `height`, `fatness`, `upper`, `lower`, `region`, `x`, `y`, `direction`, `battleState`, `weaponSet`,"
-					+ " `life`, `injuries`, `lifeMax`, `mana`, `manaMax`, `stamina`, `staminaMax`, `food`, `level`, `totalLevel`,"
+					+ " `lifeDelta`, `injuries`, `lifeMax`, `manaDelta`, `manaMax`, `staminaDelta`, `staminaMax`, `food`, `level`, `totalLevel`,"
 					+ " `experience`, `age`, `strength`, `dexterity`, `intelligence`, `will`, `luck`, `abilityPoints`, `attackMin`, `attackMax`,"
 					+ " `wattackMin`, `wattackMax`, `critical`, `protect`, `defense`, `rate`,"
-					+ " `strBoost`, `dexBoost`, `intBoost`, `willBoost`, `luckBoost`,"
 					+ " `color1`, `color2`, `color3`,"
 					+ " `lastTown`, `lastDungeon`, `birthday`, `title`, `deletionTime`, `maxLevel`, `rebirthCount`, `jobId`) "
 
 					+ " VALUES"
 					+ " (@characterId, @server, @type, @accountId, @name, @race, @skinColor, @eyeType, @eyeColor, @mouthType,"
 					+ " @status, @height, @fatness, @upper, @lower, @region, @x, @y, @direction, @battleState, @weaponSet,"
-					+ " @life, @injuries, @lifeMax, @mana, @manaMax, @stamina, @staminaMax, @food, @level, @totalLevel,"
+					+ " @lifeDelta, @injuries, @lifeMax, @manaDelta, @manaMax, @staminaDelta, @staminaMax, @food, @level, @totalLevel,"
 					+ " @experience, @age, @strength, @dexterity, @intelligence, @will, @luck, @abilityPoints, @attackMin, @attackMax,"
 					+ " @wattackMin, @wattackMax, @critical, @protect, @defense, @rate,"
-					+ " @strBoost, @dexBoost, @intBoost, @willBoost, @luckBoost,"
 					+ " @color1, @color2, @color3,"
 					+ " @lastTown, @lastDungeon, @birthday, @title, @deletionTime, @maxLevel, @rebirthCount, @jobId) "
 				, conn);
@@ -375,12 +373,12 @@ namespace Aura.Login.Database
 				mc.Parameters.AddWithValue("@battleState", 0);
 				mc.Parameters.AddWithValue("@weaponSet", 0);
 
-				mc.Parameters.AddWithValue("@life", character.Life);
+				mc.Parameters.AddWithValue("@lifeDelta", 0);
 				mc.Parameters.AddWithValue("@injuries", 0);
 				mc.Parameters.AddWithValue("@lifeMax", character.Life);
-				mc.Parameters.AddWithValue("@mana", character.Mana);
+				mc.Parameters.AddWithValue("@manaDelta", 0);
 				mc.Parameters.AddWithValue("@manaMax", character.Mana);
-				mc.Parameters.AddWithValue("@stamina", character.Stamina);
+				mc.Parameters.AddWithValue("@staminaDelta", 0);
 				mc.Parameters.AddWithValue("@staminaMax", character.Stamina);
 				mc.Parameters.AddWithValue("@food", 0);
 				mc.Parameters.AddWithValue("@level", 1);
@@ -401,11 +399,6 @@ namespace Aura.Login.Database
 				mc.Parameters.AddWithValue("@protect", character.Protection);
 				mc.Parameters.AddWithValue("@defense", character.Defense);
 				mc.Parameters.AddWithValue("@rate", 0);
-				mc.Parameters.AddWithValue("@strBoost", 0);
-				mc.Parameters.AddWithValue("@dexBoost", 0);
-				mc.Parameters.AddWithValue("@intBoost", 0);
-				mc.Parameters.AddWithValue("@willBoost", 0);
-				mc.Parameters.AddWithValue("@luckBoost", 0);
 				mc.Parameters.AddWithValue("@lastTown", "");
 				mc.Parameters.AddWithValue("@lastDungeon", "");
 				mc.Parameters.AddWithValue("@birthday", DateTime.MinValue);
