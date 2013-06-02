@@ -421,13 +421,13 @@ namespace Aura.World.World
 			{
 				packet.PutFloat(this.Life);
 				packet.PutFloat(this.LifeInjured);
-				packet.PutFloat(this.LifeMaxBase);
+				packet.PutFloat(this.LifeMaxBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.LifeMaxMod));
 				packet.PutFloat(this.Mana);
-				packet.PutFloat(this.ManaMaxBase);
+				packet.PutFloat(this.ManaMaxBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.ManaMaxMod));
 				packet.PutFloat(this.Stamina);
-				packet.PutFloat(this.StaminaMaxBase);
+				packet.PutFloat(this.StaminaMaxBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.StaminaMaxMod));
 				packet.PutFloat(this.StaminaHunger);
 				packet.PutFloat(0.5f);
@@ -438,15 +438,15 @@ namespace Aura.World.World
 				packet.PutShort(0);
 				packet.PutLong(MabiData.ExpDb.CalculateRemaining(this.Level, this.Experience) * 1000);
 				packet.PutShort(Age);
-				packet.PutFloat(this.StrBase);
+				packet.PutFloat(this.StrBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.StrMod));
-				packet.PutFloat(this.DexBase);
+				packet.PutFloat(this.DexBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.DexMod));
-				packet.PutFloat(this.IntBase);
+				packet.PutFloat(this.IntBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.IntMod));
-				packet.PutFloat(this.WillBase);
+				packet.PutFloat(this.WillBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.WillMod));
-				packet.PutFloat(this.LuckBase);
+				packet.PutFloat(this.LuckBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.LuckMod));
 				packet.PutFloat(0);					 // LifeMaxByFood
 				packet.PutFloat(0);					 // ManaMaxByFood
@@ -486,9 +486,9 @@ namespace Aura.World.World
 				packet.PutFloat(0);			         // CriticalBase
 				packet.PutFloat(0);			         // CriticalMod
 				packet.PutFloat(0);			         // ProtectBase
-				packet.PutFloat(0);			         // ProtectMod
+				packet.PutFloat(this.StatMods.GetMod(Stat.ProtectMod));			         // ProtectMod
 				packet.PutShort(0);			         // DefenseBase
-				packet.PutShort(0);			         // DefenseMod
+				packet.PutShort((ushort)this.StatMods.GetMod(Stat.DefenseMod));			         // DefenseMod
 				packet.PutShort(0);			         // RateBase
 				packet.PutShort(0);			         // RateMod
 				packet.PutShort(0);			         // Rank1
@@ -501,8 +501,8 @@ namespace Aura.World.World
 				packet.PutShort(0);			         // WAttackMinBaseMod
 				packet.PutShort(0);			         // WAttackMaxBaseMod
 				packet.PutFloat(10);		         // CriticalBaseMod
-				packet.PutFloat(0);		             // ProtectBaseMod
-				packet.PutShort(0);		             // DefenseBaseMod
+				packet.PutFloat(this.ProtectionPassive * 100);		             // ProtectBaseMod
+				packet.PutShort((ushort)this.DefensePassive);		             // DefenseBaseMod
 				packet.PutShort(30);		         // RateBaseMod
 				packet.PutShort(8);			         // MeleeAttackMinBaseMod
 				packet.PutShort(18);		         // MeleeAttackMaxBaseMod
@@ -553,7 +553,7 @@ namespace Aura.World.World
 			else
 			{
 				packet.PutFloat(this.Life);
-				packet.PutFloat(this.LifeMaxBase);
+				packet.PutFloat(this.LifeMaxBaseTotal);
 				packet.PutFloat(this.StatMods.GetMod(Stat.LifeMaxMod));
 				packet.PutFloat(this.LifeInjured);
 

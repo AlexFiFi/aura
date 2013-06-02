@@ -1516,11 +1516,12 @@ namespace Aura.World.Network
 
 			// TODO: Check this, GetItemInPocket doesn't return the correct stuff.
 			creature.WeaponSet = set;
-			WorldManager.Instance.CreatureSwitchSet(creature);
 
 			creature.UpdateItemsFromPockets(Pocket.RightHand1);
 			creature.UpdateItemsFromPockets(Pocket.LeftHand1);
 			creature.UpdateItemsFromPockets(Pocket.Magazine1);
+
+			WorldManager.Instance.CreatureSwitchSet(creature);
 
 			var response = new MabiPacket(Op.SwitchSetR, creature.Id);
 			response.PutByte(1);
@@ -1645,7 +1646,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			if (creature.ActiveSkillId != 0 && creature.ActiveSkillId != skill.Id)
+			if (creature.ActiveSkillId != skill.Id && creature.ActiveSkillId != 0)
 			{
 				SkillManager.GetHandler(creature.ActiveSkillId).Cancel(creature, creature.GetSkill(creature.ActiveSkillId));
 			}
@@ -2729,6 +2730,8 @@ namespace Aura.World.Network
 				return;
 
 			creature.GiveSkill(skill.Id, skill.Rank + 1);
+
+			WorldManager.Instance.CreatureStatsUpdate(creature);
 		}
 
 		private void HandleUmbrellaJump(WorldClient client, MabiPacket packet)

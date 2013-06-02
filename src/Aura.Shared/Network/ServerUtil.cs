@@ -148,6 +148,8 @@ namespace Aura.Shared.Network
 					LoadDB(MabiData.SkillDb, dataPath + "/db/skills.txt", reload);
 
 					LoadDB(MabiData.TalentExpDb, dataPath + "/db/talent_exp.txt", reload);
+
+					LoadDB(MabiData.TalentRankDb, dataPath + "/db/talent_ranks.txt", reload, false);
 				}
 
 				if ((toLoad & DataLoad.Regions) != 0)

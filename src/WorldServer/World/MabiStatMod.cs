@@ -64,10 +64,7 @@ namespace Aura.World.World
 				var mod = this.Mods[stat].FirstOrDefault(a => a.Source == source && a.Id == id);
 
 				if (mod == null)
-				{
-					Logger.Debug("Tried to remove non-existing {0} stat mod, source '{1}', id '{2}'", stat, source, id);
 					return;
-				}
 
 				this.Mods[stat].Remove(mod);
 

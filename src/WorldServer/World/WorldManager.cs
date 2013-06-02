@@ -894,6 +894,8 @@ namespace Aura.World.World
 			p.PutByte(creature.WeaponSet);
 
 			this.Broadcast(p, SendTargets.Range, creature);
+
+			this.CreatureStatsUpdate(creature);
 		}
 
 		public void CreatureSitDown(MabiCreature creature)
@@ -950,6 +952,8 @@ namespace Aura.World.World
 			p.PutByte((byte)from);
 			p.PutByte(1);
 
+			this.CreatureStatsUpdate(creature);
+
 			this.Broadcast(p, SendTargets.Range, creature);
 		}
 
@@ -960,6 +964,8 @@ namespace Aura.World.World
 			p.PutByte(1);
 
 			this.Broadcast(p, SendTargets.Range, creature);
+
+			this.CreatureStatsUpdate(creature);
 		}
 
 		public void CreatureItemUpdate(object sender, ItemUpdateEventArgs ie)
@@ -1036,7 +1042,7 @@ namespace Aura.World.World
 					Stat.Stamina, Stat.Food, Stat.StaminaMax, Stat.StaminaMaxMod,
 					Stat.Str, Stat.Dex, Stat.Int, Stat.Luck, Stat.Will,
 					Stat.StrMod, Stat.DexMod, Stat.IntMod, Stat.LuckMod, Stat.WillMod,
-					Stat.Level, Stat.Experience, Stat.AbilityPoints
+					Stat.Level, Stat.Experience, Stat.AbilityPoints, Stat.DefenseBaseMod, Stat.DefenseMod, Stat.ProtectBaseMod, Stat.ProtectMod
 				)
 			);
 		}
@@ -1337,8 +1343,10 @@ namespace Aura.World.World
 							// Only give skill if char doesn't have it or rank is lower.
 							var skill = creature.GetSkill(id);
 							if (skill == null || skill.Rank < rank)
+							{
 								creature.GiveSkill(id, rank);
-
+								WorldManager.Instance.CreatureStatsUpdate(creature);
+							}
 							break;
 
 						default:
@@ -1581,7 +1589,7 @@ namespace Aura.World.World
 
 			creature.StatMods.Add(Stat.ProtectMod, 10, StatModSource.Title, 30038);
 			creature.StatMods.Add(Stat.DefenseMod, 10, StatModSource.Title, 30038);
-			creature.StatMods.Add(Stat.LifeMaxMod, creature.LifeMax * 10 - creature.LifeMaxBase, StatModSource.Title, 30038);
+			creature.StatMods.Add(Stat.LifeMaxMod, creature.LifeMax * 10 - creature.LifeMaxBaseTotal, StatModSource.Title, 30038);
 
 			creature.FullHeal();
 

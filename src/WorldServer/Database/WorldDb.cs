@@ -179,6 +179,7 @@ namespace Aura.World.Database
 			try
 			{
 				var character = new T();
+				float lifeDelta, manaDelta, stamDelta;
 
 				using (var reader = MabiDb.Instance.Query("SELECT * FROM characters WHERE characterId = " + id.ToString(), conn))
 				{
@@ -205,13 +206,13 @@ namespace Aura.World.Database
 					character.BattleState = reader.GetByte("battleState");
 					character.WeaponSet = reader.GetByte("weaponSet");
 					character.Injuries = reader.GetFloat("injuries");
-					character.LifeMaxBase = reader.GetFloat("lifeMax");
-					character.Life = reader.GetFloat("life");
-					character.ManaMaxBase = reader.GetFloat("manaMax");
-					character.Mana = reader.GetFloat("mana");
-					character.StaminaMaxBase = reader.GetFloat("staminaMax");
+					character.Life = (character.LifeMaxBase = reader.GetFloat("lifeMax"));
+					lifeDelta = reader.GetFloat("lifeDelta");
+					character.Mana = (character.ManaMaxBase = reader.GetFloat("manaMax"));
+					manaDelta = reader.GetFloat("manaDelta");
+					character.Stamina = (character.StaminaMaxBase = reader.GetFloat("staminaMax"));
 					character.Hunger = reader.GetFloat("food");
-					character.Stamina = reader.GetFloat("stamina");
+					stamDelta = reader.GetFloat("staminaDelta");
 					character.Level = reader.GetUInt16("level");
 					character.LevelTotal = reader.GetUInt32("totalLevel");
 					character.Experience = reader.GetUInt64("experience");
@@ -222,11 +223,6 @@ namespace Aura.World.Database
 					character.WillBase = reader.GetFloat("will");
 					character.LuckBase = reader.GetFloat("luck");
 					character.AbilityPoints = reader.GetUInt16("abilityPoints");
-					//character.StrMod = reader.GetFloat("strBoost");
-					//character.DexMod = reader.GetFloat("dexBoost");
-					//character.IntMod = reader.GetFloat("intBoost");
-					//character.WillMod = reader.GetFloat("willBoost");
-					//character.LuckMod = reader.GetFloat("luckBoost");
 					character.Title = reader.GetUInt16("title");
 					character.OptionTitle = reader.GetUInt16("optionTitle");
 					character.SelectedTalentTitle = (TalentTitle)reader.GetUInt16("talentTitle");
@@ -255,6 +251,10 @@ namespace Aura.World.Database
 				character.Shamalas.Add(new ShamalaTransformation(1, 1, ShamalaState.Available));
 				character.Shamalas.Add(new ShamalaTransformation(2, 1, ShamalaState.Available));
 				character.Shamalas.Add(new ShamalaTransformation(3, 1, ShamalaState.Available));
+
+				character.Life -= lifeDelta;
+				character.Mana -= manaDelta;
+				character.Stamina -= stamDelta;
 
 				return character;
 			}
@@ -349,8 +349,13 @@ namespace Aura.World.Database
 							skill.Info.Flag |= (ushort)SkillFlags.Rankable;
 						character.AddSkill(skill);
 
+						character.AddSkillBonuses(skill);
+
 						character.UpdateTalentExp(skill.Id, skill.Rank);
+
 					}
+
+					character.UpdateTalentStats();
 				}
 			}
 			finally
@@ -692,9 +697,9 @@ namespace Aura.World.Database
 					"UPDATE `characters` SET" +
 					" `race` = @race, `status` = @status, `height` = @height, `fatness` = @fatness, `upper` = @upper, `lower` = @lower," +
 					" `region` = @region, `x` = @x, `y` = @y, `direction` = @direction, `weaponSet` = @weaponSet, `title` = @title, `optionTitle` = @optionTitle," +
-					" `talentTitle` = @talentTitle, `grandmasterTalent` = @grandmasterTalent, `life` = @life, `injuries` = @injuries, `lifeMax` = @lifeMax," +
-					" `mana` = @mana, `manaMax` = @manaMax," +
-					" `stamina` = @stamina, `staminaMax` = @staminaMax, `food` = @food," +
+					" `talentTitle` = @talentTitle, `grandmasterTalent` = @grandmasterTalent, `lifeDelta` = @lifeDelta, `injuries` = @injuries, `lifeMax` = @lifeMax," +
+					" `manaDelta` = @manaDelta, `manaMax` = @manaMax," +
+					" `staminaDelta` = @staminaDelta, `staminaMax` = @staminaMax, `food` = @food," +
 					" `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age," +
 					" `color1` = @color1, `color2` = @color2, `color3` = @color3," +
 					" `strength` = @strength, `dexterity` = @dexterity, `intelligence` = @intelligence, `will` = @will, `luck` = @luck," +
@@ -715,12 +720,12 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@direction", character.Direction);
 				mc.Parameters.AddWithValue("@battleState", character.BattleState);
 				mc.Parameters.AddWithValue("@weaponSet", character.WeaponSet);
-				mc.Parameters.AddWithValue("@life", character.Life);
+				mc.Parameters.AddWithValue("@lifeDelta", character.LifeMax - character.Life);
 				mc.Parameters.AddWithValue("@injuries", character.Injuries);
 				mc.Parameters.AddWithValue("@lifeMax", character.LifeMaxBase);
-				mc.Parameters.AddWithValue("@mana", character.Mana);
+				mc.Parameters.AddWithValue("@manaDelta", character.ManaMax - character.Mana);
 				mc.Parameters.AddWithValue("@manaMax", character.ManaMaxBase);
-				mc.Parameters.AddWithValue("@stamina", character.Stamina);
+				mc.Parameters.AddWithValue("@staminaDelta", character.StaminaMax - character.Stamina);
 				mc.Parameters.AddWithValue("@staminaMax", character.StaminaMaxBase);
 				mc.Parameters.AddWithValue("@food", character.Hunger);
 				mc.Parameters.AddWithValue("@level", character.Level);

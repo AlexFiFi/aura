@@ -791,6 +791,8 @@ namespace Aura.World.World
 
 			creature.GiveSkill(skillId, rank, true);
 
+			WorldManager.Instance.CreatureStatsUpdate(creature);
+
 			return CommandResult.Okay;
 		}
 
@@ -1027,7 +1029,9 @@ namespace Aura.World.World
 				creature.GiveSkill((SkillConst)skill, SkillRank.R1, true);
 			}
 
-			WorldManager.Instance.Broadcast(PacketCreator.Notice(creature.Name + "'S POWER IS OVER 9000!", NoticeType.TopRed, 20000), SendTargets.All);
+			WorldManager.Instance.CreatureStatsUpdate(creature);
+
+			WorldManager.Instance.Broadcast(PacketCreator.Notice(creature.Name.ToUpper() + "'S POWER IS OVER NINE THOUSAAAAAAAAAAAND!!!!", NoticeType.TopRed, 20000), SendTargets.All);
 
 			return CommandResult.Okay;
 		}

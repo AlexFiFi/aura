@@ -18,11 +18,46 @@ namespace Aura.Data
 		public float StaminaCost, StaminaPrepare, StaminaWait, StaminaUse;
 		public float ManaCost, ManaPrepare, ManaWait, ManaUse;
 		public float Life, Mana, Stamina, Str, Int, Dex, Will, Luck;
+		public float LifeTotal, ManaTotal, StaminaTotal, StrTotal, IntTotal, DexTotal, WillTotal, LuckTotal;
 		public float Var1, Var2, Var3, Var4, Var5, Var6, Var7, Var8, Var9;
 	}
 
 	public class SkillRankDb : DatabaseCSV<SkillRankInfo>
 	{
+		public override int Load(string path, bool clear)
+		{
+			var res = base.Load(path, clear);
+			this.CalculateTotals();
+			return res;
+		}
+
+		protected void CalculateTotals()
+		{
+			var skills = this.Entries.Select(c => c.SkillId).Distinct().ToList();
+
+			foreach (var skillId in skills)
+			{
+				float lifeT = 0, manaT = 0, staminaT = 0, strT =0, intT = 0, dexT = 0, willT = 0, luckT = 0;
+
+				for (byte i = 0; i <= 18; i++) // Novice -> D3
+				{
+					var sInfo = this.Find(skillId, i);
+
+					if (sInfo != null)
+					{
+						sInfo.DexTotal = (dexT += sInfo.Dex);
+						sInfo.IntTotal = (intT += sInfo.Int);
+						sInfo.LifeTotal = (lifeT += sInfo.Life);
+						sInfo.LuckTotal = (luckT += sInfo.Luck);
+						sInfo.ManaTotal = (manaT += sInfo.Mana);
+						sInfo.StaminaTotal = (staminaT += sInfo.Stamina);
+						sInfo.StrTotal = (strT += sInfo.Str);
+						sInfo.WillTotal = (willT += sInfo.Will);
+					}
+				}
+			}
+		}
+
 		public SkillRankInfo Find(ushort id, byte rank)
 		{
 			return this.Entries.FirstOrDefault(a => a.SkillId == id && a.Rank == rank);

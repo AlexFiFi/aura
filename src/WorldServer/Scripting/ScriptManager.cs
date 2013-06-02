@@ -218,15 +218,9 @@ namespace Aura.World.Scripting
 				return;
 			}
 
-			var types = ilScriptAsm.GetTypes();
+			var types = ilScriptAsm.GetTypes().Where(t => t.IsSubclassOf(typeof(ItemScript)));
 			foreach (var type in types)
 			{
-				var sType = type.ToString();
-
-				// Ignore compiler generated stuff
-				if (sType.Contains("+") || sType.Contains("<"))
-					continue;
-
 				var scriptObj = Activator.CreateInstance(type) as ItemScript;
 				if (scriptObj == null)
 					continue;

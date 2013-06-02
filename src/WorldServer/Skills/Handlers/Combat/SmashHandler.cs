@@ -90,7 +90,7 @@ namespace Aura.World.Skills
 				tAction.Options |= TargetOptions.Critical;
 
 			// Def/Prot
-			CombatHelper.ReduceDamage(ref damage, target.Defense, target.Protection);
+			CombatHelper.ReduceDamage(ref damage, target.DefenseTotal, target.Protection);
 
 			// Mana Shield
 			tAction.ManaDamage = CombatHelper.DealManaDamage(target, ref damage);

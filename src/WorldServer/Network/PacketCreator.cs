@@ -349,15 +349,15 @@ namespace Aura.World.Network
 					case Stat.Experience: packet.PutLong(MabiData.ExpDb.CalculateRemaining(creature.Level, creature.Experience) * 1000); break;
 
 					case Stat.Life: packet.PutFloat(creature.Life); break;
-					case Stat.LifeMax: packet.PutFloat(creature.LifeMaxBase); break;
+					case Stat.LifeMax: packet.PutFloat(creature.LifeMaxBaseTotal); break;
 					case Stat.LifeMaxMod: packet.PutFloat(creature.StatMods.GetMod(Stat.LifeMaxMod)); break;
 					case Stat.LifeInjured: packet.PutFloat(creature.LifeInjured); break;
 					case Stat.Mana: packet.PutFloat(creature.Mana); break;
-					case Stat.ManaMax: packet.PutFloat(creature.ManaMaxBase); break;
+					case Stat.ManaMax: packet.PutFloat(creature.ManaMaxBaseTotal); break;
 					case Stat.ManaMaxMod: packet.PutFloat(creature.StatMods.GetMod(Stat.ManaMaxMod)); break;
 					case Stat.Stamina: packet.PutFloat(creature.Stamina); break;
 					case Stat.Food: packet.PutFloat(creature.StaminaHunger); break;
-					case Stat.StaminaMax: packet.PutFloat(creature.StaminaMaxBase); break;
+					case Stat.StaminaMax: packet.PutFloat(creature.StaminaMaxBaseTotal); break;
 					case Stat.StaminaMaxMod: packet.PutFloat(creature.StatMods.GetMod(Stat.StaminaMaxMod)); break;
 
 					case Stat.StrMod: packet.PutFloat(creature.StatMods.GetMod(Stat.StrMod)); break;
@@ -365,11 +365,17 @@ namespace Aura.World.Network
 					case Stat.IntMod: packet.PutFloat(creature.StatMods.GetMod(Stat.IntMod)); break;
 					case Stat.LuckMod: packet.PutFloat(creature.StatMods.GetMod(Stat.LuckMod)); break;
 					case Stat.WillMod: packet.PutFloat(creature.StatMods.GetMod(Stat.WillMod)); break;
-					case Stat.Str: packet.PutFloat(creature.StrBase); break;
-					case Stat.Int: packet.PutFloat(creature.IntBase); break;
-					case Stat.Dex: packet.PutFloat(creature.DexBase); break;
-					case Stat.Will: packet.PutFloat(creature.WillBase); break;
-					case Stat.Luck: packet.PutFloat(creature.LuckBase); break;
+					case Stat.Str: packet.PutFloat(creature.StrBaseTotal); break;
+					case Stat.Int: packet.PutFloat(creature.IntBaseTotal); break;
+					case Stat.Dex: packet.PutFloat(creature.DexBaseTotal); break;
+					case Stat.Will: packet.PutFloat(creature.WillBaseTotal); break;
+					case Stat.Luck: packet.PutFloat(creature.LuckBaseTotal); break;
+
+					case Stat.DefenseBaseMod: packet.PutShort((ushort)creature.DefensePassive); break;
+					case Stat.ProtectBaseMod: packet.PutFloat(creature.ProtectionPassive * 100); break;
+
+					case Stat.DefenseMod: packet.PutShort((ushort)creature.StatMods.GetMod(Stat.DefenseMod)); break;
+					case Stat.ProtectMod: packet.PutFloat(creature.StatMods.GetMod(Stat.ProtectMod)); break;
 
 					// Client might crash with a mismatching value, 
 					// take a chance and put an int by default.
@@ -377,7 +383,7 @@ namespace Aura.World.Network
 				}
 			}
 
-			// Stat mods
+			// Stat regens
 			if (type == StatUpdateType.Public)
 			{
 				packet.PutSInt(creature.StatRegens.Count);

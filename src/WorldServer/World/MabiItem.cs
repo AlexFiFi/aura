@@ -5,6 +5,7 @@ using Aura.Data;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
 using Aura.Shared.World;
+using System;
 
 namespace Aura.World.World
 {
@@ -189,8 +190,11 @@ namespace Aura.World.World
 				this.StackMax = 1;
 		}
 
-		public bool IsEquipped()
+		public bool IsEquipped(bool secondaryIsEquipped = true, MabiCreature creature = null)
 		{
+			if (!secondaryIsEquipped && creature == null)
+				throw new ArgumentException("Creature cannot be null if you wish to eliminate secondary equips");
+
 			switch ((Pocket)this.Info.Pocket)
 			{
 				case Pocket.Face:
@@ -199,10 +203,6 @@ namespace Aura.World.World
 				case Pocket.Accessory2:
 				case Pocket.Head:
 				case Pocket.Armor:
-				case Pocket.RightHand1:
-				case Pocket.RightHand2:
-				case Pocket.LeftHand1:
-				case Pocket.LeftHand2:
 				case Pocket.Shoe:
 				case Pocket.Glove:
 				case Pocket.Robe:
@@ -212,6 +212,18 @@ namespace Aura.World.World
 				case Pocket.GloveStyle:
 				case Pocket.RobeStyle:
 					return true;
+				case Pocket.RightHand1:
+				case Pocket.RightHand2:
+					if (secondaryIsEquipped)
+							return true;
+					return creature.RightHand == this;
+
+				case Pocket.LeftHand1:
+				case Pocket.LeftHand2:
+					if (secondaryIsEquipped)
+							return true;
+					return creature.LeftHand == this;
+
 				default:
 					return false;
 			}

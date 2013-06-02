@@ -60,7 +60,7 @@ namespace Aura.World.Skills
 			if (CombatHelper.TryAddCritical(attacker, ref damage, (target.CriticalChance + skill.RankInfo.Var3 - target.Protection)))
 				tAction.Options |= TargetOptions.Critical;
 
-			CombatHelper.ReduceDamage(ref damage, target.Defense, target.Protection);
+			CombatHelper.ReduceDamage(ref damage, target.DefenseTotal, target.Protection);
 
 			target.TakeDamage(tAction.Damage = damage);
 

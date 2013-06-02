@@ -182,13 +182,28 @@ namespace Aura.World.World
 
 		public bool IsMoving { get { return (!_position.Equals(_destination)); } }
 
-		private float _height, _fat, _upper, _lower;
-		public float Height { get { return _height; } set { _height = value; } }
-		public float Fat { get { return _fat; } set { _fat = value; } }
-		public float Upper { get { return _upper; } set { _upper = value; } }
-		public float Lower { get { return _lower; } set { _lower = value; } }
+		public float Height { get; set; }
+		public float Fat { get; set; }
+		public float Upper { get; set; }
+		public float Lower { get; set; }
 
-		private float _life, _lifeMaxBase, _injuries;
+		public float StrBaseSkill { get; set; }
+
+		public float WillBaseSkill { get; set; }
+
+		public float IntBaseSkill { get; set; }
+
+		public float LuckBaseSkill { get; set; }
+
+		public float DexBaseSkill { get; set; }
+
+		public float ManaMaxBaseSkill { get; set; }
+
+		public float LifeMaxBaseSkill { get; set; }
+
+		public float StaminaMaxBaseSkill { get; set; }
+
+		private float _life, _injuries;
 		public float Life
 		{
 			get { return _life; }
@@ -231,11 +246,12 @@ namespace Aura.World.World
 					_injuries = value;
 			}
 		}
-		public float LifeMaxBase { get { return _lifeMaxBase; } set { _lifeMaxBase = value; } }
-		public float LifeMax { get { return _lifeMaxBase + this.StatMods.GetMod(Stat.LifeMaxMod); } }
+		public float LifeMaxBase { get; set; }
+		public float LifeMaxBaseTotal { get { return this.LifeMaxBase + this.LifeMaxBaseSkill; } }
+		public float LifeMax { get { return this.LifeMaxBaseTotal + this.StatMods.GetMod(Stat.LifeMaxMod); } }
 		public float LifeInjured { get { return this.LifeMax - _injuries; } }
 
-		private float _mana, _manaMaxBase;
+		private float _mana;
 		public float Mana
 		{
 			get { return _mana; }
@@ -249,10 +265,12 @@ namespace Aura.World.World
 					_mana = value;
 			}
 		}
-		public float ManaMaxBase { get { return _manaMaxBase; } set { _manaMaxBase = value; } }
-		public float ManaMax { get { return _manaMaxBase + this.StatMods.GetMod(Stat.ManaMaxMod); } }
 
-		private float _stamina, _staminaMaxBase, _hunger;
+		public float ManaMaxBase { get; set; }
+		public float ManaMaxBaseTotal { get { return this.ManaMaxBase + this.ManaMaxBaseSkill; } }
+		public float ManaMax { get { return ManaMaxBaseTotal + this.StatMods.GetMod(Stat.ManaMaxMod); } }
+
+		private float _stamina, _hunger;
 		public float Stamina
 		{
 			get { return _stamina; }
@@ -277,49 +295,77 @@ namespace Aura.World.World
 					_hunger = value;
 			}
 		}
-		public float StaminaMaxBase { get { return _staminaMaxBase; } set { _staminaMaxBase = value; } }
-		public float StaminaMax { get { return _staminaMaxBase + this.StatMods.GetMod(Stat.StaminaMaxMod); } }
+		public float StaminaMaxBase { get; set; }
+		public float StaminaMaxBaseTotal { get { return this.StaminaMaxBase + this.StaminaMaxBaseSkill; } }
+		public float StaminaMax { get { return this.StaminaMaxBaseTotal + this.StatMods.GetMod(Stat.StaminaMaxMod); } }
 		public float StaminaHunger { get { return this.StaminaMax - _hunger; } }
 
 		public List<MabiStatRegen> StatRegens { get { return _statRegens; } }
 
-		private float _strBase, _dexBase, _intBase, _willBase, _luckBase;
-		public float StrBase { get { return _strBase; } set { _strBase = value; } }
-		public float DexBase { get { return _dexBase; } set { _dexBase = value; } }
-		public float IntBase { get { return _intBase; } set { _intBase = value; } }
-		public float WillBase { get { return _willBase; } set { _willBase = value; } }
-		public float LuckBase { get { return _luckBase; } set { _luckBase = value; } }
-		public float Str { get { return _strBase + this.StatMods.GetMod(Stat.StrMod); } }
-		public float Dex { get { return _dexBase + this.StatMods.GetMod(Stat.DexMod); } }
-		public float Int { get { return _intBase + this.StatMods.GetMod(Stat.IntMod); } }
-		public float Will { get { return _willBase + this.StatMods.GetMod(Stat.WillMod); } }
-		public float Luck { get { return _luckBase + this.StatMods.GetMod(Stat.LuckMod); } }
+		public float StrBase { get; set; }
+		public float DexBase { get; set; }
+		public float IntBase { get; set; }
+		public float WillBase { get; set; }
+		public float LuckBase { get; set; }
+		public float StrBaseTotal { get { return this.StrBase + this.StrBaseSkill; } }
+		public float DexBaseTotal { get { return this.DexBase + this.DexBaseSkill; } }
+		public float IntBaseTotal { get { return this.IntBase + this.IntBaseSkill; } }
+		public float WillBaseTotal { get { return this.WillBase + this.WillBaseSkill; } }
+		public float LuckBaseTotal { get { return this.LuckBase + this.LuckBaseSkill; } }
+		public float Str { get { return this.StrBaseTotal + this.StatMods.GetMod(Stat.StrMod); } }
+		public float Dex { get { return this.DexBaseTotal + this.StatMods.GetMod(Stat.DexMod); } }
+		public float Int { get { return this.IntBaseTotal + this.StatMods.GetMod(Stat.IntMod); } }
+		public float Will { get { return this.WillBaseTotal + this.StatMods.GetMod(Stat.WillMod); } }
+		public float Luck { get { return this.LuckBaseTotal + this.StatMods.GetMod(Stat.LuckMod); } }
 
-		private byte _age;
-		public byte Age { get { return _age; } set { _age = value; } }
+		public byte Age { get; set; }
 
-		private ushort _ap;
-		public ushort AbilityPoints { get { return _ap; } set { _ap = value; } }
+		public ushort AbilityPoints { get; set; }
 
-		private ushort _lvl;
-		private uint _lvlTotal;
-		public ushort Level { get { return _lvl; } set { _lvl = value; } }
-		public uint LevelTotal { get { return _lvlTotal; } set { _lvlTotal = value; } }
+		public ushort Level { get; set; }
+		public uint LevelTotal { get; set; }
 
 		private ulong _exp;
 		public ulong Experience { get { return _exp; } set { _exp = Math.Min(value, ulong.MaxValue); } }
 
-		protected int _defense, _protection;
+		public int DefenseBase { get; set; }
+		public int ProtectionBase { get; set; }
+
+		public int DefenseBaseSkill { get; set; }
+		public int ProtectionBaseSkill { get; set; }
+
 		public DateTime AimStart;
+
+		/// <summary>
+		/// Returns base defense and passive defenses
+		/// </summary>
+		public int DefensePassive
+		{
+			get
+			{
+				float result = this.DefenseBase + this.DefenseBaseSkill + this.StatMods.GetMod(Stat.DefenseBaseMod);
+
+				if (this.RaceInfo != null)
+					result += this.RaceInfo.Defense;
+
+				// Add equips
+				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Defense);
+
+				return (int)result;
+
+			}
+		}
 
 		/// <summary>
 		/// Returns total defense, including passive and active Defense bonus.
 		/// </summary>
-		public int Defense
+		public int DefenseTotal
 		{
 			get
 			{
-				float result = _defense;
+				// Don't use DefensePassive, because float truncation
+
+				float result = this.DefenseBase + this.DefenseBaseSkill + this.StatMods.GetMod(Stat.DefenseBaseMod);
 
 				if (this.RaceInfo != null)
 					result += this.RaceInfo.Defense;
@@ -333,16 +379,29 @@ namespace Aura.World.World
 						result += defenseSkill.RankInfo.Var3;
 				}
 
-				// Add shield
-				if (this.LeftHand != null && this.LeftHand.Type == ItemType.Shield)
-					result += this.LeftHand.OptionInfo.Defense;
+				// Add equips
+				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Defense);
 
 				return (int)result;
 			}
+		}
 
-			set
+		/// <summary>
+		/// Returns total protection as a float between 0 and 1
+		/// </summary>
+		public float ProtectionPassive
+		{
+			get
 			{
-				_defense = value;
+				float result = this.ProtectionBase + this.ProtectionBaseSkill + this.StatMods.GetMod(Stat.ProtectMod);
+
+				if (this.RaceInfo != null)
+					result += this.RaceInfo.Protection;
+
+				// Add equips
+				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Protection);
+
+				return (result / 100);
 			}
 		}
 
@@ -353,7 +412,7 @@ namespace Aura.World.World
 		{
 			get
 			{
-				float result = _protection;
+				float result = this.ProtectionBase + this.ProtectionBaseSkill + this.StatMods.GetMod(Stat.ProtectMod);
 
 				if (this.RaceInfo != null)
 					result += this.RaceInfo.Protection;
@@ -363,18 +422,10 @@ namespace Aura.World.World
 				if (defenseSkill != null && this.ActiveSkillId == SkillConst.Defense)
 					result += defenseSkill.RankInfo.Var4;
 
-				// Add shield
-				if (this.LeftHand != null && this.LeftHand.Type == ItemType.Shield)
-					result += this.LeftHand.OptionInfo.Protection;
+				// Add equips
+				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Protection);
 
-				result += this.StatMods.GetMod(Stat.ProtectMod);
-
-				return (uint)(result / 100);
-			}
-
-			set
-			{
-				_protection = (int)(value * 100);
+				return (result / 100);
 			}
 		}
 
@@ -749,6 +800,34 @@ namespace Aura.World.World
 				p.PutShort(title);
 
 			this.Client.Send(p);
+
+			UpdateTalentStats();
+			WorldManager.Instance.CreatureStatsUpdate(this);
+		}
+
+		public void UpdateTalentStats()
+		{
+			foreach (var talentObj in Enum.GetValues(typeof(TalentId)))
+			{
+				var talentId = (TalentId)talentObj;
+
+				var info = MabiData.TalentRankDb.Find((byte)talentId, (byte)this.GetTalentLevel(talentId), (byte)this.GetRaceMask());
+
+				if (info != null)
+				{
+					foreach (var kvp in info.Bonuses)
+					{
+						this.StatMods.Remove((Stat)kvp.Key, StatModSource.Talent, (ulong)talentId);
+						this.StatMods.Add((Stat)kvp.Key, kvp.Value, StatModSource.Talent, (ulong)talentId);
+						switch ((Stat)kvp.Key)
+						{
+							case Stat.LifeMaxMod: this.Life += kvp.Value; break;
+							case Stat.StaminaMaxMod: this.Stamina += kvp.Value; break;
+							case Stat.ManaMaxMod: this.Mana += kvp.Value; break;
+						}
+					}
+				}
+			}
 		}
 
 		public TalentRace GetRaceMask()
@@ -841,8 +920,8 @@ namespace Aura.World.World
 				Logger.Warning("Race '" + this.Race.ToString() + "' not found, using human instead.");
 			}
 
-			_defense = dbInfo.Defense;
-			_protection = dbInfo.Protection;
+			DefenseBase = dbInfo.Defense;
+			ProtectionBase = dbInfo.Protection;
 
 			this.RaceInfo = dbInfo;
 
@@ -1084,6 +1163,8 @@ namespace Aura.World.World
 			}
 			else
 			{
+				RemoveSkillBonuses(skill);
+
 				skill.Info.Experience = 0;
 
 				skill.Info.Rank = (byte)rank;
@@ -1091,7 +1172,79 @@ namespace Aura.World.World
 				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, false);
 			}
 
+			AddSkillBonuses(skill);
+
 			this.UpdateTalentExp(skillId, rank, true);
+		}
+
+		public void AddSkillBonuses(MabiSkill skill)
+		{
+			this.StrBaseSkill += skill.RankInfo.StrTotal;
+			this.WillBaseSkill += skill.RankInfo.WillTotal;
+			this.IntBaseSkill += skill.RankInfo.IntTotal;
+			this.LuckBaseSkill += skill.RankInfo.LuckTotal;
+			this.DexBaseSkill += skill.RankInfo.DexTotal;
+			var mana = skill.RankInfo.ManaTotal;
+			this.ManaMaxBaseSkill += mana;
+			this.Mana += mana;
+			var life = skill.RankInfo.LifeTotal;
+			this.LifeMaxBaseSkill += life;
+			this.Life += life;
+			var stamina = skill.RankInfo.StaminaTotal;
+			this.StaminaMaxBaseSkill += stamina;
+			this.Stamina += stamina;
+
+			if (skill.Id == SkillConst.MeleeCombatMastery)
+			{
+				this.StatMods.Add(Stat.LifeMaxMod, skill.RankInfo.Var3, StatModSource.SkillRank, (ulong)skill.Id);
+				this.Life += skill.RankInfo.Var3;
+			}
+
+			if (skill.Id == SkillConst.MagicMastery)
+			{
+				this.StatMods.Add(Stat.ManaMaxMod, skill.RankInfo.Var1, StatModSource.SkillRank, (ulong)skill.Id);
+				this.Mana += skill.RankInfo.Var1;
+			}
+
+			if (skill.Id == SkillConst.Defense)
+			{
+				this.DefenseBaseSkill += (int)skill.RankInfo.Var1;
+			}
+		}
+
+		public void RemoveSkillBonuses(MabiSkill skill)
+		{
+			this.StrBaseSkill -= skill.RankInfo.StrTotal;
+			this.WillBaseSkill -= skill.RankInfo.WillTotal;
+			this.IntBaseSkill -= skill.RankInfo.IntTotal;
+			this.LuckBaseSkill -= skill.RankInfo.LuckTotal;
+			this.DexBaseSkill -= skill.RankInfo.DexTotal;
+			var mana = skill.RankInfo.ManaTotal;
+			this.Mana -= mana;
+			this.ManaMaxBaseSkill -= mana;
+			var life = skill.RankInfo.LifeTotal;
+			this.Life -= life;
+			this.LifeMaxBaseSkill -= life;
+			var stamina = skill.RankInfo.StaminaTotal;
+			this.Stamina -= stamina;
+			this.StaminaMaxBaseSkill -= stamina;
+
+			if (skill.Id == SkillConst.MeleeCombatMastery)
+			{
+				this.Life -= skill.RankInfo.Var3;
+				this.StatMods.Remove(Stat.LifeMaxMod, StatModSource.SkillRank, (ulong)skill.Id);
+			}
+
+			if (skill.Id == SkillConst.MagicMastery)
+			{
+				this.Mana -= skill.RankInfo.Var1;
+				this.StatMods.Remove(Stat.ManaMaxMod, StatModSource.SkillRank, (ulong)skill.Id);
+			}
+
+			if (skill.Id == SkillConst.Defense)
+			{
+				this.DefenseBaseSkill -= (int)skill.RankInfo.Var1;
+			}
 		}
 
 		public MabiSkill GetSkill(SkillConst skillId)
@@ -1243,7 +1396,7 @@ namespace Aura.World.World
 				return;
 			}
 
-			var hp = Math.Max(-this.LifeMaxBase, hpBefore - damage);
+			var hp = Math.Max(-this.LifeMaxBaseTotal, hpBefore - damage);
 			this.Life = hp;
 
 			if (hp > 0 || this.ShouldSurvive() || (this is MabiPC && hpBefore >= this.LifeMax / 2))
@@ -1326,7 +1479,7 @@ namespace Aura.World.World
 			{
 				this.FullHeal();
 				EntityEvents.Instance.OnCreatureLevelsUp(this);
-				// TODO: stats update
+				WorldManager.Instance.CreatureStatsUpdate(this);
 			}
 		}
 	}
