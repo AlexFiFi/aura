@@ -78,7 +78,7 @@ namespace Aura.World.World
 			this.Info.ConditionCount8 = 1;
 			this.Info.ConditionCount9 = 1;
 
-			_race = 10001;
+			_race = race;
 
 			this.LoadRankInfo();
 		}

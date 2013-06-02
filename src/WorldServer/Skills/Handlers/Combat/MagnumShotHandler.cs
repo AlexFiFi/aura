@@ -10,12 +10,12 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
-	public class SmashHandler : SkillHandler
+	public class MagnumShotHandler : SkillHandler
 	{
 		/// <summary>
 		/// Stun time for attacker and target.
 		/// </summary>
-		private const ushort StunTime = 3000;
+		private const ushort StunTime = 2600;
 		private const ushort AfterUseStun = 600;
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
@@ -28,6 +28,10 @@ namespace Aura.World.Skills
 
 		public override SkillResults Ready(MabiCreature creature, MabiSkill skill)
 		{
+			if (creature.ActiveSkillStacks < 1)
+			{
+				SkillHelper.IncStack(creature, skill);
+			}
 			creature.Client.SendSkillReady(creature, skill.Id);
 
 			return SkillResults.Okay;
@@ -35,6 +39,8 @@ namespace Aura.World.Skills
 
 		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
+			creature.Client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id).PutByte(0));
+
 			creature.Client.SendSkillComplete(creature, skill.Id);
 
 			return SkillResults.Okay;
@@ -42,69 +48,68 @@ namespace Aura.World.Skills
 
 		public override SkillResults Cancel(MabiCreature creature, MabiSkill skill)
 		{
+			if (creature.Target != null)
+				creature.Client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id).PutByte(0));
+
 			creature.Client.SendSkillUse(creature, skill.Id, AfterUseStun, 1);
 
 			return SkillResults.Okay;
 		}
 
-		private float calculateSmashDamage(MabiCreature attacker, MabiCreature target)
-		{
-			var dmg = attacker.GetRndTotalDamage();
-			dmg *= attacker.GetSkill(SkillConst.Smash).RankInfo.Var1 / 100f;
-
-			if (attacker.RightHand != null && attacker.RightHand.IsTwoHandWeapon)
-			{
-				dmg *= 1.20f;
-			}
-
-			return dmg;
-		}
-
 		public override SkillResults UseCombat(MabiCreature attacker, ulong targetId, MabiSkill skill)
 		{
-			// if rank > x then
-			//     for splash targets
-
 			var target = WorldManager.Instance.GetCreatureById(targetId);
 			if (target == null)
 				return SkillResults.InvalidTarget;
 
-			if (!WorldManager.InRange(attacker, target, (uint)(attacker.RaceInfo.AttackRange + 50)))
-				return SkillResults.OutOfRange;
+			if (attacker.Magazine == null || attacker.Magazine.Count < 1)
+				return SkillResults.Failure;
+
+			var rnd = RandomProvider.Get();
 
 			attacker.StopMove();
-			target.StopMove();
 
 			var factory = new CombatFactory();
-
-			factory.SetAttackerAction(attacker, CombatActionType.HardHit, skill.Id, targetId);
-			factory.SetAttackerOptions(AttackerOptions.Result | AttackerOptions.KnockBackHit2);
+			factory.SetAttackerAction(attacker, CombatActionType.RangeHit, skill.Id, targetId);
+			factory.SetAttackerOptions(AttackerOptions.Result);
 			factory.SetAttackerStun(AfterUseStun);
 
-			factory.AddTargetAction(target, CombatActionType.TakeHit, skillId: SkillConst.MeleeCombatMastery); 
-			factory.SetTargetOptions(TargetOptions.Result | TargetOptions.Smash);
-			factory.SetTargetStun(StunTime);
+			bool hit = false;
 
-			var critChance = attacker.CriticalChanceAgainst(target);
-			var critOpts = CombatFactory.CriticalOptions.NoCritical;
+			if (attacker.GetAimPercent(1) > rnd.NextDouble())
+			{
+				target.StopMove();
 
-			// +5% crit for 2H
-			if (attacker.RightHand != null && attacker.RightHand.IsTwoHandWeapon)
-				critChance *= 1.05f;
+				factory.AddTargetAction(target, CombatActionType.TakeHit);
+				factory.SetTargetOptions(TargetOptions.Result);
+				factory.SetTargetStun(StunTime);
 
-			// Crit
-			if (CombatHelper.TryCritical(critChance))
-				critOpts = CombatFactory.CriticalOptions.Critical;
+				hit = true;
+			}
+			else
+			{
+				factory.AddTargetAction(target, CombatActionType.None);
+			}
 
-			factory.ExecuteDamage(calculateSmashDamage, critOpts);
+			attacker.Client.SendSkillUse(attacker, skill.Id, AfterUseStun, 1);
+
+			SkillHelper.ClearStack(attacker, skill);
+
+			attacker.Client.Send(new MabiPacket(Op.CombatTargetSet, attacker.Id).PutLong(0));
+
+			factory.ExecuteDamage(new System.Func<MabiCreature, MabiCreature, float>((a, t) =>
+				{
+					var damage = attacker.GetRndRangeDamage();
+					damage *= skill.RankInfo.Var1 / 100f;
+					return damage;
+				}));
 			factory.ExecuteStun();
 			factory.ExecuteKnockback(CombatHelper.MaxKnockBack);
 
 			WorldManager.Instance.HandleCombatActionPack(factory.GetCap());
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, AfterUseStun, 1);
-
-			CombatHelper.SetAggro(attacker, target);
+			if (hit)
+				CombatHelper.SetAggro(attacker, target);
 
 			SkillHelper.GiveSkillExp(attacker, skill, 20);
 

@@ -885,6 +885,20 @@ namespace Aura.World.World
 			if (creature is MabiPC)
 				ActivateMobs(creature, from, to);
 
+			switch (creature.ActiveSkillId)
+			{
+				case SkillConst.RangedCombatMastery:
+				case SkillConst.ArrowRevolver:
+				case SkillConst.ArrowRevolver2:
+				case SkillConst.MagnumShot:
+				case SkillConst.SupportShot:
+				case SkillConst.ElvenMagicMissile:
+				case SkillConst.MirageMissile:
+				case SkillConst.CrashShot:
+					CombatHelper.ResetCreatureAim(creature);
+					break;
+			}
+
 			ServerEvents.Instance.OnCreatureMoves(creature, new MoveEventArgs(from, to));
 		}
 

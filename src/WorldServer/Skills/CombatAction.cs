@@ -12,7 +12,7 @@ using Aura.World.World;
 
 namespace Aura.World.Skills
 {
-	public enum SourceOptions : ushort
+	public enum AttackerOptions : ushort
 	{
 		None = 0x00,
 
@@ -52,7 +52,7 @@ namespace Aura.World.Skills
 		None = 0x00,
 		Critical = 0x01,
 		CleanHit = 0x04,
-		FirstAttack = 0x08,
+		OneShotFinish = 0x08,
 		Finished = 0x10,
 		Result = 0x20,
 		KnockDownFinish = 0x100,
@@ -170,11 +170,11 @@ namespace Aura.World.Skills
 
 	public abstract class CombatAction
 	{
-		public MabiCreature Creature { get; set; }
-		public CombatActionType Type { get; set; }
-		public ushort StunTime { get; set; }
-		public SkillConst SkillId { get; set; }
-		public MabiVertex OldPosition { get; set; }
+		public MabiCreature Creature;
+		public CombatActionType Type;
+		public ushort StunTime;
+		public SkillConst SkillId;
+		public MabiVertex OldPosition;
 
 		public abstract bool IsKnock { get; }
 
@@ -210,18 +210,18 @@ namespace Aura.World.Skills
 	/// Contains information about the source action part of the
 	/// CombatActionPack. This part is sent first, before the target actions.
 	/// </summary>
-	public class SourceAction : CombatAction
+	public class AttackerAction : CombatAction
 	{
-		public SourceOptions Options { get; set; }
-		public ulong TargetId { get; set; }
-		public ulong PropId { get; set; }
+		public AttackerOptions Options;
+		public ulong TargetId;
+		public ulong PropId;
 
 		/// <summary>
 		/// Returns true if the specified option is set.
 		/// </summary>
 		/// <param name="option"></param>
 		/// <returns></returns>
-		public bool Has(SourceOptions option)
+		public bool Has(AttackerOptions option)
 		{
 			return ((this.Options & option) != 0);
 		}
@@ -231,16 +231,15 @@ namespace Aura.World.Skills
 		/// </summary>
 		public override bool IsKnock
 		{
-			get { return this.Has(SourceOptions.KnockBackHit2) || this.Has(SourceOptions.KnockBackHit1); }
+			get { return this.Has(AttackerOptions.KnockBackHit2) || this.Has(AttackerOptions.KnockBackHit1); }
 		}
 
-		public SourceAction(CombatActionType type, MabiCreature creature, SkillConst skillId, ulong targetId, ulong propId = 0)
+		public AttackerAction(CombatActionType type, MabiCreature creature, SkillConst skillId, ulong targetId)
 		{
 			this.Type = type;
 			this.Creature = creature;
 			this.SkillId = skillId;
 			this.TargetId = targetId;
-			this.PropId = propId;
 		}
 
 		public override MabiPacket GetPacket(uint actionId)
@@ -251,7 +250,7 @@ namespace Aura.World.Skills
 			result.PutLong(this.TargetId);
 			result.PutInt((uint)this.Options);
 			result.PutByte(0);
-			result.PutByte((byte)(!this.Has(SourceOptions.KnockBackHit2) ? 2 : 1));
+			result.PutByte((byte)(!this.Has(AttackerOptions.KnockBackHit2) ? 2 : 1));
 			result.PutInts(pos.X, pos.Y);
 			if (this.PropId != 0)
 				result.PutLong(this.PropId);
@@ -266,11 +265,11 @@ namespace Aura.World.Skills
 	/// </summary>
 	public class TargetAction : CombatAction
 	{
-		public TargetOptions Options { get; set; }
-		public MabiCreature Attacker { get; set; }
-		public uint Delay { get; set; }
-		public float Damage { get; set; }
-		public float ManaDamage { get; set; }
+		public TargetOptions Options;
+		public MabiCreature Attacker;
+		public uint Delay;
+		public float Damage;
+		public float ManaDamage;
 
 		/// <summary>
 		/// Returns true if the specified option is set.

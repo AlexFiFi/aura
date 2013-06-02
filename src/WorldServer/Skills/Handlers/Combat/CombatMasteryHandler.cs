@@ -70,10 +70,10 @@ namespace Aura.World.Skills
 			if (leftHand != null && !leftHand.IsOneHandWeapon)
 				leftHand = null;
 
-			var sAction = new SourceAction(CombatActionType.Hit, attacker, skill.Id, targetId);
-			sAction.Options |= SourceOptions.Result;
+			var sAction = new AttackerAction(CombatActionType.Hit, attacker, skill.Id, targetId);
+			sAction.Options |= AttackerOptions.Result;
 			if (rightHand != null && leftHand != null)
-				sAction.Options |= SourceOptions.DualWield;
+				sAction.Options |= AttackerOptions.DualWield;
 
 			// Do this for two weapons, break if there is no second hit.
 			for (byte i = 1; i <= 2; ++i)
@@ -84,7 +84,7 @@ namespace Aura.World.Skills
 				var cap = new CombatActionPack(attacker, skill.Id);
 				cap.PrevCombatActionId = prevCombatActionId;
 				cap.Hit = i;
-				cap.HitsMax = (byte)(sAction.Has(SourceOptions.DualWield) ? 2 : 1);
+				cap.HitsMax = (byte)(sAction.Has(AttackerOptions.DualWield) ? 2 : 1);
 
 				var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
 
@@ -96,7 +96,7 @@ namespace Aura.World.Skills
 					var protection = target.Protection;
 
 					// Crit
-					if (CombatHelper.TryAddCritical(attacker, ref damage, (attacker.CriticalChance - protection)))
+					if (CombatHelper.TryAddCritical(attacker, ref damage, attacker.CriticalChanceAgainst(target)))
 						tAction.Options |= TargetOptions.Critical;
 
 					// Def/Prot
@@ -149,7 +149,7 @@ namespace Aura.World.Skills
 				if (tAction.IsKnock && target.RaceInfo.Is(RaceStands.KnockBackable))
 				{
 					tAction.OldPosition = CombatHelper.KnockBack(target, attacker);
-					sAction.Options |= SourceOptions.KnockBackHit2;
+					sAction.Options |= AttackerOptions.KnockBackHit2;
 					cap.HitsMax = cap.Hit;
 				}
 

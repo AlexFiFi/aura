@@ -76,8 +76,8 @@ namespace Aura.World.Skills
 
 			// One source action, target actions are added for every target
 			// and then we send the pack on its way.
-			var sAction = new SourceAction(CombatActionType.Hit, attacker, skill.Id, targetId);
-			sAction.Options |= SourceOptions.Result | SourceOptions.KnockBackHit1;
+			var sAction = new AttackerAction(CombatActionType.Hit, attacker, skill.Id, targetId);
+			sAction.Options |= AttackerOptions.Result | AttackerOptions.KnockBackHit1;
 
 			cap.Add(sAction);
 

@@ -86,8 +86,8 @@ namespace Aura.World.Skills
 			// End the spear
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, attacker.Id).PutInt(Effect.StackUpdate).PutString("icespear").PutBytes(0, 0), SendTargets.Range, attacker);
 
-			var sAction = new SourceAction(CombatActionType.SpecialHit, attacker, skill.Id, targetId);
-			sAction.Options = SourceOptions.Result;
+			var sAction = new AttackerAction(CombatActionType.SpecialHit, attacker, skill.Id, targetId);
+			sAction.Options = AttackerOptions.Result;
 
 			var cap = new CombatActionPack(attacker, skill.Id);
 			cap.Add(sAction);
@@ -152,8 +152,9 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, target.Id).PutInt(Effect.Thunderbolt).PutByte(0), SendTargets.Range, target);
 
-			var sAction = new SourceAction(CombatActionType.SpecialHit, attacker, skill.Id, SkillHelper.GetAreaTargetID(target.Region, tPos.X, tPos.Y), casterProp.Id);
-			sAction.Options = SourceOptions.KnockBackHit1 | SourceOptions.UseEffect;
+			var sAction = new AttackerAction(CombatActionType.SpecialHit, attacker, skill.Id, SkillHelper.GetAreaTargetID(target.Region, tPos.X, tPos.Y));
+			sAction.PropId = casterProp.Id;
+			sAction.Options = AttackerOptions.KnockBackHit1 | AttackerOptions.UseEffect;
 
 			var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
 			tAction.Options = TargetOptions.Result;
@@ -163,7 +164,7 @@ namespace Aura.World.Skills
 
 			var damage = attacker.GetMagicDamage(attacker.RightHand, rnd.Next((int)skill.RankInfo.Var1, (int)skill.RankInfo.Var2 + 1)) * dmgModifier;
 
-			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChance))
+			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 				tAction.Options |= TargetOptions.Critical;
 
 			target.TakeDamage(tAction.Damage = damage);
@@ -185,8 +186,9 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.HandleCombatActionPack(cap);
 
-			sAction = new SourceAction(CombatActionType.SpecialHit, attacker, skill.Id, SkillHelper.GetAreaTargetID(target.Region, tPos.X, tPos.Y), bombProp.Id);
-			sAction.Options = SourceOptions.UseEffect;
+			sAction = new AttackerAction(CombatActionType.SpecialHit, attacker, skill.Id, SkillHelper.GetAreaTargetID(target.Region, tPos.X, tPos.Y));
+			sAction.PropId = bombProp.Id;
+			sAction.Options = AttackerOptions.UseEffect;
 
 			cap = new CombatActionPack(attacker, skill.Id);
 			cap.Add(sAction);

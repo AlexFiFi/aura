@@ -91,8 +91,8 @@ namespace Aura.World.Skills
 			// End the lightning balls
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, attacker.Id).PutInt(Effect.StackUpdate).PutString("lightningbolt").PutBytes(0, 0), SendTargets.Range, attacker);
 
-			var sAction = new SourceAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
-			sAction.Options |= SourceOptions.Result;
+			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
+			sAction.Options |= AttackerOptions.Result;
 
 			attacker.Stun = sAction.StunTime = UseStun;
 
@@ -110,7 +110,7 @@ namespace Aura.World.Skills
 
 				var damage = attacker.GetMagicDamage(attacker.RightHand, rnd.Next((int)skill.RankInfo.Var4, (int)skill.RankInfo.Var5 + 1));
 
-				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChance))
+				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 					tAction.Options |= TargetOptions.Critical;
 
 				target.TakeDamage(tAction.Damage = damage);
@@ -189,8 +189,9 @@ namespace Aura.World.Skills
 			if (undead == null)
 				return;
 
-			var sAction = new SourceAction(CombatActionType.RangeHit, attacker, skill.Id, undead.Id, cloud.Id);
-			sAction.Options = SourceOptions.KnockBackHit1 | SourceOptions.UseEffect;
+			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, undead.Id);
+			sAction.PropId = cloud.Id;
+			sAction.Options = AttackerOptions.KnockBackHit1 | AttackerOptions.UseEffect;
 
 			var cap = new CombatActionPack(attacker, skill.Id);
 			cap.Add(sAction);
@@ -207,7 +208,7 @@ namespace Aura.World.Skills
 
 				var damage = attacker.GetMagicDamage(attacker.RightHand, rnd.Next((int)skill.RankInfo.Var1, (int)skill.RankInfo.Var2 + 1)) * dmgModifier;
 
-				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChance))
+				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 					tAction.Options |= TargetOptions.Critical;
 
 				target.TakeDamage(tAction.Damage = damage);

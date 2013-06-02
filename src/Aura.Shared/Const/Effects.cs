@@ -94,6 +94,7 @@ namespace Aura.Shared.Const
 		/// </summary>
 		public static readonly uint ManaShield = 122;
 
+		public static readonly uint SupportShot = 240;
 
 		/// <summary>
 		/// ?

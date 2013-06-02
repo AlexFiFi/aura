@@ -20,6 +20,11 @@ namespace Aura.World.Skills
 			_handlers.Add(SkillConst.Windmill, new WindmillHandler());
 			_handlers.Add(SkillConst.MeleeCounterattack, new CounterHandler());
 			_handlers.Add(SkillConst.ShadowBunshin, new ShadowBunshinHandler());
+			_handlers.Add(SkillConst.RangedCombatMastery, new RangeCombatMasteryHandler());
+			_handlers.Add(SkillConst.ArrowRevolver, new ArrowRevolverHandler());
+			_handlers.Add(SkillConst.ArrowRevolver2, new ArrowRevolverHandler());
+			_handlers.Add(SkillConst.MagnumShot, new MagnumShotHandler());
+			_handlers.Add(SkillConst.SupportShot, new SupportShotHandler());
 
 			// Life
 			_handlers.Add(SkillConst.Rest, new RestHandler());

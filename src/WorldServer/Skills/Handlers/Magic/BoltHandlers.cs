@@ -60,9 +60,6 @@ namespace Aura.World.Skills
 		{
 			creature.Client.SendSkillComplete(creature, skill.Id);
 
-			if (creature.ActiveSkillStacks > 0)
-				creature.Client.SendSkillComplete(creature, skill.Id);
-
 			return SkillResults.Okay;
 		}
 
@@ -102,8 +99,8 @@ namespace Aura.World.Skills
 
 			SkillHelper.DecStack(attacker, skill);
 
-			var sAction = new SourceAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
-			sAction.Options |= SourceOptions.Result;
+			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
+			sAction.Options |= AttackerOptions.Result;
 
 			var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
 			tAction.Options |= TargetOptions.Result;
@@ -115,7 +112,7 @@ namespace Aura.World.Skills
 
 			var damage = attacker.GetMagicDamage(attacker.RightHand, rnd.Next((int)skill.RankInfo.Var1, (int)skill.RankInfo.Var2 + 1));
 
-			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChance))
+			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 				tAction.Options |= TargetOptions.Critical;
 
 			target.TakeDamage(tAction.Damage = damage);
@@ -189,8 +186,8 @@ namespace Aura.World.Skills
 
 			attacker.Client.SendSkillUse(attacker, skill.Id, UseStun, 1);
 
-			var sAction = new SourceAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
-			sAction.Options |= SourceOptions.Result;
+			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
+			sAction.Options |= AttackerOptions.Result;
 
 			var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
 			tAction.Options |= TargetOptions.Result;
@@ -204,7 +201,7 @@ namespace Aura.World.Skills
 			
 			damage *= (attacker.ActiveSkillStacks == 5 ? 6.5f : attacker.ActiveSkillStacks);
 
-			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChance))
+			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 				tAction.Options |= TargetOptions.Critical;
 
 			SkillHelper.ClearStack(attacker, skill);
@@ -264,8 +261,8 @@ namespace Aura.World.Skills
 
 			attacker.Client.SendSkillUse(attacker, skill.Id, UseStun, 1);
 
-			var sAction = new SourceAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
-			sAction.Options |= SourceOptions.Result;
+			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
+			sAction.Options |= AttackerOptions.Result;
 
 			var cap = new CombatActionPack(attacker, skill.Id);
 			cap.Add(sAction);
@@ -289,7 +286,7 @@ namespace Aura.World.Skills
 
 				splashAction.Damage = damage * ((100-(i * 10)) / 100f);
 
-				if (CombatHelper.TryAddCritical(targets[i], ref damage, attacker.CriticalChance))
+				if (CombatHelper.TryAddCritical(targets[i], ref damage, attacker.CriticalChanceAgainst(targets[i])))
 					splashAction.Options |= TargetOptions.Critical;
 
 				targets[i].TakeDamage(splashAction.Damage);

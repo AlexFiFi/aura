@@ -164,6 +164,7 @@ namespace Aura.World.World
 				this.OptionInfo.SellingPrice = this.DataInfo.SellingPrice;
 				this.OptionInfo.WeaponType = this.DataInfo.WeaponType;
 				this.OptionInfo.AttackSpeed = this.DataInfo.AttackSpeed;
+				this.OptionInfo.EffectiveRange = this.DataInfo.Range;
 
 				this.OptionInfo.Flag = 1;
 

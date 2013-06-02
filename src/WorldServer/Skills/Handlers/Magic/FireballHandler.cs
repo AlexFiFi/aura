@@ -110,8 +110,9 @@ namespace Aura.World.Skills
 
 			ulong areaTarget = SkillHelper.GetAreaTargetID(bomb.Region, (uint)bomb.Info.X, (uint)bomb.Info.Y);
 
-			var sAction = new SourceAction(CombatActionType.SpecialHit, attacker, skill.Id, areaTarget, bomb.Id);
-			sAction.Options = SourceOptions.KnockBackHit1 | SourceOptions.UseEffect;
+			var sAction = new AttackerAction(CombatActionType.SpecialHit, attacker, skill.Id, areaTarget);
+			sAction.PropId = bomb.Id;
+			sAction.Options = AttackerOptions.KnockBackHit1 | AttackerOptions.UseEffect;
 
 			var cap = new CombatActionPack(attacker, skill.Id);
 			cap.Add(sAction);
@@ -129,7 +130,7 @@ namespace Aura.World.Skills
 
 				var damage = attacker.GetMagicDamage(attacker.RightHand, rnd.Next((int)skill.RankInfo.Var1, (int)skill.RankInfo.Var2 + 1));
 
-				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChance))
+				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 					tAction.Options |= TargetOptions.Critical;
 
 				target.TakeDamage(tAction.Damage = damage);
@@ -162,8 +163,9 @@ namespace Aura.World.Skills
 			if (undead == null)
 				return;
 
-			var sAction = new SourceAction(CombatActionType.RangeHit, attacker, skill.Id, undead.Id, cloud.Id);
-			sAction.Options = SourceOptions.KnockBackHit1 | SourceOptions.UseEffect;
+			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, undead.Id);
+			sAction.PropId = cloud.Id;
+			sAction.Options = AttackerOptions.KnockBackHit1 | AttackerOptions.UseEffect;
 
 			var cap = new CombatActionPack(attacker, skill.Id);
 			cap.Add(sAction);
@@ -181,7 +183,7 @@ namespace Aura.World.Skills
 
 				var damage = attacker.GetMagicDamage(attacker.RightHand, rnd.Next((int)skill.RankInfo.Var1, (int)skill.RankInfo.Var2 + 1)) * dmgModifier;
 
-				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChance))
+				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 					tAction.Options |= TargetOptions.Critical;
 
 				target.TakeDamage(tAction.Damage = damage);

@@ -147,8 +147,8 @@ namespace Aura.World.Skills
 					.PutInt(i) // clone nr
 				, SendTargets.Range, attacker);
 
-				var sAction = new SourceAction(CombatActionType.SpecialHit, attacker, skill.Id, targetId);
-				sAction.Options |= SourceOptions.Result;
+				var sAction = new AttackerAction(CombatActionType.SpecialHit, attacker, skill.Id, targetId);
+				sAction.Options |= AttackerOptions.Result;
 
 				var tAction = new TargetAction(CombatActionType.TakeHit, target, attacker, skill.Id);
 				tAction.Delay = 100;
@@ -165,7 +165,7 @@ namespace Aura.World.Skills
 				damage += skill.RankInfo.Var7 * staminaCost;
 
 				// Crit
-				if (CombatHelper.TryAddCritical(attacker, ref damage, (attacker.CriticalChance - target.Protection)))
+				if (CombatHelper.TryAddCritical(attacker, ref damage, attacker.CriticalChanceAgainst(target)))
 					tAction.Options |= TargetOptions.Critical;
 
 				// Def/Prot

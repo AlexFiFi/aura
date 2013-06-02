@@ -395,9 +395,6 @@ namespace Aura.World.World
 			{
 				float result = this.ProtectionBase + this.ProtectionBaseSkill + this.StatMods.GetMod(Stat.ProtectMod);
 
-				if (this.RaceInfo != null)
-					result += this.RaceInfo.Protection;
-
 				// Add equips
 				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Protection);
 
@@ -413,9 +410,6 @@ namespace Aura.World.World
 			get
 			{
 				float result = this.ProtectionBase + this.ProtectionBaseSkill + this.StatMods.GetMod(Stat.ProtectMod);
-
-				if (this.RaceInfo != null)
-					result += this.RaceInfo.Protection;
 
 				// Add def bonus if active
 				var defenseSkill = this.GetSkill(SkillConst.Defense);
@@ -443,7 +437,12 @@ namespace Aura.World.World
 			}
 		}
 
-		public float CriticalMultiplicator
+		public float CriticalChanceAgainst(MabiCreature other)
+		{
+			return (this.CriticalChance - (other.Protection * 2));
+		}
+
+		public float CriticalMultiplier
 		{
 			get
 			{
@@ -899,6 +898,24 @@ namespace Aura.World.World
 
 			if (float.IsNaN(balance))
 				balance = this.GetRndBalance(weapon);
+
+			return min + ((max - min) * balance);
+		}
+
+		public float GetRndRangeDamage()
+		{
+			float min = 0, max = 0;
+
+			min += this.RightHand.OptionInfo.AttackMin;
+			max += this.RightHand.OptionInfo.AttackMax;
+
+			min += this.Magazine.OptionInfo.AttackMin;
+			max += this.Magazine.OptionInfo.AttackMax;
+
+			min += this.Dex / 3.5f;
+			max += this.Dex / 2.5f;
+
+			var balance = this.GetRndBalance(this.RightHand);
 
 			return min + ((max - min) * balance);
 		}
@@ -1481,6 +1498,38 @@ namespace Aura.World.World
 				EntityEvents.Instance.OnCreatureLevelsUp(this);
 				WorldManager.Instance.CreatureStatsUpdate(this);
 			}
+		}
+
+		public double GetAimPercent(double aimBoost, double aimInitial = 0)
+		{
+			if (!WorldManager.InRange(this, this.Target, (uint)(this.RightHand.OptionInfo.EffectiveRange)))
+			{
+				// TODO: SoG?
+				return 0;
+			}
+
+			var aPos = this.GetPosition();
+			var tPos = this.Target.GetPosition();
+
+			var distance = Math.Sqrt((Math.Pow(((float)aPos.X - (float)tPos.X), 2) + Math.Pow(((float)aPos.Y - (float)tPos.Y), 2)));
+
+			var aimTime = (DateTime.Now - this.AimStart).TotalMilliseconds;
+			var aimRate = Math.Min(320 / distance, 1);
+			var aimPercent = Math.Min(aimTime * aimRate * aimBoost / 10 + aimInitial, 99);
+			var overTime = aimTime - (990 / (aimRate * aimBoost)); // Time after 99%
+
+			if (aimPercent == 99 && overTime > 1000)
+				aimPercent = 100;
+
+			if (this.Target.IsMoving)
+			{
+				if (this.Target._moveIsWalk && aimPercent > 95)
+					aimPercent = 95;
+				else if (!this.Target._moveIsWalk && aimPercent > 90)
+					aimPercent = 90;
+			}
+
+			return aimPercent / 100;
 		}
 	}
 }

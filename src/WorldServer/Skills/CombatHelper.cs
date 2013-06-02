@@ -5,6 +5,7 @@ using Aura.Shared.Const;
 using Aura.World.World;
 using System;
 using Aura.Shared.Util;
+using Aura.Shared.Network;
 namespace Aura.World.Skills
 {
 	public static class CombatHelper
@@ -122,7 +123,7 @@ namespace Aura.World.Skills
 		}
 
 		/// <summary>
-		/// Applies critical multiplier if crit occures.
+		/// Combines TryCritical and AddCritical to apply critical multiplier if crit occurs.
 		/// </summary>
 		/// <param name="creature"></param>
 		/// <param name="chance"></param>
@@ -130,12 +131,31 @@ namespace Aura.World.Skills
 		/// <returns>Returns whether a crit happened.</returns>
 		public static bool TryAddCritical(MabiCreature creature, ref float damage, float chance)
 		{
-			if (RandomProvider.Get().NextDouble() < Math.Min(.33, chance))
+			if (TryCritical(chance))
 			{
-				damage *= creature.CriticalMultiplicator;
+				damage = AddCritical(creature, damage);
 				return true;
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// Simply checks of a crit occurs
+		/// </summary>
+		/// <returns></returns>
+		public static bool TryCritical(float chance)
+		{
+			return RandomProvider.Get().NextDouble() < Math.Min(.33, chance);
+		}
+
+		/// <summary>
+		/// Adds citical damage
+		/// </summary>
+		/// <returns></returns>
+		public static float AddCritical(MabiCreature creature, float damage)
+		{
+			damage *= creature.CriticalMultiplier;
+			return damage;
 		}
 
 		/// <summary>
@@ -308,6 +328,14 @@ namespace Aura.World.Skills
 			}
 
 			return SkillResults.None;
+		}
+
+		public static void ResetCreatureAim(MabiCreature creature)
+		{
+			if (creature.Target != null)
+				creature.Client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id).PutByte(0));
+
+			creature.AimStart = DateTime.MaxValue;
 		}
 	}
 

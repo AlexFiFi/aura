@@ -12,10 +12,13 @@ namespace Aura.Shared.Util
 	/// </summary>
 	public static class RandomProvider
 	{
-		private static int _seed = Environment.TickCount;
+		private static readonly Random _seed = new Random();
 
 		private static ThreadLocal<Random> randomWrapper = new ThreadLocal<Random>(() =>
-			new Random(Interlocked.Increment(ref _seed))
+			{
+				lock (_seed)
+					return new Random(_seed.Next());
+			}
 		);
 
 		/// <summary>

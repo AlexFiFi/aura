@@ -44,8 +44,8 @@ namespace Aura.World.Skills
 			if (target == null)
 				return SkillResults.InvalidTarget;
 
-			var sAction = new SourceAction(CombatActionType.HardHit, attacker, skill.Id, targetId);
-			sAction.Options |= SourceOptions.Result;
+			var sAction = new AttackerAction(CombatActionType.HardHit, attacker, skill.Id, targetId);
+			sAction.Options |= AttackerOptions.Result;
 
 			var tAction = new TargetAction(CombatActionType.CounteredHit, target, attacker, skill.Id);
 			tAction.Options |= TargetOptions.Result | TargetOptions.KnockDown;
@@ -57,7 +57,7 @@ namespace Aura.World.Skills
 				(attacker.GetRndTotalDamage() * (skill.RankInfo.Var2 / 100f)) +
 				(target.GetRndTotalDamage() * (skill.RankInfo.Var1 / 100f));
 
-			if (CombatHelper.TryAddCritical(attacker, ref damage, (target.CriticalChance + skill.RankInfo.Var3 - target.Protection)))
+			if (CombatHelper.TryAddCritical(attacker, ref damage, (target.CriticalChanceAgainst(attacker) + skill.RankInfo.Var3)))
 				tAction.Options |= TargetOptions.Critical;
 
 			CombatHelper.ReduceDamage(ref damage, target.DefenseTotal, target.Protection);
