@@ -2031,6 +2031,14 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
+			// No pets in soul stream.
+			// TODO: implement something like map flags?
+			if (creature.Region == 1000)
+			{
+				client.Send(new MabiPacket(Op.PetSummonR, creature.Id).PutByte(false));
+				return;
+			}
+
 			var petId = packet.GetLong();
 			var unk1 = packet.GetByte();
 

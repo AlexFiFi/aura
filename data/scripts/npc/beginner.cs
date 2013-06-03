@@ -95,6 +95,10 @@ public class NaoScript : NPCScript
 		c.Character.SetLocation(125, 21489, 76421);
 		c.Character.Direction = 233;
 		
+		c.Character.GiveItem(1000,  1); // Traveler's Guide
+		c.Character.GiveItem(50004, 1); // Bread
+		c.Character.GiveItem(85539, 3); // Nao's Soul Stone for Beginners
+		
 		StartQuest(c, 200501); // Nao's Letter of Introduction
 		
 		Close(c);
