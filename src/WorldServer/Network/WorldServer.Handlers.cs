@@ -2308,7 +2308,15 @@ namespace Aura.World.Network
 			var pos = creature.GetPosition();
 			var dest = new MabiVertex(x, y);
 
-			// TODO: Collision
+#if false
+			// Collision
+			MabiVertex intersection;
+			if (WorldManager.Instance.FindCollisionInTree(creature.Region, pos, dest, out intersection))
+			{
+				//Logger.Debug("intersection " + intersection);
+				// TODO: Uhm... do something.
+			}
+#endif
 
 			var walking = (packet.Op == Op.Walk);
 
@@ -2321,7 +2329,6 @@ namespace Aura.World.Network
 			}
 
 			WorldManager.Instance.CreatureMove(creature, pos, dest, walking);
-
 		}
 
 		private void HandleTakeOff(WorldClient client, MabiPacket packet)

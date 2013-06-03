@@ -23,8 +23,14 @@ namespace Aura.World.World
 		public List<DropInfo> Drops = new List<DropInfo>();
 		public MabiVertex AnchorPoint;
 
-		public DateTime AncientTime;
+		/// <summary>
+		/// Determines whether an NPC can become ancient.
+		/// </summary>
 		public bool AncientEligible = false;
+		/// <summary>
+		/// Soonest point in time at which an NPC can become ancient.
+		/// </summary>
+		public DateTime AncientTime;
 
 		public MabiNPC()
 		{

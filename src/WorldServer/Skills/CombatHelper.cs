@@ -307,6 +307,13 @@ namespace Aura.World.Skills
 		{
 			var oldPos = target.GetPosition();
 			var pos = WorldManager.CalculatePosOnLine(attacker, target, distance);
+
+			// Check for collision, set new pos 200 points before the
+			// intersection, to prevent glitching through.
+			MabiVertex intersection;
+			if (WorldManager.Instance.FindCollision(attacker.Region, oldPos, pos, out intersection))
+				pos = WorldManager.CalculatePosOnLine(oldPos, intersection, -200);
+
 			target.SetPosition(pos.X, pos.Y);
 			return oldPos;
 		}

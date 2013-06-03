@@ -351,6 +351,7 @@ namespace Aura.Shared.Network
 		public readonly static uint UmbrellaLand = 0xA8E2;
 		public readonly static uint SetBgm = 0xA910;
 		public readonly static uint UnsetBgm = 0xA911;
+		public readonly static uint EnableRoyalAlchemist = 0xA9A3;
 		public readonly static uint SosButton = 0xA9A9;
 		public readonly static uint SosButtonR = 0xA9AA;
 		public readonly static uint SubsribeStun = 0xAA1C; // ?

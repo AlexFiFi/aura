@@ -141,6 +141,7 @@
     <Compile Include="World\MabiSkill.cs" />
     <Compile Include="World\MabiStatMod.cs" />
     <Compile Include="World\MabiVertex.cs" />
+    <Compile Include="World\Quadtree.cs" />
     <Compile Include="World\WeatherManager.cs" />
     <Compile Include="World\WorldManager.cs" />
   </ItemGroup>

@@ -52,7 +52,7 @@ namespace Aura.World.Scripting
 		protected List<AiAction> _actions = new List<AiAction>();
 		protected uint _aggroRange = 500;
 		protected AggroState _aggroState;
-		
+
 		private Timer _heartbeatTimer;
 
 		// This controls the "speed" at which the AI can think.
@@ -129,7 +129,7 @@ namespace Aura.World.Scripting
 
 			if (this.Creature.Target != null && _aggroState == AggroState.None) // Mob was attacked
 			{
-				foreach (var a in Aggro()) 
+				foreach (var a in Aggro())
 					;
 
 				CheckForInterrupt();
@@ -255,6 +255,13 @@ namespace Aura.World.Scripting
 		protected IEnumerable WalkTo(MabiVertex dest, bool wait)
 		{
 			var pos = this.Creature.GetPosition();
+
+			// Check for collision, set destination 200 points before the
+			// intersection, to prevent glitching through.
+			MabiVertex intersection;
+			if (WorldManager.Instance.FindCollision(this.Creature.Region, pos, dest, out intersection))
+				dest = WorldManager.CalculatePosOnLine(pos, intersection, -200);
+
 			this.Creature.StartMove(dest, true);
 
 			WorldManager.Instance.CreatureMove(this.Creature, pos, dest, true);
@@ -378,7 +385,7 @@ namespace Aura.World.Scripting
 
 			WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Loading, skillId);
 
-			System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(() => 
+			System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
 			{
 				System.Threading.Thread.Sleep((int)castTime);
 				if (Creature.ActiveSkillId == skill.Id)
