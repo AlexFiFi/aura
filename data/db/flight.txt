@@ -57,9 +57,8 @@
 490009,13.5,5,-10,1.2     // Magic Carpet
 490010,15,6,-10,1.2       // Premium Magic Carpet
 490011,15,6,-10,1.2       // Premium Magic Carpet
-490012,15,8,-12,2         // Onion
+490012,15,8,-12,2         // Leek
 490013,26,7,-11,1.2       // Nimbus
-490014,26,7,-11,1.2       // Cloud Pet
+490014,26,7,-11,1.2       // Dark Cloud
 490015,16,7,-11,1.6       // Pegasus
-490016,16,7,-11,1.6       // Combat Pegasus
 800002,14,5,-10,1.5       // Magical Broom

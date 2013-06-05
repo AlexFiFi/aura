@@ -337,7 +337,6 @@ elf/*/zombierun,                28.652500
 petdragon/two/walk,            216.771000
 petdragon/two/run,             850.000000
 commerceelephant/memma/run,    512.284000
-//commerceelephant/*/walk,       207.689200
 commercecarriage/memma/walk,   262.500000
 commercecarriage/memma/run,    714.285000
 menma/*/run,                   373.850600
@@ -378,8 +377,8 @@ gold_dragon/*/run,             268.200500
 White_dragon/*/run,            487.194000
 White_dragon/*/walk,           362.070000
 Whitewyvern/*/run,             600.000000
-Mikutan/*/run,                 500.625000
-Mikutan/*/walk,                 44.851250
+toy_mikutan/*/run,             500.625000
+Toy_mikutan/*/walk,             44.851250
 cosickeleptor/*/Walk,           72.973800
 Cosickeleptor/*/run,           510.033000
 petcloud/*/run,                845.454500
@@ -390,3 +389,11 @@ black_dragon/*/walk,           300.000000
 Phoenix_white/*/walk,           85.006610
 phoenix_white/*/run,           540.000000
 black_dragon/*/run,            300.000000
+petpegasus/*/run,             1000.000000
+petpegasus/*/walk,             187.500000
+autobot/*/run,                 500.625000
+autobot/*/walk,                 44.851250
+petmaplefox/*/run,             500.000000
+petmaplefox/*/walk,            180.435000
+scooter/*/run,                 845.000000
+scooter/*/walk,                400.000000
