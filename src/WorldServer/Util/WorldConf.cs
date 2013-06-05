@@ -48,6 +48,13 @@ namespace Aura.World.Util
 		// GM
 		public static bool AutoSendGMCP;
 		public static byte MinimumGMCP;
+		public static byte MinimumGMCPSummon;
+		public static byte MinimumGMCPCharWarp;
+		public static byte MinimumGMCPMove;
+		public static byte MinimumGMCPRevive;
+		public static byte MinimumGMCPInvisible;
+		public static byte MinimumGMCPExpel;
+		public static byte MinimumGMCPBan;
 
 		// Exp
 		public static float ExpRate;
@@ -121,6 +128,13 @@ namespace Aura.World.Util
 
 			WorldConf.AutoSendGMCP = _conf.GetBool("world_auto_gmcp", false);
 			WorldConf.MinimumGMCP = _conf.Get<byte>("world_minimum_gmcp", 50);
+			WorldConf.MinimumGMCPSummon = _conf.Get<byte>("world_minimum_gmcp_summon", 50);
+			WorldConf.MinimumGMCPCharWarp = _conf.Get<byte>("world_minimum_gmcp_char_warp", 50);
+			WorldConf.MinimumGMCPMove = _conf.Get<byte>("world_minimum_gmcp_move", 50);
+			WorldConf.MinimumGMCPRevive = _conf.Get<byte>("world_minimum_gmcp_revive", 50);
+			WorldConf.MinimumGMCPInvisible = _conf.Get<byte>("world_minimum_gmcp_invisible", 50);
+			WorldConf.MinimumGMCPExpel = _conf.Get<byte>("world_minimum_gmcp_expel", 50);
+			WorldConf.MinimumGMCPBan = _conf.Get<byte>("world_minimum_gmcp_ban", 50);
 
 			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100f) / 100.0f;
 

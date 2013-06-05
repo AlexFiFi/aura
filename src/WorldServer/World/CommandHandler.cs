@@ -28,25 +28,25 @@ namespace Aura.World.World
 		public void Load()
 		{
 			this.AddCommand("where", Authority.Player, Command_where);
-			this.AddCommand("motion", "<category> <motion>", Authority.Player, Command_motion);
 			this.AddCommand("gesture", "<gesture>", Authority.Player, Command_gesture);
-			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
-			this.AddCommand("guild", "<name>", Authority.Player, Command_guild);
 			this.AddCommand("cutscene", "[name]", Authority.Player, Command_cutscene);
 
 			this.AddCommand("go", "<destination>", Authority.VIP, Command_go);
 			this.AddCommand("shamala", "<race>", Authority.VIP, Command_shamala);
+			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
+			this.AddCommand("guild", "<name>", Authority.Player, Command_guild);
 
 			this.AddCommand("gmcp", Authority.GameMaster, Command_gmcp);
 			this.AddCommand("item", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
 			this.AddCommand("iteminfo", "<item name>", Authority.GameMaster, Command_iteminfo);
+			this.AddCommand("skillinfo", "<skill name>", Authority.GameMaster, Command_skillinfo);
 			this.AddCommand("raceinfo", "<race name>", Authority.GameMaster, Command_raceinfo);
 			this.AddCommand("warp", "<region> [x] [y]", Authority.GameMaster, Command_warp);
 			this.AddCommand("jump", "<x> [y]", Authority.GameMaster, Command_jump);
 			this.AddCommand("clean", Authority.GameMaster, Command_clean);
 			this.AddCommand("statuseffect", Authority.GameMaster, Command_statuseffect);
 			this.AddCommand("effect", "<id> {(b|i|s:parameter)|me}", Authority.GameMaster, Command_effect);
-			this.AddCommand("skill", Authority.GameMaster, Command_skill);
+			this.AddCommand("skill", "<id> [rank=F]", Authority.GameMaster, Command_skill);
 			this.AddCommand("spawn", "<race id> [amount]", Authority.GameMaster, Command_spawn);
 			this.AddCommand("prop", "<class>", Authority.GameMaster, Command_prop);
 			this.AddCommand("ritem", Authority.GameMaster, Command_randomitem);
@@ -55,6 +55,7 @@ namespace Aura.World.World
 			this.AddCommand("title", "<title id> <usable>", Authority.GameMaster, Command_title);
 			this.AddCommand("grandmaster", "<talent id (0 - 16)>", Authority.GameMaster, Command_grandmaster);
 			this.AddCommand("over9000", "", Authority.GameMaster, Command_over9k);
+			this.AddCommand("motion", "<category> <motion>", Authority.GameMaster, Command_motion);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
@@ -69,6 +70,7 @@ namespace Aura.World.World
 			this.AddAlias("reloadscripts", "reloadnpcs", "rs");
 			this.AddAlias("item", "drop");
 			this.AddAlias("iteminfo", "ii");
+			this.AddAlias("skillinfo", "si");
 			this.AddAlias("raceinfo", "ri");
 			this.AddAlias("statuseffect", "se");
 			this.AddAlias("test", "t");
@@ -393,6 +395,31 @@ namespace Aura.World.World
 			}
 
 			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.ii_res"), infos.Count)); // Results: {0} (Max. 20 shown)
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_skillinfo(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			var skillName = msg.Substring(args[0].Length + 2).Replace('_', ' ');
+
+			var infos = MabiData.SkillDb.FindAll(skillName);
+			if (infos.Count < 1)
+			{
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_none"))); // No skills found.
+				return CommandResult.Fail;
+			}
+
+			for (int i = 0; i < infos.Count && i < 20; ++i)
+			{
+				var lastRank = infos[i].RankInfo.Last();
+				client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_for"), infos[i].Id, infos[i].Name, (16 - lastRank.Rank).ToString("X"))); // {0}: {1} (Max Rank: {2})
+			}
+
+			client.Send(PacketCreator.ServerMessage(creature, Localization.Get("gm.si_res"), infos.Count)); // Results: {0} (Max. 20 shown)
 
 			return CommandResult.Okay;
 		}
@@ -785,9 +812,16 @@ namespace Aura.World.World
 			if (!ushort.TryParse(args[1], out skillId))
 				return CommandResult.Fail;
 
-			byte rank = (byte)SkillRank.R9;
-			if (args.Length > 2 && !byte.TryParse(args[2], out rank))
-				return CommandResult.Fail;
+			byte rank = 0xF;
+			if ((args.Length > 2 && !byte.TryParse(args[2], NumberStyles.HexNumber, null, out rank)))
+				return CommandResult.WrongParameter;
+
+			if (rank >= 1 && rank <= 15)
+				rank = (byte)(16 - rank);
+			else if (rank >= 0x16 && rank <= 0x18)
+				rank -= 6;
+			else
+				return CommandResult.WrongParameter;
 
 			creature.GiveSkill(skillId, rank, true);
 

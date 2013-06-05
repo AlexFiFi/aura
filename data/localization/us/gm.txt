@@ -35,6 +35,11 @@ ii_none			No items found.
 ii_for			{0}: {1}
 ii_res			Results: {0} (Max. 20 shown)
 
+// >skillinfo
+si_none			No skills found.
+si_for			{0}: {1} (Max Rank: {2})
+si_res			Results: {0} (Max. 20 shown)
+
 // >raceinfo
 ri_none			No races found.
 ri_for			{0}: {1}

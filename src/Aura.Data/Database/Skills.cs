@@ -37,6 +37,12 @@ namespace Aura.Data
 	/// </summary>
 	public class SkillDb : DatabaseCSVIndexed<ushort, SkillInfo>
 	{
+		public List<SkillInfo> FindAll(string name)
+		{
+			name = name.ToLower();
+			return this.Entries.FindAll(a => a.Value.Name.ToLower().Contains(name));
+		}
+
 		protected override void ReadEntry(CSVEntry entry)
 		{
 			if (entry.Count < 3)
@@ -47,7 +53,7 @@ namespace Aura.Data
 			info.Name = entry.ReadString();
 			info.MasterTitle = entry.ReadUShort();
 
-			info.RankInfo.AddRange(MabiData.SkillRankDb.Entries.FindAll(a => a.SkillId == info.Id));
+			info.RankInfo.AddRange(MabiData.SkillRankDb.Entries.FindAll(a => a.SkillId == info.Id).OrderBy(a => a.Rank));
 
 			this.Entries.Add(info.Id, info);
 		}

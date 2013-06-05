@@ -485,7 +485,7 @@ namespace Aura.World.Network
 
 		public void HandleGMCPMove(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPMove)
 			{
 				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
@@ -500,7 +500,7 @@ namespace Aura.World.Network
 
 		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPCharWarp)
 			{
 				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
@@ -520,7 +520,7 @@ namespace Aura.World.Network
 
 		private void HandleGMCPRevive(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPRevive)
 			{
 				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
@@ -547,7 +547,7 @@ namespace Aura.World.Network
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPSummon)
 			{
 				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
@@ -581,7 +581,7 @@ namespace Aura.World.Network
 
 		private void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPInvisible)
 			{
 				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
@@ -602,7 +602,7 @@ namespace Aura.World.Network
 
 		private void HandleGMCPExpel(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPExpel)
 			{
 				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
@@ -624,7 +624,7 @@ namespace Aura.World.Network
 
 		private void HandleGMCPBan(WorldClient client, MabiPacket packet)
 		{
-			if (client.Account.Authority < WorldConf.MinimumGMCP)
+			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPBan)
 			{
 				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
 				return;
