@@ -28,6 +28,7 @@ namespace Aura.Data
 		public ulong Id;
 		public uint Class;
 		public float X, Y;
+		public float Direction, Scale;
 		public List<PropShapeInfo> Shapes;
 	}
 
@@ -52,11 +53,13 @@ namespace Aura.Data
 
 	public class RegionDb : DatabaseDatIndexed<uint, RegionInfo>
 	{
+		public Dictionary<ulong, PropInfo> PropEntries = new Dictionary<ulong, PropInfo>();
 		public Dictionary<ulong, EventInfo> EventEntries = new Dictionary<ulong, EventInfo>();
 
 		public override void Clear()
 		{
 			base.Clear();
+			this.PropEntries.Clear();
 			this.EventEntries.Clear();
 		}
 
@@ -72,9 +75,16 @@ namespace Aura.Data
 
 		public EventInfo FindEvent(ulong id)
 		{
-			EventInfo ei;
-			this.EventEntries.TryGetValue(id, out ei);
-			return ei;
+			EventInfo result;
+			this.EventEntries.TryGetValue(id, out result);
+			return result;
+		}
+
+		public PropInfo FindProp(ulong id)
+		{
+			PropInfo result;
+			this.PropEntries.TryGetValue(id, out result);
+			return result;
 		}
 
 		public Point RandomCoord(uint region)
@@ -138,8 +148,11 @@ namespace Aura.Data
 					{
 						var pi = new PropInfo();
 						pi.Id = br.ReadUInt64();
+						pi.Class = br.ReadUInt32();
 						pi.X = br.ReadSingle();
 						pi.Y = br.ReadSingle();
+						pi.Direction = br.ReadSingle();
+						pi.Scale = br.ReadSingle();
 
 						var cShapes = br.ReadInt32();
 						pi.Shapes = new List<PropShapeInfo>();
@@ -159,6 +172,7 @@ namespace Aura.Data
 						}
 
 						ai.Props.Add(pi.Id, pi);
+						this.PropEntries.Add(pi.Id, pi);
 					}
 
 					var cEvents = br.ReadInt32();
