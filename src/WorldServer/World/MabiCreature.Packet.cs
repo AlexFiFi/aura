@@ -66,27 +66,7 @@ namespace Aura.World.World
 
 			// PvP
 			// --------------------------------------------------------------
-			packet.PutByte(0);                   // IsAttackFree
-			packet.PutInt(0);                    // ArenaTeam
-			packet.PutByte(0);                   // IsTransformPVP
-			packet.PutInt(0);                    // Point
-			packet.PutByte(0);                   // IsGiantElfPVP
-			packet.PutByte(0);                   // SupportRaceType
-			packet.PutByte(0);                   // IsPVPMode
-			packet.PutLong(0);                   // WinCount
-			packet.PutLong(0);                   // LoseCount
-			packet.PutInt(0);                    // PenaltyPoint
-			packet.PutByte(1);					 // IsCommonPVP
-
-			// Apperantly added in 170400
-			if (Op.Version >= 170400)
-			{
-				packet.PutByte(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-			}
+			this.AddPvPInfoToPacket(packet);
 
 			// Statuses
 			// --------------------------------------------------------------
@@ -564,6 +544,34 @@ namespace Aura.World.World
 				packet.PutInt(0);
 			}
 		}
+
+		public void AddPvPInfoToPacket(MabiPacket p)
+		{
+			var arena = this.ArenaPvPManager != null;
+			p
+				.PutByte(arena) // ArenaPvP
+				.PutInt(arena ? this.ArenaPvPManager.GetTeam(this) : (uint)0) // ArenaPvP Team
+				.PutByte(this.TransPvPEnabled) // TransformPvP
+				.PutInt(arena ? this.ArenaPvPManager.GetStars(this) : 0) // Stars
+				.PutByte(this.EvGEnabled) // EvG Enabled
+				.PutByte(this.EvGSupportRace) // EvG Support
+				.PutByte(1) // IsPvPMode
+				.PutLong(this.PvPWins) // Wins
+				.PutLong(this.PvPLosses) // Losses
+				.PutInt(0) // PenaltyPoints
+				.PutByte(1); // unk
+
+			// Apparently added in 170400
+			if (Op.Version >= 170400)
+			{
+				p.PutByte(0);
+				p.PutInt(0);
+				p.PutInt(0);
+				p.PutInt(0);
+				p.PutInt(0);
+			}
+		}
+
 	}
 #pragma warning restore 0162
 }

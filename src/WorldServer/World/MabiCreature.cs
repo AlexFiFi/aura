@@ -70,6 +70,13 @@ namespace Aura.World.World
 
 		public MabiCutscene CurrentCutscene;
 
+		public ArenaPvPManager ArenaPvPManager;
+		public ulong PvPWins, PvPLosses;
+		public bool EvGEnabled, TransPvPEnabled;
+
+		private byte _evgSupportRace;
+		public byte EvGSupportRace { get { return (byte)(this.IsHuman ? _evgSupportRace : (this.IsElf ? 1 : 2)); } set { _evgSupportRace = value; } }
+
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
 		public readonly MabiVertex _destination = new MabiVertex(0, 0);
@@ -335,6 +342,9 @@ namespace Aura.World.World
 		public int ProtectionBaseSkill { get; set; }
 
 		public DateTime AimStart;
+
+		public DeadMenuOptions RevivalOptions;
+		public DeathCauses CauseOfDeath;
 
 		/// <summary>
 		/// Returns base defense and passive defenses
@@ -1441,12 +1451,10 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Removes dead state and recovers some injuries and life.
+		/// Removes dead state
 		/// </summary>
 		public void Revive()
 		{
-			this.Injuries = 0;
-			this.Life = this.LifeInjured / 2;
 			this.State &= ~CreatureStates.Dead;
 
 			if (((this is MabiNPC) && (Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Mob) != 0) ||
@@ -1459,6 +1467,8 @@ namespace Aura.World.World
 				WorldManager.Instance.AddProp(p);
 			}
 
+			this.CauseOfDeath = DeathCauses.None;
+			this.WaitingForRes = false;
 		}
 
 		/// <summary>

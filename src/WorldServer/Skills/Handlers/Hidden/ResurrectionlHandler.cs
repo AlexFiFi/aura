@@ -35,7 +35,7 @@ namespace Aura.World.Skills
 		{
 			var targetId = packet.GetLong();
 			var target = WorldManager.Instance.GetCreatureById(targetId);
-			if (target == null || !target.IsDead)
+			if (target == null || !target.IsDead || (target.RevivalOptions & DeadMenuOptions.WaitForRescue) == 0 || !target.WaitingForRes)
 				return SkillResults.InvalidTarget;
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.UseMagic).PutString("healing_phoenix").PutLong(target.Id), SendTargets.Range, creature);
@@ -60,6 +60,8 @@ namespace Aura.World.Skills
 				return SkillResults.Failure;
 
 			creature.DecItem(creature.Temp.SkillItem1);
+
+			// TODO: stats
 
 			WorldManager.Instance.ReviveCreature(target);
 

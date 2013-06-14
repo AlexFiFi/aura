@@ -230,6 +230,12 @@ namespace Aura.World.Database
 					character.Color1 = reader.GetUInt32("color1");
 					character.Color2 = reader.GetUInt32("color2");
 					character.Color3 = reader.GetUInt32("color3");
+					character.PvPWins = reader.GetUInt64("pvpWins");
+					character.PvPLosses = reader.GetUInt64("pvpLosses");
+					character.EvGEnabled = reader.GetBoolean("evGEnabled");
+					character.EvGSupportRace = reader.GetByte("evGSupportRace");
+					character.TransPvPEnabled = reader.GetBoolean("transPvPEnabled");
+					character.CauseOfDeath = (DeathCauses)reader.GetInt32("causeOfDeath");
 					character.State = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
 
 					character.LoadDefault();
@@ -685,6 +691,7 @@ namespace Aura.World.Database
 				// Corrections
 				// ----------------------------------------------------------
 				// Inside dungeon, would make ppl stuck at loading.
+				// TODO: Other areas should not be saved, eg Alby Arena (29)
 				if (character.Region >= 10000 && character.Region <= 20000)
 				{
 					// TODO: Implement a "return to" location.
@@ -703,7 +710,9 @@ namespace Aura.World.Database
 					" `level` = @level, `totalLevel` = @totalLevel, `experience` = @experience, `age` = @age," +
 					" `color1` = @color1, `color2` = @color2, `color3` = @color3," +
 					" `strength` = @strength, `dexterity` = @dexterity, `intelligence` = @intelligence, `will` = @will, `luck` = @luck," +
-					" `abilityPoints` = @abilityPoints, `lastTown` = @lastTown, `lastDungeon` = @lastDungeon" +
+					" `abilityPoints` = @abilityPoints, `lastTown` = @lastTown, `lastDungeon` = @lastDungeon," +
+					" `pvpWins` = @pvpWins, `pvpLosses` = @pvpLosses, `evGEnabled` = @evGEnabled, `evGSupportRace` = @evGSupportRace, `transPvPEnabled` = @transPvPEnabled," +
+					" `causeOfDeath` = @causeOfDeath" +
 					" WHERE `characterId` = @characterId"
 				, conn);
 
@@ -751,6 +760,12 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@color1", character.Color1);
 				mc.Parameters.AddWithValue("@color2", character.Color2);
 				mc.Parameters.AddWithValue("@color3", character.Color3);
+				mc.Parameters.AddWithValue("@pvpWins", character.PvPWins);
+				mc.Parameters.AddWithValue("@pvpLosses", character.PvPLosses);
+				mc.Parameters.AddWithValue("@evGEnabled", character.EvGEnabled);
+				mc.Parameters.AddWithValue("@evGSupportRace", character.EvGSupportRace);
+				mc.Parameters.AddWithValue("@transPvPEnabled", character.TransPvPEnabled);
+				mc.Parameters.AddWithValue("@causeOfDeath", character.CauseOfDeath);
 
 				mc.ExecuteNonQuery();
 			}

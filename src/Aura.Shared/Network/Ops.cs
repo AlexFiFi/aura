@@ -156,6 +156,8 @@ namespace Aura.Shared.Network
 		public readonly static uint ItemExpUpdate = 0x5BDA;
 		public readonly static uint ViewEquipment = 0x5BDF;
 		public readonly static uint ViewEquipmentR = 0x5BE0;
+		public readonly static uint OptionSet = 0x5BE7;
+		public readonly static uint OptionSetR = 0x5BE8;
 		public readonly static uint NPCTalkKeyword = 0x5DC4;
 		public readonly static uint NPCTalkKeywordR = 0x5DC5;
 
@@ -196,6 +198,8 @@ namespace Aura.Shared.Network
 		public readonly static uint RankUp = 0x6D6A;
 		public readonly static uint Resting = 0x6D6C;
 		public readonly static uint StandUp = 0x6D6D;
+		public readonly static uint ArenaHideOn = 0x6D6F;
+		public readonly static uint ArenaHideOff = 0x6D70;
 		public readonly static uint ChangeStance = 0x6E28;
 		public readonly static uint ChangeStanceR = 0x6E29;
 		public readonly static uint ChangesStance = 0x6E2A;
@@ -322,9 +326,14 @@ namespace Aura.Shared.Network
 		public readonly static uint Effect = 0x9090;
 		public readonly static uint EffectDelayed = 0x9091;
 		public readonly static uint QuestOwlComplete = 0x9093;
-		public readonly static uint PartyWantedUpdate = 0x9095;
 		public readonly static uint QuestOwlNew = 0x9094;
+		public readonly static uint PartyWantedUpdate = 0x9095;
+		public readonly static uint PvPInformation = 0x9096;
+		public readonly static uint NaoRevivalExit = 0x9098;
+		public readonly static uint NaoRevivalEntrance = 0x909C;
 		public readonly static uint DungeonInfo = 0x9470;
+		public readonly static uint ArenaRoundInfo = 0x9667;
+		public readonly static uint ArenaRoundInfoCancel = 0x9668;
 
 		public readonly static uint StatusEffectUpdate = 0xA028;
 		public readonly static uint DyePaletteReq = 0xA418;

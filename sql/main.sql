@@ -98,6 +98,12 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `color1` int(10) unsigned NOT NULL DEFAULT '8421504',
   `color2` int(10) unsigned NOT NULL DEFAULT '8421504',
   `color3` int(10) unsigned NOT NULL DEFAULT '8421504',
+  `pvpWins` BIGINT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
+  `pvpLosses` BIGINT( 10 ) UNSIGNED NOT NULL DEFAULT  '0',
+  `evGEnabled` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0',
+  `evGSupportRace` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0',
+  `transPvPEnabled` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0',
+  `causeOfDeath` INT NOT NULL DEFAULT  '0',
   PRIMARY KEY (`characterId`),
   KEY `account` (`accountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

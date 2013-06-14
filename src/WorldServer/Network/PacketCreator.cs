@@ -467,6 +467,13 @@ namespace Aura.World.Network
 				.PutShort((ushort)skillId)
 				.PutInt((uint)state);
 		}
+
+		public static MabiPacket PvPInfoChanged(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.PvPInformation, creature.Id);
+			creature.AddPvPInfoToPacket(p);
+			return p;
+		}
 	}
 
 	public enum StatUpdateType : byte { Private = 3, Public = 4 }

@@ -65,7 +65,17 @@ namespace Aura.World.Player
 				return (other.State & CreatureStates.GoodNpc) == 0;
 			else
 			{
-				return false; // For now... add PvP later and other stuff
+				var res = false;
+
+				if (this.EvGEnabled && other.EvGEnabled)
+					if (this.EvGSupportRace != 0 && other.EvGSupportRace != 0 && other.EvGSupportRace != this.EvGSupportRace)
+						res = true;
+
+				if (this.ArenaPvPManager != null && this.ArenaPvPManager == other.ArenaPvPManager)
+					if (this.ArenaPvPManager.IsAttackableBy(this, other))
+						res = true;
+
+				return res; // For now... add more PvP later and other stuff
 			}
 		}
 
@@ -167,27 +177,7 @@ namespace Aura.World.Player
 
 			// PvP
 			// --------------------------------------------------------------
-			packet.PutByte(0);                   // IsAttackFree
-			packet.PutInt(0);                    // ArenaTeam
-			packet.PutByte(0);                   // IsTransformPVP
-			packet.PutInt(0);                    // Point
-			packet.PutByte(0);                   // IsGiantElfPVP
-			packet.PutByte(0);                   // SupportRaceType
-			packet.PutByte(0);                   // IsPVPMode
-			packet.PutLong(0);                   // WinCount
-			packet.PutLong(0);                   // LoseCount
-			packet.PutInt(0);                    // PenaltyPoint
-			packet.PutByte(1);					 // IsCommonPVP
-
-			// New PvP data maybe?
-			if (Op.Version >= 170300)
-			{
-				packet.PutByte(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-			}
+			this.AddPvPInfoToPacket(packet);
 
 			// Statuses
 			// --------------------------------------------------------------

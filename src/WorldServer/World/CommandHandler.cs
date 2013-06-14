@@ -30,6 +30,7 @@ namespace Aura.World.World
 			this.AddCommand("where", Authority.Player, Command_where);
 			this.AddCommand("gesture", "<gesture>", Authority.Player, Command_gesture);
 			this.AddCommand("cutscene", "[name]", Authority.Player, Command_cutscene);
+			this.AddCommand("evgsupport", "<elf|giant|none>", Authority.Player, Command_evgsupport);
 
 			this.AddCommand("go", "<destination>", Authority.VIP, Command_go);
 			this.AddCommand("shamala", "<race>", Authority.VIP, Command_shamala);
@@ -1066,6 +1067,34 @@ namespace Aura.World.World
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
 			WorldManager.Instance.Broadcast(PacketCreator.Notice(creature.Name.ToUpper() + "'S POWER IS OVER NINE THOUSAAAAAAAAAAAND!!!!", NoticeType.TopRed, 20000), SendTargets.All);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_evgsupport(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			switch (args[1].ToLower().Trim())
+			{
+				case "elf":
+					creature.EvGSupportRace = 1;
+					break;
+					
+				case "giant":
+					creature.EvGSupportRace = 2;
+					break;
+
+				case "none":
+					creature.EvGSupportRace = 0;
+					break;
+
+				default:
+					return CommandResult.WrongParameter;
+			}
+
+			WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
 
 			return CommandResult.Okay;
 		}

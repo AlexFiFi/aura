@@ -136,6 +136,7 @@
     <Compile Include="World\MabiNPC.cs" />
     <Compile Include="World\MabiParty.cs" />
     <Compile Include="World\MabiProp.cs" />
+    <Compile Include="World\MabiPvP.cs" />
     <Compile Include="World\MabiQuest.cs" />
     <Compile Include="World\MabiShop.cs" />
     <Compile Include="World\MabiSkill.cs" />

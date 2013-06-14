@@ -98,8 +98,6 @@ namespace Aura.World.Network
 			this.SendLock(this.Character);
 			this.Character.SetLocation(region, x, y);
 
-			//EntityEvents.Instance.OnPlayerChangesRegion(this.Character);
-
 			this.SendEnterRegionPermission(this.Character);
 
 			this.Character.OnAltar = DungeonAltar.None;

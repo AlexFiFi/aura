@@ -100,5 +100,16 @@ namespace Aura.World.Skills
 		{
 			return 0x3000000000000000 + ((ulong)region << 32) + ((x / 20) << 16) + (y / 20);
 		}
+
+		public static void GetAreaTargetComponents(ulong areaTarget, out uint region, out uint x, out uint y)
+		{
+			areaTarget -= 0x3000000000000000;
+
+			y = (uint)(areaTarget & ushort.MaxValue) * 20;
+			areaTarget >>= 16;
+			x = (uint)(areaTarget & ushort.MaxValue) * 20;
+			areaTarget >>= 16;
+			region = (uint)areaTarget;
+		}
 	}
 }

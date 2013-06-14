@@ -15,6 +15,8 @@ using Aura.World.Scripting;
 using Aura.World.Skills;
 using Aura.World.Util;
 using Aura.World.World;
+using System.Text;
+using System.Collections.Generic;
 
 namespace Aura.World.Network
 {
@@ -106,6 +108,7 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.SkillAdvance, HandleSkillAdvance);
 
 			this.RegisterPacketHandler(Op.CombatSetAim, HandleCombatSetAim);
+			this.RegisterPacketHandler(0x791F, HandleCombatSetAim);
 
 			this.RegisterPacketHandler(Op.PetSummon, HandlePetSummon);
 			this.RegisterPacketHandler(Op.PetUnsummon, HandlePetUnsummon);
@@ -117,6 +120,8 @@ namespace Aura.World.Network
 
 			this.RegisterPacketHandler(Op.EnterRegion, HandleEnterRegion);
 			this.RegisterPacketHandler(Op.AreaChange, HandleAreaChange);
+
+			this.RegisterPacketHandler(Op.OptionSet, HandleOptionSet);
 
 			this.RegisterPacketHandler(Op.ChangeTitle, HandleTitleChange);
 			this.RegisterPacketHandler(Op.TalentTitleChange, HandleTalentTitleChange);
@@ -540,9 +545,8 @@ namespace Aura.World.Network
 			response.PutInt(pos.Y);
 			client.Send(response);
 
-			WorldManager.Instance.ReviveCreature(creature);
-
 			creature.FullHeal();
+			WorldManager.Instance.ReviveCreature(creature);
 		}
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
@@ -1570,6 +1574,7 @@ namespace Aura.World.Network
 			// TODO: Maybe check if this action is valid.
 
 			client.SendUnlock(creature);
+			var pos = creature.GetPosition();
 
 			// Sent on log in, but not when switching regions?
 			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(MabiTime.Now.DateTime));
@@ -1585,10 +1590,7 @@ namespace Aura.World.Network
 				}
 			}
 
-			var pos = creature.GetPosition();
 			client.Send(new MabiPacket(Op.WarpRegion, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
-
-			EntityEvents.Instance.OnPlayerChangesRegion(creature);
 
 			// Send Conformation?
 			client.Send(new MabiPacket(0xA925, Id.Broadcast).PutInts(creature.Region, 0));
@@ -1607,6 +1609,10 @@ namespace Aura.World.Network
 				foreach (var rider in creature.Pet.Riders.Where(c => c.Client != client))
 					((WorldClient)rider.Client).Warp(creature.Region, pos.X, pos.Y);
 			}
+
+			WorldManager.Instance.CreatureEnterRegion(creature);
+
+			EntityEvents.Instance.OnPlayerChangesRegion(creature);
 		}
 
 		/// <summary>
@@ -2522,60 +2528,165 @@ namespace Aura.World.Network
 		public void HandleDeadMenu(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead)
+			if (creature == null || !creature.IsDead)
 				return;
+
+			var options = new List<DeadMenuOptions>(); // List of flags
+
+			switch (creature.CauseOfDeath)
+			{
+				case DeathCauses.None:
+					client.Send(new MabiPacket(Op.DeadMenuR, creature.Id).PutByte(0));
+					return;
+
+				case DeathCauses.Arena:
+					if (creature.ArenaPvPManager != null)
+						options.AddRange(creature.ArenaPvPManager.GetRevivalOptions(creature));
+					break;
+
+				case DeathCauses.TransPvP:
+					options.Add(DeadMenuOptions.HereNoPenalty);
+					break;
+
+				case DeathCauses.EvG:
+				case DeathCauses.PvP:
+					options.Add(DeadMenuOptions.HerePvP);
+					break;
+			}
+
+			if (options.Count == 0) //  They must be in the field
+			{
+				options.Add(DeadMenuOptions.Town);
+				options.Add(DeadMenuOptions.Here);
+				options.Add(DeadMenuOptions.NaoStone);
+				options.Add(DeadMenuOptions.WaitForRescue);
+			}
+
+			if (client.Account.Authority >= 50)
+				options.Add(DeadMenuOptions.HereNoPenalty);
+
+			creature.RevivalOptions = options[options.Count - 1];
+
+			for (int i = 0; i < options.Count - 1; i++)
+			{
+				creature.RevivalOptions |= options[i];
+				for (int j = i + 1; j < options.Count; j++)
+				{
+					options[j] &= ~options[i]; // Eliminate duplicates
+				}
+			}
+
+			var strOptions = new List<string>();
+			foreach (var o in options)
+				strOptions.AddRange(DeadMenuHelper.GetStrings(o));
 
 			var response = new MabiPacket(Op.DeadMenuR, creature.Id);
 			response.PutByte(1);
-			response.PutString("town;here;;stay");
-			response.PutInt(0);
-			response.PutInt(0);
+			response.PutString(DeadMenuHelper.ConvertToClientString(strOptions));
+			response.PutInt(1); // Beginner Nao Stone count
+			response.PutInt(1); // Nao Stone Count
 			client.Send(response);
 		}
 
 		public void HandleRevive(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead)
+			if (creature == null || !creature.IsDead)
 				return;
 
-			// 1 = Town, 2 = Here, 9 = Wait
-			var option = packet.GetInt();
+			var option = DeadMenuHelper.ConvertFromClientOption(packet.GetInt());
 
-			uint region = 0, x = 0, y = 0;
-
-			// TODO: Town etc support.
-			if (option == 9)
+			if ((option & creature.RevivalOptions) == 0)
 			{
-				var feather = new MabiPacket(Op.DeadFeather, creature.Id);
-				feather.PutShort((ushort)(creature.WaitingForRes ? 4 : 5));
-				feather.PutInt(0);
-				feather.PutInt(1);
-				feather.PutInt(2);
-				feather.PutInt(9);
-				if (!creature.WaitingForRes)
-					feather.PutInt(10);
-				feather.PutByte(0);
-				WorldManager.Instance.Broadcast(feather, SendTargets.Range, creature);
-
-				creature.WaitingForRes = !creature.WaitingForRes;
+				creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutByte(0));
+				return;
 			}
-			else
+	
+			var pos = creature.GetPosition();
+
+			switch (option)
 			{
-				WorldManager.Instance.ReviveCreature(creature);
+				case DeadMenuOptions.ArenaLobby:
+					creature.ArenaPvPManager.ReviveInLobby(creature);
+					break;
 
-				var pos = creature.GetPosition();
-				region = creature.Region;
-				x = pos.X;
-				y = pos.Y;
+				case DeadMenuOptions.ArenaSide:
+					creature.ArenaPvPManager.ReviveInArena(creature);
+					break;
+
+				case DeadMenuOptions.ArenaWaitingRoom:
+					creature.ArenaPvPManager.ReviveInWaitingRoom(creature);
+					break;
+
+				case DeadMenuOptions.BarriLobby:
+					Logger.Unimplemented("Barri revival (TNN)");
+					goto case DeadMenuOptions.Here;
+
+				case DeadMenuOptions.DungeonEntrance:
+					Logger.Unimplemented("Dungeon Entrance revival");
+					goto case DeadMenuOptions.Here;
+
+				case DeadMenuOptions.Here:
+					creature.Injuries = Math.Min(creature.Injuries + creature.LifeInjured * .5f, creature.LifeMax - 5);
+					creature.Life = 5;
+					//creature.Experience -= creature.Level * .4; //TODO: Look up multiplier
+					WorldManager.Instance.ReviveCreature(creature); 
+					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					break;
+
+				case DeadMenuOptions.HereNoPenalty:
+					creature.FullHeal();
+					WorldManager.Instance.ReviveCreature(creature);
+					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					break;
+
+				case DeadMenuOptions.HerePvP: // Different... somehow?
+					creature.Injuries = Math.Min(creature.Injuries + creature.LifeInjured * .5f, creature.LifeMax - 5);
+					creature.Life = 5;
+					WorldManager.Instance.ReviveCreature(creature);
+					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					break;
+
+				case DeadMenuOptions.InCamp:
+					Logger.Unimplemented("Camp revival");
+					goto case DeadMenuOptions.Here;
+
+				case DeadMenuOptions.NaoStone:
+					WorldManager.Instance.DeadFeather(creature, false, DeadMenuOptions.NaoRevival1);
+					creature.Client.Send(new MabiPacket(Op.NaoRevivalEntrance, creature.Id));
+					creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutByte(0));
+					creature.RevivalOptions = DeadMenuOptions.NaoRevival1;
+					break;
+
+				case DeadMenuOptions.NaoRevival1:
+					// TODO: Take stone
+					creature.FullHeal();
+					WorldManager.Instance.ReviveCreature(creature);
+					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Revive), SendTargets.Range, creature);
+					creature.Client.Send(new MabiPacket(Op.NaoRevivalExit, creature.Id).PutByte(0));
+					WorldManager.Instance.DeadFeather(creature, false, DeadMenuOptions.None);
+					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					break;
+
+				case DeadMenuOptions.StatueOfGoddess:
+					Logger.Unimplemented("Statue of Goddess revival");
+					goto case DeadMenuOptions.Here;
+
+				case DeadMenuOptions.TirChonaill:
+				case DeadMenuOptions.Town:
+					Logger.Unimplemented("In town revival");
+					goto case DeadMenuOptions.Here;
+
+				case DeadMenuOptions.WaitForRescue:
+					creature.WaitingForRes = !creature.WaitingForRes;
+					if (creature.WaitingForRes)
+						WorldManager.Instance.DeadFeather(creature, false, creature.RevivalOptions | DeadMenuOptions.FeatherUp);
+					else
+						WorldManager.Instance.DeadFeather(creature, false, creature.RevivalOptions);
+
+					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					break;
 			}
-
-			var response = new MabiPacket(Op.Revived, creature.Id);
-			response.PutInt(1);
-			response.PutInt(region);
-			response.PutInt(x);
-			response.PutInt(y);
-			client.Send(response);
 		}
 
 		public void HandleMailsRequest(WorldClient client, MabiPacket packet)
@@ -2595,7 +2706,7 @@ namespace Aura.World.Network
 		public void HandleAreaChange(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead)
+			if (creature == null || !creature.IsDead)
 				return;
 
 			var eventId = packet.GetLong();
@@ -2632,7 +2743,7 @@ namespace Aura.World.Network
 		public void HandleStunMeterRequest(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null && creature.IsDead)
+			if (creature == null || !creature.IsDead)
 				return;
 
 			var targetId = packet.GetLong();
@@ -3520,6 +3631,61 @@ namespace Aura.World.Network
 
 			client.SendLock(creature);
 			client.SendEnterRegionPermission(creature);
+		}
+
+		protected void HandleOptionSet(WorldClient client, MabiPacket packet)
+		{
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			var response = new MabiPacket(Op.OptionSetR, creature.Id);
+
+			var count = packet.GetByte();
+			response.PutByte(count);
+			for (byte i = 0; i < count; i++)
+			{
+				var id = packet.GetByte();
+				response.PutByte(id);
+				packet.GetByte(); // Padding byte?
+				var requestedState = packet.GetBool();
+
+				switch (id)
+				{
+					case 1: // Trans pvp
+						creature.TransPvPEnabled = requestedState;
+						response.PutByte(1);
+						response.PutByte(requestedState);
+						WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+						break;
+
+					case 2: // EvG
+						creature.EvGEnabled = requestedState;
+						response.PutByte(1);
+						response.PutByte(requestedState);
+						WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+						break;
+
+					case 5: // All pvp Enabled
+						if (!requestedState)
+							creature.EvGEnabled = creature.TransPvPEnabled = requestedState;
+						response.PutByte(1);
+						response.PutByte(requestedState);
+						WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+						break;
+
+					case 3: // Equip View
+					case 4: // Pet Finish
+					case 6: // Journal Public
+					case 7: // Cutscene skips
+					default:
+						response.PutByte(0);
+						response.PutByte(!requestedState);
+						break;
+				}
+			}
+
+			client.Send(response);
 		}
 	}
 }
