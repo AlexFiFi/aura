@@ -94,7 +94,7 @@ namespace Aura.World.Util
 			if (args != null)
 				_conf.ReadArguments(args, "../../");
 
-			WorldConf.ConsoleFilter = (LogLevel)_conf.GetInt("world_consolefilter", 0);
+			WorldConf.ConsoleFilter = (LogLevel)_conf.GetInt("world.consolefilter", 0);
 #if DEBUG
 			// Enable debug regardless of configuration in debug builds.
 			WorldConf.ConsoleFilter &= ~LogLevel.Debug;
@@ -102,62 +102,62 @@ namespace Aura.World.Util
 
 			WorldConf.Password = _conf.GetString("inter.password", "aura");
 
-			WorldConf.DataPath = _conf.GetString("data_path", "../../data");
-			WorldConf.Localization = _conf.GetString("localization", "us");
+			WorldConf.DataPath = _conf.GetString("data.path", "../../data");
+			WorldConf.Localization = _conf.GetString("data.localization", "us");
 
-			WorldConf.DatabaseHost = _conf.GetString("database_host", "localhost");
-			WorldConf.DatabaseUser = _conf.GetString("database_user", "root");
-			WorldConf.DatabasePass = _conf.GetString("database_pass", "");
-			WorldConf.DatabaseDb = _conf.GetString("database_db", "aura");
+			WorldConf.DatabaseHost = _conf.GetString("database.host", "localhost");
+			WorldConf.DatabaseUser = _conf.GetString("database.user", "root");
+			WorldConf.DatabasePass = _conf.GetString("database.pass", "");
+			WorldConf.DatabaseDb = _conf.GetString("database.db", "aura");
 
-			WorldConf.ServerName = _conf.GetString("world_servername", "Dummy");
-			WorldConf.ChannelName = _conf.GetString("world_channelname", "Ch1");
-			WorldConf.ChannelHost = _conf.GetString("world_channelhost", "127.0.0.1");
-			WorldConf.ChannelPort = (ushort)_conf.GetInt("world_channelport", 11020);
+			WorldConf.ServerName = _conf.GetString("world.servername", "Dummy");
+			WorldConf.ChannelName = _conf.GetString("world.channelname", "Ch1");
+			WorldConf.ChannelHost = _conf.GetString("world.channelhost", "127.0.0.1");
+			WorldConf.ChannelPort = (ushort)_conf.GetInt("world.channelport", 11020);
 
-			WorldConf.LoginHost = _conf.GetString("world_loginhost", "127.0.0.1");
-			WorldConf.LoginPort = (ushort)_conf.GetInt("world_loginport", 11000);
+			WorldConf.LoginHost = _conf.GetString("world.loginhost", "127.0.0.1");
+			WorldConf.LoginPort = (ushort)_conf.GetInt("world.loginport", 11000);
 
-			WorldConf.CommandPrefix = _conf.GetString("commands_prefix", ">")[0];
+			WorldConf.CommandPrefix = _conf.GetString("commands.prefix", ">")[0];
 
-			WorldConf.ScriptPath = _conf.GetString("script_path", "../../scripts");
-			WorldConf.DisableScriptCaching = _conf.GetBool("script_disable_cache", false);
-			WorldConf.ScriptStrictMode = _conf.GetBool("script_strict_mode", false);
+			WorldConf.ScriptPath = _conf.GetString("script.path", "../../scripts");
+			WorldConf.DisableScriptCaching = _conf.GetBool("script.disable_cache", false);
+			WorldConf.ScriptStrictMode = _conf.GetBool("script.strict_mode", false);
 
-			WorldConf.SightRange = _conf.Get<uint>("world_sightrange", 3000);
+			WorldConf.SightRange = _conf.Get<uint>("world.sightrange", 3000);
 
-			WorldConf.AutoSendGMCP = _conf.GetBool("world_auto_gmcp", false);
-			WorldConf.MinimumGMCP = _conf.Get<byte>("world_minimum_gmcp", 50);
-			WorldConf.MinimumGMCPSummon = _conf.Get<byte>("world_minimum_gmcp_summon", 50);
-			WorldConf.MinimumGMCPCharWarp = _conf.Get<byte>("world_minimum_gmcp_char_warp", 50);
-			WorldConf.MinimumGMCPMove = _conf.Get<byte>("world_minimum_gmcp_move", 50);
-			WorldConf.MinimumGMCPRevive = _conf.Get<byte>("world_minimum_gmcp_revive", 50);
-			WorldConf.MinimumGMCPInvisible = _conf.Get<byte>("world_minimum_gmcp_invisible", 50);
-			WorldConf.MinimumGMCPExpel = _conf.Get<byte>("world_minimum_gmcp_expel", 50);
-			WorldConf.MinimumGMCPBan = _conf.Get<byte>("world_minimum_gmcp_ban", 50);
+			WorldConf.AutoSendGMCP = _conf.GetBool("world.auto_gmcp", false);
+			WorldConf.MinimumGMCP = _conf.Get<byte>("world.minimum_gmcp", 50);
+			WorldConf.MinimumGMCPSummon = _conf.Get<byte>("world.minimum_gmcp_summon", 50);
+			WorldConf.MinimumGMCPCharWarp = _conf.Get<byte>("world.minimum_gmcp_char_warp", 50);
+			WorldConf.MinimumGMCPMove = _conf.Get<byte>("world.minimum_gmcp_move", 50);
+			WorldConf.MinimumGMCPRevive = _conf.Get<byte>("world.minimum_gmcp_revive", 50);
+			WorldConf.MinimumGMCPInvisible = _conf.Get<byte>("world.minimum_gmcp_invisible", 50);
+			WorldConf.MinimumGMCPExpel = _conf.Get<byte>("world.minimum_gmcp_expel", 50);
+			WorldConf.MinimumGMCPBan = _conf.Get<byte>("world.minimum_gmcp_ban", 50);
 
-			WorldConf.ExpRate = _conf.Get<float>("world_exp_rate", 100f) / 100.0f;
+			WorldConf.ExpRate = _conf.Get<float>("world.exp_rate", 100f) / 100.0f;
 
-			WorldConf.DropRate = _conf.Get<float>("world_drop_rate", 100f) / 100.0f;
-			WorldConf.GoldDropRate = _conf.Get<float>("world_gold_drop_rate", 30f) / 100.0f;
-			WorldConf.PropDropRate = _conf.Get<float>("world_prop_drop_rate", 30f) / 100.0f;
+			WorldConf.DropRate = _conf.Get<float>("world.drop_rate", 100f) / 100.0f;
+			WorldConf.GoldDropRate = _conf.Get<float>("world.gold_drop_rate", 30f) / 100.0f;
+			WorldConf.PropDropRate = _conf.Get<float>("world.prop_drop_rate", 30f) / 100.0f;
 
-			WorldConf.EnableItemShop = _conf.GetBool("world_enable_itemshop", false);
-			WorldConf.MailExpires = _conf.GetInt("world_mail_expires", 30);
-			WorldConf.EnableVisual = _conf.GetBool("world_enable_visual", true);
-			WorldConf.ChalkOnDeath = _conf.GetInt("world_chalk_on_death", (int)ChalkDeathFlags.None);
-			WorldConf.SafeDye = _conf.GetBool("world_safe_dye", false);
+			WorldConf.EnableItemShop = _conf.GetBool("world.enable_itemshop", false);
+			WorldConf.MailExpires = _conf.GetInt("world.mail_expires", 30);
+			WorldConf.EnableVisual = _conf.GetBool("world.enable_visual", true);
+			WorldConf.ChalkOnDeath = _conf.GetInt("world.chalk_on_death", (int)ChalkDeathFlags.None);
+			WorldConf.SafeDye = _conf.GetBool("world.safe_dye", false);
 
-			WorldConf.BunshinSouls = _conf.GetBool("world_bunshinsouls", true);
+			WorldConf.BunshinSouls = _conf.GetBool("world.bunshinsouls", true);
 			WorldConf.PerfectPlay = _conf.GetBool("world.perfectplay", false);
-			WorldConf.DkSoundFix = _conf.GetBool("world_dk_sound_fix", true);
+			WorldConf.DkSoundFix = _conf.GetBool("world.dk_sound_fix", true);
 
-			WorldConf.ColorChange = _conf.GetBool("world_colorchange", true);
+			WorldConf.ColorChange = _conf.GetBool("world.colorchange", true);
 
 			WorldConf.DynamicCombat = _conf.GetBool("world.dynamic_combat", true);
 
-			WorldConf.TimeBeforeAncient = _conf.GetInt("world_time_before_ancient", 300);
-			WorldConf.AncientRate = _conf.Get<float>("world_ancient_rate", .33f);
+			WorldConf.TimeBeforeAncient = _conf.GetInt("world.time_before_ancient", 300);
+			WorldConf.AncientRate = _conf.Get<float>("world.ancient_rate", .33f);
 
 			try
 			{

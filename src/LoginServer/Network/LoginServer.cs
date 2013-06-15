@@ -103,7 +103,7 @@ namespace Aura.Login.Network
 			// --------------------------------------------------------------
 			try
 			{
-				this.StartListening(11000);
+				this.StartListening(LoginConf.Port);
 
 				Logger.Status("Login Server ready, listening on " + _serverSocket.LocalEndPoint.ToString());
 			}

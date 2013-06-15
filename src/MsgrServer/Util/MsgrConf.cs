@@ -24,16 +24,16 @@ namespace Aura.Msgr.Util
 			if (args != null)
 				_conf.ReadArguments(args, "../../");
 
-			MsgrConf.ConsoleFilter = (LogLevel)_conf.GetInt("msgr_consolefilter", 0);
+			MsgrConf.ConsoleFilter = (LogLevel)_conf.GetInt("msgr.consolefilter", 0);
 #if DEBUG
 			// Enable debug regardless of configuration in debug builds.
 			MsgrConf.ConsoleFilter &= ~LogLevel.Debug;
 #endif
 
-			MsgrConf.DatabaseHost = _conf.GetString("database_host", "localhost");
-			MsgrConf.DatabaseUser = _conf.GetString("database_user", "root");
-			MsgrConf.DatabasePass = _conf.GetString("database_pass", "");
-			MsgrConf.DatabaseDb = _conf.GetString("database_db", "aura");
+			MsgrConf.DatabaseHost = _conf.GetString("database.host", "localhost");
+			MsgrConf.DatabaseUser = _conf.GetString("database.user", "root");
+			MsgrConf.DatabasePass = _conf.GetString("database.pass", "");
+			MsgrConf.DatabaseDb = _conf.GetString("database.db", "aura");
 		}
 	}
 }
