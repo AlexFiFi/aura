@@ -26,7 +26,7 @@ public class Skatha_witchScript : NPCScript
 
 		SetDirection(194);
         
-        ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
+        EventManager.Instance.TimeEvents.ErinnDaytimeTick += On12HrTick;
         
 		SetStand("chapter4/human/female/anim/female_c4_npc_skatha_stand");
         
@@ -39,7 +39,7 @@ public class Skatha_witchScript : NPCScript
 	}
     public override void Dispose()
 	{
-		ServerEvents.Instance.ErinnDaytimeTick -= On12HrTick;
+		EventManager.Instance.TimeEvents.ErinnDaytimeTick -= On12HrTick;
 		base.Dispose();
 	}
 

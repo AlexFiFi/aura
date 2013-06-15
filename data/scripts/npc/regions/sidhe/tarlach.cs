@@ -31,7 +31,7 @@ public class TarlachScript : NPCScript
 		EquipItem(Pocket.Robe, 19004, 13269812, 11817009, 14335111); // Muffler robe
 		NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
 
-		ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
+		EventManager.Instance.TimeEvents.ErinnDaytimeTick += On12HrTick;
 
 		Phrases.Add("...I'll just wait a little longer...");
 		Phrases.Add("Ah...");
@@ -46,7 +46,7 @@ public class TarlachScript : NPCScript
 
 	public override void Dispose()
 	{
-		ServerEvents.Instance.ErinnDaytimeTick -= On12HrTick;
+		EventManager.Instance.TimeEvents.ErinnDaytimeTick -= On12HrTick;
 		base.Dispose();
 	}
 

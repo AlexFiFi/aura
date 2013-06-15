@@ -360,8 +360,8 @@ namespace Aura.World.World
 			if (args[0] == "drop")
 			{
 				// >drop
-
-				WorldManager.Instance.CreatureDropItem(client.Character, new ItemEventArgs(newItem));
+				var pos = client.Character.GetPosition();
+				WorldManager.Instance.CreatureDropItem(newItem, client.Character.Region, (uint)pos.X, (uint)pos.Y);
 			}
 			else
 			{

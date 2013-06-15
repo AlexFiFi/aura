@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Aura.Shared.Const;
 using Aura.Shared.Util;
 using Aura.World.World;
+using Aura.World.Player;
 
 namespace Aura.World.Events
 {
@@ -39,40 +40,15 @@ namespace Aura.World.Events
 		}
 	}
 
-	public class MotionEventArgs : EventArgs
+	public class PropEventArgs : EventArgs
 	{
-		public uint Category, Type;
-		public bool Loop;
-
-		public MotionEventArgs(uint category, uint type, bool loop)
+		MabiProp Prop;
+		public PropEventArgs(MabiProp e)
 		{
-			this.Category = category;
-			this.Type = type;
-			this.Loop = loop;
+			Prop = e;
 		}
 	}
-
-	public class ChatEventArgs : EventArgs
-	{
-		public string Message;
-
-		public ChatEventArgs(string message)
-		{
-			this.Message = message;
-		}
-	}
-
-	public class MoveEventArgs : EventArgs
-	{
-		public MabiVertex From, To;
-
-		public MoveEventArgs(MabiVertex from, MabiVertex to)
-		{
-			this.From = from;
-			this.To = to;
-		}
-	}
-
+	
 	public class ItemEventArgs : EventArgs
 	{
 		public MabiItem Item;
@@ -102,13 +78,82 @@ namespace Aura.World.Events
 		}
 	}
 
+	public class CreatureEventArgs : EventArgs
+	{
+		public MabiCreature Creature;
+		public CreatureEventArgs(MabiCreature e)
+		{
+			Creature = e;
+		}
+	}
+
+	public class NpcEventArgs : EventArgs
+	{
+		public MabiNPC Npc;
+		public NpcEventArgs(MabiNPC e)
+		{
+			Npc = e;
+		}
+	}
+
+	public class PlayerEventArgs : EventArgs
+	{
+		public MabiPC Player;
+		public PlayerEventArgs(MabiPC e)
+		{
+			Player = e;
+		}
+	}
+
+	public class MotionEventArgs : EventArgs
+	{
+		public MabiCreature Creature;
+		public uint Category, Type;
+		public bool Loop;
+
+		public MotionEventArgs(MabiCreature creature, uint category, uint type, bool loop)
+		{
+			this.Creature = creature;
+			this.Category = category;
+			this.Type = type;
+			this.Loop = loop;
+		}
+	}
+
+	public class ChatEventArgs : EventArgs
+	{
+		public string Message;
+		public MabiCreature Creature;
+
+		public ChatEventArgs(MabiCreature creature, string message)
+		{
+			this.Creature = creature;
+			this.Message = message;
+		}
+	}
+
+	public class MoveEventArgs : EventArgs
+	{
+		public MabiVertex From, To;
+		public MabiCreature Creature;
+
+		public MoveEventArgs(MabiCreature creature, MabiVertex from, MabiVertex to)
+		{
+			this.Creature = creature;
+			this.From = from;
+			this.To = to;
+		}
+	}
+
 	public class SkillUpdateEventArgs : EventArgs
 	{
+		public MabiCreature Creature;
 		public MabiSkill Skill;
 		public bool IsNew;
 
-		public SkillUpdateEventArgs(MabiSkill skill, bool isNew = false)
+		public SkillUpdateEventArgs(MabiCreature creature, MabiSkill skill, bool isNew = false)
 		{
+			this.Creature = creature;
 			this.Skill = skill;
 			this.IsNew = isNew;
 		}

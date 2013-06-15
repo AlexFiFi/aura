@@ -25,11 +25,6 @@ namespace Aura.World.World
 
 		private WorldManager()
 		{
-			EntityEvents.Instance.CreatureLevelsUp += this.CreatureLevelsUp;
-			EntityEvents.Instance.CreatureStatUpdates += this.CreatureStatsUpdate;
-			EntityEvents.Instance.CreatureItemUpdate += this.CreatureItemUpdate;
-			EntityEvents.Instance.CreatureDropItem += this.CreatureDropItem;
-			EntityEvents.Instance.CreatureSkillUpdate += this.CreatureSkillUpdate;
 		}
 
 		private List<MabiCreature> _creatures = new List<MabiCreature>();
@@ -67,7 +62,7 @@ namespace Aura.World.World
 
 			_secondTimer = new Timer(_ =>
 			{
-				ServerEvents.Instance.RealTimeSecondTick(this, new TimeEventArgs(MabiTime.Now));
+				EventManager.Instance.TimeEvents.OnRealTimeSecondTick(this, new TimeEventArgs(MabiTime.Now));
 			},
 			null, 6000, 1000);
 		}
@@ -193,18 +188,18 @@ namespace Aura.World.World
 			_lastHearbeat = mt.DateTime;
 
 			// OnErinnTimeTick, fired every Erinn minute (1.5s)
-			ServerEvents.Instance.OnErinnTimeTick(this, args);
+			EventManager.Instance.TimeEvents.OnErinnTimeTick(this, args);
 
 			// OnErinnDaytimeTick, fired at 6:00am and 6:00pm.
 			if (((mt.Hour == 6 || mt.Hour == 18) && mt.Minute == 0) || _firstHeartbeat)
 			{
-				ServerEvents.Instance.OnErinnDaytimeTick(this, args);
+				EventManager.Instance.TimeEvents.OnErinnDaytimeTick(this, args);
 				this.DaytimeChange(mt);
 			}
 
 			// OnErinnMidnightTick, fired at 0:00am
 			if (mt.IsMidnight)
-				ServerEvents.Instance.OnErinnMidnightTick(this, args);
+				EventManager.Instance.TimeEvents.OnErinnMidnightTick(this, args);
 
 			// OnRealTimeTick, fired every minute in real time.
 			// Some caching is needed here, since this method will be called
@@ -213,7 +208,7 @@ namespace Aura.World.World
 			if (rlHour != _lastRlHour || rlMinute != _lastRlMinute)
 			{
 				_lastRlHour = rlHour; _lastRlMinute = rlMinute;
-				ServerEvents.Instance.OnRealTimeTick(this, new TimeEventArgs(mt));
+				EventManager.Instance.TimeEvents.OnRealTimeTick(this, new TimeEventArgs(mt));
 
 				ThreadPool.QueueUserWorkItem(CheckAncients);
 			}
@@ -632,7 +627,7 @@ namespace Aura.World.World
 
 			this.Broadcast(PacketCreator.EntityAppears(creature), SendTargets.Range | SendTargets.ExcludeSender, creature);
 
-			ServerEvents.Instance.OnEntityEntersRegion(creature);
+			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(creature));
 		}
 
 		/// <summary>
@@ -750,7 +745,7 @@ namespace Aura.World.World
 			appears.PutBytes(1, 0, 0, 2);
 			this.Broadcast(appears, SendTargets.Range, item);
 
-			ServerEvents.Instance.OnEntityEntersRegion(item);
+			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(item));
 		}
 
 		/// <summary>
@@ -766,7 +761,7 @@ namespace Aura.World.World
 			disappears.PutLong(item.Id);
 			this.Broadcast(disappears, SendTargets.Range, item);
 
-			ServerEvents.Instance.OnEntityLeavesRegion(item);
+			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(item));
 
 			item.Dispose();
 		}
@@ -803,7 +798,7 @@ namespace Aura.World.World
 			prop.AddToPacket(appears);
 
 			this.Broadcast(appears, SendTargets.Region, prop);
-			ServerEvents.Instance.OnEntityEntersRegion(prop);
+			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(prop));
 		}
 
 		public void RemoveProp(MabiProp prop)
@@ -815,7 +810,7 @@ namespace Aura.World.World
 			disappears.PutLong(prop.Id);
 			this.Broadcast(disappears, SendTargets.Region, prop);
 
-			ServerEvents.Instance.OnEntityLeavesRegion(prop);
+			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(prop));
 
 			prop.Dispose();
 		}
@@ -933,20 +928,6 @@ namespace Aura.World.World
 		// Creature actions and broadcasting
 		// ------------------------------------------------------------------
 
-		public void CreatureDropItem(object sender, ItemEventArgs e)
-		{
-			var creature = sender as MabiEntity;
-			if (creature == null)
-				return;
-
-			var pos = creature.GetPosition();
-			var rand = RandomProvider.Get();
-			var x = (uint)(pos.X + rand.Next(-100, 101));
-			var y = (uint)(pos.Y + rand.Next(-100, 101));
-
-			this.CreatureDropItem(e.Item, creature.Region, x, y);
-		}
-
 		public void CreatureDropItem(MabiItem item, uint region, uint x, uint y)
 		{
 			item.Info.Region = region;
@@ -1004,7 +985,7 @@ namespace Aura.World.World
 					break;
 			}
 
-			ServerEvents.Instance.OnCreatureMoves(creature, new MoveEventArgs(from, to));
+			EventManager.Instance.CreatureEvents.OnCreatureMoves(this, new MoveEventArgs(creature, from, to));
 		}
 
 		public void CreatureSwitchSet(MabiCreature creature)
@@ -1053,7 +1034,7 @@ namespace Aura.World.World
 			p.PutShort(0);
 			this.Broadcast(p, SendTargets.Range, creature);
 
-			ServerEvents.Instance.OnCreatureUsesMotion(creature, new MotionEventArgs(category, type, loop));
+			EventManager.Instance.CreatureEvents.OnCreatureUsesMotion(this, new MotionEventArgs(creature, category, type, loop));
 		}
 
 		public void CreatureChangeStance(MabiCreature creature, byte unk = 1)
@@ -1087,40 +1068,16 @@ namespace Aura.World.World
 			this.CreatureStatsUpdate(creature);
 		}
 
-		public void CreatureItemUpdate(object sender, ItemUpdateEventArgs ie)
+		public void CreatureSkillUpdate(MabiCreature creature, MabiSkill skill, bool isNew = false)
 		{
-			var creature = sender as MabiCreature;
-
-			if (!ie.IsNew)
+			if (isNew)
 			{
-				// Update or remove, depending on type and amount
-				if (ie.Item.StackType == BundleType.Sac || ie.Item.Info.Amount > 0)
-				{
-					creature.Client.Send(PacketCreator.ItemAmount(creature, ie.Item));
-				}
-				else
-				{
-					creature.Client.Send(PacketCreator.ItemRemove(creature, ie.Item));
-				}
+				creature.Client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Info));
 			}
 			else
 			{
-				// Send info about a new item
-				creature.Client.Send(PacketCreator.ItemInfo(creature, ie.Item));
-			}
-		}
-
-		public void CreatureSkillUpdate(object sender, SkillUpdateEventArgs args)
-		{
-			var creature = sender as MabiCreature;
-			if (args.IsNew)
-			{
-				creature.Client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(args.Skill.Info));
-			}
-			else
-			{
-				creature.Client.Send(new MabiPacket(Op.SkillRankUp, creature.Id).PutByte(1).PutBin(args.Skill.Info).PutFloat(0));
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, creature.Id).PutShorts(args.Skill.Info.Id, 1), SendTargets.Range, creature);
+				creature.Client.Send(new MabiPacket(Op.SkillRankUp, creature.Id).PutByte(1).PutBin(skill.Info).PutFloat(0));
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, creature.Id).PutShorts(skill.Info.Id, 1), SendTargets.Range, creature);
 			}
 		}
 
@@ -1128,7 +1085,7 @@ namespace Aura.World.World
 		{
 			this.Broadcast(PacketCreator.EntityLeaves(creature), SendTargets.Range, creature);
 
-			ServerEvents.Instance.OnEntityLeavesRegion(creature);
+			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(creature));
 		}
 
 		public void CreatureTalk(MabiCreature creature, string message, byte type = 0)
@@ -1140,7 +1097,7 @@ namespace Aura.World.World
 
 			this.Broadcast(p, SendTargets.Range, creature);
 
-			ServerEvents.Instance.OnCreatureTalks(creature, new ChatEventArgs(message));
+			EventManager.Instance.CreatureEvents.OnCreatureTalks(this, new ChatEventArgs(creature, message));
 		}
 
 		public void CreatureStatsUpdate(MabiCreature creature)
@@ -1164,22 +1121,6 @@ namespace Aura.World.World
 					Stat.Level, Stat.Experience, Stat.AbilityPoints, Stat.DefenseBaseMod, Stat.DefenseMod, Stat.ProtectBaseMod, Stat.ProtectMod
 				)
 			);
-		}
-
-		public void CreatureStatsUpdate(object sender, EntityEventArgs e)
-		{
-			this.CreatureStatsUpdate(e.Entity as MabiCreature);
-		}
-
-		public void CreatureLevelsUp(object sender, EntityEventArgs e)
-		{
-			var creature = e.Entity as MabiCreature;
-
-			var p = new MabiPacket(Op.LevelUp, creature.Id);
-			p.PutShort(creature.Level);
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			this.CreatureStatsUpdate(creature);
 		}
 
 		public void VehicleBind(MabiCreature creature, MabiCreature vehicle)
@@ -1333,9 +1274,9 @@ namespace Aura.World.World
 
 					killer.Client.Send(PacketCreator.CombatMessage(killer, "+{0} EXP", exp));
 
-					ServerEvents.Instance.OnCreatureKilled(new CreatureKilledEventArgs(creature, killer));
+					EventManager.Instance.CreatureEvents.OnCreatureKilled(this, new CreatureKilledEventArgs(creature, killer));
 					if (killer is MabiPC)
-						ServerEvents.Instance.OnKilledByPlayer(new CreatureKilledEventArgs(creature, killer));
+						EventManager.Instance.PlayerEvents.OnKilledByPlayer(this, new CreatureKilledEventArgs(creature, killer));
 				}
 			}
 

@@ -160,7 +160,7 @@ namespace Aura.World.Network
 
 			// Run the channel register method once, and then subscribe to the event that's run once per minute.
 			this.SendChannelStatus(null, null);
-			ServerEvents.Instance.RealTimeTick += this.SendChannelStatus;
+			EventManager.Instance.TimeEvents.RealTimeTick += this.SendChannelStatus;
 
 			// Console commands
 			// --------------------------------------------------------------

@@ -153,7 +153,7 @@ namespace Aura.World.Skills
 
 			// Update equipped item color
 			if (creature.Temp.SkillItem1.IsEquipped())
-				WorldManager.Instance.CreatureItemUpdate(creature, new Events.ItemUpdateEventArgs(creature.Temp.SkillItem1));
+				creature.ItemUpdate(creature.Temp.SkillItem1);
 		}
 	}
 }

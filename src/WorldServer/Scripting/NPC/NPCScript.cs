@@ -35,12 +35,12 @@ namespace Aura.World.Scripting
 
 		public override void OnLoadDone()
 		{
-			ServerEvents.Instance.ErinnTimeTick += this.OnErinnTimeTick;
+			EventManager.Instance.TimeEvents.ErinnTimeTick += this.OnErinnTimeTick;
 		}
 
 		public override void Dispose()
 		{
-			ServerEvents.Instance.ErinnTimeTick -= this.OnErinnTimeTick;
+			EventManager.Instance.TimeEvents.ErinnTimeTick -= this.OnErinnTimeTick;
 			Shop.Dispose();
 			base.Dispose();
 		}

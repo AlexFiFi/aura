@@ -32,7 +32,7 @@ public class RuaScript : NPCScript
             false, false, false, true, false, false, false, false, true, false, false, true, false, true, true, false, true, true, true, false, false, false, false, false, false, false, true, false, true, false, false, true, false, false, false, true, false, false, false, true, false, false, true
         };
         
-        ServerEvents.Instance.ErinnMidnightTick += OnMidnightTick;
+        EventManager.Instance.TimeEvents.ErinnMidnightTick += OnMidnightTick;
         
         currentlyWorking = !IsWorking(DateTime.Now); //Make sure we move her on startup
         OnMidnightTick(null, null);
@@ -49,7 +49,7 @@ public class RuaScript : NPCScript
     
     public override void Dispose()
     {
-        ServerEvents.Instance.ErinnMidnightTick += OnMidnightTick;
+        EventManager.Instance.TimeEvents.ErinnMidnightTick += OnMidnightTick;
         base.Dispose();
     }
     

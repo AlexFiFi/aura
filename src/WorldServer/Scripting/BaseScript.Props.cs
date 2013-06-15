@@ -135,7 +135,7 @@ namespace Aura.World.Scripting
 				var dii = di.GetRndItem(RandomProvider.Get());
 				var item = new MabiItem(dii.ItemClass);
 				item.Info.Amount = dii.Amount > 1 ? (ushort)this.Rnd(1, dii.Amount) : (ushort)1;
-				WorldManager.Instance.CreatureDropItem(prop, new ItemEventArgs(item));
+				WorldManager.Instance.CreatureDropItem(item, prop.Region, (uint)prop.Info.X, (uint)prop.Info.Y);
 			};
 		}
 	}

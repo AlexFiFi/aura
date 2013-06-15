@@ -307,8 +307,6 @@ namespace Aura.World.Network
 			}
 
 			client.State = ClientState.LoggedIn;
-
-			ServerEvents.Instance.OnPlayerLogsIn(creature as MabiPC);
 		}
 #pragma warning restore 0162
 
@@ -1272,8 +1270,9 @@ namespace Aura.World.Network
 
 			// Drop it
 			item.Id = MabiItem.NewItemId;
-			WorldManager.Instance.CreatureDropItem(creature, new ItemEventArgs(item));
-			EntityEvents.Instance.OnCreatureItemAction(creature, item.Info.Class);
+			var pos = creature.GetPosition();
+			WorldManager.Instance.CreatureDropItem(item, creature.Region, pos.X, pos.Y);
+			EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
 
 			// Done
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
@@ -1374,7 +1373,7 @@ namespace Aura.World.Network
 
 			creature.Items.Remove(item);
 			this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
-			EntityEvents.Instance.OnCreatureItemAction(creature, item.Info.Class);
+			EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
 
 			client.Send(PacketCreator.ItemRemove(creature, item));
 			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
@@ -1447,7 +1446,7 @@ namespace Aura.World.Network
 					}
 				}
 
-				EntityEvents.Instance.OnCreatureItemAction(creature, item.Info.Class);
+				EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
 			}
 
 			var response = new MabiPacket(Op.ItemPickUpR, creature.Id);
@@ -1612,7 +1611,7 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.CreatureEnterRegion(creature);
 
-			EntityEvents.Instance.OnPlayerChangesRegion(creature);
+			EventManager.Instance.PlayerEvents.OnPlayerChangesRegion(this, new PlayerEventArgs(creature as MabiPC));
 		}
 
 		/// <summary>
@@ -2780,7 +2779,7 @@ namespace Aura.World.Network
 			if (WorldConf.Motd != string.Empty)
 				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
 
-			ServerEvents.Instance.OnPlayerLoggedIn(creature as MabiPC);
+			EventManager.Instance.PlayerEvents.OnPlayerLoggedIn(this, new PlayerEventArgs(creature as MabiPC));
 		}
 
 		public void HandleMoonGateRequest(WorldClient client, MabiPacket packet)

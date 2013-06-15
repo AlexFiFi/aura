@@ -58,18 +58,18 @@ namespace Aura.World.Scripting
 				(this.Info.Objectives[0] as QuestObjectiveInfo).Unlocked = true;
 
 			if (this.ReceiveMethod == Receive.Auto)
-				ServerEvents.Instance.PlayerLoggedIn += this.OnPlayerLoggedIn;
+				EventManager.Instance.PlayerEvents.PlayerLoggedIn += this.OnPlayerLoggedIn;
 		}
 
 		public override void Dispose()
 		{
 			base.Dispose();
 
-			// Just remove the subscribtions, no problem if they
+			// Just remove the subscriptions, no problem if they
 			// weren't subscribed to them.
-			ServerEvents.Instance.PlayerLoggedIn -= this.OnPlayerLoggedIn;
-			ServerEvents.Instance.KilledByPlayer -= this.OnKilledByPlayer;
-			EntityEvents.Instance.CreatureItemAction -= this.OnCreatureItemAction;
+			EventManager.Instance.PlayerEvents.PlayerLoggedIn -= this.OnPlayerLoggedIn;
+			EventManager.Instance.PlayerEvents.KilledByPlayer -= this.OnKilledByPlayer;
+			EventManager.Instance.CreatureEvents.CreatureItemAction -= this.OnCreatureItemAction;
 		}
 
 		public void OnPlayerLoggedIn(object sender, EventArgs args)
@@ -254,15 +254,15 @@ namespace Aura.World.Scripting
 			// Subscribe to KilledByPlayer once for this quest, if needed for this objective.
 			if (info.Type == ObjectiveType.Kill)
 			{
-				ServerEvents.Instance.KilledByPlayer -= this.OnKilledByPlayer;
-				ServerEvents.Instance.KilledByPlayer += this.OnKilledByPlayer;
+				EventManager.Instance.PlayerEvents.KilledByPlayer -= this.OnKilledByPlayer;
+				EventManager.Instance.PlayerEvents.KilledByPlayer += this.OnKilledByPlayer;
 			}
 
 			// Subscribe to OnCreatureItemAction once for this quest, if needed for this objective.
 			if (info.Type == ObjectiveType.Collect)
 			{
-				EntityEvents.Instance.CreatureItemAction -= this.OnCreatureItemAction;
-				EntityEvents.Instance.CreatureItemAction += this.OnCreatureItemAction;
+				EventManager.Instance.CreatureEvents.CreatureItemAction -= this.OnCreatureItemAction;
+				EventManager.Instance.CreatureEvents.CreatureItemAction += this.OnCreatureItemAction;
 			}
 
 			this.Info.Objectives.Add(ident, info);

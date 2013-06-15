@@ -965,13 +965,13 @@ namespace Aura.World.World
 
 		protected override void HookUp()
 		{
-			ServerEvents.Instance.RealTimeSecondTick += this.RestoreStats;
+			EventManager.Instance.TimeEvents.RealTimeSecondTick += this.RestoreStats;
 			base.HookUp();
 		}
 
 		public override void Dispose()
 		{
-			ServerEvents.Instance.RealTimeSecondTick -= this.RestoreStats;
+			EventManager.Instance.TimeEvents.RealTimeSecondTick -= this.RestoreStats;
 			base.Dispose();
 		}
 
@@ -1086,7 +1086,7 @@ namespace Aura.World.World
 			this.Mana = this.ManaMax;
 			this.Stamina = this.StaminaMax;
 
-			EntityEvents.Instance.OnCreatureStatUpdates(this);
+			WorldManager.Instance.CreatureStatsUpdate(this);
 		}
 
 		public void FullHealLife()
@@ -1094,7 +1094,7 @@ namespace Aura.World.World
 			this.Injuries = 0;
 			this.Life = this.LifeMax;
 
-			EntityEvents.Instance.OnCreatureStatUpdates(this);
+			WorldManager.Instance.CreatureStatsUpdate(this);
 		}
 
 		/// <summary>
@@ -1184,7 +1184,8 @@ namespace Aura.World.World
 			{
 				skill = new MabiSkill(skillId, rank, this.Race);
 				this.AddSkill(skill);
-				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, true);
+				WorldManager.Instance.CreatureSkillUpdate(this, skill, true);
+				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, true));
 				if (showFlashIfNew)
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, this.Id).PutShort(1), SendTargets.Range, this);
 			}
@@ -1196,7 +1197,8 @@ namespace Aura.World.World
 
 				skill.Info.Rank = (byte)rank;
 				skill.LoadRankInfo();
-				EntityEvents.Instance.OnCreatureSkillUpdate(this, skill, false);
+				WorldManager.Instance.CreatureSkillUpdate(this, skill, false);
+				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, false));
 			}
 
 			AddSkillBonuses(skill);
@@ -1504,8 +1506,9 @@ namespace Aura.World.World
 
 			if (prevLevel < this.Level)
 			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.LevelUp, this.Id).PutShort(this.Level), SendTargets.Range, this);
 				this.FullHeal();
-				EntityEvents.Instance.OnCreatureLevelsUp(this);
+				EventManager.Instance.CreatureEvents.OnCreatureLevelsUp(this, new CreatureEventArgs(this));
 				WorldManager.Instance.CreatureStatsUpdate(this);
 			}
 		}

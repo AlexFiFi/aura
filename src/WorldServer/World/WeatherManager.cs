@@ -41,8 +41,8 @@ namespace Aura.World.World
 		{
 			this.LoadWeather();
 
-			ServerEvents.Instance.RealTimeTick += this.OnRealTimeTick;
-			EntityEvents.Instance.PlayerChangesRegion += this.OnPlayerChangesRegion;
+			EventManager.Instance.TimeEvents.RealTimeTick += this.OnRealTimeTick;
+			EventManager.Instance.PlayerEvents.PlayerChangesRegion += this.OnPlayerChangesRegion;
 		}
 
 		/// <summary>
@@ -116,9 +116,9 @@ namespace Aura.World.World
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void OnPlayerChangesRegion(object sender, EntityEventArgs args)
+		private void OnPlayerChangesRegion(object sender, PlayerEventArgs args)
 		{
-			var player = sender as MabiPC;
+			var player = args.Player;
 			if (player == null)
 				return;
 

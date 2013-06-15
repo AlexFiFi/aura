@@ -22,7 +22,7 @@ public class TarlachBearScript : NPCScript
 		SetColor(0x553A26, 0x00FF00, 0x0000FF);
 		SetLocation("sidhe_south", 11100, 30400, 167);
 
-		ServerEvents.Instance.ErinnDaytimeTick += On12HrTick;
+		EventManager.Instance.TimeEvents.ErinnDaytimeTick += On12HrTick;
 
 		Phrases.Add("Growl...");
 		Phrases.Add("Rooooar...");
@@ -33,7 +33,7 @@ public class TarlachBearScript : NPCScript
 
 	public override void Dispose()
 	{
-		ServerEvents.Instance.ErinnDaytimeTick -= On12HrTick;
+		EventManager.Instance.TimeEvents.ErinnDaytimeTick -= On12HrTick;
 		base.Dispose();
 	}
 

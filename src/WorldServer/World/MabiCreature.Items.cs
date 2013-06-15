@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Aura.World.Events;
+using Aura.World.Network;
+using Aura.Shared.Util;
 
 namespace Aura.World.World
 {
@@ -148,7 +150,8 @@ namespace Aura.World.World
 
 					if (prev != item.Info.Amount)
 					{
-						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+						this.ItemUpdate(item);
+						EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
 						result = item;
 					}
 				}
@@ -178,7 +181,11 @@ namespace Aura.World.World
 
 				if (drop)
 				{
-					EntityEvents.Instance.OnCreatureDropItem(this, item);
+					var pos = this.GetPosition();
+					var rand = RandomProvider.Get();
+					var x = (uint)(pos.X + rand.Next(-100, 101));
+					var y = (uint)(pos.Y + rand.Next(-100, 101)); WorldManager.Instance.CreatureDropItem(item, this.Region, x, y); 
+					EventManager.Instance.CreatureEvents.OnCreatureDropItem(this, new ItemUpdateEventArgs(item));
 				}
 				else
 				{
@@ -193,13 +200,14 @@ namespace Aura.World.World
 					item.Move(pocket, space.X, space.Y);
 					this.Items.Add(item);
 
-					EntityEvents.Instance.OnCreatureItemUpdate(this, item, true);
+					this.ItemUpdate(item, true);
+					EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item, true));
 				}
 
 				result = item;
 			}
 
-			EntityEvents.Instance.OnCreatureItemAction(this, itemClass);
+			EventManager.Instance.CreatureEvents.OnCreatureItemAction(this, new ItemActionEventArgs(itemClass));
 
 			return result;
 		}
@@ -235,7 +243,9 @@ namespace Aura.World.World
 					{
 						if (item.StackType != BundleType.Sac && item.Info.Amount < 1)
 							toRemove.Add(item);
-						EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+
+						this.ItemUpdate(item);
+						EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
 					}
 				}
 			}
@@ -263,7 +273,9 @@ namespace Aura.World.World
 						{
 							if (item.StackType != BundleType.Sac && item.Info.Amount < 1)
 								toRemove.Add(item);
-							EntityEvents.Instance.OnCreatureItemUpdate(this, item);
+
+							this.ItemUpdate(item);
+							EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
 						}
 					}
 				}
@@ -272,7 +284,7 @@ namespace Aura.World.World
 			foreach (var item in toRemove)
 				this.Items.Remove(item);
 
-			EntityEvents.Instance.OnCreatureItemAction(this, itemClass);
+			EventManager.Instance.CreatureEvents.OnCreatureItemAction(this, new ItemActionEventArgs(itemClass));
 		}
 
 		/// <summary>
@@ -342,8 +354,33 @@ namespace Aura.World.World
 			if (item.StackType != BundleType.Sac && item.Info.Amount < 1)
 				this.Items.Remove(item);
 
-			EntityEvents.Instance.OnCreatureItemUpdate(this, item);
-			EntityEvents.Instance.OnCreatureItemAction(this, item.Info.Class);
+			this.ItemUpdate(item);
+			EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
+
+
+			EventManager.Instance.CreatureEvents.OnCreatureItemAction(this, new ItemActionEventArgs(item.Info.Class));
+		}
+
+		public void ItemUpdate(MabiItem item, bool isNew = false)
+		{
+			if (!isNew)
+			{
+				// Update or remove, depending on type and amount
+				if (item.StackType == BundleType.Sac || item.Info.Amount > 0)
+				{
+					this.Client.Send(PacketCreator.ItemAmount(this, item));
+				}
+				else
+				{
+					this.Client.Send(PacketCreator.ItemRemove(this, item));
+				}
+			}
+			else
+			{
+				// Send info about a new item
+				this.Client.Send(PacketCreator.ItemInfo(this, item));
+			}
+
 		}
 	}
 }

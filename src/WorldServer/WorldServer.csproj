@@ -60,9 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\WorldDb.cs" />
-    <Compile Include="Events\EntitiyEvents.cs" />
     <Compile Include="Events\EventsArgs.cs" />
-    <Compile Include="Events\ServerEvents.cs" />
+    <Compile Include="Events\Events.cs" />
     <Compile Include="Network\PacketCreator.cs" />
     <Compile Include="Network\Sending\Client.Skills.cs" />
     <Compile Include="Network\Sending\Client.Items.cs" />

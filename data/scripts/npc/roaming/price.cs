@@ -51,7 +51,7 @@ public class PriceScript : NPCScript
 		EquipItem(Pocket.Shoe, 17044, 0x74562E, 0xFFFFFF, 0xFFFFFF);
 		EquipItem(Pocket.Head, 18024, 0x4E7271, 0x24312F, 0xFFFFFF);
 		
-		ServerEvents.Instance.ErinnMidnightTick += OnMidnightTick;
+		EventManager.Instance.TimeEvents.ErinnMidnightTick += OnMidnightTick;
 		OnMidnightTick(null, null); // Move Price when he loads
 
 		Phrases.Add("...");
@@ -68,7 +68,7 @@ public class PriceScript : NPCScript
 	
 	public override void Dispose()
 	{
-		ServerEvents.Instance.ErinnMidnightTick += OnMidnightTick;
+		EventManager.Instance.TimeEvents.ErinnMidnightTick += OnMidnightTick;
 		base.Dispose();
 	}
 	
