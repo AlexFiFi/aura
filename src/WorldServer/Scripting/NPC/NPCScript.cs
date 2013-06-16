@@ -159,7 +159,7 @@ namespace Aura.World.Scripting
 
 		protected virtual void Speak(string message)
 		{
-			WorldManager.Instance.CreatureTalk(this.NPC, message);
+			this.NPC.Talk(message);
 		}
 
 #pragma warning disable 0162

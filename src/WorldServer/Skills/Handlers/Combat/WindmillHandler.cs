@@ -14,12 +14,11 @@ namespace Aura.World.Skills
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			WorldManager.Instance.SendSkillInitEffect(creature);
+			SkillHelper.SendSkillInitEffect(creature);
 
 			if (creature.IsMoving)
 			{
 				creature.StopMove();
-				WorldManager.Instance.SendStopMove(creature);
 			}
 
 			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
@@ -70,7 +69,7 @@ namespace Aura.World.Skills
 			attacker.StopMove();
 
 			// Spin motion
-			WorldManager.Instance.CreatureUseMotion(attacker, 8, 4);
+			attacker.UseMotion(8, 4);
 
 			var cap = new CombatActionPack(attacker, skill.Id);
 
@@ -100,7 +99,7 @@ namespace Aura.World.Skills
 				if (CombatHelper.TryAddCritical(attacker, ref damage, attacker.CriticalChance))
 					tAction.Options |= TargetOptions.Critical;
 
-				target.TakeDamage(tAction.Damage = damage);
+				target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
 				if (target.IsDead)
 					tAction.Options |= TargetOptions.FinishingKnockDown;
 

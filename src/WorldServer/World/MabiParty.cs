@@ -121,6 +121,67 @@ namespace Aura.World.World
 		{
 			if (Members.Contains(creature))
 				Members.Remove(creature);
+
+			// Update party
+			if (this.Members.Count > 0)
+			{
+				foreach (var member in this.Members)
+					member.Client.Send(new MabiPacket(Op.PartyLeaveUpdate, member.Id).PutLong(creature.Id));
+
+				if (this.IsOpen)
+					this.RefreshMemberWanted();
+
+				foreach (var member in this.Members)
+					member.Client.Send(new MabiPacket(0xA43C, member.Id).PutLong(creature.Id).PutByte(1).PutByte(1).PutShort(0).PutInt(0));
+
+				if (this.Leader == creature)
+					this.ChangeLeader(this.GetNextLeader());
+			}
+			// Remove party
+			else
+			{
+				if (this.IsOpen)
+					this.HideMemberWanted();
+
+				WorldManager.Instance.RemoveParty(this);
+			}
+		}
+
+		public void RefreshMemberWanted()
+		{
+			var p = new MabiPacket(Op.PartyWantedUpdate, this.Leader.Id).PutByte(this.IsOpen).PutString(this.GetMemberWantedString());
+			WorldManager.Instance.Broadcast(p, SendTargets.Range, this.Leader);
+		}
+
+		public void HideMemberWanted()
+		{
+			this.IsOpen = false;
+
+			foreach (var member in this.Members)
+				member.Client.Send(new MabiPacket(Op.PartyWantedClosed, member.Id));
+
+			this.RefreshMemberWanted();
+		}
+
+		public void ShowMemberWanted()
+		{
+			this.IsOpen = true;
+
+			foreach (var member in this.Members)
+				member.Client.Send(new MabiPacket(Op.PartyWantedOpened, member.Id));
+
+			this.RefreshMemberWanted();
+		}
+
+		public void ChangeLeader(MabiCreature newLeader)
+		{
+			if (this.IsOpen)
+				this.HideMemberWanted();
+
+			this.SetLeader(newLeader);
+
+			foreach (var member in this.Members)
+				member.Client.Send(new MabiPacket(Op.PartyChangeLeaderUpdate, member.Id).PutLong(newLeader.Id));
 		}
 
 		public uint GetMemberNumber(MabiCreature member)

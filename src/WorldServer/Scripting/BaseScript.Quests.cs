@@ -71,8 +71,7 @@ namespace Aura.World.Scripting
 			if (quest == null)
 				return;
 
-			quest.State = MabiQuestState.Complete;
-			WorldManager.Instance.CreatureCompletesQuest(client.Character, quest, true);
+			client.Character.CompleteQuest(quest, true);
 		}
 
 		/// <summary>
@@ -129,7 +128,7 @@ namespace Aura.World.Scripting
 
 			(quest.Progresses[objective] as MabiQuestProgress).Count = (quest.Info.Objectives[objective] as QuestObjectiveInfo).Amount;
 			quest.SetObjectiveDone(objective);
-			WorldManager.Instance.CreatureUpdateQuest(client.Character, quest);
+			client.Character.UpdateQuest(quest);
 		}
 
 		protected string QuestObjective(WorldClient client, uint id)
@@ -168,7 +167,7 @@ namespace Aura.World.Scripting
 			// or it will be shown twice till next relog.
 			var exiQuest = character.GetQuestOrNull(id);
 			if (exiQuest != null && exiQuest.State < MabiQuestState.Complete)
-				WorldManager.Instance.CreatureCompletesQuest(character, character.Quests[id], false);
+				character.CompleteQuest(character.Quests[id], false);
 
 			// Check here, before we add a quest that doesn't even exist.
 			if (!MabiData.QuestDb.Exists(id))
@@ -180,7 +179,7 @@ namespace Aura.World.Scripting
 			var quest = new MabiQuest(id);
 			character.Quests[id] = quest;
 
-			WorldManager.Instance.CreatureReceivesQuest(character, quest);
+			character.ReceivesQuest(quest);
 		}
 	}
 }

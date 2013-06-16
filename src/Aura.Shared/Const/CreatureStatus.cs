@@ -10,7 +10,7 @@ namespace Aura.Shared.Const
 	{
 		Initialized = 0x00000001,
 		Dead = 0x00000002,
-		SitDown = 0x00000004,
+		SittingDown = 0x00000004,
 		Spawned = 0x00000008,
 		EverEnterWorld = 0x00000010,
 		NorespawnPenalty = 0x00000020,

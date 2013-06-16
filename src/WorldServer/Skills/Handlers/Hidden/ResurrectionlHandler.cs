@@ -63,7 +63,7 @@ namespace Aura.World.Skills
 
 			// TODO: stats
 
-			WorldManager.Instance.ReviveCreature(target);
+			target.Revive();
 
 			creature.Client.SendSkillComplete(creature, skill.Id, targetId);
 

@@ -25,7 +25,7 @@ namespace Aura.World.Skills
 			this.AddStatBonus(creature, skill);
 
 			creature.FullHeal();
-			WorldManager.Instance.CreatureStatsUpdate(creature);
+			creature.BroadcastStatsUpdate();
 
 			return SkillResults.Okay;
 		}
@@ -36,7 +36,7 @@ namespace Aura.World.Skills
 
 			this.RemoveStatBonus(creature, skill);
 
-			WorldManager.Instance.CreatureStatsUpdate(creature);
+			creature.BroadcastStatsUpdate();
 
 			return SkillResults.Okay;
 		}

@@ -20,7 +20,7 @@ namespace Aura.World.Skills
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			WorldManager.Instance.SendFlash(creature);
+			SkillHelper.SendFlash(creature);
 			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
 
 			return SkillResults.Okay;

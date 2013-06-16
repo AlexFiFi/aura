@@ -6,6 +6,8 @@ using Aura.World.World;
 using System;
 using Aura.Shared.Util;
 using Aura.Shared.Network;
+using Aura.World.Util;
+using Aura.World.Network;
 namespace Aura.World.Skills
 {
 	public static class CombatHelper
@@ -223,15 +225,14 @@ namespace Aura.World.Skills
 		{
 			if (!target.IsDead && target.Target != attacker)
 			{
-				target.Target = attacker;
+				target.SetTarget(attacker);
 				if (target is MabiNPC && ((MabiNPC)target).AIScript != null)
 				{
 					foreach (var a in ((MabiNPC)target).AIScript.Aggro()) ;
 				}
 				else
 				{
-					target.BattleState = 1;
-					WorldManager.Instance.CreatureChangeStance(target, 0);
+					target.ChangeBattleState(true);
 				}
 			}
 		}
@@ -343,6 +344,15 @@ namespace Aura.World.Skills
 				creature.Client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id).PutByte(0));
 
 			creature.AimStart = DateTime.MaxValue;
+		}
+
+		public static void SharpMind(MabiCreature user, SharpMindStatus state, SkillConst skill)
+		{
+			var inRange = WorldManager.Instance.GetPlayersInRange(user, WorldConf.SightRange);
+			foreach (var c in inRange)
+			{
+				c.Client.Send(PacketCreator.SharpMind(user, c, skill, state));
+			}
 		}
 	}
 

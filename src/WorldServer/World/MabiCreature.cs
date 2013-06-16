@@ -12,6 +12,7 @@ using Aura.World.Events;
 using Aura.World.Network;
 using Aura.World.Player;
 using Aura.World.Skills;
+using Aura.World.Util;
 
 namespace Aura.World.World
 {
@@ -46,7 +47,7 @@ namespace Aura.World.World
 		public uint Color3 = 0x808080;
 
 		public byte WeaponSet;
-		public byte BattleState;
+		public bool BattleState;
 		public bool IsFlying;
 
 		public ushort Title, OptionTitle /*, TmpTitle ?*/;
@@ -85,7 +86,7 @@ namespace Aura.World.World
 		private double _moveDuration;
 		private bool _moveIsWalk;
 
-		public MabiCreature Target = null;
+		public MabiCreature Target { get; protected set; }
 		public float _stun;
 		private DateTime _stunChange;
 		public bool WaitingForRes = false;
@@ -811,7 +812,7 @@ namespace Aura.World.World
 			this.Client.Send(p);
 
 			UpdateTalentStats();
-			WorldManager.Instance.CreatureStatsUpdate(this);
+			this.BroadcastStatsUpdate();
 		}
 
 		public void UpdateTalentStats()
@@ -1086,7 +1087,7 @@ namespace Aura.World.World
 			this.Mana = this.ManaMax;
 			this.Stamina = this.StaminaMax;
 
-			WorldManager.Instance.CreatureStatsUpdate(this);
+			this.BroadcastStatsUpdate();
 		}
 
 		public void FullHealLife()
@@ -1094,7 +1095,7 @@ namespace Aura.World.World
 			this.Injuries = 0;
 			this.Life = this.LifeMax;
 
-			WorldManager.Instance.CreatureStatsUpdate(this);
+			this.BroadcastStatsUpdate();
 		}
 
 		/// <summary>
@@ -1184,7 +1185,7 @@ namespace Aura.World.World
 			{
 				skill = new MabiSkill(skillId, rank, this.Race);
 				this.AddSkill(skill);
-				WorldManager.Instance.CreatureSkillUpdate(this, skill, true);
+				this.SkillUpdate(skill, true);
 				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, true));
 				if (showFlashIfNew)
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, this.Id).PutShort(1), SendTargets.Range, this);
@@ -1197,7 +1198,7 @@ namespace Aura.World.World
 
 				skill.Info.Rank = (byte)rank;
 				skill.LoadRankInfo();
-				WorldManager.Instance.CreatureSkillUpdate(this, skill, false);
+				this.SkillUpdate(skill, false);
 				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, false));
 			}
 
@@ -1362,7 +1363,7 @@ namespace Aura.World.World
 			return new MabiVertex((uint)xt, (uint)yt, (uint)ht);
 		}
 
-		public MabiVertex StartMove(MabiVertex dest, bool walk = false)
+		protected MabiVertex StartMoveCalculation(MabiVertex dest, bool walk)
 		{
 			var pos = this.GetPosition();
 
@@ -1399,7 +1400,7 @@ namespace Aura.World.World
 		/// Stops calculation of movement, doesn't actually stop movement
 		/// on the client side.
 		/// </summary>
-		public MabiVertex StopMove()
+		protected MabiVertex StopMoveCalculation()
 		{
 			var pos = this.GetPosition();
 			return this.SetPosition(pos.X, pos.Y, pos.H);
@@ -1416,12 +1417,12 @@ namespace Aura.World.World
 			return (_destination.Equals(dest));
 		}
 
-		public void TakeDamage(float damage)
+		public void TakeDamage(float damage, MabiCreature attacker, SkillConst skillId)
 		{
 			var hpBefore = this.Life;
 			if (hpBefore < 1)
 			{
-				this.Die();
+				this.Die(attacker, this.GetPosition(), skillId);
 				return;
 			}
 
@@ -1431,7 +1432,7 @@ namespace Aura.World.World
 			if (hp > 0 || this.ShouldSurvive() || (this is MabiPC && hpBefore >= this.LifeMax / 2))
 				return;
 
-			this.Die();
+			this.Die(attacker, this.GetPosition(), skillId);
 		}
 
 		/// <summary>
@@ -1444,16 +1445,117 @@ namespace Aura.World.World
 			return ((this.Will * 10) + RandomProvider.Get().Next(1001)) > 999;
 		}
 
-		/// <summary>
-		/// Adds creature state "Dead".
-		/// </summary>
-		public virtual void Die()
+		public virtual void Die(MabiCreature killer, MabiVertex position, SkillConst skillId)
 		{
 			this.State |= CreatureStates.Dead;
+
+			if (killer != null)
+			{
+				// Shadow Bunshin soul counter
+				if (skillId != SkillConst.ShadowBunshin)
+					killer.SoulCount++;
+
+				// Exp
+				if (killer.LevelingEnabled)
+				{
+					// Give exp
+					var exp = this.BattleExp * WorldConf.ExpRate;
+					killer.GiveExp((ulong)exp);
+
+					killer.Client.Send(PacketCreator.CombatMessage(killer, "+{0} EXP", exp));
+
+					EventManager.Instance.CreatureEvents.OnCreatureKilled(this, new CreatureKilledEventArgs(this, killer));
+					if (killer is MabiPC)
+						EventManager.Instance.PlayerEvents.OnKilledByPlayer(this, new CreatureKilledEventArgs(this, killer));
+				}
+			}
+
+			var npc = this as MabiNPC;
+			if (npc != null)
+			{
+				var rnd = RandomProvider.Get();
+
+				// Gold
+				if (rnd.NextDouble() < WorldConf.GoldDropRate)
+				{
+					var amount = rnd.Next(npc.GoldMin, npc.GoldMax + 1);
+					if (amount > 0)
+					{
+						var gold = new MabiItem(2000);
+						gold.Info.Amount = (ushort)amount;
+						gold.Info.Region = npc.Region;
+						gold.Info.X = (uint)(position.X + rnd.Next(-50, 51));
+						gold.Info.Y = (uint)(position.Y + rnd.Next(-50, 51));
+						gold.DisappearTime = DateTime.Now.AddSeconds(60);
+
+						WorldManager.Instance.AddItem(gold);
+					}
+				}
+
+				// Drops
+				foreach (var drop in npc.Drops)
+				{
+					if (rnd.NextDouble() < drop.Chance * WorldConf.DropRate)
+					{
+						var item = new MabiItem(drop.ItemId);
+						item.Info.Amount = 1;
+						item.Info.Region = npc.Region;
+						item.Info.X = (uint)(position.X + rnd.Next(-50, 51));
+						item.Info.Y = (uint)(position.Y + rnd.Next(-50, 51));
+						item.DisappearTime = DateTime.Now.AddSeconds(60);
+
+						WorldManager.Instance.AddItem(item);
+					}
+				}
+			}
+
+			// Set finisher?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, this.Id).PutLong(killer.Id), SendTargets.Range, this);
+
+			// Clear target
+			killer.SetTarget(null);
+
+			// Finish this finisher part?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher2, this.Id), SendTargets.Range, this);
+
+			// TODO: There appears to be something missing to let it lay there for finish, if we don't kill it with the following packets.
+			// TODO: Check for finishing.
+
+			// Make it dead
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.IsNowDead, this.Id), SendTargets.Range, this);
+
+			// Remove finisher?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, this.Id).PutLong(0), SendTargets.Range, this);
+
+			if (this.ActiveSkillId != SkillConst.None)
+				this.SkillCancel();
+
+			if (this.Owner != null)
+			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, this.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, this);
+				// TODO: Unmount.
+			}
+
+			this.CauseOfDeath = DeathCauses.None;
+
+			if (this.ArenaPvPManager != null && this.ArenaPvPManager == killer.ArenaPvPManager && this.ArenaPvPManager.IsAttackableBy(this, killer))
+			{
+				this.ArenaPvPManager.CreatureKilled(this, killer);
+				this.CauseOfDeath = DeathCauses.Arena;
+			}
+
+			// TODO: Trans PvP
+
+			if (this.CauseOfDeath == DeathCauses.None && this.EvGEnabled && killer.EvGEnabled)
+				if (this.EvGSupportRace != 0 && killer.EvGSupportRace != 0 && this.EvGSupportRace != killer.EvGSupportRace)
+					this.CauseOfDeath = DeathCauses.EvG;
+
+			if (this.CauseOfDeath == DeathCauses.None)
+				this.CauseOfDeath = DeathCauses.Mob;
 		}
 
 		/// <summary>
-		/// Removes dead state
+		/// Removes dead state, revives creature, and sends packets
 		/// </summary>
 		public void Revive()
 		{
@@ -1471,6 +1573,10 @@ namespace Aura.World.World
 
 			this.CauseOfDeath = DeathCauses.None;
 			this.WaitingForRes = false;
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead1, this.Id), SendTargets.Range, this);
+			this.BroadcastStatsUpdate();
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead2, this.Id), SendTargets.Range, this);
 		}
 
 		/// <summary>
@@ -1508,8 +1614,8 @@ namespace Aura.World.World
 			{
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.LevelUp, this.Id).PutShort(this.Level), SendTargets.Range, this);
 				this.FullHeal();
+				this.BroadcastStatsUpdate();
 				EventManager.Instance.CreatureEvents.OnCreatureLevelsUp(this, new CreatureEventArgs(this));
-				WorldManager.Instance.CreatureStatsUpdate(this);
 			}
 		}
 

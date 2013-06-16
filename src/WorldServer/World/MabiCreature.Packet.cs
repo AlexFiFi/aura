@@ -386,7 +386,7 @@ namespace Aura.World.World
 			packet.PutInt(loc.X);
 			packet.PutInt(loc.Y);
 			packet.PutByte(this.Direction);
-			packet.PutInt(this.BattleState);
+			packet.PutInt((byte)(this.BattleState ? 1 : 0));
 			packet.PutByte(this.WeaponSet);
 			packet.PutInt(this.Color1);
 			packet.PutInt(this.Color2);

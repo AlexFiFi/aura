@@ -167,6 +167,14 @@ namespace Aura.World.World
 				packet.PutShort(0);
 			}
 		}
+
+		public void BroadcastPropUpdate()
+		{
+			var p = new MabiPacket(Op.PropUpdate, this.Id);
+			this.AddToUpdatePacket(p);
+
+			WorldManager.Instance.BroadcastRegion(p, this.Region);
+		}
 	}
 
 	public delegate void MabiPropFunc(WorldClient client, MabiPC character, MabiProp prop);

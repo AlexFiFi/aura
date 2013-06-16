@@ -72,9 +72,9 @@ namespace Aura.World.Scripting
 			EventManager.Instance.CreatureEvents.CreatureItemAction -= this.OnCreatureItemAction;
 		}
 
-		public void OnPlayerLoggedIn(object sender, EventArgs args)
+		public void OnPlayerLoggedIn(object sender, PlayerEventArgs args)
 		{
-			var character = sender as MabiPC;
+			var character = args.Player;
 
 			//if (this.ReceiveMethod == Receive.Auto)
 			//{
@@ -165,7 +165,7 @@ namespace Aura.World.Scripting
 			if (progress.Count >= objective.Amount)
 				quest.SetObjectiveDone(progress.Objective);
 
-			WorldManager.Instance.CreatureUpdateQuest(character, quest);
+			character.UpdateQuest(quest);
 		}
 
 		/// <summary>
@@ -225,7 +225,7 @@ namespace Aura.World.Scripting
 				quest.SetObjectiveUndone(progress.Objective);
 			}
 
-			WorldManager.Instance.CreatureUpdateQuest(character, quest);
+			character.UpdateQuest(quest);
 		}
 
 		public void AddObjective(string ident, string description, uint region, uint x, uint y, QuestObjectiveInfo info)

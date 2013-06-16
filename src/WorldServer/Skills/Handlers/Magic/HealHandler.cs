@@ -14,7 +14,7 @@ namespace Aura.World.Skills
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			WorldManager.Instance.SendSkillInitEffect(creature, "healing");
+			SkillHelper.SendSkillInitEffect(creature, "healing");
 			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
@@ -70,7 +70,7 @@ namespace Aura.World.Skills
 			}
 
 			target.Life += skill.RankInfo.Var1;
-			WorldManager.Instance.CreatureStatsUpdate(target);
+			target.BroadcastStatsUpdate();
 
 			SkillHelper.DecStack(creature, skill);
 

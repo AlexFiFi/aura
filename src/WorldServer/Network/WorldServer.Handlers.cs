@@ -355,7 +355,14 @@ namespace Aura.World.Network
 			{
 				if (creature.RaceInfo.VehicleType > 0)
 				{
-					WorldManager.Instance.VehicleUnbind(null, creature, true);
+					p = new MabiPacket(Op.VehicleBond, creature.Id);
+					p.PutInt(0);
+					p.PutInt(1);
+					p.PutLong(creature.Id);
+					p.PutInt(32);
+					p.PutByte(0);
+					WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+
 				}
 
 				if (creature.IsDead)
@@ -402,7 +409,7 @@ namespace Aura.World.Network
 					return;
 			}
 
-			WorldManager.Instance.CreatureTalk(creature, message, type);
+			creature.Talk(message, type);
 		}
 
 		private void HandleWhisperChat(WorldClient client, MabiPacket packet)
@@ -443,7 +450,7 @@ namespace Aura.World.Network
 				if (info.Name == "listen_music")
 					loop = true;
 
-				WorldManager.Instance.CreatureUseMotion(creature, info.Category, info.Type, loop);
+				creature.UseMotion(info.Category, info.Type, loop);
 			}
 
 			var p = new MabiPacket(Op.UseGestureR, creature.Id);
@@ -481,7 +488,7 @@ namespace Aura.World.Network
 			creature.DecItem(item);
 
 			// Mandatory stat update
-			WorldManager.Instance.CreatureStatsUpdate(creature);
+			creature.BroadcastStatsUpdate();
 
 			client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(true).PutInt(item.Info.Class));
 		}
@@ -544,7 +551,7 @@ namespace Aura.World.Network
 			client.Send(response);
 
 			creature.FullHeal();
-			WorldManager.Instance.ReviveCreature(creature);
+			creature.Revive();
 		}
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
@@ -595,7 +602,7 @@ namespace Aura.World.Network
 
 			var toggle = packet.GetByte();
 			creature.Conditions.A = (toggle == 1 ? (creature.Conditions.A | CreatureConditionA.Invisible) : (creature.Conditions.A & ~CreatureConditionA.Invisible));
-			WorldManager.Instance.SendStatusEffectUpdate(creature);
+			creature.BroadcastStatusEffectUpdate();
 
 			var p = new MabiPacket(Op.GMCPInvisibilityR, creature.Id);
 			p.PutByte(1);
@@ -1183,7 +1190,7 @@ namespace Aura.World.Network
 			// Update Equip
 			if (target.IsEquip())
 			{
-				WorldManager.Instance.CreatureEquip(creature, item);
+				creature.EquipmentChanged(item);
 				switch (item.Info.Class)
 				{
 					// Umbrella Skill
@@ -1235,7 +1242,7 @@ namespace Aura.World.Network
 						.PutByte(2).PutBytes((byte)free.X, (byte)free.Y)
 					);
 					secItem.Move(secTarget, free.X, free.Y);
-					WorldManager.Instance.CreatureUnequip(creature, secSource);
+					creature.Unequip(secSource);
 				}
 			}
 
@@ -1243,7 +1250,7 @@ namespace Aura.World.Network
 
 			// Notify clients of equip change if equipment is being dropped
 			if (pocket.IsEquip())
-				WorldManager.Instance.CreatureUnequip(creature, pocket);
+				creature.Unequip(pocket);
 		}
 
 		private void HandleItemDrop(WorldClient client, MabiPacket packet)
@@ -1271,8 +1278,7 @@ namespace Aura.World.Network
 			// Drop it
 			item.Id = MabiItem.NewItemId;
 			var pos = creature.GetPosition();
-			WorldManager.Instance.CreatureDropItem(item, creature.Region, pos.X, pos.Y);
-			EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
+			creature.DropItem(item);
 
 			// Done
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
@@ -1307,7 +1313,7 @@ namespace Aura.World.Network
 			p.PutByte(1);
 			client.Send(p);
 
-			WorldManager.Instance.CreatureLeaveRegion(creature);
+			creature.LeaveRegion();
 			creature.SetLocation(DGID1, 3262, 3139);
 
 			// Dungeon info
@@ -1517,14 +1523,7 @@ namespace Aura.World.Network
 
 			creature.StopMove();
 
-			// TODO: Check this, GetItemInPocket doesn't return the correct stuff.
-			creature.WeaponSet = set;
-
-			creature.UpdateItemsFromPockets(Pocket.RightHand1);
-			creature.UpdateItemsFromPockets(Pocket.LeftHand1);
-			creature.UpdateItemsFromPockets(Pocket.Magazine1);
-
-			WorldManager.Instance.CreatureSwitchSet(creature);
+			creature.SwitchSet(set);
 
 			var response = new MabiPacket(Op.SwitchSetR, creature.Id);
 			response.PutByte(1);
@@ -1552,7 +1551,7 @@ namespace Aura.World.Network
 					if (item != null)
 					{
 						item.Info.FigureA = (byte)(item.Info.FigureA == 1 ? 0 : 1);
-						WorldManager.Instance.CreatureEquip(creature, item);
+						creature.EquipmentChanged(item);
 					}
 				}
 			}
@@ -1609,7 +1608,7 @@ namespace Aura.World.Network
 					((WorldClient)rider.Client).Warp(creature.Region, pos.X, pos.Y);
 			}
 
-			WorldManager.Instance.CreatureEnterRegion(creature);
+			creature.EnterRegion();
 
 			EventManager.Instance.PlayerEvents.OnPlayerChangesRegion(this, new PlayerEventArgs(creature as MabiPC));
 		}
@@ -1675,7 +1674,7 @@ namespace Aura.World.Network
 			if (skill.RankInfo.StaminaCost > 0)
 				creature.Stamina -= skill.RankInfo.StaminaCost;
 
-			WorldManager.Instance.CreatureStatsUpdate(creature);
+			creature.BroadcastStatsUpdate();
 
 			// Not Okay or NoReply
 			//if ((result & SkillResults.Okay) == 0 || (result & SkillResults.NoReply) != 0)
@@ -1790,7 +1789,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			WorldManager.Instance.CreatureSkillCancel(creature);
+			creature.SkillCancel();
 		}
 
 		/// <summary>
@@ -1866,21 +1865,18 @@ namespace Aura.World.Network
 
 			// Clear target?
 			if (mode == 0)
-				WorldManager.Instance.CreatureSetTarget(creature, null);
+				creature.SetTarget(null);
 
 			// Send info
-			creature.BattleState = mode;
-			WorldManager.Instance.CreatureChangeStance(creature);
+			creature.ChangeBattleState(Convert.ToBoolean(mode));
 
 			if (creature.Vehicle != null && creature == creature.Vehicle.Owner)
 			{
-				creature.Vehicle.BattleState = mode;
-				WorldManager.Instance.CreatureChangeStance(creature.Vehicle);
+				creature.Vehicle.ChangeBattleState(creature.BattleState);
 			}
 			if (creature.Owner != null && creature.Riders.Contains(creature.Owner))
 			{
-				creature.Owner.BattleState = mode;
-				WorldManager.Instance.CreatureChangeStance(creature.Owner);
+				creature.Owner.ChangeBattleState(creature.BattleState);
 			}
 
 			// Unlock
@@ -1998,15 +1994,14 @@ namespace Aura.World.Network
 
 			var answer = new MabiPacket(Op.ChangeTitleR, creature.Id);
 
-			bool update = false;
+			bool updateTitle = false, updateOption = false;
 
 			// Make sure the character has this title enabled
 			var character = creature as MabiPC;
 			if (title == 0 || (character.Titles.ContainsKey(title)) && character.Titles[title])
 			{
-				creature.Title = title;
 				answer.PutByte(1);
-				update = true;
+				updateTitle = true;
 			}
 			else
 			{
@@ -2015,17 +2010,16 @@ namespace Aura.World.Network
 
 			if (optTitle == 0 || (character.Titles.ContainsKey(optTitle)) && character.Titles[optTitle])
 			{
-				creature.OptionTitle = optTitle;
 				answer.PutByte(1);
-				update = true;
+				updateOption = true;
 			}
 			else
 			{
 				answer.PutByte(0);
 			}
 
-			if (update)
-				WorldManager.Instance.CreatureChangeTitle(creature);
+			if (updateTitle || updateOption)
+				creature.ChangeTitle(updateTitle ? title : creature.Title, updateOption ? optTitle : creature.OptionTitle);
 
 			client.Send(answer);
 		}
@@ -2132,13 +2126,11 @@ namespace Aura.World.Network
 						client.SendUnlock(rider, 0xFFFFBDFF);
 					pet.IsFlying = false;
 				}
-				foreach (var rider in pet.Riders)
+				for (int i = pet.Riders.Count - 1; i >= 0; i--)
 				{
-					rider.Vehicle = null;
-					WorldManager.Instance.VehicleUnbind(rider, pet);
-					rider.StopMove();
+					pet.Riders[i].StopMove();
+					pet.Riders[i].VehicleUnbind(pet);
 				}
-				pet.Riders.Clear();
 			}
 
 			if (pet.Owner != null)
@@ -2165,7 +2157,7 @@ namespace Aura.World.Network
 
 			var petId = packet.GetLong();
 
-			var creatureIsSitting = creature.Has(CreatureStates.SitDown);
+			var creatureIsSitting = creature.Has(CreatureStates.SittingDown);
 
 			var pet = client.Account.Pets.FirstOrDefault(a => a.Id == petId);
 			if (pet == null || pet.IsDead || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17 || creatureIsSitting || !WorldManager.InRange(creature, pet, 200))
@@ -2177,10 +2169,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			creature.Vehicle = pet;
-			pet.Riders.Add(creature);
-
-			WorldManager.Instance.VehicleBind(creature, pet);
+			creature.VehicleBind(pet);
 
 			// Mount motion (horse)
 			var p = new MabiPacket(Op.Motions, creature.Id);
@@ -2205,7 +2194,9 @@ namespace Aura.World.Network
 				return;
 			}
 
-			WorldManager.Instance.VehicleUnbind(creature, creature.Vehicle);
+			var pos = creature.Vehicle.GetPosition();
+
+			creature.VehicleUnbind(creature.Vehicle);
 
 			// Unmount motion (horse)
 			var p2 = new MabiPacket(Op.Motions, creature.Id);
@@ -2215,12 +2206,7 @@ namespace Aura.World.Network
 			p2.PutShort(0);
 			client.Send(p2);
 
-			var pos = creature.Vehicle.GetPosition();
-
 			creature.SetPosition(pos.X, pos.Y);
-
-			creature.Vehicle.Riders.Remove(creature);
-			creature.Vehicle = null;
 
 			client.Send(new MabiPacket(Op.PetUnmountR, creature.Id).PutByte(true));
 		}
@@ -2252,7 +2238,7 @@ namespace Aura.World.Network
 					//client.Send(new MabiPacket(Op.WARP_ENTER, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
 					//
 					//
-					WorldManager.Instance.CreatureLeaveRegion(character);
+					character.LeaveRegion();
 					client.Send(new MabiPacket(Op.CharacterLock, character.Id).PutInts(0xEFFFFFFE, 0));
 
 					character.SetLocation(DGID2, 5992, 5614);
@@ -2326,14 +2312,13 @@ namespace Aura.World.Network
 			var walking = (packet.Op == Op.Walk);
 
 			// TODO: Update creature position on unmount?
-			creature.StartMove(dest, walking);
+			creature.Move(dest, walking);
+
+			// TODO: Is this needed? Feel like the client should send a packet with the creature's ID...
 			if (creature.Vehicle != null)
 			{
-				creature.Vehicle.StartMove(dest, walking);
-				WorldManager.Instance.CreatureMove(creature.Vehicle, creature.GetPosition(), dest, walking);
+				creature.Vehicle.Move(dest, walking);
 			}
-
-			WorldManager.Instance.CreatureMove(creature, pos, dest, walking);
 		}
 
 		private void HandleTakeOff(WorldClient client, MabiPacket packet)
@@ -2390,11 +2375,11 @@ namespace Aura.World.Network
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.FlyingTo, packet.Id).PutFloats(toX, toH, toY, dir, pos.X, pos.H, pos.Y), SendTargets.Range, creature);
 
 			creature.Direction = (byte)dir;
-			creature.StartMove(new MabiVertex(toX, toY, toH));
+			creature.Move(new MabiVertex(toX, toY, toH));
 			foreach (var rider in creature.Riders)
 			{
 				rider.Direction = creature.Direction;
-				rider.StartMove(new MabiVertex(toX, toY));
+				rider.Move(new MabiVertex(toX, toY));
 			}
 		}
 
@@ -2445,7 +2430,6 @@ namespace Aura.World.Network
 				}
 			}
 
-			creature.Target = target;
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, creature.Id)
 				.PutLong(targetId)
 				.PutByte(unk1)
@@ -2453,7 +2437,7 @@ namespace Aura.World.Network
 			, SendTargets.Range, creature);
 
 			// XXX: Should this better be placed in the skill handlers?
-			WorldManager.Instance.CreatureSetTarget(creature, target);
+			creature.SetTarget(target);
 		}
 
 		private void HandleCombatAttack(WorldClient client, MabiPacket packet)
@@ -2629,20 +2613,20 @@ namespace Aura.World.Network
 					creature.Injuries = Math.Min(creature.Injuries + creature.LifeInjured * .5f, creature.LifeMax - 5);
 					creature.Life = 5;
 					//creature.Experience -= creature.Level * .4; //TODO: Look up multiplier
-					WorldManager.Instance.ReviveCreature(creature); 
+					creature.Revive();
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
 
 				case DeadMenuOptions.HereNoPenalty:
 					creature.FullHeal();
-					WorldManager.Instance.ReviveCreature(creature);
+					creature.Revive();
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
 
-				case DeadMenuOptions.HerePvP: // Different... somehow?
+				case DeadMenuOptions.HerePvP: // Different... somehow? No exp is all?
 					creature.Injuries = Math.Min(creature.Injuries + creature.LifeInjured * .5f, creature.LifeMax - 5);
 					creature.Life = 5;
-					WorldManager.Instance.ReviveCreature(creature);
+					creature.Revive();
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
 
@@ -2651,7 +2635,7 @@ namespace Aura.World.Network
 					goto case DeadMenuOptions.Here;
 
 				case DeadMenuOptions.NaoStone:
-					WorldManager.Instance.DeadFeather(creature, false, DeadMenuOptions.NaoRevival1);
+					creature.DeadFeather(false, DeadMenuOptions.NaoRevival1);
 					creature.Client.Send(new MabiPacket(Op.NaoRevivalEntrance, creature.Id));
 					creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutByte(0));
 					creature.RevivalOptions = DeadMenuOptions.NaoRevival1;
@@ -2660,10 +2644,10 @@ namespace Aura.World.Network
 				case DeadMenuOptions.NaoRevival1:
 					// TODO: Take stone
 					creature.FullHeal();
-					WorldManager.Instance.ReviveCreature(creature);
+					creature.Revive();
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Revive), SendTargets.Range, creature);
 					creature.Client.Send(new MabiPacket(Op.NaoRevivalExit, creature.Id).PutByte(0));
-					WorldManager.Instance.DeadFeather(creature, false, DeadMenuOptions.None);
+					creature.DeadFeather(false, DeadMenuOptions.None);
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
 
@@ -2679,9 +2663,9 @@ namespace Aura.World.Network
 				case DeadMenuOptions.WaitForRescue:
 					creature.WaitingForRes = !creature.WaitingForRes;
 					if (creature.WaitingForRes)
-						WorldManager.Instance.DeadFeather(creature, false, creature.RevivalOptions | DeadMenuOptions.FeatherUp);
+						creature.DeadFeather(false, creature.RevivalOptions | DeadMenuOptions.FeatherUp);
 					else
-						WorldManager.Instance.DeadFeather(creature, false, creature.RevivalOptions);
+						creature.DeadFeather(false, creature.RevivalOptions);
 
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
@@ -2856,7 +2840,7 @@ namespace Aura.World.Network
 
 			creature.GiveSkill(skill.Id, skill.Rank + 1);
 
-			WorldManager.Instance.CreatureStatsUpdate(creature);
+			creature.BroadcastStatsUpdate();
 		}
 
 		private void HandleUmbrellaJump(WorldClient client, MabiPacket packet)
@@ -3081,8 +3065,7 @@ namespace Aura.World.Network
 			}
 
 			// Set quest complete and complete it with reward.
-			quest.State = MabiQuestState.Complete;
-			WorldManager.Instance.CreatureCompletesQuest(creature, quest, true);
+			creature.CompleteQuest(quest, true);
 
 			// Success
 			client.Send(new MabiPacket(Op.QuestCompleteR, creature.Id).PutByte(1));
@@ -3107,7 +3090,7 @@ namespace Aura.World.Network
 
 			// Remove quest from char and log, without reward.
 			character.Quests.Remove(quest.Class);
-			WorldManager.Instance.CreatureCompletesQuest(creature, quest, false);
+			character.CompleteQuest(quest, false);
 
 			// Success
 			client.Send(new MabiPacket(Op.QuestGiveUpR, creature.Id).PutByte(1));
@@ -3231,7 +3214,7 @@ namespace Aura.World.Network
 			creature.Party.AddPartyPacket(p);
 			creature.Client.Send(p);
 
-			WorldManager.Instance.PartyMemberWantedShow(newParty);
+			newParty.ShowMemberWanted();
 		}
 
 		private void HandlePartyJoin(WorldClient client, MabiPacket packet)
@@ -3276,7 +3259,7 @@ namespace Aura.World.Network
 			}
 
 			if (party.IsOpen)
-				WorldManager.Instance.PartyMemberWantedRefresh(partyLeader.Party);
+				party.RefreshMemberWanted();
 
 			var partyInfoPacket = new MabiPacket(Op.PartyJoinR, creature.Id).PutByte(1);
 			partyLeader.Party.AddPartyPacket(partyInfoPacket);
@@ -3286,17 +3269,14 @@ namespace Aura.World.Network
 		private void HandlePartyLeave(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
-			if (creature.Party == null)
+			if (creature == null || creature.Party == null)
 				return;
 
 			// TODO: Check if allowed to leave party
 			var canLeave = true;
 
 			if (canLeave)
-				WorldManager.Instance.CreatureLeaveParty(creature);
+				creature.LeaveParty();
 
 			creature.Client.Send(new MabiPacket(Op.PartyLeaveR, creature.Id).PutByte(canLeave));
 		}
@@ -3304,10 +3284,7 @@ namespace Aura.World.Network
 		private void HandlePartyRemove(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
-			if (creature.Party == null)
+			if (creature == null || creature.Party == null)
 				return;
 
 			// TODO: Check if allowed to leave party
@@ -3316,7 +3293,7 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCreatureById(packet.GetLong());
 			if (canRemove)
 			{
-				WorldManager.Instance.CreatureLeaveParty(target);
+				target.LeaveParty();
 				target.Client.Send(new MabiPacket(0xA43C, target.Id).PutLong(creature.Id).PutByte(1).PutByte(1).PutShort(0).PutInt(0));
 				target.Client.Send(new MabiPacket(Op.PartyRemoved, target.Id));
 			}
@@ -3327,13 +3304,7 @@ namespace Aura.World.Network
 		private void HandlePartyChangeSettings(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
-			if (creature.Party == null)
-				return;
-
-			if (creature.Party.Leader != creature)
+			if (creature == null || creature.Party == null || creature.Party.Leader != creature)
 				return;
 
 			var prevType = creature.Party.Type;
@@ -3347,7 +3318,7 @@ namespace Aura.World.Network
 			}
 
 			if (creature.Party.IsOpen)
-				WorldManager.Instance.PartyMemberWantedRefresh(creature.Party);
+				creature.Party.RefreshMemberWanted();
 
 			var p = new MabiPacket(Op.PartyChangeSettingR, creature.Id).PutByte(1);
 			creature.Party.AddPartyPacket(p);
@@ -3357,19 +3328,13 @@ namespace Aura.World.Network
 		private void HandlePartyChangePassword(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
-			if (creature.Party == null)
-				return;
-
-			if (creature.Party.Leader != creature)
+			if (creature == null || creature.Party == null || creature.Party.Leader != creature)
 				return;
 
 			creature.Party.Password = packet.GetString();
 
 			if (creature.Party.IsOpen)
-				WorldManager.Instance.PartyMemberWantedRefresh(creature.Party);
+				creature.Party.RefreshMemberWanted();
 
 			creature.Client.Send(new MabiPacket(Op.PartyChangePasswordR, creature.Id).PutLong(1));
 		}
@@ -3377,13 +3342,7 @@ namespace Aura.World.Network
 		private void HandlePartyChangeLeader(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
-			if (creature.Party == null)
-				return;
-
-			if (creature.Party.Leader != creature)
+			if (creature == null || creature.Party == null || creature.Party.Leader != creature)
 				return;
 
 			// TODO: Check if able to change leader
@@ -3392,7 +3351,7 @@ namespace Aura.World.Network
 			if (leaderChangeAllow)
 			{
 				var newLeader = WorldManager.Instance.GetCreatureById(packet.GetLong());
-				WorldManager.Instance.PartyChangeLeader(newLeader, creature.Party);
+				creature.Party.ChangeLeader(newLeader);
 			}
 
 			creature.Client.Send(new MabiPacket(Op.PartyChangeLeaderR, creature.Id).PutByte(leaderChangeAllow));
@@ -3401,45 +3360,27 @@ namespace Aura.World.Network
 		private void HandlePartyWantedHide(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			if (creature == null || creature.Party == null || creature.Party.Leader != creature)
 				return;
 
-			if (creature.Party == null)
-				return;
-
-			if (creature.Party.Leader != creature)
-				return;
-
-			WorldManager.Instance.PartyMemberWantedHide(creature.Party);
+			creature.Party.HideMemberWanted();
 			creature.Client.Send(new MabiPacket(Op.PartyWantedHideR, creature.Id).PutByte(1));
 		}
 
 		private void HandlePartyWantedShow(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			if (creature == null || creature.Party == null || creature.Party.Leader != creature)
 				return;
 
-			if (creature.Party == null)
-				return;
-
-			if (creature.Party.Leader != creature)
-				return;
-
-			WorldManager.Instance.PartyMemberWantedShow(creature.Party);
+			creature.Party.ShowMemberWanted();
 			creature.Client.Send(new MabiPacket(Op.PartyWantedShowR, creature.Id).PutByte(1));
 		}
 
 		private void HandlePartyChangeFinish(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
-			if (creature.Party == null)
-				return;
-
-			if (creature.Party.Leader != creature)
+			if (creature == null || creature.Party == null || creature.Party.Leader != creature)
 				return;
 
 			creature.Party.Finish = (PartyFinishRule)packet.GetInt();
