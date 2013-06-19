@@ -107,7 +107,7 @@ namespace Aura.World.Skills
 
 					// Deal Life Damage
 					if (damage > 0)
-						target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
+						target.TakeDamage(tAction.Damage = damage);
 				}
 
 				// Killed?

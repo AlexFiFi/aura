@@ -360,7 +360,8 @@ namespace Aura.World.World
 			if (args[0] == "drop")
 			{
 				// >drop
-				creature.DropItem(newItem);
+				var pos = client.Character.GetPosition();
+				WorldManager.Instance.CreatureDropItem(newItem, client.Character.Region, (uint)pos.X, (uint)pos.Y);
 			}
 			else
 			{
@@ -660,7 +661,7 @@ namespace Aura.World.World
 			if (args.Length < 3)
 				return CommandResult.WrongParameter;
 
-			creature.UseMotion(ushort.Parse(args[1]), ushort.Parse(args[2]), true);
+			WorldManager.Instance.CreatureUseMotion(creature, ushort.Parse(args[1]), ushort.Parse(args[2]), true);
 
 			return CommandResult.Okay;
 		}
@@ -673,7 +674,7 @@ namespace Aura.World.World
 			var info = MabiData.MotionDb.Find(args[1]);
 			if (info != null)
 			{
-				creature.UseMotion(info.Category, info.Type, false);
+				WorldManager.Instance.CreatureUseMotion(creature, info.Category, info.Type, false);
 			}
 			else
 			{
@@ -731,7 +732,7 @@ namespace Aura.World.World
 			creature.Conditions.C = (CreatureConditionC)val3;
 			creature.Conditions.D = (CreatureConditionD)val4;
 
-			creature.BroadcastStatusEffectUpdate();
+			WorldManager.Instance.SendStatusEffectUpdate(creature);
 
 			return CommandResult.Okay;
 		}
@@ -825,7 +826,7 @@ namespace Aura.World.World
 
 			creature.GiveSkill(skillId, rank, true);
 
-			creature.BroadcastStatsUpdate();
+			WorldManager.Instance.CreatureStatsUpdate(creature);
 
 			return CommandResult.Okay;
 		}
@@ -1063,7 +1064,7 @@ namespace Aura.World.World
 				creature.GiveSkill((SkillConst)skill, SkillRank.R1, true);
 			}
 
-			creature.BroadcastStatsUpdate();
+			WorldManager.Instance.CreatureStatsUpdate(creature);
 
 			WorldManager.Instance.Broadcast(PacketCreator.Notice(creature.Name.ToUpper() + "'S POWER IS OVER NINE THOUSAAAAAAAAAAAND!!!!", NoticeType.TopRed, 20000), SendTargets.All);
 

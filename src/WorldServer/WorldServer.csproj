@@ -66,6 +66,8 @@
     <Compile Include="Network\Sending\Client.Skills.cs" />
     <Compile Include="Network\Sending\Client.Items.cs" />
     <Compile Include="Network\Sending\Client.General.cs" />
+    <Compile Include="Network\Sending\World.General.cs" />
+    <Compile Include="Network\Sending\World.Skills.cs" />
     <Compile Include="Network\WorldClient.cs" />
     <Compile Include="Network\WorldServer.Handlers.cs" />
     <Compile Include="Network\WorldServer.cs" />
@@ -119,7 +121,6 @@
     <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Util\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
-    <Compile Include="World\MabiCreature.Actions.cs" />
     <Compile Include="World\CreatureTemp.cs" />
     <Compile Include="World\MabiCooldown.cs" />
     <Compile Include="World\MabiCreature.Packet.cs" />

@@ -66,9 +66,9 @@ namespace Aura.World.World
 				return (this.State & CreatureStates.GoodNpc) != (other.State & CreatureStates.GoodNpc);
 		}
 
-		public override void  Die(MabiCreature killer, MabiVertex position, SkillConst skillId)
+		public override void Die()
 		{
- 			base.Die(killer, position, skillId);
+			base.Die();
 			this.DisappearTime = DateTime.Now.AddSeconds(20); // TODO: Only for mobs
 		}
 	}

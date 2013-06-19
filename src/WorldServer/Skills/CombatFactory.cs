@@ -97,7 +97,7 @@ namespace Aura.World.Skills
 				tAction.ManaDamage = CombatHelper.DealManaDamage(target, ref dmg);
 
 				if (dmg >0)
-					target.TakeDamage(tAction.Damage = dmg, AttackerAction.Creature, tAction.SkillId);
+					target.TakeDamage(tAction.Damage = dmg);
 
 				if (target.IsDead)
 				{

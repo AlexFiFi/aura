@@ -162,8 +162,6 @@ namespace Aura.World.Events
 		public EventHandler<CreatureEventArgs> CreatureStatUpdates, CreatureLevelsUp;
 		public EventHandler<SkillUpdateEventArgs> CreatureSkillUpdate;
 		public EventHandler<ItemUpdateEventArgs> CreatureItemUpdate;
-
-		// TODO: These should go in entity
 		public EventHandler<ItemEventArgs> CreatureDropItem;
 		public EventHandler<ItemActionEventArgs> CreatureItemAction;
 

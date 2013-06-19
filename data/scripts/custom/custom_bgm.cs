@@ -41,12 +41,12 @@ public class CustomBGMScript : BaseScript
 	public override void OnLoad()
 	{
 		Init();
-		EventManager.Instance.PlayerEvents.PlayerChangesRegion += OnPlayerChangesRegion;
+		EntityEvents.Instance.PlayerChangesRegion += OnPlayerChangesRegion;
 	}
 
 	public override void Dispose()
 	{
-		EventManager.Instance.PlayerEvents.PlayerChangesRegion -= OnPlayerChangesRegion;
+		EntityEvents.Instance.PlayerChangesRegion -= OnPlayerChangesRegion;
 
 		base.Dispose();
 	}

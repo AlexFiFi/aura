@@ -181,7 +181,11 @@ namespace Aura.World.World
 
 				if (drop)
 				{
-					this.DropItem(item);
+					var pos = this.GetPosition();
+					var rand = RandomProvider.Get();
+					var x = (uint)(pos.X + rand.Next(-100, 101));
+					var y = (uint)(pos.Y + rand.Next(-100, 101)); WorldManager.Instance.CreatureDropItem(item, this.Region, x, y); 
+					EventManager.Instance.CreatureEvents.OnCreatureDropItem(this, new ItemUpdateEventArgs(item));
 				}
 				else
 				{

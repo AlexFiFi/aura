@@ -107,7 +107,7 @@ namespace Aura.World.Scripting
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.Creature.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.Creature);
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.Creature.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.Creature);
 			}
-			this.Creature.LeaveRegion();
+			WorldManager.Instance.CreatureLeaveRegion(this.Creature);
 			SetLocation(region, x, y);
 			if (flash)
 			{
@@ -131,7 +131,7 @@ namespace Aura.World.Scripting
 
 			this.Creature.Items.Add(item);
 
-			this.Creature.EquipmentChanged(item);
+			WorldManager.Instance.CreatureEquip(this.Creature, item);
 		}
 
 		protected virtual void EquipItem(Pocket slot, string itemName, uint color1 = 0, uint color2 = 0, uint color3 = 0)

@@ -18,7 +18,7 @@ namespace Aura.World.Skills
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			SkillHelper.SendFlash(creature);
+			WorldManager.Instance.SendFlash(creature);
 			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
@@ -62,7 +62,7 @@ namespace Aura.World.Skills
 
 			CombatHelper.ReduceDamage(ref damage, target.DefenseTotal, target.Protection);
 
-			target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
+			target.TakeDamage(tAction.Damage = damage);
 
 			if (target.IsDead)
 				tAction.Options |= TargetOptions.FinishingKnockDown;

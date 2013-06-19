@@ -113,19 +113,7 @@ namespace Aura.World.Network
 			// Guilds
 			// --------------------------------------------------------------
 			Logger.Info("Loading guilds...");
-			var guilds = WorldDb.Instance.LoadGuilds();
-
-			foreach (var guild in guilds)
-			{
-				var extra = string.Format("<xml guildid=\"{0}\" {1}/>", guild.Id, guild.HasOption(GuildOptionFlags.Warp) ? "gh_warp=\"true\"" : "");
-				var p = new MabiProp("", guild.Name, extra, guild.StoneClass, guild.Region, guild.X, guild.Y, guild.Rotation);
-
-				WorldManager.Instance.AddProp(p);
-				WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, WorldManager.GuildstoneTouch));
-			}
-
-			Logger.ClearLine();
-			Logger.Info("Done loading {0} guilds.", guilds.Count);
+			WorldManager.Instance.LoadGuilds();
 
 			// Commands
 			// --------------------------------------------------------------

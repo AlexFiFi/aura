@@ -203,7 +203,7 @@ namespace Aura.World.Database
 					character.Lower = reader.GetFloat("lower");
 					character.SetLocation(reader.GetUInt32("region"), reader.GetUInt32("x"), reader.GetUInt32("y"));
 					character.Direction = reader.GetByte("direction");
-					character.BattleState = reader.GetBoolean("battleState");
+					character.BattleState = reader.GetByte("battleState");
 					character.WeaponSet = reader.GetByte("weaponSet");
 					character.Injuries = reader.GetFloat("injuries");
 					character.Life = (character.LifeMaxBase = reader.GetFloat("lifeMax"));
@@ -236,7 +236,7 @@ namespace Aura.World.Database
 					character.EvGSupportRace = reader.GetByte("evGSupportRace");
 					character.TransPvPEnabled = reader.GetBoolean("transPvPEnabled");
 					character.CauseOfDeath = (DeathCauses)reader.GetInt32("causeOfDeath");
-					character.State = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SittingDown;
+					character.State = (CreatureStates)reader.GetUInt32("status") & ~CreatureStates.SitDown;
 
 					character.LoadDefault();
 				}

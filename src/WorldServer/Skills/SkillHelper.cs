@@ -111,30 +111,5 @@ namespace Aura.World.Skills
 			areaTarget >>= 16;
 			region = (uint)areaTarget;
 		}
-
-		/// <summary>
-		/// Sends skill init flash effect to all players in range of creature.
-		/// </summary>
-		/// <param name="creature"></param>
-		/// <param name="str"></param>
-		public static void SendFlash(MabiCreature creature)
-		{
-			SendSkillInitEffect(creature, "flashing");
-		}
-
-		/// <summary>
-		/// Sends skill init effect to all players in range of creature.
-		/// </summary>
-		/// <param name="creature"></param>
-		/// <param name="str"></param>
-		public static void SendSkillInitEffect(MabiCreature creature, string str = "")
-		{
-			var p = new MabiPacket(Op.Effect, creature.Id);
-			p.PutInt(Effect.SkillInit);
-			p.PutString(str);
-
-			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
-		}
-
 	}
 }

@@ -23,6 +23,7 @@ namespace Aura.World.Skills
 			if (creature.IsMoving)
 			{
 				creature.StopMove();
+				WorldManager.Instance.SendStopMove(creature);
 			}
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.SkillInit).PutString("fireball").PutShort((ushort)skill.Id), SendTargets.Range, creature);
@@ -132,7 +133,7 @@ namespace Aura.World.Skills
 				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 					tAction.Options |= TargetOptions.Critical;
 
-				target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
+				target.TakeDamage(tAction.Damage = damage);
 
 				// Knock down if dead
 				tAction.OldPosition = CombatHelper.KnockBack(target, bomb);
@@ -185,7 +186,7 @@ namespace Aura.World.Skills
 				if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 					tAction.Options |= TargetOptions.Critical;
 
-				target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
+				target.TakeDamage(tAction.Damage = damage);
 
 				// Knock down if dead
 				if (target.IsDead)

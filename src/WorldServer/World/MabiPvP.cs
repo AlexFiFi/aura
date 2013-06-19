@@ -90,7 +90,7 @@ namespace Aura.World.World
 			creature.Injuries += creature.LifeInjured * .2f;
 			creature.Life = creature.LifeInjured / 2;
 			creature.Stamina = creature.StaminaHunger / 2;
-			creature.Revive();
+			WorldManager.Instance.ReviveCreature(creature);
 
 			this.HideCreature(creature);
 
@@ -256,7 +256,7 @@ namespace Aura.World.World
 				var c = creature.Client as WorldClient;
 				c.Warp(LobbyRegion, 1150, 3545);
 				creature.FullHeal();
-				creature.Revive();
+				WorldManager.Instance.ReviveCreature(creature);
 				c.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, LobbyRegion, 1150, 3545));
 			}
 			catch { }

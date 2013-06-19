@@ -25,6 +25,7 @@ namespace Aura.World.Skills
 			if (creature.IsMoving)
 			{
 				creature.StopMove();
+				WorldManager.Instance.SendStopMove(creature);
 			}
 
 			// Casting motion?
@@ -114,7 +115,7 @@ namespace Aura.World.Skills
 			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
 				tAction.Options |= TargetOptions.Critical;
 
-			target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
+			target.TakeDamage(tAction.Damage = damage);
 
 			attacker.Stun = sAction.StunTime = UseStun;
 
@@ -205,7 +206,7 @@ namespace Aura.World.Skills
 
 			SkillHelper.ClearStack(attacker, skill);
 
-			target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
+			target.TakeDamage(tAction.Damage = damage);
 
 			attacker.Stun = sAction.StunTime = UseStun;
 
@@ -288,7 +289,7 @@ namespace Aura.World.Skills
 				if (CombatHelper.TryAddCritical(targets[i], ref damage, attacker.CriticalChanceAgainst(targets[i])))
 					splashAction.Options |= TargetOptions.Critical;
 
-				targets[i].TakeDamage(splashAction.Damage, attacker, skill.Id);
+				targets[i].TakeDamage(splashAction.Damage);
 
 				targets[i].Stun = splashAction.StunTime = TargetStun;
 

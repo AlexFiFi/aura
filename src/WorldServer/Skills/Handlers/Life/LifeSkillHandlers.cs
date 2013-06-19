@@ -10,7 +10,8 @@ namespace Aura.World.Skills
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
-			creature.SitDown();
+			creature.State |= CreatureStates.SitDown;
+			WorldManager.Instance.CreatureSitDown(creature);
 
 			SkillHelper.GiveSkillExp(creature, skill, 20);
 
@@ -19,7 +20,8 @@ namespace Aura.World.Skills
 
 		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
-			creature.StandUp();
+			creature.State &= ~CreatureStates.SitDown;
+			WorldManager.Instance.CreatureStandUp(creature);
 
 			return SkillResults.Okay;
 		}

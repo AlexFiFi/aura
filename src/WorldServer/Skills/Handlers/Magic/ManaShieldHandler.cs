@@ -13,7 +13,7 @@ namespace Aura.World.Skills
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Conditions.A |= CreatureConditionA.ManaShield;
-			creature.BroadcastStatusEffectUpdate();
+			WorldManager.Instance.SendStatusEffectUpdate(creature);
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.ManaShield), SendTargets.Range, creature);
 
 			return SkillResults.Okay;
@@ -22,7 +22,7 @@ namespace Aura.World.Skills
 		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Conditions.A &= ~CreatureConditionA.ManaShield;
-			creature.BroadcastStatusEffectUpdate();
+			WorldManager.Instance.SendStatusEffectUpdate(creature);
 
 			return SkillResults.Okay;
 		}

@@ -122,7 +122,8 @@ namespace Aura.World.Scripting
 				{
 					ResetTarget();
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(0), SendTargets.Range, this.Creature);
-					this.Creature.ChangeBattleState(false);
+					this.Creature.BattleExp = 0;
+					WorldManager.Instance.CreatureChangeStance(this.Creature);
 				}
 			}
 
@@ -139,7 +140,7 @@ namespace Aura.World.Scripting
 
 		protected void ResetTarget()
 		{
-			this.Creature.SetTarget(null);
+			this.Creature.Target = null;
 			_aggroState = AggroState.None;
 			CheckForInterrupt();
 		}
@@ -261,7 +262,9 @@ namespace Aura.World.Scripting
 			if (WorldManager.Instance.FindCollision(this.Creature.Region, pos, dest, out intersection))
 				dest = WorldManager.CalculatePosOnLine(pos, intersection, -200);
 
-			this.Creature.Move(dest, true);
+			this.Creature.StartMove(dest, true);
+
+			WorldManager.Instance.CreatureMove(this.Creature, pos, dest, true);
 
 			while (wait && Creature.IsMoving)
 			{
@@ -274,7 +277,9 @@ namespace Aura.World.Scripting
 		{
 			if (!this.Creature.IsDestination(dest))
 			{
-				this.Creature.Move(dest, false);
+				var pos = this.Creature.StartMove(dest, false);
+
+				WorldManager.Instance.CreatureMove(this.Creature, pos, dest, false);
 
 				while (wait && this.Creature.IsMoving)
 				{
@@ -378,7 +383,7 @@ namespace Aura.World.Scripting
 			if ((r & SkillResults.Okay) == 0)
 				yield return false;
 
-			CombatHelper.SharpMind(this.Creature, SharpMindStatus.Loading, skillId);
+			WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Loading, skillId);
 
 			System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
 			{
@@ -386,7 +391,7 @@ namespace Aura.World.Scripting
 				if (Creature.ActiveSkillId == skill.Id)
 				{
 					handler.Ready(this.Creature, skill);
-					CombatHelper.SharpMind(this.Creature, SharpMindStatus.Loaded, skillId);
+					WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Loaded, skillId);
 				}
 			}));
 
@@ -403,21 +408,21 @@ namespace Aura.World.Scripting
 		{
 			if (this.Creature.ActiveSkillId != 0)
 			{
-				CombatHelper.SharpMind(this.Creature, SharpMindStatus.Cancelling, this.Creature.ActiveSkillId);
+				WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Cancelling, this.Creature.ActiveSkillId);
 				var handler = SkillManager.GetHandler(this.Creature.ActiveSkillId);
 
 				var res = handler.Cancel(this.Creature, this.Creature.GetSkill(this.Creature.ActiveSkillId));
 
 				yield return (res & SkillResults.Okay) != 0;
 
-				CombatHelper.SharpMind(this.Creature, SharpMindStatus.None, this.Creature.ActiveSkillId);
+				WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.None, this.Creature.ActiveSkillId);
 			}
 			yield return true;
 		}
 
 		protected IEnumerable Say(string text)
 		{
-			this.Creature.Talk(text);
+			WorldManager.Instance.CreatureTalk(this.Creature, text);
 			yield return true;
 		}
 
@@ -471,17 +476,18 @@ namespace Aura.World.Scripting
 			if (inRange.Count != 0)
 			{
 				// Select mob and aggro
-				Creature.SetTarget(inRange[rnd.Next(0, inRange.Count)]);
+				Creature.Target = inRange[rnd.Next(0, inRange.Count)];
 
 				_aggroState = AggroState.Notice;
 				if (showMark)
 				{
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(Creature.Target.Id).PutByte(1).PutString(""), SendTargets.Range, this.Creature);
-					this.Creature.Talk("!");
+					WorldManager.Instance.CreatureTalk(this.Creature, "!");
 				}
 				if (changeStance)
 				{
-					this.Creature.ChangeBattleState(true);
+					this.Creature.BattleState = 1;
+					WorldManager.Instance.CreatureChangeStance(this.Creature);
 				}
 
 				CheckForInterrupt();
@@ -503,10 +509,12 @@ namespace Aura.World.Scripting
 					yield return a;
 
 			_aggroState = AggroState.Aggro;
-			this.Creature.ChangeBattleState(true);
+			this.Creature.BattleState = 1;
+			WorldManager.Instance.CreatureChangeStance(this.Creature);
+
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(Creature.Target.Id).PutByte(2).PutString(""), SendTargets.Range, this.Creature);
 
-			this.Creature.Talk("*!!*");
+			WorldManager.Instance.CreatureTalk(this.Creature, "*!!*");
 
 			CheckForInterrupt();
 

@@ -34,6 +34,7 @@ namespace Aura.World.Skills
 			if (creature.IsMoving)
 			{
 				creature.StopMove();
+				WorldManager.Instance.SendStopMove(creature);
 			}
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.ShadowBunshin).PutByte(1), SendTargets.Range, creature);
@@ -175,13 +176,13 @@ namespace Aura.World.Skills
 
 				// Deal Life Damage
 				if (damage > 0)
-					target.TakeDamage(tAction.Damage = damage, attacker, skill.Id);
+					target.TakeDamage(tAction.Damage = damage);
 
 				// Save if target was already dead, to not send
 				// finish action twice.
 				if (!alreadyDead)
 				{
-					target.TakeDamage(tAction.Damage, attacker, skill.Id);
+					target.TakeDamage(tAction.Damage);
 
 					// Only send damage taking part if target isn't dead yet.
 					cap.Add(tAction);

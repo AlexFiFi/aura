@@ -33,7 +33,7 @@ namespace Aura.World.World
 		private List<MabiProp> _props = new List<MabiProp>();
 		private List<MabiParty> _parties = new List<MabiParty>();
 
-		public List<ArenaPvPManager> ArenaPvPs = new List<ArenaPvPManager>()
+		private List<ArenaPvPManager> _arenaPvPs = new List<ArenaPvPManager>()
 		{
 			new AlbyPvPManager()
 		};
@@ -359,7 +359,7 @@ namespace Aura.World.World
 							creature.ManaRegen.ChangePerSecond *= 3;
 						else
 							creature.ManaRegen.ChangePerSecond /= 3;
-						creature.BroadcastStatsUpdate();
+						this.CreatureStatsUpdate(creature);
 					}
 				}
 			}
@@ -570,12 +570,12 @@ namespace Aura.World.World
 			return _creatures.FindAll(a => a != entity && InRange(a, entity, range));
 		}
 
-		public List<MabiCreature> GetAttackableCreaturesInRange(MabiCreature entity, uint range = 0)
+		public List<MabiCreature> GetAttackableCreaturesInRange(MabiEntity entity, uint range = 0)
 		{
 			if (range < 1)
 				range = WorldConf.SightRange;
 
-			return _creatures.FindAll(a => a != entity && a is MabiNPC && a.IsAttackableBy(entity) && !a.IsDead && InRange(a, entity, range));
+			return _creatures.FindAll(a => a != entity && a is MabiNPC && !(a as MabiNPC).Has(CreatureStates.GoodNpc) && !a.IsDead && InRange(a, entity, range));
 		}
 
 		public List<MabiCreature> GetPlayersInRange(MabiEntity entity, uint range = 0)
@@ -669,8 +669,10 @@ namespace Aura.World.World
 				}
 			}
 
-			creature.LeaveParty();
-			creature.LeaveRegion();
+			if (creature.Party != null)
+				CreatureLeaveParty(creature);
+
+			this.CreatureLeaveRegion(creature);
 			creature.Dispose();
 		}
 
@@ -862,7 +864,7 @@ namespace Aura.World.World
 			ScriptManager.Instance.Spawn(spawn, 0, effect);
 		}
 
-		public void ActivateMobs(MabiCreature creature, MabiVertex from, MabiVertex to)
+		private void ActivateMobs(MabiCreature creature, MabiVertex from, MabiVertex to)
 		{
 			IEnumerable<MabiCreature> mobsInRange = _creatures.Where(c =>
 				c.Region == creature.Region
@@ -926,6 +928,298 @@ namespace Aura.World.World
 		// Creature actions and broadcasting
 		// ------------------------------------------------------------------
 
+		public void CreatureDropItem(MabiItem item, uint region, uint x, uint y)
+		{
+			item.Info.Region = region;
+			item.Info.X = x;
+			item.Info.Y = y;
+			item.Info.Pocket = (byte)Pocket.None;
+			item.DisappearTime = DateTime.Now.AddSeconds((int)Math.Max(60, (item.OptionInfo.Price / 100) * 60));
+
+			this.AddItem(item);
+		}
+
+		public void CreatureChangeTitle(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.ChangedTitle, creature.Id);
+			p.PutShort(creature.Title);
+			p.PutShort(creature.OptionTitle); // SelectedOptionTitle?
+
+			this.Broadcast(p, SendTargets.Range, creature);
+
+			creature.TitleApplied = (ulong)DateTime.Now.Ticks;
+		}
+
+		public void CreatureSetTarget(MabiCreature creature, MabiCreature target)
+		{
+			var p = new MabiPacket(Op.CombatTargetSet, creature.Id);
+			p.PutLong(target != null ? target.Id : 0);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureMove(MabiCreature creature, MabiVertex from, MabiVertex to, bool walking = false)
+		{
+			var p = new MabiPacket((!walking ? (uint)Op.Running : (uint)Op.Walking), creature.Id);
+			p.PutInt(from.X);
+			p.PutInt(from.Y);
+			p.PutInt(to.X);
+			p.PutInt(to.Y);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+
+			if (creature is MabiPC)
+				ActivateMobs(creature, from, to);
+
+			switch (creature.ActiveSkillId)
+			{
+				case SkillConst.RangedCombatMastery:
+				case SkillConst.ArrowRevolver:
+				case SkillConst.ArrowRevolver2:
+				case SkillConst.MagnumShot:
+				case SkillConst.SupportShot:
+				case SkillConst.ElvenMagicMissile:
+				case SkillConst.MirageMissile:
+				case SkillConst.CrashShot:
+					CombatHelper.ResetCreatureAim(creature);
+					break;
+			}
+
+			EventManager.Instance.CreatureEvents.OnCreatureMoves(this, new MoveEventArgs(creature, from, to));
+		}
+
+		public void CreatureSwitchSet(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.SwitchedSet, creature.Id);
+			p.PutByte(creature.WeaponSet);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+
+			this.CreatureStatsUpdate(creature);
+		}
+
+		public void CreatureSitDown(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.Resting, creature.Id);
+			p.PutByte(creature.RestPose);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureStandUp(MabiCreature creature)
+		{
+			var p = new MabiPacket(Op.StandUp, creature.Id);
+			p.PutByte(1);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureUseMotion(MabiCreature creature, uint category, uint type, bool loop = false, bool cancel = true)
+		{
+			MabiPacket p;
+
+			if (cancel)
+			{
+				// Cancel motion
+				p = new MabiPacket(Op.MotionCancel, creature.Id);
+				p.PutByte(0);
+				this.Broadcast(p, SendTargets.Range, creature);
+			}
+
+			// Do motion
+			p = new MabiPacket(Op.Motions, creature.Id);
+			p.PutInt(category);
+			p.PutInt(type);
+			p.PutByte(loop);
+			p.PutShort(0);
+			this.Broadcast(p, SendTargets.Range, creature);
+
+			EventManager.Instance.CreatureEvents.OnCreatureUsesMotion(this, new MotionEventArgs(creature, category, type, loop));
+		}
+
+		public void CreatureChangeStance(MabiCreature creature, byte unk = 1)
+		{
+			var p = new MabiPacket(Op.ChangesStance, creature.Id);
+			p.PutByte(creature.BattleState);
+			p.PutByte(unk);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureUnequip(MabiCreature creature, Pocket from)
+		{
+			var p = new MabiPacket(Op.EquipmentMoved, creature.Id);
+			p.PutByte((byte)from);
+			p.PutByte(1);
+
+			this.CreatureStatsUpdate(creature);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		public void CreatureEquip(MabiCreature creature, MabiItem item)
+		{
+			var p = new MabiPacket(Op.EquipmentChanged, creature.Id);
+			p.PutBin(item.Info);
+			p.PutByte(1);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+
+			this.CreatureStatsUpdate(creature);
+		}
+
+		public void CreatureSkillUpdate(MabiCreature creature, MabiSkill skill, bool isNew = false)
+		{
+			if (isNew)
+			{
+				creature.Client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Info));
+			}
+			else
+			{
+				creature.Client.Send(new MabiPacket(Op.SkillRankUp, creature.Id).PutByte(1).PutBin(skill.Info).PutFloat(0));
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, creature.Id).PutShorts(skill.Info.Id, 1), SendTargets.Range, creature);
+			}
+		}
+
+		public void CreatureLeaveRegion(MabiCreature creature)
+		{
+			this.Broadcast(PacketCreator.EntityLeaves(creature), SendTargets.Range, creature);
+
+			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(creature));
+		}
+
+		public void CreatureTalk(MabiCreature creature, string message, byte type = 0)
+		{
+			var p = new MabiPacket(Op.Chat, creature.Id);
+			p.PutByte(type);
+			p.PutString(creature.Name);
+			p.PutString(message);
+
+			this.Broadcast(p, SendTargets.Range, creature);
+
+			EventManager.Instance.CreatureEvents.OnCreatureTalks(this, new ChatEventArgs(creature, message));
+		}
+
+		public void CreatureStatsUpdate(MabiCreature creature)
+		{
+			// Public
+			this.Broadcast(
+				PacketCreator.StatUpdate(creature, StatUpdateType.Public,
+					Stat.Height, Stat.Weight, Stat.Upper, Stat.Lower, Stat.CombatPower,
+					Stat.Life, Stat.LifeInjured, Stat.LifeMax, Stat.LifeMaxMod
+				)
+			, SendTargets.Range, creature);
+
+			// Private
+			creature.Client.Send(
+				PacketCreator.StatUpdate(creature, StatUpdateType.Private,
+					Stat.Life, Stat.LifeInjured, Stat.LifeMax, Stat.LifeMaxMod,
+					Stat.Mana, Stat.ManaMax, Stat.ManaMaxMod,
+					Stat.Stamina, Stat.Food, Stat.StaminaMax, Stat.StaminaMaxMod,
+					Stat.Str, Stat.Dex, Stat.Int, Stat.Luck, Stat.Will,
+					Stat.StrMod, Stat.DexMod, Stat.IntMod, Stat.LuckMod, Stat.WillMod,
+					Stat.Level, Stat.Experience, Stat.AbilityPoints, Stat.DefenseBaseMod, Stat.DefenseMod, Stat.ProtectBaseMod, Stat.ProtectMod
+				)
+			);
+		}
+
+		public void VehicleBind(MabiCreature creature, MabiCreature vehicle)
+		{
+			var bind1 = new MabiPacket(Op.VehicleBond, creature.Id);
+			bind1.PutInt(vehicle.RaceInfo.VehicleType);
+			bind1.PutInt(7);
+			bind1.PutLong(vehicle.Id);
+			bind1.PutInt(0);
+			bind1.PutByte(1);
+			bind1.PutLong(creature.Id);
+
+			var bind2 = new MabiPacket(Op.VehicleBond, vehicle.Id);
+			bind2.PutInt(vehicle.RaceInfo.VehicleType);
+			bind2.PutInt(0);
+			bind2.PutLong(vehicle.Id);
+			bind2.PutInt(32);
+			bind2.PutByte(1);
+			bind2.PutLong(creature.Id);
+
+			this.Broadcast(bind1, SendTargets.Range, creature);
+			this.Broadcast(bind2, SendTargets.Range, vehicle);
+			//WorldManager.Instance.CreatureUseMotion(vehicle, 30, 0, false, false);
+			//WorldManager.Instance.CreatureUseMotion(creature, 90, 0, false, false);
+			this.Broadcast(bind1, SendTargets.Range, creature);
+			this.Broadcast(bind2, SendTargets.Range, vehicle);
+		}
+
+		public void VehicleUnbind(MabiCreature creature, MabiCreature vehicle, bool spawn = false)
+		{
+			MabiPacket p;
+
+			if (!spawn)
+			{
+				p = new MabiPacket(Op.VehicleBond, creature.Id);
+				p.PutInt(0);
+				p.PutInt(0);
+				p.PutLong(0);
+				p.PutInt(0);
+				p.PutByte(0);
+				this.Broadcast(p, SendTargets.Range, creature);
+
+				p = new MabiPacket(Op.VehicleBond, creature.Id);
+				p.PutInt(0);
+				p.PutInt(5);
+				p.PutLong(creature.Id);
+				p.PutInt(32);
+				p.PutByte(0);
+				this.Broadcast(p, SendTargets.Range, creature);
+			}
+
+			p = new MabiPacket(Op.VehicleBond, vehicle.Id);
+			p.PutInt(0);
+			p.PutInt(1);
+			p.PutLong(vehicle.Id);
+			p.PutInt(32);
+			p.PutByte(0);
+			this.Broadcast(p, SendTargets.Range, vehicle);
+		}
+
+		public void CreatureSkillCancel(MabiCreature creature)
+		{
+			if (creature.ActiveSkillId != SkillConst.None)
+			{
+				MabiSkill skill; SkillHandler handler;
+				SkillManager.CheckOutSkill(creature, (ushort)creature.ActiveSkillId, out skill, out handler);
+				if (skill == null || handler == null)
+					return;
+
+				var result = handler.Cancel(creature, skill);
+
+				if ((result & SkillResults.Okay) == 0)
+					return;
+
+				creature.Client.SendSkillStackUpdate(creature, skill.Id, 0);
+				creature.Client.SendSkillCancel(creature);
+			}
+
+			creature.ActiveSkillId = SkillConst.None;
+			creature.ActiveSkillStacks = 0;
+		}
+
+		/// <summary>
+		/// Revives creates and sends necessary packets.
+		/// </summary>
+		/// <param name="creature"></param>
+		public void ReviveCreature(MabiCreature creature)
+		{
+			if (!creature.IsDead)
+				return;
+
+			creature.Revive();
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead1, creature.Id), SendTargets.Range, creature);
+			WorldManager.Instance.CreatureStatsUpdate(creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead2, creature.Id), SendTargets.Range, creature);
+
+		}
+
 		public void HandleCombatActionPack(CombatActionPack cap)
 		{
 			foreach (var action in cap.Actions)
@@ -939,7 +1233,13 @@ namespace Aura.World.World
 
 				// Cancel defense if applicable
 				if (action.Is(CombatActionType.Defended))
-					action.Creature.SkillCancel();
+					WorldManager.Instance.CreatureSkillCancel(action.Creature);
+
+				if (action.Creature.IsDead)
+				{
+					// Exp, Drops, etc.
+					WorldManager.Instance.CreatureDies(action.Creature, cap.Attacker, action.OldPosition, action.SkillId);
+				}
 			}
 
 			// Start combat action
@@ -954,7 +1254,195 @@ namespace Aura.World.World
 
 			// Status updates
 			foreach (var action in cap.Actions)
-				action.Creature.BroadcastStatsUpdate();
+				WorldManager.Instance.CreatureStatsUpdate(action.Creature);
+		}
+
+		public void CreatureDies(MabiCreature creature, MabiCreature killer, MabiVertex position, SkillConst skillId)
+		{
+			if (killer != null)
+			{
+				// Shadow Bunshin soul counter
+				if (skillId != SkillConst.ShadowBunshin)
+					killer.SoulCount++;
+
+				// Exp
+				if (killer.LevelingEnabled)
+				{
+					// Give exp
+					var exp = creature.BattleExp * WorldConf.ExpRate;
+					killer.GiveExp((ulong)exp);
+
+					killer.Client.Send(PacketCreator.CombatMessage(killer, "+{0} EXP", exp));
+
+					EventManager.Instance.CreatureEvents.OnCreatureKilled(this, new CreatureKilledEventArgs(creature, killer));
+					if (killer is MabiPC)
+						EventManager.Instance.PlayerEvents.OnKilledByPlayer(this, new CreatureKilledEventArgs(creature, killer));
+				}
+			}
+
+			var npc = creature as MabiNPC;
+			if (npc != null)
+			{
+				var rnd = RandomProvider.Get();
+
+				// Gold
+				if (rnd.NextDouble() < WorldConf.GoldDropRate)
+				{
+					var amount = rnd.Next(npc.GoldMin, npc.GoldMax + 1);
+					if (amount > 0)
+					{
+						var gold = new MabiItem(2000);
+						gold.Info.Amount = (ushort)amount;
+						gold.Info.Region = npc.Region;
+						gold.Info.X = (uint)(position.X + rnd.Next(-50, 51));
+						gold.Info.Y = (uint)(position.Y + rnd.Next(-50, 51));
+						gold.DisappearTime = DateTime.Now.AddSeconds(60);
+
+						this.AddItem(gold);
+					}
+				}
+
+				// Drops
+				foreach (var drop in npc.Drops)
+				{
+					if (rnd.NextDouble() < drop.Chance * WorldConf.DropRate)
+					{
+						var item = new MabiItem(drop.ItemId);
+						item.Info.Amount = 1;
+						item.Info.Region = npc.Region;
+						item.Info.X = (uint)(position.X + rnd.Next(-50, 51));
+						item.Info.Y = (uint)(position.Y + rnd.Next(-50, 51));
+						item.DisappearTime = DateTime.Now.AddSeconds(60);
+
+						this.AddItem(item);
+					}
+				}
+			}
+
+			// Set finisher?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, creature.Id).PutLong(killer.Id), SendTargets.Range, creature);
+
+			// Clear target
+			WorldManager.Instance.CreatureSetTarget(killer, null);
+
+			// Finish this finisher part?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher2, creature.Id), SendTargets.Range, creature);
+
+			// TODO: There appears to be something missing to let it lay there for finish, if we don't kill it with the following packets.
+			// TODO: Check for finishing.
+
+			// Make it dead
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.IsNowDead, creature.Id), SendTargets.Range, creature);
+
+			// Remove finisher?
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, creature.Id).PutLong(0), SendTargets.Range, creature);
+
+			if (creature.ActiveSkillId != SkillConst.None)
+				this.CreatureSkillCancel(creature);
+
+			if (creature.Owner != null)
+			{
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
+				// TODO: Unmount.
+			}
+
+			creature.CauseOfDeath = DeathCauses.None;
+
+			if (creature.ArenaPvPManager != null && creature.ArenaPvPManager == killer.ArenaPvPManager && creature.ArenaPvPManager.IsAttackableBy(creature, killer))
+			{
+				creature.ArenaPvPManager.CreatureKilled(creature, killer);
+				creature.CauseOfDeath = DeathCauses.Arena;
+			}
+			
+			// TODO: Trans PvP
+
+			if (creature.CauseOfDeath == DeathCauses.None && creature.EvGEnabled && killer.EvGEnabled)
+				if (creature.EvGSupportRace != 0 && killer.EvGSupportRace != 0 && creature.EvGSupportRace != killer.EvGSupportRace)
+					creature.CauseOfDeath = DeathCauses.EvG;
+
+			if (creature.CauseOfDeath == DeathCauses.None)
+				creature.CauseOfDeath = DeathCauses.Mob;
+		}
+
+		public void CreatureReceivesQuest(MabiCreature creature, MabiQuest quest)
+		{
+			// Owl
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.QuestOwlNew, creature.Id).PutLong(quest.Id), SendTargets.Range, creature);
+
+			// Quest item (required to complete quests)
+			creature.Client.Send(PacketCreator.ItemInfo(creature, quest.QuestItem));
+
+			// Quest info
+			var p = new MabiPacket(Op.QuestNew, creature.Id);
+			quest.AddToPacket(p);
+			creature.Client.Send(p);
+		}
+
+		public void CreatureCompletesQuest(MabiCreature creature, MabiQuest quest, bool rewards)
+		{
+			if (rewards)
+			{
+				// Owl
+				WorldManager.Instance.Broadcast(new MabiPacket(Op.QuestOwlComplete, creature.Id).PutLong(quest.Id), SendTargets.Range, creature);
+
+				// Rewards
+				foreach (var reward in quest.Info.Rewards)
+				{
+					switch (reward.Type)
+					{
+						case RewardType.Exp:
+							creature.GiveExp(reward.Amount);
+							creature.Client.Send(PacketCreator.AcquireExp(creature, reward.Amount));
+							this.CreatureStatsUpdate(creature);
+							break;
+
+						case RewardType.Gold:
+							creature.GiveItem(2000, reward.Amount);
+							creature.Client.Send(PacketCreator.AcquireItem(creature, reward.Id, reward.Amount));
+							break;
+
+						case RewardType.Item:
+							creature.GiveItem(reward.Id, reward.Amount);
+							creature.Client.Send(PacketCreator.AcquireItem(creature, reward.Id, reward.Amount));
+							break;
+
+						case RewardType.Skill:
+							var id = (SkillConst)reward.Id;
+							var rank = (SkillRank)reward.Amount;
+
+							// Only give skill if char doesn't have it or rank is lower.
+							var skill = creature.GetSkill(id);
+							if (skill == null || skill.Rank < rank)
+							{
+								creature.GiveSkill(id, rank);
+								WorldManager.Instance.CreatureStatsUpdate(creature);
+							}
+							break;
+
+						default:
+							Logger.Warning("Unsupported reward type '{0}'.", reward.Type);
+							break;
+					}
+				}
+
+				// Only call this if there were rewards, we're using this
+				// method to clear quests as well.
+				var script = ScriptManager.Instance.GetQuestScript(quest.Info.Id);
+				if (script != null)
+					script.OnCompleted(creature.Client as WorldClient, quest);
+			}
+
+			creature.Client.Send(PacketCreator.ItemInfo(creature, quest.QuestItem));
+
+			// Remove from quest log.
+			creature.Client.Send(new MabiPacket(Op.QuestClear, creature.Id).PutLong(quest.Id));
+		}
+
+		public void CreatureUpdateQuest(MabiCreature creature, MabiQuest quest)
+		{
+			var p = new MabiPacket(Op.QuestUpdate, creature.Id);
+			quest.AddProgressData(p);
+			creature.Client.Send(p);
 		}
 
 		public bool CreateGuild(string name, GuildType type, MabiCreature leader, IEnumerable<MabiCreature> otherMembers)
@@ -1027,6 +1515,23 @@ namespace Aura.World.World
 			return true;
 		}
 
+		public void LoadGuilds()
+		{
+			var guilds = WorldDb.Instance.LoadGuilds();
+
+			foreach (var guild in guilds)
+			{
+				var extra = string.Format("<xml guildid=\"{0}\" {1}/>", guild.Id, guild.HasOption(GuildOptionFlags.Warp) ? "gh_warp=\"true\"" : "");
+				var p = new MabiProp("", guild.Name, extra, guild.StoneClass, guild.Region, guild.X, guild.Y, guild.Rotation);
+
+				WorldManager.Instance.AddProp(p);
+				WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
+			}
+
+			Logger.ClearLine();
+			Logger.Info("Done loading {0} guilds.", guilds.Count);
+		}
+
 		public static void GuildstoneTouch(WorldClient client, MabiCreature creature, MabiProp p)
 		{
 			// TODO: Better way to get this ID... Pake could be used to fake it
@@ -1066,9 +1571,84 @@ namespace Aura.World.World
 				_parties.Remove(party);
 		}
 
+		public void CreatureLeaveParty(MabiCreature creature)
+		{
+			if (creature.Client == null || creature.Party == null)
+				return;
+
+			var party = creature.Party;
+
+			// Remove creature from party
+			party.RemovePartyMember(creature);
+			creature.Party = null;
+			creature.PartyNumber = 0;
+
+			// Update party
+			if (party.Members.Count > 0)
+			{
+				foreach (var member in party.Members)
+					member.Client.Send(new MabiPacket(Op.PartyLeaveUpdate, member.Id).PutLong(creature.Id));
+
+				if (party.IsOpen)
+					this.PartyMemberWantedRefresh(party);
+
+				foreach (var member in party.Members)
+					member.Client.Send(new MabiPacket(0xA43C, member.Id).PutLong(creature.Id).PutByte(1).PutByte(1).PutShort(0).PutInt(0));
+
+				if (party.Leader == creature)
+					this.PartyChangeLeader(party.GetNextLeader(), party);
+			}
+			// Remove party
+			else
+			{
+				if (party.IsOpen)
+					this.PartyMemberWantedHide(party);
+
+				this.RemoveParty(party);
+			}
+		}
+
+		public void PartyMemberWantedRefresh(MabiParty party)
+		{
+			var p = new MabiPacket(Op.PartyWantedUpdate, party.Leader.Id).PutByte(party.IsOpen).PutString(party.GetMemberWantedString());
+			this.Broadcast(p, SendTargets.Range, party.Leader);
+		}
+
+		public void PartyMemberWantedHide(MabiParty party)
+		{
+			party.IsOpen = false;
+
+			foreach (var member in party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyWantedClosed, member.Id));
+
+			PartyMemberWantedRefresh(party);
+		}
+
+		public void PartyMemberWantedShow(MabiParty party)
+		{
+			party.IsOpen = true;
+
+			foreach (var member in party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyWantedOpened, member.Id));
+
+			PartyMemberWantedRefresh(party);
+		}
+
+		public void PartyChangeLeader(MabiCreature leader, MabiParty party)
+		{
+			if (party.IsOpen)
+				this.PartyMemberWantedHide(party);
+
+			party.SetLeader(leader);
+
+			foreach (var member in party.Members)
+				member.Client.Send(new MabiPacket(Op.PartyChangeLeaderUpdate, member.Id).PutLong(leader.Id));
+		}
+
 		public void Ancientify(MabiNPC creature)
 		{
-			creature.ChangeTitle(30038, 0);
+			creature.Title = 30038;
+			this.CreatureChangeTitle(creature);
 
 			creature.GoldMax *= 20;
 			creature.GoldMin *= 20;
@@ -1087,13 +1667,67 @@ namespace Aura.World.World
 
 			creature.Height *= 2;
 
-			creature.BroadcastStatsUpdate();
+			this.CreatureStatsUpdate(creature);
 		}
 
-		public void SendRegionNotice(uint region, string format, params object[] args)
+		public void SharpMind(MabiCreature user, SharpMindStatus state, SkillConst skill)
 		{
-			var p = PacketCreator.Notice(string.Format(format, args));
-			this.BroadcastRegion(p, region);
+			var inRange = this.GetPlayersInRange(user, WorldConf.SightRange);
+			foreach (var c in inRange)
+			{
+				c.Client.Send(PacketCreator.SharpMind(user, c, skill, state));
+			}
+		}
+
+		public void CreatureEnterRegion(MabiCreature creature)
+		{
+			if (creature.ArenaPvPManager != null && creature.Region != creature.ArenaPvPManager.LobbyRegion && creature.Region != creature.ArenaPvPManager.ArenaRegion)
+			{
+				creature.ArenaPvPManager.Leave(creature);
+				creature.ArenaPvPManager = null;
+				WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+			}
+
+			foreach (var arena in _arenaPvPs)
+			{
+				if (creature.Region == arena.LobbyRegion)
+				{
+					creature.ArenaPvPManager = arena;
+					arena.EnterLobby(creature);
+				}
+				else if (creature.Region == arena.ArenaRegion)
+				{
+					creature.ArenaPvPManager = arena;
+					arena.EnterArena(creature);
+				}
+			}
+		}
+
+		public void DeadFeather(MabiCreature creature, bool ukn, DeadMenuOptions opts)
+		{
+			var pkt = new MabiPacket(Op.DeadFeather, creature.Id);
+
+			var bits = (uint)opts; // Avoid backfill
+
+			List<uint> flags = new List<uint>();
+
+			uint index = 1; // 1 based
+			while (bits != 0)
+			{
+				if ((bits & 1) != 0)
+					flags.Add(index);
+				index++;
+
+				bits >>= 1;
+			}
+
+			pkt.PutShort((ushort)flags.Count);
+
+			foreach (var f in flags)
+				pkt.PutInt(f);
+
+			pkt.PutByte(ukn);
+			this.Broadcast(pkt, SendTargets.Range, creature);
 		}
 	}
 

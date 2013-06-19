@@ -88,7 +88,7 @@ namespace Aura.World.Network
 			this.Send(new MabiPacket(Op.WarpUnk1, this.Character.Id));
 			this.Send(new MabiPacket(Op.WarpUnk2, this.Character.Id).PutByte(11));
 
-			this.Character.LeaveRegion();
+			WorldManager.Instance.CreatureLeaveRegion(this.Character);
 
 			if (this.Creatures.Count > 1)
 			{
