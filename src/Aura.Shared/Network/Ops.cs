@@ -38,8 +38,8 @@ namespace Aura.Shared.Network
 		//      180100, 13.03.2013+
 		//      180300, 25.05.2012+ (Aura)
 
-		public const uint Version = 170300;
-		public const MabiRegion Region = MabiRegion.TW;
+		public const uint Version = 170403;
+		public const MabiRegion Region = MabiRegion.NA;
 
 		// Login Server
 		// ------------------------------------------------------------------
@@ -81,9 +81,9 @@ namespace Aura.Shared.Network
 		public readonly static uint RefuseGift = 0x4B;
 		public readonly static uint RefuseGiftR = 0x4C;
 		public readonly static uint Disconnect = 0x4D;
-		public readonly static uint CreatingPet = 0x50;
+		public readonly static uint EnterPetCreation = 0x50;
 		public readonly static uint CreatingPetR = 0x51;
-		public readonly static uint CreatingPartner = 0x55;
+		public readonly static uint EnterPartnerCreation = 0x55;
 		public readonly static uint CreatingPartnerR = 0x56;
 
 		// World Server

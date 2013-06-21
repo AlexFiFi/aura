@@ -25,8 +25,8 @@ namespace Aura.Login.Network
 		private const int ChannelUpdateInterval = 30 * 1000;
 		private Timer _channelUpdateTimer;
 
-		private readonly Dictionary<string, MabiServer> ServerList = new Dictionary<string, MabiServer>();
-		private List<LoginClient> ChannelClients = new List<LoginClient>();
+		public readonly Dictionary<string, MabiServer> ServerList = new Dictionary<string, MabiServer>();
+		public readonly List<LoginClient> ChannelClients = new List<LoginClient>();
 
 		public override void Run(string[] args)
 		{
@@ -115,7 +115,7 @@ namespace Aura.Login.Network
 
 			// Client update timer
 			// --------------------------------------------------------------
-			_channelUpdateTimer = new Timer(_ => this.SendChannelUpdate(), null, 0, ChannelUpdateInterval);
+			_channelUpdateTimer = new Timer(_ => Send.ChannelUpdate(), null, 0, ChannelUpdateInterval);
 
 			Logger.Info("Type 'help' for a list of console commands.");
 			ServerUtil.ReadCommands(this.ParseCommand);
@@ -253,22 +253,9 @@ namespace Aura.Login.Network
 						}
 					}
 
-					this.SendChannelUpdate();
+					Send.ChannelUpdate();
 				}
 			}
-		}
-
-		/// <summary>
-		/// Sends server/channel status update to all connected clients,
-		/// incl channels.
-		/// </summary>
-		public void SendChannelUpdate()
-		{
-			var p = new MabiPacket(Op.ChannelStatus, Id.Login);
-			p.PutByte((byte)this.ServerList.Count);
-			foreach (var server in this.ServerList.Values)
-				server.AddToPacket(p);
-			this.Broadcast(p);
 		}
 
 		/// <summary>

@@ -244,11 +244,11 @@ namespace Aura.Shared.Database
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public bool NameOkay(string name, string server)
+		public NameCheckResult NameOkay(string name, string server)
 		{
 			// 3-15 alphanumeric characters.
 			if (!(new Regex(@"^[a-zA-Z0-9]{3,15}$")).IsMatch(name))
-				return false;
+				return NameCheckResult.Invalid;
 
 			using (var conn = MabiDb.Instance.GetConnection())
 			{
@@ -257,8 +257,13 @@ namespace Aura.Shared.Database
 				mc.Parameters.AddWithValue("@name", name);
 
 				using (var reader = mc.ExecuteReader())
-					return !reader.HasRows;
+				{
+					if (reader.HasRows)
+						return NameCheckResult.Exists;
+				}
 			}
+
+			return NameCheckResult.Okay;
 		}
 
 		/// <summary>
@@ -304,5 +309,12 @@ namespace Aura.Shared.Database
 			else
 				return reader.GetString(index);
 		}
+	}
+
+	public enum NameCheckResult : byte
+	{
+		Okay = 0,
+		Exists = 1,
+		Invalid = 2,
 	}
 }

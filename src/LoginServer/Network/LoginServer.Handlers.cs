@@ -12,6 +12,7 @@ using Aura.Shared.Const;
 using Aura.Shared.Database;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
+using System.Net.Sockets;
 
 namespace Aura.Login.Network
 {
@@ -19,46 +20,46 @@ namespace Aura.Login.Network
 	{
 		protected override void OnServerStartUp()
 		{
-			this.RegisterPacketHandler(Op.ClientIdent, HandleVersionCheck);
-			this.RegisterPacketHandler(Op.Login, HandleLogin);
-			this.RegisterPacketHandler(Op.EnterGame, HandleEnterGame);
-			this.RegisterPacketHandler(Op.Disconnect, HandleDisconnect);
-			this.RegisterPacketHandler(Op.NameCheck, HandleCheckName);
-			this.RegisterPacketHandler(Op.AccountInfoRequest, HandleAccountInfoRequest);
-
-			this.RegisterPacketHandler(Op.CharInfoRequest, HandleCharacterInfoRequest);
-			this.RegisterPacketHandler(Op.CreateCharacter, HandleCreateCharacter);
-			this.RegisterPacketHandler(Op.DeleteCharRequest, HandleDeletePC);
-			this.RegisterPacketHandler(Op.DeleteChar, HandleDeletePC);
-			this.RegisterPacketHandler(Op.RecoverChar, HandleDeletePC);
+			RegisterPacketHandler(Op.ClientIdent, HandleVersionCheck);
+			RegisterPacketHandler(Op.Login, HandleLogin);
+			RegisterPacketHandler(Op.EnterGame, HandleEnterGame);
+			RegisterPacketHandler(Op.Disconnect, HandleDisconnect);
+			RegisterPacketHandler(Op.NameCheck, HandleCheckName);
+			RegisterPacketHandler(Op.AccountInfoRequest, HandleAccountInfoRequest);
 
 			// Partners are considered Pets, aside from CreatePartner.
-			this.RegisterPacketHandler(Op.PetInfoRequest, HandleCharacterInfoRequest);
-			this.RegisterPacketHandler(Op.CreatePet, HandleCreatePet);
-			this.RegisterPacketHandler(Op.CreatePartner, HandleCreatePartner);
-			this.RegisterPacketHandler(Op.DeletePetRequest, HandleDeletePC);
-			this.RegisterPacketHandler(Op.DeletePet, HandleDeletePC);
-			this.RegisterPacketHandler(Op.RecoverPet, HandleDeletePC);
+			RegisterPacketHandler(Op.CharInfoRequest, HandleCharacterInfoRequest);
+			RegisterPacketHandler(Op.PetInfoRequest, HandleCharacterInfoRequest);
 
-			// Sent when entering Pet/Partner creation.
-			this.RegisterPacketHandler(Op.CreatingPet, HandleEnterPetCreation);
-			this.RegisterPacketHandler(Op.CreatingPartner, HandleEnterPetCreation);
+			RegisterPacketHandler(Op.DeleteCharRequest, HandleDeletePC);
+			RegisterPacketHandler(Op.DeleteChar, HandleDeletePC);
+			RegisterPacketHandler(Op.RecoverChar, HandleDeletePC);
+			RegisterPacketHandler(Op.DeletePetRequest, HandleDeletePC);
+			RegisterPacketHandler(Op.DeletePet, HandleDeletePC);
+			RegisterPacketHandler(Op.RecoverPet, HandleDeletePC);
 
-			this.RegisterPacketHandler(Op.AcceptGift, HandleAcceptGift);
-			this.RegisterPacketHandler(Op.RefuseGift, HandleRefuseGift);
+			RegisterPacketHandler(Op.CreateCharacter, HandleCreateCharacter);
+			RegisterPacketHandler(Op.CreatePet, HandleCreatePet);
+			RegisterPacketHandler(Op.CreatePartner, HandleCreatePartner);
 
-			this.RegisterPacketHandler(Op.Internal.ServerIdentify, HandleServerIdentify);
-			this.RegisterPacketHandler(Op.Internal.ChannelStatus, HandleChannelStatus);
+			RegisterPacketHandler(Op.EnterPetCreation, HandleEnterPetCreation);
+			RegisterPacketHandler(Op.EnterPartnerCreation, HandleEnterPetCreation);
+
+			RegisterPacketHandler(Op.AcceptGift, HandleAcceptGift);
+			RegisterPacketHandler(Op.RefuseGift, HandleRefuseGift);
+
+			RegisterPacketHandler(Op.Internal.ServerIdentify, HandleServerIdentify);
+			RegisterPacketHandler(Op.Internal.ChannelStatus, HandleChannelStatus);
 		}
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)
 		{
-			var response = new MabiPacket(Op.ClientIdentR, Id.Login);
+			var unk1 = packet.GetByte();	// 1
+			var ident = packet.GetString(); // USA_Regular-71DC2D-F2A-0EA
 
-			response.PutByte(1);
-			response.PutLong(0x49534E4F47493A5D);
+			// TODO: optional ident check
 
-			client.Send(response);
+			Send.ClientIdentResponse(client, true, MabiTime.Now.DateTime);
 		}
 
 		private void HandleLogin(LoginClient client, MabiPacket packet)
@@ -103,6 +104,8 @@ namespace Aura.Login.Network
 						}
 					}
 
+					// Set login type to normal if it's not secondary,
+					// we have all information and don't care anymore.
 					if (loginType != LoginType.SecondaryPassword)
 						loginType = LoginType.Normal;
 
@@ -114,15 +117,8 @@ namespace Aura.Login.Network
 					if (Feature.DoubleAccName.IsEnabled())
 						packet.GetString();
 					sessionKey = packet.GetLong();
+
 					break;
-
-				// Type 5 uses the new Nexon hash thingy...
-				// apart from that, equal to 0x0C.
-				case LoginType.NewHash:
-				default:
-
-					this.SendLoginResponse(client, Localization.Get("login.new_hash_error"), loginType); // You're client is using a password encryption that Aura doesn't recognize [...]
-					return;
 
 				// Second password
 				case LoginType.SecondaryPassword:
@@ -134,11 +130,23 @@ namespace Aura.Login.Network
 					goto case LoginType.Normal;
 			}
 
+			var machineId = packet.GetBin();
+			var unk1 = packet.GetInt();
+			var unk2 = packet.GetInt();
+			var localClientIP = packet.GetString();
+
+			// Unknown login type or new hash.
+			if (loginType != LoginType.Normal && loginType != LoginType.SecondaryPassword && loginType != LoginType.FromChannel)
+			{
+				Send.LoginResponse(client, Localization.Get("login.new_hash_error"), loginType); // You're client is using a password encryption that Aura doesn't recognize [...]
+				return;
+			}
+
 			// Check account existence
 			var account = LoginDb.Instance.GetAccount(username);
 			if (account == null)
 			{
-				this.SendLoginResponse(client, LoginResult.IdOrPassIncorrect);
+				Send.LoginResponse(client, LoginResult.IdOrPassIncorrect);
 				return;
 			}
 
@@ -152,32 +160,28 @@ namespace Aura.Login.Network
 			// Check bans
 			if (account.BannedExpiration.CompareTo(DateTime.Now) > 0)
 			{
-				this.SendLoginResponse(client, Localization.Get("login.banned"), account.BannedExpiration, account.BannedReason); // You've been banned, till {0}.\r\nReason: {1}
+				Send.LoginResponse(client, Localization.Get("login.banned"), account.BannedExpiration, account.BannedReason); // You've been banned, till {0}.\r\nReason: {1}
 				return;
 			}
 
 			// Check password/session
 			if (!BCrypt.CheckPassword(password, account.Password) && !MabiDb.Instance.IsSessionKey(username, sessionKey))
 			{
-				this.SendLoginResponse(client, LoginResult.IdOrPassIncorrect);
+				Send.LoginResponse(client, LoginResult.IdOrPassIncorrect);
 				return;
 			}
 
 			// Check secondary password
 			if (loginType == LoginType.SecondaryPassword && !string.IsNullOrWhiteSpace(secPassword) && !string.IsNullOrWhiteSpace(account.SecondaryPassword) && account.SecondaryPassword != secPassword)
 			{
-				var p = new MabiPacket(Op.LoginR, Id.Login);
-				p.PutByte((byte)LoginResult.SecondaryFail);
-				p.PutInt(12);
-				p.PutByte(1);
-				client.Send(p);
+				Send.LoginResponse(client, LoginResult.SecondaryFail);
 				return;
 			}
 
 			// Check logged in already
 			if (account.LoggedIn)
 			{
-				this.SendLoginResponse(client, LoginResult.AlreadyLoggedIn);
+				Send.LoginResponse(client, LoginResult.AlreadyLoggedIn);
 				return;
 			}
 
@@ -186,16 +190,7 @@ namespace Aura.Login.Network
 			// Second password, please!
 			if (LoginConf.EnableSecondaryPassword && loginType == LoginType.Normal)
 			{
-				var p = new MabiPacket(Op.LoginR, Id.Login);
-				p.PutByte((byte)LoginResult.SecondaryReq);
-				p.PutString(account.Name); // Official seems to send this
-				p.PutString(account.Name); // back hashed.
-				p.PutLong(sessionKey);
-				if (account.SecondaryPassword == null)
-					p.PutString("FIRST");
-				else
-					p.PutString("NOT_FIRST");
-				client.Send(p);
+				Send.RequestSecondaryPassword(client, account, sessionKey);
 				return;
 			}
 
@@ -230,125 +225,30 @@ namespace Aura.Login.Network
 				}
 			}
 
-			// Success Response
-			// --------------------------------------------------------------
-			var response = new MabiPacket(Op.LoginR, Id.Login);
-			response.PutByte((byte)LoginResult.Success);
-			response.PutString(username);
-			if (Feature.DoubleAccName.IsEnabled())
-				response.PutString(username);
-			response.PutLong(sessionKey);
-			response.PutByte(0);
-
-			// Servers
-			// --------------------------------------------------------------
-			response.PutByte((byte)this.ServerList.Count);
-			foreach (var server in this.ServerList.Values)
-				server.AddToPacket(response);
-
-			// Account Info
-			// --------------------------------------------------------------
-			account.AddToPacket(response);
+			// Success
+			Send.LoginResponse(client, account, sessionKey, this.ServerList.Values);
 
 			client.Account = account;
 			client.State = ClientState.LoggedIn;
 
-			client.Send(response);
-
 			Logger.Info("Logging in as '{0}'.", username);
 		}
-
-		private void SendLoginResponse(LoginClient client, string format, params object[] args)
-		{
-			var response = new MabiPacket(Op.LoginR, Id.Login);
-			response.PutByte(51);
-			response.PutInt(14);
-			response.PutInt(1);
-			response.PutString(format, args);
-			client.Send(response);
-		}
-
-		private void SendLoginResponse(LoginClient client, LoginResult result)
-		{
-			var response = new MabiPacket(Op.LoginR, Id.Login);
-			response.PutByte((byte)result);
-			client.Send(response);
-		}
-
-		private enum LoginResult { Fail = 0, Success = 1, Empty = 2, IdOrPassIncorrect = 3, /* IdOrPassIncorrect = 4, */ TooManyConnections = 6, AlreadyLoggedIn = 7, UnderAge = 33, SecondaryReq = 90, SecondaryFail = 91, Banned = 101 }
-		private enum LoginType { KR = 0x00, FromChannel = 0x02, NewHash = 0x05, Normal = 0x0C, CmdLogin = 0x10, EU = 0x12, SecondaryPassword = 0x14 }
 
 		private void HandleCharacterInfoRequest(LoginClient client, MabiPacket packet)
 		{
 			var serverName = packet.GetString();
 			var characterId = packet.GetLong();
 
-			var response = new MabiPacket(packet.Op + 1, Id.Login);
-			response.PutByte(1);
-			response.PutString(serverName);
-			response.PutLong(characterId);
-
 			var character = (packet.Op != Op.PetInfoRequest ? client.Account.GetCharacter(characterId) : client.Account.GetPet(characterId));
 			if (character == null)
 			{
-				// Fail ?
-				response.PutByte(0);
-				client.Send(response);
+				Send.CharacterInfoFail(client, packet.Op + 1);
 				return;
 			}
 
-			// Success ?
-			response.PutByte(1);
+			var items = LoginDb.Instance.GetEquipment(character.Id);
 
-			// Char Info
-			response.PutString(character.Name);
-			response.PutString("");
-			response.PutString("");
-			response.PutInt(character.Race);
-			response.PutByte(character.SkinColor);
-			response.PutByte(character.Eye);
-			response.PutByte(character.EyeColor);
-			response.PutByte(character.Mouth);
-			response.PutInt(0);
-			response.PutFloat(character.Height);
-			response.PutFloat(character.Weight);
-			response.PutFloat(character.Upper);
-			response.PutFloat(character.Lower);
-			response.PutInt(0);
-			response.PutInt(0);
-			response.PutInt(0);
-			response.PutByte(0);
-			response.PutInt(0);
-			response.PutByte(0);
-			response.PutInt(character.Color1);
-			response.PutInt(character.Color2);
-			response.PutInt(character.Color3);
-			response.PutFloat(0.0f);
-			response.PutString("");
-			response.PutFloat(49.0f);
-			response.PutFloat(49.0f);
-			response.PutFloat(0.0f);
-			response.PutFloat(49.0f);
-			response.PutInt(0);
-			response.PutInt(0);
-			response.PutShort(0);
-			response.PutLong(0);
-			response.PutString("");
-			response.PutByte(0);
-
-			var items = LoginDb.Instance.GetEquipment(characterId);
-			response.PutSInt(items.Count);
-			foreach (var item in items)
-			{
-				response.PutLong(item.Id);
-				response.PutBin(item.Info);
-			}
-
-			response.PutInt(0);		 // PetRemainingTime
-			response.PutLong(0);	 // PetLastTime
-			response.PutLong(0);	 // PetExpireTime
-
-			client.Send(response);
+			Send.CharacterInfo(client, packet.Op + 1, character, items);
 		}
 
 		private void HandleCreateCharacter(LoginClient client, MabiPacket packet)
@@ -365,8 +265,6 @@ namespace Aura.Login.Network
 			var eyeColor = packet.GetByte();
 			var mouth = packet.GetByte();
 			var face = packet.GetInt();
-
-			var response = new MabiPacket(Op.CharacterCreated, Id.Login);
 
 			var card = client.Account.GetCharacterCard(cardId);
 			CharCardInfo cardInfo = null;
@@ -385,11 +283,9 @@ namespace Aura.Login.Network
 			var faceItem = MabiData.ItemDb.Find(face);
 			var hairItem = MabiData.ItemDb.Find(hair);
 
-			if (card == null || !MabiDb.Instance.NameOkay(charName, serverName) || faceItem == null || hairItem == null || (faceItem.Type & ~1) != 100 || (hairItem.Type & ~1) != 100)
+			if (card == null || MabiDb.Instance.NameOkay(charName, serverName) != NameCheckResult.Okay || faceItem == null || hairItem == null || (faceItem.Type & ~1) != 100 || (hairItem.Type & ~1) != 100)
 			{
-				// Fail
-				response.PutByte(0);
-				client.Send(response);
+				Send.CreateCharacterFail(client);
 				return;
 			}
 
@@ -493,11 +389,7 @@ namespace Aura.Login.Network
 			);
 
 			// Success
-			response.PutByte(1);
-			response.PutString(serverName);
-			response.PutLong(characterId);
-
-			client.Send(response);
+			Send.CreateCharacterResponse(client, serverName, character.Id);
 
 			// Remove card
 			if (LoginConf.ConsumeCards)
@@ -533,7 +425,6 @@ namespace Aura.Login.Network
 			var serverName = packet.GetString();
 			var channelName = packet.GetString();
 			var rebirth = packet.GetBool();
-
 			ulong characterId = 0;
 
 			if (!rebirth)
@@ -550,38 +441,11 @@ namespace Aura.Login.Network
 			MabiServer server = null;
 			MabiChannel channel = null;
 
-			if (this.ServerList.Count > 0)
-			{
-				server = this.ServerList.Values.FirstOrDefault(a => a.Name == serverName);
-				if (server != null)
-				{
-					channel = server.Channels.Values.FirstOrDefault(a => a.Name == channelName);
-				}
-			}
+			server = this.ServerList.Values.FirstOrDefault(a => a.Name == serverName);
+			if (server != null)
+				channel = server.Channels.Values.FirstOrDefault(a => a.Name == channelName);
 
-			var response = new MabiPacket(Op.ChannelInfo, Id.World);
-
-			if (channel == null)
-			{
-				// Fail
-				response.PutByte(0);
-			}
-			else
-			{
-				// Success
-				response.PutByte(1);
-				response.PutString(server.Name);
-				response.PutString(channel.Name);
-				response.PutShort(6); // Channel "Id"? (seems to be equal to channel nr)
-				response.PutString(channel.IP);
-				response.PutString(channel.IP);
-				response.PutShort(channel.Port);
-				response.PutShort((ushort)(channel.Port + 2));
-				response.PutInt(1);
-				response.PutLong(characterId);
-			}
-
-			client.Send(response);
+			Send.EnterGameResponse(client, channel, characterId);
 		}
 
 		private void HandleDeletePC(LoginClient client, MabiPacket packet)
@@ -591,58 +455,47 @@ namespace Aura.Login.Network
 			//var charName = packet.GetString();
 
 			bool isPet = (packet.Op >= Op.DeletePetRequest);
-
 			var character = (isPet ? client.Account.GetPet(id) : client.Account.GetCharacter(id));
 
 			// The response op is always +1.
 			uint op = packet.Op + 1;
 
-			var response = new MabiPacket(op, Id.Login);
-
 			if (character == null || ((op == Op.DeleteCharR || op == Op.DeletePetR) && character.DeletionTime > DateTime.Now))
 			{
-				// Fail
-				response.PutByte(0);
+				Send.DeleteFail(client, op);
+				return;
 			}
-			else
+
+			if (
+				(packet.Op == Op.DeleteChar || packet.Op == Op.DeletePet) ||
+				((packet.Op == Op.DeleteCharRequest || packet.Op == Op.DeletePetRequest) && LoginConf.DeletionWait == 0)
+			)
 			{
-				// Success
-				response.PutByte(1);
-				response.PutString(serverName);
-				response.PutLong(id);
-				response.PutLong(0);
-
-				if (
-					(packet.Op == Op.DeleteChar || packet.Op == Op.DeletePet) ||
-					((packet.Op == Op.DeleteCharRequest || packet.Op == Op.DeletePetRequest) && LoginConf.DeletionWait == 0)
-				)
-				{
-					// Mark for deletion
-					character.DeletionTime = DateTime.MaxValue;
-					if (!isPet)
-						client.Account.Characters.Remove(character);
-					else
-						client.Account.Pets.Remove(character);
-				}
-				else if (packet.Op == Op.RecoverChar || packet.Op == Op.RecoverPet)
-				{
-					// Reset time
-					character.DeletionTime = DateTime.MinValue;
-				}
-				else // Op.DeleteCharRequest || Op.DeletePetRequest || Error?
-				{
-					// Set time at which the character can be deleted for good.
-					// Below 100 means x hours, above 100 tomorrow at x.
-					if (LoginConf.DeletionWait > 100)
-						character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(LoginConf.DeletionWait - 100, 0, 0));
-					else
-						character.DeletionTime = DateTime.Now.AddHours(LoginConf.DeletionWait);
-				}
-
-				LoginDb.Instance.SetDelete(character);
+				// Mark for deletion
+				character.DeletionTime = DateTime.MaxValue;
+				if (!isPet)
+					client.Account.Characters.Remove(character);
+				else
+					client.Account.Pets.Remove(character);
+			}
+			else if (packet.Op == Op.RecoverChar || packet.Op == Op.RecoverPet)
+			{
+				// Reset time
+				character.DeletionTime = DateTime.MinValue;
+			}
+			else // Op.DeleteCharRequest || Op.DeletePetRequest || Error?
+			{
+				// Set time at which the character can be deleted for good.
+				// Below 100 means x hours, above 100 tomorrow at x.
+				if (LoginConf.DeletionWait > 100)
+					character.DeletionTime = (DateTime.Now.AddDays(1).Date + new TimeSpan(LoginConf.DeletionWait - 100, 0, 0));
+				else
+					character.DeletionTime = DateTime.Now.AddHours(LoginConf.DeletionWait);
 			}
 
-			client.Send(response);
+			LoginDb.Instance.SetDelete(character);
+
+			Send.DeleteResponse(client, op, serverName, id);
 		}
 
 		private void HandleCheckName(LoginClient client, MabiPacket packet)
@@ -650,22 +503,9 @@ namespace Aura.Login.Network
 			var server = packet.GetString();
 			var name = packet.GetString();
 
-			MabiPacket response = new MabiPacket(Op.NameCheckR, Id.Login);
+			var result = MabiDb.Instance.NameOkay(name, server);
 
-			if (MabiDb.Instance.NameOkay(name, server))
-			{
-				// Success
-				response.PutByte(1);
-				response.PutByte(0);
-			}
-			else
-			{
-				// Fail
-				response.PutByte(0);
-				response.PutByte(1);
-			}
-
-			client.Send(response);
+			Send.NameCheckResponse(client, result);
 		}
 
 		private void HandleCreatePet(LoginClient client, MabiPacket packet)
@@ -677,15 +517,11 @@ namespace Aura.Login.Network
 			var color2 = packet.GetInt();
 			var color3 = packet.GetInt();
 
-			var response = new MabiPacket(Op.PetCreated, Id.Login);
-
 			// Check if the card, name, and race are valid
 			var card = client.Account.GetPetCard(cardId);
-			if (card == null || !MabiDb.Instance.NameOkay(name, serverName) || !MabiData.PetDb.Has(card.Race))
+			if (card == null || MabiDb.Instance.NameOkay(name, serverName) != NameCheckResult.Okay || !MabiData.PetDb.Has(card.Race))
 			{
-				// Fail
-				response.PutByte(0);
-				client.Send(response);
+				Send.CreatePetFail(client);
 				return;
 			}
 
@@ -734,11 +570,7 @@ namespace Aura.Login.Network
 			LoginDb.Instance.AddSkills(petId, new Skill(SkillConst.MeleeCombatMastery, SkillRank.RF));
 
 			// Success
-			response.PutByte(1);
-			response.PutString(serverName);
-			response.PutLong(petId);
-
-			client.Send(response);
+			Send.CreatePetResponse(client, serverName, pet.Id);
 
 			// Remove card
 			if (LoginConf.ConsumeCards)
@@ -769,15 +601,11 @@ namespace Aura.Login.Network
 			var lower = packet.GetFloat();
 			var personality = packet.GetInt();
 
-			var response = new MabiPacket(Op.PetCreated, Id.Login);
-
 			// Check if the card is valid
 			var card = client.Account.GetPetCard(cardId);
-			if (card == null || !MabiDb.Instance.NameOkay(name, serverName))
+			if (card == null || MabiDb.Instance.NameOkay(name, serverName) != NameCheckResult.Okay)
 			{
-				// Fail
-				response.PutByte(0);
-				client.Send(response);
+				Send.CreatePetFail(client);
 				return;
 			}
 
@@ -820,11 +648,7 @@ namespace Aura.Login.Network
 			LoginDb.Instance.AddSkills(partnerId, new Skill(SkillConst.MeleeCombatMastery, SkillRank.RF));
 
 			// Success
-			response.PutByte(1);
-			response.PutString(serverName);
-			response.PutLong(partner.Id);
-
-			client.Send(response);
+			Send.CreatePetResponse(client, serverName, partner.Id);
 
 			// Remove card
 			if (LoginConf.ConsumeCards)
@@ -851,13 +675,14 @@ namespace Aura.Login.Network
 
 		private void HandleEnterPetCreation(LoginClient client, MabiPacket packet)
 		{
-			//Logger.Error("OMG! Someone is trying to create a pet/partner!!");
+			// OMG! Someone is trying to create a pet/partner!!
+			// Actually packets can be send here to customize
+			// the available options in the creation. TODO.
 		}
 
 		private void HandleAcceptGift(LoginClient client, MabiPacket packet)
 		{
 			var giftId = packet.GetLong();
-			var success = false;
 
 			var gift = client.Account.GetGift(giftId);
 			if (gift != null)
@@ -870,25 +695,15 @@ namespace Aura.Login.Network
 					client.Account.PetCards.Add(gift);
 
 				LoginDb.Instance.ChangeGiftToCard(giftId);
-				success = true;
 			}
 
-			var response = new MabiPacket(Op.AcceptGiftR, Id.Login);
-			response.PutByte(success);
-			if (success)
-			{
-				response.PutByte(gift.IsCharacter); // is char ?
-				response.PutInt(0); // ???
-				response.PutInt(0); // ???
-				response.PutInt(gift.Type); // Type ?
-				// ?
-			}
-			client.Send(response);
+			Send.AcceptGiftResponse(client, gift);
 		}
 
 		private void HandleRefuseGift(LoginClient client, MabiPacket packet)
 		{
 			var giftId = packet.GetLong();
+
 			var success = false;
 
 			var gift = client.Account.GetGift(giftId);
@@ -899,22 +714,12 @@ namespace Aura.Login.Network
 				success = true;
 			}
 
-			var response = new MabiPacket(Op.RefuseGiftR, Id.Login);
-			response.PutByte(success);
-			if (success)
-			{
-				// ?
-			}
-			client.Send(response);
+			Send.RefuseGiftResponse(client, success);
 		}
 
 		private void HandleAccountInfoRequest(LoginClient client, MabiPacket packet)
 		{
-			var response = new MabiPacket(Op.AccountInfoRequestR, Id.Login);
-			response.PutByte(true);
-			client.Account.AddToPacket(response);
-
-			client.Send(response);
+			Send.AccountInfoRequestResponse(client, client.Account);
 		}
 
 		private void HandleServerIdentify(LoginClient client, MabiPacket packet)
@@ -923,7 +728,7 @@ namespace Aura.Login.Network
 
 			if (!BCrypt.CheckPassword(LoginConf.Password, pass))
 			{
-				client.Send(new MabiPacket(Op.Internal.ServerIdentify).PutByte(false));
+				Send.ServerIdentifyResponse(client, false);
 
 				Logger.Warning("Incorrect password from '{0}'.", client.IP);
 				client.Kill();
@@ -935,14 +740,11 @@ namespace Aura.Login.Network
 			lock (this.ChannelClients)
 				this.ChannelClients.Add(client);
 
-			client.Send(new MabiPacket(Op.Internal.ServerIdentify).PutByte(true));
+			Send.ServerIdentifyResponse(client, true);
 		}
 
 		private void HandleChannelStatus(LoginClient client, MabiPacket packet)
 		{
-			if (client.State != ClientState.LoggedIn)
-				return;
-
 			var serverName = packet.GetString();
 			var channelName = packet.GetString();
 			var fullName = channelName + "@" + serverName;
@@ -950,6 +752,9 @@ namespace Aura.Login.Network
 			var port = packet.GetShort();
 			var stress = packet.GetByte();
 			var update = false;
+
+			if (client.State != ClientState.LoggedIn)
+				return;
 
 			// Add server
 			if (!this.ServerList.ContainsKey(serverName))
@@ -983,7 +788,7 @@ namespace Aura.Login.Network
 			this.ServerList[serverName].Channels[channelName].State = ChannelState.Normal;
 
 			if (update)
-				this.SendChannelUpdate();
+				Send.ChannelUpdate();
 		}
 	}
 }

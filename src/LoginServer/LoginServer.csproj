@@ -66,6 +66,7 @@
     <Compile Include="Network\LoginClient.cs" />
     <Compile Include="Network\LoginServer.Handlers.cs" />
     <Compile Include="Network\LoginServer.cs" />
+    <Compile Include="Network\Send.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\LoginConf.cs" />
