@@ -1081,7 +1081,7 @@ namespace Aura.World.World
 				case "elf":
 					creature.EvGSupportRace = 1;
 					break;
-					
+
 				case "giant":
 					creature.EvGSupportRace = 2;
 					break;

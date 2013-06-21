@@ -211,15 +211,14 @@ namespace Aura.World.Network
 			});
 		}
 
-#pragma warning disable 0162
 		private void HandleLogin(WorldClient client, MabiPacket packet)
 		{
 			if (client.State != ClientState.LoggingIn)
 				return;
 
 			var userName = packet.GetString();
-			if (Op.Version > 160000)
-				packet.GetString(); // double acc name
+			if (Feature.DoubleAccName.IsEnabled())
+				packet.GetString();
 			var seedKey = packet.GetLong();
 			var charID = packet.GetLong();
 			//byte unk1 = packet.GetByte();
@@ -308,7 +307,6 @@ namespace Aura.World.Network
 
 			client.State = ClientState.LoggedIn;
 		}
-#pragma warning restore 0162
 
 		private void HandleDisconnect(WorldClient client, MabiPacket packet)
 		{
@@ -2600,7 +2598,7 @@ namespace Aura.World.Network
 				creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutByte(0));
 				return;
 			}
-	
+
 			var pos = creature.GetPosition();
 
 			switch (option)
@@ -2629,7 +2627,7 @@ namespace Aura.World.Network
 					creature.Injuries = Math.Min(creature.Injuries + creature.LifeInjured * .5f, creature.LifeMax - 5);
 					creature.Life = 5;
 					//creature.Experience -= creature.Level * .4; //TODO: Look up multiplier
-					WorldManager.Instance.ReviveCreature(creature); 
+					WorldManager.Instance.ReviveCreature(creature);
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
 
@@ -2779,7 +2777,7 @@ namespace Aura.World.Network
 			if (WorldConf.Motd != string.Empty)
 				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
 
-			EventManager.Instance.PlayerEvents.OnPlayerLoggedIn(this, new PlayerEventArgs(creature as MabiPC));
+			EventManager.Instance.PlayerEvents.OnPlayerLoggedIn(creature, new PlayerEventArgs(creature as MabiPC));
 		}
 
 		public void HandleMoonGateRequest(WorldClient client, MabiPacket packet)

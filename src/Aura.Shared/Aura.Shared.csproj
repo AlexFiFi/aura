@@ -60,6 +60,7 @@
     <Compile Include="Database\Card.cs" />
     <Compile Include="Database\MabiDb.cs" />
     <Compile Include="Network\Client.cs" />
+    <Compile Include="Network\Features.cs" />
     <Compile Include="Network\MabiCrypto.cs" />
     <Compile Include="Network\MabiPacket.cs" />
     <Compile Include="Network\BaseServer.cs" />

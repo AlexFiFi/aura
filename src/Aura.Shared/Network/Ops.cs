@@ -8,19 +8,38 @@ namespace Aura.Shared.Network
 	/// </summary>
 	public static class Op
 	{
-		// Version specifies the "packet version", based on Generation,
-		// Season, and Sub-Season. Not setting it correclty will usually
-		// result in characters not moving or crashes.
-		// NA:      170403
-		// KR:      180400
-		// KR test: 180300 ?
-		// TW:      170300
-		// EU:      140400
-		public const uint Version = 170403;
+		// Version and Region have to be set, according to the client you
+		// want to use. Version is made up of 3 values, Generation (xx0000),
+		// Season (00xx00), and "Sub-season" (0000xx), where Subseason is not
+		// an actual sub-season, but a packet change without major update.
+		// Below you see a list of versions Aura is known to be compatible to,
+		// in this Format: "Region: VersionNr, (Estimated)PatchDate[, ClientVersion]"
+		// The first version is the initial version added to Aura. If a date
+		// is marked with "(Aura)" it's the commit date, not the date of the
+		// client patch.
+		// 
+		// EU:  140400
+		// 
+		// NA:  160200, 22.09.2012+ (Aura)
+		//      170100, 24.10.2012+
+		//      170200, 12.12.2012+
+		//      170400, 21.12.2012+ (Aura)
+		//      170402, 24.04.2012+
+		//      170403, 29.05.2013+, v152
+		// 
+		// TW:  170100, 22.09.2012+ (Aura)
+		//      170200, 12.12.2012+
+		//      170300, 25.05.2012+ (Aura)
+		// 
+		// KR:  170400, 21.12.2012+ (Aura)
+		//      180400, 25.05.2012+ (Aura)
+		// 
+		// KRT: 170300, 12.12.2012+ (Aura)
+		//      180100, 13.03.2013+
+		//      180300, 25.05.2012+ (Aura)
 
-		// In a few cases Version is not enough to identify changes in the
-		// packets, so set this as well, just in case.
-		public const MabiRegion Region = MabiRegion.NA;
+		public const uint Version = 170300;
+		public const MabiRegion Region = MabiRegion.TW;
 
 		// Login Server
 		// ------------------------------------------------------------------
@@ -502,7 +521,8 @@ namespace Aura.Shared.Network
 			if (
 				(Region == MabiRegion.NA && Version >= 170401) ||
 				(Region == MabiRegion.TW && Version >= 170300) ||
-				(Region == MabiRegion.KR && Version >= 180200)
+				(Region == MabiRegion.KR && Version >= 180200) ||
+				(Region == MabiRegion.KRT && Version >= 180300)
 			)
 			{
 				GMCPOpen = 0x1D589;
@@ -533,5 +553,5 @@ namespace Aura.Shared.Network
 #pragma warning restore 0162
 	}
 
-	public enum MabiRegion { NA, EU, TW, KR }
+	public enum MabiRegion { NA, EU, TW, JP, KR, KRT, Any }
 }

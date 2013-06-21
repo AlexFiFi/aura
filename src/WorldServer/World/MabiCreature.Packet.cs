@@ -7,7 +7,6 @@ using Aura.Shared.Const;
 
 namespace Aura.World.World
 {
-#pragma warning disable 0162
 	public abstract partial class MabiCreature : MabiEntity
 	{
 		public override void AddToPacket(MabiPacket packet)
@@ -46,9 +45,9 @@ namespace Aura.World.World
 			packet.PutInt(0);			         // SkillProgress
 			packet.PutInt(0);			         // SkillSyncList
 			// loop						         
-			//   packet.PutShort		         
-			//   packet.PutShort	
-			if (Op.Version > 140400)
+			//   packet.PutShort
+			//   packet.PutShort
+			if (Feature.UnkAny1.IsEnabled())
 				packet.PutByte(0);			     // {PLGCNT}
 
 			// Party Banner
@@ -73,23 +72,23 @@ namespace Aura.World.World
 			packet.PutLong((ulong)this.Conditions.A);
 			packet.PutLong((ulong)this.Conditions.B);
 			packet.PutLong((ulong)this.Conditions.C);
-			if (Op.Version > 140400)
+			if (Feature.ConditionD.IsEnabled())
 				packet.PutLong((ulong)this.Conditions.D);
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt
 			//   packet.PutString
 
-			if (Op.Version >= 170100)
+			if (Feature.UnkAny2.IsEnabled())
 				packet.PutLong(0);
 
 			// Guild
 			// --------------------------------------------------------------
 			if (this.Guild != null)
 			{
-				packet.PutLong(this.Guild.Id);                   // GuildID
-				packet.PutString(this.Guild.Name);                // GuildName
-				packet.PutInt(this.GuildMemberInfo.MemberRank);	                 // MemberClass
+				packet.PutLong(this.Guild.Id);
+				packet.PutString(this.Guild.Name);
+				packet.PutInt(this.GuildMemberInfo.MemberRank);
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
@@ -98,13 +97,13 @@ namespace Aura.World.World
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
-				packet.PutString(this.Guild.Title);                // GuildTitle
+				packet.PutString(this.Guild.Title);
 			}
 			else
 			{
-				packet.PutLong(0);                   // GuildID
-				packet.PutString("");                // GuildName
-				packet.PutInt(0);	                 // MemberClass
+				packet.PutLong(0);
+				packet.PutString("");
+				packet.PutInt(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
@@ -113,7 +112,7 @@ namespace Aura.World.World
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
-				packet.PutString("");                // GuildTitle
+				packet.PutString("");
 			}
 
 			// Transformation
@@ -199,7 +198,7 @@ namespace Aura.World.World
 
 			// Farming
 			// --------------------------------------------------------------
-			if (Op.Version > 140400 && Op.Version <= 170300)
+			if (Feature.FarmingTemp.IsEnabled())
 			{
 				// This seems to be missing in 170400
 
@@ -226,8 +225,7 @@ namespace Aura.World.World
 			// packet.PutInt					 // HitPoint
 			// packet.PutInt					 // MaxHitPoint
 
-			// Apperantly added in 170400, new event?
-			if (Op.Version >= 170400)
+			if (Feature.UnkAny4.IsEnabled())
 			{
 				packet.PutString("");
 				packet.PutByte(0);
@@ -254,7 +252,7 @@ namespace Aura.World.World
 
 			// NPC
 			// --------------------------------------------------------------
-			if (Op.Version > 140400)
+			if (Feature.NPCOptions.IsEnabled())
 			{
 				if (this.EntityType == EntityType.NPC)
 				{
@@ -265,15 +263,16 @@ namespace Aura.World.World
 
 			// Commerce
 			// --------------------------------------------------------------
-			if (Op.Version > 140400)
+			if (Feature.Commerce.IsEnabled())
 			{
 				packet.PutByte(1);					 // IsInCommerceCombat
 				packet.PutLong(0);					 // TransportCharacterId
 				packet.PutFloat(1);					 // ScaleHeight
 			}
 
-			// Apperantly added in 170400
-			if (Op.Version >= 170400)
+			// Talents
+			// --------------------------------------------------------------
+			if (Feature.Talents.IsEnabled())
 			{
 				packet.PutLong(0);
 				packet.PutByte(0);
@@ -282,9 +281,12 @@ namespace Aura.World.World
 				packet.PutLong(0);
 				packet.PutShort((ushort)this.SelectedTalentTitle);
 				packet.PutByte((byte)this.Grandmaster);
+			}
 
-				// Shamala Transformation
-				// ----------------------------------------------------------
+			// Shamala Transformation
+			// --------------------------------------------------------------
+			if (Feature.Shamala.IsEnabled())
+			{
 				if (this.Shamala == null)
 				{
 					packet.PutInt(0);
@@ -311,7 +313,7 @@ namespace Aura.World.World
 
 			// ?
 			// --------------------------------------------------------------
-			if (Op.Version >= 170403 && Op.Region == MabiRegion.NA)
+			if (Feature.UnkNATW1.IsEnabled())
 			{
 				packet.PutInt(0);
 				packet.PutLong(0);
@@ -349,11 +351,10 @@ namespace Aura.World.World
 				packet.PutString(this.StandStyleTalk);
 			}
 
-			if (Op.Version > 140400)
+			if (Feature.BombEvent.IsEnabled())
 				packet.PutByte(0);			     // BombEventState
 
-			// Apperantly added in 170400... or has it always been there?
-			if (Op.Version >= 170400)
+			if (Feature.UnkAny5.IsEnabled())
 				packet.PutByte(0);
 		}
 
@@ -459,7 +460,7 @@ namespace Aura.World.World
 				packet.PutShort(0);			         // RightRateMod
 				packet.PutFloat(0);			         // MagicDefenseMod
 				packet.PutFloat(0);			         // MagicAttackMod
-				if (Op.Version >= 180300)
+				if (Feature.NewUnkCrInfo.IsEnabled())
 					packet.PutFloat(0);			     // ?
 				packet.PutShort(15);		         // MeleeAttackRateMod
 				packet.PutShort(15);		         // RangeAttackRateMod
@@ -473,7 +474,7 @@ namespace Aura.World.World
 				packet.PutShort(0);			         // RateMod
 				packet.PutShort(0);			         // Rank1
 				packet.PutShort(0);			         // Rank2
-				if (Op.Version >= 180300)
+				if (Feature.NewUnkCrInfo.IsEnabled())
 					packet.PutShort(0);			     // ?
 				packet.PutLong(0);			         // Score
 				packet.PutShort(0);			         // AttackMinBaseMod
@@ -494,7 +495,7 @@ namespace Aura.World.World
 				packet.PutShort(0);			         // RangeWAttackMaxBaseMod
 				packet.PutShort(0);			         // PoisonBase
 				packet.PutShort(0);			         // PoisonMod
-				if (Op.Version >= 180100)
+				if (Feature.NewPoisonCrInfo.IsEnabled())
 				{
 					packet.PutShort(0);			     // ?
 					packet.PutShort(0);			     // ?
@@ -550,19 +551,18 @@ namespace Aura.World.World
 			var arena = this.ArenaPvPManager != null;
 			p
 				.PutByte(arena) // ArenaPvP
-				.PutInt(arena ? this.ArenaPvPManager.GetTeam(this) : (uint)0) // ArenaPvP Team
-				.PutByte(this.TransPvPEnabled) // TransformPvP
-				.PutInt(arena ? this.ArenaPvPManager.GetStars(this) : 0) // Stars
-				.PutByte(this.EvGEnabled) // EvG Enabled
-				.PutByte(this.EvGSupportRace) // EvG Support
+				.PutInt(arena ? this.ArenaPvPManager.GetTeam(this) : (uint)0)
+				.PutByte(this.TransPvPEnabled)
+				.PutInt(arena ? this.ArenaPvPManager.GetStars(this) : 0)
+				.PutByte(this.EvGEnabled)
+				.PutByte(this.EvGSupportRace)
 				.PutByte(1) // IsPvPMode
-				.PutLong(this.PvPWins) // Wins
-				.PutLong(this.PvPLosses) // Losses
+				.PutLong(this.PvPWins)
+				.PutLong(this.PvPLosses)
 				.PutInt(0) // PenaltyPoints
 				.PutByte(1); // unk
 
-			// Apparently added in 170400
-			if (Op.Version >= 170400)
+			if (Feature.NewPVPInfo.IsEnabled())
 			{
 				p.PutByte(0);
 				p.PutInt(0);
@@ -571,7 +571,5 @@ namespace Aura.World.World
 				p.PutInt(0);
 			}
 		}
-
 	}
-#pragma warning restore 0162
 }

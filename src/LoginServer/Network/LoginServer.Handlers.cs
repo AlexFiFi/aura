@@ -61,7 +61,6 @@ namespace Aura.Login.Network
 			client.Send(response);
 		}
 
-#pragma warning disable 0162
 		private void HandleLogin(LoginClient client, MabiPacket packet)
 		{
 			var loginType = (LoginType)packet.GetByte();
@@ -81,7 +80,7 @@ namespace Aura.Login.Network
 					var passbin = packet.GetBin();
 					password = System.Text.Encoding.UTF8.GetString(passbin);
 
-					if (Op.Version == 140400)
+					if (!Feature.MD5Passwords.IsEnabled())
 					{
 						// EU had no client side hashing. Let's make it compatible to NA.
 						password = string.Empty;
@@ -112,8 +111,8 @@ namespace Aura.Login.Network
 				// Logging in, comming from a channel
 				case LoginType.FromChannel:
 
-					if (Op.Version > 160000)
-						packet.GetString(); // Double acc name
+					if (Feature.DoubleAccName.IsEnabled())
+						packet.GetString();
 					sessionKey = packet.GetLong();
 					break;
 
@@ -236,7 +235,7 @@ namespace Aura.Login.Network
 			var response = new MabiPacket(Op.LoginR, Id.Login);
 			response.PutByte((byte)LoginResult.Success);
 			response.PutString(username);
-			if (Op.Version > 160000)
+			if (Feature.DoubleAccName.IsEnabled())
 				response.PutString(username);
 			response.PutLong(sessionKey);
 			response.PutByte(0);
@@ -258,7 +257,6 @@ namespace Aura.Login.Network
 
 			Logger.Info("Logging in as '{0}'.", username);
 		}
-#pragma warning restore 0162
 
 		private void SendLoginResponse(LoginClient client, string format, params object[] args)
 		{

@@ -162,7 +162,6 @@ namespace Aura.World.Scripting
 			WorldManager.Instance.CreatureTalk(this.NPC, message);
 		}
 
-#pragma warning disable 0162
 		protected virtual void OpenShop(WorldClient client)
 		{
 			var p = new MabiPacket(Op.ShopOpen, client.Character.Id);
@@ -174,7 +173,7 @@ namespace Aura.World.Scripting
 			for (var i = 0; i < this.Shop.Tabs.Count; ++i)
 			{
 				p.PutString("[" + i + "]" + this.Shop.Tabs[i].Name);
-				if (Op.Version >= 160200)
+				if (Feature.UnkNewShopInfo.IsEnabled())
 					p.PutByte(0);
 				p.PutShort((ushort)this.Shop.Tabs[i].Items.Count);
 				foreach (var item in this.Shop.Tabs[i].Items)
@@ -184,7 +183,6 @@ namespace Aura.World.Scripting
 			}
 			client.Send(p);
 		}
-#pragma warning restore 0162
 
 		protected bool CheckCode(WorldClient client, string code)
 		{

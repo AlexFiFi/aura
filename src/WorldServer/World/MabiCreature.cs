@@ -774,31 +774,28 @@ namespace Aura.World.World
 			var p = new MabiPacket(Op.TalentInfoUpdate, this.Id);
 			p.PutByte(1);
 
-			p.PutShort((ushort)this.SelectedTalentTitle);              // Selected Talent Title
-			p.PutByte((byte)this.Grandmaster); // Grandmaster ID
-			p.PutInt(this.GetTalentExp(TalentId.Adventure)); // Adventure
-			p.PutInt(this.GetTalentExp(TalentId.Warrior)); // Warrior
-			p.PutInt(this.GetTalentExp(TalentId.Mage)); // Mage
-			p.PutInt(this.GetTalentExp(TalentId.Archer)); // Acher
-			p.PutInt(this.GetTalentExp(TalentId.Merchant)); //Merchant
-			p.PutInt(this.GetTalentExp(TalentId.BattleAlchemy)); // Battle Alch
-			p.PutInt(this.GetTalentExp(TalentId.Fighter)); // Fighter
-			p.PutInt(this.GetTalentExp(TalentId.Bard)); // Bard
-			p.PutInt(this.GetTalentExp(TalentId.Puppeteer)); // Puppeteer
-			p.PutInt(this.GetTalentExp(TalentId.Knight)); // Knight
-			p.PutInt(this.GetTalentExp(TalentId.HolyArts)); // Holy Arts
-			p.PutInt(this.GetTalentExp(TalentId.Transmutaion)); // Construct Alch
-			p.PutInt(this.GetTalentExp(TalentId.Cooking)); // Chef
-			p.PutInt(this.GetTalentExp(TalentId.Blacksmith)); // Blacksmith
-			p.PutInt(this.GetTalentExp(TalentId.Tailoring)); // Tailoring
-			p.PutInt(this.GetTalentExp(TalentId.Medicine)); // Apothecary
-			p.PutInt(this.GetTalentExp(TalentId.Carpentry)); // Carpenter
+			p.PutShort((ushort)this.SelectedTalentTitle);
+			p.PutByte((byte)this.Grandmaster);
+			p.PutInt(this.GetTalentExp(TalentId.Adventure));
+			p.PutInt(this.GetTalentExp(TalentId.Warrior));
+			p.PutInt(this.GetTalentExp(TalentId.Mage));
+			p.PutInt(this.GetTalentExp(TalentId.Archer));
+			p.PutInt(this.GetTalentExp(TalentId.Merchant));
+			p.PutInt(this.GetTalentExp(TalentId.BattleAlchemy));
+			p.PutInt(this.GetTalentExp(TalentId.Fighter));
+			p.PutInt(this.GetTalentExp(TalentId.Bard));
+			p.PutInt(this.GetTalentExp(TalentId.Puppeteer));
+			p.PutInt(this.GetTalentExp(TalentId.Knight));
+			p.PutInt(this.GetTalentExp(TalentId.HolyArts));
+			p.PutInt(this.GetTalentExp(TalentId.Transmutaion));
+			p.PutInt(this.GetTalentExp(TalentId.Cooking));
+			p.PutInt(this.GetTalentExp(TalentId.Blacksmith));
+			p.PutInt(this.GetTalentExp(TalentId.Tailoring));
+			p.PutInt(this.GetTalentExp(TalentId.Medicine));
+			p.PutInt(this.GetTalentExp(TalentId.Carpentry));
 
-#pragma warning disable 0162
-			if (Op.Version >= 180100)
+			if (Feature.ZeroTalent.IsEnabled())
 				p.PutInt(0);
-
-#pragma warning restore 0162
 
 			// Talent titles
 			// ----------------------------------------------------------

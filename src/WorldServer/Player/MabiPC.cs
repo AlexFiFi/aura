@@ -108,7 +108,6 @@ namespace Aura.World.Player
 			return this.Quests.Values.FirstOrDefault(a => a.Id == id);
 		}
 
-#pragma warning disable 0162
 		public void AddPrivateToPacket(MabiPacket packet)
 		{
 			this.AddToPacket(packet, 2);
@@ -167,7 +166,7 @@ namespace Aura.World.Player
 				packet.PutBin(skill.Info);
 			}
 			packet.PutInt(0);					 // SkillVarBufferList
-			if (Op.Version > 140400)
+			if (Feature.UnkAny1.IsEnabled())
 				packet.PutByte(0);			     // {PLGCNT}
 
 			// Banner
@@ -184,21 +183,21 @@ namespace Aura.World.Player
 			packet.PutLong((ulong)Conditions.A);
 			packet.PutLong((ulong)Conditions.B);
 			packet.PutLong((ulong)Conditions.C);
-			if (Op.Version > 140400)
+			if (Feature.ConditionD.IsEnabled())
 				packet.PutLong((ulong)Conditions.D);
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt
 			//   packet.PutString
 
-			if (Op.Version >= 170100)
+			if (Feature.UnkAny2.IsEnabled())
 				packet.PutLong(0);
 
 			if (this.Guild != null)
 			{
-				packet.PutLong(this.Guild.Id);                   // GuildID
-				packet.PutString(this.Guild.Name);                // GuildName
-				packet.PutInt(this.GuildMemberInfo.MemberRank);	                 // MemberClass
+				packet.PutLong(this.Guild.Id);
+				packet.PutString(this.Guild.Name);
+				packet.PutInt(this.GuildMemberInfo.MemberRank);
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
@@ -207,13 +206,13 @@ namespace Aura.World.Player
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
-				packet.PutString(this.Guild.Title);                // GuildTitle
+				packet.PutString(this.Guild.Title);
 			}
 			else
 			{
-				packet.PutLong(0);                   // GuildID
-				packet.PutString("");                // GuildName
-				packet.PutInt(0);	                 // MemberClass
+				packet.PutLong(0);
+				packet.PutString("");
+				packet.PutInt(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
@@ -222,7 +221,7 @@ namespace Aura.World.Player
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);
-				packet.PutString("");                // GuildTitle
+				packet.PutString("");
 			}
 
 			// PTJ
@@ -251,7 +250,7 @@ namespace Aura.World.Player
 
 			// ?
 			// --------------------------------------------------------------
-			if (Op.Version >= 170100)
+			if (Feature.UnkAny3.IsEnabled())
 			{
 				packet.PutFloat(1);
 				packet.PutLong(0);
@@ -380,7 +379,7 @@ namespace Aura.World.Player
 			// packet.PutInt					 // HitPoint
 			// packet.PutInt					 // MaxHitPoint
 
-			if (Op.Version >= 170300)
+			if (Feature.UnkAny4.IsEnabled())
 			{
 				packet.PutString("");
 				packet.PutByte(0);
@@ -437,7 +436,7 @@ namespace Aura.World.Player
 
 			// Commerce
 			// --------------------------------------------------------------
-			if (Op.Version > 140400)
+			if (Feature.Commerce.IsEnabled())
 			{
 				packet.PutByte(1);               // IsInCommerceCombat
 				packet.PutLong(0);               // TransportCharacterId
@@ -446,43 +445,43 @@ namespace Aura.World.Player
 
 			// Talents?
 			// --------------------------------------------------------------
-			if (Op.Version >= 170100)
+			if (Feature.Talents.IsEnabled())
 			{
-				packet.PutShort((ushort)this.SelectedTalentTitle);              // Selected Talent Title
-				packet.PutByte((byte)this.Grandmaster); // Grandmaster ID
-				packet.PutInt(this.GetTalentExp(TalentId.Adventure)); // Adventure
-				packet.PutInt(this.GetTalentExp(TalentId.Warrior)); // Warrior
-				packet.PutInt(this.GetTalentExp(TalentId.Mage)); // Mage
-				packet.PutInt(this.GetTalentExp(TalentId.Archer)); // Acher
-				packet.PutInt(this.GetTalentExp(TalentId.Merchant)); //Merchant
-				packet.PutInt(this.GetTalentExp(TalentId.BattleAlchemy)); // Battle Alch
-				packet.PutInt(this.GetTalentExp(TalentId.Fighter)); // Fighter
-				packet.PutInt(this.GetTalentExp(TalentId.Bard)); // Bard
-				packet.PutInt(this.GetTalentExp(TalentId.Puppeteer)); // Puppeteer
-				packet.PutInt(this.GetTalentExp(TalentId.Knight)); // Knight
-				packet.PutInt(this.GetTalentExp(TalentId.HolyArts)); // Holy Arts
-				packet.PutInt(this.GetTalentExp(TalentId.Transmutaion)); // Construct Alch
-				packet.PutInt(this.GetTalentExp(TalentId.Cooking)); // Chef
-				packet.PutInt(this.GetTalentExp(TalentId.Blacksmith)); // Blacksmith
-				packet.PutInt(this.GetTalentExp(TalentId.Tailoring)); // Tailoring
-				packet.PutInt(this.GetTalentExp(TalentId.Medicine)); // Apothecary
-				packet.PutInt(this.GetTalentExp(TalentId.Carpentry)); // Carpenter
+				packet.PutShort((ushort)this.SelectedTalentTitle);
+				packet.PutByte((byte)this.Grandmaster);
+				packet.PutInt(this.GetTalentExp(TalentId.Adventure));
+				packet.PutInt(this.GetTalentExp(TalentId.Warrior));
+				packet.PutInt(this.GetTalentExp(TalentId.Mage));
+				packet.PutInt(this.GetTalentExp(TalentId.Archer));
+				packet.PutInt(this.GetTalentExp(TalentId.Merchant));
+				packet.PutInt(this.GetTalentExp(TalentId.BattleAlchemy));
+				packet.PutInt(this.GetTalentExp(TalentId.Fighter));
+				packet.PutInt(this.GetTalentExp(TalentId.Bard));
+				packet.PutInt(this.GetTalentExp(TalentId.Puppeteer));
+				packet.PutInt(this.GetTalentExp(TalentId.Knight));
+				packet.PutInt(this.GetTalentExp(TalentId.HolyArts));
+				packet.PutInt(this.GetTalentExp(TalentId.Transmutaion));
+				packet.PutInt(this.GetTalentExp(TalentId.Cooking));
+				packet.PutInt(this.GetTalentExp(TalentId.Blacksmith));
+				packet.PutInt(this.GetTalentExp(TalentId.Tailoring));
+				packet.PutInt(this.GetTalentExp(TalentId.Medicine));
+				packet.PutInt(this.GetTalentExp(TalentId.Carpentry));
 
-				if (Op.Version >= 180100)
+				if (Feature.ZeroTalent.IsEnabled())
 					packet.PutInt(0);
 
 				// Talent titles
 				// ----------------------------------------------------------
 				var titles = this.GetTalentTitles();
 
-				packet.PutByte((byte)titles.Count);               // Count
+				packet.PutByte((byte)titles.Count);
 				foreach (var title in titles)
 					packet.PutShort(title);
 			}
 
 			// Transformations Diary (Shamala)
 			// --------------------------------------------------------------
-			if (Op.Version >= 170300)
+			if (Feature.Shamala.IsEnabled())
 			{
 				packet.PutSInt(this.Shamalas.Count);
 				foreach (var trans in this.Shamalas)
@@ -495,7 +494,7 @@ namespace Aura.World.Player
 
 			// ?
 			// --------------------------------------------------------------
-			if (Op.Version >= 180100)
+			if (Feature.UnkAny6.IsEnabled())
 			{
 				packet.PutInt(0);
 				packet.PutInt(0);
@@ -503,7 +502,7 @@ namespace Aura.World.Player
 
 			// ?
 			// --------------------------------------------------------------
-			if (Op.Version >= 170403 && Op.Region == MabiRegion.NA)
+			if (Feature.UnkNATW1.IsEnabled())
 			{
 				packet.PutInt(0);
 				packet.PutLong(0);
@@ -520,7 +519,8 @@ namespace Aura.World.Player
 
 			// This int is needed in the JP client (1704 log),
 			// but doesn't appear in the NA 1704 or KR test 1801 log.
-			//packet.PutInt(4);
+			if (Feature.UnkJP1.IsEnabled())
+				packet.PutInt(4);
 
 			// Premium stuff?
 			// --------------------------------------------------------------
@@ -532,7 +532,7 @@ namespace Aura.World.Player
 			packet.PutByte(1);                   // Premium Gestures
 			packet.PutByte(0);
 			packet.PutByte(0);
-			if (Op.Version >= 170402 || (Op.Version >= 170300 && Op.Region == MabiRegion.TW))
+			if (Feature.NewPremiumThing.IsEnabled())
 				packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutByte(0);
@@ -557,7 +557,7 @@ namespace Aura.World.Player
 
 			// Pocket ExpireTime List
 			// --------------------------------------------------------------
-			if (Op.Version > 140400)
+			if (Feature.ExpiringPockets.IsEnabled())
 			{
 				// Style
 				packet.PutLong(DateTime.Now.AddMonths(1));
@@ -569,5 +569,4 @@ namespace Aura.World.Player
 			}
 		}
 	}
-#pragma warning restore 0162
 }
