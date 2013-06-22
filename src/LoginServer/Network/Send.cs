@@ -453,37 +453,45 @@ namespace Aura.Login.Network
 		/// <param name="packet"></param>
 		private static void Add(this  MabiPacket packet, Account account)
 		{
-			// Premium services?
-			// --------------------------------------------------------------
-			packet.PutLong(63461647475710);
-			packet.PutLong(63461647484213);
+			packet.PutLong(63461647475710);	// Last Login
+			packet.PutLong(63461647484213);	// Last Logout
 			packet.PutInt(0);
 			packet.PutByte(1);
 			packet.PutByte(34);
 			packet.PutInt(0x800200FF);
 			packet.PutByte(1);
-			packet.PutByte(0);
+
+			// Premium services
+			// --------------------------------------------------------------
+			// All 3 are visible, if one is set.
+			packet.PutByte(false);			// Nao's Support
 			packet.PutLong(0);
-			packet.PutByte(0);
+			packet.PutByte(false);			// Extra Storage
 			packet.PutLong(0);
-			packet.PutByte(0);
+			packet.PutByte(false);			// Advanced Play
 			packet.PutLong(0);
+
 			packet.PutByte(0);
 			packet.PutByte(1);
-			packet.PutByte(0);              // Inventory Plus Kit
-			packet.PutLong(63362367600000); // DateTime
-			packet.PutByte(0);              // Mabinogi Premium Pack
-			packet.PutLong(63362367600000); // DateTime
-			packet.PutByte(0);              // Mabinogi VIP
-			packet.PutLong(0);              // till next week = (ulong)(DateTime.Now.AddDays(7).Ticks/10000)
+
+			// Always visible?
+			packet.PutByte(false);          // Inventory Plus Kit
+			packet.PutLong(0);              // DateTime
+			packet.PutByte(false);          // Mabinogi Premium Pack
+			packet.PutLong(0);
+			packet.PutByte(false);          // Mabinogi VIP
+			packet.PutLong(0);
+
+			// Invisible?
 			if (Feature.NewPremiumThing.IsEnabled())
 			{
 				packet.PutByte(0);
 				packet.PutLong(0);
 			}
+
 			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutByte(0);				// 1: 프리미엄 PC방 서비스 사용중, 16: Free Play Event
+			packet.PutByte(false);			// Free Beginner Service
 
 			// Characters
 			// --------------------------------------------------------------
@@ -494,9 +502,9 @@ namespace Aura.Login.Network
 				packet.PutLong(character.Id);
 				packet.PutString(character.Name);
 				packet.PutByte((byte)character.DeletionFlag);
-				packet.PutLong(0); // ??
+				packet.PutLong(0);
 				packet.PutInt(0);
-				packet.PutByte(0); // 0 = Human. 1 = Elf. 2 = Giant.
+				packet.PutByte(0); // 0: Human, 1: Elf, 2: Giant
 				packet.PutByte(0);
 				packet.PutByte(0);
 			}

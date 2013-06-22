@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Globalization;
 
 namespace Aura.Shared.Network
 {
@@ -27,6 +27,11 @@ namespace Aura.Shared.Network
 
 		public PacketType Type = PacketType.Normal;
 
+		/// <summary>
+		/// New packet to be written to.
+		/// </summary>
+		/// <param name="op"></param>
+		/// <param name="id"></param>
 		public MabiPacket(uint op, ulong id = 0)
 		{
 			this.Op = op;
@@ -37,10 +42,21 @@ namespace Aura.Shared.Network
 				this.Type = PacketType.Chat;
 		}
 
+		/// <summary>
+		/// Parses buffer to read from packet.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <param name="isChat"></param>
 		public MabiPacket(byte[] buffer, bool isChat = false)
 			: this(buffer, buffer.Length, isChat)
 		{ }
 
+		/// <summary>
+		/// Parses buffer to read from packet.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <param name="length"></param>
+		/// <param name="isChat"></param>
 		public MabiPacket(byte[] buffer, int length, bool isChat = false)
 		{
 			if (isChat)
@@ -68,6 +84,10 @@ namespace Aura.Shared.Network
 			{ if (_buffer[++_ptr - 1] == 0) break; }
 		}
 
+		/// <summary>
+		/// Returns element type, using the byte the packet is currently pointing to.
+		/// </summary>
+		/// <returns></returns>
 		public ElementType GetElementType()
 		{
 			if (_ptr + 2 > _buffer.Length)
@@ -77,6 +97,7 @@ namespace Aura.Shared.Network
 
 		// Setters
 		// ------------------------------------------------------------------
+
 		public MabiPacket Put<T>(T val)
 		{
 			_elements.Add(val);
@@ -112,11 +133,11 @@ namespace Aura.Shared.Network
 		public MabiPacket PutFloat(double val) { return this.Put((float)val); }
 		public MabiPacket PutFloats(params float[] vals) { foreach (var val in vals) { this.Put(val); } return this; }
 
-		public MabiPacket PutString(string val) { return this.Put(val != null ? val : string.Empty); }
-		public MabiPacket PutString(string format, params object[] args) { return this.Put(string.Format((format != null ? format : string.Empty), args)); }
+		public MabiPacket PutString(string val) { if (val != null && val.Length > ushort.MaxValue) { throw new ArgumentOutOfRangeException("String too long."); } return this.Put(val != null ? val : string.Empty); }
+		public MabiPacket PutString(string format, params object[] args) { return this.PutString(string.Format((format != null ? format : string.Empty), args)); }
 		public MabiPacket PutStrings(params string[] vals) { foreach (var val in vals) { this.PutString(val); } return this; }
 
-		public MabiPacket PutBin(byte[] val) { return this.Put(val); }
+		public MabiPacket PutBin(byte[] val) { if (val.Length > ushort.MaxValue) { throw new ArgumentOutOfRangeException("Bin too long."); } return this.Put(val); }
 		public MabiPacket PutBin(object obj)
 		{
 			int size = Marshal.SizeOf(obj);
@@ -133,6 +154,7 @@ namespace Aura.Shared.Network
 
 		// Getters
 		// ------------------------------------------------------------------
+
 		public byte GetByte()
 		{
 			if (this.GetElementType() != ElementType.Byte)
@@ -244,6 +266,11 @@ namespace Aura.Shared.Network
 			return val;
 		}
 
+		/// <summary>
+		/// Generates byte array from element list.
+		/// </summary>
+		/// <param name="includeOverallHeader">If true, adds 6 bytes to the top, 2 type bytes, and the overall length.</param>
+		/// <returns></returns>
 		public byte[] Build(bool includeOverallHeader = true)
 		{
 			var ptr = 0;
@@ -251,8 +278,8 @@ namespace Aura.Shared.Network
 			var header = new byte[20];
 			var headerLen = 12;
 
-			var body = new byte[8192];
-			var bodyLen = 0;
+			var bodyLen = this.CalculateBodySize();
+			var body = new byte[bodyLen];
 			var bodyCount = 0;
 
 			// Packet body
@@ -260,68 +287,61 @@ namespace Aura.Shared.Network
 				foreach (var element in _elements)
 				{
 					// Resize if we need more space
-					if (ptr + 4096 > body.Length)
-					{
-						Array.Resize(ref body, body.Length + 4096);
-					}
+					//if (ptr + 4096 > body.Length)
+					//{
+					//    Array.Resize(ref body, body.Length + 4096);
+					//}
 
 					if (element is byte)
 					{
 						body[ptr++] = 1;
 						Array.Copy(BitConverter.GetBytes((byte)element), 0, body, ptr, 1);
 						ptr += 1;
-						bodyLen += 2;
 					}
 					else if (element is ushort)
 					{
 						body[ptr++] = 2;
 						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((short)(ushort)element)), 0, body, ptr, 2);
 						ptr += 2;
-						bodyLen += 3;
 					}
 					else if (element is uint)
 					{
 						body[ptr++] = 3;
 						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((int)(uint)element)), 0, body, ptr, 4);
 						ptr += 4;
-						bodyLen += 5;
 					}
 					else if (element is ulong)
 					{
 						body[ptr++] = 4;
 						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((long)(ulong)element)), 0, body, ptr, 8);
 						ptr += 8;
-						bodyLen += 9;
 					}
 					else if (element is float)
 					{
 						body[ptr++] = 5;
 						Array.Copy(BitConverter.GetBytes((float)element), 0, body, ptr, 4);
 						ptr += 4;
-						bodyLen += 5;
 					}
 					else if (element is string)
 					{
 						var valb = Encoding.UTF8.GetBytes((element as string) + '\0');
-						var len = (short)(valb.Length);
+						var len = (ushort)(valb.Length);
 
 						body[ptr++] = 6;
-						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder(len)), 0, body, ptr, 2);
+						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((short)len)), 0, body, ptr, 2);
 						ptr += 2;
 						Array.Copy(valb, 0, body, ptr, len);
 						ptr += len;
-						bodyLen += len + 3;
 					}
 					else if (element is byte[])
 					{
-						var len = (short)((element as byte[]).Length);
+						var len = (ushort)((element as byte[]).Length);
 
 						body[ptr++] = 7;
-						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder(len)), 0, body, ptr, 2);
+						Array.Copy(BitConverter.GetBytes(IPAddress.NetworkToHostOrder((short)len)), 0, body, ptr, 2);
 						ptr += 2;
 						Array.Copy((element as byte[]), 0, body, ptr, len);
 						ptr += len;
-						bodyLen += len + 3;
 					}
 					else
 					{
@@ -414,6 +434,28 @@ namespace Aura.Shared.Network
 				Array.Copy(header, 0, result, ptr, headerLen);
 				ptr += headerLen;
 				Array.Copy(body, 0, result, ptr, bodyLen);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Calculates the amount of bytes required to store all packet elements.
+		/// </summary>
+		/// <returns></returns>
+		private int CalculateBodySize()
+		{
+			var result = 0;
+			foreach (var element in _elements)
+			{
+				result++;
+				if (element is byte) result += 1;
+				else if (element is ushort) result += 2;
+				else if (element is uint) result += 4;
+				else if (element is ulong) result += 8;
+				else if (element is float) result += 4;
+				else if (element is string) result += 2 + (element as string).Length + 1;
+				else if (element is byte[]) result += 2 + (element as byte[]).Length;
 			}
 
 			return result;
