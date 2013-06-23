@@ -454,7 +454,7 @@ namespace Aura.Shared.Network
 				else if (element is uint) result += 4;
 				else if (element is ulong) result += 8;
 				else if (element is float) result += 4;
-				else if (element is string) result += 2 + (element as string).Length + 1;
+				else if (element is string) result += 2 + Encoding.UTF8.GetByteCount(element as string) + 1;
 				else if (element is byte[]) result += 2 + (element as byte[]).Length;
 			}
 
