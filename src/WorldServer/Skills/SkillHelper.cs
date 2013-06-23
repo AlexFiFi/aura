@@ -37,7 +37,7 @@ namespace Aura.World.Skills
 				creature.ActiveSkillStacks = skill.RankInfo.StackMax;
 			else
 				creature.ActiveSkillStacks += amount;
-			creature.Client.SendSkillStackSet(creature, skill.Id, creature.ActiveSkillStacks);
+			Send.SkillStackSet(creature.Client, creature, skill.Id, creature.ActiveSkillStacks);
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace Aura.World.Skills
 				creature.ActiveSkillStacks -= amount;
 			else
 				creature.ActiveSkillStacks = 0;
-			creature.Client.SendSkillStackUpdate(creature, skill.Id, creature.ActiveSkillStacks);
+			Send.SkillStackUpdate(creature.Client, creature, skill.Id, creature.ActiveSkillStacks);
 		}
 
 		public static void GiveSkillExp(MabiCreature creature, MabiSkill skill, float exp)

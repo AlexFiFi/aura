@@ -114,7 +114,8 @@ namespace Aura.World.Scripting
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.Creature.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.Creature);
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.Creature.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.Creature);
 			}
-			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(this.Creature), SendTargets.Range, this.Creature);
+
+			Send.EntityAppears(this.Creature);
 		}
 
 		protected virtual void EquipItem(Pocket slot, uint itemClass, uint color1 = 0, uint color2 = 0, uint color3 = 0)
@@ -131,7 +132,7 @@ namespace Aura.World.Scripting
 
 			this.Creature.Items.Add(item);
 
-			WorldManager.Instance.CreatureEquip(this.Creature, item);
+			Send.EquipmentChanged(this.Creature, item);
 		}
 
 		protected virtual void EquipItem(Pocket slot, string itemName, uint color1 = 0, uint color2 = 0, uint color3 = 0)

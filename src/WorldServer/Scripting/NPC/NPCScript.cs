@@ -159,7 +159,7 @@ namespace Aura.World.Scripting
 
 		protected virtual void Speak(string message)
 		{
-			WorldManager.Instance.CreatureTalk(this.NPC, message);
+			Send.Chat(this.NPC, message);
 		}
 
 		protected virtual void OpenShop(WorldClient client)

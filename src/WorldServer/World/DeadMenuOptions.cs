@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// For more information, see licence.txt in the main folder
 
-namespace Aura.Shared.Const
+using System.Collections.Generic;
+
+namespace Aura.World.World
 {
 	/// <summary>
 	/// These are technically flags, but the order they're sent to the client matters

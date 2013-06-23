@@ -307,12 +307,12 @@ namespace Aura.World.World
 						// Wasn't in range before or was invisible
 						if (!InRange(client.Character.PrevPosition, entity.PrevPosition) || (entityCreature != null && (((entityCreature.Conditions.A & CreatureConditionA.Invisible) == 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) != 0))))
 						{
-							client.Send(PacketCreator.EntityAppears(entity));
+							Send.EntityAppears(client, entity);
 						}
 						else if (entityCreature != null && ((entityCreature.Conditions.A & CreatureConditionA.Invisible) != 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) == 0))
 						{
 							// Invisible now, but not before.
-							client.Send(PacketCreator.EntityLeaves(entity));
+							Send.EntityDisappears(client, entity);
 						}
 					}
 					else
@@ -320,7 +320,7 @@ namespace Aura.World.World
 						// Not in range now
 						if (InRange(client.Character.PrevPosition, entity.PrevPosition)) //Was before
 						{
-							client.Send(PacketCreator.EntityLeaves(entity));
+							Send.EntityDisappears(client, entity);
 						}
 					}
 				}
@@ -347,7 +347,7 @@ namespace Aura.World.World
 			var notice = mt.IsNight
 				? Localization.Get("world.eweca_night") // Eweca is rising.\nMana is starting to fill the air all around.
 				: Localization.Get("world.eweca_day");  // Eweca has disappeared.\nThe surrounding Mana is starting to fade away.
-			this.Broadcast(PacketCreator.Notice(notice, NoticeType.MiddleTop), SendTargets.All, null);
+			Send.AllNotice(NoticeType.MiddleTop, notice);
 
 			lock (_creatures)
 			{
@@ -625,7 +625,7 @@ namespace Aura.World.World
 				}
 			}
 
-			this.Broadcast(PacketCreator.EntityAppears(creature), SendTargets.Range | SendTargets.ExcludeSender, creature);
+			Send.EntityAppearsOthers(creature);
 
 			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(creature));
 		}
@@ -928,7 +928,7 @@ namespace Aura.World.World
 		// Creature actions and broadcasting
 		// ------------------------------------------------------------------
 
-		public void CreatureDropItem(MabiItem item, uint region, uint x, uint y)
+		public void DropItem(MabiItem item, uint region, uint x, uint y)
 		{
 			item.Info.Region = region;
 			item.Info.X = x;
@@ -937,25 +937,6 @@ namespace Aura.World.World
 			item.DisappearTime = DateTime.Now.AddSeconds((int)Math.Max(60, (item.OptionInfo.Price / 100) * 60));
 
 			this.AddItem(item);
-		}
-
-		public void CreatureChangeTitle(MabiCreature creature)
-		{
-			var p = new MabiPacket(Op.ChangedTitle, creature.Id);
-			p.PutShort(creature.Title);
-			p.PutShort(creature.OptionTitle); // SelectedOptionTitle?
-
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			creature.TitleApplied = (ulong)DateTime.Now.Ticks;
-		}
-
-		public void CreatureSetTarget(MabiCreature creature, MabiCreature target)
-		{
-			var p = new MabiPacket(Op.CombatTargetSet, creature.Id);
-			p.PutLong(target != null ? target.Id : 0);
-
-			this.Broadcast(p, SendTargets.Range, creature);
 		}
 
 		public void CreatureMove(MabiCreature creature, MabiVertex from, MabiVertex to, bool walking = false)
@@ -988,86 +969,6 @@ namespace Aura.World.World
 			EventManager.Instance.CreatureEvents.OnCreatureMoves(this, new MoveEventArgs(creature, from, to));
 		}
 
-		public void CreatureSwitchSet(MabiCreature creature)
-		{
-			var p = new MabiPacket(Op.SwitchedSet, creature.Id);
-			p.PutByte(creature.WeaponSet);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			this.CreatureStatsUpdate(creature);
-		}
-
-		public void CreatureSitDown(MabiCreature creature)
-		{
-			var p = new MabiPacket(Op.Resting, creature.Id);
-			p.PutByte(creature.RestPose);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-		}
-
-		public void CreatureStandUp(MabiCreature creature)
-		{
-			var p = new MabiPacket(Op.StandUp, creature.Id);
-			p.PutByte(1);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-		}
-
-		public void CreatureUseMotion(MabiCreature creature, uint category, uint type, bool loop = false, bool cancel = true)
-		{
-			MabiPacket p;
-
-			if (cancel)
-			{
-				// Cancel motion
-				p = new MabiPacket(Op.MotionCancel, creature.Id);
-				p.PutByte(0);
-				this.Broadcast(p, SendTargets.Range, creature);
-			}
-
-			// Do motion
-			p = new MabiPacket(Op.Motions, creature.Id);
-			p.PutInt(category);
-			p.PutInt(type);
-			p.PutByte(loop);
-			p.PutShort(0);
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			EventManager.Instance.CreatureEvents.OnCreatureUsesMotion(this, new MotionEventArgs(creature, category, type, loop));
-		}
-
-		public void CreatureChangeStance(MabiCreature creature, byte unk = 1)
-		{
-			var p = new MabiPacket(Op.ChangesStance, creature.Id);
-			p.PutByte(creature.BattleState);
-			p.PutByte(unk);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-		}
-
-		public void CreatureUnequip(MabiCreature creature, Pocket from)
-		{
-			var p = new MabiPacket(Op.EquipmentMoved, creature.Id);
-			p.PutByte((byte)from);
-			p.PutByte(1);
-
-			this.CreatureStatsUpdate(creature);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-		}
-
-		public void CreatureEquip(MabiCreature creature, MabiItem item)
-		{
-			var p = new MabiPacket(Op.EquipmentChanged, creature.Id);
-			p.PutBin(item.Info);
-			p.PutByte(1);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			this.CreatureStatsUpdate(creature);
-		}
-
 		public void CreatureSkillUpdate(MabiCreature creature, MabiSkill skill, bool isNew = false)
 		{
 			if (isNew)
@@ -1083,21 +984,9 @@ namespace Aura.World.World
 
 		public void CreatureLeaveRegion(MabiCreature creature)
 		{
-			this.Broadcast(PacketCreator.EntityLeaves(creature), SendTargets.Range, creature);
+			Send.EntityDisappears(creature);
 
 			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(creature));
-		}
-
-		public void CreatureTalk(MabiCreature creature, string message, byte type = 0)
-		{
-			var p = new MabiPacket(Op.Chat, creature.Id);
-			p.PutByte(type);
-			p.PutString(creature.Name);
-			p.PutString(message);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			EventManager.Instance.CreatureEvents.OnCreatureTalks(this, new ChatEventArgs(creature, message));
 		}
 
 		public void CreatureStatsUpdate(MabiCreature creature)
@@ -1195,8 +1084,8 @@ namespace Aura.World.World
 				if ((result & SkillResults.Okay) == 0)
 					return;
 
-				creature.Client.SendSkillStackUpdate(creature, skill.Id, 0);
-				creature.Client.SendSkillCancel(creature);
+				Send.SkillStackUpdate(creature.Client, creature, skill.Id, 0);
+				Send.SkillCancel(creature.Client, creature);
 			}
 
 			creature.ActiveSkillId = SkillConst.None;
@@ -1228,7 +1117,7 @@ namespace Aura.World.World
 				//if (tAction.Creature.BattleState == 0)
 				//{
 				//    tAction.Creature.BattleState = 1;
-				//    WorldManager.Instance.CreatureChangeStance(tAction.Creature, 0);
+				//    Send.ChangesStance(tAction.Creature, 0);
 				//}
 
 				// Cancel defense if applicable
@@ -1272,7 +1161,7 @@ namespace Aura.World.World
 					var exp = creature.BattleExp * WorldConf.ExpRate;
 					killer.GiveExp((ulong)exp);
 
-					killer.Client.Send(PacketCreator.CombatMessage(killer, "+{0} EXP", exp));
+					Send.CombatMessage(killer.Client, killer, "+{0} EXP", exp);
 
 					EventManager.Instance.CreatureEvents.OnCreatureKilled(this, new CreatureKilledEventArgs(creature, killer));
 					if (killer is MabiPC)
@@ -1323,7 +1212,7 @@ namespace Aura.World.World
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, creature.Id).PutLong(killer.Id), SendTargets.Range, creature);
 
 			// Clear target
-			WorldManager.Instance.CreatureSetTarget(killer, null);
+			Send.CombatTargetSet(killer, null);
 
 			// Finish this finisher part?
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher2, creature.Id), SendTargets.Range, creature);
@@ -1342,7 +1231,7 @@ namespace Aura.World.World
 
 			if (creature.Owner != null)
 			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
+				Send.DeadFeather(creature, DeadMenuOptions.Here | DeadMenuOptions.FeatherUp);
 				// TODO: Unmount.
 			}
 
@@ -1353,7 +1242,7 @@ namespace Aura.World.World
 				creature.ArenaPvPManager.CreatureKilled(creature, killer);
 				creature.CauseOfDeath = DeathCauses.Arena;
 			}
-			
+
 			// TODO: Trans PvP
 
 			if (creature.CauseOfDeath == DeathCauses.None && creature.EvGEnabled && killer.EvGEnabled)
@@ -1362,20 +1251,6 @@ namespace Aura.World.World
 
 			if (creature.CauseOfDeath == DeathCauses.None)
 				creature.CauseOfDeath = DeathCauses.Mob;
-		}
-
-		public void CreatureReceivesQuest(MabiCreature creature, MabiQuest quest)
-		{
-			// Owl
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.QuestOwlNew, creature.Id).PutLong(quest.Id), SendTargets.Range, creature);
-
-			// Quest item (required to complete quests)
-			creature.Client.Send(PacketCreator.ItemInfo(creature, quest.QuestItem));
-
-			// Quest info
-			var p = new MabiPacket(Op.QuestNew, creature.Id);
-			quest.AddToPacket(p);
-			creature.Client.Send(p);
 		}
 
 		public void CreatureCompletesQuest(MabiCreature creature, MabiQuest quest, bool rewards)
@@ -1438,32 +1313,25 @@ namespace Aura.World.World
 			creature.Client.Send(new MabiPacket(Op.QuestClear, creature.Id).PutLong(quest.Id));
 		}
 
-		public void CreatureUpdateQuest(MabiCreature creature, MabiQuest quest)
-		{
-			var p = new MabiPacket(Op.QuestUpdate, creature.Id);
-			quest.AddProgressData(p);
-			creature.Client.Send(p);
-		}
-
 		public bool CreateGuild(string name, GuildType type, MabiCreature leader, IEnumerable<MabiCreature> otherMembers)
 		{
 			if (WorldDb.Instance.GetGuildForChar(leader.Id) != null)
 			{
-				leader.Client.Send(PacketCreator.MsgBox(leader, "You are already a member of a guild"));
+				Send.MsgBox(leader.Client, leader, "You are already a member of a guild");
 				return false;
 			}
 			foreach (var mem in otherMembers)
 			{
 				if (WorldDb.Instance.GetGuildForChar(mem.Id) != null)
 				{
-					leader.Client.Send(PacketCreator.MsgBoxFormat(leader, "{0} is already a member of a guild", mem.Name));
+					Send.MsgBox(leader.Client, leader, "{0} is already a member of a guild", mem.Name);
 					return false;
 				}
 			}
 
 			if (!WorldDb.Instance.GuildNameOkay(name))
 			{
-				leader.Client.Send(PacketCreator.MsgBoxFormat(leader, "That name is not valid or is already in use."));
+				Send.MsgBox(leader.Client, leader, "That name is not valid or is already in use.");
 				return false;
 			}
 
@@ -1510,7 +1378,7 @@ namespace Aura.World.World
 			WorldManager.Instance.AddProp(p);
 			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
 
-			this.Broadcast(PacketCreator.Notice(name + " Guild has been created. Guild leader: " + leader.Name, NoticeType.Top, 20000), SendTargets.All);
+			Send.AllNotice(NoticeType.Top, 20000, "{0} Guild has been created. Guild leader: {1}", name, leader.Name);
 
 			return true;
 		}
@@ -1648,7 +1516,7 @@ namespace Aura.World.World
 		public void Ancientify(MabiNPC creature)
 		{
 			creature.Title = 30038;
-			this.CreatureChangeTitle(creature);
+			Send.TitleUpdate(creature);
 
 			creature.GoldMax *= 20;
 			creature.GoldMin *= 20;
@@ -1679,7 +1547,7 @@ namespace Aura.World.World
 			}
 		}
 
-		public void CreatureEnterRegion(MabiCreature creature)
+		public void CreatureEnterRegionPVPStuff(MabiCreature creature)
 		{
 			if (creature.ArenaPvPManager != null && creature.Region != creature.ArenaPvPManager.LobbyRegion && creature.Region != creature.ArenaPvPManager.ArenaRegion)
 			{
@@ -1702,35 +1570,7 @@ namespace Aura.World.World
 				}
 			}
 		}
-
-		public void DeadFeather(MabiCreature creature, bool ukn, DeadMenuOptions opts)
-		{
-			var pkt = new MabiPacket(Op.DeadFeather, creature.Id);
-
-			var bits = (uint)opts; // Avoid backfill
-
-			List<uint> flags = new List<uint>();
-
-			uint index = 1; // 1 based
-			while (bits != 0)
-			{
-				if ((bits & 1) != 0)
-					flags.Add(index);
-				index++;
-
-				bits >>= 1;
-			}
-
-			pkt.PutShort((ushort)flags.Count);
-
-			foreach (var f in flags)
-				pkt.PutInt(f);
-
-			pkt.PutByte(ukn);
-			this.Broadcast(pkt, SendTargets.Range, creature);
-		}
 	}
 
-	[Flags]
 	public enum SendTargets : byte { All = 1, Region = 2, Range = 4, Party = 8, Guild = 16, ExcludeSender = 32 }
 }

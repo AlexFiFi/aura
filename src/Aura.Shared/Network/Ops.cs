@@ -88,10 +88,10 @@ namespace Aura.Shared.Network
 
 		// World Server
 		// ------------------------------------------------------------------
-		public readonly static uint LoginW = 0x4E22;
-		public readonly static uint LoginWR = 0x4E23;
-		public readonly static uint DisconnectW = 0x4E24;
-		public readonly static uint DisconnectWR = 0x4E25;
+		public readonly static uint WorldLogin = 0x4E22;
+		public readonly static uint WorldLoginR = 0x4E23;
+		public readonly static uint WorldDisconnect = 0x4E24;
+		public readonly static uint WorldDisconnectR = 0x4E25;
 		public readonly static uint RequestClientDisconnect = 0x4E26;
 		public readonly static uint Disappear = 0x4E2A;
 		//public readonly static uint GoRebirth = 0x4E32;
@@ -109,8 +109,8 @@ namespace Aura.Shared.Network
 		public readonly static uint GMCPBan = 0x4EF7;
 		public readonly static uint GMCPNPCList = 0x4EFF;
 
-		public readonly static uint CharInfoRequestW = 0x5208;
-		public readonly static uint CharInfoRequestWR = 0x5209;
+		public readonly static uint WorldCharInfoRequest = 0x5208;
+		public readonly static uint WorldCharInfoRequestR = 0x5209;
 		public readonly static uint EntityAppears = 0x520C;
 		public readonly static uint EntityDisappears = 0x520D;
 		public readonly static uint ItemAppears = 0x5211;
@@ -127,7 +127,7 @@ namespace Aura.Shared.Network
 		public readonly static uint PropAppears = 0x52D0;
 		public readonly static uint PropDisappears = 0x52D1;
 		public readonly static uint PropUpdate = 0x52D2; // Doors, MGs?
-		public readonly static uint EntitiesSpawn = 0x5334;
+		public readonly static uint EntitiesAppear = 0x5334;
 		public readonly static uint EntitiesDisappear = 0x5335;
 		public readonly static uint BackFromTheDead1 = 0x53FD;
 		public readonly static uint IsNowDead = 0x53FC;
@@ -210,12 +210,12 @@ namespace Aura.Shared.Network
 		public readonly static uint SkillSilentCancel = 0x698D;
 		public readonly static uint SkillStackSet = 0x6991;
 		public readonly static uint SkillStackUpdate = 0x6992;
-		public readonly static uint Motions = 0x6D62;
+		public readonly static uint UseMotion = 0x6D62;
 		public readonly static uint MotionCancel = 0x6D65;
 		public readonly static uint MotionCancel2 = 0x6D66; //Delayed?
 		public readonly static uint LevelUp = 0x6D69;
 		public readonly static uint RankUp = 0x6D6A;
-		public readonly static uint Resting = 0x6D6C;
+		public readonly static uint SitDown = 0x6D6C;
 		public readonly static uint StandUp = 0x6D6D;
 		public readonly static uint ArenaHideOn = 0x6D6F;
 		public readonly static uint ArenaHideOff = 0x6D70;
@@ -244,7 +244,7 @@ namespace Aura.Shared.Network
 		public readonly static uint MarkMailRead = 0x724A;
 		public readonly static uint MarkMailReadR = 0x724B;
 		public readonly static uint RecieveMailItem = 0x724C;
-		public readonly static uint RecieveMailItemR = 0x724D;
+		public readonly static uint ReceiveMailItemR = 0x724D;
 		public readonly static uint ReturnMail = 0x724E;
 		public readonly static uint ReturnMailR = 0x724F;
 		public readonly static uint DeleteMail = 0x7250;
@@ -326,7 +326,7 @@ namespace Aura.Shared.Network
 		public readonly static uint AddTitleKnowledge = 0x8FC0;
 		public readonly static uint AddTitle = 0x8FC1;
 		public readonly static uint ChangeTitle = 0x8FC4;
-		public readonly static uint ChangedTitle = 0x8FC5;
+		public readonly static uint TitleUpdate = 0x8FC5;
 		public readonly static uint ChangeTitleR = 0x8FC6;
 
 		public readonly static uint PetRegister = 0x9024;

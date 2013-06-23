@@ -41,17 +41,17 @@ public class CustomBGMScript : BaseScript
 	public override void OnLoad()
 	{
 		Init();
-		EntityEvents.Instance.PlayerChangesRegion += OnPlayerChangesRegion;
+		EventManager.Instance.PlayerEvents.PlayerChangesRegion += OnPlayerChangesRegion;
 	}
 
 	public override void Dispose()
 	{
-		EntityEvents.Instance.PlayerChangesRegion -= OnPlayerChangesRegion;
+		EventManager.Instance.PlayerEvents.PlayerChangesRegion -= OnPlayerChangesRegion;
 
 		base.Dispose();
 	}
 
-	public void OnPlayerChangesRegion(object sender, EntityEventArgs args)
+	public void OnPlayerChangesRegion(object sender, PlayerEventArgs args)
 	{
 		var creature = sender as MabiPC;
 		if (creature == null)

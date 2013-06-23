@@ -25,7 +25,7 @@ namespace Aura.World.Skills
 			creature.Temp.SkillItem1 = item;
 			creature.Temp.SkillItem2 = dye;
 
-			creature.Client.SendSkillReady(creature, skill.Id, itemId, dyeId);
+			Send.SkillReady(creature.Client, creature, skill.Id, itemId, dyeId);
 
 			return SkillResults.Okay;
 		}
@@ -43,14 +43,14 @@ namespace Aura.World.Skills
 				var x = packet.GetShort();
 				var y = packet.GetShort();
 
-				creature.Client.SendSkillUseDye(creature, skill.Id, part, x, y);
+				Send.SkillUseDye(creature.Client, creature, skill.Id, part, x, y);
 			}
 			// Fixed
 			else if (packet.GetElementType() == ElementType.Byte)
 			{
 				var unk = packet.GetByte();
 
-				creature.Client.SendSkillUseDye(creature, skill.Id, part, unk);
+				Send.SkillUseDye(creature.Client, creature, skill.Id, part, unk);
 			}
 
 			return SkillResults.Okay;
@@ -112,8 +112,8 @@ namespace Aura.World.Skills
 
 			this.DyeSuccess(creature);
 
-			creature.Client.SendAcquireDyedItem(creature, creature.Temp.SkillItem1.Id, rndNr);
-			creature.Client.SendDyeSkillComplete(creature, skillId, part, x, y);
+			Send.AcquireDyedItem(creature.Client, creature, creature.Temp.SkillItem1.Id, rndNr);
+			Send.DyeSkillComplete(creature.Client, creature, skillId, part, x, y);
 
 			return SkillResults.Okay;
 		}
@@ -133,8 +133,8 @@ namespace Aura.World.Skills
 
 			this.DyeSuccess(creature);
 
-			creature.Client.SendAcquireDyedItem(creature, creature.Temp.SkillItem1.Id);
-			creature.Client.SendDyeSkillComplete(creature, skillId, part);
+			Send.AcquireDyedItem(creature.Client, creature, creature.Temp.SkillItem1.Id);
+			Send.DyeSkillComplete(creature.Client, creature, skillId, part);
 
 			return SkillResults.Okay;
 		}

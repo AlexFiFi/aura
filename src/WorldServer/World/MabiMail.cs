@@ -66,28 +66,6 @@ namespace Aura.World.World
 			m.Save(true);
 		}
 
-		public void AddEntityData(MabiPacket packet, MabiEntity forEntity)
-		{
-			packet.PutLong(this.MessageId);
-			packet.PutByte(this.Type);
-			packet.PutByte(this.Read);
-			packet.PutLong((ulong)this.Sent.Ticks / 10000);
-			packet.PutString(this.SenderName);
-			packet.PutString(this.RecipientName);
-			packet.PutString(this.Text);
-			packet.PutLong(this.ItemId);
-
-			if (this.ItemId != 0)
-			{
-				packet.PutInt(this.COD);
-
-				// TODO: No, just... no.
-				var item = WorldDb.Instance.GetItem(this.ItemId);
-
-				item.AddToPacket(packet, ItemPacketType.Private);
-			}
-		}
-
 		public static List<MabiMail> FindAllSent(MabiEntity e)
 		{
 			return FindAllSent(e.Id);

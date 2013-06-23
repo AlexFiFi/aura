@@ -7,6 +7,7 @@ using Aura.Shared.Util;
 using Aura.World.Network;
 using Aura.World.Player;
 using Aura.World.World;
+using Aura.Shared.Network;
 
 namespace Aura.World.Scripting
 {
@@ -129,7 +130,7 @@ namespace Aura.World.Scripting
 
 			(quest.Progresses[objective] as MabiQuestProgress).Count = (quest.Info.Objectives[objective] as QuestObjectiveInfo).Amount;
 			quest.SetObjectiveDone(objective);
-			WorldManager.Instance.CreatureUpdateQuest(client.Character, quest);
+			Send.QuestUpdate(client.Character, quest);
 		}
 
 		protected string QuestObjective(WorldClient client, uint id)
@@ -180,7 +181,14 @@ namespace Aura.World.Scripting
 			var quest = new MabiQuest(id);
 			character.Quests[id] = quest;
 
-			WorldManager.Instance.CreatureReceivesQuest(character, quest);
+			// Owl
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.QuestOwlNew, character.Id).PutLong(quest.Id), SendTargets.Range, character);
+
+			// Quest item (required to complete quests)
+			character.Client.Send(PacketCreator.ItemInfo(character, quest.QuestItem));
+
+			// Quest info
+			Send.QuestNew(character, quest);
 		}
 	}
 }

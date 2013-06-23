@@ -90,7 +90,7 @@ namespace Aura.World.Skills
 			if (handler == null)
 			{
 				Logger.Unimplemented("Skill handler for '{0}'.", skillId);
-				creature.Client.Send(PacketCreator.SystemMessage(creature, Localization.Get("aura.unimplemented_skill"))); // Partially unimplemented skill.
+				Send.SystemMessage(creature.Client, creature, Localization.Get("aura.unimplemented_skill")); // Partially unimplemented skill.
 			}
 		}
 	}

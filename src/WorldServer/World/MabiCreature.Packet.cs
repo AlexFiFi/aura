@@ -16,8 +16,8 @@ namespace Aura.World.World
 			// Titles
 			// --------------------------------------------------------------
 			packet.PutShort(this.Title);		 // SelectedTitle
-			packet.PutLong(this.TitleApplied);                   // TitleAppliedTime
-			packet.PutShort(this.OptionTitle);					 // SelectedOptionTitle
+			packet.PutLong(this.TitleApplied);
+			packet.PutShort(this.OptionTitle);
 
 			// Mate
 			// --------------------------------------------------------------
@@ -177,9 +177,9 @@ namespace Aura.World.World
 				packet.PutFloat(pos.X);
 				packet.PutFloat(pos.H);
 				packet.PutFloat(pos.Y);
-				packet.PutFloat(_destination.X);
-				packet.PutFloat(_destination.H);
-				packet.PutFloat(_destination.Y);
+				packet.PutFloat(Destination.X);
+				packet.PutFloat(Destination.H);
+				packet.PutFloat(Destination.Y);
 				packet.PutFloat(this.Direction);
 			}
 
@@ -342,8 +342,8 @@ namespace Aura.World.World
 			else
 			{
 				packet.PutByte((byte)(!_moveIsWalk ? 2 : 1));
-				packet.PutInt(_destination.X);
-				packet.PutInt(_destination.Y);
+				packet.PutInt(Destination.X);
+				packet.PutInt(Destination.Y);
 			}
 
 			if (this.EntityType == EntityType.NPC)
@@ -358,7 +358,7 @@ namespace Aura.World.World
 				packet.PutByte(0);
 		}
 
-		protected void AddToPacket(MabiPacket packet, byte type)
+		public void AddToPacket(MabiPacket packet, byte type)
 		{
 			packet.PutLong(Id);
 			packet.PutByte(type);

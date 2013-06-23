@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="Const\Authority.cs" />
     <Compile Include="Const\CreatureStatus.cs" />
-    <Compile Include="Const\DeadMenuOptions.cs" />
     <Compile Include="Const\Dungeons.cs" />
     <Compile Include="Const\Effects.cs" />
     <Compile Include="Const\Ids.cs" />

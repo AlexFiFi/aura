@@ -74,7 +74,7 @@ public class MoongateScript : BaseScript
 		foreach (var gate in _gates.Values)
 		{
 			gate.Prop.State = state;
-			WorldManager.Instance.SendPropUpdate(gate.Prop);
+			Send.PropUpdate(gate.Prop);
 		}
 	}
 

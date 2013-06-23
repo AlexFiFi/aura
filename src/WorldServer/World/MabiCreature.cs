@@ -49,9 +49,13 @@ namespace Aura.World.World
 		public byte BattleState;
 		public bool IsFlying;
 
-		public ushort Title, OptionTitle /*, TmpTitle ?*/;
-
-		public ulong TitleApplied;
+		private ushort _title;
+		/// <summary>
+		/// Changes/Returns Title and updates TitleApplied.
+		/// </summary>
+		public ushort Title { get { return _title; } set { _title = value; this.TitleApplied = DateTime.Now; } }
+		public ushort OptionTitle;
+		public DateTime TitleApplied { get; protected set; }
 
 		public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
 		//public MabiSkill ActiveSkill;
@@ -79,7 +83,7 @@ namespace Aura.World.World
 
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
-		public readonly MabiVertex _destination = new MabiVertex(0, 0);
+		public MabiVertex Destination { get; protected set; }
 		private DateTime _moveStartTime;
 		private double _movementX, _movementY, _movementH;
 		private double _moveDuration;
@@ -187,7 +191,7 @@ namespace Aura.World.World
 		public bool IsStunned { get { return (this.Stun > 0); } }
 		public bool IsDead { get { return this.Has(CreatureStates.Dead); } }
 
-		public bool IsMoving { get { return (!_position.Equals(_destination)); } }
+		public bool IsMoving { get { return (!_position.Equals(Destination)); } }
 
 		public float Height { get; set; }
 		public float Fat { get; set; }
@@ -479,6 +483,7 @@ namespace Aura.World.World
 
 		public MabiCreature()
 		{
+			this.Destination = new MabiVertex(0, 0);
 		}
 
 		public bool Has(CreatureConditionA condition) { return ((this.Conditions.A & condition) != 0); }
@@ -1331,9 +1336,9 @@ namespace Aura.World.World
 
 		public MabiVertex SetPosition(uint x, uint y, uint h = 0)
 		{
-			_position.X = _destination.X = x;
-			_position.Y = _destination.Y = y;
-			_position.H = _destination.H = h;
+			_position.X = Destination.X = x;
+			_position.Y = Destination.Y = y;
+			_position.H = Destination.H = h;
 
 			return _position.Copy();
 		}
@@ -1348,13 +1353,13 @@ namespace Aura.World.World
 
 			var passed = (DateTime.Now - _moveStartTime).TotalSeconds;
 			if (passed >= _moveDuration)
-				return this.SetPosition(_destination.X, _destination.Y, _destination.H);
+				return this.SetPosition(Destination.X, Destination.Y, Destination.H);
 
 			var xt = _position.X + (_movementX * passed);
 			var yt = _position.Y + (_movementY * passed);
 			var ht = 0.0;
 			if (this.IsFlying)
-				ht = _position.H + (_movementH < 0 ? Math.Max(_movementH * passed, _destination.H) : Math.Min(_movementH * passed, _destination.H));
+				ht = _position.H + (_movementH < 0 ? Math.Max(_movementH * passed, Destination.H) : Math.Min(_movementH * passed, Destination.H));
 
 			return new MabiVertex((uint)xt, (uint)yt, (uint)ht);
 		}
@@ -1367,9 +1372,9 @@ namespace Aura.World.World
 			_position.Y = pos.Y;
 			_position.H = pos.H;
 
-			_destination.X = dest.X;
-			_destination.Y = dest.Y;
-			_destination.H = dest.H;
+			Destination.X = dest.X;
+			Destination.Y = dest.Y;
+			Destination.H = dest.H;
 
 			_moveStartTime = DateTime.Now;
 			_moveIsWalk = walk;
@@ -1410,7 +1415,7 @@ namespace Aura.World.World
 		/// <returns></returns>
 		public bool IsDestination(MabiVertex dest)
 		{
-			return (_destination.Equals(dest));
+			return (Destination.Equals(dest));
 		}
 
 		public void TakeDamage(float damage)

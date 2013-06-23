@@ -12,6 +12,7 @@ using Aura.World.World;
 using System.Collections;
 using Aura.Shared.Network;
 using Aura.World.Util;
+using Aura.World.Network;
 
 namespace Aura.World.Scripting
 {
@@ -123,7 +124,7 @@ namespace Aura.World.Scripting
 					ResetTarget();
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(0), SendTargets.Range, this.Creature);
 					this.Creature.BattleExp = 0;
-					WorldManager.Instance.CreatureChangeStance(this.Creature);
+					Send.ChangesStance(this.Creature);
 				}
 			}
 
@@ -422,7 +423,7 @@ namespace Aura.World.Scripting
 
 		protected IEnumerable Say(string text)
 		{
-			WorldManager.Instance.CreatureTalk(this.Creature, text);
+			Send.Chat(this.Creature, text);
 			yield return true;
 		}
 
@@ -482,12 +483,12 @@ namespace Aura.World.Scripting
 				if (showMark)
 				{
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(Creature.Target.Id).PutByte(1).PutString(""), SendTargets.Range, this.Creature);
-					WorldManager.Instance.CreatureTalk(this.Creature, "!");
+					Send.Chat(this.Creature, "!");
 				}
 				if (changeStance)
 				{
 					this.Creature.BattleState = 1;
-					WorldManager.Instance.CreatureChangeStance(this.Creature);
+					Send.ChangesStance(this.Creature);
 				}
 
 				CheckForInterrupt();
@@ -510,11 +511,11 @@ namespace Aura.World.Scripting
 
 			_aggroState = AggroState.Aggro;
 			this.Creature.BattleState = 1;
-			WorldManager.Instance.CreatureChangeStance(this.Creature);
+			Send.ChangesStance(this.Creature);
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetTarget, Creature.Id).PutLong(Creature.Target.Id).PutByte(2).PutString(""), SendTargets.Range, this.Creature);
 
-			WorldManager.Instance.CreatureTalk(this.Creature, "*!!*");
+			Send.Chat(this.Creature, "!!");
 
 			CheckForInterrupt();
 

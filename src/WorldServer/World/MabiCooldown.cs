@@ -37,9 +37,7 @@ namespace Aura.World.World
 		public void SendErrorMessage(Client client)
 		{
 			if (this.ErrorMessage != null)
-				client.Send(PacketCreator.Notice(
-					string.Format(this.ErrorMessage, (this.Expires - DateTime.Now).ToString()),
-					NoticeType.MiddleTop));
+				Send.Notice(client, NoticeType.MiddleTop, this.ErrorMessage, (this.Expires - DateTime.Now).ToString());
 		}
 	}
 

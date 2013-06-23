@@ -25,13 +25,13 @@ namespace Aura.World.Skills
 			if (creature.IsMoving)
 			{
 				creature.StopMove();
-				WorldManager.Instance.SendStopMove(creature);
+				Send.StopMove(creature);
 			}
 
 			// Casting motion?
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Casting).PutShort(skill.Info.Id).PutBytes(0, 1).PutShort(0), SendTargets.Range, creature);
 
-			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
+			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
@@ -51,14 +51,14 @@ namespace Aura.World.Skills
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Casting).PutShort(skill.Info.Id).PutBytes(0, 2).PutShort(0), SendTargets.Range, creature);
 			}
 
-			creature.Client.SendSkillReady(creature, skill.Id);
+			Send.SkillReady(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
-			creature.Client.SendSkillComplete(creature, skill.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
@@ -95,7 +95,7 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, attacker.Id).PutInt(Effect.UseMagic).PutString(this.Name), SendTargets.Range, attacker);
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, UseStun, 1);
+			Send.SkillUse(attacker.Client, attacker, skill.Id, UseStun, 1);
 
 			SkillHelper.DecStack(attacker, skill);
 
@@ -184,7 +184,7 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, attacker.Id).PutInt(Effect.UseMagic).PutString(this.Name), SendTargets.Range, attacker);
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, UseStun, 1);
+			Send.SkillUse(attacker.Client, attacker, skill.Id, UseStun, 1);
 
 			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
 			sAction.Options |= AttackerOptions.Result;
@@ -259,7 +259,7 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, attacker.Id).PutInt(Effect.UseMagic).PutString(this.Name), SendTargets.Range, attacker);
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, UseStun, 1);
+			Send.SkillUse(attacker.Client, attacker, skill.Id, UseStun, 1);
 
 			var sAction = new AttackerAction(CombatActionType.RangeHit, attacker, skill.Id, targetId);
 			sAction.Options |= AttackerOptions.Result;

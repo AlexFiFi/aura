@@ -18,22 +18,22 @@ namespace Aura.World.Skills
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			WorldManager.Instance.SendFlash(creature);
-			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
+			Send.Flash(creature);
+			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Ready(MabiCreature creature, MabiSkill skill)
 		{
-			creature.Client.SendSkillReady(creature, skill.Id);
+			Send.SkillReady(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
-			creature.Client.SendSkillComplete(creature, skill.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
@@ -74,7 +74,7 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.HandleCombatActionPack(cap);
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, StunTime, 1);
+			Send.SkillUse(attacker.Client, attacker, skill.Id, StunTime, 1);
 
 			SkillHelper.GiveSkillExp(attacker, skill, 20);
 

@@ -59,7 +59,7 @@ namespace Aura.World.Events
 			}
 			catch (Exception ex)
 			{
-				Logger.Exception(ex, "In OnErinnTimeTick: " + ex.Message, false);
+				Logger.Exception(ex, "In OnErinnTimeTick: " + ex.Message, true);
 			}
 		}
 

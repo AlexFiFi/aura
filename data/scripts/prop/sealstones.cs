@@ -363,21 +363,21 @@ public abstract class _SealStoneScript : BaseScript
 				
 			if(_locked)
 			{
-				c.SendNotice("This seal stone cannot be broken yet.");
+				Send.Notice(c, "This seal stone cannot be broken yet.");
 				return;
 			}
 			
 			// You can only become breaker once officially.
 			if(IsBreaker(character) && !AllowMultiple)
 			{
-				c.SendNotice("Unable to break the Seal.\nYou already hold the title of a Seal Breaker.");
+				Send.Notice(c, "Unable to break the Seal.\nYou already hold the title of a Seal Breaker.");
 				return;
 			}
 			
 			// Fulfilling the requirements?
 			if(!Check(c, character, pr))
 			{
-				c.SendNotice(_help);
+				Send.Notice(c, _help);
 				return;
 			}
 			
@@ -393,16 +393,16 @@ public abstract class _SealStoneScript : BaseScript
 				
 				OnBreak(character);
 				
-				WorldManager.Instance.SendPropUpdate(pr);
-				WorldManager.Instance.SendRegionNotice(cr.Region, "{0} successfully broke {1} apart.", cr.Name, _name);
+				Send.PropUpdate(pr);
+				Send.RegionNotice(cr.Region, "{0} successfully broke {1} apart.", cr.Name, _name);
 			}
 			// Cracks after half.
 			else if(_hits == Math.Floor(_required / 2f))
 			{
 				pr.State = "state2";
 				
-				WorldManager.Instance.SendPropUpdate(pr);
-				WorldManager.Instance.SendRegionNotice(cr.Region, "{0} has started breaking {1} apart.", cr.Name, _name);
+				Send.PropUpdate(pr);
+				Send.RegionNotice(cr.Region, "{0} has started breaking {1} apart.", cr.Name, _name);
 			}
 		}
 	}

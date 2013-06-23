@@ -62,7 +62,7 @@ namespace Aura.World.Skills
 			item.Tags.SetByte("HIDDEN", hidden);
 			item.Tags.SetShort("LEVEL", (ushort)level);
 
-			creature.Client.SendSkillUse(creature, skill.Id, itemId);
+			Send.SkillUse(creature.Client, creature, skill.Id, itemId);
 
 			return SkillResults.Okay;
 		}
@@ -73,7 +73,7 @@ namespace Aura.World.Skills
 				return SkillResults.Failure;
 
 			creature.Client.Send(PacketCreator.ItemUpdate(creature, creature.Temp.SkillItem1));
-			creature.Client.SendSkillComplete(creature, skill.Id, creature.Temp.SkillItem1.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id, creature.Temp.SkillItem1.Id);
 
 			creature.Temp.SkillItem1 = null;
 
@@ -121,7 +121,7 @@ namespace Aura.World.Skills
 			if (WorldConf.PerfectPlay)
 			{
 				quality = PlayingQuality.VeryGood;
-				creature.Client.Send(PacketCreator.ServerMessage(creature, Localization.Get("skills.perfect_play"))); // Regardless of the result, perfect play will let your performance sound perfect.
+				Send.ServerMessage(creature.Client, creature, Localization.Get("skills.perfect_play")); // Regardless of the result, perfect play will let your performance sound perfect.
 			}
 
 			// Reduce scroll's durability.
@@ -174,11 +174,11 @@ namespace Aura.World.Skills
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StopMusic), SendTargets.Range, creature);
 
 			// Result notice
-			creature.Client.Send(PacketCreator.Notice(this.GetRandomComplete(creature.Temp.PlayingInstrumentQuality), NoticeType.Middle));
+			Send.Notice(creature.Client, this.GetRandomComplete(creature.Temp.PlayingInstrumentQuality));
 
 			// skill training
 
-			creature.Client.SendSkillComplete(creature, skill.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}

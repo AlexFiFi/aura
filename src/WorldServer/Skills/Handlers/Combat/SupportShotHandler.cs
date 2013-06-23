@@ -20,8 +20,8 @@ namespace Aura.World.Skills
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			WorldManager.Instance.SendFlash(creature);
-			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
+			Send.Flash(creature);
+			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
@@ -32,7 +32,7 @@ namespace Aura.World.Skills
 			{
 				SkillHelper.IncStack(creature, skill);
 			}
-			creature.Client.SendSkillReady(creature, skill.Id);
+			Send.SkillReady(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
@@ -41,7 +41,7 @@ namespace Aura.World.Skills
 		{
 			creature.Client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id).PutByte(0));
 
-			creature.Client.SendSkillComplete(creature, skill.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
@@ -51,7 +51,7 @@ namespace Aura.World.Skills
 			if (creature.Target != null)
 				creature.Client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id).PutByte(0));
 
-			creature.Client.SendSkillUse(creature, skill.Id, AfterUseStun, 1);
+			Send.SkillUse(creature.Client, creature, skill.Id, AfterUseStun, 1);
 
 			return SkillResults.Okay;
 		}
@@ -91,7 +91,7 @@ namespace Aura.World.Skills
 				factory.AddTargetAction(target, CombatActionType.None);
 			}
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, AfterUseStun, 1);
+			Send.SkillUse(attacker.Client, attacker, skill.Id, AfterUseStun, 1);
 
 			SkillHelper.ClearStack(attacker, skill);
 

@@ -12,7 +12,7 @@ namespace Aura.Shared.Const
 		Dead = 0x00000002,
 		SitDown = 0x00000004,
 		Spawned = 0x00000008,
-		EverEnterWorld = 0x00000010,
+		EverEnteredWorld = 0x00000010,
 		NorespawnPenalty = 0x00000020,
 		InventoryViewDisable = 0x00000080,
 		PetFinishMode = 0x00000100,

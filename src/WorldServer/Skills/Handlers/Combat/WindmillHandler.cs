@@ -14,15 +14,15 @@ namespace Aura.World.Skills
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			WorldManager.Instance.SendSkillInitEffect(creature);
+			Send.SkillInitEffect(creature);
 
 			if (creature.IsMoving)
 			{
 				creature.StopMove();
-				WorldManager.Instance.SendStopMove(creature);
+				Send.StopMove(creature);
 			}
 
-			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
+			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
@@ -30,14 +30,14 @@ namespace Aura.World.Skills
 		public override SkillResults Ready(MabiCreature creature, MabiSkill skill)
 		{
 			SkillHelper.FillStack(creature, skill);
-			creature.Client.SendSkillReady(creature, skill.Id);
+			Send.SkillReady(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
-			creature.Client.SendSkillComplete(creature, skill.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
@@ -59,8 +59,8 @@ namespace Aura.World.Skills
 			var enemies = WorldManager.Instance.GetAttackableCreaturesInRange(attacker, range);
 			if (enemies.Count < 1)
 			{
-				attacker.Client.SendNotice(Localization.Get("skills.wm_no_target")); // Unable to use when there is no target.
-				attacker.Client.SendSkillSilentCancel(attacker);
+				Send.Notice(attacker.Client, Localization.Get("skills.wm_no_target")); // Unable to use when there is no target.
+				Send.SkillSilentCancel(attacker.Client, attacker);
 
 				return SkillResults.OutOfRange | SkillResults.Failure;
 			}
@@ -70,7 +70,7 @@ namespace Aura.World.Skills
 			attacker.StopMove();
 
 			// Spin motion
-			WorldManager.Instance.CreatureUseMotion(attacker, 8, 4);
+			Send.UseMotion(attacker, 8, 4);
 
 			var cap = new CombatActionPack(attacker, skill.Id);
 
@@ -127,7 +127,7 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.HandleCombatActionPack(cap);
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, targetId, unk1, unk2);
+			Send.SkillUse(attacker.Client, attacker, skill.Id, targetId, unk1, unk2);
 			//attacker.Client.SendSkillStackUpdate(attacker, skill.Id, 0);
 
 			SkillHelper.DecStack(attacker, skill);

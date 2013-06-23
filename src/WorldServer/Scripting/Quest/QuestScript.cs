@@ -165,7 +165,7 @@ namespace Aura.World.Scripting
 			if (progress.Count >= objective.Amount)
 				quest.SetObjectiveDone(progress.Objective);
 
-			WorldManager.Instance.CreatureUpdateQuest(character, quest);
+			Send.QuestUpdate(character, quest);
 		}
 
 		/// <summary>
@@ -225,7 +225,7 @@ namespace Aura.World.Scripting
 				quest.SetObjectiveUndone(progress.Objective);
 			}
 
-			WorldManager.Instance.CreatureUpdateQuest(character, quest);
+			Send.QuestUpdate(character, quest);
 		}
 
 		public void AddObjective(string ident, string description, uint region, uint x, uint y, QuestObjectiveInfo info)

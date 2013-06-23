@@ -30,6 +30,11 @@ namespace Aura.World.Network
 			return this.Creatures.FirstOrDefault(a => a.Id == id);
 		}
 
+		public MabiPC GetCharacterOrNull(ulong id)
+		{
+			return this.GetCreatureOrNull(id) as MabiPC;
+		}
+
 		public override void Kill()
 		{
 			if (this.State != ClientState.Dead)
@@ -90,21 +95,20 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.CreatureLeaveRegion(this.Character);
 
+			// XXX: Looks like this should be broadcasted?
 			if (this.Creatures.Count > 1)
-			{
-				this.Send(PacketCreator.EntitiesLeave(this.Creatures.Where(c => c != this.Character)));
-			}
+				Aura.World.Network.Send.EntitiesDisappear(this, this.Creatures.Where(c => c != this.Character));
 
-			this.SendLock(this.Character);
+			Aura.World.Network.Send.CharacterLock(this);
 			this.Character.SetLocation(region, x, y);
 
-			this.SendEnterRegionPermission(this.Character);
+			Aura.World.Network.Send.EnterRegionPermission(this, this.Character);
 
 			this.Character.OnAltar = DungeonAltar.None;
 
 			foreach (var c in this.Creatures.Where(c => c != this.Character))
 			{
-				this.SendLock(c);
+				Aura.World.Network.Send.CharacterLock(this, c);
 				c.OnAltar = DungeonAltar.None;
 			}
 

@@ -54,7 +54,7 @@ public class TirPortals : BaseScript
 			if(cr.LevelTotal >= 250)
 				cl.Warp("ciar_hard_altar", 3206, 2085);
 			else
-				cl.Send(PacketCreator.Notice(cr, "You need a cumulative level of at least 250."));
+				Send.Notice(cl, "You need a cumulative level of at least 250.");
 		});
 
 		// TNN indoor -> Tir ...?

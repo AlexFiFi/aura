@@ -2,7 +2,9 @@
 // For more information, see licence.txt in the main folder
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Aura.Data;
 using Aura.Shared.Const;
 using Aura.Shared.Database;
@@ -15,8 +17,6 @@ using Aura.World.Scripting;
 using Aura.World.Skills;
 using Aura.World.Util;
 using Aura.World.World;
-using System.Text;
-using System.Collections.Generic;
 
 namespace Aura.World.Network
 {
@@ -24,9 +24,9 @@ namespace Aura.World.Network
 	{
 		protected override void OnServerStartUp()
 		{
-			this.RegisterPacketHandler(Op.LoginW, HandleLogin);
-			this.RegisterPacketHandler(Op.DisconnectW, HandleDisconnect);
-			this.RegisterPacketHandler(Op.CharInfoRequestW, HandleCharacterInfoRequest);
+			this.RegisterPacketHandler(Op.WorldLogin, HandleLogin);
+			this.RegisterPacketHandler(Op.WorldDisconnect, HandleDisconnect);
+			this.RegisterPacketHandler(Op.WorldCharInfoRequest, HandleCharacterInfoRequest);
 
 			this.RegisterPacketHandler(Op.Walk, HandleMove);
 			this.RegisterPacketHandler(Op.Run, HandleMove);
@@ -123,7 +123,7 @@ namespace Aura.World.Network
 
 			this.RegisterPacketHandler(Op.OptionSet, HandleOptionSet);
 
-			this.RegisterPacketHandler(Op.ChangeTitle, HandleTitleChange);
+			this.RegisterPacketHandler(Op.ChangeTitle, HandleChangeTitle);
 			this.RegisterPacketHandler(Op.TalentTitleChange, HandleTalentTitleChange);
 			this.RegisterPacketHandler(Op.MailsRequest, HandleMailsRequest);
 			this.RegisterPacketHandler(Op.SosButton, HandleSosButton);
@@ -213,9 +213,6 @@ namespace Aura.World.Network
 
 		private void HandleLogin(WorldClient client, MabiPacket packet)
 		{
-			if (client.State != ClientState.LoggingIn)
-				return;
-
 			var userName = packet.GetString();
 			if (Feature.DoubleAccName.IsEnabled())
 				packet.GetString();
@@ -223,7 +220,8 @@ namespace Aura.World.Network
 			var charID = packet.GetLong();
 			//byte unk1 = packet.GetByte();
 
-			MabiPacket p;
+			if (client.State != ClientState.LoggingIn)
+				return;
 
 			if (client.Account == null)
 			{
@@ -257,24 +255,12 @@ namespace Aura.World.Network
 			//    client.Send(new MabiPacket(0x699E, creature.Id).PutShort(skill.Key).PutByte(1));
 			//}
 
-			p = new MabiPacket(Op.LoginWR, Id.World);
-			p.PutByte(1);
-			p.PutLong(creature.Id);
-			p.PutLong(MabiTime.Now.DateTime);
-			p.PutInt(1);
-			p.PutString("");
-			client.Send(p);
+			Send.LoginResponse(client, creature);
 
-			//EntityEvents.Instance.OnPlayerChangesRegion(creature);
-
-			if (creature.Has(CreatureStates.EverEnterWorld))
+			if (creature.Has(CreatureStates.EverEnteredWorld))
 			{
-				p = new MabiPacket(Op.CharacterLock, creature.Id);
-				p.PutInt(0xEFFFFFFE);
-				p.PutInt(0);
-				client.Send(p);
-
-				client.SendEnterRegionPermission(creature);
+				Send.CharacterLock(client, creature);
+				Send.EnterRegionPermission(client, creature);
 			}
 			else
 			{
@@ -287,22 +273,17 @@ namespace Aura.World.Network
 				// and doesn't appear in the world.
 				creature.SetLocation(1000, 0, 0);
 
+				// TODO: return_to location.
+
 				// Update state, so we don't get here again automatically.
-				creature.State |= CreatureStates.EverEnterWorld;
+				creature.State |= CreatureStates.EverEnteredWorld;
 
 				if (WorldManager.Instance.GetCreatureById(Id.Nao) == null)
 					Logger.Warning("Nao NPC not found.");
 
 				// With this packet many buttons and stuff are disabled,
 				// until you're really logged in.
-				var charInfo = new MabiPacket(Op.SpecialLogin, Id.World);
-				charInfo.PutByte(1);
-				charInfo.PutInt(1000); // Region
-				charInfo.PutInt(3200); // X
-				charInfo.PutInt(3200); // Y
-				charInfo.PutLong(Id.Nao);
-				creature.AddPrivateToPacket(charInfo);
-				client.Send(charInfo);
+				Send.SpecialLogin(client, creature, 1000, 3200, 3200, Id.Nao);
 			}
 
 			client.State = ClientState.LoggedIn;
@@ -310,86 +291,72 @@ namespace Aura.World.Network
 
 		private void HandleDisconnect(WorldClient client, MabiPacket packet)
 		{
-			// TODO: Some check or move the unsafe stuff!
+			var unk1 = packet.GetByte(); // 1 | 2 (maybe login vs exit?)
 
-			Logger.Info("'" + client.Account.Name + "' is closing the connection. Saving...");
+			Logger.Info("'{0}' is closing the connection. Saving...", client.Account.Name);
 
 			WorldDb.Instance.SaveAccount(client.Account);
 
-			foreach (var pc in client.Creatures)
-			{
+			foreach (var pc in client.Creatures.Where(cr => cr is MabiPC))
 				WorldManager.Instance.RemoveCreature(pc);
-			}
 
 			client.Creatures.Clear();
 			client.Character = null;
 			client.Account = null;
 
-			var p = new MabiPacket(Op.DisconnectWR, Id.World);
-			p.PutByte(0);
-			client.Send(p);
+			Send.DisconnectResponse(client);
 		}
 
 		private void HandleCharacterInfoRequest(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var character = client.GetCharacterOrNull(packet.Id);
+			if (character == null)
 			{
-				client.Send(new MabiPacket(Op.CharInfoRequestWR, Id.World).PutByte(false));
+				Send.CharacterInfo(client, null);
 				return;
 			}
 
 			// Spawn effect
-			if (creature.Owner != null)
-				WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(creature.Owner, SpawnEffect.Pet, creature.GetPosition()), SendTargets.Range, creature);
+			if (character.Owner != null)
+				WorldManager.Instance.Broadcast(PacketCreator.SpawnEffect(character.Owner, SpawnEffect.Pet, character.GetPosition()), SendTargets.Range, character);
 
 			// Infamous 5209, aka char info
-			var p = new MabiPacket(Op.CharInfoRequestWR, Id.World);
-			p.PutByte(1);
-			(creature as MabiPC).AddPrivateToPacket(p);
-			client.Send(p);
+			Send.CharacterInfo(client, character);
 
-			if (creature.Owner != null)
+			if (character.Owner != null)
 			{
-				if (creature.RaceInfo.VehicleType > 0)
-				{
-					WorldManager.Instance.VehicleUnbind(null, creature, true);
-				}
+				if (character.RaceInfo.VehicleType > 0)
+					WorldManager.Instance.VehicleUnbind(null, character, true);
 
-				if (creature.IsDead)
-				{
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.DeadFeather, creature.Id).PutShort(1).PutInt(10).PutByte(0), SendTargets.Range, creature);
-				}
+				if (character.IsDead)
+					Send.DeadFeather(character, DeadMenuOptions.Here | DeadMenuOptions.FeatherUp);
 			}
 
-			if (creature == client.Character)
+			// If initial login.
+			if (character == client.Character)
 			{
-				if (creature.Guild != null)
-					client.Send(new MabiPacket(Op.GuildstoneLocation, creature.Id).PutByte(1).PutInts(creature.Guild.Region, creature.Guild.X, creature.Guild.Y));
+				if (character.Guild != null)
+					Send.GuildstoneLocation(client, character);
 
-				client.Send(new MabiPacket(Op.UnreadMailCount, creature.Id).PutInt((uint)MabiMail.GetUnreadCount(creature)));
+				Send.UnreadMailCount(client, character, (uint)MabiMail.GetUnreadCount(character));
 
+				// Button will be disabled if we don't send this packet.
 				if (WorldConf.EnableItemShop)
-				{
-					// Button will be disabled if we don't send this packet.
-					client.Send(new MabiPacket(Op.ItemShopInfo, creature.Id).PutByte(0));
-				}
+					Send.ItemShopInfo(client);
 
 				if (WorldConf.AutoSendGMCP && client.Account.Authority >= WorldConf.MinimumGMCP)
-				{
-					client.Send(new MabiPacket(Op.GMCPOpen, creature.Id));
-				}
+					Send.GMCPOpen(client);
 			}
 		}
 
 		private void HandleChat(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
 			var type = packet.GetByte();
 			var message = packet.GetString();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
 
 			if (message[0] == WorldConf.CommandPrefix)
 			{
@@ -400,68 +367,72 @@ namespace Aura.World.Network
 					return;
 			}
 
-			WorldManager.Instance.CreatureTalk(creature, message, type);
+			Send.Chat(creature, message);
+			EventManager.Instance.CreatureEvents.OnCreatureTalks(this, new ChatEventArgs(creature, message));
 		}
 
 		private void HandleWhisperChat(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var targetName = packet.GetString();
+			var msg = packet.GetString();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
-			var target = WorldManager.Instance.GetCharacterByName(packet.GetString());
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null)
 			{
-				client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.whisper_no_target"))); // The target character does not exist.
+				Send.SystemMessage(client, creature, Localization.Get("world.whisper_no_target")); // The target character does not exist.
 				return;
 			}
 
-			var msg = packet.GetString();
-			client.Send(PacketCreator.Whisper(creature, creature.Name, msg));
-			target.Client.Send(PacketCreator.Whisper(target, creature.Name, msg));
+			Send.Whisper(client, target.Client, target, creature.Name, msg);
 		}
 
 		private void HandleGesture(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var motion = packet.GetString();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
 			creature.StopMove();
+			if (creature.IsMoving)
+				Send.StopMove(creature);
 
-			byte result = 0;
+			var result = false;
 
-			var info = MabiData.MotionDb.Find(packet.GetString());
+			var info = MabiData.MotionDb.Find(motion);
 			if (info != null)
 			{
-				result = 1;
-
 				// TODO: Temp fix, add information to motion list.
 				var loop = false;
 				if (info.Name == "listen_music")
 					loop = true;
 
-				WorldManager.Instance.CreatureUseMotion(creature, info.Category, info.Type, loop);
+				Send.UseMotion(creature, info.Category, info.Type, loop);
+
+				result = true;
 			}
 
-			var p = new MabiPacket(Op.UseGestureR, creature.Id);
-			p.PutByte(result);
-			client.Send(p);
+			Send.GestureResponse(client, creature, result);
 		}
 
 		public void HandleItemUse(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null || creature.IsDead)
-				return;
-
 			var itemOId = packet.GetLong();
 
-			// Check for item
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null)
+				return;
+
+			// Check item and alive
 			var item = creature.GetItem(itemOId);
-			if (item == null)
+			if (item == null || creature.IsDead)
 			{
-				client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(false));
+				Send.UseItemResponse(client, creature, false, 0);
 				return;
 			}
 
@@ -470,7 +441,7 @@ namespace Aura.World.Network
 			if (script == null)
 			{
 				Logger.Unimplemented("Missing script for item '{0}' ({1}).", item.DataInfo.Name, item.Info.Class);
-				client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(false));
+				Send.UseItemResponse(client, creature, false, 0);
 				return;
 			}
 
@@ -481,14 +452,14 @@ namespace Aura.World.Network
 			// Mandatory stat update
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
-			client.Send(new MabiPacket(Op.UseItemR, creature.Id).PutByte(true).PutInt(item.Info.Class));
+			Send.UseItemResponse(client, creature, true, item.Info.Class);
 		}
 
 		public void HandleGMCPMove(WorldClient client, MabiPacket packet)
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPMove)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -501,17 +472,18 @@ namespace Aura.World.Network
 
 		private void HandleGMCPMoveToChar(WorldClient client, MabiPacket packet)
 		{
+			var targetName = packet.GetString();
+
 			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPCharWarp)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
-			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName, false);
 			if (target == null)
 			{
-				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
+				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.
 				return;
 			}
 
@@ -523,7 +495,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPRevive)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -531,15 +503,7 @@ namespace Aura.World.Network
 			if (creature == null || !creature.IsDead)
 				return;
 
-			var pos = creature.GetPosition();
-			var region = creature.Region;
-
-			var response = new MabiPacket(Op.Revived, creature.Id);
-			response.PutInt(1);
-			response.PutInt(region);
-			response.PutInt(pos.X);
-			response.PutInt(pos.Y);
-			client.Send(response);
+			Send.Revived(client, creature);
 
 			creature.FullHeal();
 			WorldManager.Instance.ReviveCreature(creature);
@@ -549,7 +513,7 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPSummon)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
@@ -557,14 +521,14 @@ namespace Aura.World.Network
 			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
 			if (target == null)
 			{
-				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
+				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.
 				return;
 			}
 
 			var targetClient = (target.Client as WorldClient);
 			var pos = client.Character.GetPosition();
 
-			targetClient.Send(PacketCreator.ServerMessage(target, Localization.Get("gm.gmcp_summon"), client.Character.Name)); // You've been summoned by '{0}'.
+			Send.ServerMessage(target.Client, target, Localization.Get("gm.gmcp_summon"), client.Character.Name); // You've been summoned by '{0}'.
 			targetClient.Warp(client.Character.Region, pos.X, pos.Y);
 		}
 
@@ -572,89 +536,92 @@ namespace Aura.World.Network
 		{
 			if (client.Account.Authority < WorldConf.MinimumGMCP)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
-			client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("aura.unimplemented"))); // Unimplemented.
+
+			Send.SystemMessage(client, client.Character, Localization.Get("aura.unimplemented")); // Unimplemented.
 		}
 
 		private void HandleGMCPInvisibility(WorldClient client, MabiPacket packet)
 		{
+			var toggle = packet.GetByte();
+
 			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPInvisible)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var toggle = packet.GetByte();
-			creature.Conditions.A = (toggle == 1 ? (creature.Conditions.A | CreatureConditionA.Invisible) : (creature.Conditions.A & ~CreatureConditionA.Invisible));
-			WorldManager.Instance.SendStatusEffectUpdate(creature);
+			client.Character.Conditions.A = (toggle == 1 ? (client.Character.Conditions.A | CreatureConditionA.Invisible) : (client.Character.Conditions.A & ~CreatureConditionA.Invisible));
 
-			var p = new MabiPacket(Op.GMCPInvisibilityR, creature.Id);
-			p.PutByte(1);
-			client.Send(p);
+			Send.StatusEffectUpdate(client.Character);
+
+			Send.GMCPInvisibilityResponse(client, true);
 		}
 
 		private void HandleGMCPExpel(WorldClient client, MabiPacket packet)
 		{
+			var targetName = packet.GetString();
+
 			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPExpel)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
-			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
 			if (target == null)
 			{
-				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
+				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.
 				return;
 			}
 
-			client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_kicked"), targetName)); // '{0}' has been kicked.
-
 			// Better kill the connection, modders could bypass a dc request.
 			target.Client.Kill();
+
+			Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_kicked"), targetName); // '{0}' has been kicked.
 		}
 
 		private void HandleGMCPBan(WorldClient client, MabiPacket packet)
 		{
+			var targetName = packet.GetString();
+			var duration = packet.GetInt();
+			var reason = packet.GetString();
+
 			if (client.Account.Authority < WorldConf.MinimumGMCP || client.Account.Authority < WorldConf.MinimumGMCPBan)
 			{
-				client.Send(PacketCreator.SystemMessage(client.Character, Localization.Get("gm.gmcp_auth"))); // You're not authorized to use the GMCP.
+				Send.SystemMessage(client, client.Character, Localization.Get("gm.gmcp_auth")); // You're not authorized to use the GMCP.
 				return;
 			}
 
-			var targetName = packet.GetString();
 			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
 			if (target == null)
 			{
-				client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_nochar"), targetName)); // Character '{0}' couldn't be found.
+				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.
 				return;
 			}
 
-			var end = DateTime.Now.AddMinutes(packet.GetInt());
+			var end = DateTime.Now.AddMinutes(duration);
 			(target.Client as WorldClient).Account.BannedExpiration = end;
-			(target.Client as WorldClient).Account.BannedReason = packet.GetString();
-
-			client.Send(PacketCreator.MsgBoxFormat(client.Character, Localization.Get("gm.gmcp_banned"), targetName, end)); // '{0}' has been banned till '{1}'.
+			(target.Client as WorldClient).Account.BannedReason = reason;
 
 			// Better kill the connection, modders could bypass a dc request.
 			target.Client.Kill();
+
+			Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_banned"), targetName, end); // '{0}' has been banned till '{1}'.
 		}
 
 		private void HandleNPCTalkStart(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
-				return;
-
 			var npcId = packet.GetLong();
+
+			if (client.Character.Id != packet.Id)
+				return;
 
 			var target = WorldManager.Instance.GetCreatureById(npcId) as MabiNPC;
 			if (target == null)
@@ -666,24 +633,19 @@ namespace Aura.World.Network
 				Logger.Warning("Script for '" + target.Name + "' is null.");
 				target = null;
 			}
-			else if (creature.Region != target.Region || !WorldManager.InRange(creature, target, 1000))
+			else if (client.Character.Region != target.Region || !WorldManager.InRange(client.Character, target, 1000))
 			{
-				client.Send(PacketCreator.MsgBox(creature, Localization.Get("world.too_far"))); // You're too far away.
+				Send.MsgBox(client, client.Character, Localization.Get("world.too_far")); // You're too far away.
 				target = null;
 			}
 
-			var p = new MabiPacket(Op.NPCTalkStartR, creature.Id);
-
 			if (target == null)
 			{
-				p.PutByte(0);
-				client.Send(p);
+				Send.NPCTalkStartResponse(client, false, 0);
 				return;
 			}
 
-			p.PutByte(1);
-			p.PutLong(npcId);
-			client.Send(p);
+			Send.NPCTalkStartResponse(client, true, npcId);
 
 			client.NPCSession.Start(target);
 
@@ -695,16 +657,15 @@ namespace Aura.World.Network
 
 		private void HandleNPCTalkPartner(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var partnerId = packet.GetLong();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var id = packet.GetLong();
-
-			var target = client.Creatures.FirstOrDefault(a => a.Id == id);
+			var target = client.Creatures.FirstOrDefault(a => a.Id == partnerId);
 			if (target == null)
 			{
-				Logger.Warning("Talk to unspawned partner: " + id.ToString());
+				Logger.Warning("Talk to unspawned partner: " + partnerId.ToString());
 			}
 
 			var npc = WorldManager.Instance.GetCreatureByName("_partnerdummy") as MabiNPC;
@@ -714,24 +675,13 @@ namespace Aura.World.Network
 				npc = null;
 			}
 
-			var p = new MabiPacket(Op.NPCTalkPartnerR, creature.Id);
-
 			if (target == null || npc == null)
-			{
-				p.PutByte(0);
-				client.Send(p);
-				return;
-			}
-
-			p.PutByte(1);
-			p.PutLong(id);
-			p.PutString(creature.Name + "'s " + target.Name);
-			p.PutString(creature.Name + "'s " + target.Name);
-			client.Send(p);
+				Send.NPCTalkPartnerStartResponse(client, false, 0, string.Empty);
+			else
+				Send.NPCTalkPartnerStartResponse(client, true, partnerId, target.Name);
 
 			client.NPCSession.Start(npc);
 
-			//npc.Script.OnTalk(client);
 			client.NPCSession.State = npc.Script.OnTalk(client).GetEnumerator();
 			if (client.NPCSession.State.MoveNext())
 				client.NPCSession.Response = client.NPCSession.State.Current as Response;
@@ -739,11 +689,11 @@ namespace Aura.World.Network
 
 		private void HandleNPCTalkEnd(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var npcId = packet.GetLong();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var npcId = packet.GetLong();
 			var target = client.NPCSession.Target;
 
 			//var p = new MabiPacket(Op.NPCTalkEndR, creature.Id);
@@ -767,18 +717,18 @@ namespace Aura.World.Network
 		/// Parameters:
 		///		string  Keyword
 		///	Description:
-		///		Sent when selecting a keyword. Purpose unknown,
-		///		NPCTalkSelect is sent as well.
+		///		Sent when selecting a keyword. Exact purpose unknown,
+		///		NPCTalkSelect is sent as well. Maybe a check.
 		/// </summary>
 		/// <param name="client"></param>
 		/// <param name="packet"></param>
 		private void HandleNPCTalkKeyword(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var keyword = packet.GetString();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
-
-			var keyword = packet.GetString();
 
 			if (client.NPCSession.IsValid)
 			{
@@ -786,26 +736,22 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var p = new MabiPacket(Op.NPCTalkKeywordR, creature.Id);
-			p.PutByte(1);
-			p.PutString(keyword);
-			client.Send(p);
+			Send.NPCTalkKeywordResponse(client, true, keyword);
 		}
 
 		private void HandleNPCTalkSelect(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var response = packet.GetString();
+			var sessionId = packet.GetInt();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
 			if (!client.NPCSession.IsValid)
 			{
-				Logger.Warning("Invalid NPC session for '{0}', talking to '{1}'.", creature.Name, (client.NPCSession.Target != null ? client.NPCSession.Target.Script.ScriptName : "<unknown>"));
+				Logger.Warning("Invalid NPC session for '{0}', talking to '{1}'.", client.Character.Name, (client.NPCSession.Target != null ? client.NPCSession.Target.Script.ScriptName : "<unknown>"));
 				return;
 			}
-
-			var response = packet.GetString();
-			var sessionId = packet.GetInt();
 
 			if (sessionId != client.NPCSession.Id)
 			{
@@ -823,7 +769,7 @@ namespace Aura.World.Network
 
 			if (response == "@end")
 			{
-				client.Send(new MabiPacket(Op.NPCTalkSelectEnd, creature.Id));
+				Send.NPCTalkSelectEnd(client);
 
 				client.NPCSession.Target.Script.OnEnd(client);
 			}
@@ -846,241 +792,207 @@ namespace Aura.World.Network
 
 		private void HandleGetMails(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var p = new MabiPacket(Op.GetMailsR, creature.Id);
+			var allMails = new List<MabiMail>();
+			allMails.AddRange(WorldDb.Instance.GetRecievedMail(client.Character.Id));
+			allMails.AddRange(WorldDb.Instance.GetSentMail(client.Character.Id));
 
-			var toReturn = new System.Collections.Generic.List<MabiMail>();
-
-			foreach (var m in WorldDb.Instance.GetRecievedMail(creature.Id))
+			var toReturn = new List<MabiMail>();
+			var validMails = new List<MabiMail>();
+			foreach (var mail in allMails)
 			{
-				if (WorldConf.MailExpires > 0 && (DateTime.Today - m.Sent).Days > WorldConf.MailExpires)
-					toReturn.Add(m);
-				else
-					m.AddEntityData(p, creature);
+				if (WorldConf.MailExpires > 0 && (DateTime.Today - mail.Sent).Days > WorldConf.MailExpires)
+				{
+					toReturn.Add(mail);
+					continue;
+				}
+
+				validMails.Add(mail);
 			}
 
-			foreach (var m in WorldDb.Instance.GetSentMail(creature.Id))
-			{
-				if (WorldConf.MailExpires > 0 && (DateTime.Today - m.Sent).Days > WorldConf.MailExpires)
-					toReturn.Add(m);
-				else
-					m.AddEntityData(p, creature);
-			}
+			Send.GetMailsResponse(client, validMails);
 
 			foreach (var m in toReturn)
 				m.Return("Mail is valid for " + WorldConf.MailExpires + " days, and the mail's valid period has expired. The mail has been returned to its sender.");
-
-			p.PutLong(0);
-			client.Send(p);
 		}
 
 		private void HandleConfirmMailRecipient(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var recipient = packet.GetString();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			ulong recipId;
-
-			if (WorldDb.Instance.IsValidMailRecpient(packet.GetString(), out recipId))
-			{
-				client.Send(new MabiPacket(Op.ConfirmMailRecipentR, creature.Id).PutByte(1).PutLong(recipId));
-			}
-			else
-			{
-				client.Send(new MabiPacket(Op.ConfirmMailRecipentR, creature.Id).PutByte(0));
-			}
+			ulong recipientId;
+			Send.ConfirmMailRecipentResponse(client, WorldDb.Instance.IsValidMailRecpient(recipient, out recipientId), recipientId);
 		}
 
 		private void HandleSendMail(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var recipientName = packet.GetString();
+			var text = packet.GetString();
+			var itemId = packet.GetLong();
+			var cod = packet.GetInt();
+
+			if (client.Character.Id != packet.Id)
 				return;
+
+			ulong recipientId;
+			if (!WorldDb.Instance.IsValidMailRecpient(recipientName, out recipientId))
+			{
+				Send.MsgBox(client, client.Character, Localization.Get("world.mail_invalid")); // Invaild recipient
+				Send.SendMailFail(client);
+				return;
+			}
+
 			var mail = new MabiMail();
-			mail.RecipientName = packet.GetString();
+			mail.Type = (byte)MailTypes.Normal;
+			mail.RecipientName = recipientName;
+			mail.SenderName = client.Character.Name;
+			mail.SenderId = client.Character.Id;
+			mail.Text = text;
+			mail.ItemId = itemId;
+			mail.COD = cod;
 
-			if (!WorldDb.Instance.IsValidMailRecpient(mail.RecipientName, out mail.RecipientId))
-			{
-				client.Send(
-					PacketCreator.MsgBox(creature, Localization.Get("world.mail_invalid")), // Invaild recipient
-					new MabiPacket(Op.SendMailR, creature.Id).PutByte(0)
-				);
-				return;
-			}
-
-			mail.Text = packet.GetString();
-			mail.ItemId = packet.GetLong();
-
-			if (mail.ItemId == 0)
-			{
-				mail.Type = (byte)MailTypes.Normal;
-			}
-			else
+			if (mail.ItemId != 0)
 			{
 				mail.Type = (byte)MailTypes.Item;
-				var item = creature.Items.Find(i => i.Id == mail.ItemId);
 
+				var item = client.Character.GetItem(itemId);
 				if (item == null)
 				{
-					client.Send(PacketCreator.MsgBox(creature, Localization.Get("world.mail_item")), // You can't send an item you don't have!
-						new MabiPacket(Op.SendMailR, creature.Id).PutByte(0));
+					Send.MsgBox(client, client.Character, Localization.Get("world.mail_item")); // You can't send an item you don't have!
+					Send.SendMailFail(client);
 					return;
 				}
-				else
-				{
-					client.Send(PacketCreator.ItemRemove(creature, item));
-					creature.Items.Remove(item);
-					WorldDb.Instance.SaveMailItem(item, null);
-				}
-			}
-			mail.COD = packet.GetInt();
 
-			mail.SenderName = creature.Name;
-			mail.SenderId = creature.Id;
+				client.Send(PacketCreator.ItemRemove(client.Character, item));
+				client.Character.Items.Remove(item);
+				WorldDb.Instance.SaveMailItem(item, null);
+			}
 
 			mail.Save(true);
 
-			var p = new MabiPacket(Op.SendMailR, creature.Id);
-			p.PutByte(1);
-			mail.AddEntityData(p, creature);
-
-			client.Send(p);
+			Send.SendMailResponse(client, mail);
 		}
 
 		private void HandleMarkMailRead(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var mailId = packet.GetLong();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var m = WorldDb.Instance.GetMail(packet.GetLong());
-
-			var p = new MabiPacket(Op.MarkMailReadR, creature.Id);
-			if (m != null)
+			var mail = WorldDb.Instance.GetMail(mailId);
+			if (mail == null)
 			{
-				p.PutByte(1);
-				p.PutLong(m.MessageId);
-
-				m.Read = 2;
-
-				m.Save(false);
+				Send.MarkMailReadResponse(client, false, 0);
+				return;
 			}
-			else
-				p.PutByte(0);
 
-			client.Send(p);
+			mail.Read = 2;
+			mail.Save(false);
+
+			Send.MarkMailReadResponse(client, true, mail.MessageId);
 		}
 
 		private void HandleReturnMail(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var mailId = packet.GetLong();
+			var message = packet.GetString();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var m = WorldDb.Instance.GetMail(packet.GetLong());
-
-			if (m != null)
+			var mail = WorldDb.Instance.GetMail(mailId);
+			if (mail == null)
 			{
-				m.Return(packet.GetString());
+				Send.ReturnMailResponse(client, false, 0);
+				return;
+			}
 
-				client.Send(new MabiPacket(Op.ReturnMailR, creature.Id).PutByte(1).PutLong(m.MessageId));
-			}
-			else
-			{
-				client.Send(new MabiPacket(Op.ReturnMailR, creature.Id).PutByte(0));
-			}
+			mail.Return(message);
+
+			Send.ReturnMailResponse(client, true, mail.MessageId);
 		}
 
 		private void HandleRecallMail(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var mailId = packet.GetLong();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var m = WorldDb.Instance.GetMail(packet.GetLong());
-
-			if (m != null && m.ItemId != 0)
+			var mail = WorldDb.Instance.GetMail(mailId);
+			if (mail == null || mail.ItemId == 0)
 			{
-				var item = WorldDb.Instance.GetItem(m.ItemId);
-
-				m.Delete();
-
-				item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
-
-				WorldDb.Instance.SaveMailItem(item, creature);
-
-				creature.Items.Add(item);
-
-				client.Send(PacketCreator.ItemInfo(creature, item));
-
-				client.Send(new MabiPacket(Op.RecallMailR, creature.Id).PutByte(1).PutLong(m.MessageId));
-
+				Send.RecallMailResponse(client, false, 0);
+				return;
 			}
-			else
-			{
-				client.Send(new MabiPacket(Op.RecallMailR, creature.Id).PutByte(0));
-			}
+
+			var item = WorldDb.Instance.GetItem(mail.ItemId);
+			item.Info.Pocket = (byte)Pocket.Temporary; // TODO: Inv
+			client.Character.Items.Add(item);
+			WorldDb.Instance.SaveMailItem(item, client.Character);
+
+			mail.Delete();
+
+			client.Send(PacketCreator.ItemInfo(client.Character, item));
+			Send.RecallMailResponse(client, true, mail.MessageId);
 		}
 
 		private void HandleRecieveMailItem(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var mailId = packet.GetLong();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var m = WorldDb.Instance.GetMail(packet.GetLong());
+			var mail = WorldDb.Instance.GetMail(mailId);
 
-			if (m != null && m.ItemId != 0)
+			if (mail == null || mail.ItemId == 0)
 			{
-
-				//TODO: COD
-				var item = WorldDb.Instance.GetItem(m.ItemId);
-
-				m.Delete();
-
-				item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
-
-				WorldDb.Instance.SaveMailItem(item, creature);
-
-				creature.Items.Add(item);
-
-				client.Send(PacketCreator.ItemInfo(creature, item));
-
-				client.Send(new MabiPacket(Op.RecieveMailItemR, creature.Id).PutByte(1).PutLong(m.MessageId));
+				Send.ReceiveMailItemResponse(client, false, 0);
+				return;
 			}
-			else
-			{
-				client.Send(new MabiPacket(Op.RecieveMailItemR, creature.Id).PutByte(0));
-			}
+
+			//TODO: COD
+
+			var item = WorldDb.Instance.GetItem(mail.ItemId);
+			item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
+			client.Character.Items.Add(item);
+			WorldDb.Instance.SaveMailItem(item, client.Character);
+
+			mail.Delete();
+
+			client.Send(PacketCreator.ItemInfo(client.Character, item));
+			Send.ReceiveMailItemResponse(client, true, mail.ItemId);
 		}
 
 		private void HandleDeleteMail(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
-			if (creature == null)
+			var mailId = packet.GetLong();
+
+			if (client.Character.Id != packet.Id)
 				return;
 
-			var m = WorldDb.Instance.GetMail(packet.GetLong());
-
-			if (m != null)
+			var m = WorldDb.Instance.GetMail(mailId);
+			if (m == null)
 			{
-				m.Delete();
+				Send.DeleteMailResponse(client, false, 0);
+				return;
+			}
 
-				client.Send(new MabiPacket(Op.DeleteMailR, creature.Id).PutByte(1).PutLong(m.MessageId));
-			}
-			else
-			{
-				client.Send(new MabiPacket(Op.DeleteMailR, creature.Id).PutByte(0));
-			}
+			m.Delete();
+
+			Send.DeleteMailResponse(client, false, m.MessageId);
 		}
 
 		private void HandleItemMove(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1181,7 +1093,7 @@ namespace Aura.World.Network
 			// Update Equip
 			if (target.IsEquip())
 			{
-				WorldManager.Instance.CreatureEquip(creature, item);
+				Send.EquipmentChanged(creature, item);
 				switch (item.Info.Class)
 				{
 					// Umbrella Skill
@@ -1233,7 +1145,7 @@ namespace Aura.World.Network
 						.PutByte(2).PutBytes((byte)free.X, (byte)free.Y)
 					);
 					secItem.Move(secTarget, free.X, free.Y);
-					WorldManager.Instance.CreatureUnequip(creature, secSource);
+					Send.EquipmentMoved(creature, secSource);
 				}
 			}
 
@@ -1241,12 +1153,12 @@ namespace Aura.World.Network
 
 			// Notify clients of equip change if equipment is being dropped
 			if (pocket.IsEquip())
-				WorldManager.Instance.CreatureUnequip(creature, pocket);
+				Send.EquipmentMoved(creature, pocket);
 		}
 
 		private void HandleItemDrop(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1269,7 +1181,7 @@ namespace Aura.World.Network
 			// Drop it
 			item.Id = MabiItem.NewItemId;
 			var pos = creature.GetPosition();
-			WorldManager.Instance.CreatureDropItem(item, creature.Region, pos.X, pos.Y);
+			WorldManager.Instance.DropItem(item, creature.Region, pos.X, pos.Y);
 			EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
 
 			// Done
@@ -1298,7 +1210,7 @@ namespace Aura.World.Network
 			//ITID2++;
 			//INSTANCEID++;
 
-			client.SendLock(creature);
+			Send.CharacterLock(client);
 
 			// Done
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
@@ -1360,7 +1272,7 @@ namespace Aura.World.Network
 
 		public void HandleItemDestroy(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1381,7 +1293,7 @@ namespace Aura.World.Network
 		//   MabiCreature.GiveItem somehow.
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1440,7 +1352,7 @@ namespace Aura.World.Network
 					}
 					else
 					{
-						client.Send(PacketCreator.SystemMessage(creature, Localization.Get("world.insufficient_space"))); // Not enough space.
+						Send.SystemMessage(client, creature, Localization.Get("world.insufficient_space")); // Not enough space.
 					}
 				}
 
@@ -1454,7 +1366,7 @@ namespace Aura.World.Network
 
 		private void HandleItemSplit(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1507,7 +1419,7 @@ namespace Aura.World.Network
 
 		private void HandleSwitchSet(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1522,7 +1434,11 @@ namespace Aura.World.Network
 			creature.UpdateItemsFromPockets(Pocket.LeftHand1);
 			creature.UpdateItemsFromPockets(Pocket.Magazine1);
 
-			WorldManager.Instance.CreatureSwitchSet(creature);
+			var p = new MabiPacket(Op.SwitchedSet, creature.Id);
+			p.PutByte(creature.WeaponSet);
+			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+
+			WorldManager.Instance.CreatureStatsUpdate(creature);
 
 			var response = new MabiPacket(Op.SwitchSetR, creature.Id);
 			response.PutByte(1);
@@ -1531,7 +1447,7 @@ namespace Aura.World.Network
 
 		private void HandleItemStateChange(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1550,7 +1466,7 @@ namespace Aura.World.Network
 					if (item != null)
 					{
 						item.Info.FigureA = (byte)(item.Info.FigureA == 1 ? 0 : 1);
-						WorldManager.Instance.CreatureEquip(creature, item);
+						Send.EquipmentChanged(creature, item);
 					}
 				}
 			}
@@ -1561,17 +1477,13 @@ namespace Aura.World.Network
 
 		private void HandleEnterRegion(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCharacterOrNull(packet.Id);
 			if (creature == null)
-			{
-				Logger.Warning("Creature not in account.");
 				return;
-			}
 
 			// TODO: Maybe check if this action is valid.
 
-			client.SendUnlock(creature);
-			var pos = creature.GetPosition();
+			Send.CharacterUnlock(client, creature);
 
 			// Sent on log in, but not when switching regions?
 			client.Send(new MabiPacket(Op.EnterRegionR, Id.World).PutByte(1).PutLongs(creature.Id).PutLong(MabiTime.Now.DateTime));
@@ -1581,11 +1493,11 @@ namespace Aura.World.Network
 			{
 				var entities = WorldManager.Instance.GetEntitiesInRange(creature);
 
-				if (entities.Count != 0)
-				{
-					client.Send(PacketCreator.EntitiesAppear(entities));
-				}
+				if (entities.Count > 0)
+					Send.EntitiesAppear(client, entities);
 			}
+
+			var pos = creature.GetPosition();
 
 			client.Send(new MabiPacket(Op.WarpRegion, creature.Id).PutByte(1).PutInts(creature.Region, pos.X, pos.Y));
 
@@ -1601,13 +1513,13 @@ namespace Aura.World.Network
 			if (creature.Pet != null)
 			{
 				creature.Pet.SetLocation(creature.Region, pos.X, pos.Y);
-				client.SendEnterRegionPermission(creature.Pet);
+				Send.EnterRegionPermission(client, creature.Pet);
 
 				foreach (var rider in creature.Pet.Riders.Where(c => c.Client != client))
 					((WorldClient)rider.Client).Warp(creature.Region, pos.X, pos.Y);
 			}
 
-			WorldManager.Instance.CreatureEnterRegion(creature);
+			WorldManager.Instance.CreatureEnterRegionPVPStuff(creature);
 
 			EventManager.Instance.PlayerEvents.OnPlayerChangesRegion(this, new PlayerEventArgs(creature as MabiPC));
 		}
@@ -1619,7 +1531,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleSkillPrepare(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1629,23 +1541,23 @@ namespace Aura.World.Network
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
 			if (skill == null || handler == null)
 			{
-				client.SendSkillPrepareFail(creature);
+				Send.SendSkillPrepareFail(client, creature);
 				return;
 			}
 
 			// Check Mana
 			if (creature.Mana < skill.RankInfo.ManaCost)
 			{
-				client.SendSystemMsg(creature, Localization.Get("skills.insufficient_mana")); // Insufficient Mana
-				client.SendSkillPrepareFail(creature);
+				Send.SystemMessage(client, creature, Localization.Get("skills.insufficient_mana")); // Insufficient Mana
+				Send.SendSkillPrepareFail(client, creature);
 				return;
 			}
 
 			// Check Stamina
 			if (creature.Stamina < skill.RankInfo.StaminaCost)
 			{
-				client.SendSystemMsg(creature, Localization.Get("skills.insufficient_stamina")); // Insufficient Stamina
-				client.SendSkillPrepareFail(creature);
+				Send.SystemMessage(client, creature, Localization.Get("skills.insufficient_stamina")); // Insufficient Stamina
+				Send.SendSkillPrepareFail(client, creature);
 				return;
 			}
 
@@ -1664,7 +1576,7 @@ namespace Aura.World.Network
 
 			if ((result & SkillResults.Failure) != 0)
 			{
-				client.SendSkillPrepareFail(creature);
+				Send.SendSkillPrepareFail(client, creature);
 				return;
 			}
 
@@ -1689,7 +1601,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleSkillReady(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1716,7 +1628,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleSkillUse(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1730,7 +1642,7 @@ namespace Aura.World.Network
 			var result = handler.Use(creature, skill, packet);
 
 			if ((result & SkillResults.InsufficientStamina) != 0)
-				client.SendSystemMsg(creature, Localization.Get("skills.insufficient_stamina")); // Insufficient Stamina
+				Send.SystemMessage(client, creature, Localization.Get("skills.insufficient_stamina")); // Insufficient Stamina
 		}
 
 		/// <summary>
@@ -1740,7 +1652,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleSkillComplete(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1784,7 +1696,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleSkillCancel(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1798,7 +1710,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleSkillStart(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1831,7 +1743,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleSkillStop(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1856,7 +1768,7 @@ namespace Aura.World.Network
 
 		private void HandleChangeStance(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1864,21 +1776,21 @@ namespace Aura.World.Network
 
 			// Clear target?
 			if (mode == 0)
-				WorldManager.Instance.CreatureSetTarget(creature, null);
+				Send.CombatTargetSet(creature, null);
 
 			// Send info
 			creature.BattleState = mode;
-			WorldManager.Instance.CreatureChangeStance(creature);
+			Send.ChangesStance(creature);
 
 			if (creature.Vehicle != null && creature == creature.Vehicle.Owner)
 			{
 				creature.Vehicle.BattleState = mode;
-				WorldManager.Instance.CreatureChangeStance(creature.Vehicle);
+				Send.ChangesStance(creature.Vehicle);
 			}
 			if (creature.Owner != null && creature.Riders.Contains(creature.Owner))
 			{
 				creature.Owner.BattleState = mode;
-				WorldManager.Instance.CreatureChangeStance(creature.Owner);
+				Send.ChangesStance(creature.Owner);
 			}
 
 			// Unlock
@@ -1887,7 +1799,7 @@ namespace Aura.World.Network
 
 		private void HandleShopBuyItem(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1935,7 +1847,7 @@ namespace Aura.World.Network
 			}
 			else
 			{
-				client.Send(PacketCreator.MsgBox(creature, Localization.Get("world.shop_gold"))); // Insufficient amount of gold.
+				Send.MsgBox(client, creature, Localization.Get("world.shop_gold")); // Insufficient amount of gold.
 
 				p.PutByte(0);
 			}
@@ -1944,7 +1856,7 @@ namespace Aura.World.Network
 
 		private void HandleShopSellItem(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -1985,52 +1897,41 @@ namespace Aura.World.Network
 			client.Send(p);
 		}
 
-		private void HandleTitleChange(WorldClient client, MabiPacket packet)
+		private void HandleChangeTitle(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var title = packet.GetShort();
+			var optionTitle = packet.GetShort();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
-			var title = packet.GetShort();
-			var optTitle = packet.GetShort();
+			var titleSuccess = false;
+			var optionSuccess = false;
 
-			var answer = new MabiPacket(Op.ChangeTitleR, creature.Id);
-
-			bool update = false;
-
-			// Make sure the character has this title enabled
+			// Make sure the character has this title
 			var character = creature as MabiPC;
 			if (title == 0 || (character.Titles.ContainsKey(title)) && character.Titles[title])
 			{
 				creature.Title = title;
-				answer.PutByte(1);
-				update = true;
-			}
-			else
-			{
-				answer.PutByte(0);
+				titleSuccess = true;
 			}
 
-			if (optTitle == 0 || (character.Titles.ContainsKey(optTitle)) && character.Titles[optTitle])
+			if (optionTitle == 0 || (character.Titles.ContainsKey(optionTitle)) && character.Titles[optionTitle])
 			{
-				creature.OptionTitle = optTitle;
-				answer.PutByte(1);
-				update = true;
-			}
-			else
-			{
-				answer.PutByte(0);
+				creature.OptionTitle = optionTitle;
+				optionSuccess = true;
 			}
 
-			if (update)
-				WorldManager.Instance.CreatureChangeTitle(creature);
+			if (titleSuccess || optionSuccess)
+				Send.TitleUpdate(creature);
 
-			client.Send(answer);
+			Send.ChangeTitleResponse(client, creature, titleSuccess, optionSuccess);
 		}
 
 		private void HandlePetSummon(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2087,17 +1988,14 @@ namespace Aura.World.Network
 			p.PutLong(petId);
 			client.Send(p);
 
-			p = new MabiPacket(Op.CharacterLock, petId);
-			p.PutInt(0xEFFFFFFE);
-			p.PutInt(0);
-			client.Send(p);
+			Send.CharacterLock(client, pet);
 
-			client.SendEnterRegionPermission(pet);
+			Send.EnterRegionPermission(client, pet);
 		}
 
 		private void HandlePetUnsummon(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2125,9 +2023,9 @@ namespace Aura.World.Network
 			{
 				if (pet.IsFlying)
 				{
-					client.SendUnlock(pet, 0xFFFFBDFF);
+					Send.CharacterUnlock(client, pet, 0xFFFFBDFF);
 					foreach (var rider in pet.Riders)
-						client.SendUnlock(rider, 0xFFFFBDFF);
+						Send.CharacterUnlock(client, rider, 0xFFFFBDFF);
 					pet.IsFlying = false;
 				}
 				foreach (var rider in pet.Riders)
@@ -2157,7 +2055,7 @@ namespace Aura.World.Network
 
 		private void HandlePetMount(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2169,7 +2067,7 @@ namespace Aura.World.Network
 			if (pet == null || pet.IsDead || pet.RaceInfo.VehicleType == 0 || pet.RaceInfo.VehicleType == 17 || creatureIsSitting || !WorldManager.InRange(creature, pet, 200))
 			{
 				if (creatureIsSitting)
-					client.Send(PacketCreator.Notice(Localization.Get("world.mount_sit"), NoticeType.MiddleTop)); // You cannot mount while resting.
+					Send.Notice(client, NoticeType.MiddleTop, Localization.Get("world.mount_sit")); // You cannot mount while resting.
 
 				client.Send(new MabiPacket(Op.PetMountR, creature.Id).PutByte(false));
 				return;
@@ -2181,7 +2079,8 @@ namespace Aura.World.Network
 			WorldManager.Instance.VehicleBind(creature, pet);
 
 			// Mount motion (horse)
-			var p = new MabiPacket(Op.Motions, creature.Id);
+			// TODO: Add to db.
+			var p = new MabiPacket(Op.UseMotion, creature.Id);
 			p.PutInt(21);
 			p.PutInt(0);
 			p.PutByte(0);
@@ -2193,7 +2092,7 @@ namespace Aura.World.Network
 
 		private void HandlePetUnmount(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2206,7 +2105,7 @@ namespace Aura.World.Network
 			WorldManager.Instance.VehicleUnbind(creature, creature.Vehicle);
 
 			// Unmount motion (horse)
-			var p2 = new MabiPacket(Op.Motions, creature.Id);
+			var p2 = new MabiPacket(Op.UseMotion, creature.Id);
 			p2.PutInt(21);
 			p2.PutInt(1);
 			p2.PutByte(0);
@@ -2225,19 +2124,20 @@ namespace Aura.World.Network
 
 		private void HandleTouchProp(WorldClient client, MabiPacket packet)
 		{
-			var character = client.Creatures.FirstOrDefault(a => a.Id == packet.Id) as MabiPC;
+			var propId = packet.GetLong();
+
+			var character = client.GetCreatureOrNull(packet.Id) as MabiPC;
 			if (character == null)
 				return;
 
-			byte success = 0;
+			var success = false;
 
-			var propId = packet.GetLong();
 			var pb = WorldManager.Instance.GetPropBehavior(propId);
 			if (pb != null)
 			{
 				if (character.Region == pb.Prop.Region && WorldManager.InRange(character, (uint)pb.Prop.Info.X, (uint)pb.Prop.Info.Y, 1500))
 				{
-					success = 1;
+					success = true;
 					pb.Func(client, character, pb.Prop);
 				}
 			}
@@ -2251,12 +2151,12 @@ namespace Aura.World.Network
 					//
 					//
 					WorldManager.Instance.CreatureLeaveRegion(character);
-					client.Send(new MabiPacket(Op.CharacterLock, character.Id).PutInts(0xEFFFFFFE, 0));
+					Send.CharacterLock(client, character);
 
 					character.SetLocation(DGID2, 5992, 5614);
-					client.SendEnterRegionPermission(character);
+					Send.EnterRegionPermission(client, character);
 
-					success = 1;
+					success = true;
 				}
 				else
 				{
@@ -2271,7 +2171,7 @@ namespace Aura.World.Network
 
 		public void HandleHitProp(WorldClient client, MabiPacket packet)
 		{
-			var character = client.Creatures.FirstOrDefault(a => a.Id == packet.Id) as MabiPC;
+			var character = client.GetCreatureOrNull(packet.Id) as MabiPC;
 			if (character == null || character.IsDead)
 				return;
 
@@ -2301,7 +2201,7 @@ namespace Aura.World.Network
 
 		private void HandleMove(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2336,7 +2236,7 @@ namespace Aura.World.Network
 
 		private void HandleTakeOff(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2357,9 +2257,9 @@ namespace Aura.World.Network
 
 			var ascentTime = packet.GetFloat();
 
-			client.SendLock(creature, 0xFFFFBDDF);
+			Send.CharacterLock(client, creature, 0xFFFFBDDF);
 			foreach (var rider in creature.Riders)
-				client.SendLock(rider, 0xFFFFBDDF);
+				Send.CharacterLock(client, rider, 0xFFFFBDDF);
 
 			var pos = creature.GetPosition();
 			creature.SetPosition(pos.X, pos.Y, 10000);
@@ -2371,7 +2271,7 @@ namespace Aura.World.Network
 
 		private void HandleFlyTo(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2398,7 +2298,7 @@ namespace Aura.World.Network
 
 		private void HandleLand(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2410,9 +2310,9 @@ namespace Aura.World.Network
 				return;
 			}
 
-			client.SendUnlock(creature, 0xFFFFBDFF);
+			Send.CharacterUnlock(client, creature, 0xFFFFBDFF);
 			foreach (var rider in creature.Riders)
-				client.SendUnlock(rider, 0xFFFFBDFF);
+				Send.CharacterUnlock(client, rider, 0xFFFFBDFF);
 
 			// TODO: angled decent
 			creature.SetPosition(pos.X, pos.Y, 0);
@@ -2424,7 +2324,7 @@ namespace Aura.World.Network
 
 		private void HandleCombatSetTarget(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2451,12 +2351,12 @@ namespace Aura.World.Network
 			, SendTargets.Range, creature);
 
 			// XXX: Should this better be placed in the skill handlers?
-			WorldManager.Instance.CreatureSetTarget(creature, target);
+			Send.CombatTargetSet(creature, target);
 		}
 
 		private void HandleCombatAttack(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2508,7 +2408,7 @@ namespace Aura.World.Network
 			else if (attackResult == SkillResults.Failure)
 			{
 				// No target, no skill, message should be more clear.
-				client.Send(PacketCreator.SystemMessage(creature, "Something went wrong here, sry =/"));
+				Send.ServerMessage(client, creature, "Something went wrong here, sry =/");
 			}
 			else
 			{
@@ -2524,7 +2424,7 @@ namespace Aura.World.Network
 
 		public void HandleDeadMenu(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null || !creature.IsDead)
 				return;
 
@@ -2587,11 +2487,13 @@ namespace Aura.World.Network
 
 		public void HandleRevive(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var clientOption = packet.GetInt();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null || !creature.IsDead)
 				return;
 
-			var option = DeadMenuHelper.ConvertFromClientOption(packet.GetInt());
+			var option = DeadMenuHelper.ConvertFromClientOption(clientOption);
 
 			if ((option & creature.RevivalOptions) == 0)
 			{
@@ -2649,7 +2551,7 @@ namespace Aura.World.Network
 					goto case DeadMenuOptions.Here;
 
 				case DeadMenuOptions.NaoStone:
-					WorldManager.Instance.DeadFeather(creature, false, DeadMenuOptions.NaoRevival1);
+					Send.DeadFeather(creature, DeadMenuOptions.NaoRevival1);
 					creature.Client.Send(new MabiPacket(Op.NaoRevivalEntrance, creature.Id));
 					creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutByte(0));
 					creature.RevivalOptions = DeadMenuOptions.NaoRevival1;
@@ -2661,7 +2563,7 @@ namespace Aura.World.Network
 					WorldManager.Instance.ReviveCreature(creature);
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Revive), SendTargets.Range, creature);
 					creature.Client.Send(new MabiPacket(Op.NaoRevivalExit, creature.Id).PutByte(0));
-					WorldManager.Instance.DeadFeather(creature, false, DeadMenuOptions.None);
+					Send.DeadFeather(creature, DeadMenuOptions.None);
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
 
@@ -2676,10 +2578,11 @@ namespace Aura.World.Network
 
 				case DeadMenuOptions.WaitForRescue:
 					creature.WaitingForRes = !creature.WaitingForRes;
+
 					if (creature.WaitingForRes)
-						WorldManager.Instance.DeadFeather(creature, false, creature.RevivalOptions | DeadMenuOptions.FeatherUp);
+						Send.DeadFeather(creature, creature.RevivalOptions | DeadMenuOptions.FeatherUp);
 					else
-						WorldManager.Instance.DeadFeather(creature, false, creature.RevivalOptions);
+						Send.DeadFeather(creature, creature.RevivalOptions);
 
 					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
 					break;
@@ -2702,7 +2605,7 @@ namespace Aura.World.Network
 
 		public void HandleAreaChange(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null || !creature.IsDead)
 				return;
 
@@ -2739,7 +2642,7 @@ namespace Aura.World.Network
 
 		public void HandleStunMeterRequest(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null || !creature.IsDead)
 				return;
 
@@ -2767,7 +2670,7 @@ namespace Aura.World.Network
 
 		public void HandleHomesteadInfo(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2775,7 +2678,7 @@ namespace Aura.World.Network
 
 			// Seems to be only called on login, good place for the MOTD.
 			if (WorldConf.Motd != string.Empty)
-				client.Send(PacketCreator.ServerMessage(client.Character, WorldConf.Motd));
+				Send.ServerMessage(client, client.Character, WorldConf.Motd);
 
 			EventManager.Instance.PlayerEvents.OnPlayerLoggedIn(creature, new PlayerEventArgs(creature as MabiPC));
 		}
@@ -2797,7 +2700,7 @@ namespace Aura.World.Network
 
 		public void HandleVisualChat(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null || !WorldConf.EnableVisual)
 				return;
 
@@ -2815,7 +2718,7 @@ namespace Aura.World.Network
 
 		public void HandleViewEquipment(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2843,7 +2746,7 @@ namespace Aura.World.Network
 
 		public void HandleSkillAdvance(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2859,7 +2762,7 @@ namespace Aura.World.Network
 
 		private void HandleUmbrellaJump(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2872,7 +2775,7 @@ namespace Aura.World.Network
 
 		private void HandleUmbrellaLand(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -2881,7 +2784,7 @@ namespace Aura.World.Network
 
 		protected void HandleCollectionRequest(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3174,7 +3077,7 @@ namespace Aura.World.Network
 
 		protected void HandleGuildApply(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3183,7 +3086,7 @@ namespace Aura.World.Network
 
 			if (WorldDb.Instance.GetGuildForChar(creature.Id) != null)
 			{
-				client.Send(PacketCreator.MsgBox(creature, "You are already a member of a guild"));
+				Send.MsgBox(client, creature, "You are already a member of a guild");
 				client.Send(new MabiPacket(Op.GuildApplyR, creature.Id).PutByte(0));
 				return;
 			}
@@ -3192,7 +3095,7 @@ namespace Aura.World.Network
 
 			if (guild == null)
 			{
-				client.Send(PacketCreator.MsgBox(creature, "Guild does not exist"));
+				Send.MsgBox(client, creature, "Guild does not exist");
 				client.Send(new MabiPacket(Op.GuildApplyR, creature.Id).PutByte(0));
 				return;
 			}
@@ -3216,7 +3119,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyCreate(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3234,7 +3137,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyJoin(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3283,7 +3186,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyLeave(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3301,7 +3204,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyRemove(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3324,7 +3227,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyChangeSettings(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3354,7 +3257,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyChangePassword(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3374,7 +3277,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyChangeLeader(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3398,7 +3301,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyWantedHide(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3414,7 +3317,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyWantedShow(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3430,7 +3333,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyChangeFinish(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3448,7 +3351,7 @@ namespace Aura.World.Network
 
 		private void HandlePartyChangeExp(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
@@ -3489,10 +3392,10 @@ namespace Aura.World.Network
 
 			client.Send(new MabiPacket(Op.CutsceneEnd, Id.World).PutLong(creature.Id));
 
-			WorldManager.Instance.Broadcast(PacketCreator.EntityAppears(creature), SendTargets.Range | SendTargets.ExcludeSender, creature);
-			client.Send(PacketCreator.EntitiesAppear(WorldManager.Instance.GetEntitiesInRange(creature)));
+			Send.EntityAppearsOthers(creature);
+			Send.EntitiesAppear(client, WorldManager.Instance.GetEntitiesInRange(creature));
 
-			client.SendUnlock(creature);
+			Send.CharacterUnlock(client, creature);
 
 			//client.Send(new MabiPacket(Op.CutsceneEnd+1, Id.World).PutLong(creature.Id));
 
@@ -3507,13 +3410,13 @@ namespace Aura.World.Network
 
 		private void HandleTalentTitleChange(WorldClient client, MabiPacket packet)
 		{
+			var title = packet.GetShort();
+
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
 			// TODO: Check if vaild
-
-			var title = packet.GetShort();
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleChangedR, creature.Id).PutByte(1).PutShort(title), SendTargets.Range, creature);
 
@@ -3522,11 +3425,12 @@ namespace Aura.World.Network
 
 		private void HandleCombatSetAim(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.Creatures.FirstOrDefault(a => a.Id == packet.Id);
+			var targetId = packet.GetLong();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
-			var targetId = packet.GetLong();
 			creature.AimStart = DateTime.Now;
 
 			client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id)
@@ -3544,12 +3448,11 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleDyePaletteReq(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.GetCreatureOrNull(packet.Id);
-			if (creature == null)
+			if (client.Character.Id != packet.Id)
 				return;
 
 			// Wave parameters for the client's "color pattern change algo".
-			var p = new MabiPacket(Op.DyePaletteReqR, creature.Id);
+			var p = new MabiPacket(Op.DyePaletteReqR, client.Character.Id);
 			p.PutByte(true);
 			p.PutInt(0); //p.PutInt(62);
 			p.PutInt(0); //p.PutInt(123);
@@ -3567,26 +3470,25 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleDyePickColor(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.GetCreatureOrNull(packet.Id);
-			if (creature == null)
+			if (client.Character.Id != packet.Id)
 				return;
 
 			var itemId = packet.GetLong();
-			var item = creature.GetItem(itemId);
+			var item = client.Character.GetItem(itemId);
 			if (item == null)
 			{
-				client.Send(new MabiPacket(Op.DyePickColorR, creature.Id).PutByte(false));
+				client.Send(new MabiPacket(Op.DyePickColorR, client.Character.Id).PutByte(false));
 				return;
 			}
 
 			if (WorldConf.SafeDye)
 			{
-				creature.Temp.DyeCursors = new byte[20];
+				client.Character.Temp.DyeCursors = new byte[20];
 			}
 			else
 			{
 				// 5x x+y. First byte is +, second -?
-				creature.Temp.DyeCursors = new byte[]
+				client.Character.Temp.DyeCursors = new byte[]
 				{ 
 					0x00, 0x00, 0x00, 0x00, // Color Picker 1
 					0xF5, 0xFF, 0xF5, 0xFF, // Color Picker 2
@@ -3596,15 +3498,15 @@ namespace Aura.World.Network
 				};
 			}
 
-			var p = new MabiPacket(Op.DyePickColorR, creature.Id);
+			var p = new MabiPacket(Op.DyePickColorR, client.Character.Id);
 			p.PutByte(true);
-			p.PutBin(creature.Temp.DyeCursors);
+			p.PutBin(client.Character.Temp.DyeCursors);
 			client.Send(p);
 		}
 
 		private void HandleChannelStatus(WorldClient client, MabiPacket packet)
 		{
-			// TODO: Fill channel list
+			// TODO: Update channel list... and TODO: Add channel list.
 		}
 
 		private void HandleCancelBeautyShop(WorldClient client, MabiPacket packet)
@@ -3626,8 +3528,8 @@ namespace Aura.World.Network
 
 			client.Send(new MabiPacket(Op.LeaveSoulStreamR, Id.World));
 
-			client.SendLock(creature);
-			client.SendEnterRegionPermission(creature);
+			Send.CharacterLock(client, creature);
+			Send.EnterRegionPermission(client, creature);
 		}
 
 		protected void HandleOptionSet(WorldClient client, MabiPacket packet)

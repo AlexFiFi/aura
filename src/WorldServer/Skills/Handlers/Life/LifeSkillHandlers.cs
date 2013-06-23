@@ -3,6 +3,7 @@
 
 using Aura.Shared.Const;
 using Aura.World.World;
+using Aura.World.Network;
 
 namespace Aura.World.Skills
 {
@@ -11,7 +12,7 @@ namespace Aura.World.Skills
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			creature.State |= CreatureStates.SitDown;
-			WorldManager.Instance.CreatureSitDown(creature);
+			Send.SitDown(creature);
 
 			SkillHelper.GiveSkillExp(creature, skill, 20);
 
@@ -21,7 +22,7 @@ namespace Aura.World.Skills
 		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			creature.State &= ~CreatureStates.SitDown;
-			WorldManager.Instance.CreatureStandUp(creature);
+			Send.StandUp(creature);
 
 			return SkillResults.Okay;
 		}

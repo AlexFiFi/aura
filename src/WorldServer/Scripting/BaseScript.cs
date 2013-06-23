@@ -82,12 +82,12 @@ namespace Aura.World.Scripting
 			if (client == null)
 				return;
 
-			client.Send(PacketCreator.Notice(msg, type));
+			Send.Notice(client, msg, type);
 		}
 
 		protected void Broadcast(string msg, NoticeType type = NoticeType.Top)
 		{
-			WorldManager.Instance.Broadcast(PacketCreator.Notice(msg, type), SendTargets.All);
+			Send.AllNotice(type, msg);
 		}
 
 		protected void AddHook(string npc, string hook, ScriptHook func)

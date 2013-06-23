@@ -26,7 +26,7 @@ namespace Aura.World.Skills
 
 			creature.Temp.SkillItem1 = item;
 
-			creature.Client.SendSkillReady(creature, skill.Id, "");
+			Send.SkillReady(creature.Client, creature, skill.Id, "");
 
 			return SkillResults.Okay;
 		}
@@ -40,7 +40,7 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.UseMagic).PutString("healing_phoenix").PutLong(target.Id), SendTargets.Range, creature);
 
-			creature.Client.SendSkillUse(creature, skill.Id, targetId);
+			Send.SkillUse(creature.Client, creature, skill.Id, targetId);
 
 			return SkillResults.Okay;
 		}
@@ -65,7 +65,7 @@ namespace Aura.World.Skills
 
 			WorldManager.Instance.ReviveCreature(target);
 
-			creature.Client.SendSkillComplete(creature, skill.Id, targetId);
+			Send.SkillComplete(creature.Client, creature, skill.Id, targetId);
 
 			return SkillResults.Okay;
 		}

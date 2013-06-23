@@ -40,9 +40,9 @@ namespace Aura.World.World
 
 		public void Send(WorldClient client)
 		{
-			WorldManager.Instance.Broadcast(PacketCreator.EntityLeaves(client.Character), SendTargets.Range, client.Character);
-			client.Send(PacketCreator.EntitiesLeave(WorldManager.Instance.GetCreaturesInRange(client.Character)));
-			client.SendLock(client.Character);
+			Aura.World.Network.Send.EntityDisappears(client.Character);
+			Aura.World.Network.Send.EntitiesDisappear(client, WorldManager.Instance.GetCreaturesInRange(client.Character));
+			Aura.World.Network.Send.CharacterLock(client, client.Character);
 
 			var p = new MabiPacket(Op.CutsceneStart, Id.World);
 			p.PutLongs(client.Character.Id, _leader.Id);

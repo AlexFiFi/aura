@@ -6,6 +6,7 @@ using Aura.World.World;
 using System;
 using Aura.Shared.Util;
 using Aura.Shared.Network;
+using Aura.World.Network;
 namespace Aura.World.Skills
 {
 	public static class CombatHelper
@@ -231,7 +232,7 @@ namespace Aura.World.Skills
 				else
 				{
 					target.BattleState = 1;
-					WorldManager.Instance.CreatureChangeStance(target, 0);
+					Send.ChangesStance(target, 0);
 				}
 			}
 		}

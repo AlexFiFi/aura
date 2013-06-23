@@ -14,8 +14,8 @@ namespace Aura.World.Skills
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			WorldManager.Instance.SendSkillInitEffect(creature, "healing");
-			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
+			Send.SkillInitEffect(creature, "healing");
+			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
@@ -27,16 +27,16 @@ namespace Aura.World.Skills
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StackUpdate).PutString("healing_stack").PutBytes(creature.ActiveSkillStacks, 0), SendTargets.Range, creature);
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.HoldMagic).PutString("healing"), SendTargets.Range, creature);
 
-			creature.Client.SendSkillReady(creature, skill.Id);
+			Send.SkillReady(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
 
 		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
-			creature.Client.SendSkillComplete(creature, skill.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id);
 			if (creature.ActiveSkillStacks > 0)
-				creature.Client.SendSkillReady(creature, skill.Id);
+				Send.SkillReady(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
@@ -79,7 +79,7 @@ namespace Aura.World.Skills
 
 			SkillHelper.GiveSkillExp(creature, skill, 20);
 
-			creature.Client.SendSkillUse(creature, skill.Id, targetId);
+			Send.SkillUse(creature.Client, creature, skill.Id, targetId);
 
 			return SkillResults.Okay;
 		}

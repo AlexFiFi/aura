@@ -204,7 +204,7 @@ namespace Aura.World.Network
 						int exitSeconds = dcSeconds + 30;
 
 						// Broadcast a notice.
-						WorldManager.Instance.Broadcast(PacketCreator.Notice("The server will shutdown in " + dcSeconds + " seconds, please log out before that time, for your own safety.", NoticeType.TopRed), SendTargets.All);
+						Send.AllNotice(NoticeType.TopRed, "The server will shutdown in {0} seconds, please log out before that time, for your own safety.", dcSeconds);
 
 						// Set a timer when to send the dc request all remaining players.
 						_shutdownTimer1 = new Timer(_ =>

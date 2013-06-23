@@ -23,12 +23,12 @@ namespace Aura.World.Skills
 			if (creature.IsMoving)
 			{
 				creature.StopMove();
-				WorldManager.Instance.SendStopMove(creature);
+				Send.StopMove(creature);
 			}
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.SkillInit).PutString("icespear").PutShort((ushort)skill.Id), SendTargets.Range, creature);
 
-			creature.Client.SendSkillPrepare(creature, skill.Id, castTime);
+			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);
 
 			return SkillResults.Okay;
 		}
@@ -49,7 +49,7 @@ namespace Aura.World.Skills
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.HoldMagic).PutString("icespear").PutShort(skill.Info.Id), SendTargets.Range, creature);
 			}
 
-			creature.Client.SendSkillReady(creature, skill.Id);
+			Send.SkillReady(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
@@ -79,7 +79,7 @@ namespace Aura.World.Skills
 
 			var charges = attacker.ActiveSkillStacks;
 
-			attacker.Client.SendSkillUse(attacker, skill.Id, targetId);
+			Send.SkillUse(attacker.Client, attacker, skill.Id, targetId);
 
 			SkillHelper.ClearStack(attacker, skill);
 
@@ -248,10 +248,10 @@ namespace Aura.World.Skills
 
 		public override SkillResults Complete(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
-			creature.Client.SendSkillComplete(creature, skill.Id);
+			Send.SkillComplete(creature.Client, creature, skill.Id);
 
 			if (creature.ActiveSkillStacks > 0)
-				creature.Client.SendSkillComplete(creature, skill.Id);
+				Send.SkillComplete(creature.Client, creature, skill.Id);
 
 			return SkillResults.Okay;
 		}
