@@ -175,7 +175,7 @@ namespace Aura.Login.Network
 					packet.PutBin(item.Info);
 				}
 
-				packet.PutInt(0);	 // PetRemainingTime
+				packet.PutInt(0);  // PetRemainingTime
 				packet.PutLong(0); // PetLastTime
 				packet.PutLong(0); // PetExpireTime
 			}

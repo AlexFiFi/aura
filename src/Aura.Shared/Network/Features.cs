@@ -28,7 +28,7 @@ namespace Aura.Shared.Network
 			Setup(Feature.Commerce, Enable(150100));
 			Setup(Feature.ExpiringPockets, Enable(150100));
 			Setup(Feature.ConditionD, Enable(150100));
-			Setup(Feature.FarmingTemp, Enable(150100), Disable(170400));
+			Setup(Feature.FarmingPublic, Enable(150100), Disable(170400));
 			Setup(Feature.NPCOptions, Enable(150100));
 			Setup(Feature.BombEvent, Enable(150100));
 			Setup(Feature.UnkAny1, Enable(150100));
@@ -140,7 +140,7 @@ namespace Aura.Shared.Network
 		/// <summary>
 		/// Unk farming information; existed between G15 and G17 in Creature.
 		/// </summary>
-		FarmingTemp,
+		FarmingPublic,
 
 		/// <summary>
 		/// Special NPC information in creature packet.

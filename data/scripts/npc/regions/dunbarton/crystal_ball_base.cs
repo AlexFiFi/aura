@@ -625,7 +625,7 @@ public class CrystalBallBaseScript : NPCScript
 			r = Wait();
 
 			CloseCustom(c);
-			s.Send(c);
+			s.Play(c);
 		}
 
 		End();
@@ -849,7 +849,7 @@ public class CrystalBallBaseScript : NPCScript
 			r = Wait();
 
 			CloseCustom(c);
-			s.Send(c);
+			s.Play(c);
 		}
 
 		End();
@@ -1860,7 +1860,7 @@ public class CrystalBallBaseScript : NPCScript
 			r = Wait();
 
 			CloseCustom(c);
-			s.Send(c);
+			s.Play(c);
 		}
 
 		End();

@@ -20,11 +20,7 @@ namespace Aura.World.Skills
 
 		public override SkillResults Prepare(World.MabiCreature creature, World.MabiSkill skill, Shared.Network.MabiPacket packet, uint castTime)
 		{
-			if (creature.IsMoving)
-			{
-				creature.StopMove();
-				Send.StopMove(creature);
-			}
+			creature.StopMove();
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.SkillInit).PutString("icespear").PutShort((ushort)skill.Id), SendTargets.Range, creature);
 

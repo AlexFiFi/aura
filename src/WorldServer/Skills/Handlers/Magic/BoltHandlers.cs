@@ -22,11 +22,7 @@ namespace Aura.World.Skills
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
-			if (creature.IsMoving)
-			{
-				creature.StopMove();
-				Send.StopMove(creature);
-			}
+			creature.StopMove();
 
 			// Casting motion?
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Casting).PutShort(skill.Info.Id).PutBytes(0, 1).PutShort(0), SendTargets.Range, creature);
@@ -198,7 +194,7 @@ namespace Aura.World.Skills
 			var rnd = RandomProvider.Get();
 
 			var damage = attacker.GetMagicDamage(attacker.RightHand, rnd.Next((int)skill.RankInfo.Var1, (int)skill.RankInfo.Var2 + 1));
-			
+
 			damage *= (attacker.ActiveSkillStacks == 5 ? 6.5f : attacker.ActiveSkillStacks);
 
 			if (CombatHelper.TryAddCritical(target, ref damage, attacker.CriticalChanceAgainst(target)))
@@ -284,7 +280,7 @@ namespace Aura.World.Skills
 
 				cap.Add(splashAction);
 
-				splashAction.Damage = damage * ((100-(i * 10)) / 100f);
+				splashAction.Damage = damage * ((100 - (i * 10)) / 100f);
 
 				if (CombatHelper.TryAddCritical(targets[i], ref damage, attacker.CriticalChanceAgainst(targets[i])))
 					splashAction.Options |= TargetOptions.Critical;

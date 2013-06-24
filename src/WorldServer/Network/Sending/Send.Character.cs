@@ -175,6 +175,24 @@ namespace Aura.World.Network
 			client.Send(packet);
 		}
 
+		public static void CutsceneStart(WorldClient client, MabiCutscene cutscene)
+		{
+			var p = new MabiPacket(Op.CutsceneStart, Id.World);
+			p.PutLongs(client.Character.Id, cutscene.Leader.Id);
+			p.PutString(cutscene.Name);
+			p.PutSInt(cutscene.Actors.Count);
+			foreach (var a in cutscene.Actors)
+			{
+				p.PutString(a.Item1);
+				p.PutShort((ushort)a.Item2.Length);
+				p.PutBin(a.Item2);
+			}
+			p.PutInt(1);
+			p.PutLong(client.Character.Id);
+
+			client.Send(p);
+		}
+
 		/// <summary>
 		/// Sends character info (5209). Response is negative if character is null.
 		/// </summary>

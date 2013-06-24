@@ -16,11 +16,7 @@ namespace Aura.World.Skills
 		{
 			Send.SkillInitEffect(creature);
 
-			if (creature.IsMoving)
-			{
-				creature.StopMove();
-				Send.StopMove(creature);
-			}
+			creature.StopMove();
 
 			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);
 

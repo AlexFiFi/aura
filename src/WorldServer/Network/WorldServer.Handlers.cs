@@ -399,8 +399,6 @@ namespace Aura.World.Network
 				return;
 
 			creature.StopMove();
-			if (creature.IsMoving)
-				Send.StopMove(creature);
 
 			var result = false;
 
@@ -1902,31 +1900,30 @@ namespace Aura.World.Network
 			var title = packet.GetShort();
 			var optionTitle = packet.GetShort();
 
-			var creature = client.GetCreatureOrNull(packet.Id);
-			if (creature == null)
+			var character = client.GetCharacterOrNull(packet.Id);
+			if (character == null)
 				return;
 
 			var titleSuccess = false;
 			var optionSuccess = false;
 
 			// Make sure the character has this title
-			var character = creature as MabiPC;
 			if (title == 0 || (character.Titles.ContainsKey(title)) && character.Titles[title])
 			{
-				creature.Title = title;
+				character.Title = title;
 				titleSuccess = true;
 			}
 
 			if (optionTitle == 0 || (character.Titles.ContainsKey(optionTitle)) && character.Titles[optionTitle])
 			{
-				creature.OptionTitle = optionTitle;
+				character.OptionTitle = optionTitle;
 				optionSuccess = true;
 			}
 
 			if (titleSuccess || optionSuccess)
-				Send.TitleUpdate(creature);
+				Send.TitleUpdate(character);
 
-			Send.ChangeTitleResponse(client, creature, titleSuccess, optionSuccess);
+			Send.ChangeTitleResponse(client, character, titleSuccess, optionSuccess);
 		}
 
 		private void HandlePetSummon(WorldClient client, MabiPacket packet)

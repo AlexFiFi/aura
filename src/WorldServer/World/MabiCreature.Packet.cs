@@ -15,7 +15,7 @@ namespace Aura.World.World
 
 			// Titles
 			// --------------------------------------------------------------
-			packet.PutShort(this.Title);		 // SelectedTitle
+			packet.PutShort(this.Title);		 
 			packet.PutLong(this.TitleApplied);
 			packet.PutShort(this.OptionTitle);
 
@@ -198,7 +198,7 @@ namespace Aura.World.World
 
 			// Farming
 			// --------------------------------------------------------------
-			if (Feature.FarmingTemp.IsEnabled())
+			if (Feature.FarmingPublic.IsEnabled())
 			{
 				// This seems to be missing in 170400
 
@@ -333,6 +333,7 @@ namespace Aura.World.World
 			packet.PutByte(0);	                 // IsGhost
 			packet.PutLong(0);			         // SittingProp
 			packet.PutSInt(-1);		             // SittedSocialMotionId
+
 			packet.PutLong(0);			         // DoubleGoreTarget
 			packet.PutInt(0);			         // DoubleGoreTargetType
 			if (!this.IsMoving)
@@ -341,7 +342,7 @@ namespace Aura.World.World
 			}
 			else
 			{
-				packet.PutByte((byte)(!_moveIsWalk ? 2 : 1));
+				packet.PutByte((byte)(!IsWalking ? 2 : 1));
 				packet.PutInt(Destination.X);
 				packet.PutInt(Destination.Y);
 			}

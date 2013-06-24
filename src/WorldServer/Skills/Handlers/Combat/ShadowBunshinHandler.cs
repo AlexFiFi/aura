@@ -27,15 +27,11 @@ namespace Aura.World.Skills
 			// Is this check done client sided in every client by now?
 			if (WorldConf.BunshinSouls && creature is MabiPC && creature.SoulCount < skill.RankInfo.Var1)
 			{
-				Send.Notice(creature.Client,"You need {0} more souls\nto be able to use Shadow Bunshin.", (skill.RankInfo.Var1 - creature.SoulCount));
+				Send.Notice(creature.Client, "You need {0} more souls\nto be able to use Shadow Bunshin.", (skill.RankInfo.Var1 - creature.SoulCount));
 				return SkillResults.Failure;
 			}
 
-			if (creature.IsMoving)
-			{
-				creature.StopMove();
-				Send.StopMove(creature);
-			}
+			creature.StopMove();
 
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.ShadowBunshin).PutByte(1), SendTargets.Range, creature);
 			Send.SkillPrepare(creature.Client, creature, skill.Id, castTime);

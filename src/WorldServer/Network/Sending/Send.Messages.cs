@@ -33,7 +33,7 @@ namespace Aura.World.Network
 			var packet = new MabiPacket(Op.Chat, target.Id);
 			packet.PutByte(0);
 			packet.PutString(from);
-			packet.PutString(args.Length < 1 ? format : string.Format(format, args));
+			packet.PutString(format, args);
 			packet.PutByte(1);
 			packet.PutSInt(-32640);
 			packet.PutInt(0);

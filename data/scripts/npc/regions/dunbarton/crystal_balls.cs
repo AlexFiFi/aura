@@ -628,7 +628,7 @@ public class CrystalBallBaseScript : NPCScript
 			r = Select(c);
 
 			Close(c);
-			s.Send(c);
+			s.Play(c);
 		}
 
 		End();
@@ -854,7 +854,7 @@ public class CrystalBallBaseScript : NPCScript
 			r = Select(c);
 
 			Close(c);
-			s.Send(c);
+			s.Play(c);
 		}
 
 		End();
@@ -1869,7 +1869,7 @@ public class CrystalBallBaseScript : NPCScript
 			r = Select(c);
 
 			Close(c);
-			s.Send(c);
+			s.Play(c);
 		}
 
 		End();

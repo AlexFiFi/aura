@@ -1037,7 +1037,7 @@ namespace Aura.World.World
 
 			scene.AddActor("me", creature);
 
-			scene.Send(client);
+			scene.Play(client);
 
 			return CommandResult.Okay;
 		}

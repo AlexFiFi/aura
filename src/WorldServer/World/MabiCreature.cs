@@ -87,7 +87,7 @@ namespace Aura.World.World
 		private DateTime _moveStartTime;
 		private double _movementX, _movementY, _movementH;
 		private double _moveDuration;
-		private bool _moveIsWalk;
+		public bool IsWalking { get; protected set; }
 
 		public MabiCreature Target = null;
 		public float _stun;
@@ -1325,7 +1325,7 @@ namespace Aura.World.World
 
 			}
 
-			return (!_moveIsWalk ? ri.SpeedRun : ri.SpeedWalk);
+			return (!IsWalking ? ri.SpeedRun : ri.SpeedWalk);
 		}
 
 		public void SetLocation(uint region, uint x, uint y)
@@ -1377,7 +1377,7 @@ namespace Aura.World.World
 			Destination.H = dest.H;
 
 			_moveStartTime = DateTime.Now;
-			_moveIsWalk = walk;
+			IsWalking = walk;
 
 			var diffX = (int)dest.X - (int)pos.X;
 			var diffY = (int)dest.Y - (int)pos.Y;
@@ -1398,13 +1398,23 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Stops calculation of movement, doesn't actually stop movement
-		/// on the client side.
+		/// Stops movement, returning new current position.
+		/// Sends: RunTo/WalkTo
 		/// </summary>
 		public MabiVertex StopMove()
 		{
+			if (!this.IsMoving)
+				return _position.Copy();
+
 			var pos = this.GetPosition();
-			return this.SetPosition(pos.X, pos.Y, pos.H);
+			this.SetPosition(pos.X, pos.Y, pos.H);
+
+			if (this.IsWalking)
+				Send.WalkTo(this, pos);
+			else
+				Send.RunTo(this, pos);
+
+			return pos;
 		}
 
 		/// <summary>
@@ -1538,9 +1548,9 @@ namespace Aura.World.World
 
 			if (this.Target.IsMoving)
 			{
-				if (this.Target._moveIsWalk && aimPercent > 95)
+				if (this.Target.IsWalking && aimPercent > 95)
 					aimPercent = 95;
-				else if (!this.Target._moveIsWalk && aimPercent > 90)
+				else if (!this.Target.IsWalking && aimPercent > 90)
 					aimPercent = 90;
 			}
 

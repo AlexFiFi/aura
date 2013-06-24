@@ -219,15 +219,32 @@ namespace Aura.World.Network
 		}
 
 		/// <summary>
-		/// Broadcasts RunTo, to let creature stop.
+		/// Broadcasts RunTo. If to is null, the creature's position is used.
 		/// </summary>
 		/// <param name="wm"></param>
 		/// <param name="creature"></param>
-		public static void StopMove(MabiCreature creature)
+		public static void RunTo(MabiCreature creature, MabiVertex to = null)
 		{
 			var pos = creature.GetPosition();
 
 			var p = new MabiPacket(Op.RunTo, creature.Id);
+			p.PutInts(pos.X, pos.Y); // From
+			p.PutInts(pos.X, pos.Y); // To
+			p.PutBytes(1, 0);
+
+			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
+		}
+
+		/// <summary>
+		/// Broadcasts WalkTo. If to is null, the creature's position is used.
+		/// </summary>
+		/// <param name="wm"></param>
+		/// <param name="creature"></param>
+		public static void WalkTo(MabiCreature creature, MabiVertex to = null)
+		{
+			var pos = creature.GetPosition();
+
+			var p = new MabiPacket(Op.WalkTo, creature.Id);
 			p.PutInts(pos.X, pos.Y); // From
 			p.PutInts(pos.X, pos.Y); // To
 			p.PutBytes(1, 0);

@@ -101,7 +101,7 @@ public class RescueResidentQuest : QuestScript
 					scene.AddActor("me", c.Character);
 					scene.AddActor("#trefor", n.NPC);
 					scene.AddActor("#brownfox", c.Character);
-					scene.Send(c);
+					scene.Play(c);
 					
 					Stop();
 				}
