@@ -60,24 +60,20 @@ namespace Aura.World.Network
 		}
 
 		/// <summary>
-		/// Sends whisper chat to both clients.
+		/// Sends whisper chat to client.
 		/// </summary>
-		/// <param name="sourceClient"></param>
-		/// <param name="targetClient"></param>
-		/// <param name="target"></param>
+		/// <param name="client"></param>
+		/// <param name="creature"></param>
 		/// <param name="sender"></param>
 		/// <param name="format"></param>
 		/// <param name="args"></param>
-		public static void Whisper(Client sourceClient, Client targetClient, MabiCreature target, string sender, string format, params object[] args)
+		public static void Whisper(Client client, MabiCreature creature, string sender, string format, params object[] args)
 		{
-			var packet = new MabiPacket(Op.WhisperChat, target.Id);
+			var packet = new MabiPacket(Op.WhisperChat, creature.Id);
 			packet.PutStrings(sender);
 			packet.PutString(format, args);
 
-			if (sourceClient != null)
-				sourceClient.Send(packet);
-			if (targetClient != null)
-				targetClient.Send(packet);
+			client.Send(packet);
 		}
 
 		/// <summary>

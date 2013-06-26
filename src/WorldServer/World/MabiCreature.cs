@@ -38,8 +38,10 @@ namespace Aura.World.World
 		public MabiStatRegen LifeRegen, ManaRegen, StaminaRegen;
 
 		public byte SkinColor, Eye, EyeColor, Lip;
-		public string StandStyle = "";
-		public string StandStyleTalk = "";
+
+		private string _standStyle = "", _standStyleTalk = "";
+		public string StandStyle { get { return (this.Shamala == null ? _standStyle : ""); } set { _standStyle = value; } }
+		public string StandStyleTalk { get { return (this.Shamala == null ? _standStyleTalk : ""); } set { _standStyleTalk = value; } }
 
 		public uint Color1 = 0x808080;
 		public uint Color2 = 0x808080;
@@ -744,6 +746,9 @@ namespace Aura.World.World
 
 		public void UpdateTalentExp(SkillConst skill, SkillRank rank, bool notifyRankUp = false)
 		{
+			if (true)
+				return;
+
 			var mask = (byte)this.GetRaceMask();
 
 			var exps = MabiData.TalentExpDb.Entries.Where(a => a.SkillId == (ushort)skill && a.SkillRank <= (byte)rank && (a.Race & mask) != 0);
@@ -1174,36 +1179,54 @@ namespace Aura.World.World
 			return this.HasSkill((ushort)id);
 		}
 
+		/// <summary>
+		/// Gives skill to creature.
+		/// Sends: (SkillInfo | SkillRankUp) [+ RankUp]
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="rank"></param>
+		/// <param name="showFlashIfNew"></param>
 		public void GiveSkill(ushort skillId, byte rank, bool showFlashIfNew = false)
 		{
 			this.GiveSkill((SkillConst)skillId, (SkillRank)rank, showFlashIfNew);
 		}
 
-		public void GiveSkill(SkillConst skillId, SkillRank rank, bool showFlashIfNew = false)
+		/// <summary>
+		/// Gives skill to creature.
+		/// Sends: (SkillInfo | SkillRankUp) [+ RankUp]
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="rank"></param>
+		/// <param name="showFlash"></param>
+		public void GiveSkill(SkillConst skillId, SkillRank rank, bool showFlash = false)
 		{
 			var skill = this.GetSkill(skillId);
 			if (skill == null)
 			{
-				skill = new MabiSkill(skillId, rank, this.Race);
-				this.AddSkill(skill);
-				WorldManager.Instance.CreatureSkillUpdate(this, skill, true);
+				this.AddSkill(skill = new MabiSkill(skillId, rank, this.Race));
+
+				Send.SkillInfo(this.Client, this, skill);
+				if (showFlash)
+					Send.RankUp(this);
+
 				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, true));
-				if (showFlashIfNew)
-					WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, this.Id).PutShort(1), SendTargets.Range, this);
 			}
 			else
 			{
-				RemoveSkillBonuses(skill);
+				this.RemoveSkillBonuses(skill);
 
 				skill.Info.Experience = 0;
-
 				skill.Info.Rank = (byte)rank;
 				skill.LoadRankInfo();
-				WorldManager.Instance.CreatureSkillUpdate(this, skill, false);
+
+				Send.SkillRankUp(this.Client, this, skill);
+				if (showFlash)
+					Send.RankUp(this, skill.Info.Id);
+
 				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, false));
 			}
 
-			AddSkillBonuses(skill);
+			this.AddSkillBonuses(skill);
 
 			this.UpdateTalentExp(skillId, rank, true);
 		}

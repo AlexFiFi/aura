@@ -31,7 +31,7 @@ namespace Aura.World.World
 		public void AddActor(string name, MabiCreature creature)
 		{
 			var packet = new MabiPacket(0);
-			packet.AddTest(creature, Send.CreaturePacketType.Public);
+			packet.AddCreatureInfo(creature, Send.CreaturePacketType.Public);
 			AddActor(name, packet.Build(false));
 		}
 

@@ -46,7 +46,7 @@ namespace Aura.World.Network
 			packet.PutInt(x);
 			packet.PutInt(y);
 			packet.PutLong(npcId);
-			packet.AddTest(character, CreaturePacketType.Private);
+			packet.AddCreatureInfo(character, CreaturePacketType.Private);
 
 			client.Send(packet);
 		}

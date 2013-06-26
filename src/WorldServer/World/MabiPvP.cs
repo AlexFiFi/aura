@@ -62,7 +62,7 @@ namespace Aura.World.World
 		}
 
 		public abstract void EnterArena(MabiCreature creature);
-		
+
 		public virtual void EnterLobby(MabiCreature creature)
 		{
 			SendArenaRoundInfo(creature);
@@ -206,33 +206,32 @@ namespace Aura.World.World
 					toRemove.Add(creature); // I SAID GTFO
 			}
 
-			foreach (var c in toRemove)
+			foreach (var creature in toRemove)
 			{
 				try
 				{
-					var client = c.Client as WorldClient;
-					client.Warp(LobbyRegion, 1150, 3545); // AND THEY'RE GONE
-					if (c.IsDead)
-					{
-						WorldServer.Instance.HandleDeadMenu(client, null);
-					}
-				} catch
-				{}
+					var client = creature.Client as WorldClient;
+					client.Warp(this.LobbyRegion, 1150, 3545); // AND THEY'RE GONE
 
-				if (_stars.ContainsKey(c))
-					_stars.Remove(c);
-				if (_teams.ContainsKey(c))
-					_teams.Remove(c);
+					if (creature.IsDead)
+						WorldServer.Instance.HandleDeadMenu(client, null);
+				}
+				catch { }
+
+				if (_stars.ContainsKey(creature))
+					_stars.Remove(creature);
+				if (_teams.ContainsKey(creature))
+					_teams.Remove(creature);
 			}
 
-			creatures = creatures.Except(toRemove);
-
-			foreach (var c in creatures)
-				if (!c.IsDead)
+			foreach (var creature in creatures.Except(toRemove))
+			{
+				if (!creature.IsDead)
 				{
-					c.FullHeal();
-					WorldManager.Instance.BroadcastRegion(new MabiPacket(Op.RankUp, c.Id).PutShort(1), c.Region);
+					creature.FullHeal();
+					Send.RankUp(creature);
 				}
+			}
 		}
 
 		public override void CreatureKilled(MabiCreature creature, MabiCreature attacker)

@@ -8,6 +8,7 @@ using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.World.Player;
 using Aura.World.World;
+using System.Collections.Generic;
 
 namespace Aura.World.Network
 {
@@ -15,7 +16,7 @@ namespace Aura.World.Network
 	{
 		private static void AddPublicEntityInfo(this MabiPacket packet, MabiEntity entity)
 		{
-			if (entity is MabiCreature) packet.AddTest(entity as MabiCreature, CreaturePacketType.Public);
+			if (entity is MabiCreature) packet.AddCreatureInfo(entity as MabiCreature, CreaturePacketType.Public);
 			else if (entity is MabiItem) packet.AddItemInfo(entity as MabiItem, ItemPacketType.Public);
 			else if (entity is MabiProp) packet.AddPropInfo(entity as MabiProp);
 			else throw new Exception("Unknown entity class '" + entity.GetType() + "'");
@@ -104,19 +105,27 @@ namespace Aura.World.Network
 			}
 		}
 
-		public enum CreaturePacketType { Minimal = 1, Private = 2, Public = 5 }
-
 		/// <summary>
-		/// Example. Combination of public and private creature data.
+		/// Test. Combination of public and private creature data.
 		/// </summary>
 		/// <param name="packet"></param>
 		/// <param name="creature"></param>
 		/// <param name="type"></param>
-		public static void AddTest(this MabiPacket packet, MabiCreature creature, CreaturePacketType type)
+		public static void AddCreatureInfo(this MabiPacket packet, MabiCreature creature, CreaturePacketType type)
 		{
+			// Check for MabiPC for private data.
 			var character = creature as MabiPC;
 			if (type == CreaturePacketType.Private && character == null)
 				throw new Exception("MabiPC required for private creature packet.");
+
+			// Get incomplete quests only once, if we need them.
+			IEnumerable<MabiQuest> incompleteQuests = null;
+			int incompleteQuestsCount = 0;
+			if (type == CreaturePacketType.Private && character != null)
+			{
+				incompleteQuests = character.Quests.Values.Where(quest => quest.State < MabiQuestState.Complete);
+				incompleteQuestsCount = incompleteQuests.Count();
+			}
 
 			var loc = creature.GetPosition();
 
@@ -155,7 +164,7 @@ namespace Aura.World.Network
 			// Stats
 			// --------------------------------------------------------------
 			packet.PutFloat(creature.CombatPower);
-			packet.PutString(creature.Shamala == null ? creature.StandStyle : "");
+			packet.PutString(creature.StandStyle);
 
 			if (type == CreaturePacketType.Private)
 			{
@@ -374,9 +383,8 @@ namespace Aura.World.Network
 
 				// A little dirty, but better than actually saving and managing
 				// the quest items imo... [exec]
-				var incompleteQuests = character.Quests.Values.Where(quest => quest.State < MabiQuestState.Complete);
 
-				packet.PutSInt(creature.Items.Count + incompleteQuests.Count());
+				packet.PutSInt(creature.Items.Count + incompleteQuestsCount);
 				foreach (var item in creature.Items)
 					packet.AddItemInfo(item, ItemPacketType.Private);
 				foreach (var quest in incompleteQuests)
@@ -963,10 +971,8 @@ namespace Aura.World.Network
 
 			// Quests
 			// --------------------------------------------------------------
-			var incompleteQuests2 = character.Quests.Values.Where(a => a.State < MabiQuestState.Complete).ToList();
-
-			packet.PutSInt(incompleteQuests2.Count);
-			foreach (var q in incompleteQuests2)
+			packet.PutSInt(incompleteQuestsCount);
+			foreach (var q in incompleteQuests)
 				packet.AddQuest(q);
 
 			// Char
@@ -991,5 +997,8 @@ namespace Aura.World.Network
 				packet.PutShort(73);
 			}
 		}
+
+		public enum CreaturePacketType { Minimal = 1, Private = 2, Public = 5 }
+		public enum ItemPacketType : byte { Public = 1, Private = 2 }
 	}
 }

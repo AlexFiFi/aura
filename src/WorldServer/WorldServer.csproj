@@ -64,7 +64,7 @@
     <Compile Include="Events\Events.cs" />
     <Compile Include="Network\PacketCreator.cs" />
     <Compile Include="Network\Sending\Send.PvP.cs" />
-    <Compile Include="Network\Sending\Send.Test.cs" />
+    <Compile Include="Network\Sending\Send.Entity.cs" />
     <Compile Include="Network\Sending\Send.Quest.cs" />
     <Compile Include="Network\Sending\Send.Mail.cs" />
     <Compile Include="Network\Sending\Send.Item.cs" />

@@ -387,7 +387,8 @@ namespace Aura.World.Network
 				return;
 			}
 
-			Send.Whisper(client, target.Client, target, creature.Name, msg);
+			Send.Whisper(client, creature, creature.Name, msg);
+			Send.Whisper(target.Client, target, creature.Name, msg);
 		}
 
 		private void HandleGesture(WorldClient client, MabiPacket packet)
@@ -478,7 +479,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var target = WorldManager.Instance.GetCharacterByName(targetName, false);
+			var target = WorldManager.Instance.GetCharacterOrNpcByName(targetName);
 			if (target == null)
 			{
 				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.
@@ -516,7 +517,7 @@ namespace Aura.World.Network
 			}
 
 			var targetName = packet.GetString();
-			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null)
 			{
 				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.
@@ -572,7 +573,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null)
 			{
 				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.
@@ -597,7 +598,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var target = WorldManager.Instance.GetCharacterByName(targetName) as MabiPC;
+			var target = WorldManager.Instance.GetCharacterByName(targetName);
 			if (target == null)
 			{
 				Send.MsgBox(client, client.Character, Localization.Get("gm.gmcp_nochar"), targetName); // Character '{0}' couldn't be found.

@@ -537,83 +537,6 @@ namespace Aura.World.World
 		// ==================================================================
 
 		/// <summary>
-		/// Returns a list of entities (NPCs, Items, Props, etc) that are within the specified range
-		/// of the specified and region and coordinates. Currently this method ignores the actual range,
-		/// only pays attention to the region.
-		/// </summary>
-		/// <param name="region"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="range"></param>
-		/// <returns></returns>
-		public List<MabiEntity> GetEntitiesInRange(uint region, uint x, uint y, uint range = 0)
-		{
-			if (range < 1)
-				range = WorldConf.SightRange;
-
-			var result = new List<MabiEntity>();
-
-			lock (_creatures)
-				result.AddRange(_creatures.FindAll(a => a.Region == region && InRange(a, x, y, range)));
-
-			lock (_items)
-				result.AddRange(_items.FindAll(a => a.Region == region && InRange(a, x, y, range)));
-
-			lock (_props)
-				result.AddRange(_props.FindAll(a => a.Region == region /*&& InRange(a, x, y, range)*/));
-
-			return result;
-		}
-
-		public List<MabiEntity> GetEntitiesInRange(MabiEntity entity, uint range = 0)
-		{
-			if (range < 1)
-				range = WorldConf.SightRange;
-
-			var pos = entity.GetPosition();
-			return this.GetEntitiesInRange(entity.Region, pos.X, pos.Y, range);
-		}
-
-		public List<MabiCreature> GetCreaturesInRange(MabiEntity entity, uint range = 0)
-		{
-			if (range < 1)
-				range = WorldConf.SightRange;
-
-			return _creatures.FindAll(a => a != entity && InRange(a, entity, range));
-		}
-
-		public List<MabiCreature> GetAttackableCreaturesInRange(MabiEntity entity, uint range = 0)
-		{
-			if (range < 1)
-				range = WorldConf.SightRange;
-
-			return _creatures.FindAll(a => a != entity && a is MabiNPC && !(a as MabiNPC).Has(CreatureStates.GoodNpc) && !a.IsDead && InRange(a, entity, range));
-		}
-
-		public List<MabiCreature> GetPlayersInRange(MabiEntity entity, uint range = 0)
-		{
-			if (range < 1)
-				range = WorldConf.SightRange;
-
-			return _creatures.FindAll(a => a != entity && a.IsPlayer && a.Region == entity.Region && InRange(a, entity, range));
-		}
-
-		public List<MabiItem> GetItemsInRegion(uint region)
-		{
-			return _items.FindAll(a => a.Region == region);
-		}
-
-		public IEnumerable<MabiCreature> GetAllPlayers()
-		{
-			return _creatures.Where(c => c is MabiPC);
-		}
-
-		public IEnumerable<MabiCreature> GetAllPlayersInRegion(uint region)
-		{
-			return this.GetAllPlayers().Where(a => a.Region == region);
-		}
-
-		/// <summary>
 		/// Adds a creature to the world, and raises the EnterRegion event.
 		/// </summary>
 		/// <param name="creature"></param>
@@ -682,10 +605,90 @@ namespace Aura.World.World
 			}
 
 			if (creature.Party != null)
-				CreatureLeaveParty(creature);
+				this.CreatureLeaveParty(creature);
 
 			this.CreatureLeaveRegion(creature);
 			creature.Dispose();
+		}
+
+		/// <summary>
+		/// Returns a list of entities (NPCs, Items, Props, etc) that are within the specified range
+		/// of the specified and region and coordinates. Currently this method ignores the actual range,
+		/// only pays attention to the region.
+		/// </summary>
+		/// <param name="region"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="range"></param>
+		/// <returns></returns>
+		public List<MabiEntity> GetEntitiesInRange(uint region, uint x, uint y, uint range = 0)
+		{
+			if (range < 1)
+				range = WorldConf.SightRange;
+
+			var result = new List<MabiEntity>();
+
+			lock (_creatures)
+				result.AddRange(_creatures.FindAll(a => a.Region == region && InRange(a, x, y, range)));
+
+			lock (_items)
+				result.AddRange(_items.FindAll(a => a.Region == region && InRange(a, x, y, range)));
+
+			lock (_props)
+				result.AddRange(_props.FindAll(a => a.Region == region /*&& InRange(a, x, y, range)*/));
+
+			return result;
+		}
+
+		public List<MabiEntity> GetEntitiesInRange(MabiEntity entity, uint range = 0)
+		{
+			var pos = entity.GetPosition();
+			return this.GetEntitiesInRange(entity.Region, pos.X, pos.Y, range);
+		}
+
+		public List<MabiCreature> GetCreaturesInRange(MabiEntity entity, uint range = 0)
+		{
+			if (range < 1)
+				range = WorldConf.SightRange;
+
+			lock (_creatures)
+				return _creatures.FindAll(a => a != entity && InRange(a, entity, range));
+		}
+
+		public List<MabiCreature> GetAttackableCreaturesInRange(MabiEntity entity, uint range = 0)
+		{
+			if (range < 1)
+				range = WorldConf.SightRange;
+
+			lock (_creatures)
+				return _creatures.FindAll(a => a != entity && a is MabiNPC && !(a as MabiNPC).Has(CreatureStates.GoodNpc) && !a.IsDead && InRange(a, entity, range));
+		}
+
+		public List<MabiCreature> GetPlayersInRange(MabiEntity entity, uint range = 0)
+		{
+			if (range < 1)
+				range = WorldConf.SightRange;
+
+			lock (_creatures)
+				return _creatures.FindAll(a => a != entity && a.IsPlayer && a.Region == entity.Region && InRange(a, entity, range));
+		}
+
+		public List<MabiItem> GetItemsInRegion(uint region)
+		{
+			lock (_items)
+				return _items.FindAll(a => a.Region == region);
+		}
+
+		public List<MabiCreature> GetAllPlayers()
+		{
+			lock (_creatures)
+				return _creatures.Where(c => c is MabiPC).ToList();
+		}
+
+		public List<MabiCreature> GetAllPlayersInRegion(uint region)
+		{
+			lock (_creatures)
+				return _creatures.Where(c => c is MabiPC && c.Region == region).ToList();
 		}
 
 		/// <summary>
@@ -695,12 +698,16 @@ namespace Aura.World.World
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public MabiCreature GetCharacterByName(string name, bool forcePC = true)
+		public MabiCreature GetCharacterOrNpcByName(string name)
 		{
-			if (forcePC)
-				return _creatures.FirstOrDefault(a => a.Name.Equals(name) && a is MabiPC);
-			else
+			lock (_creatures)
 				return _creatures.FirstOrDefault(a => a.Name.Equals(name) && (a is MabiPC || a is MabiNPC));
+		}
+
+		public MabiPC GetCharacterByName(string name, bool forcePC = true)
+		{
+			lock (_creatures)
+				return _creatures.FirstOrDefault(a => a.Name.Equals(name) && a is MabiPC) as MabiPC;
 		}
 
 		/// <summary>
@@ -983,19 +990,6 @@ namespace Aura.World.World
 			}
 
 			EventManager.Instance.CreatureEvents.OnCreatureMoves(this, new MoveEventArgs(creature, from, to));
-		}
-
-		public void CreatureSkillUpdate(MabiCreature creature, MabiSkill skill, bool isNew = false)
-		{
-			if (isNew)
-			{
-				creature.Client.Send(new MabiPacket(Op.SkillInfo, creature.Id).PutBin(skill.Info));
-			}
-			else
-			{
-				creature.Client.Send(new MabiPacket(Op.SkillRankUp, creature.Id).PutByte(1).PutBin(skill.Info).PutFloat(0));
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.RankUp, creature.Id).PutShorts(skill.Info.Id, 1), SendTargets.Range, creature);
-			}
 		}
 
 		public void CreatureLeaveRegion(MabiCreature creature)

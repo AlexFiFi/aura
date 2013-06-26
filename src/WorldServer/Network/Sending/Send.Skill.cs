@@ -13,6 +13,24 @@ namespace Aura.World.Network
 {
 	public static partial class Send
 	{
+		public static void SkillInfo(Client client, MabiCreature creature, MabiSkill skill)
+		{
+			var packet = new MabiPacket(Op.SkillInfo, creature.Id);
+			packet.PutBin(skill.Info);
+
+			client.Send(packet);
+		}
+
+		public static void SkillRankUp(Client client, MabiCreature creature, MabiSkill skill)
+		{
+			var packet = new MabiPacket(Op.SkillRankUp, creature.Id);
+			packet.PutByte(1);
+			packet.PutBin(skill.Info);
+			packet.PutFloat(0);
+
+			client.Send(packet);
+		}
+
 		/// <summary>
 		/// Broadcasts skill init flash effect to all players in range of creature.
 		/// </summary>

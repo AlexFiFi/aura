@@ -204,7 +204,7 @@ namespace Aura.World.Network
 			if (character != null)
 			{
 				packet.PutByte(true);
-				packet.AddTest(character, CreaturePacketType.Private);
+				packet.AddCreatureInfo(character, CreaturePacketType.Private);
 			}
 			else
 			{
@@ -237,6 +237,22 @@ namespace Aura.World.Network
 			}
 
 			client.Send(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts RankUp animation in range of creature.
+		/// Only includes skillId if it is > 0.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skillId"></param>
+		public static void RankUp(MabiCreature creature, ushort skillId = 0)
+		{
+			var packet = new MabiPacket(Op.RankUp, creature.Id);
+			if (skillId > 0)
+				packet.PutShort(skillId);
+			packet.PutShort(1);
+
+			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 		}
 	}
 }

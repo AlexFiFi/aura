@@ -815,7 +815,7 @@ namespace Aura.World.World
 				return CommandResult.Fail;
 
 			byte rank = 0xF;
-			if ((args.Length > 2 && !byte.TryParse(args[2], NumberStyles.HexNumber, null, out rank)))
+			if (args.Length > 2 && !byte.TryParse(args[2], NumberStyles.HexNumber, null, out rank))
 				return CommandResult.WrongParameter;
 
 			if (rank >= 1 && rank <= 15)
@@ -825,7 +825,7 @@ namespace Aura.World.World
 			else
 				return CommandResult.WrongParameter;
 
-			creature.GiveSkill(skillId, rank, true);
+			creature.GiveSkill(skillId, rank);
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
@@ -894,7 +894,7 @@ namespace Aura.World.World
 			{
 				var characterName = args[3];
 
-				target = WorldManager.Instance.GetCharacterByName(characterName) as MabiPC;
+				target = WorldManager.Instance.GetCharacterByName(characterName);
 				if (target == null)
 				{
 					Send.ServerMessage(client, creature, Localization.Get("gm.addcard_char"), characterName); // Character '{0}' not found.

@@ -272,8 +272,6 @@ namespace Aura.World.World
 		}
 	}
 
-	public enum ItemPacketType : byte { Public = 1, Private = 2 }
-
 	public enum ItemType : ushort
 	{
 		Armor = 0,
