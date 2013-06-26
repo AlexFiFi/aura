@@ -418,7 +418,7 @@ namespace Aura.World.Network
 			if (type == CreaturePacketType.Private)
 			{
 				packet.PutShort((ushort)creature.Skills.Count);
-				foreach (var skill in creature.Skills.Values)
+				foreach (var skill in creature.Skills.List.Values)
 					packet.PutBin(skill.Info);
 				packet.PutInt(0);			     // SkillVarBufferList
 				// loop						         
@@ -798,41 +798,12 @@ namespace Aura.World.Network
 					packet.PutByte(0);
 					packet.PutFloat(1);
 					packet.PutLong(0);
-					packet.PutShort((ushort)creature.SelectedTalentTitle);
-					packet.PutByte((byte)creature.Grandmaster);
+					packet.PutShort((ushort)creature.Talents.SelectedTitle);
+					packet.PutByte((byte)creature.Talents.Grandmaster);
 				}
 				else if (type == CreaturePacketType.Private)
 				{
-					packet.PutShort((ushort)creature.SelectedTalentTitle);
-					packet.PutByte((byte)creature.Grandmaster);
-					packet.PutInt(creature.GetTalentExp(TalentId.Adventure));
-					packet.PutInt(creature.GetTalentExp(TalentId.Warrior));
-					packet.PutInt(creature.GetTalentExp(TalentId.Mage));
-					packet.PutInt(creature.GetTalentExp(TalentId.Archer));
-					packet.PutInt(creature.GetTalentExp(TalentId.Merchant));
-					packet.PutInt(creature.GetTalentExp(TalentId.BattleAlchemy));
-					packet.PutInt(creature.GetTalentExp(TalentId.Fighter));
-					packet.PutInt(creature.GetTalentExp(TalentId.Bard));
-					packet.PutInt(creature.GetTalentExp(TalentId.Puppeteer));
-					packet.PutInt(creature.GetTalentExp(TalentId.Knight));
-					packet.PutInt(creature.GetTalentExp(TalentId.HolyArts));
-					packet.PutInt(creature.GetTalentExp(TalentId.Transmutaion));
-					packet.PutInt(creature.GetTalentExp(TalentId.Cooking));
-					packet.PutInt(creature.GetTalentExp(TalentId.Blacksmith));
-					packet.PutInt(creature.GetTalentExp(TalentId.Tailoring));
-					packet.PutInt(creature.GetTalentExp(TalentId.Medicine));
-					packet.PutInt(creature.GetTalentExp(TalentId.Carpentry));
-
-					if (Feature.ZeroTalent.IsEnabled())
-						packet.PutInt(0);
-
-					// Talent titles
-					// ----------------------------------------------------------
-					var titles = creature.GetTalentTitles();
-
-					packet.PutByte((byte)titles.Count);
-					foreach (var title in titles)
-						packet.PutShort(title);
+					packet.AddPrivateTalentInfo(creature);
 				}
 			}
 

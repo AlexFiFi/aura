@@ -27,12 +27,12 @@ namespace Aura.World.Skills
 			MabiSkill skill; SkillHandler handler;
 			if (creature.ActiveSkillId != SkillConst.None)
 			{
-				skill = creature.GetSkill(creature.ActiveSkillId);
+				skill = creature.Skills.Get(creature.ActiveSkillId);
 				handler = SkillManager.GetHandler(skill.Id);
 			}
 			else
 			{
-				skill = creature.GetSkill(SkillConst.MeleeCombatMastery);
+				skill = creature.Skills.Get(SkillConst.MeleeCombatMastery);
 				handler = this;
 			}
 

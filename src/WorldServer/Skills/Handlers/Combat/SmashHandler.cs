@@ -50,7 +50,7 @@ namespace Aura.World.Skills
 		private float calculateSmashDamage(MabiCreature attacker, MabiCreature target)
 		{
 			var dmg = attacker.GetRndTotalDamage();
-			dmg *= attacker.GetSkill(SkillConst.Smash).RankInfo.Var1 / 100f;
+			dmg *= attacker.Skills.Get(SkillConst.Smash).RankInfo.Var1 / 100f;
 
 			if (attacker.RightHand != null && attacker.RightHand.IsTwoHandWeapon)
 			{

@@ -76,7 +76,7 @@ namespace Aura.World.Skills
 
 			bool hit = false;
 
-			if (attacker.GetAimPercent(attacker.GetSkill(SkillConst.RangedCombatMastery).RankInfo.Var3) > rnd.NextDouble())
+			if (attacker.GetAimPercent(attacker.Skills.Get(SkillConst.RangedCombatMastery).RankInfo.Var3) > rnd.NextDouble())
 			{
 				target.StopMove();
 

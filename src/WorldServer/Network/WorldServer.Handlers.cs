@@ -1105,8 +1105,8 @@ namespace Aura.World.Network
 					case 41061:
 					case 41062:
 					case 41063:
-						if (!creature.HasSkill(SkillConst.Umbrella))
-							creature.GiveSkill(SkillConst.Umbrella, SkillRank.Novice);
+						if (!creature.Skills.Has(SkillConst.Umbrella))
+							creature.Skills.Give(SkillConst.Umbrella, SkillRank.Novice);
 						break;
 				}
 			}
@@ -1534,7 +1534,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var skillId = packet.GetShort();
+			var skillId = (SkillConst)packet.GetShort();
 
 			MabiSkill skill; SkillHandler handler;
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
@@ -1562,7 +1562,7 @@ namespace Aura.World.Network
 
 			if (creature.ActiveSkillId != skill.Id && creature.ActiveSkillId != 0)
 			{
-				SkillManager.GetHandler(creature.ActiveSkillId).Cancel(creature, creature.GetSkill(creature.ActiveSkillId));
+				SkillManager.GetHandler(creature.ActiveSkillId).Cancel(creature, creature.Skills.Get(creature.ActiveSkillId));
 			}
 
 			creature.ActiveSkillId = skill.Id;
@@ -1604,7 +1604,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var skillId = packet.GetShort();
+			var skillId = (SkillConst)packet.GetShort();
 			//var parameters = packet.GetStringOrEmpty();
 
 			MabiSkill skill; SkillHandler handler;
@@ -1631,7 +1631,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var skillId = packet.GetShort();
+			var skillId = (SkillConst)packet.GetShort();
 
 			MabiSkill skill; SkillHandler handler;
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
@@ -1655,7 +1655,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var skillId = packet.GetShort();
+			var skillId = (SkillConst)packet.GetShort();
 
 			MabiSkill skill; SkillHandler handler;
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
@@ -1713,14 +1713,14 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var skillId = packet.GetShort();
+			var skillId = (SkillConst)packet.GetShort();
 			var parameters = packet.GetStringOrEmpty();
 
 			MabiSkill skill; SkillHandler handler;
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
 			if (skill == null || handler == null)
 			{
-				client.Send(new MabiPacket(Op.SkillStart, creature.Id).PutShort(skillId));
+				client.Send(new MabiPacket(Op.SkillStart, creature.Id).PutShort((ushort)skillId));
 				return;
 			}
 
@@ -1730,7 +1730,7 @@ namespace Aura.World.Network
 				return;
 
 			var r = new MabiPacket(Op.SkillStart, creature.Id);
-			r.PutShort(skillId);
+			r.PutShort((ushort)skillId);
 			r.PutString("");
 			client.Send(r);
 		}
@@ -1746,7 +1746,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var skillId = packet.GetShort();
+			var skillId = (SkillConst)packet.GetShort();
 			var parameters = packet.GetStringOrEmpty();
 
 			MabiSkill skill; SkillHandler handler;
@@ -1760,7 +1760,7 @@ namespace Aura.World.Network
 			//    return;
 
 			var r = new MabiPacket(Op.SkillStop, creature.Id);
-			r.PutShort(skillId);
+			r.PutShort((ushort)skillId);
 			r.PutByte(1);
 			client.Send(r);
 		}
@@ -2739,12 +2739,12 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var skillId = packet.GetShort();
-			var skill = creature.GetSkill(skillId);
+			var skillId = (SkillConst)packet.GetShort();
+			var skill = creature.Skills.Get(skillId);
 			if (skill == null || !skill.IsRankable)
 				return;
 
-			creature.GiveSkill(skill.Id, skill.Rank + 1);
+			creature.Skills.Give(skill.Id, skill.Rank + 1);
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 		}
@@ -2884,7 +2884,7 @@ namespace Aura.World.Network
 				return;
 
 			// Check skill
-			if (creature.HasSkill(SkillConst.TransformationMastery))
+			if (creature.Skills.Has(SkillConst.TransformationMastery))
 			{
 				var transId = packet.GetInt();
 
@@ -3399,7 +3399,7 @@ namespace Aura.World.Network
 
 		private void HandleTalentTitleChange(WorldClient client, MabiPacket packet)
 		{
-			var title = packet.GetShort();
+			var title = (TalentTitle)packet.GetShort();
 
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
@@ -3407,9 +3407,9 @@ namespace Aura.World.Network
 
 			// TODO: Check if vaild
 
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleChangedR, creature.Id).PutByte(1).PutShort(title), SendTargets.Range, creature);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleChangedR, creature.Id).PutByte(1).PutShort((ushort)title), SendTargets.Range, creature);
 
-			creature.SelectedTalentTitle = (TalentTitle)title;
+			creature.Talents.SelectedTitle = title;
 		}
 
 		private void HandleCombatSetAim(WorldClient client, MabiPacket packet)

@@ -825,7 +825,7 @@ namespace Aura.World.World
 			else
 				return CommandResult.WrongParameter;
 
-			creature.GiveSkill(skillId, rank);
+			creature.Skills.Give((SkillConst)skillId, (SkillRank)rank);
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
@@ -1047,11 +1047,11 @@ namespace Aura.World.World
 			if (args.Length < 2)
 				return CommandResult.WrongParameter;
 
-			byte id = byte.Parse(args[1]);
+			var id = (TalentId)byte.Parse(args[1]);
 
-			creature.Grandmaster = (TalentId)id;
+			creature.Talents.Grandmaster = id;
 
-			creature.UpdateTalentInfo();
+			creature.Talents.SendUpdate();
 
 			return CommandResult.Okay;
 		}
@@ -1061,9 +1061,7 @@ namespace Aura.World.World
 			var skills = Enum.GetValues(typeof(SkillConst));
 
 			foreach (var skill in skills)
-			{
-				creature.GiveSkill((SkillConst)skill, SkillRank.R1, true);
-			}
+				creature.Skills.Give((SkillConst)skill, SkillRank.R1);
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 

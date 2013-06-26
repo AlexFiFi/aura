@@ -59,16 +59,15 @@ namespace Aura.World.World
 		public ushort OptionTitle;
 		public DateTime TitleApplied { get; protected set; }
 
-		public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
+		public CreatureSkillManager Skills { get; protected set; }
+		//public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
 		//public MabiSkill ActiveSkill;
 		public SkillConst ActiveSkillId;
 		public byte ActiveSkillStacks;
 		public DateTime ActiveSkillPrepareEnd;
 		public uint SoulCount;
 
-		public Dictionary<TalentId, Dictionary<SkillConst, uint>> TalentExps = new Dictionary<TalentId, Dictionary<SkillConst, uint>>();
-		public TalentId Grandmaster;
-		public TalentTitle SelectedTalentTitle;
+		public CreatureTalentManager Talents { get; protected set; }
 
 		public CreatureTemp Temp = new CreatureTemp();
 
@@ -120,7 +119,7 @@ namespace Aura.World.World
 		{
 			get
 			{
-				var skill = this.GetSkill(SkillConst.Rest);
+				var skill = this.Skills.Get(SkillConst.Rest);
 				if (skill == null)
 					return 0;
 
@@ -387,7 +386,7 @@ namespace Aura.World.World
 					result += this.RaceInfo.Defense;
 
 				// Add base def and def bonus if active
-				var defenseSkill = this.GetSkill(SkillConst.Defense);
+				var defenseSkill = this.Skills.Get(SkillConst.Defense);
 				if (defenseSkill != null)
 				{
 					result += defenseSkill.RankInfo.Var1;
@@ -428,7 +427,7 @@ namespace Aura.World.World
 				float result = this.ProtectionBase + this.ProtectionBaseSkill + this.StatMods.GetMod(Stat.ProtectMod);
 
 				// Add def bonus if active
-				var defenseSkill = this.GetSkill(SkillConst.Defense);
+				var defenseSkill = this.Skills.Get(SkillConst.Defense);
 				if (defenseSkill != null && this.ActiveSkillId == SkillConst.Defense)
 					result += defenseSkill.RankInfo.Var4;
 
@@ -486,6 +485,8 @@ namespace Aura.World.World
 		public MabiCreature()
 		{
 			this.Destination = new MabiVertex(0, 0);
+			this.Skills = new CreatureSkillManager(this);
+			this.Talents = new CreatureTalentManager(this);
 		}
 
 		public bool Has(CreatureConditionA condition) { return ((this.Conditions.A & condition) != 0); }
@@ -495,381 +496,6 @@ namespace Aura.World.World
 		public bool Has(CreatureStates state) { return ((this.State & state) != 0); }
 
 		public bool HasSkillLoaded(SkillConst skill) { return this.ActiveSkillId == skill; }
-
-		public static ushort GetTalentTitle(TalentTitle talent, TalentLevel level)
-		{
-			if (level == 0)
-				return 0;
-
-			return (ushort)((ushort)talent + (byte)level);
-		}
-
-		public List<ushort> GetTalentTitles()
-		{
-			var titles = new List<ushort>();
-
-			var adventureLevel = this.GetTalentLevel(TalentId.Adventure);
-			var warriorLevel = this.GetTalentLevel(TalentId.Warrior);
-			var mageLevel = this.GetTalentLevel(TalentId.Mage);
-			var archerLevel = this.GetTalentLevel(TalentId.Archer);
-			var merchantLevel = this.GetTalentLevel(TalentId.Merchant);
-			var battleAlchemyLevel = this.GetTalentLevel(TalentId.BattleAlchemy);
-			var fighterLevel = this.GetTalentLevel(TalentId.Fighter);
-			var bardLevel = this.GetTalentLevel(TalentId.Bard);
-			var puppeteerLevel = this.GetTalentLevel(TalentId.Puppeteer);
-			var knightLevel = this.GetTalentLevel(TalentId.Knight);
-			var holyArtsLevel = this.GetTalentLevel(TalentId.HolyArts);
-			var transmutaionLevel = this.GetTalentLevel(TalentId.Transmutaion);
-			var cookingLevel = this.GetTalentLevel(TalentId.Cooking);
-			var blacksmithLevel = this.GetTalentLevel(TalentId.Blacksmith);
-			var tailoringLevel = this.GetTalentLevel(TalentId.Tailoring);
-			var medicineLevel = this.GetTalentLevel(TalentId.Medicine);
-			var carpentryLevel = this.GetTalentLevel(TalentId.Carpentry);
-
-			titles.Add(GetTalentTitle(TalentTitle.Adventure, adventureLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Warrior, warriorLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Mage, mageLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Archer, archerLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Merchant, merchantLevel));
-			titles.Add(GetTalentTitle(TalentTitle.BattleAlchemy, battleAlchemyLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Fighter, fighterLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Bard, bardLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Puppeteer, puppeteerLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Knight, knightLevel));
-			titles.Add(GetTalentTitle(TalentTitle.HolyArts, holyArtsLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Transmutaion, transmutaionLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Cooking, cookingLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Blacksmith, blacksmithLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Tailoring, tailoringLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Medicine, medicineLevel));
-			titles.Add(GetTalentTitle(TalentTitle.Carpentry, carpentryLevel));
-
-			if ((byte)blacksmithLevel >= 12 && (byte)tailoringLevel >= 12 && (byte)carpentryLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Artisan, GetHybridTalentLevel(blacksmithLevel, tailoringLevel, carpentryLevel)));
-
-			if ((byte)bardLevel >= 12 && (byte)tailoringLevel >= 12 && (byte)carpentryLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Artiste, GetHybridTalentLevel(bardLevel, tailoringLevel, carpentryLevel)));
-
-			if ((byte)bardLevel >= 6 && (byte)warriorLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.BattleBard, GetHybridTalentLevel(bardLevel, warriorLevel)));
-
-			if ((byte)warriorLevel >= 6 && (byte)mageLevel >= 6 && (byte)fighterLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.BattleMage, GetHybridTalentLevel(warriorLevel, mageLevel, fighterLevel)));
-
-			if ((byte)archerLevel >= 6 && (byte)battleAlchemyLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Bombardier, GetHybridTalentLevel(archerLevel, battleAlchemyLevel)));
-
-			if ((byte)archerLevel >= 12 && (byte)carpentryLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Bowyer, GetHybridTalentLevel(archerLevel, carpentryLevel)));
-
-			if ((byte)warriorLevel >= 6 && (byte)fighterLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Brawler, GetHybridTalentLevel(warriorLevel, fighterLevel)));
-
-			if ((byte)fighterLevel >= 12 && (byte)adventureLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Challenger, GetHybridTalentLevel(fighterLevel, adventureLevel)));
-
-			if ((byte)bardLevel >= 12 && (byte)holyArtsLevel >= 12 && (byte)adventureLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Cheerleader, GetHybridTalentLevel(bardLevel, holyArtsLevel, adventureLevel)));
-
-			if ((byte)holyArtsLevel >= 6 && (byte)bardLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Choirmaster, GetHybridTalentLevel(holyArtsLevel, bardLevel)));
-
-			if ((byte)puppeteerLevel >= 6 && (byte)tailoringLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.CostumeDesigner, GetHybridTalentLevel(puppeteerLevel, tailoringLevel)));
-
-			if ((byte)medicineLevel >= 12 && (byte)merchantLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Doctor, GetHybridTalentLevel(medicineLevel, merchantLevel)));
-
-			if ((byte)mageLevel >= 6 && (byte)battleAlchemyLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Elementalist, GetHybridTalentLevel(mageLevel, battleAlchemyLevel)));
-
-			if ((byte)warriorLevel >= 6 && (byte)carpentryLevel >= 6 && (byte)knightLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Executioner, GetHybridTalentLevel(warriorLevel, carpentryLevel, knightLevel)));
-
-			if ((byte)fighterLevel >= 12 && (byte)cookingLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.FoodFighter, GetHybridTalentLevel(fighterLevel, cookingLevel)));
-
-			if ((byte)battleAlchemyLevel >= 6 && (byte)transmutaionLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.FullAlchemist, GetHybridTalentLevel(battleAlchemyLevel, transmutaionLevel)));
-
-			if ((byte)cookingLevel >= 12 && (byte)adventureLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Gourmet, GetHybridTalentLevel(cookingLevel, adventureLevel)));
-
-			if ((byte)bardLevel >= 12 && (byte)adventureLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Gypsy, GetHybridTalentLevel(bardLevel, adventureLevel)));
-
-			if ((byte)merchantLevel >= 12 && (byte)blacksmithLevel >= 12 && (byte)tailoringLevel >= 12 && (byte)carpentryLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Hawker, GetHybridTalentLevel(merchantLevel, blacksmithLevel, tailoringLevel, carpentryLevel)));
-
-			if ((byte)holyArtsLevel >= 6 && (byte)archerLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.HolyArcher, GetHybridTalentLevel(holyArtsLevel, archerLevel)));
-
-			if ((byte)holyArtsLevel >= 6 && (byte)knightLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.HolyKnight, GetHybridTalentLevel(holyArtsLevel, knightLevel)));
-
-			if ((byte)holyArtsLevel >= 6 && (byte)warriorLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.HolyWarrior, GetHybridTalentLevel(warriorLevel, holyArtsLevel)));
-
-			if ((byte)cookingLevel >= 12 && (byte)tailoringLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.HomeEconomist, GetHybridTalentLevel(cookingLevel, tailoringLevel)));
-
-			if ((byte)puppeteerLevel >= 6 && (byte)bardLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Idol, GetHybridTalentLevel(puppeteerLevel, bardLevel)));
-
-			if ((byte)fighterLevel >= 12 && (byte)blacksmithLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.IronFist, GetHybridTalentLevel(fighterLevel, blacksmithLevel)));
-
-			if ((byte)puppeteerLevel >= 6 && (byte)holyArtsLevel >= 6 && (byte)adventureLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.JoySpreader, GetHybridTalentLevel(puppeteerLevel, holyArtsLevel, adventureLevel)));
-
-			if ((byte)adventureLevel >= 12 && (byte)knightLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.KnightErrant, GetHybridTalentLevel(adventureLevel, warriorLevel)));
-
-			if ((byte)carpentryLevel >= 12 && (byte)adventureLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Lumberjack, GetHybridTalentLevel(carpentryLevel, adventureLevel)));
-
-			if ((byte)knightLevel >= 6 && (byte)mageLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.MagicKnight, GetHybridTalentLevel(knightLevel, mageLevel)));
-
-			if ((byte)blacksmithLevel >= 12 && (byte)adventureLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Miner, GetHybridTalentLevel(blacksmithLevel, adventureLevel)));
-
-			if ((byte)adventureLevel >= 12 && (byte)holyArtsLevel >= 12 && (byte)medicineLevel >= 12 && (byte)merchantLevel >= 12 && (byte)carpentryLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Missionary, GetHybridTalentLevel(adventureLevel, holyArtsLevel, medicineLevel, medicineLevel, carpentryLevel)));
-
-			if ((byte)fighterLevel >= 12 && (byte)holyArtsLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Monk, GetHybridTalentLevel(fighterLevel, holyArtsLevel)));
-
-			if ((byte)cookingLevel >= 12 && (byte)medicineLevel >= 12 && (byte)transmutaionLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Nutritionist, GetHybridTalentLevel(cookingLevel, medicineLevel)));
-
-			if ((byte)adventureLevel >= 12 && (byte)merchantLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Peddler, GetHybridTalentLevel(adventureLevel, merchantLevel)));
-
-			if ((byte)medicineLevel >= 12 && (byte)transmutaionLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Philosopher, GetHybridTalentLevel(medicineLevel, transmutaionLevel)));
-
-			if ((byte)archerLevel >= 12 && (byte)bardLevel >= 12 && (byte)fighterLevel >= 12 && (byte)battleAlchemyLevel >= 12 && (byte)mageLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Polymath, GetHybridTalentLevel(archerLevel, bardLevel, fighterLevel, battleAlchemyLevel, mageLevel)));
-
-			if ((byte)puppeteerLevel >= 6 && (byte)transmutaionLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Puppetmancer, GetHybridTalentLevel(puppeteerLevel, transmutaionLevel)));
-
-			if ((byte)archerLevel >= 6 && (byte)warriorLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Ranger, GetHybridTalentLevel(warriorLevel, archerLevel)));
-
-			if ((byte)mageLevel >= 6 && (byte)transmutaionLevel >= 6 && (byte)medicineLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Researcher, GetHybridTalentLevel(mageLevel, transmutaionLevel, medicineLevel)));
-
-			if ((byte)mageLevel >= 6 && (byte)holyArtsLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Sage, GetHybridTalentLevel(mageLevel, holyArtsLevel)));
-
-			if ((byte)mageLevel >= 6 && (byte)transmutaionLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Scholar, GetHybridTalentLevel(mageLevel, transmutaionLevel)));
-
-			if ((byte)warriorLevel >= 6 && (byte)knightLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Slayer, GetHybridTalentLevel(warriorLevel, knightLevel)));
-
-			if ((byte)warriorLevel >= 6 && (byte)mageLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Spellsword, GetHybridTalentLevel(warriorLevel, mageLevel)));
-
-			if ((byte)warriorLevel >= 12 && (byte)knightLevel >= 12 && (byte)fighterLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Striker, GetHybridTalentLevel(warriorLevel, knightLevel, fighterLevel)));
-
-			if ((byte)puppeteerLevel >= 6 && (byte)carpentryLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.ToyMaker, GetHybridTalentLevel(puppeteerLevel, carpentryLevel)));
-
-			if ((byte)archerLevel >= 6 && (byte)fighterLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Tracker, GetHybridTalentLevel(archerLevel, fighterLevel)));
-
-			if ((byte)archerLevel >= 6 && (byte)tailoringLevel >= 6 && (byte)carpentryLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Trapper, GetHybridTalentLevel(archerLevel, tailoringLevel, carpentryLevel)));
-
-			if ((byte)bardLevel >= 12 && (byte)cookingLevel >= 12 && (byte)adventureLevel >= 12)
-				titles.Add(GetTalentTitle(TalentTitle.Troubadour, GetHybridTalentLevel(bardLevel, cookingLevel, adventureLevel)));
-
-			if ((byte)puppeteerLevel >= 6 && (byte)bardLevel >= 6 && (byte)adventureLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Trouper, GetHybridTalentLevel(puppeteerLevel, bardLevel)));
-
-			if ((byte)adventureLevel >= 6 && (byte)warriorLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Vagabond, GetHybridTalentLevel(warriorLevel, adventureLevel)));
-
-			if ((byte)fighterLevel >= 6 && (byte)knightLevel >= 6)
-				titles.Add(GetTalentTitle(TalentTitle.Vanguard, GetHybridTalentLevel(fighterLevel, knightLevel)));
-
-
-			return titles.Where(a => a != 0).ToList();
-		}
-
-		public TalentLevel GetTalentLevel(TalentId talent)
-		{
-			var exp = this.GetTalentExp(talent) / 1000;
-
-			if (exp < 1)
-				return TalentLevel.None;
-			if (exp < 11)
-				return TalentLevel.Fledgling;
-			if (exp < 36)
-				return TalentLevel.Novice;
-			if (exp < 76)
-				return TalentLevel.Amateur;
-			if (exp < 136)
-				return TalentLevel.Green;
-			if (exp < 216)
-				return TalentLevel.Naive;
-			if (exp < 316)
-				return TalentLevel.Apprentice;
-			if (exp < 436)
-				return TalentLevel.Senior;
-			if (exp < 576)
-				return TalentLevel.Advanced;
-			if (exp < 736)
-				return TalentLevel.Seasoned;
-			if (exp < 926)
-				return TalentLevel.Skilled;
-			if (exp < 1146)
-				return TalentLevel.Expert;
-			if (exp < 1396)
-				return TalentLevel.Great;
-			if (exp < 1696)
-				return TalentLevel.Champion;
-			if (exp < 2046)
-				return TalentLevel.Wise;
-
-			return (this.Grandmaster == talent ? TalentLevel.Grandmaster : TalentLevel.Master);
-		}
-
-		public static TalentLevel GetHybridTalentLevel(params TalentLevel[] levels)
-		{
-			return (TalentLevel)levels.Min(a => (byte)a);
-		}
-
-		public void UpdateTalentExp(SkillConst skill, SkillRank rank, bool notifyRankUp = false)
-		{
-			if (true)
-				return;
-
-			var mask = (byte)this.GetRaceMask();
-
-			var exps = MabiData.TalentExpDb.Entries.Where(a => a.SkillId == (ushort)skill && a.SkillRank <= (byte)rank && (a.Race & mask) != 0);
-			if (exps == null)
-				return;
-			var info = exps.FirstOrDefault(a => a.SkillRank == (ushort)rank);
-			if (info == null)
-				return;
-
-			foreach (var talent in info.Exps.Keys)
-			{
-				uint exp = (uint)exps.Sum(a => a.Exps[talent]);
-
-				if (!this.TalentExps.ContainsKey((TalentId)talent))
-					this.TalentExps.Add((TalentId)talent, new Dictionary<SkillConst, uint>());
-
-				var expInfo = this.TalentExps[(TalentId)talent];
-
-				if (!expInfo.ContainsKey(skill))
-					expInfo.Add(skill, 0);
-
-				expInfo[skill] = exp;
-
-				if (notifyRankUp)
-				{
-					UpdateTalentInfo();
-				}
-			}
-		}
-
-		public void UpdateTalentInfo()
-		{
-			var p = new MabiPacket(Op.TalentInfoUpdate, this.Id);
-			p.PutByte(1);
-
-			p.PutShort((ushort)this.SelectedTalentTitle);
-			p.PutByte((byte)this.Grandmaster);
-			p.PutInt(this.GetTalentExp(TalentId.Adventure));
-			p.PutInt(this.GetTalentExp(TalentId.Warrior));
-			p.PutInt(this.GetTalentExp(TalentId.Mage));
-			p.PutInt(this.GetTalentExp(TalentId.Archer));
-			p.PutInt(this.GetTalentExp(TalentId.Merchant));
-			p.PutInt(this.GetTalentExp(TalentId.BattleAlchemy));
-			p.PutInt(this.GetTalentExp(TalentId.Fighter));
-			p.PutInt(this.GetTalentExp(TalentId.Bard));
-			p.PutInt(this.GetTalentExp(TalentId.Puppeteer));
-			p.PutInt(this.GetTalentExp(TalentId.Knight));
-			p.PutInt(this.GetTalentExp(TalentId.HolyArts));
-			p.PutInt(this.GetTalentExp(TalentId.Transmutaion));
-			p.PutInt(this.GetTalentExp(TalentId.Cooking));
-			p.PutInt(this.GetTalentExp(TalentId.Blacksmith));
-			p.PutInt(this.GetTalentExp(TalentId.Tailoring));
-			p.PutInt(this.GetTalentExp(TalentId.Medicine));
-			p.PutInt(this.GetTalentExp(TalentId.Carpentry));
-
-			if (Feature.ZeroTalent.IsEnabled())
-				p.PutInt(0);
-
-			// Talent titles
-			// ----------------------------------------------------------
-			var titles = this.GetTalentTitles();
-
-			p.PutByte((byte)titles.Count);               // Count
-			foreach (var title in titles)
-				p.PutShort(title);
-
-			this.Client.Send(p);
-
-			UpdateTalentStats();
-			WorldManager.Instance.CreatureStatsUpdate(this);
-		}
-
-		public void UpdateTalentStats()
-		{
-			foreach (var talentObj in Enum.GetValues(typeof(TalentId)))
-			{
-				var talentId = (TalentId)talentObj;
-
-				var info = MabiData.TalentRankDb.Find((byte)talentId, (byte)this.GetTalentLevel(talentId), (byte)this.GetRaceMask());
-
-				if (info != null)
-				{
-					foreach (var kvp in info.Bonuses)
-					{
-						this.StatMods.Remove((Stat)kvp.Key, StatModSource.Talent, (ulong)talentId);
-						this.StatMods.Add((Stat)kvp.Key, kvp.Value, StatModSource.Talent, (ulong)talentId);
-						switch ((Stat)kvp.Key)
-						{
-							case Stat.LifeMaxMod: this.Life += kvp.Value; break;
-							case Stat.StaminaMaxMod: this.Stamina += kvp.Value; break;
-							case Stat.ManaMaxMod: this.Mana += kvp.Value; break;
-						}
-					}
-				}
-			}
-		}
-
-		public TalentRace GetRaceMask()
-		{
-			if (this.IsHuman)
-				return TalentRace.Human;
-			if (this.IsElf)
-				return TalentRace.Elf;
-			if (this.IsGiant)
-				return TalentRace.Giant;
-
-			return TalentRace.None;
-		}
-
-		public uint GetTalentExp(TalentId talent)
-		{
-			if (!this.TalentExps.ContainsKey(talent))
-				return 0;
-
-			uint exp = 0;
-
-			foreach (var skill in this.TalentExps[talent])
-				exp += skill.Value;
-
-			return exp;
-		}
 
 		/// <summary>
 		/// Calculates the damage of left-and-right slots together
@@ -1167,159 +793,6 @@ namespace Aura.World.World
 			damage *= (1 + this.MagicAttack / 100f);
 
 			return (float)damage;
-		}
-
-		public bool HasSkill(ushort id)
-		{
-			return this.Skills.ContainsKey(id);
-		}
-
-		public bool HasSkill(SkillConst id)
-		{
-			return this.HasSkill((ushort)id);
-		}
-
-		/// <summary>
-		/// Gives skill to creature.
-		/// Sends: (SkillInfo | SkillRankUp) [+ RankUp]
-		/// </summary>
-		/// <param name="skillId"></param>
-		/// <param name="rank"></param>
-		/// <param name="showFlashIfNew"></param>
-		public void GiveSkill(ushort skillId, byte rank, bool showFlashIfNew = false)
-		{
-			this.GiveSkill((SkillConst)skillId, (SkillRank)rank, showFlashIfNew);
-		}
-
-		/// <summary>
-		/// Gives skill to creature.
-		/// Sends: (SkillInfo | SkillRankUp) [+ RankUp]
-		/// </summary>
-		/// <param name="skillId"></param>
-		/// <param name="rank"></param>
-		/// <param name="showFlash"></param>
-		public void GiveSkill(SkillConst skillId, SkillRank rank, bool showFlash = false)
-		{
-			var skill = this.GetSkill(skillId);
-			if (skill == null)
-			{
-				this.AddSkill(skill = new MabiSkill(skillId, rank, this.Race));
-
-				Send.SkillInfo(this.Client, this, skill);
-				if (showFlash)
-					Send.RankUp(this);
-
-				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, true));
-			}
-			else
-			{
-				this.RemoveSkillBonuses(skill);
-
-				skill.Info.Experience = 0;
-				skill.Info.Rank = (byte)rank;
-				skill.LoadRankInfo();
-
-				Send.SkillRankUp(this.Client, this, skill);
-				if (showFlash)
-					Send.RankUp(this, skill.Info.Id);
-
-				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(this, skill, false));
-			}
-
-			this.AddSkillBonuses(skill);
-
-			this.UpdateTalentExp(skillId, rank, true);
-		}
-
-		public void AddSkillBonuses(MabiSkill skill)
-		{
-			this.StrBaseSkill += skill.RankInfo.StrTotal;
-			this.WillBaseSkill += skill.RankInfo.WillTotal;
-			this.IntBaseSkill += skill.RankInfo.IntTotal;
-			this.LuckBaseSkill += skill.RankInfo.LuckTotal;
-			this.DexBaseSkill += skill.RankInfo.DexTotal;
-			var mana = skill.RankInfo.ManaTotal;
-			this.ManaMaxBaseSkill += mana;
-			this.Mana += mana;
-			var life = skill.RankInfo.LifeTotal;
-			this.LifeMaxBaseSkill += life;
-			this.Life += life;
-			var stamina = skill.RankInfo.StaminaTotal;
-			this.StaminaMaxBaseSkill += stamina;
-			this.Stamina += stamina;
-
-			if (skill.Id == SkillConst.MeleeCombatMastery)
-			{
-				this.StatMods.Add(Stat.LifeMaxMod, skill.RankInfo.Var3, StatModSource.SkillRank, (ulong)skill.Id);
-				this.Life += skill.RankInfo.Var3;
-			}
-
-			if (skill.Id == SkillConst.MagicMastery)
-			{
-				this.StatMods.Add(Stat.ManaMaxMod, skill.RankInfo.Var1, StatModSource.SkillRank, (ulong)skill.Id);
-				this.Mana += skill.RankInfo.Var1;
-			}
-
-			if (skill.Id == SkillConst.Defense)
-			{
-				this.DefenseBaseSkill += (int)skill.RankInfo.Var1;
-			}
-		}
-
-		public void RemoveSkillBonuses(MabiSkill skill)
-		{
-			this.StrBaseSkill -= skill.RankInfo.StrTotal;
-			this.WillBaseSkill -= skill.RankInfo.WillTotal;
-			this.IntBaseSkill -= skill.RankInfo.IntTotal;
-			this.LuckBaseSkill -= skill.RankInfo.LuckTotal;
-			this.DexBaseSkill -= skill.RankInfo.DexTotal;
-			var mana = skill.RankInfo.ManaTotal;
-			this.Mana -= mana;
-			this.ManaMaxBaseSkill -= mana;
-			var life = skill.RankInfo.LifeTotal;
-			this.Life -= life;
-			this.LifeMaxBaseSkill -= life;
-			var stamina = skill.RankInfo.StaminaTotal;
-			this.Stamina -= stamina;
-			this.StaminaMaxBaseSkill -= stamina;
-
-			if (skill.Id == SkillConst.MeleeCombatMastery)
-			{
-				this.Life -= skill.RankInfo.Var3;
-				this.StatMods.Remove(Stat.LifeMaxMod, StatModSource.SkillRank, (ulong)skill.Id);
-			}
-
-			if (skill.Id == SkillConst.MagicMastery)
-			{
-				this.Mana -= skill.RankInfo.Var1;
-				this.StatMods.Remove(Stat.ManaMaxMod, StatModSource.SkillRank, (ulong)skill.Id);
-			}
-
-			if (skill.Id == SkillConst.Defense)
-			{
-				this.DefenseBaseSkill -= (int)skill.RankInfo.Var1;
-			}
-		}
-
-		public MabiSkill GetSkill(SkillConst skillId)
-		{
-			return this.GetSkill((ushort)skillId);
-		}
-
-		public MabiSkill GetSkill(ushort skillId)
-		{
-			MabiSkill skill;
-			this.Skills.TryGetValue(skillId, out skill);
-			return skill;
-		}
-
-		/// <summary>
-		/// Shortcut for .Skills.Add(skill.Info.Id, skill)
-		/// </summary>
-		/// <param name="skill"></param>
-		public void AddSkill(MabiSkill skill)
-		{
-			this.Skills.Add(skill.Info.Id, skill);
 		}
 
 		public float GetSpeed()

@@ -225,8 +225,8 @@ namespace Aura.World.Database
 					character.AbilityPoints = reader.GetUInt16("abilityPoints");
 					character.Title = reader.GetUInt16("title");
 					character.OptionTitle = reader.GetUInt16("optionTitle");
-					character.SelectedTalentTitle = (TalentTitle)reader.GetUInt16("talentTitle");
-					character.Grandmaster = (TalentId)reader.GetByte("grandmasterTalent");
+					character.Talents.SelectedTitle = (TalentTitle)reader.GetUInt16("talentTitle");
+					character.Talents.Grandmaster = (TalentId)reader.GetByte("grandmasterTalent");
 					character.Color1 = reader.GetUInt32("color1");
 					character.Color2 = reader.GetUInt32("color2");
 					character.Color3 = reader.GetUInt32("color3");
@@ -353,23 +353,26 @@ namespace Aura.World.Database
 						skill.Info.Experience = reader.GetInt32("exp");
 						if (skill.IsRankable)
 							skill.Info.Flag |= (ushort)SkillFlags.Rankable;
-						character.AddSkill(skill);
 
-						character.AddSkillBonuses(skill);
-
-						character.UpdateTalentExp(skill.Id, skill.Rank);
-
+						character.Skills.Add(skill);
+						character.Skills.AddBonuses(skill);
+						character.Talents.UpdateExp(skill.Id, skill.Rank);
 					}
-
-					character.UpdateTalentStats();
 				}
 			}
 			finally
 			{
 				conn.Close();
 
-				if (!character.HasSkill(SkillConst.MeleeCombatMastery))
-					character.AddSkill(new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, character.Race));
+				if (!character.Skills.Has(SkillConst.MeleeCombatMastery))
+				{
+					var skill = new MabiSkill(SkillConst.MeleeCombatMastery, SkillRank.RF, character.Race);
+					character.Skills.Add(skill);
+					character.Skills.AddBonuses(skill);
+					character.Talents.UpdateExp(skill.Id, skill.Rank);
+				}
+
+				character.Talents.UpdateStats();
 			}
 		}
 
@@ -752,8 +755,8 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@birthday", DateTime.MinValue);
 				mc.Parameters.AddWithValue("@title", character.Title);
 				mc.Parameters.AddWithValue("@optionTitle", character.OptionTitle);
-				mc.Parameters.AddWithValue("@talentTitle", (ushort)character.SelectedTalentTitle);
-				mc.Parameters.AddWithValue("@grandmasterTalent", (byte)character.Grandmaster);
+				mc.Parameters.AddWithValue("@talentTitle", (ushort)character.Talents.SelectedTitle);
+				mc.Parameters.AddWithValue("@grandmasterTalent", (byte)character.Talents.Grandmaster);
 				mc.Parameters.AddWithValue("@maxLevel", 200);
 				mc.Parameters.AddWithValue("@rebirthCount", character.RebirthCount);
 				mc.Parameters.AddWithValue("@jobId", 0);
@@ -879,7 +882,7 @@ namespace Aura.World.Database
 					delmc.Parameters.AddWithValue("@characterId", character.Id);
 					delmc.ExecuteNonQuery();
 
-					foreach (var skill in character.Skills.Values)
+					foreach (var skill in character.Skills.List.Values)
 					{
 						var mc = new MySqlCommand("INSERT INTO skills VALUES (@skillId, @characterId, @rank, @exp)", conn, transaction);
 						mc.Parameters.AddWithValue("@skillId", skill.Info.Id);

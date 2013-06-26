@@ -1085,7 +1085,7 @@ namespace Aura.World.World
 			if (creature.ActiveSkillId != SkillConst.None)
 			{
 				MabiSkill skill; SkillHandler handler;
-				SkillManager.CheckOutSkill(creature, (ushort)creature.ActiveSkillId, out skill, out handler);
+				SkillManager.CheckOutSkill(creature, creature.ActiveSkillId, out skill, out handler);
 				if (skill == null || handler == null)
 					return;
 
@@ -1296,10 +1296,10 @@ namespace Aura.World.World
 							var rank = (SkillRank)reward.Amount;
 
 							// Only give skill if char doesn't have it or rank is lower.
-							var skill = creature.GetSkill(id);
+							var skill = creature.Skills.Get(id);
 							if (skill == null || skill.Rank < rank)
 							{
-								creature.GiveSkill(id, rank);
+								creature.Skills.Give(id, rank);
 								WorldManager.Instance.CreatureStatsUpdate(creature);
 							}
 							break;

@@ -274,7 +274,7 @@ namespace Aura.World.Skills
 			if (!target.Has(CreatureConditionA.ManaShield))
 				return 0;
 
-			var skill = target.GetSkill(SkillConst.ManaShield);
+			var skill = target.Skills.Get(SkillConst.ManaShield);
 			if (skill == null)
 				return 0;
 
@@ -330,7 +330,7 @@ namespace Aura.World.Skills
 			if (target.ActiveSkillId == SkillConst.MeleeCounterattack)
 			{
 				SkillHandler handler; MabiSkill counterSkill;
-				SkillManager.CheckOutSkill(target, (ushort)target.ActiveSkillId, out counterSkill, out handler);
+				SkillManager.CheckOutSkill(target, target.ActiveSkillId, out counterSkill, out handler);
 				if (handler != null && counterSkill != null)
 					return handler.UseCombat(target, attacker.Id, counterSkill);
 			}

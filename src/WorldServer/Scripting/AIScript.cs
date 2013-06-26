@@ -367,7 +367,7 @@ namespace Aura.World.Scripting
 		protected IEnumerable PrepareSkill(SkillConst skillId, bool wait, MabiPacket args)
 		{
 			MabiSkill skill; SkillHandler handler;
-			SkillManager.CheckOutSkill(this.Creature, (ushort)skillId, out skill, out handler);
+			SkillManager.CheckOutSkill(this.Creature, skillId, out skill, out handler);
 
 			if (this.Creature.ActiveSkillId != 0)
 				foreach (var a in CancelSkill())
@@ -412,7 +412,7 @@ namespace Aura.World.Scripting
 				WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Cancelling, this.Creature.ActiveSkillId);
 				var handler = SkillManager.GetHandler(this.Creature.ActiveSkillId);
 
-				var res = handler.Cancel(this.Creature, this.Creature.GetSkill(this.Creature.ActiveSkillId));
+				var res = handler.Cancel(this.Creature, this.Creature.Skills.Get(this.Creature.ActiveSkillId));
 
 				yield return (res & SkillResults.Okay) != 0;
 

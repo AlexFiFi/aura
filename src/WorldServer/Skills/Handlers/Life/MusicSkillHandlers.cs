@@ -52,7 +52,7 @@ namespace Aura.World.Skills
 			var level = SkillRank.Novice;
 
 			// Score level = Musical Knowledge rank
-			var knowledge = creature.GetSkill(SkillConst.MusicalKnowledge);
+			var knowledge = creature.Skills.Get(SkillConst.MusicalKnowledge);
 			if (knowledge != null)
 				level = knowledge.Rank;
 
@@ -107,7 +107,7 @@ namespace Aura.World.Skills
 			var quality = (PlayingQuality)rnd.Next((int)PlayingQuality.VeryBad, (int)PlayingQuality.VeryGood + 1);
 
 			// Up quality by chance, based on Musical Knowledge
-			var knowledge = creature.GetSkill(SkillConst.MusicalKnowledge);
+			var knowledge = creature.Skills.Get(SkillConst.MusicalKnowledge);
 			if (knowledge != null && rnd.Next(0, 100) < knowledge.RankInfo.Var2)
 				quality++;
 

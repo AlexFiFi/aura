@@ -37,7 +37,7 @@ namespace Aura.World.Skills
 			if (creature.ActiveSkillStacks < skill.RankInfo.StackMax)
 			{
 				// Stack
-				if (!creature.HasSkill(SkillConst.ChainCasting))
+				if (!creature.Skills.Has(SkillConst.ChainCasting))
 					SkillHelper.IncStack(creature, skill);
 				else
 					SkillHelper.FillStack(creature, skill);
@@ -207,7 +207,7 @@ namespace Aura.World.Skills
 			attacker.Stun = sAction.StunTime = UseStun;
 
 			// Knock down if no adv HS or it's dead AND no HS
-			if (!target.HasSkill(SkillConst.HeavyStander) || (target.IsDead && !target.HasSkill(SkillConst.HeavyStander)))
+			if (!target.Skills.Has(SkillConst.HeavyStander) || (target.IsDead && !target.Skills.Has(SkillConst.HeavyStander)))
 			{
 				tAction.OldPosition = CombatHelper.KnockBack(target, attacker);
 				tAction.Options |= TargetOptions.FinishingKnockDown;

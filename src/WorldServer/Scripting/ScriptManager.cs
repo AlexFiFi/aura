@@ -626,7 +626,7 @@ namespace Aura.World.Scripting
 
 				foreach (var skill in raceInfo.Skills)
 				{
-					monster.AddSkill(new MabiSkill(skill.SkillId, skill.Rank, monster.Race));
+					monster.Skills.Add(new MabiSkill(skill.SkillId, skill.Rank, monster.Race));
 				}
 
 				monster.LoadDefault();

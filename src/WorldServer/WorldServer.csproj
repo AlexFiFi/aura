@@ -128,6 +128,8 @@
     <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Util\WorldConf.cs" />
     <Compile Include="World\CommandHandler.cs" />
+    <Compile Include="World\CreatureSkillManager.cs" />
+    <Compile Include="World\CreatureTalentManager.cs" />
     <Compile Include="World\CreatureTemp.cs" />
     <Compile Include="World\DeadMenuOptions.cs" />
     <Compile Include="World\MabiCooldown.cs" />

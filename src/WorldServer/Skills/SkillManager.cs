@@ -78,9 +78,9 @@ namespace Aura.World.Skills
 		/// <param name="skillId"></param>
 		/// <param name="skill"></param>
 		/// <param name="handler"></param>
-		public static void CheckOutSkill(MabiCreature creature, ushort skillId, out MabiSkill skill, out SkillHandler handler)
+		public static void CheckOutSkill(MabiCreature creature, SkillConst skillId, out MabiSkill skill, out SkillHandler handler)
 		{
-			skill = creature.GetSkill(skillId);
+			skill = creature.Skills.Get(skillId);
 			if (skill == null)
 			{
 				Logger.Warning("'{0}' tried to use skill '{1}' without having it.", creature.Name, skillId);

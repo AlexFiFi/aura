@@ -254,5 +254,47 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 		}
+
+		public static void TalentInfoUpdate(Client client, MabiCreature creature)
+		{
+			var packet = new MabiPacket(Op.TalentInfoUpdate, creature.Id);
+			packet.PutByte(true);
+			packet.AddPrivateTalentInfo(creature);
+
+			client.Send(packet);
+		}
+
+		private static void AddPrivateTalentInfo(this MabiPacket packet, MabiCreature creature)
+		{
+			packet.PutShort((ushort)creature.Talents.SelectedTitle);
+			packet.PutByte((byte)creature.Talents.Grandmaster);
+			packet.PutInt(creature.Talents.GetExp(TalentId.Adventure));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Warrior));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Mage));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Archer));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Merchant));
+			packet.PutInt(creature.Talents.GetExp(TalentId.BattleAlchemy));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Fighter));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Bard));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Puppeteer));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Knight));
+			packet.PutInt(creature.Talents.GetExp(TalentId.HolyArts));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Transmutaion));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Cooking));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Blacksmith));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Tailoring));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Medicine));
+			packet.PutInt(creature.Talents.GetExp(TalentId.Carpentry));
+			if (Feature.ZeroTalent.IsEnabled())
+				packet.PutInt(0);
+
+			// Talent titles
+			// ----------------------------------------------------------
+			var titles = creature.Talents.GetTitles();
+
+			packet.PutByte((byte)titles.Count);
+			foreach (var title in titles)
+				packet.PutShort(title);
+		}
 	}
 }
