@@ -149,7 +149,7 @@ namespace Aura.World.Skills
 
 			// Success effect and aquire box
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(2).PutByte(4), SendTargets.Range, creature);
-			creature.Client.Send(PacketCreator.ItemUpdate(creature, creature.Temp.SkillItem1));
+			Send.ItemUpdate(creature.Client, creature, creature.Temp.SkillItem1);
 
 			// Update equipped item color
 			if (creature.Temp.SkillItem1.IsEquipped())

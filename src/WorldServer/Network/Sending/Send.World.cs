@@ -139,11 +139,14 @@ namespace Aura.World.Network
 		private static MabiPacket GetEntityAppears(MabiEntity entity)
 		{
 			var op = Op.EntityAppears;
-			if (entity is MabiItem)
+			if (entity.EntityType == EntityType.Item)
 				op = Op.ItemAppears;
+			else if (entity.EntityType == EntityType.Prop)
+				op = Op.PropAppears;
 
 			var packet = new MabiPacket(op, Id.Broadcast);
-			entity.AddToPacket(packet);
+			packet.AddPublicEntityInfo(entity);
+			//entity.AddToPacket(packet);
 
 			return packet;
 		}
@@ -188,7 +191,7 @@ namespace Aura.World.Network
 			foreach (var entity in entities)
 			{
 				var data = new MabiPacket(0, 0);
-				entity.AddToPacket(data);
+				data.AddPublicEntityInfo(entity);
 				var dataBytes = data.Build(false);
 
 				packet.PutShort(entity.DataType);
@@ -259,7 +262,7 @@ namespace Aura.World.Network
 		public static void PropUpdate(MabiProp prop)
 		{
 			var packet = new MabiPacket(Op.PropUpdate, prop.Id);
-			prop.AddToUpdatePacket(packet);
+			packet.AddPropUpdateInfo(prop);
 
 			WorldManager.Instance.BroadcastRegion(packet, prop.Region);
 		}

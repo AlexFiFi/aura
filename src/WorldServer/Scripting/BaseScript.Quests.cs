@@ -185,7 +185,7 @@ namespace Aura.World.Scripting
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.QuestOwlNew, character.Id).PutLong(quest.Id), SendTargets.Range, character);
 
 			// Quest item (required to complete quests)
-			character.Client.Send(PacketCreator.ItemInfo(character, quest.QuestItem));
+			Send.ItemInfo(character.Client, character, quest.QuestItem);
 
 			// Quest info
 			Send.QuestNew(character, quest);

@@ -64,6 +64,22 @@ namespace Aura.World.World
 			get { return (AttackSpeed)this.OptionInfo.AttackSpeed; }
 		}
 
+		private bool _firstTimeAppear = true;
+		/// <summary>
+		/// Returns true once, and false afterwards, until it's set true again.
+		/// Used to decide whether the appearing item should bounce.
+		/// </summary>
+		public bool FirstTimeAppear
+		{
+			get
+			{
+				var result = _firstTimeAppear;
+				_firstTimeAppear = false;
+				return result;
+			}
+			set { _firstTimeAppear = true; }
+		}
+
 		public MabiItem(uint itemClass, bool worldId = true)
 		{
 			this.Info.Class = itemClass;
@@ -216,13 +232,13 @@ namespace Aura.World.World
 				case Pocket.RightHand1:
 				case Pocket.RightHand2:
 					if (secondaryIsEquipped)
-							return true;
+						return true;
 					return creature.RightHand == this;
 
 				case Pocket.LeftHand1:
 				case Pocket.LeftHand2:
 					if (secondaryIsEquipped)
-							return true;
+						return true;
 					return creature.LeftHand == this;
 
 				default:
@@ -253,38 +269,6 @@ namespace Aura.World.World
 				return (this.OptionInfo.Durability = 0);
 			else
 				return (this.OptionInfo.Durability -= (uint)val);
-		}
-
-		public override void AddToPacket(MabiPacket p)
-		{
-			this.AddToPacket(p, ItemPacketType.Public);
-		}
-
-		public void AddToPacket(MabiPacket p, ItemPacketType type)
-		{
-			p.PutLong(this.Id);
-			p.PutByte((byte)type);
-			p.PutBin(this.Info);
-
-			if (type == ItemPacketType.Public)
-			{
-				p.PutByte(1);
-				p.PutByte(0);
-
-				p.PutByte(0); // Bitmask
-				// if & 1
-				//     float
-
-				p.PutByte(1);
-			}
-			else if (type == ItemPacketType.Private)
-			{
-				p.PutBin(this.OptionInfo);
-				p.PutString(this.Tags.ToString());
-				p.PutString("");
-				p.PutByte(0);
-				p.PutLong(this.QuestId);
-			}
 		}
 	}
 

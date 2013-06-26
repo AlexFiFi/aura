@@ -72,7 +72,7 @@ namespace Aura.World.Skills
 			if (creature.Temp.SkillItem1 == null)
 				return SkillResults.Failure;
 
-			creature.Client.Send(PacketCreator.ItemUpdate(creature, creature.Temp.SkillItem1));
+			Send.ItemUpdate(creature.Client, creature, creature.Temp.SkillItem1);
 			Send.SkillComplete(creature.Client, creature, skill.Id, creature.Temp.SkillItem1.Id);
 
 			creature.Temp.SkillItem1 = null;

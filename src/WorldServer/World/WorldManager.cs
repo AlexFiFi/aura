@@ -291,6 +291,11 @@ namespace Aura.World.World
 			foreach (var client in clients)
 			{
 				var creaturePos = client.Character.GetPosition();
+
+				// XXX: Better/Faster way?
+				var toAppear = new List<MabiEntity>();
+				var toDisappear = new List<MabiEntity>();
+
 				foreach (var entity in entities)
 				{
 					if (client.Character.Region != entity.Region)
@@ -299,7 +304,6 @@ namespace Aura.World.World
 						continue;
 
 					var entityPos = entity.GetPosition();
-
 					var entityCreature = entity as MabiCreature;
 
 					if (InRange(creaturePos, entityPos))
@@ -307,23 +311,31 @@ namespace Aura.World.World
 						// Wasn't in range before or was invisible
 						if (!InRange(client.Character.PrevPosition, entity.PrevPosition) || (entityCreature != null && (((entityCreature.Conditions.A & CreatureConditionA.Invisible) == 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) != 0))))
 						{
-							Send.EntityAppears(client, entity);
+							toAppear.Add(entity);
+							//Send.EntityAppears(client, entity);
 						}
+						// Invisible now, but not before.
 						else if (entityCreature != null && ((entityCreature.Conditions.A & CreatureConditionA.Invisible) != 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) == 0))
 						{
-							// Invisible now, but not before.
-							Send.EntityDisappears(client, entity);
+							toDisappear.Add(entity);
+							//Send.EntityDisappears(client, entity);
 						}
 					}
 					else
 					{
 						// Not in range now
-						if (InRange(client.Character.PrevPosition, entity.PrevPosition)) //Was before
+						if (InRange(client.Character.PrevPosition, entity.PrevPosition)) // but was before
 						{
-							Send.EntityDisappears(client, entity);
+							toDisappear.Add(entity);
+							//Send.EntityDisappears(client, entity);
 						}
 					}
 				}
+
+				if (toAppear.Count > 0)
+					Send.EntitiesAppear(client, toAppear);
+				if (toDisappear.Count > 0)
+					Send.EntitiesDisappear(client, toDisappear);
 			}
 
 			// Update previous position
@@ -738,12 +750,15 @@ namespace Aura.World.World
 			lock (_items)
 				_items.Add(item);
 
-			var appears = new MabiPacket(Op.ItemAppears, Id.Broadcast);
-			appears.PutLong(item.Id);
-			appears.PutByte(1);
-			appears.PutBin(item.Info);
-			appears.PutBytes(1, 0, 0, 2);
-			this.Broadcast(appears, SendTargets.Range, item);
+			item.FirstTimeAppear = true;
+
+			Send.EntityAppears(item);
+			//var appears = new MabiPacket(Op.ItemAppears, Id.Broadcast);
+			//appears.PutLong(item.Id);
+			//appears.PutByte(1);
+			//appears.PutBin(item.Info);
+			//appears.PutBytes(1, 0, 0, 2);
+			//this.Broadcast(appears, SendTargets.Range, item);
 
 			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(item));
 		}
@@ -794,10 +809,11 @@ namespace Aura.World.World
 			lock (_props)
 				_props.Add(prop);
 
-			var appears = new MabiPacket(Op.PropAppears, Id.Broadcast);
-			prop.AddToPacket(appears);
+			Send.EntityAppears(prop);
+			//var appears = new MabiPacket(Op.PropAppears, Id.Broadcast);
+			//prop.AddToPacket(appears);
+			//this.Broadcast(appears, SendTargets.Region, prop);
 
-			this.Broadcast(appears, SendTargets.Region, prop);
 			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(prop));
 		}
 
@@ -1307,7 +1323,7 @@ namespace Aura.World.World
 					script.OnCompleted(creature.Client as WorldClient, quest);
 			}
 
-			creature.Client.Send(PacketCreator.ItemInfo(creature, quest.QuestItem));
+			Send.ItemInfo(creature.Client, creature, quest.QuestItem);
 
 			// Remove from quest log.
 			creature.Client.Send(new MabiPacket(Op.QuestClear, creature.Id).PutLong(quest.Id));
@@ -1553,7 +1569,7 @@ namespace Aura.World.World
 			{
 				creature.ArenaPvPManager.Leave(creature);
 				creature.ArenaPvPManager = null;
-				WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+				Send.PvPInformation(creature);
 			}
 
 			foreach (var arena in _arenaPvPs)

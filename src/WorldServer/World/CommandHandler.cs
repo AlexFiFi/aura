@@ -370,7 +370,7 @@ namespace Aura.World.World
 				newItem.Info.Pocket = (byte)Pocket.Temporary;
 				creature.Items.Add(newItem);
 
-				client.Send(PacketCreator.ItemInfo(creature, newItem));
+				Send.ItemInfo(client, creature, newItem);
 			}
 
 			return CommandResult.Okay;
@@ -1095,7 +1095,7 @@ namespace Aura.World.World
 					return CommandResult.WrongParameter;
 			}
 
-			WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+			Send.PvPInformation(creature);
 
 			return CommandResult.Okay;
 		}

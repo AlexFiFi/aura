@@ -18,7 +18,7 @@ namespace Aura.Shared.Network
 		/// <summary>
 		/// Rule setup.
 		/// </summary>
-		private static void Init()
+		static FeatureManager()
 		{
 			// The rules passed to Setup (Enable/Disable) are all checked,
 			// one after the other. You have to watch not to disable something
@@ -60,12 +60,6 @@ namespace Aura.Shared.Network
 
 		// First and only region >=| But we seriously won't ever care about that code again...
 		#region Where the magic happens~
-		static FeatureManager()
-		{
-			_enabled = new bool[(int)Feature.Max];
-
-			Init();
-		}
 
 		public static bool IsEnabled(this Feature feature)
 		{
@@ -97,7 +91,7 @@ namespace Aura.Shared.Network
 			}
 		}
 
-		private static bool[] _enabled;
+		private static bool[] _enabled = new bool[(int)Feature.Max];
 
 		private class TargetSet
 		{
@@ -112,6 +106,7 @@ namespace Aura.Shared.Network
 				this.Enabled = enabled;
 			}
 		}
+
 		#endregion
 	}
 

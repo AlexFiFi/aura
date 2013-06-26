@@ -164,24 +164,7 @@ namespace Aura.World.Scripting
 
 		protected virtual void OpenShop(WorldClient client)
 		{
-			var p = new MabiPacket(Op.ShopOpen, client.Character.Id);
-			p.PutString("shopname");
-			p.PutByte(0);
-			p.PutByte(0);
-			p.PutInt(0);
-			p.PutByte((byte)this.Shop.Tabs.Count);
-			for (var i = 0; i < this.Shop.Tabs.Count; ++i)
-			{
-				p.PutString("[" + i + "]" + this.Shop.Tabs[i].Name);
-				if (Feature.UnkNewShopInfo.IsEnabled())
-					p.PutByte(0);
-				p.PutShort((ushort)this.Shop.Tabs[i].Items.Count);
-				foreach (var item in this.Shop.Tabs[i].Items)
-				{
-					item.AddToPacket(p, ItemPacketType.Private);
-				}
-			}
-			client.Send(p);
+			Send.OpenNPCShop(client, this.Shop);
 		}
 
 		protected bool CheckCode(WorldClient client, string code)

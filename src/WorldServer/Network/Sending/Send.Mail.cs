@@ -146,7 +146,7 @@ namespace Aura.World.Network
 				packet.PutInt(mail.COD);
 
 				var item = WorldDb.Instance.GetItem(mail.ItemId);
-				item.AddToPacket(packet, ItemPacketType.Private);
+				packet.AddItemInfo(item, ItemPacketType.Private);
 			}
 		}
 	}

@@ -45,5 +45,21 @@ namespace Aura.World.Network
 
 			client.Send(packet);
 		}
+
+		public static void ItemInfo(Client client, MabiCreature creature, MabiItem item)
+		{
+			var packet = new MabiPacket(Op.ItemNew, creature.Id);
+			packet.AddItemInfo(item, ItemPacketType.Private);
+
+			client.Send(packet);
+		}
+
+		public static void ItemUpdate(Client client, MabiCreature creature, MabiItem item)
+		{
+			var packet = new MabiPacket(Op.ItemUpdate, creature.Id);
+			packet.AddItemInfo(item, ItemPacketType.Private);
+
+			client.Send(packet);
+		}
 	}
 }

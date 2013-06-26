@@ -937,7 +937,7 @@ namespace Aura.World.Network
 
 			mail.Delete();
 
-			client.Send(PacketCreator.ItemInfo(client.Character, item));
+			Send.ItemInfo(client, client.Character, item);
 			Send.RecallMailResponse(client, true, mail.MessageId);
 		}
 
@@ -965,7 +965,7 @@ namespace Aura.World.Network
 
 			mail.Delete();
 
-			client.Send(PacketCreator.ItemInfo(client.Character, item));
+			Send.ItemInfo(client, client.Character, item);
 			Send.ReceiveMailItemResponse(client, true, mail.ItemId);
 		}
 
@@ -1344,7 +1344,7 @@ namespace Aura.World.Network
 						item.Move(Pocket.Inventory, pos.X, pos.Y);
 						creature.Items.Add(item);
 
-						client.Send(PacketCreator.ItemInfo(creature, item));
+						Send.ItemInfo(client, creature, item);
 
 						result = 1;
 					}
@@ -1392,7 +1392,7 @@ namespace Aura.World.Network
 				creature.Items.Add(splitItem);
 
 				// New item on cursor
-				client.Send(PacketCreator.ItemInfo(creature, splitItem));
+				Send.ItemInfo(client, creature, splitItem);
 
 				// Update amount or remove
 				if (item.Info.Amount > 0 || item.StackItem != 0)
@@ -1841,7 +1841,7 @@ namespace Aura.World.Network
 				creature.RemoveGold(price);
 
 				creature.Items.Add(newItem);
-				client.Send(PacketCreator.ItemInfo(creature, newItem));
+				Send.ItemInfo(client, creature, newItem);
 			}
 			else
 			{
@@ -2715,30 +2715,21 @@ namespace Aura.World.Network
 
 		public void HandleViewEquipment(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.GetCreatureOrNull(packet.Id);
-			if (creature == null)
+			var targetId = packet.GetLong();
+
+			if (client.Character.DataType != packet.Id)
 				return;
 
-			var p = new MabiPacket(Op.ViewEquipmentR, client.Character.Id);
-
-			var targetID = packet.GetLong();
-			var target = WorldManager.Instance.GetCreatureById(targetID);
+			var target = WorldManager.Instance.GetCreatureById(targetId);
 			if (target == null /* || TODO: Check visibility. */)
 			{
-				p.PutByte(0);
-				client.Send(p);
+				Send.ViewEquipmentResponse(client, 0, null);
 				return;
 			}
 
 			var items = target.Items.FindAll(a => a.IsEquipped() && a.Type != ItemType.Hair && a.Type != ItemType.Face);
 
-			p.PutByte(1);
-			p.PutLong(targetID);
-			p.PutInt((ushort)items.Count);
-			foreach (var item in items)
-				item.AddToPacket(p, ItemPacketType.Private);
-
-			client.Send(p);
+			Send.ViewEquipmentResponse(client, targetId, items);
 		}
 
 		public void HandleSkillAdvance(WorldClient client, MabiPacket packet)
@@ -3552,14 +3543,14 @@ namespace Aura.World.Network
 						creature.TransPvPEnabled = requestedState;
 						response.PutByte(1);
 						response.PutByte(requestedState);
-						WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+						Send.PvPInformation(creature);
 						break;
 
 					case 2: // EvG
 						creature.EvGEnabled = requestedState;
 						response.PutByte(1);
 						response.PutByte(requestedState);
-						WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+						Send.PvPInformation(creature);
 						break;
 
 					case 5: // All pvp Enabled
@@ -3567,7 +3558,7 @@ namespace Aura.World.Network
 							creature.EvGEnabled = creature.TransPvPEnabled = requestedState;
 						response.PutByte(1);
 						response.PutByte(requestedState);
-						WorldManager.Instance.Broadcast(PacketCreator.PvPInfoChanged(creature), SendTargets.Range, creature);
+						Send.PvPInformation(creature);
 						break;
 
 					case 3: // Equip View

@@ -13,7 +13,98 @@ namespace Aura.World.Network
 {
 	public static partial class Send
 	{
-		private enum CreaturePacketType { Minimal = 1, Private = 2, Public = 5 }
+		private static void AddPublicEntityInfo(this MabiPacket packet, MabiEntity entity)
+		{
+			if (entity is MabiCreature) packet.AddTest(entity as MabiCreature, CreaturePacketType.Public);
+			else if (entity is MabiItem) packet.AddItemInfo(entity as MabiItem, ItemPacketType.Public);
+			else if (entity is MabiProp) packet.AddPropInfo(entity as MabiProp);
+			else throw new Exception("Unknown entity class '" + entity.GetType() + "'");
+		}
+
+		private static void AddItemInfo(this MabiPacket packet, MabiItem item, ItemPacketType type)
+		{
+			packet.PutLong(item.Id);
+			packet.PutByte((byte)type);
+			packet.PutBin(item.Info);
+
+			if (type == ItemPacketType.Public)
+			{
+				packet.PutByte(1);
+				packet.PutByte(0);
+
+				//packet.PutByte(0); // Bitmask
+				// if & 1
+				//     float
+				packet.PutByte(1);
+				packet.PutFloat(1); // Size multiplicator *hint: Server side giant key mod*
+
+				packet.PutByte(item.FirstTimeAppear); // 0: No bouncing, 1: Bouncing, 2: Delayed bouncing
+			}
+			else if (type == ItemPacketType.Private)
+			{
+				packet.PutBin(item.OptionInfo);
+				packet.PutString(item.Tags.ToString());
+				packet.PutString("");
+				packet.PutByte(0);
+				packet.PutLong(item.QuestId);
+			}
+		}
+
+		private static void AddPropInfo(this MabiPacket packet, MabiProp prop)
+		{
+			// Client side props (A0 range, instead of A1; second case)
+			// look a bit different.
+			if (prop.Id >= Aura.Shared.Const.Id.Props)
+			{
+				packet.PutLong(prop.Id);
+				packet.PutInt(prop.Info.Class);
+				packet.PutString(prop.Name);
+				packet.PutString(prop.Title);
+				packet.PutBin(prop.Info);
+				packet.PutString(prop.State);
+				packet.PutLong(0);
+
+				packet.PutByte(true); // Extra data?
+				packet.PutString(prop.ExtraData);
+
+				packet.PutInt(0);
+				packet.PutShort(0);
+			}
+			else
+			{
+				packet.PutLong(prop.Id);
+				packet.PutInt(prop.Info.Class);
+				packet.PutString(prop.State);
+				packet.PutLong(DateTime.Now);
+				packet.PutByte(false);
+				packet.PutFloat(prop.Info.Direction);
+			}
+		}
+
+		private static void AddPropUpdateInfo(this MabiPacket packet, MabiProp prop)
+		{
+			// Client side props (A0 range, instead of A1; second case)
+			// look a bit different.
+			if (prop.Id >= Aura.Shared.Const.Id.Props)
+			{
+				packet.PutString(prop.State);
+				packet.PutLong(DateTime.Now);
+				packet.PutByte(true);
+				packet.PutString(prop.ExtraData);
+				packet.PutFloat(prop.Info.Direction);
+				packet.PutShort(0);
+			}
+			else
+			{
+				packet.PutString(prop.State);
+				packet.PutLong(DateTime.Now);
+				packet.PutByte(false);
+				packet.PutFloat(prop.Info.Direction);
+				packet.PutShort(0);
+			}
+		}
+
+		public enum CreaturePacketType { Minimal = 1, Private = 2, Public = 5 }
 
 		/// <summary>
 		/// Example. Combination of public and private creature data.
@@ -21,7 +112,7 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		/// <param name="creature"></param>
 		/// <param name="type"></param>
-		private static void AddTest(this MabiPacket packet, MabiCreature creature, CreaturePacketType type)
+		public static void AddTest(this MabiPacket packet, MabiCreature creature, CreaturePacketType type)
 		{
 			var character = creature as MabiPC;
 			if (type == CreaturePacketType.Private && character == null)
@@ -287,9 +378,9 @@ namespace Aura.World.Network
 
 				packet.PutSInt(creature.Items.Count + incompleteQuests.Count());
 				foreach (var item in creature.Items)
-					item.AddToPacket(packet, ItemPacketType.Private);
+					packet.AddItemInfo(item, ItemPacketType.Private);
 				foreach (var quest in incompleteQuests)
-					new MabiItem(quest).AddToPacket(packet, ItemPacketType.Private);
+					packet.AddItemInfo(new MabiItem(quest), ItemPacketType.Private);
 			}
 			else if (type == CreaturePacketType.Public)
 			{
@@ -355,7 +446,7 @@ namespace Aura.World.Network
 
 			// PvP
 			// --------------------------------------------------------------
-			creature.AddPvPInfoToPacket(packet);
+			packet.AddPvPInfo(creature);
 
 			// Statuses
 			// --------------------------------------------------------------
@@ -816,7 +907,7 @@ namespace Aura.World.Network
 
 			// ? (Last Part of public)
 			// --------------------------------------------------------------
-			if (type == CreaturePacketType.Private)
+			if (type == CreaturePacketType.Public)
 			{
 				packet.PutLong(0);			         // DoubleGoreTarget
 				packet.PutInt(0);			         // DoubleGoreTargetType

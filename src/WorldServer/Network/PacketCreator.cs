@@ -54,13 +54,6 @@ namespace Aura.World.Network
 			return p;
 		}
 
-		public static MabiPacket ItemInfo(MabiCreature creature, MabiItem item)
-		{
-			var p = new MabiPacket(Op.ItemNew, creature.Id);
-			item.AddToPacket(p, ItemPacketType.Private);
-			return p;
-		}
-
 		public static MabiPacket ItemRemove(MabiCreature creature, MabiItem item)
 		{
 			var p = new MabiPacket(Op.ItemRemove, creature.Id);
@@ -157,13 +150,6 @@ namespace Aura.World.Network
 				.PutInt(entity.Region)
 				.PutFloats(pos.X, pos.Y)
 				.PutByte((byte)type);
-		}
-
-		public static MabiPacket ItemUpdate(MabiCreature creature, MabiItem item)
-		{
-			var p = new MabiPacket(Op.ItemUpdate, creature.Id);
-			item.AddToPacket(p, ItemPacketType.Private);
-			return p;
 		}
 
 		public static MabiPacket StatUpdate(MabiCreature creature, StatUpdateType type, params Stat[] stats)
@@ -307,13 +293,6 @@ namespace Aura.World.Network
 				.PutByte(1)
 				.PutShort((ushort)skillId)
 				.PutInt((uint)state);
-		}
-
-		public static MabiPacket PvPInfoChanged(MabiCreature creature)
-		{
-			var p = new MabiPacket(Op.PvPInformation, creature.Id);
-			creature.AddPvPInfoToPacket(p);
-			return p;
 		}
 	}
 

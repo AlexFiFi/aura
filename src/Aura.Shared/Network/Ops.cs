@@ -232,7 +232,7 @@ namespace Aura.Shared.Network
 		public readonly static uint ShopBuyItemR = 0x7151;
 		public readonly static uint ShopSellItem = 0x7152;
 		public readonly static uint ShopSellItemR = 0x7153;
-		public readonly static uint ShopOpen = 0x715E;
+		public readonly static uint OpenNPCShop = 0x715E;
 		public readonly static uint OpenMail = 0x7242;
 		public readonly static uint CloseMail = 0x7243;
 		public readonly static uint ConfirmMailRecipent = 0x7244;

@@ -184,7 +184,7 @@ namespace Aura.World.World
 
 			this.SendArenaRoundInfo(creature);
 
-			WorldManager.Instance.BroadcastRegion(PacketCreator.PvPInfoChanged(creature), ArenaRegion);
+			Send.PvPInformation(creature, ArenaRegion);
 		}
 
 		protected override void OnRoundEnd()
@@ -245,8 +245,8 @@ namespace Aura.World.World
 					_stars[attacker]++;
 			}
 
-			WorldManager.Instance.BroadcastRegion(PacketCreator.PvPInfoChanged(creature), ArenaRegion);
-			WorldManager.Instance.BroadcastRegion(PacketCreator.PvPInfoChanged(attacker), ArenaRegion);
+			Send.PvPInformation(creature, ArenaRegion);
+			Send.PvPInformation(attacker, ArenaRegion);
 		}
 
 		public override void ReviveInLobby(MabiCreature creature)

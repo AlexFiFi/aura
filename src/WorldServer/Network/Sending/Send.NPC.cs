@@ -55,5 +55,27 @@ namespace Aura.World.Network
 			var packet = new MabiPacket(Op.NPCTalkSelectEnd, client.Character.Id);
 			client.Send(packet);
 		}
+
+		public static void OpenNPCShop(WorldClient client, MabiShop shop)
+		{
+			var packet = new MabiPacket(Op.OpenNPCShop, client.Character.Id);
+			packet.PutString("shopname");
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutInt(0);
+			packet.PutByte((byte)shop.Tabs.Count);
+			for (var i = 0; i < shop.Tabs.Count; ++i)
+			{
+				packet.PutString("[{0}]{1}", i, shop.Tabs[i].Name);
+
+				if (Feature.UnkNewShopInfo.IsEnabled())
+					packet.PutByte(0);
+
+				packet.PutShort((ushort)shop.Tabs[i].Items.Count);
+				foreach (var item in shop.Tabs[i].Items)
+					packet.AddItemInfo(item, ItemPacketType.Private);
+			}
+			client.Send(packet);
+		}
 	}
 }

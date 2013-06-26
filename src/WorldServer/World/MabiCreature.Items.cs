@@ -184,7 +184,7 @@ namespace Aura.World.World
 					var pos = this.GetPosition();
 					var rand = RandomProvider.Get();
 					var x = (uint)(pos.X + rand.Next(-100, 101));
-					var y = (uint)(pos.Y + rand.Next(-100, 101)); WorldManager.Instance.DropItem(item, this.Region, x, y); 
+					var y = (uint)(pos.Y + rand.Next(-100, 101)); WorldManager.Instance.DropItem(item, this.Region, x, y);
 					EventManager.Instance.CreatureEvents.OnCreatureDropItem(this, new ItemUpdateEventArgs(item));
 				}
 				else
@@ -378,7 +378,7 @@ namespace Aura.World.World
 			else
 			{
 				// Send info about a new item
-				this.Client.Send(PacketCreator.ItemInfo(this, item));
+				Send.ItemInfo(this.Client, this, item);
 			}
 
 		}

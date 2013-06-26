@@ -115,58 +115,6 @@ namespace Aura.World.World
 			this.Info.Color8 =
 			this.Info.Color9 = 0xFF808080;
 		}
-
-		public override void AddToPacket(MabiPacket packet)
-		{
-			// Client side props (A0 range, instead of A1) look a bit different.
-			if (this.Id >= Aura.Shared.Const.Id.Props)
-			{
-				packet.PutLong(this.Id);
-				packet.PutInt(this.Info.Class);
-				packet.PutString(this.Name);
-				packet.PutString(this.Title);
-				packet.PutBin(this.Info);
-				packet.PutString(this.State);
-				packet.PutLong(0);
-
-				packet.PutByte(true); // Extra data?
-				packet.PutString(this.ExtraData);
-
-				packet.PutInt(0);
-				packet.PutShort(0);
-			}
-			else
-			{
-				packet.PutLong(this.Id);
-				packet.PutInt(this.Info.Class);
-				packet.PutString(this.State);
-				packet.PutLong(DateTime.Now);
-				packet.PutByte(false);
-				packet.PutFloat(this.Info.Direction);
-			}
-		}
-
-		public void AddToUpdatePacket(MabiPacket packet)
-		{
-			// Client side props (A0 range, instead of A1) look a bit different.
-			if (this.Id >= Aura.Shared.Const.Id.Props)
-			{
-				packet.PutString(this.State);
-				packet.PutLong(DateTime.Now);
-				packet.PutByte(true);
-				packet.PutString(this.ExtraData);
-				packet.PutFloat(this.Info.Direction);
-				packet.PutShort(0);
-			}
-			else
-			{
-				packet.PutString(this.State);
-				packet.PutLong(DateTime.Now);
-				packet.PutByte(false);
-				packet.PutFloat(this.Info.Direction);
-				packet.PutShort(0);
-			}
-		}
 	}
 
 	public delegate void MabiPropFunc(WorldClient client, MabiPC character, MabiProp prop);
