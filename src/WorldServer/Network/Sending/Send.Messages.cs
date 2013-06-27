@@ -74,9 +74,9 @@ namespace Aura.World.Network
 		/// <param name="region"></param>
 		/// <param name="format"></param>
 		/// <param name="args"></param>
-		public static void AllNotice(NoticeType type, string format, params object[] args)
+		public static void ChannelNotice(NoticeType type, string format, params object[] args)
 		{
-			AllNotice(type, 0, format, args);
+			ChannelNotice(type, 0, format, args);
 		}
 
 		/// <summary>
@@ -85,9 +85,25 @@ namespace Aura.World.Network
 		/// <param name="region"></param>
 		/// <param name="format"></param>
 		/// <param name="args"></param>
-		public static void AllNotice(NoticeType type, uint duration, string format, params object[] args)
+		public static void ChannelNotice(NoticeType type, uint duration, string format, params object[] args)
 		{
 			WorldManager.Instance.Broadcast(GetNotice(type, duration, format, args), SendTargets.All);
+		}
+
+		/// <summary>
+		/// Broadcasts notice to all players, on all channels.
+		/// (only local right now)
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="duration"></param>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public static void WorldNotice(NoticeType type, uint duration, string format, params object[] args)
+		{
+			var packet = GetNotice(type, duration, format, args);
+
+			WorldManager.Instance.Broadcast(packet, SendTargets.All);
+			//WorldServer.Instance.LoginServer.Send(new MabiPacket(x).PutBin(packet.Build()));
 		}
 
 		private static MabiPacket GetNotice(NoticeType type, uint duration, string format, params object[] args)

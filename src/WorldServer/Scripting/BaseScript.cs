@@ -87,7 +87,7 @@ namespace Aura.World.Scripting
 
 		protected void Broadcast(string msg, NoticeType type = NoticeType.Top)
 		{
-			Send.AllNotice(type, msg);
+			Send.ChannelNotice(type, msg);
 		}
 
 		protected void AddHook(string npc, string hook, ScriptHook func)

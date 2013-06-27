@@ -359,7 +359,7 @@ namespace Aura.World.World
 			var notice = mt.IsNight
 				? Localization.Get("world.eweca_night") // Eweca is rising.\nMana is starting to fill the air all around.
 				: Localization.Get("world.eweca_day");  // Eweca has disappeared.\nThe surrounding Mana is starting to fade away.
-			Send.AllNotice(NoticeType.MiddleTop, notice);
+			Send.ChannelNotice(NoticeType.MiddleTop, notice);
 
 			lock (_creatures)
 			{
@@ -1388,7 +1388,7 @@ namespace Aura.World.World
 			WorldManager.Instance.AddProp(p);
 			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(p, GuildstoneTouch));
 
-			Send.AllNotice(NoticeType.Top, 20000, "{0} Guild has been created. Guild leader: {1}", name, leader.Name);
+			Send.ChannelNotice(NoticeType.Top, 20000, "{0} Guild has been created. Guild leader: {1}", name, leader.Name);
 
 			return true;
 		}

@@ -57,6 +57,7 @@ namespace Aura.World.World
 			this.AddCommand("grandmaster", "<talent id (0 - 16)>", Authority.GameMaster, Command_grandmaster);
 			this.AddCommand("over9000", "", Authority.GameMaster, Command_over9k);
 			this.AddCommand("motion", "<category> <motion>", Authority.GameMaster, Command_motion);
+			this.AddCommand("broadcast", "<notice>", Authority.GameMaster, Command_broadcast);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
@@ -75,6 +76,7 @@ namespace Aura.World.World
 			this.AddAlias("raceinfo", "ri");
 			this.AddAlias("statuseffect", "se");
 			this.AddAlias("test", "t");
+			this.AddAlias("broadcast", "broadcastw");
 
 			// Load script commands
 			var commandsPath = Path.Combine(WorldConf.ScriptPath, "command");
@@ -1065,7 +1067,7 @@ namespace Aura.World.World
 
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
-			Send.AllNotice(NoticeType.TopRed, 20000, "{0}'S POWER IS OVER NINE THOUSAAAND!!!", creature.Name.ToUpper());
+			Send.ChannelNotice(NoticeType.TopRed, 20000, "{0}'S POWER IS OVER NINE THOUSAAAND!!!", creature.Name.ToUpper());
 
 			return CommandResult.Okay;
 		}
@@ -1094,6 +1096,21 @@ namespace Aura.World.World
 			}
 
 			Send.PvPInformation(creature);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_broadcast(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 2)
+				return CommandResult.WrongParameter;
+
+			var notice = string.Join(" ", args, 1, args.Length - 1);
+
+			if (args[1].EndsWith("w"))
+				Send.WorldNotice(NoticeType.TopRed, 20000, notice);
+			else
+				Send.ChannelNotice(NoticeType.TopRed, 20000, notice);
 
 			return CommandResult.Okay;
 		}

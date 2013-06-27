@@ -30,7 +30,7 @@ namespace Aura.World.Network
 		/// </summary>
 		private const int LoginTryTime = 10 * 1000;
 
-		private WorldClient _loginServer;
+		public WorldClient LoginServer { get; protected set; }
 		private Timer _shutdownTimer1, _shutdownTimer2;
 
 		private readonly Dictionary<string, MabiServer> ServerList = new Dictionary<string, MabiServer>();
@@ -204,7 +204,7 @@ namespace Aura.World.Network
 						int exitSeconds = dcSeconds + 30;
 
 						// Broadcast a notice.
-						Send.AllNotice(NoticeType.TopRed, "The server will shutdown in {0} seconds, please log out before that time, for your own safety.", dcSeconds);
+						Send.ChannelNotice(NoticeType.TopRed, "The server will shutdown in {0} seconds, please log out before that time, for your own safety.", dcSeconds);
 
 						// Set a timer when to send the dc request all remaining players.
 						_shutdownTimer1 = new Timer(_ =>
@@ -282,37 +282,37 @@ namespace Aura.World.Network
 			{
 				try
 				{
-					if (_loginServer != null)
+					if (LoginServer != null)
 					{
 						try
 						{
-							_loginServer.Socket.Shutdown(SocketShutdown.Both);
-							_loginServer.Socket.Close();
+							LoginServer.Socket.Shutdown(SocketShutdown.Both);
+							LoginServer.Socket.Close();
 						}
 						catch
 						{ }
 					}
 
-					_loginServer = new WorldClient();
-					_loginServer.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-					_loginServer.Socket.Connect(WorldConf.LoginHost, WorldConf.LoginPort);
+					LoginServer = new WorldClient();
+					LoginServer.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+					LoginServer.Socket.Connect(WorldConf.LoginHost, WorldConf.LoginPort);
 
 					var buffer = new byte[255];
 
 					// Recv Seed, send back empty packet to get done with the challenge.
-					_loginServer.Socket.Receive(buffer);
-					_loginServer.Crypto = new MabiCrypto(BitConverter.ToUInt32(buffer, 0));
-					_loginServer.Send(new MabiPacket(0, 0));
+					LoginServer.Socket.Receive(buffer);
+					LoginServer.Crypto = new MabiCrypto(BitConverter.ToUInt32(buffer, 0));
+					LoginServer.Send(new MabiPacket(0, 0));
 
 					// Challenge end
-					_loginServer.Socket.Receive(buffer);
+					LoginServer.Socket.Receive(buffer);
 
 					// Inject login server to the normal data receiving.
-					_loginServer.Socket.BeginReceive(_loginServer.Buffer.Front, 0, _loginServer.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(this.OnReceive), _loginServer);
+					LoginServer.Socket.BeginReceive(LoginServer.Buffer.Front, 0, LoginServer.Buffer.Front.Length, SocketFlags.None, new AsyncCallback(this.OnReceive), LoginServer);
 
 					// Identify
-					_loginServer.State = ClientState.LoggingIn;
-					_loginServer.Send(new MabiPacket(Op.Internal.ServerIdentify).PutString(BCrypt.HashPassword(WorldConf.Password, BCrypt.GenerateSalt(10))));
+					LoginServer.State = ClientState.LoggingIn;
+					LoginServer.Send(new MabiPacket(Op.Internal.ServerIdentify).PutString(BCrypt.HashPassword(WorldConf.Password, BCrypt.GenerateSalt(10))));
 
 					success = true;
 				}
@@ -340,9 +340,9 @@ namespace Aura.World.Network
 			uint count = WorldManager.Instance.GetCharactersCount();
 			byte stress = (byte)Math.Min(75, Math.Ceiling(75 / 20.0f * count));
 
-			if (_loginServer.State == ClientState.LoggedIn)
+			if (LoginServer.State == ClientState.LoggedIn)
 			{
-				_loginServer.Send(
+				LoginServer.Send(
 					new MabiPacket(Op.Internal.ChannelStatus)
 					.PutString(WorldConf.ServerName)
 					.PutString(WorldConf.ChannelName)
@@ -363,7 +363,7 @@ namespace Aura.World.Network
 		{
 			base.OnClientDisconnect(client, type);
 
-			if (client == _loginServer)
+			if (client == LoginServer)
 			{
 				Logger.Info("Lost connection to login server.");
 				this.ConnectToLogin(false);

@@ -200,19 +200,12 @@ namespace Aura.World.World
 		public float Lower { get; set; }
 
 		public float StrBaseSkill { get; set; }
-
 		public float WillBaseSkill { get; set; }
-
 		public float IntBaseSkill { get; set; }
-
 		public float LuckBaseSkill { get; set; }
-
 		public float DexBaseSkill { get; set; }
-
 		public float ManaMaxBaseSkill { get; set; }
-
 		public float LifeMaxBaseSkill { get; set; }
-
 		public float StaminaMaxBaseSkill { get; set; }
 
 		private float _life, _injuries;

@@ -42,7 +42,7 @@ public class NaoScript : NPCScript
 			//If you have any questions before heading off to Erinn, please feel free to ask.
 			Msg(c, "If there is something you'd like to know more of, please ask me now.",
 				Button("End Conversation"),
-				List("Talk to Nao", 4, "@end",
+				List("Talk to Nao", 4, "@endconv",
 					Button("About Mabinogi", "@mabinogi"),
 					Button("About Erinn", "@erinn"),
 					Button("What to do?", "@what"),
