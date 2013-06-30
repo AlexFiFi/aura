@@ -26,6 +26,7 @@ namespace Aura.Shared.Network
 		//      170400, 21.12.2012+ (Aura)
 		//      170402, 24.04.2012+
 		//      170403, 29.05.2013+, v152
+		//      180100, 26.06.2013+, v153
 		// 
 		// TW:  170100, 22.09.2012+ (Aura)
 		//      170200, 12.12.2012+
@@ -38,7 +39,7 @@ namespace Aura.Shared.Network
 		//      180100, 13.03.2013+
 		//      180300, 25.05.2012+ (Aura)
 
-		public const uint Version = 170403;
+		public const uint Version = 180100;
 		public const MabiRegion Region = MabiRegion.NA;
 
 		// Login Server
@@ -395,7 +396,7 @@ namespace Aura.Shared.Network
 		public readonly static uint CancelBeautyShopR = 0xAAFA;
 		public readonly static uint TalentInfoUpdate = 0xAB11;
 		public readonly static uint TalentTitleChange = 0xAB12;
-		public readonly static uint TalentTitleChangedR = 0xAB13;
+		public readonly static uint TalentTitleUpdate = 0xAB13;
 		public readonly static uint ShamalaTransformationUpdate = 0xAB13;
 		public readonly static uint ShamalaTransformationUse = 0xAB14;
 		public readonly static uint ShamalaTransformation = 0xAB15;
