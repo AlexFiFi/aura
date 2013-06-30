@@ -3401,15 +3401,19 @@ namespace Aura.World.Network
 		{
 			var title = (TalentTitle)packet.GetShort();
 
-			var creature = client.GetCreatureOrNull(packet.Id);
-			if (creature == null)
+			if (client.Character.Id != packet.Id)
 				return;
 
 			// TODO: Check if vaild
 
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleChangedR, creature.Id).PutByte(1).PutShort((ushort)title), SendTargets.Range, creature);
+			// Delay fail
+			//0000 [..............00] Byte  : 0
+			//0001 [............2777] Short : 10103
+			//0002 [..............02] Byte  : 2
 
-			creature.Talents.SelectedTitle = title;
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.TalentTitleUpdate, client.Character.Id).PutByte(1).PutShort((ushort)title), SendTargets.Range, client.Character);
+
+			client.Character.Talents.SelectedTitle = title;
 		}
 
 		private void HandleCombatSetAim(WorldClient client, MabiPacket packet)
