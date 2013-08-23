@@ -28,7 +28,7 @@ public class DugaldSealStoneScript : _SealStoneScript
 	{
 		// Number Total Skill Ranks over 20 
 		int rank = 0;
-		foreach(var skill in cr.Skills.Values)
+		foreach(var skill in cr.Skills.List.Values)
 		{
 			if((rank += skill.Info.Rank) >= 20)
 				return true;
@@ -105,9 +105,9 @@ public class MathSealStoneScript : _SealStoneScript
 	{
 		// Must have rank D Playing Instrument, Composing, and Musical Knowledge
 		return (
-			(cr.HasSkill(SkillConst.PlayingInstrument) && cr.GetSkill(SkillConst.PlayingInstrument).Rank >= SkillRank.RD) &&
-			(cr.HasSkill(SkillConst.Composing) && cr.GetSkill(SkillConst.Composing).Rank >= SkillRank.RD) &&
-			(cr.HasSkill(SkillConst.MusicalKnowledge) && cr.GetSkill(SkillConst.MusicalKnowledge).Rank >= SkillRank.RD)
+			(cr.Skills.Has(SkillConst.PlayingInstrument) && cr.Skills.Get(SkillConst.PlayingInstrument).Rank >= SkillRank.RD) &&
+			(cr.Skills.Has(SkillConst.Composing) && cr.Skills.Get(SkillConst.Composing).Rank >= SkillRank.RD) &&
+			(cr.Skills.Has(SkillConst.MusicalKnowledge) && cr.Skills.Get(SkillConst.MusicalKnowledge).Rank >= SkillRank.RD)
 		);
 	}
 	
@@ -133,7 +133,7 @@ public class BangorSealStoneScript : _SealStoneScript
 	{
 		// Must have 13+ ranks of Archery Skills
 		int rank = 0;
-		foreach(var skill in cr.Skills.Values)
+		foreach(var skill in cr.Skills.List.Values)
 		{
 			if(
 				skill.Id != SkillConst.RangedCombatMastery && 
