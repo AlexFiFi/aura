@@ -127,12 +127,12 @@ namespace Aura.World.Network
 			MsgBox(client, creature, title.ToString(), MsgBoxButtons.Close, MsgBoxAlign.Center, format, args);
 		}
 
-		public static void MsgBox(Client client, MabiCreature creature, string message, string title, MsgBoxButtons buttons, MsgBoxAlign align, string format, params object[] args)
+		public static void MsgBox(Client client, MabiCreature creature, string title, MsgBoxButtons buttons, MsgBoxAlign align, string format, params object[] args)
 		{
 			var packet = new MabiPacket(Op.MsgBox, creature.Id);
 			packet.PutString(format, args);
 
-			// Can be send with the title enum as byte as well.
+			// Can be sent with the title enum as byte as well.
 			packet.PutString(title);
 
 			packet.PutByte((byte)buttons);

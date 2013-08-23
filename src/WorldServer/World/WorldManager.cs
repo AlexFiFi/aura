@@ -416,22 +416,34 @@ namespace Aura.World.World
 		// Range and position calculations
 		// ==================================================================
 
+		/// <summary>
+		/// Checks distance between the two entities, does not check region.
+		/// </summary>
 		public static bool InRange(MabiEntity c1, MabiEntity c2, uint range = 0)
 		{
 			return InRange(c1.GetPosition(), c2.GetPosition(), range);
 		}
 
+		/// <summary>
+		/// Checks distance between the two vertexes.
+		/// </summary>
 		public static bool InRange(MabiVertex loc1, MabiVertex loc2, uint range = 0)
 		{
 			return InRange(loc1.X, loc1.Y, loc2.X, loc2.Y, range);
 		}
 
+		/// <summary>
+		/// Checks distance between the entity and the coordinates, does not check region.
+		/// </summary>
 		public static bool InRange(MabiEntity entity, uint x, uint y, uint range = 0)
 		{
 			var pos = entity.GetPosition();
 			return InRange(pos.X, pos.Y, x, y, range);
 		}
 
+		/// <summary>
+		/// Checks distance between the two coordinates.
+		/// </summary>
 		public static bool InRange(uint x1, uint y1, uint x2, uint y2, uint range = 0)
 		{
 			if (range < 1)
@@ -652,7 +664,7 @@ namespace Aura.World.World
 				range = WorldConf.SightRange;
 
 			lock (_creatures)
-				return _creatures.FindAll(a => a != entity && InRange(a, entity, range));
+				return _creatures.FindAll(a => a != entity && a.Region == entity.Region && InRange(a, entity, range));
 		}
 
 		public List<MabiCreature> GetAttackableCreaturesInRange(MabiEntity entity, uint range = 0)
@@ -661,7 +673,7 @@ namespace Aura.World.World
 				range = WorldConf.SightRange;
 
 			lock (_creatures)
-				return _creatures.FindAll(a => a != entity && a is MabiNPC && !(a as MabiNPC).Has(CreatureStates.GoodNpc) && !a.IsDead && InRange(a, entity, range));
+				return _creatures.FindAll(a => a != entity && a is MabiNPC && !(a as MabiNPC).Has(CreatureStates.GoodNpc) && !a.IsDead && a.Region == entity.Region && InRange(a, entity, range));
 		}
 
 		public List<MabiCreature> GetPlayersInRange(MabiEntity entity, uint range = 0)

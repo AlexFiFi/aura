@@ -95,9 +95,12 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.CreatureLeaveRegion(this.Character);
 
-			// XXX: Looks like this should be broadcasted?
+
+			var creatures = WorldManager.Instance.GetCreaturesInRange(this.Character);
 			if (this.Creatures.Count > 1)
-				Aura.World.Network.Send.EntitiesDisappear(this, this.Creatures.Where(c => c != this.Character));
+				creatures.AddRange(this.Creatures.Where(c => c != this.Character));
+			if (creatures.Count > 0)
+				Aura.World.Network.Send.EntitiesDisappear(this, creatures);
 
 			Aura.World.Network.Send.CharacterLock(this);
 			this.Character.SetLocation(region, x, y);
