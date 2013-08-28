@@ -208,27 +208,27 @@ namespace Aura.Shared.Network
 		UnkNATW1,
 
 		/// <summary>
-		/// Int found in JP only, in 5209.
+		/// Int found in JP only (since 1704?), in 5209.
 		/// </summary>
 		UnkJP1,
 
 		/// <summary>
-		/// New values after Shamala in 5209.
+		/// New values after Shamala in 5209, first seen on KR 1801.
 		/// </summary>
 		UnkAny6,
 
 		/// <summary>
-		/// New talent information in creatures.
+		/// New talent information in creatures, first seen on KR 1801.
 		/// </summary>
 		ZeroTalent, // ?
 
 		/// <summary>
-		/// New values between poison information in creatures.
+		/// New values between poison information in creatures, first seen on KR 1801.
 		/// </summary>
 		NewPoisonCrInfo, // ?
 
 		/// <summary>
-		/// New values in creatures.
+		/// New values in creatures, first seen on KR 1803?
 		/// </summary>
 		NewUnkCrInfo,
 

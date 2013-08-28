@@ -129,6 +129,9 @@ namespace Aura.World.Network
 
 			var loc = creature.GetPosition();
 
+			// Start
+			// --------------------------------------------------------------
+
 			packet.PutLong(creature.Id);
 			packet.PutByte((byte)type);
 
@@ -718,7 +721,7 @@ namespace Aura.World.Network
 			}
 			else if (type == CreaturePacketType.Public)
 			{
-				packet.PutInt(0);			         // JoustId
+				//packet.PutInt(0);			         // JoustId
 				packet.PutLong(0);			         // HorseId
 				packet.PutFloat(0);	                 // Life
 				packet.PutInt(100);		             // LifeMax
@@ -877,7 +880,9 @@ namespace Aura.World.Network
 				packet.PutLong(0);			         // Executor
 				packet.PutShort(0);			         // ReviveTypeList
 				// loop						         
-				//   packet.PutInt			         
+				//   packet.PutInt	
+
+				// < int g18 monsters?
 			}
 
 			packet.PutByte(0);					 // IsGhost
@@ -911,6 +916,8 @@ namespace Aura.World.Network
 
 				if (Feature.UnkAny5.IsEnabled())
 					packet.PutByte(0);
+
+				// NA G18 NPC?, 162 [..............01] Byte   : 1
 
 				return;
 			}
@@ -969,7 +976,22 @@ namespace Aura.World.Network
 			}
 		}
 
-		public enum CreaturePacketType { Minimal = 1, Private = 2, Public = 5 }
+		public enum CreaturePacketType
+		{
+			/// <summary>
+			/// 1
+			/// </summary>
+			Minimal = 1,
+			/// <summary>
+			/// 2
+			/// </summary>
+			Private = 2,
+			/// <summary>
+			/// 5
+			/// </summary>
+			Public = 5,
+		}
+
 		public enum ItemPacketType : byte { Public = 1, Private = 2 }
 	}
 }
