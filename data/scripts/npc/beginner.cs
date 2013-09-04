@@ -116,7 +116,7 @@ public class TinScript : NPCScript
 		SetBody(height: .1f);
 		SetFace(skin: 15, eye: 15, eyeColor: 47, lip: 0);
 		SetStand("human/male/anim/male_stand_Tarlach_anguish");
-		SetLocation("tir_tin", 22211, 74946, 44);
+		SetLocation("tir_beginner", 22211, 74946, 44);
 
 		EquipItem(Pocket.Face, 4900);
 		EquipItem(Pocket.Hair, 4021, 0xA64742);

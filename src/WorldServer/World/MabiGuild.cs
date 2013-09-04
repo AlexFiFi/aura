@@ -24,7 +24,7 @@ namespace Aura.World.World
 		public uint Region;
 		public uint X;
 		public uint Y;
-		public uint Area { get { return MabiData.RegionDb.GetAreaId(this.Region, this.X, this.Y); } }
+		public uint Area { get { return MabiData.RegionInfoDb.GetAreaId(this.Region, this.X, this.Y); } }
 		public byte Rotation;
 
 		public uint Gp;

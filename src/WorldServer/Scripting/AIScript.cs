@@ -263,9 +263,9 @@ namespace Aura.World.Scripting
 			if (WorldManager.Instance.FindCollision(this.Creature.Region, pos, dest, out intersection))
 				dest = WorldManager.CalculatePosOnLine(pos, intersection, -200);
 
-			this.Creature.StartMove(dest, true);
+			this.Creature.Move(dest, true);
 
-			WorldManager.Instance.CreatureMove(this.Creature, pos, dest, true);
+			//WorldManager.Instance.CreatureMove(this.Creature, pos, dest, true);
 
 			while (wait && Creature.IsMoving)
 			{
@@ -278,9 +278,9 @@ namespace Aura.World.Scripting
 		{
 			if (!this.Creature.IsDestination(dest))
 			{
-				var pos = this.Creature.StartMove(dest, false);
+				var pos = this.Creature.Move(dest, false);
 
-				WorldManager.Instance.CreatureMove(this.Creature, pos, dest, false);
+				//WorldManager.Instance.CreatureMove(this.Creature, pos, dest, false);
 
 				while (wait && this.Creature.IsMoving)
 				{

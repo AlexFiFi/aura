@@ -313,6 +313,7 @@ namespace Aura.World.Network
 				foreach (var mod in creature.StatRegens)
 					mod.AddToPacket(packet);
 
+				// Another 6 elements list?
 				packet.PutInt(0);
 			}
 
@@ -868,8 +869,10 @@ namespace Aura.World.Network
 				packet.PutInt(0);
 				packet.PutLong(0);
 				packet.PutLong(0);
-				packet.PutString("");
-				packet.PutByte(0);
+
+				// Rock/Paper/Scissors?
+				packet.PutString(""); // Banner text?
+				packet.PutByte(0);    // Banner enabled?
 			}
 
 			// Character

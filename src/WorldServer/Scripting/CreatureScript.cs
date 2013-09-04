@@ -27,7 +27,7 @@ namespace Aura.World.Scripting
 			uint regionid = 0;
 			if (!uint.TryParse(region, out regionid))
 			{
-				var mapInfo = MabiData.MapDb.Find(region);
+				var mapInfo = MabiData.RegionDb.Find(region);
 				if (mapInfo != null)
 					regionid = mapInfo.Id;
 				else

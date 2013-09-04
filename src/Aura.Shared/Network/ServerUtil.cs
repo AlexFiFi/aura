@@ -93,95 +93,86 @@ namespace Aura.Shared.Network
 			{
 				if ((toLoad & DataLoad.Spawns) != 0)
 				{
-					LoadDB(MabiData.SpawnDb, dataPath + "/db/spawns.txt", reload);
-
-					LoadDB(MabiData.AncientDropDb, dataPath + "/db/ancient_drops.txt", reload);
+					LoadDb(MabiData.SpawnDb, dataPath + "/db/spawns.txt", reload);
+					LoadDb(MabiData.AncientDropDb, dataPath + "/db/ancient_drops.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Races) != 0)
 				{
-					LoadDB(MabiData.RaceSkillDb, dataPath + "/db/race_skills.txt", reload);
-
-					LoadDB(MabiData.SpeedDb, dataPath + "/db/speed.txt", reload, false);
-
-					LoadDB(MabiData.FlightDb, dataPath + "/db/flight.txt", reload, false);
-
-					LoadDB(MabiData.RaceDb, dataPath + "/db/races.txt", reload);
+					LoadDb(MabiData.RaceSkillDb, dataPath + "/db/race_skills.txt", reload);
+					LoadDb(MabiData.SpeedDb, dataPath + "/db/speed.txt", reload, false);
+					LoadDb(MabiData.FlightDb, dataPath + "/db/flight.txt", reload, false);
+					LoadDb(MabiData.RaceDb, dataPath + "/db/races.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.StatsBase) != 0)
 				{
-					LoadDB(MabiData.StatsBaseDb, dataPath + "/db/stats_base.txt", reload);
+					LoadDb(MabiData.StatsBaseDb, dataPath + "/db/stats_base.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.StatsLevel) != 0)
 				{
-					LoadDB(MabiData.StatsLevelUpDb, dataPath + "/db/stats_levelup.txt", reload);
+					LoadDb(MabiData.StatsLevelUpDb, dataPath + "/db/stats_levelup.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Motions) != 0)
 				{
-					LoadDB(MabiData.MotionDb, dataPath + "/db/motions.txt", reload);
+					LoadDb(MabiData.MotionDb, dataPath + "/db/motions.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Cards) != 0)
 				{
-					LoadDB(MabiData.CharCardSetDb, dataPath + "/db/charcardsets.txt", reload, false);
-
-					LoadDB(MabiData.CharCardDb, dataPath + "/db/charcards.txt", reload);
+					LoadDb(MabiData.CharCardSetDb, dataPath + "/db/charcardsets.txt", reload, false);
+					LoadDb(MabiData.CharCardDb, dataPath + "/db/charcards.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Colors) != 0)
 				{
-					LoadDB(MabiData.ColorMapDb, dataPath + "/db/colormap.dat", reload);
+					LoadDb(MabiData.ColorMapDb, dataPath + "/db/colormap.dat", reload);
 				}
 
 				if ((toLoad & DataLoad.Items) != 0)
 				{
-					LoadDB(MabiData.ItemDb, dataPath + "/db/items.txt", reload);
+					LoadDb(MabiData.ItemDb, dataPath + "/db/items.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Skills) != 0)
 				{
-					LoadDB(MabiData.SkillRankDb, dataPath + "/db/skill_ranks.txt", reload, false);
-
-					LoadDB(MabiData.SkillDb, dataPath + "/db/skills.txt", reload);
-
-					LoadDB(MabiData.TalentExpDb, dataPath + "/db/talent_exp.txt", reload);
-
-					LoadDB(MabiData.TalentRankDb, dataPath + "/db/talent_ranks.txt", reload, false);
+					LoadDb(MabiData.SkillRankDb, dataPath + "/db/skill_ranks.txt", reload, false);
+					LoadDb(MabiData.SkillDb, dataPath + "/db/skills.txt", reload);
+					LoadDb(MabiData.TalentExpDb, dataPath + "/db/talent_exp.txt", reload);
+					LoadDb(MabiData.TalentRankDb, dataPath + "/db/talent_ranks.txt", reload, false);
 				}
 
 				if ((toLoad & DataLoad.Regions) != 0)
 				{
-					LoadDB(MabiData.MapDb, dataPath + "/db/maps.txt", reload);
-
-					LoadDB(MabiData.RegionDb, dataPath + "/db/regioninfo.dat", reload);
+					LoadDb(MabiData.RegionDb, dataPath + "/db/regions.txt", reload);
+					LoadDb(MabiData.RegionInfoDb, dataPath + "/db/regioninfo.dat", reload);
 				}
 
 				if ((toLoad & DataLoad.Shamala) != 0)
 				{
-					LoadDB(MabiData.ShamalaDb, dataPath + "/db/shamala.txt", reload);
+					LoadDb(MabiData.ShamalaDb, dataPath + "/db/shamala.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.PropDrops) != 0)
 				{
-					LoadDB(MabiData.PropDropDb, dataPath + "/db/prop_drops.txt", reload);
+					LoadDb(MabiData.PropDropDb, dataPath + "/db/prop_drops.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Exp) != 0)
 				{
-					LoadDB(MabiData.ExpDb, dataPath + "/db/exp.txt", reload);
+					LoadDb(MabiData.ExpDb, dataPath + "/db/exp.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Pets) != 0)
 				{
-					LoadDB(MabiData.PetDb, dataPath + "/db/pets.txt", reload);
+					LoadDb(MabiData.PetDb, dataPath + "/db/pets.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Weather) != 0)
 				{
-					LoadDB(MabiData.WeatherDb, dataPath + "/db/weather.txt", reload);
+					LoadDb(MabiData.WeatherDb, dataPath + "/db/weather.txt", reload);
 				}
 			}
 			catch (FileNotFoundException ex)
@@ -196,7 +187,7 @@ namespace Aura.Shared.Network
 			}
 		}
 
-		private static void LoadDB(IDatabase db, string path, bool reload, bool log = true)
+		private static void LoadDb(IDatabase db, string path, bool reload, bool log = true)
 		{
 			db.Load(path, reload);
 			PrintDataWarnings(db.Warnings);

@@ -337,14 +337,6 @@ namespace Aura.World.Skills
 
 			return SkillResults.None;
 		}
-
-		public static void ResetCreatureAim(MabiCreature creature)
-		{
-			if (creature.Target != null)
-				creature.Client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id).PutByte(0));
-
-			creature.AimStart = DateTime.MaxValue;
-		}
 	}
 
 	public enum StrengthRating

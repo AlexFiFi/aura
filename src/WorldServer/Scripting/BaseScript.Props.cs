@@ -20,7 +20,7 @@ namespace Aura.World.Scripting
 		/// </summary>
 		protected MabiProp SpawnProp(uint propClass, string region, uint x, uint y, float direction, float scale, MabiPropFunc behavior)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region);
+			uint regionId = MabiData.RegionDb.TryGetRegionId(region);
 			return this.SpawnProp(propClass, regionId, x, y, scale, direction, behavior);
 		}
 
@@ -42,7 +42,7 @@ namespace Aura.World.Scripting
 		/// <returns>New prop</returns>
 		protected MabiProp SpawnProp(uint propClass, string region, uint x, uint y, float direction = 0, float scale = 1)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region);
+			uint regionId = MabiData.RegionDb.TryGetRegionId(region);
 			return this.SpawnProp(propClass, regionId, x, y, direction, scale);
 		}
 
@@ -82,7 +82,7 @@ namespace Aura.World.Scripting
 
 		protected void DefineProp(ulong propId, string region, uint x, uint y, MabiPropFunc behavior = null)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region);
+			uint regionId = MabiData.RegionDb.TryGetRegionId(region);
 			this.DefineProp(propId, regionId, x, y, behavior);
 		}
 
@@ -114,7 +114,7 @@ namespace Aura.World.Scripting
 
 		protected MabiPropFunc PropWarp(string region, uint x, uint y)
 		{
-			uint regionId = MabiData.MapDb.TryGetRegionId(region);
+			uint regionId = MabiData.RegionDb.TryGetRegionId(region);
 			return this.PropWarp(regionId, x, y);
 		}
 

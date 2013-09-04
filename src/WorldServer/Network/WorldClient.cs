@@ -81,7 +81,7 @@ namespace Aura.World.Network
 
 		public void Warp(string region, uint x, uint y)
 		{
-			var regionId = MabiData.MapDb.TryGetRegionId(region);
+			var regionId = MabiData.RegionDb.TryGetRegionId(region);
 			if (regionId > 0)
 				this.Warp(regionId, x, y);
 		}
@@ -94,7 +94,6 @@ namespace Aura.World.Network
 			this.Send(new MabiPacket(Op.WarpUnk2, this.Character.Id).PutByte(11));
 
 			WorldManager.Instance.CreatureLeaveRegion(this.Character);
-
 
 			var creatures = WorldManager.Instance.GetCreaturesInRange(this.Character);
 			if (this.Creatures.Count > 1)

@@ -57,13 +57,13 @@
     <Compile Include="Database\ColorMaps.cs" />
     <Compile Include="Database\Flight.cs" />
     <Compile Include="Database\Items.cs" />
-    <Compile Include="Database\Maps.cs" />
+    <Compile Include="Database\Regions.cs" />
     <Compile Include="Database\Motions.cs" />
     <Compile Include="Database\PropDrops.cs" />
     <Compile Include="Database\Quests.cs" />
     <Compile Include="Database\Races.cs" />
     <Compile Include="Database\RaceSkills.cs" />
-    <Compile Include="Database\Regions.cs" />
+    <Compile Include="Database\RegionInfos.cs" />
     <Compile Include="Database\Shamala.cs" />
     <Compile Include="Database\SkillRanks.cs" />
     <Compile Include="Database\Skills.cs" />

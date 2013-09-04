@@ -387,7 +387,7 @@ namespace Aura.Shared.Const
 		WyvernFireBreath = 50115,
 		WyvernLightning = 50116,
 		WyvernIceBreath = 50117,
-		
+
 		CherryTreeKit = 50118,
 		DragonSupportMeteor = 50119,
 		Spin = 50120,

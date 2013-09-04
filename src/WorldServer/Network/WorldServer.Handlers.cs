@@ -2169,11 +2169,11 @@ namespace Aura.World.Network
 
 		public void HandleHitProp(WorldClient client, MabiPacket packet)
 		{
+			var propId = packet.GetLong();
+
 			var character = client.GetCreatureOrNull(packet.Id) as MabiPC;
 			if (character == null || character.IsDead)
 				return;
-
-			var propId = packet.GetLong();
 
 			// Hit prop animation
 			var pos = character.GetPosition();
@@ -2199,15 +2199,15 @@ namespace Aura.World.Network
 
 		private void HandleMove(WorldClient client, MabiPacket packet)
 		{
+			var x = packet.GetInt();
+			var y = packet.GetInt();
+
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
-			var x = packet.GetInt();
-			var y = packet.GetInt();
-
-			var pos = creature.GetPosition();
-			var dest = new MabiVertex(x, y);
+			var from = creature.GetPosition();
+			var to = new MabiVertex(x, y);
 
 #if false
 			// Collision
@@ -2219,17 +2219,9 @@ namespace Aura.World.Network
 			}
 #endif
 
-			var walking = (packet.Op == Op.Walk);
+			WorldManager.Instance.ActivateMobs(creature, from, to);
 
-			// TODO: Update creature position on unmount?
-			creature.StartMove(dest, walking);
-			if (creature.Vehicle != null)
-			{
-				creature.Vehicle.StartMove(dest, walking);
-				WorldManager.Instance.CreatureMove(creature.Vehicle, creature.GetPosition(), dest, walking);
-			}
-
-			WorldManager.Instance.CreatureMove(creature, pos, dest, walking);
+			creature.Move(to, (packet.Op == Op.Walk));
 		}
 
 		private void HandleTakeOff(WorldClient client, MabiPacket packet)
@@ -2269,29 +2261,26 @@ namespace Aura.World.Network
 
 		private void HandleFlyTo(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.GetCreatureOrNull(packet.Id);
-			if (creature == null)
-				return;
-
-			if (!creature.IsFlying)
-				return;
-
 			var toX = packet.GetFloat();
 			var toH = packet.GetFloat();
 			var toY = packet.GetFloat();
 			var dir = packet.GetFloat();
 
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null || !creature.IsFlying)
+				return;
+
 			var pos = creature.GetPosition();
 
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.FlyingTo, packet.Id).PutFloats(toX, toH, toY, dir, pos.X, pos.H, pos.Y), SendTargets.Range, creature);
-
 			creature.Direction = (byte)dir;
-			creature.StartMove(new MabiVertex(toX, toY, toH));
+			creature.Move(new MabiVertex(toX, toY, toH));
 			foreach (var rider in creature.Riders)
 			{
 				rider.Direction = creature.Direction;
-				rider.StartMove(new MabiVertex(toX, toY));
+				rider.Move(new MabiVertex(toX, toY));
 			}
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.FlyingTo, packet.Id).PutFloats(toX, toH, toY, dir, pos.X, pos.H, pos.Y), SendTargets.Range, creature);
 		}
 
 		private void HandleLand(WorldClient client, MabiPacket packet)
@@ -2616,7 +2605,7 @@ namespace Aura.World.Network
 			if (creature.Region != region)
 				return;
 
-			var evnt = MabiData.RegionDb.FindEvent(eventId);
+			var evnt = MabiData.RegionInfoDb.FindEvent(eventId);
 			if (evnt == null)
 			{
 				Logger.Warning("Unknown event: {0}", eventId.ToString("X"));

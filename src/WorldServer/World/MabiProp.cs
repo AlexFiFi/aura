@@ -46,6 +46,9 @@ namespace Aura.World.World
 		public string Name { get; set; }
 		public string Title { get; set; }
 
+		/// <summary>
+		/// Known states: single, closed, open, state1-3
+		/// </summary>
 		public string State { get; set; }
 		public string ExtraData { get; set; }
 
@@ -87,7 +90,7 @@ namespace Aura.World.World
 		{
 			this.Id = ++_propIndex;
 			this.Id += (ulong)region << 32;
-			this.Id += MabiData.RegionDb.GetAreaId(region, x, y) << 16;
+			this.Id += MabiData.RegionInfoDb.GetAreaId(region, x, y) << 16;
 		}
 
 		public MabiProp(ulong id, string name, string title, string extra, uint cls, uint region, uint x, uint y, float direction, float scale = 1, float altitude = 0)

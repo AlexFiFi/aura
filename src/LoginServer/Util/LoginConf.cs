@@ -96,7 +96,7 @@ namespace Aura.Login.Util
 				if (!uint.TryParse(spawn[0], out region))
 				{
 					// Not numeric, check map names
-					region = MabiData.MapDb.TryGetRegionId(spawn[0]);
+					region = MabiData.RegionDb.TryGetRegionId(spawn[0]);
 					if (region == 0)
 						Logger.Warning("login.conf, login.spawn : Map '{0}' not found.", spawn[0]);
 				}

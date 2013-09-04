@@ -853,37 +853,81 @@ namespace Aura.World.World
 			return new MabiVertex((uint)xt, (uint)yt, (uint)ht);
 		}
 
-		public MabiVertex StartMove(MabiVertex dest, bool walk = false)
+		/// <summary>
+		/// Starts movement towards to. Also moves Vehicle.
+		/// Sends: Walking/Running
+		/// </summary>
+		public MabiVertex Move(MabiVertex to, bool walk = false)
 		{
-			var pos = this.GetPosition();
+			var from = this.GetPosition();
 
-			_position.X = pos.X;
-			_position.Y = pos.Y;
-			_position.H = pos.H;
-
-			Destination.X = dest.X;
-			Destination.Y = dest.Y;
-			Destination.H = dest.H;
-
-			_moveStartTime = DateTime.Now;
-			IsWalking = walk;
-
-			var diffX = (int)dest.X - (int)pos.X;
-			var diffY = (int)dest.Y - (int)pos.Y;
-			_moveDuration = Math.Sqrt(diffX * diffX + diffY * diffY) / this.GetSpeed();
-			_movementX = diffX / _moveDuration;
-			_movementY = diffY / _moveDuration;
-			_movementH = 0;
-
-			if (this.IsFlying)
+			// Server calculation
 			{
-				_movementH = (pos.H < dest.H ? this.RaceInfo.FlightInfo.DescentSpeed : this.RaceInfo.FlightInfo.AscentSpeed);
-				_moveDuration = Math.Max(_moveDuration, Math.Abs((int)dest.H - (int)pos.H) / _movementH);
+				_position.X = from.X;
+				_position.Y = from.Y;
+				_position.H = from.H;
+
+				this.Destination.X = to.X;
+				this.Destination.Y = to.Y;
+				this.Destination.H = to.H;
+
+				_moveStartTime = DateTime.Now;
+				IsWalking = walk;
+
+				var diffX = (int)to.X - (int)from.X;
+				var diffY = (int)to.Y - (int)from.Y;
+				_moveDuration = Math.Sqrt(diffX * diffX + diffY * diffY) / this.GetSpeed();
+				_movementX = diffX / _moveDuration;
+				_movementY = diffY / _moveDuration;
+				_movementH = 0;
+
+				if (this.IsFlying)
+				{
+					_movementH = (from.H < to.H ? this.RaceInfo.FlightInfo.DescentSpeed : this.RaceInfo.FlightInfo.AscentSpeed);
+					_moveDuration = Math.Max(_moveDuration, Math.Abs((int)to.H - (int)from.H) / _movementH);
+				}
+
+				this.Direction = (byte)(Math.Floor(Math.Atan2(_movementY, _movementX) / 0.02454369260617026));
 			}
 
-			this.Direction = (byte)(Math.Floor(Math.Atan2(_movementY, _movementX) / 0.02454369260617026));
+			// Client Update
+			{
+				if (!this.IsFlying)
+				{
+					var p = new MabiPacket(!walk ? Op.Running : Op.Walking, this.Id);
+					p.PutInt(from.X);
+					p.PutInt(from.Y);
+					p.PutInt(to.X);
+					p.PutInt(to.Y);
+					WorldManager.Instance.Broadcast(p, SendTargets.Range, this);
 
-			return pos;
+					if (this.Vehicle != null)
+					{
+						this.Vehicle.Move(to, walk);
+					}
+				}
+			}
+
+			// Server Updates
+			{
+				switch (this.ActiveSkillId)
+				{
+					case SkillConst.RangedCombatMastery:
+					case SkillConst.ArrowRevolver:
+					case SkillConst.ArrowRevolver2:
+					case SkillConst.MagnumShot:
+					case SkillConst.SupportShot:
+					case SkillConst.ElvenMagicMissile:
+					case SkillConst.MirageMissile:
+					case SkillConst.CrashShot:
+						this.ResetAim();
+						break;
+				}
+
+				EventManager.Instance.CreatureEvents.OnCreatureMoves(this, new MoveEventArgs(this, from, to));
+			}
+
+			return from;
 		}
 
 		/// <summary>
@@ -1044,6 +1088,14 @@ namespace Aura.World.World
 			}
 
 			return aimPercent / 100;
+		}
+
+		public void ResetAim()
+		{
+			if (this.Target != null)
+				this.Client.Send(new MabiPacket(Op.CombatSetAimR, this.Id).PutByte(0));
+
+			this.AimStart = DateTime.MaxValue;
 		}
 	}
 }

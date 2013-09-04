@@ -19,7 +19,7 @@ public class LassarScript : NPCScript
 		SetBody(height: 1.1f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 153, eyeColor: 25, lip: 2);
 		SetStand("human/female/anim/female_natural_stand_npc_lassar02", "human/female/anim/female_natural_stand_npc_lassar_talk");
-		SetLocation("tir_magic", 2020, 1537, 202);
+		SetLocation("tir_school", 2020, 1537, 202);
 
 		EquipItem(Pocket.Face, 0xF3C, 0xF67F3D);
 		EquipItem(Pocket.Hair, 0xC48, 0xD25D5D);

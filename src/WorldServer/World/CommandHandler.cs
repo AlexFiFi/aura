@@ -186,7 +186,7 @@ namespace Aura.World.World
 		private CommandResult Command_where(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
 			var pos = creature.GetPosition();
-			var area = MabiData.RegionDb.GetAreaId(creature.Region, pos.X, pos.Y);
+			var area = MabiData.RegionInfoDb.GetAreaId(creature.Region, pos.X, pos.Y);
 			Send.ServerMessage(client, creature, Localization.Get("gm.where"), creature.Region, pos.X, pos.Y, area, creature.Direction); // Region: {0}, X: {1}, Y: {2}, Area: {3}, Direction: {4}
 
 			return CommandResult.Okay;
@@ -503,7 +503,7 @@ namespace Aura.World.World
 				return CommandResult.Fail;
 
 			var pos = creature.GetPosition();
-			var area = MabiData.RegionDb.GetAreaId(creature.Region, pos.X, pos.Y);
+			var area = MabiData.RegionInfoDb.GetAreaId(creature.Region, pos.X, pos.Y);
 
 			var prop = new MabiProp(propClass, creature.Region, pos.X, pos.Y, creature.Direction);
 			WorldManager.Instance.AddProp(prop);
@@ -569,7 +569,7 @@ namespace Aura.World.World
 			uint region = 0;
 			if (!uint.TryParse(args[1], out region))
 			{
-				var mapInfo = MabiData.MapDb.Find(args[1]);
+				var mapInfo = MabiData.RegionDb.Find(args[1]);
 				if (mapInfo != null)
 					region = mapInfo.Id;
 				else
@@ -587,7 +587,7 @@ namespace Aura.World.World
 			if (args.Length == 2)
 			{
 				// Random coordinates.
-				var rndc = MabiData.RegionDb.RandomCoord(region);
+				var rndc = MabiData.RegionInfoDb.RandomCoord(region);
 				x = rndc.X;
 				y = rndc.Y;
 			}
@@ -614,7 +614,7 @@ namespace Aura.World.World
 			if (args.Length == 1)
 			{
 				// Random coordinates.
-				var rndc = MabiData.RegionDb.RandomCoord(region);
+				var rndc = MabiData.RegionInfoDb.RandomCoord(region);
 				x = rndc.X;
 				y = rndc.Y;
 			}

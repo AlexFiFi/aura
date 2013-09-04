@@ -72,7 +72,7 @@ namespace Aura.World.World
 		/// </summary>
 		private void PlantTree()
 		{
-			foreach (var region in MabiData.RegionDb.Entries.Values)
+			foreach (var region in MabiData.RegionInfoDb.Entries.Values)
 			{
 				foreach (var area in region.Areas.Values)
 				{
@@ -899,7 +899,7 @@ namespace Aura.World.World
 			ScriptManager.Instance.Spawn(spawn, 0, effect);
 		}
 
-		private void ActivateMobs(MabiCreature creature, MabiVertex from, MabiVertex to)
+		public void ActivateMobs(MabiCreature creature, MabiVertex from, MabiVertex to)
 		{
 			IEnumerable<MabiCreature> mobsInRange = _creatures.Where(c =>
 				c.Region == creature.Region
@@ -963,6 +963,9 @@ namespace Aura.World.World
 		// Creature actions and broadcasting
 		// ------------------------------------------------------------------
 
+		/// <summary>
+		/// Drops item at the location.
+		/// </summary>
 		public void DropItem(MabiItem item, uint region, uint x, uint y)
 		{
 			item.Info.Region = region;
@@ -974,35 +977,6 @@ namespace Aura.World.World
 			this.AddItem(item);
 		}
 
-		public void CreatureMove(MabiCreature creature, MabiVertex from, MabiVertex to, bool walking = false)
-		{
-			var p = new MabiPacket((!walking ? (uint)Op.Running : (uint)Op.Walking), creature.Id);
-			p.PutInt(from.X);
-			p.PutInt(from.Y);
-			p.PutInt(to.X);
-			p.PutInt(to.Y);
-
-			this.Broadcast(p, SendTargets.Range, creature);
-
-			if (creature is MabiPC)
-				ActivateMobs(creature, from, to);
-
-			switch (creature.ActiveSkillId)
-			{
-				case SkillConst.RangedCombatMastery:
-				case SkillConst.ArrowRevolver:
-				case SkillConst.ArrowRevolver2:
-				case SkillConst.MagnumShot:
-				case SkillConst.SupportShot:
-				case SkillConst.ElvenMagicMissile:
-				case SkillConst.MirageMissile:
-				case SkillConst.CrashShot:
-					CombatHelper.ResetCreatureAim(creature);
-					break;
-			}
-
-			EventManager.Instance.CreatureEvents.OnCreatureMoves(this, new MoveEventArgs(creature, from, to));
-		}
 
 		public void CreatureLeaveRegion(MabiCreature creature)
 		{
