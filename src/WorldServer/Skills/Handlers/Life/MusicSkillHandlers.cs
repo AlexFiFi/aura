@@ -16,6 +16,7 @@ namespace Aura.World.Skills
 	/// Var 3: Harmony 2 max length
 	/// Var 4: Magical Effect chance
 	/// </summary>
+	[SkillAttr(SkillConst.Composing)]
 	public class ComposingHandler : SkillHandler
 	{
 		const int MMLMaxLength = 10000;
@@ -81,6 +82,7 @@ namespace Aura.World.Skills
 		}
 	}
 
+	[SkillAttr(SkillConst.PlayingInstrument)]
 	public class PlayingInstrumentHandler : SkillHandler
 	{
 		// tmp

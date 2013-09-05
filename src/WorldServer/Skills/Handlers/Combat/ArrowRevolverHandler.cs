@@ -10,6 +10,7 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.ArrowRevolver, SkillConst.ArrowRevolver2)]
 	public class ArrowRevolverHandler : SkillHandler
 	{
 		/// <summary>

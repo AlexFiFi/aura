@@ -70,6 +70,7 @@ namespace Aura.World.Skills
 		}
 	}
 
+	[SkillAttr(SkillConst.Icebolt)]
 	public class IceboltHandler : BoltHandler
 	{
 		public override string Name
@@ -151,6 +152,7 @@ namespace Aura.World.Skills
 
 	}
 
+	[SkillAttr(SkillConst.Firebolt)]
 	public class FireboltHandler : BoltHandler
 	{
 		public override string Name
@@ -227,6 +229,7 @@ namespace Aura.World.Skills
 		}
 	}
 
+	[SkillAttr(SkillConst.Lightningbolt)]
 	public class LightningboltHandler : BoltHandler
 	{
 		public override string Name

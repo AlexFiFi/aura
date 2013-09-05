@@ -26,7 +26,7 @@ namespace Aura.World.World
 	{
 		private Timer _expiryTimer = null; // TODO: Busy wait (?) Events may be better
 		public readonly Dictionary<Stat, List<StatMod>> Mods = new Dictionary<Stat, List<StatMod>>();
-		private readonly Dictionary<Stat, float> _cache = new Dictionary<Stat,float>();
+		private readonly Dictionary<Stat, float> _cache = new Dictionary<Stat, float>();
 
 		public void Add(Stat stat, float amount, StatModSource source, ulong id)
 		{
@@ -170,7 +170,7 @@ namespace Aura.World.World
 
 	public class MabiStatRegen
 	{
-		private static uint _statRegenIndex = 30;
+		private static int _statRegenIndex = 30;
 
 		public uint ModId;
 		public Stat Stat;
@@ -195,7 +195,7 @@ namespace Aura.World.World
 
 		public MabiStatRegen(Stat status, uint duration, float changePerSecond, float maxValue)
 		{
-			this.ModId = _statRegenIndex++;
+			this.ModId = (uint)Interlocked.Increment(ref _statRegenIndex);
 			this.Stat = status;
 			this.Start = DateTime.Now;
 			this.Duration = duration;

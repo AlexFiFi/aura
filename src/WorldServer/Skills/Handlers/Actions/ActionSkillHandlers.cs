@@ -8,7 +8,8 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
-	class UmbrellaSkillHandler : SkillHandler
+	[SkillAttr(SkillConst.Umbrella)]
+	public class UmbrellaSkillHandler : SkillHandler
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{

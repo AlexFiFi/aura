@@ -4,9 +4,11 @@
 using Aura.Shared.Network;
 using Aura.World.Network;
 using Aura.World.World;
+using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.Defense)]
 	public class DefenseHandler : SkillHandler
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)

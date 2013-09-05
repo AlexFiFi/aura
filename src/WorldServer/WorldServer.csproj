@@ -71,6 +71,7 @@
     <Compile Include="Network\Sending\Send.NPC.cs" />
     <Compile Include="Network\Sending\Send.Guild.cs" />
     <Compile Include="Network\Sending\Send.Skill.cs" />
+    <Compile Include="Network\Sending\Send.Sound.cs" />
     <Compile Include="Network\Sending\Send.World.cs" />
     <Compile Include="Network\Sending\Send.Misc.cs" />
     <Compile Include="Network\Sending\Send.Character.cs" />
@@ -120,9 +121,10 @@
     <Compile Include="Skills\Handlers\Magic\IcespearHandler.cs" />
     <Compile Include="Skills\Handlers\Magic\ManaShieldHandler.cs" />
     <Compile Include="Skills\Handlers\Magic\ThunderHandler.cs" />
+    <Compile Include="Skills\Handlers\Transformations\AwakeningOfLight.cs" />
     <Compile Include="Skills\Handlers\Transformations\TransformationSkillHandlers.cs" />
     <Compile Include="Skills\Handlers\Magic\HealHandler.cs" />
-    <Compile Include="Skills\Handlers\Life\LifeSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Life\RestHandler.cs" />
     <Compile Include="Skills\SkillHandler.cs" />
     <Compile Include="Skills\SkillHelper.cs" />
     <Compile Include="Skills\SkillManager.cs" />

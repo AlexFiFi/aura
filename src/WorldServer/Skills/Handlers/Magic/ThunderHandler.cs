@@ -14,7 +14,8 @@ using Aura.Shared.Util;
 
 namespace Aura.World.Skills
 {
-	class ThunderHandler : SkillHandler
+	[SkillAttr(SkillConst.Thunder)]
+	public class ThunderHandler : SkillHandler
 	{
 		public const ushort UseStun = 500, KnockBack = 40;
 

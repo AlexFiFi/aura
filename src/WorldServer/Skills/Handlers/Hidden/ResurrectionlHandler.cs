@@ -9,6 +9,7 @@ using Aura.Shared.Util;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.HiddenResurrection)]
 	public class HiddenResurrectionHandler : SkillHandler
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)

@@ -10,6 +10,7 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.RangedCombatMastery)]
 	public class RangeCombatMasteryHandler : SkillHandler
 	{
 		/// <summary>

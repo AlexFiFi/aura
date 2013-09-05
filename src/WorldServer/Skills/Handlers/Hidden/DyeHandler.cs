@@ -10,6 +10,7 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.Dye)]
 	public class DyeHandler : SkillHandler
 	{
 		public override SkillResults Prepare(World.MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)

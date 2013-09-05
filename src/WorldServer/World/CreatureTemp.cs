@@ -31,5 +31,9 @@ namespace Aura.World.World
 		public MabiItem SkillItem2;
 
 		public byte[] DyeCursors;
+
+		public MabiStatRegen DemiHpRegen;
+		public MabiStatRegen DemiMpRegen;
+		public MabiStatRegen DemiStmRegen;
 	}
 }

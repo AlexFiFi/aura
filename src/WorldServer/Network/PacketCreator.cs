@@ -152,6 +152,37 @@ namespace Aura.World.Network
 				.PutByte((byte)type);
 		}
 
+		// tmp
+		public static MabiPacket StatRegenStop(MabiCreature creature, StatUpdateType type, params MabiStatRegen[] stats)
+		{
+			var packet = new MabiPacket((type & StatUpdateType.Public) != 0 ? Op.StatUpdatePublic : Op.StatUpdatePrivate, creature.Id);
+
+			packet.PutByte((byte)type);
+			packet.PutSInt(0); // Stats
+			packet.PutInt(0); // Regens
+
+			// Stat mod ids to remove
+			packet.PutSInt(stats.Count());
+			foreach (var mod in stats)
+				packet.PutInt(mod.ModId);
+
+			packet.PutInt(0);
+
+			if (type == StatUpdateType.Public)
+			{
+				packet.PutInt(0);
+
+				// Stat mod ids to remove
+				packet.PutSInt(stats.Count());
+				foreach (var mod in stats)
+					packet.PutInt(mod.ModId);
+
+				packet.PutInt(0);
+			}
+
+			return packet;
+		}
+
 		public static MabiPacket StatUpdate(MabiCreature creature, StatUpdateType type, params Stat[] stats)
 		{
 			var packet = new MabiPacket((type & StatUpdateType.Public) != 0 ? Op.StatUpdatePublic : Op.StatUpdatePrivate, creature.Id);
@@ -210,23 +241,23 @@ namespace Aura.World.Network
 				}
 			}
 
-			// Stat regens
-			if (type == StatUpdateType.Public)
-			{
-				packet.PutSInt(creature.StatRegens.Count);
-				foreach (var mod in creature.StatRegens)
-					mod.AddToPacket(packet);
-			}
-			else
-				packet.PutInt(0);				 // probably mods as well
+			// (New?) Stat regens
+			packet.PutSInt(creature.StatRegens.Count);
+			foreach (var mod in creature.StatRegens)
+				mod.AddToPacket(packet);
 
-			packet.PutInt(0);					 // ?
+			// Stat mod ids to remove?
+			packet.PutInt(0);
+
 			packet.PutInt(0);					 // ?
 
 			if (type == StatUpdateType.Public)
 			{
 				packet.PutInt(0);  				 // ?
-				packet.PutInt(0);  				 // ?
+
+				// Stat mod ids to remove?
+				packet.PutInt(0);
+
 				packet.PutInt(0);				 // ?
 			}
 

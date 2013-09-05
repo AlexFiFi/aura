@@ -62,5 +62,35 @@ namespace Aura.World.Network
 
 			client.Send(packet);
 		}
+
+		/// <summary>
+		/// Broadcasts Effect packet in range. Parameters can be added,
+		/// but you have to watch the types.
+		/// </summary>
+		public static void Effect(uint effect, MabiEntity source, params object[] args)
+		{
+			var packet = new MabiPacket(Op.Effect, source.Id);
+			packet.PutInt(effect);
+			foreach (var arg in args)
+				packet.Put(arg);
+
+			WorldManager.Instance.Broadcast(packet, SendTargets.Range, source);
+		}
+
+		/// <summary>
+		/// Broadcasts Effect packet in range. Parameters can be added,
+		/// but you have to watch the types.
+		/// </summary>
+		/// <param name="delay">Delay in milliseconds</param>
+		public static void EffectDelayed(uint effect, uint delay, MabiEntity source, params object[] args)
+		{
+			var packet = new MabiPacket(Op.EffectDelayed, source.Id);
+			packet.PutInt(delay);
+			packet.PutInt(effect);
+			foreach (var arg in args)
+				packet.Put(arg);
+
+			WorldManager.Instance.Broadcast(packet, SendTargets.Range, source);
+		}
 	}
 }

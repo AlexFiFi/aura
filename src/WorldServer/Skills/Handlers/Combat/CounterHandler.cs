@@ -9,9 +9,11 @@ using Aura.World.World;
 using Aura.World.Network;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
+using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.MeleeCounterattack)]
 	public class CounterHandler : SkillHandler
 	{
 		private const ushort StunTime = 3000;

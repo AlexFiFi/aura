@@ -170,11 +170,11 @@ namespace Aura.World.Skills
 
 	public abstract class CombatAction
 	{
-		public MabiCreature Creature;
-		public CombatActionType Type;
-		public ushort StunTime;
-		public SkillConst SkillId;
-		public MabiVertex OldPosition;
+		public MabiCreature Creature { get; set; }
+		public CombatActionType Type { get; set; }
+		public ushort StunTime { get; set; }
+		public SkillConst SkillId { get; set; }
+		public MabiVertex OldPosition { get; set; }
 
 		public abstract bool IsKnock { get; }
 
@@ -212,9 +212,9 @@ namespace Aura.World.Skills
 	/// </summary>
 	public class AttackerAction : CombatAction
 	{
-		public AttackerOptions Options;
-		public ulong TargetId;
-		public ulong PropId;
+		public AttackerOptions Options { get; set; }
+		public ulong TargetId { get; set; }
+		public ulong PropId { get; set; }
 
 		/// <summary>
 		/// Returns true if the specified option is set.
@@ -265,11 +265,20 @@ namespace Aura.World.Skills
 	/// </summary>
 	public class TargetAction : CombatAction
 	{
-		public TargetOptions Options;
-		public MabiCreature Attacker;
-		public uint Delay;
-		public float Damage;
-		public float ManaDamage;
+		public TargetOptions Options { get; set; }
+		public MabiCreature Attacker { get; set; }
+		/// <summary>
+		/// Animation delay
+		/// </summary>
+		public uint Delay { get; set; }
+		/// <summary>
+		/// Normal damage
+		/// </summary>
+		public float Damage { get; set; }
+		/// <summary>
+		/// Mana damage (Mana Shield, blue)
+		/// </summary>
+		public float ManaDamage { get; set; }
 
 		/// <summary>
 		/// Returns true if the specified option is set.

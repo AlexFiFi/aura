@@ -33,7 +33,7 @@ namespace Aura.World.World
 
 		private Dictionary<Stat, object> _stats = new Dictionary<Stat, object>();
 
-		private List<MabiStatRegen> _statRegens = new List<MabiStatRegen>();
+		public List<MabiStatRegen> StatRegens = new List<MabiStatRegen>();
 		public readonly MabiStatMods StatMods = new MabiStatMods();
 		public MabiStatRegen LifeRegen, ManaRegen, StaminaRegen;
 
@@ -305,8 +305,6 @@ namespace Aura.World.World
 		public float StaminaMax { get { return this.StaminaMaxBaseTotal + this.StatMods.GetMod(Stat.StaminaMaxMod); } }
 		public float StaminaHunger { get { return this.StaminaMax - _hunger; } }
 
-		public List<MabiStatRegen> StatRegens { get { return _statRegens; } }
-
 		public float StrBase { get; set; }
 		public float DexBase { get; set; }
 		public float IntBase { get; set; }
@@ -488,6 +486,39 @@ namespace Aura.World.World
 		public bool Has(CreatureConditionD condition) { return ((this.Conditions.D & condition) != 0); }
 		public bool Has(CreatureStates state) { return ((this.State & state) != 0); }
 
+		/// <summary>
+		/// Acivates condition and sends update.
+		/// </summary>
+		public void Activate(CreatureConditionA condition) { this.Conditions.A |= condition; Send.StatusEffectUpdate(this); }
+		/// <summary>
+		/// Acivates condition and sends update.
+		/// </summary>
+		public void Activate(CreatureConditionB condition) { this.Conditions.B |= condition; Send.StatusEffectUpdate(this); }
+		/// <summary>
+		/// Acivates condition and sends update.
+		/// </summary>
+		public void Activate(CreatureConditionC condition) { this.Conditions.C |= condition; Send.StatusEffectUpdate(this); }
+		/// <summary>
+		/// Acivates condition and sends update.
+		/// </summary>
+		public void Activate(CreatureConditionD condition) { this.Conditions.D |= condition; Send.StatusEffectUpdate(this); }
+		/// <summary>
+		/// Deacivates condition and sends update.
+		/// </summary>
+		public void Deactivate(CreatureConditionA condition) { this.Conditions.A &= ~condition; Send.StatusEffectUpdate(this); }
+		/// <summary>
+		/// Deacivates condition and sends update.
+		/// </summary>
+		public void Deactivate(CreatureConditionB condition) { this.Conditions.B &= ~condition; Send.StatusEffectUpdate(this); }
+		/// <summary>
+		/// Deacivates condition and sends update.
+		/// </summary>
+		public void Deactivate(CreatureConditionC condition) { this.Conditions.C &= ~condition; Send.StatusEffectUpdate(this); }
+		/// <summary>
+		/// Deacivates condition and sends update.
+		/// </summary>
+		public void Deactivate(CreatureConditionD condition) { this.Conditions.D &= ~condition; Send.StatusEffectUpdate(this); }
+
 		public bool HasSkillLoaded(SkillConst skill) { return this.ActiveSkillId == skill; }
 
 		/// <summary>
@@ -578,9 +609,9 @@ namespace Aura.World.World
 
 			this.RaceInfo = dbInfo;
 
-			_statRegens.Add(this.LifeRegen = new MabiStatRegen(Stat.Life, 0.12f, this.LifeMax));
-			_statRegens.Add(this.ManaRegen = new MabiStatRegen(Stat.Mana, 0.05f, this.ManaMax));
-			_statRegens.Add(this.StaminaRegen = new MabiStatRegen(Stat.Stamina, 0.4f, this.StaminaMax));
+			this.StatRegens.Add(this.LifeRegen = new MabiStatRegen(Stat.Life, 0.12f, this.LifeMax));
+			this.StatRegens.Add(this.ManaRegen = new MabiStatRegen(Stat.Mana, 0.05f, this.ManaMax));
+			this.StatRegens.Add(this.StaminaRegen = new MabiStatRegen(Stat.Stamina, 0.4f, this.StaminaMax));
 			//_statMods.Add(new MabiStatMod(Stat.Food, -0.01f, this.StaminaMax / 2));
 
 			if (MabiTime.Now.IsNight)
@@ -606,10 +637,10 @@ namespace Aura.World.World
 			if (this.IsDead)
 				return;
 
-			lock (_statRegens)
+			lock (this.StatRegens)
 			{
 				var toRemove = new List<MabiStatRegen>();
-				foreach (var mod in _statRegens)
+				foreach (var mod in this.StatRegens)
 				{
 					if (mod.TimeLeft < 1)
 					{
@@ -626,7 +657,7 @@ namespace Aura.World.World
 					}
 				}
 				foreach (var mod in toRemove)
-					_statRegens.Remove(mod);
+					this.StatRegens.Remove(mod);
 			}
 		}
 
@@ -791,6 +822,7 @@ namespace Aura.World.World
 		public float GetSpeed()
 		{
 			RaceInfo ri = null;
+			float multiply = 1f;
 
 			if (this.Vehicle == null)
 			{
@@ -798,6 +830,9 @@ namespace Aura.World.World
 				{
 					// Normal
 					ri = this.RaceInfo;
+
+					if (this.Has(CreatureConditionB.Demigod))
+						multiply = 1.5f;
 				}
 				else
 				{
@@ -814,7 +849,7 @@ namespace Aura.World.World
 
 			}
 
-			return (!IsWalking ? ri.SpeedRun : ri.SpeedWalk);
+			return (!IsWalking ? ri.SpeedRun : ri.SpeedWalk) * multiply;
 		}
 
 		public void SetLocation(uint region, uint x, uint y)

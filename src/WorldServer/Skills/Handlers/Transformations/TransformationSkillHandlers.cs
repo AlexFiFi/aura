@@ -6,9 +6,12 @@ using Aura.World.World;
 using System;
 using Aura.World.Network;
 using Aura.Shared.Const;
+using Aura.World.Util;
+using System.Threading;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.SpiritOfOrder)]
 	public class SpiritOfOrderHandler : SkillHandler
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
@@ -73,28 +76,31 @@ namespace Aura.World.Skills
 		protected virtual byte TransformId { get { return 1; } }
 	}
 
+	[SkillAttr(SkillConst.SoulOfChaos)]
 	public class SoulOfChaosHandler : SpiritOfOrderHandler
 	{
 		protected override byte TransformId { get { return 2; } }
 
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
-			var r = base.Start(creature, skill);
-			if (Util.WorldConf.DkSoundFix && (r & SkillResults.Okay) == SkillResults.Okay)
+			var result = base.Start(creature, skill);
+
+			if (WorldConf.DkSoundFix && (result & SkillResults.Okay) == SkillResults.Okay)
 			{
-				System.Threading.Thread t = new System.Threading.Thread(() =>
-					{
-						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/Glasgavelen_blowaway_endure.wav"), SendTargets.Range, creature);
-						System.Threading.Thread.Sleep(420);
-						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/g1_darkmagic_0.wav"), SendTargets.Range, creature);
-						System.Threading.Thread.Sleep(2050);
-						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/g1_scene_change.wav"), SendTargets.Range, creature);
-						System.Threading.Thread.Sleep(470);
-						WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, creature.Id).PutString("data/sound/g1_scene_change.wav"), SendTargets.Range, creature);
-					});
+				var t = new Thread(() =>
+				{
+					Send.PlaySound("data/sound/Glasgavelen_blowaway_endure.wav", creature);
+					Thread.Sleep(420);
+					Send.PlaySound("data/sound/g1_darkmagic_0.wav", creature);
+					Thread.Sleep(2050);
+					Send.PlaySound("data/sound/g1_scene_change.wav", creature);
+					Thread.Sleep(470);
+					Send.PlaySound("data/sound/g1_scene_change.wav", creature);
+				});
 				t.Start();
 			}
-			return r;
+
+			return result;
 		}
 
 		// Bonuses must be stored somewhere, to properly remove them again.
@@ -119,8 +125,15 @@ namespace Aura.World.Skills
 		//}
 	}
 
+	[SkillAttr(SkillConst.FuryOfConnous)]
 	public class FuryOfConnousHandler : SpiritOfOrderHandler
 	{
 		protected override byte TransformId { get { return 4; } }
+	}
+
+	[SkillAttr(SkillConst.DemonOfPhysis)]
+	public class DemonOfPhysisHandler : SpiritOfOrderHandler
+	{
+		protected override byte TransformId { get { return 5; } }
 	}
 }

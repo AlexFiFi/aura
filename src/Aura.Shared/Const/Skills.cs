@@ -20,7 +20,9 @@ namespace Aura.Shared.Const
 	// 19 = Dan4, 30 = Dan15, etc.
 	public enum SkillRank : byte
 	{
-		Novice = 0, RF = 1, RE = 2, RD = 3, RC = 4, RB = 5, RA = 6, R9 = 7, R8 = 8, R7 = 9, R6 = 10, R5 = 11, R4 = 12, R3 = 13, R2 = 14, R1 = 15, Dan1 = 16, Dan2 = 17, Dan3 = 18
+		Novice = 0, RF = 1, RE = 2, RD = 3, RC = 4, RB = 5, RA = 6, R9 = 7,
+		R8 = 8, R7 = 9, R6 = 10, R5 = 11, R4 = 12, R3 = 13, R2 = 14, R1 = 15,
+		Dan1 = 16, Dan2 = 17, Dan3 = 18
 	}
 
 	public enum SkillConst : ushort
@@ -283,7 +285,7 @@ namespace Aura.Shared.Const
 		ConnousNaturalShield = 43021,
 		ConnousHeavyStander = 43022,
 		ConnousManaRefractor = 43023,
-		DemonofPhysis = 44001,
+		DemonOfPhysis = 44001,
 		GiantFullSwing = 44002,
 		ShieldofPhysis = 44011,
 		LifeofPhysis = 44012,

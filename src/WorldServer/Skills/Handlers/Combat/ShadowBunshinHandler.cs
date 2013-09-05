@@ -17,6 +17,7 @@ namespace Aura.World.Skills
 	/// <summary>
 	/// Skill is hidden without gfShadowBunshin being enabled in the client.
 	/// </summary>
+	[SkillAttr(SkillConst.ShadowBunshin)]
 	public class ShadowBunshinHandler : SkillHandler
 	{
 		private const uint Radius = 400;
@@ -87,12 +88,12 @@ namespace Aura.World.Skills
 			var pos = target.GetPosition();
 			WorldManager.Instance.Broadcast(
 				new MabiPacket(Op.Effect, attacker.Id)
-				.PutInt(262)
+				.PutInt(Effect.ShadowBunshin)
 				.PutByte(3)
 				.PutString("appear")
 				.PutLong(target.Id)
-				.PutInt(clones) // amount
-				.PutInt(Radius) // radius
+				.PutInt(clones)
+				.PutInt(Radius)
 				.PutInt(450) // no changes?
 				.PutFloat(pos.X)
 				.PutFloat(pos.Y)
@@ -123,7 +124,7 @@ namespace Aura.World.Skills
 				// Move
 				WorldManager.Instance.Broadcast(
 					new MabiPacket(Op.Effect, attacker.Id)
-					.PutInt(262)
+					.PutInt(Effect.ShadowBunshin)
 					.PutByte(3)
 					.PutString("move")
 					.PutLong(target.Id)
@@ -137,7 +138,7 @@ namespace Aura.World.Skills
 				WorldManager.Instance.Broadcast(
 					new MabiPacket(Op.EffectDelayed, attacker.Id)
 					.PutInt(120) // delay?
-					.PutInt(262)
+					.PutInt(Effect.ShadowBunshin)
 					.PutByte(3)
 					.PutString("attack")
 					.PutInt(i) // clone nr

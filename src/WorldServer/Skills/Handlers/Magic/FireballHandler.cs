@@ -11,10 +11,12 @@ using Aura.Shared.Network;
 using Aura.Shared.Const;
 using Aura.Data;
 using Aura.Shared.Util;
+using System.Threading;
 
 namespace Aura.World.Skills
 {
-	class FireballHandler : SkillHandler
+	[SkillAttr(SkillConst.Fireball)]
+	public class FireballHandler : SkillHandler
 	{
 		public const ushort UseStun = 0, KnockBack = 40;
 
@@ -89,10 +91,10 @@ namespace Aura.World.Skills
 
 			SkillHelper.GiveSkillExp(attacker, skill, 20);
 
-			System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
-				{
-					this.FireballProcessing(attacker, skill, bomb, targetId);
-				}));
+			var t = new Thread(new System.Threading.ThreadStart(() =>
+			{
+				this.FireballProcessing(attacker, skill, bomb, targetId);
+			}));
 			t.Start();
 
 			return SkillResults.Okay;
@@ -100,7 +102,7 @@ namespace Aura.World.Skills
 
 		public void FireballProcessing(MabiCreature attacker, MabiSkill skill, MabiProp bomb, ulong targetId)
 		{
-			System.Threading.Thread.Sleep(4000);
+			Thread.Sleep(4000);
 
 			var victims = WorldManager.Instance.GetCreaturesInRange(bomb, 800).Where(c => !c.IsDead && c.IsAttackableBy(attacker)).ToList();
 

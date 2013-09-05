@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.Windmill)]
 	public class WindmillHandler : SkillHandler
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
@@ -147,6 +148,7 @@ namespace Aura.World.Skills
 	/// The GM skill has 2 vars, 1000 and 1500, we'll asume it never cost HP,
 	/// var 1 is still the damage, and var 2 is here the range.
 	/// </summary>
+	[SkillAttr(SkillConst.SuperWindmillGMSkill)]
 	public class SuperWindmillHandler : WindmillHandler
 	{
 		protected override uint GetRange(MabiSkill skill)

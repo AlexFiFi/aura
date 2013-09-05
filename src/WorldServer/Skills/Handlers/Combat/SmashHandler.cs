@@ -10,6 +10,7 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.Smash)]
 	public class SmashHandler : SkillHandler
 	{
 		/// <summary>
@@ -81,7 +82,7 @@ namespace Aura.World.Skills
 			factory.SetAttackerOptions(AttackerOptions.Result | AttackerOptions.KnockBackHit2);
 			factory.SetAttackerStun(AfterUseStun);
 
-			factory.AddTargetAction(target, CombatActionType.TakeHit, skillId: SkillConst.MeleeCombatMastery); 
+			factory.AddTargetAction(target, CombatActionType.TakeHit, skillId: SkillConst.MeleeCombatMastery);
 			factory.SetTargetOptions(TargetOptions.Result | TargetOptions.Smash);
 			factory.SetTargetStun(StunTime);
 

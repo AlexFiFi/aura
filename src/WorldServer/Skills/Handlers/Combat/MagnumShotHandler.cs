@@ -10,6 +10,7 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.MagnumShot)]
 	public class MagnumShotHandler : SkillHandler
 	{
 		/// <summary>

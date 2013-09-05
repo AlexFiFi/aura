@@ -14,7 +14,8 @@ using Aura.Shared.Util;
 
 namespace Aura.World.Skills
 {
-	class IcespearHandler : SkillHandler
+	[SkillAttr(SkillConst.IceSpear)]
+	public class IcespearHandler : SkillHandler
 	{
 		public const ushort UseStun = 500, KnockBack = 40;
 

@@ -62,11 +62,6 @@ namespace Aura.World.Network
 		/// <summary>
 		/// Sends whisper chat to client.
 		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="creature"></param>
-		/// <param name="sender"></param>
-		/// <param name="format"></param>
-		/// <param name="args"></param>
 		public static void Whisper(Client client, MabiCreature creature, string sender, string format, params object[] args)
 		{
 			var packet = new MabiPacket(Op.WhisperChat, creature.Id);
@@ -77,14 +72,9 @@ namespace Aura.World.Network
 		}
 
 		/// <summary>
-		/// Broadcasts motion use. Also sends MotionCancel, is cancel is true.
+		/// Broadcasts motion use. Also sends MotionCancel, if cancel is true.
 		/// </summary>
-		/// <param name="creature"></param>
-		/// <param name="category"></param>
-		/// <param name="type"></param>
-		/// <param name="loop"></param>
-		/// <param name="cancel"></param>
-		public static void UseMotion(MabiCreature creature, uint category, uint type, bool loop = false, bool cancel = true)
+		public static void UseMotion(MabiCreature creature, uint category, uint type, bool loop = false, bool cancel = false)
 		{
 			if (cancel)
 			{

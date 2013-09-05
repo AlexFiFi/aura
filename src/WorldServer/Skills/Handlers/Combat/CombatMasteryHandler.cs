@@ -11,6 +11,7 @@ using Aura.Data;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.MeleeCombatMastery)]
 	public class CombatMasteryHandler : SkillHandler
 	{
 		public override SkillResults Use(MabiCreature creature, MabiSkill skill, MabiPacket packet)

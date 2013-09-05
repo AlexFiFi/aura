@@ -16,6 +16,7 @@ using Aura.World.Events;
 using Aura.World.Scripting;
 using Aura.World.Util;
 using Aura.World.World;
+using Aura.World.Skills;
 
 namespace Aura.World.Network
 {
@@ -133,6 +134,11 @@ namespace Aura.World.Network
 			// --------------------------------------------------------------
 			Logger.Info("Initializing weather...");
 			WeatherManager.Instance.Init();
+
+			// Skills
+			// --------------------------------------------------------------
+			Logger.Info("Initializing skills...");
+			SkillManager.Init();
 
 			// World
 			// --------------------------------------------------------------

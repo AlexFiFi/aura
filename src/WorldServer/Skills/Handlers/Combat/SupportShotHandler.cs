@@ -10,6 +10,7 @@ using Aura.Shared.Const;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.SupportShot)]
 	public class SupportShotHandler : SkillHandler
 	{
 		/// <summary>

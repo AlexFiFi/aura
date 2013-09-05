@@ -94,6 +94,16 @@ namespace Aura.Shared.Const
 		/// </summary>
 		public static readonly uint ManaShield = 122;
 
+		/// <summary>
+		/// Parameters: None
+		/// </summary>
+		public static readonly uint AwakeningOfLight1 = 173;
+
+		/// <summary>
+		/// Parameters: None
+		/// </summary>
+		public static readonly uint AwakeningOfLight2 = 176;
+
 		public static readonly uint SupportShot = 240;
 
 		/// <summary>

@@ -49,7 +49,7 @@ namespace Aura.World.Network
 		public static void SkillInitEffect(MabiCreature creature, string str = "")
 		{
 			var packet = new MabiPacket(Op.Effect, creature.Id);
-			packet.PutInt(Effect.SkillInit);
+			packet.PutInt(Aura.Shared.Const.Effect.SkillInit);
 			packet.PutString(str);
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);

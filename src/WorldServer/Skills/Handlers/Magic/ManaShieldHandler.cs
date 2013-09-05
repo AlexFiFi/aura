@@ -8,6 +8,7 @@ using Aura.World.World;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.ManaShield)]
 	public class ManaShieldHandler : SkillHandler
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)

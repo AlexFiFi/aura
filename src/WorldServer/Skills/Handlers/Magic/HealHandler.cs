@@ -10,6 +10,7 @@ using Aura.World.World;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.Healing)]
 	public class HealingHandler : SkillHandler
 	{
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)

@@ -7,6 +7,7 @@ using Aura.World.Network;
 
 namespace Aura.World.Skills
 {
+	[SkillAttr(SkillConst.Rest)]
 	public class RestHandler : SkillHandler
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
