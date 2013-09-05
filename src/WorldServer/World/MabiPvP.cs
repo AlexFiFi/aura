@@ -90,11 +90,11 @@ namespace Aura.World.World
 			creature.Injuries += creature.LifeInjured * .2f;
 			creature.Life = creature.LifeInjured / 2;
 			creature.Stamina = creature.StaminaHunger / 2;
-			WorldManager.Instance.ReviveCreature(creature);
+			creature.Revive();
 
 			this.HideCreature(creature);
 
-			creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, ArenaRegion, loc.X, loc.Y));
+			Send.Revived(creature);
 		}
 
 		public abstract void ReviveInLobby(MabiCreature creature);
@@ -255,10 +255,11 @@ namespace Aura.World.World
 				var c = creature.Client as WorldClient;
 				c.Warp(LobbyRegion, 1150, 3545);
 				creature.FullHeal();
-				WorldManager.Instance.ReviveCreature(creature);
-				c.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, LobbyRegion, 1150, 3545));
+				creature.Revive();
+				Send.Revived(creature);
 			}
-			catch { }
+			catch
+			{ }
 		}
 
 		public override void ReviveInWaitingRoom(MabiCreature creature)

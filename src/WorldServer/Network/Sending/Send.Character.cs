@@ -153,7 +153,11 @@ namespace Aura.World.Network
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 		}
 
-		public static void Revived(Client client, MabiCreature creature)
+		/// <summary>
+		/// Sends revive notice to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		public static void Revived(MabiCreature creature)
 		{
 			var pos = creature.GetPosition();
 
@@ -163,7 +167,15 @@ namespace Aura.World.Network
 			packet.PutInt(pos.X);
 			packet.PutInt(pos.Y);
 
-			client.Send(packet);
+			creature.Client.Send(packet);
+		}
+
+		public static void ReviveFail(MabiCreature creature)
+		{
+			var packet = new MabiPacket(Op.Revived, creature.Id);
+			packet.PutByte(0);
+
+			creature.Client.Send(packet);
 		}
 
 		public static void ChangeTitleResponse(Client client, MabiCreature creature, bool titleSuccess, bool optionTitleSuccess)

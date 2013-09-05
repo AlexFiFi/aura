@@ -7,12 +7,15 @@ using Aura.Shared.Const;
 using Aura.Data;
 using Aura.World.Scripting;
 using Aura.World.Player;
+using Aura.World.Network;
 
 namespace Aura.World.World
 {
 	public class MabiNPC : MabiCreature
 	{
-		private static ulong _npcIdIndex = 0x10F00000000000;
+		private const ushort AncientTitle = 30038;
+
+		private static ulong _npcIdIndex = Aura.Shared.Const.Id.Npcs;
 
 		public NPCScript Script = null;
 		public AIScript AIScript = null;
@@ -26,7 +29,7 @@ namespace Aura.World.World
 		/// <summary>
 		/// Determines whether an NPC can become ancient.
 		/// </summary>
-		public bool AncientEligible = false;
+		public bool AncientEligible;
 		/// <summary>
 		/// Soonest point in time at which an NPC can become ancient.
 		/// </summary>
@@ -35,7 +38,7 @@ namespace Aura.World.World
 		public MabiNPC()
 		{
 			this.Name = "";
-			this.Id = ++_npcIdIndex;
+			this.Id = _npcIdIndex++;
 			this.Race = uint.MaxValue;
 			this.Region = 0;
 			this.SetPosition(0, 0);
@@ -70,6 +73,33 @@ namespace Aura.World.World
 		{
 			base.Die();
 			this.DisappearTime = DateTime.Now.AddSeconds(20); // TODO: Only for mobs
+		}
+
+		/// <summary>
+		/// Turns NPC into an Ancient. Sends stat updates.
+		/// </summary>
+		public void Ancientify()
+		{
+			this.AncientEligible = false;
+			this.Title = AncientTitle;
+			this.GoldMax *= 20;
+			this.GoldMin *= 20;
+			this.BattleExp *= 20;
+			this.Height *= 2;
+
+			/// XXX: Maybe do this by default for all monsters?
+			/// XXX: Will be changed once mobs get an actual inv.
+			this.Drops = new List<DropInfo>(this.Drops);
+			this.Drops.AddRange(MabiData.AncientDropDb.Entries);
+
+			this.StatMods.Add(Stat.ProtectMod, 10, StatModSource.Title, AncientTitle);
+			this.StatMods.Add(Stat.DefenseMod, 10, StatModSource.Title, AncientTitle);
+			this.StatMods.Add(Stat.LifeMaxMod, this.LifeMax * 10 - this.LifeMaxBaseTotal, StatModSource.Title, AncientTitle);
+
+			this.FullHeal();
+
+			Send.TitleUpdate(this);
+			WorldManager.Instance.CreatureStatsUpdate(this);
 		}
 	}
 }

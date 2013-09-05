@@ -228,13 +228,12 @@ namespace Aura.World.World
 
 				for (int i = 0; i < _creatures.Count; i++)
 				{
-					var c = _creatures[i] as MabiNPC;
-					if (c == null || !c.AncientEligible || c.IsDead || c.AncientTime > DateTime.Now)
+					var creature = _creatures[i] as MabiNPC;
+					if (creature == null || !creature.AncientEligible || creature.IsDead || creature.AncientTime > DateTime.Now)
 						continue;
 
-					c.AncientEligible = false;
 					if (rnd.NextDouble() <= WorldConf.AncientRate)
-						this.Ancientify(c);
+						creature.Ancientify();
 				}
 			}
 		}
@@ -1066,45 +1065,6 @@ namespace Aura.World.World
 			this.Broadcast(p, SendTargets.Range, vehicle);
 		}
 
-		public void CreatureSkillCancel(MabiCreature creature)
-		{
-			if (creature.ActiveSkillId != SkillConst.None)
-			{
-				MabiSkill skill; SkillHandler handler;
-				SkillManager.CheckOutSkill(creature, creature.ActiveSkillId, out skill, out handler);
-				if (skill == null || handler == null)
-					return;
-
-				var result = handler.Cancel(creature, skill);
-
-				if ((result & SkillResults.Okay) == 0)
-					return;
-
-				Send.SkillStackUpdate(creature.Client, creature, skill.Id, 0);
-				Send.SkillCancel(creature.Client, creature);
-			}
-
-			creature.ActiveSkillId = SkillConst.None;
-			creature.ActiveSkillStacks = 0;
-		}
-
-		/// <summary>
-		/// Revives creates and sends necessary packets.
-		/// </summary>
-		/// <param name="creature"></param>
-		public void ReviveCreature(MabiCreature creature)
-		{
-			if (!creature.IsDead)
-				return;
-
-			creature.Revive();
-
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead1, creature.Id), SendTargets.Range, creature);
-			WorldManager.Instance.CreatureStatsUpdate(creature);
-			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead2, creature.Id), SendTargets.Range, creature);
-
-		}
-
 		public void HandleCombatActionPack(CombatActionPack cap)
 		{
 			foreach (var action in cap.Actions)
@@ -1118,12 +1078,12 @@ namespace Aura.World.World
 
 				// Cancel defense if applicable
 				if (action.Is(CombatActionType.Defended))
-					WorldManager.Instance.CreatureSkillCancel(action.Creature);
+					action.Creature.CancelSkill();
 
 				if (action.Creature.IsDead)
 				{
 					// Exp, Drops, etc.
-					WorldManager.Instance.CreatureDies(action.Creature, cap.Attacker, action.OldPosition, action.SkillId);
+					WorldManager.Instance.HandleCreatureKill(action.Creature, cap.Attacker, action.OldPosition, action.SkillId);
 				}
 			}
 
@@ -1142,7 +1102,7 @@ namespace Aura.World.World
 				WorldManager.Instance.CreatureStatsUpdate(action.Creature);
 		}
 
-		public void CreatureDies(MabiCreature creature, MabiCreature killer, MabiVertex position, SkillConst skillId)
+		public void HandleCreatureKill(MabiCreature creature, MabiCreature killer, MabiVertex position, SkillConst skillId)
 		{
 			if (killer != null)
 			{
@@ -1223,7 +1183,7 @@ namespace Aura.World.World
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CombatSetFinisher, creature.Id).PutLong(0), SendTargets.Range, creature);
 
 			if (creature.ActiveSkillId != SkillConst.None)
-				this.CreatureSkillCancel(creature);
+				creature.CancelSkill();
 
 			if (creature.Owner != null)
 			{
@@ -1379,6 +1339,8 @@ namespace Aura.World.World
 			return true;
 		}
 
+		// More like LoadGuildStones?
+		// TODO: Make it a script.
 		public void LoadGuilds()
 		{
 			var guilds = WorldDb.Instance.LoadGuilds();
@@ -1396,7 +1358,7 @@ namespace Aura.World.World
 			Logger.Info("Done loading {0} guilds.", guilds.Count);
 		}
 
-		public static void GuildstoneTouch(WorldClient client, MabiCreature creature, MabiProp p)
+		private static void GuildstoneTouch(WorldClient client, MabiCreature creature, MabiProp p)
 		{
 			// TODO: Better way to get this ID... Pake could be used to fake it
 			string gid = p.ExtraData.Substring(p.ExtraData.IndexOf("guildid=\""));
@@ -1507,31 +1469,6 @@ namespace Aura.World.World
 
 			foreach (var member in party.Members)
 				member.Client.Send(new MabiPacket(Op.PartyChangeLeaderUpdate, member.Id).PutLong(leader.Id));
-		}
-
-		public void Ancientify(MabiNPC creature)
-		{
-			creature.Title = 30038;
-			Send.TitleUpdate(creature);
-
-			creature.GoldMax *= 20;
-			creature.GoldMin *= 20;
-
-			/// XXX: Maybe do this by default for all monsters?
-			creature.Drops = new List<DropInfo>(creature.Drops);
-			creature.Drops.AddRange(MabiData.AncientDropDb.Entries);
-
-			creature.StatMods.Add(Stat.ProtectMod, 10, StatModSource.Title, 30038);
-			creature.StatMods.Add(Stat.DefenseMod, 10, StatModSource.Title, 30038);
-			creature.StatMods.Add(Stat.LifeMaxMod, creature.LifeMax * 10 - creature.LifeMaxBaseTotal, StatModSource.Title, 30038);
-
-			creature.FullHeal();
-
-			creature.BattleExp *= 20;
-
-			creature.Height *= 2;
-
-			this.CreatureStatsUpdate(creature);
 		}
 
 		public void SharpMind(MabiCreature user, SharpMindStatus state, SkillConst skill)

@@ -1033,12 +1033,16 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Removes dead state
+		/// Revives creature and sends necessary packets (BackFromDead + Stat Update).
 		/// </summary>
 		public void Revive()
 		{
+			if (!this.IsDead)
+				return;
+
 			this.State &= ~CreatureStates.Dead;
 
+			// TODO: Move to a custom script
 			if (((this is MabiNPC) && (Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Mob) != 0) ||
 				((this is MabiPC) && (Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Player) != 0))
 			{
@@ -1051,6 +1055,10 @@ namespace Aura.World.World
 
 			this.CauseOfDeath = DeathCauses.None;
 			this.WaitingForRes = false;
+
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead1, this.Id), SendTargets.Range, this);
+			WorldManager.Instance.CreatureStatsUpdate(this);
+			WorldManager.Instance.Broadcast(new MabiPacket(Op.BackFromTheDead2, this.Id), SendTargets.Range, this);
 		}
 
 		/// <summary>
@@ -1132,5 +1140,32 @@ namespace Aura.World.World
 
 			this.AimStart = DateTime.MaxValue;
 		}
+
+		/// <summary>
+		/// Cancels active skill.
+		/// Sends: SkillStackUpdate, SkillCancel
+		/// </summary>
+		public void CancelSkill()
+		{
+			if (this.ActiveSkillId != SkillConst.None)
+			{
+				MabiSkill skill; SkillHandler handler;
+				SkillManager.CheckOutSkill(this, this.ActiveSkillId, out skill, out handler);
+				if (skill == null || handler == null)
+					return;
+
+				var result = handler.Cancel(this, skill);
+
+				if ((result & SkillResults.Okay) == 0)
+					return;
+
+				Send.SkillStackUpdate(this.Client, this, skill.Id, 0);
+				Send.SkillCancel(this.Client, this);
+			}
+
+			this.ActiveSkillId = SkillConst.None;
+			this.ActiveSkillStacks = 0;
+		}
+
 	}
 }

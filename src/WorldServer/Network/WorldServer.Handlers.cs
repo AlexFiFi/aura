@@ -502,10 +502,10 @@ namespace Aura.World.Network
 			if (creature == null || !creature.IsDead)
 				return;
 
-			Send.Revived(client, creature);
-
 			creature.FullHeal();
-			WorldManager.Instance.ReviveCreature(creature);
+			creature.Revive();
+
+			Send.Revived(creature);
 		}
 
 		private void HandleGMCPSummon(WorldClient client, MabiPacket packet)
@@ -1699,7 +1699,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			WorldManager.Instance.CreatureSkillCancel(creature);
+			creature.CancelSkill();
 		}
 
 		/// <summary>
@@ -2484,7 +2484,7 @@ namespace Aura.World.Network
 
 			if ((option & creature.RevivalOptions) == 0)
 			{
-				creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutByte(0));
+				Send.ReviveFail(creature);
 				return;
 			}
 
@@ -2516,21 +2516,21 @@ namespace Aura.World.Network
 					creature.Injuries = Math.Min(creature.Injuries + creature.LifeInjured * .5f, creature.LifeMax - 5);
 					creature.Life = 5;
 					//creature.Experience -= creature.Level * .4; //TODO: Look up multiplier
-					WorldManager.Instance.ReviveCreature(creature);
-					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					creature.Revive();
+					Send.Revived(creature);
 					break;
 
 				case DeadMenuOptions.HereNoPenalty:
 					creature.FullHeal();
-					WorldManager.Instance.ReviveCreature(creature);
-					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					creature.Revive();
+					Send.Revived(creature);
 					break;
 
 				case DeadMenuOptions.HerePvP: // Different... somehow?
 					creature.Injuries = Math.Min(creature.Injuries + creature.LifeInjured * .5f, creature.LifeMax - 5);
 					creature.Life = 5;
-					WorldManager.Instance.ReviveCreature(creature);
-					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					creature.Revive();
+					Send.Revived(creature);
 					break;
 
 				case DeadMenuOptions.InCamp:
@@ -2540,18 +2540,18 @@ namespace Aura.World.Network
 				case DeadMenuOptions.NaoStone:
 					Send.DeadFeather(creature, DeadMenuOptions.NaoRevival1);
 					creature.Client.Send(new MabiPacket(Op.NaoRevivalEntrance, creature.Id));
-					creature.Client.Send(new MabiPacket(Op.Revived, creature.Id).PutByte(0));
+					Send.ReviveFail(creature);
 					creature.RevivalOptions = DeadMenuOptions.NaoRevival1;
 					break;
 
 				case DeadMenuOptions.NaoRevival1:
 					// TODO: Take stone
 					creature.FullHeal();
-					WorldManager.Instance.ReviveCreature(creature);
+					creature.Revive();
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Revive), SendTargets.Range, creature);
 					creature.Client.Send(new MabiPacket(Op.NaoRevivalExit, creature.Id).PutByte(0));
 					Send.DeadFeather(creature, DeadMenuOptions.None);
-					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					Send.Revived(creature);
 					break;
 
 				case DeadMenuOptions.StatueOfGoddess:
@@ -2571,7 +2571,7 @@ namespace Aura.World.Network
 					else
 						Send.DeadFeather(creature, creature.RevivalOptions);
 
-					client.Send(new MabiPacket(Op.Revived, creature.Id).PutInts(1, creature.Region, pos.X, pos.Y));
+					Send.Revived(creature);
 					break;
 			}
 		}
