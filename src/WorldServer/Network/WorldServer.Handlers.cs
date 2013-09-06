@@ -17,6 +17,7 @@ using Aura.World.Scripting;
 using Aura.World.Skills;
 using Aura.World.Util;
 using Aura.World.World;
+using Aura.World.World.Guilds;
 
 namespace Aura.World.Network
 {
@@ -3028,14 +3029,14 @@ namespace Aura.World.Network
 
 		protected void HandleGuildDonate(WorldClient client, MabiPacket packet)
 		{
+			var amount = packet.GetInt();
+
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
 			if (creature.Guild == null)
 				return;
-
-			var amount = packet.GetInt();
 
 			if (!creature.HasGold(amount))
 			{
@@ -3083,8 +3084,8 @@ namespace Aura.World.Network
 				CharacterId = creature.Id,
 				JoinedDate = DateTime.Now,
 				Gp = 0,
-				MemberRank = (byte)GuildMemberRank.Applied,
-				MessageFlags = (byte)GuildMessageFlags.None,
+				MemberRank = GuildMemberRank.Applied,
+				MessageFlags = GuildMessageFlags.None,
 				ApplicationText = appText
 			};
 

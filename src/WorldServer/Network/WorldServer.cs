@@ -17,6 +17,7 @@ using Aura.World.Scripting;
 using Aura.World.Util;
 using Aura.World.World;
 using Aura.World.Skills;
+using Aura.World.World.Guilds;
 
 namespace Aura.World.Network
 {
@@ -73,6 +74,14 @@ namespace Aura.World.Network
 			// --------------------------------------------------------------
 			Logger.Hide = WorldConf.ConsoleFilter;
 
+			// Cache
+			// --------------------------------------------------------------
+			if (!this.InitCache())
+			{
+				Logger.Error("Unable to create cache folder at '{0}'.", WorldConf.CachePath);
+				ServerUtil.Exit(1);
+			}
+
 			// Security checks
 			// --------------------------------------------------------------
 			ServerUtil.CheckInterPassword(WorldConf.Password);
@@ -97,15 +106,6 @@ namespace Aura.World.Network
 			//Logger.Info("Clearing database cache...");
 			//MabiDb.Instance.ClearDatabaseCache();
 
-			// CS-S
-			// --------------------------------------------------------------
-			//var tmpPath = Path.Combine(Path.GetTempPath(), "CSSCRIPT");
-			//if (Directory.Exists(tmpPath))
-			//{
-			//    Logger.Info("Clearing CSScript cache...");
-			//    Directory.Delete(tmpPath, true);
-			//}
-
 			// Data
 			// --------------------------------------------------------------
 			Logger.Info("Loading data files...");
@@ -114,7 +114,7 @@ namespace Aura.World.Network
 			// Guilds
 			// --------------------------------------------------------------
 			Logger.Info("Loading guilds...");
-			WorldManager.Instance.LoadGuilds();
+			GuildManager.LoadGuildStones();
 
 			// Commands
 			// --------------------------------------------------------------
@@ -357,6 +357,14 @@ namespace Aura.World.Network
 					.PutByte(stress)
 				);
 			}
+		}
+
+		public bool InitCache()
+		{
+			if (!Directory.Exists(WorldConf.CachePath))
+				Directory.CreateDirectory(WorldConf.CachePath);
+
+			return Directory.Exists(WorldConf.CachePath);
 		}
 
 		/// <summary>

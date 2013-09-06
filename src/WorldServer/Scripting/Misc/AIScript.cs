@@ -384,7 +384,7 @@ namespace Aura.World.Scripting
 			if ((r & SkillResults.Okay) == 0)
 				yield return false;
 
-			WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Loading, skillId);
+			this.SharpMind(this.Creature, SharpMindStatus.Loading, skillId);
 
 			System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
 			{
@@ -392,7 +392,7 @@ namespace Aura.World.Scripting
 				if (Creature.ActiveSkillId == skill.Id)
 				{
 					handler.Ready(this.Creature, skill);
-					WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Loaded, skillId);
+					this.SharpMind(this.Creature, SharpMindStatus.Loaded, skillId);
 				}
 			}));
 
@@ -405,18 +405,27 @@ namespace Aura.World.Scripting
 					yield return a;
 		}
 
+		private void SharpMind(MabiCreature user, SharpMindStatus state, SkillConst skill)
+		{
+			var inRange = WorldManager.Instance.GetPlayersInRange(user, WorldConf.SightRange);
+			foreach (var creature in inRange)
+			{
+				creature.Client.Send(PacketCreator.SharpMind(user, creature, skill, state));
+			}
+		}
+
 		protected IEnumerable CancelSkill()
 		{
 			if (this.Creature.ActiveSkillId != 0)
 			{
-				WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.Cancelling, this.Creature.ActiveSkillId);
+				this.SharpMind(this.Creature, SharpMindStatus.Cancelling, this.Creature.ActiveSkillId);
 				var handler = SkillManager.GetHandler(this.Creature.ActiveSkillId);
 
 				var res = handler.Cancel(this.Creature, this.Creature.Skills.Get(this.Creature.ActiveSkillId));
 
 				yield return (res & SkillResults.Okay) != 0;
 
-				WorldManager.Instance.SharpMind(this.Creature, SharpMindStatus.None, this.Creature.ActiveSkillId);
+				this.SharpMind(this.Creature, SharpMindStatus.None, this.Creature.ActiveSkillId);
 			}
 			yield return true;
 		}

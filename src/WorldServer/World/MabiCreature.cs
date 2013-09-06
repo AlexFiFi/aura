@@ -12,6 +12,7 @@ using Aura.World.Events;
 using Aura.World.Network;
 using Aura.World.Player;
 using Aura.World.Skills;
+using Aura.World.World.Guilds;
 
 namespace Aura.World.World
 {

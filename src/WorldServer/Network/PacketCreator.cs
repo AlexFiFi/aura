@@ -9,6 +9,7 @@ using Aura.World.World;
 using Aura.Data;
 using Aura.World.Player;
 using Aura.Shared.Util;
+using Aura.World.World.Guilds;
 
 namespace Aura.World.Network
 {
@@ -36,7 +37,7 @@ namespace Aura.World.Network
 		/// <param name="guild"></param>
 		/// <param name="creature"></param>
 		/// <returns></returns>
-		public static MabiPacket GuildMembershipChanged(MabiGuild guild, MabiCreature creature, byte rank = (byte)GuildMemberRank.Member)
+		public static MabiPacket GuildMembershipChanged(MabiGuild guild, MabiCreature creature, GuildMemberRank rank = GuildMemberRank.Member)
 		{
 			var p = new MabiPacket(Op.GuildMembershipChanged, creature.Id);
 			if (guild == null)

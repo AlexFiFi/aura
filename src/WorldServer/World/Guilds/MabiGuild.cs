@@ -6,7 +6,7 @@ using Aura.Data;
 using Aura.Shared.Const;
 using Aura.World.Database;
 
-namespace Aura.World.World
+namespace Aura.World.World.Guilds
 {
 	public class MabiGuild
 	{
@@ -18,8 +18,8 @@ namespace Aura.World.World
 		public string LeavingMessage;
 		public string RejectionMessage;
 
-		public byte GuildLevel;
-		public byte Type;
+		public GuildLevel GuildLevel;
+		public GuildType Type;
 
 		public uint Region;
 		public uint X;
@@ -29,7 +29,7 @@ namespace Aura.World.World
 
 		public uint Gp;
 		public uint Gold;
-		public uint StoneClass;
+		public GuildStoneType StoneClass;
 
 		public byte Options;
 
@@ -47,11 +47,11 @@ namespace Aura.World.World
 	public class MabiGuildMemberInfo
 	{
 		public ulong CharacterId;
-		public byte MemberRank;
+		public GuildMemberRank MemberRank;
 		public DateTime JoinedDate;
 		public double Gp;
 		public string ApplicationText;
-		public byte MessageFlags;
+		public GuildMessageFlags MessageFlags;
 
 		public MabiGuildMemberInfo()
 		{
@@ -59,9 +59,16 @@ namespace Aura.World.World
 			this.ApplicationText = string.Empty;
 		}
 
-		public bool HasMessageFlag(GuildMessageFlags test)
+		public MabiGuildMemberInfo(ulong characterId, GuildMemberRank rank)
+			: this()
 		{
-			return (MessageFlags & (byte)test) != 0;
+			this.CharacterId = characterId;
+			this.MemberRank = rank;
+		}
+
+		public bool Has(GuildMessageFlags test)
+		{
+			return (MessageFlags & test) != 0;
 		}
 	}
 

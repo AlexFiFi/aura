@@ -11,6 +11,7 @@ using Aura.Shared.Util;
 using Aura.World.Player;
 using Aura.World.World;
 using MySql.Data.MySqlClient;
+using Aura.World.World.Guilds;
 
 namespace Aura.World.Database
 {
@@ -251,7 +252,7 @@ namespace Aura.World.Database
 				character.Guild = this.GetGuildForChar(character.Id);
 				character.GuildMemberInfo = this.GetGuildMemberInfo(character.Id);
 
-				if (character.Guild != null && character.GuildMemberInfo.MemberRank < (byte)GuildMemberRank.Applied && character.Guild.Title != null)
+				if (character.Guild != null && character.GuildMemberInfo.MemberRank < GuildMemberRank.Applied && character.Guild.Title != null)
 					character.Titles.Add(50000, true);
 
 				character.Shamalas.Add(new ShamalaTransformation(1, 1, ShamalaState.Available));
@@ -1193,8 +1194,8 @@ namespace Aura.World.Database
 			g.LeavingMessage = reader.GetString("leaving");
 			g.RejectionMessage = reader.GetString("rejection");
 
-			g.GuildLevel = reader.GetByte("level");
-			g.Type = reader.GetByte("type");
+			g.GuildLevel = (GuildLevel)reader.GetByte("level");
+			g.Type = (GuildType)reader.GetByte("type");
 
 			g.Region = reader.GetUInt32("region");
 			g.X = reader.GetUInt32("x");
@@ -1203,7 +1204,7 @@ namespace Aura.World.Database
 
 			g.Gp = reader.GetUInt32("gp");
 			g.Gold = reader.GetUInt32("gold");
-			g.StoneClass = reader.GetUInt32("stone_type");
+			g.StoneClass = (GuildStoneType)reader.GetUInt32("stone_type");
 
 			g.Title = reader.GetStringSafe("title");
 			g.Options = reader.GetByte("Options");
@@ -1403,7 +1404,7 @@ namespace Aura.World.Database
 					{
 						var m = new MabiGuildMemberInfo();
 						m.CharacterId = mem_reader.GetUInt64("characterId");
-						m.MemberRank = mem_reader.GetByte("rank");
+						m.MemberRank = (GuildMemberRank)mem_reader.GetByte("rank");
 						m.JoinedDate = mem_reader.GetDateTime("joined");
 						m.Gp = mem_reader.GetUInt32("guildPoints");
 						m.ApplicationText = mem_reader.GetString("appMessage");
@@ -1430,7 +1431,7 @@ namespace Aura.World.Database
 					{
 						var m = new MabiGuildMemberInfo();
 						m.CharacterId = mem_reader.GetUInt64("characterId");
-						m.MemberRank = mem_reader.GetByte("rank");
+						m.MemberRank = (GuildMemberRank)mem_reader.GetByte("rank");
 						m.JoinedDate = mem_reader.GetDateTime("joined");
 						m.Gp = mem_reader.GetUInt32("guildPoints");
 						m.ApplicationText = mem_reader.GetString("appMessage");

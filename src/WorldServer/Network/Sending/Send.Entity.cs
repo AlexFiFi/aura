@@ -481,7 +481,7 @@ namespace Aura.World.Network
 			{
 				packet.PutLong(creature.Guild.Id);
 				packet.PutString(creature.Guild.Name);
-				packet.PutInt(creature.GuildMemberInfo.MemberRank);
+				packet.PutInt((uint)creature.GuildMemberInfo.MemberRank);
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte(0);

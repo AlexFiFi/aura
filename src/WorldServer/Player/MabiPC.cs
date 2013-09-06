@@ -41,19 +41,19 @@ namespace Aura.World.Player
 
 		public override float CombatPower
 		{
-			// TODO: Cache
+			// TODO: Cache?
 			get
 			{
 				float result = 0;
 
-				result += this.Life;
-				result += this.Mana * 0.5f;
-				result += this.Stamina * 0.5f;
-				result += this.Str;
-				result += this.Int * 0.2f;
-				result += this.Dex * 0.1f;
-				result += this.Will * 0.5f;
-				result += this.Luck * 0.1f;
+				result += this.LifeMaxBase;
+				result += this.ManaMaxBase * 0.5f;
+				result += this.StaminaMaxBase * 0.5f;
+				result += this.StrBase;
+				result += this.IntBase * 0.2f;
+				result += this.DexBase * 0.1f;
+				result += this.WillBase * 0.5f;
+				result += this.LuckBase * 0.1f;
 
 				return result;
 			}

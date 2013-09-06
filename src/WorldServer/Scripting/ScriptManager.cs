@@ -119,14 +119,14 @@ namespace Aura.World.Scripting
 
 			Logger.Info("Loading item scripts...");
 
-			var tmpPath = Path.Combine(WorldConf.ScriptPath, "cache", "item", "inline.generated.cs");
-			var compiledPath = Path.ChangeExtension(tmpPath, "compiled");
+			var compiledPath = this.GetCompiledPath(Path.Combine("scripts", "item", "inline.generated.cs"));
+			var tmpPath = Path.ChangeExtension(compiledPath, "cs");
 
 			// Create folders
 			string d;
-			if (!Directory.Exists(d = Path.Combine(WorldConf.ScriptPath, "cache")))
+			if (!Directory.Exists(d = Path.Combine(WorldConf.CachePath, "scripts")))
 				Directory.CreateDirectory(d);
-			if (!Directory.Exists(d = Path.Combine(WorldConf.ScriptPath, "cache", "item")))
+			if (!Directory.Exists(d = Path.Combine(WorldConf.CachePath, "scripts", "item")))
 				Directory.CreateDirectory(d);
 
 			var updateInline = (File.GetLastWriteTime(Path.Combine(WorldConf.DataPath, "db", "items.txt")) >= File.GetLastWriteTime(compiledPath));
@@ -382,7 +382,11 @@ namespace Aura.World.Scripting
 		/// <returns></returns>
 		private string GetCompiledPath(string filePath)
 		{
-			return Path.ChangeExtension(filePath.Replace(WorldConf.ScriptPath, Path.Combine(WorldConf.ScriptPath, "cache")), ".compiled");
+			filePath = filePath.Replace(WorldConf.ScriptPath, "scripts");
+			filePath = Path.Combine(WorldConf.CachePath, filePath);
+			filePath = Path.ChangeExtension(filePath, ".compiled");
+
+			return filePath;
 		}
 
 		/// <summary>

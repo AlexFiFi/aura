@@ -30,6 +30,7 @@ namespace Aura.World.Util
 		public static ushort ChannelPort;
 		public static string LoginHost;
 		public static ushort LoginPort;
+		public static string CachePath;
 
 		// Commands
 		public static char CommandPrefix;
@@ -114,6 +115,7 @@ namespace Aura.World.Util
 			WorldConf.ChannelName = _conf.GetString("world.channelname", "Ch1");
 			WorldConf.ChannelHost = _conf.GetString("world.channelhost", "127.0.0.1");
 			WorldConf.ChannelPort = (ushort)_conf.GetInt("world.channelport", 11020);
+			WorldConf.CachePath = _conf.GetString("world.cache", "../../cache");
 
 			WorldConf.LoginHost = _conf.GetString("world.loginhost", "127.0.0.1");
 			WorldConf.LoginPort = (ushort)_conf.GetInt("world.loginport", 11000);

@@ -466,16 +466,16 @@ namespace Aura.Shared.Network
 			public readonly static uint ChangeOptionR = 0xC371;
 			public readonly static uint FriendOptionChanged = 0xC372;
 			public readonly static uint GroupList = 0xC376;
-			public readonly static uint NoteSend = 0xC37E;
-			public readonly static uint NoteSendR = 0xC37F;
+			public readonly static uint SendNote = 0xC37E;
+			public readonly static uint SendNoteR = 0xC37F;
 
 			public readonly static uint NoteList = 0xC380;
 			public readonly static uint NoteListR = 0xC381;
 			public readonly static uint NoteDelete = 0xC382;
 			public readonly static uint Refresh = 0xC384;
 			public readonly static uint YouGotNote = 0xC385;
-			public readonly static uint NoteRead = 0xC386;
-			public readonly static uint NoteReadR = 0xC387;
+			public readonly static uint ReadNote = 0xC386;
+			public readonly static uint ReadNoteR = 0xC387;
 			public readonly static uint ChangeChannel = 0xC389;
 			public readonly static uint FriendChannelChanged = 0xC38A;
 			public readonly static uint GuildMemberList = 0xC38B;

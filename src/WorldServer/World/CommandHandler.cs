@@ -18,6 +18,7 @@ using Aura.World.Player;
 using Aura.World.Scripting;
 using Aura.World.Util;
 using CSScriptLibrary;
+using Aura.World.World.Guilds;
 
 namespace Aura.World.World
 {
@@ -939,10 +940,11 @@ namespace Aura.World.World
 		{
 			if (args.Length != 2)
 				return CommandResult.WrongParameter;
-			WorldManager.Instance.CreateGuild(args[1], GuildType.Adventure, creature, new MabiCreature[] { });
+
+			GuildManager.CreateGuild(args[1], GuildType.Adventure, creature, new MabiCreature[] { });
+
 			return CommandResult.Okay;
 		}
-
 
 		private CommandResult Command_shamala(WorldClient client, MabiCreature creature, string[] args, string msg)
 		{
