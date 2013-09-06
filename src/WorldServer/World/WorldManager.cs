@@ -61,11 +61,7 @@ namespace Aura.World.World
 			_worldTimer = new Timer(this.Heartbeat, null, 1500 - ((DateTime.Now.Ticks) % 1500), 1500);
 			_creatureUpdateTimer = new Timer(this.UpdateCreatures, null, 5000, 250);
 
-			_secondTimer = new Timer(_ =>
-			{
-				EventManager.Instance.TimeEvents.OnRealTimeSecondTick(this, new TimeEventArgs(MabiTime.Now));
-			},
-			null, 6000, 1000);
+			_secondTimer = new Timer(_ => { EventManager.TimeEvents.OnRealTimeSecondTick(MabiTime.Now); }, null, 6000, 1000);
 		}
 
 		/// <summary>
@@ -172,7 +168,6 @@ namespace Aura.World.World
 		private void Heartbeat(object state)
 		{
 			var mt = MabiTime.Now;
-			var args = new TimeEventArgs(mt);
 
 			// Overload check, basically checking the time from last
 			// heartbeat to this one.
@@ -189,18 +184,18 @@ namespace Aura.World.World
 			_lastHearbeat = mt.DateTime;
 
 			// OnErinnTimeTick, fired every Erinn minute (1.5s)
-			EventManager.Instance.TimeEvents.OnErinnTimeTick(this, args);
+			EventManager.TimeEvents.OnErinnTimeTick(mt);
 
 			// OnErinnDaytimeTick, fired at 6:00am and 6:00pm.
 			if (((mt.Hour == 6 || mt.Hour == 18) && mt.Minute == 0) || _firstHeartbeat)
 			{
-				EventManager.Instance.TimeEvents.OnErinnDaytimeTick(this, args);
+				EventManager.TimeEvents.OnErinnDaytimeTick(mt);
 				this.DaytimeChange(mt);
 			}
 
 			// OnErinnMidnightTick, fired at 0:00am
 			if (mt.IsMidnight)
-				EventManager.Instance.TimeEvents.OnErinnMidnightTick(this, args);
+				EventManager.TimeEvents.OnErinnMidnightTick(mt);
 
 			// OnRealTimeTick, fired every minute in real time.
 			// Some caching is needed here, since this method will be called
@@ -209,7 +204,7 @@ namespace Aura.World.World
 			if (rlHour != _lastRlHour || rlMinute != _lastRlMinute)
 			{
 				_lastRlHour = rlHour; _lastRlMinute = rlMinute;
-				EventManager.Instance.TimeEvents.OnRealTimeTick(this, new TimeEventArgs(mt));
+				EventManager.TimeEvents.OnRealTimeTick(mt);
 
 				ThreadPool.QueueUserWorkItem(CheckAncients);
 			}
@@ -584,7 +579,7 @@ namespace Aura.World.World
 
 			Send.EntityAppearsOthers(creature);
 
-			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(creature));
+			EventManager.EntityEvents.OnEntityEntersRegion(creature);
 		}
 
 		/// <summary>
@@ -789,7 +784,7 @@ namespace Aura.World.World
 			//appears.PutBytes(1, 0, 0, 2);
 			//this.Broadcast(appears, SendTargets.Range, item);
 
-			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(item));
+			EventManager.EntityEvents.OnEntityEntersRegion(item);
 		}
 
 		/// <summary>
@@ -805,7 +800,7 @@ namespace Aura.World.World
 			disappears.PutLong(item.Id);
 			this.Broadcast(disappears, SendTargets.Range, item);
 
-			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(item));
+			EventManager.EntityEvents.OnEntityLeavesRegion(item);
 
 			item.Dispose();
 		}
@@ -843,7 +838,7 @@ namespace Aura.World.World
 			//prop.AddToPacket(appears);
 			//this.Broadcast(appears, SendTargets.Region, prop);
 
-			EventManager.Instance.EntityEvents.OnEntityEntersRegion(this, new EntityEventArgs(prop));
+			EventManager.EntityEvents.OnEntityEntersRegion(prop);
 		}
 
 		public void RemoveProp(MabiProp prop)
@@ -855,7 +850,7 @@ namespace Aura.World.World
 			disappears.PutLong(prop.Id);
 			this.Broadcast(disappears, SendTargets.Region, prop);
 
-			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(prop));
+			EventManager.EntityEvents.OnEntityLeavesRegion(prop);
 
 			prop.Dispose();
 		}
@@ -987,12 +982,11 @@ namespace Aura.World.World
 			this.AddItem(item);
 		}
 
-
 		public void CreatureLeaveRegion(MabiCreature creature)
 		{
 			Send.EntityDisappears(creature);
 
-			EventManager.Instance.EntityEvents.OnEntityLeavesRegion(this, new EntityEventArgs(creature));
+			EventManager.EntityEvents.OnEntityLeavesRegion(creature);
 		}
 
 		public void CreatureStatsUpdate(MabiCreature creature)
@@ -1130,9 +1124,9 @@ namespace Aura.World.World
 
 					Send.CombatMessage(killer.Client, killer, "+{0} EXP", exp);
 
-					EventManager.Instance.CreatureEvents.OnCreatureKilled(this, new CreatureKilledEventArgs(creature, killer));
+					EventManager.CreatureEvents.OnCreatureKilled(creature, killer);
 					if (killer is MabiPC)
-						EventManager.Instance.PlayerEvents.OnKilledByPlayer(this, new CreatureKilledEventArgs(creature, killer));
+						EventManager.PlayerEvents.OnKilledByPlayer(creature, killer);
 				}
 			}
 

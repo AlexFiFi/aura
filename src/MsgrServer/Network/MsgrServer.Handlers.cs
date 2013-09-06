@@ -18,7 +18,7 @@ namespace Aura.Msgr.Network
 			this.RegisterPacketHandler(Op.Msgr.FriendList, HandleFriendList);
 
 			this.RegisterPacketHandler(Op.Msgr.NoteList, HandleNoteList);
-			this.RegisterPacketHandler(Op.Msgr.NoteSend, HandleNoteSend);
+			this.RegisterPacketHandler(Op.Msgr.SendNote, HandleNoteSend);
 
 			this.RegisterPacketHandler(Op.Msgr.Refresh, HandleRefresh);
 		}
@@ -142,7 +142,7 @@ namespace Aura.Msgr.Network
 			var success = Manager.Instance.SendNote(client.Contact.FullName, targetFull, msg);
 
 			client.Send(
-				new MabiPacket(Op.Msgr.NoteSendR)
+				new MabiPacket(Op.Msgr.SendNoteR)
 				.PutSInt(success ? 0 : 2)
 			);
 		}

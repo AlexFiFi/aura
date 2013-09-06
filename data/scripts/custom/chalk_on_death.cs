@@ -41,22 +41,22 @@ public class ChalkOnDeathScript : BaseScript
 	public override void OnLoad()
 	{
 		Init();
-		EventManager.Instance.CreatureEvents.CreatureKilled += OnCreatureKilled;
+		EventManager.CreatureEvents.CreatureKilled += OnCreatureKilled;
 	}
 
 	public override void Dispose()
 	{
-		EventManager.Instance.CreatureEvents.CreatureKilled -= OnCreatureKilled;
+		EventManager.CreatureEvents.CreatureKilled -= OnCreatureKilled;
 
 		base.Dispose();
 	}
 
-	public void OnCreatureKilled(object sender, CreatureKilledEventArgs args)
+	public void OnCreatureKilled(MabiCreature victim, MabiCreature killer)
 	{
-		if((args.Victim is MabiPC && players) || (args.Victim is MabiNPC && npcs))
+		if((victim is MabiPC && players) || (victim is MabiNPC && npcs))
 		{
-			var pos = args.Victim.GetPosition();
-			var prop = new MabiProp(50, args.Victim.Region, pos.X, pos.Y, (float)Math.PI * 2 / 255 * args.Victim.Direction);
+			var pos = victim.GetPosition();
+			var prop = new MabiProp(50, victim.Region, pos.X, pos.Y, (float)Math.PI * 2 / 255 * victim.Direction);
 			if(!permanent)
 				prop.DisappearTime = DateTime.Now.AddMinutes(duration);
 

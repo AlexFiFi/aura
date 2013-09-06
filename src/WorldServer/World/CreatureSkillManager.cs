@@ -86,7 +86,7 @@ namespace Aura.World.World
 				if (flash)
 					Send.RankUp(_creature);
 
-				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(_creature, skill, true));
+				EventManager.CreatureEvents.OnCreatureSkillChange(_creature, skill, true);
 			}
 			else
 			{
@@ -100,7 +100,7 @@ namespace Aura.World.World
 				if (flash)
 					Send.RankUp(_creature, skill.Info.Id);
 
-				EventManager.Instance.CreatureEvents.OnCreatureSkillUpdate(this, new SkillUpdateEventArgs(_creature, skill, false));
+				EventManager.CreatureEvents.OnCreatureSkillChange(_creature, skill, false);
 			}
 
 			this.AddBonuses(skill);

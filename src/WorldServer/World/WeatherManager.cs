@@ -41,8 +41,8 @@ namespace Aura.World.World
 		{
 			this.LoadWeather();
 
-			EventManager.Instance.TimeEvents.RealTimeTick += this.OnRealTimeTick;
-			EventManager.Instance.PlayerEvents.PlayerChangesRegion += this.OnPlayerChangesRegion;
+			EventManager.TimeEvents.RealTimeTick += this.OnRealTimeTick;
+			EventManager.PlayerEvents.PlayerChangesRegion += this.OnPlayerChangesRegion;
 		}
 
 		/// <summary>
@@ -102,9 +102,9 @@ namespace Aura.World.World
 			return _weather[region];
 		}
 
-		private void OnRealTimeTick(object sender, TimeEventArgs args)
+		private void OnRealTimeTick(MabiTime time)
 		{
-			if (args.Time.DateTime.Minute % 20 != 0 && _prevWeather.Count > 0)
+			if (time.DateTime.Minute % 20 != 0 && _prevWeather.Count > 0)
 				return;
 
 			this.BroadcastWeather();
@@ -116,16 +116,15 @@ namespace Aura.World.World
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void OnPlayerChangesRegion(object sender, PlayerEventArgs args)
+		private void OnPlayerChangesRegion(MabiPC character)
 		{
-			var player = args.Player;
-			if (player == null)
+			if (character == null)
 				return;
 
-			if (_weather.ContainsKey(player.Region))
+			if (_weather.ContainsKey(character.Region))
 			{
-				var weather = _weather[player.Region].GetWeather(DateTime.Now);
-				player.Client.Send(this.GetWeatherPacket(player.Region, 0.5f, weather, 0));
+				var weather = _weather[character.Region].GetWeather(DateTime.Now);
+				character.Client.Send(this.GetWeatherPacket(character.Region, 0.5f, weather, 0));
 			}
 			else
 			{
@@ -133,11 +132,11 @@ namespace Aura.World.World
 				// to reset the weather.
 				var p = new MabiPacket(Op.Weather, Id.Broadcast);
 				p.PutByte(0);
-				p.PutInt(player.Region);
+				p.PutInt(character.Region);
 				p.PutByte(0);
 				p.PutInt(10000);
 				p.PutByte(0);
-				player.Client.Send(p);
+				character.Client.Send(p);
 			}
 		}
 

@@ -32,7 +32,7 @@ namespace Aura.World.World
 		public MabiShop()
 		{
 			this.Disposed = false;
-			EventManager.Instance.TimeEvents.ErinnMidnightTick += this.ChangeItemColors;
+			EventManager.TimeEvents.ErinnMidnightTick += this.ChangeItemColors;
 		}
 
 		public virtual void Dispose()
@@ -40,7 +40,7 @@ namespace Aura.World.World
 			if (this.Disposed)
 				return;
 
-			EventManager.Instance.TimeEvents.ErinnMidnightTick -= this.ChangeItemColors;
+			EventManager.TimeEvents.ErinnMidnightTick -= this.ChangeItemColors;
 			this.Disposed = true;
 		}
 
@@ -49,7 +49,7 @@ namespace Aura.World.World
 			this.ColorChangeEnabled = false;
 		}
 
-		private void ChangeItemColors(object sender, TimeEventArgs e)
+		private void ChangeItemColors(MabiTime time)
 		{
 			if (!WorldConf.ColorChange || !this.ColorChangeEnabled)
 				return;

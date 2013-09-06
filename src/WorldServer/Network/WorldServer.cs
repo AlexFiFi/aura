@@ -165,8 +165,8 @@ namespace Aura.World.Network
 			this.ConnectToLogin(true);
 
 			// Run the channel register method once, and then subscribe to the event that's run once per minute.
-			this.SendChannelStatus(null, null);
-			EventManager.Instance.TimeEvents.RealTimeTick += this.SendChannelStatus;
+			this.SendChannelStatus(MabiTime.Now);
+			EventManager.TimeEvents.RealTimeTick += this.SendChannelStatus;
 
 			// Console commands
 			// --------------------------------------------------------------
@@ -339,7 +339,7 @@ namespace Aura.World.Network
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void SendChannelStatus(object sender, TimeEventArgs args)
+		public void SendChannelStatus(MabiTime time)
 		{
 			// Let's asume 20 users would be a lot for now.
 			// TODO: Option for max users.

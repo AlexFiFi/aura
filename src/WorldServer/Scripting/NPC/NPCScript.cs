@@ -35,12 +35,14 @@ namespace Aura.World.Scripting
 
 		public override void OnLoadDone()
 		{
-			EventManager.Instance.TimeEvents.ErinnTimeTick += this.OnErinnTimeTick;
+			EventManager.TimeEvents.ErinnTimeTick += this.OnErinnTimeTick;
+
+			base.OnLoadDone();
 		}
 
 		public override void Dispose()
 		{
-			EventManager.Instance.TimeEvents.ErinnTimeTick -= this.OnErinnTimeTick;
+			EventManager.TimeEvents.ErinnTimeTick -= this.OnErinnTimeTick;
 			Shop.Dispose();
 			base.Dispose();
 		}
@@ -69,7 +71,7 @@ namespace Aura.World.Scripting
 			this.Close(client, "(You ended your conversation with " + properNPCname + ".)");
 		}
 
-		protected virtual void OnErinnTimeTick(object sender, TimeEventArgs e)
+		protected virtual void OnErinnTimeTick(MabiTime time)
 		{
 			if (this.Phrases.Count > 0)
 			{

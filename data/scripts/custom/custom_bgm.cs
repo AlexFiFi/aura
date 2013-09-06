@@ -41,35 +41,35 @@ public class CustomBGMScript : BaseScript
 	public override void OnLoad()
 	{
 		Init();
-		EventManager.Instance.PlayerEvents.PlayerChangesRegion += OnPlayerChangesRegion;
+		EventManager.PlayerEvents.PlayerChangesRegion += OnPlayerChangesRegion;
 	}
 
 	public override void Dispose()
 	{
-		EventManager.Instance.PlayerEvents.PlayerChangesRegion -= OnPlayerChangesRegion;
+		EventManager.PlayerEvents.PlayerChangesRegion -= OnPlayerChangesRegion;
 
 		base.Dispose();
 	}
 
-	public void OnPlayerChangesRegion(object sender, PlayerEventArgs args)
+	public void OnPlayerChangesRegion(MabiCreature creature)
 	{
-		var creature = sender as MabiPC;
-		if (creature == null)
+		var character = creature as MabiPC;
+		if (character == null)
 			return;
 
 		Tuple<string, PlayType> info;
-		_regions.TryGetValue(creature.Region, out info);
+		_regions.TryGetValue(character.Region, out info);
 		if (info != null)
 		{
-			SendSetBGM(creature, info.Item1, info.Item2);
+			SendSetBGM(character, info.Item1, info.Item2);
 			lock (_playerStorage)
-				_playerStorage[creature.Id] = info.Item1;
+				_playerStorage[character.Id] = info.Item1;
 		}
-		else if (_playerStorage.ContainsKey(creature.Id))
+		else if (_playerStorage.ContainsKey(character.Id))
 		{
-			SendUnsetBGM(creature, _playerStorage[creature.Id]);
+			SendUnsetBGM(character, _playerStorage[character.Id]);
 			lock (_playerStorage)
-				_playerStorage.Remove(creature.Id);
+				_playerStorage.Remove(character.Id);
 		}
 	}
 

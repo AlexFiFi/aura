@@ -9,7 +9,7 @@ using Aura.World.World;
 
 public class _BeanRuaGuardBaseScript : NPCScript
 {
-    private bool _visible = false;
+	private bool _visible = false;
 
 	public override void OnLoad()
 	{
@@ -47,17 +47,16 @@ public class _BeanRuaGuardBaseScript : NPCScript
 		Phrases.Add("Welcome welcome!");
 		Phrases.Add("We're open now. Line up!");
 		Phrases.Add("You may want to come back later if you want to go in.");
-        
-        this.OnErinnTimeTick(null, new TimeEventArgs(MabiTime.Now)); // Initialize Guard
+		
+		this.OnErinnTimeTick(MabiTime.Now); // Initialize Guard
 	}
-    
-    protected override void OnErinnTimeTick(object sender, TimeEventArgs e)
-    {
+	
+	protected override void OnErinnTimeTick(MabiTime time)
+	{
 		// Call base for phrases.
-        if (sender != null)
-            base.OnErinnTimeTick(sender, e);
-    
-		if(e.Time.Hour >= 17 || e.Time.Hour < 6)
+		base.OnErinnTimeTick(time);
+		
+		if(time.Hour >= 17 || time.Hour < 6)
 		{
 			if(!_visible)
 				Warp(_visible = true);
@@ -67,9 +66,9 @@ public class _BeanRuaGuardBaseScript : NPCScript
 			if(_visible)
 				Warp(_visible = false);
 		}
-    }
-    
-    protected virtual void Warp(bool visible)
+	}
+	
+	protected virtual void Warp(bool visible)
 	{}
 }
 
@@ -85,14 +84,14 @@ public class BeanRuaGuard1Script : _BeanRuaGuardBaseScript
 		EquipItem(Pocket.Face, 0x1324, 0xFFFAE0, 0xCBEDF9, 0xB8588C);
 		EquipItem(Pocket.Hair, 0xFBE, 0x612314, 0x612314, 0x612314);
 	}
-    
-    protected override void Warp(bool visible)
-    {
-        if (visible)
-            WarpNPC(52, 47115, 47272, false);
-        else
-            WarpNPC(15, 500, 0, false);
-    }
+	
+	protected override void Warp(bool visible)
+	{
+		if (visible)
+			WarpNPC(52, 47115, 47272, false);
+		else
+			WarpNPC(15, 500, 0, false);
+	}
 }
 
 public class BeanRuaGuard2Script : _BeanRuaGuardBaseScript
@@ -107,12 +106,12 @@ public class BeanRuaGuard2Script : _BeanRuaGuardBaseScript
 		EquipItem(Pocket.Face, 0x1324, 0x8346, 0xF99F48, 0xF46F3F);
 		EquipItem(Pocket.Hair, 0xFC6, 0xAA7840, 0xAA7840, 0xAA7840);
 	}
-    
-    protected override void Warp(bool visible)
-    {
-        if (visible)
-            WarpNPC(52, 48270, 48122, false);
-        else
-            WarpNPC(15, 600, 0, false);
-    }
+	
+	protected override void Warp(bool visible)
+	{
+		if (visible)
+			WarpNPC(52, 48270, 48122, false);
+		else
+			WarpNPC(15, 600, 0, false);
+	}
 }

@@ -228,7 +228,7 @@ namespace Aura.World.World
 					if ((this.Conditions.A & CreatureConditionA.Deadly) != CreatureConditionA.Deadly)
 					{
 						this.Conditions.A |= CreatureConditionA.Deadly; //Todo: What about prevCondition?
-						EntityEvents.Instance.OnCreatureStatUpdates(this);
+						EntityEvents.OnCreatureStatUpdates(this);
 					}
 				}
 				else
@@ -236,7 +236,7 @@ namespace Aura.World.World
 					if ((this.Conditions.A & CreatureConditionA.Deadly) == CreatureConditionA.Deadly)
 					{
 						this.Conditions.A &= ~CreatureConditionA.Deadly;
-						EntityEvents.Instance.OnCreatureStatUpdates(this);
+						EntityEvents.OnCreatureStatUpdates(this);
 					}
 				}*/
 			}
@@ -623,17 +623,17 @@ namespace Aura.World.World
 
 		protected override void HookUp()
 		{
-			EventManager.Instance.TimeEvents.RealTimeSecondTick += this.RestoreStats;
+			EventManager.TimeEvents.RealTimeSecondTick += this.RestoreStats;
 			base.HookUp();
 		}
 
 		public override void Dispose()
 		{
-			EventManager.Instance.TimeEvents.RealTimeSecondTick -= this.RestoreStats;
+			EventManager.TimeEvents.RealTimeSecondTick -= this.RestoreStats;
 			base.Dispose();
 		}
 
-		protected virtual void RestoreStats(object sender, TimeEventArgs e)
+		protected virtual void RestoreStats(MabiTime time)
 		{
 			if (this.IsDead)
 				return;
@@ -960,7 +960,7 @@ namespace Aura.World.World
 						break;
 				}
 
-				EventManager.Instance.CreatureEvents.OnCreatureMoves(this, new MoveEventArgs(this, from, to));
+				EventManager.CreatureEvents.OnCreatureMoves(this, from, to);
 			}
 
 			return from;
@@ -1085,8 +1085,9 @@ namespace Aura.World.World
 			{
 				WorldManager.Instance.Broadcast(new MabiPacket(Op.LevelUp, this.Id).PutShort(this.Level), SendTargets.Range, this);
 				this.FullHeal();
-				EventManager.Instance.CreatureEvents.OnCreatureLevelsUp(this, new CreatureEventArgs(this));
 				WorldManager.Instance.CreatureStatsUpdate(this);
+
+				EventManager.CreatureEvents.OnCreatureLevelsUp(this);
 			}
 		}
 

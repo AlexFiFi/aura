@@ -44,7 +44,7 @@ public class MoongateScript : BaseScript
 			gate.Prop = SpawnProp(gate.PropId, gate.Ident, "", "", 40100, gate.Region, gate.X, gate.Y, gate.Direction, 1, OpenMapWindow);
 		
 		// Event for opening/closing
-		EventManager.Instance.TimeEvents.ErinnDaytimeTick += OnErinnDaytimeTick;
+		EventManager.TimeEvents.ErinnDaytimeTick += OnErinnDaytimeTick;
 		
 		// Handling the moon gate stuff completely in the script is much easier.
 		WorldServer.Instance.RegisterPacketHandler(Op.MoonGateUse, HandleMoonGateUse);
@@ -61,14 +61,14 @@ public class MoongateScript : BaseScript
 	
 	public override void Dispose()
 	{
-		EventManager.Instance.TimeEvents.ErinnDaytimeTick -= OnErinnDaytimeTick;
+		EventManager.TimeEvents.ErinnDaytimeTick -= OnErinnDaytimeTick;
 		base.Dispose();
 	}
 
-	public void OnErinnDaytimeTick(object sender, TimeEventArgs args)
+	public void OnErinnDaytimeTick(MabiTime time)
 	{
 		var state = "closed";
-		if(args.Time.IsNight)
+		if(time.IsNight)
 			state = "open";
 
 		foreach (var gate in _gates.Values)

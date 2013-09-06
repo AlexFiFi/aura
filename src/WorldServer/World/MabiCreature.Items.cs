@@ -151,7 +151,6 @@ namespace Aura.World.World
 					if (prev != item.Info.Amount)
 					{
 						this.ItemUpdate(item);
-						EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
 						result = item;
 					}
 				}
@@ -185,7 +184,7 @@ namespace Aura.World.World
 					var rand = RandomProvider.Get();
 					var x = (uint)(pos.X + rand.Next(-100, 101));
 					var y = (uint)(pos.Y + rand.Next(-100, 101)); WorldManager.Instance.DropItem(item, this.Region, x, y);
-					EventManager.Instance.CreatureEvents.OnCreatureDropItem(this, new ItemUpdateEventArgs(item));
+					EventManager.CreatureEvents.OnCreatureDropItem(this, item);
 				}
 				else
 				{
@@ -201,13 +200,12 @@ namespace Aura.World.World
 					this.Items.Add(item);
 
 					this.ItemUpdate(item, true);
-					EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item, true));
 				}
 
 				result = item;
 			}
 
-			EventManager.Instance.CreatureEvents.OnCreatureItemAction(this, new ItemActionEventArgs(itemClass));
+			EventManager.CreatureEvents.OnCreatureItemAction(this, itemClass);
 
 			return result;
 		}
@@ -245,7 +243,6 @@ namespace Aura.World.World
 							toRemove.Add(item);
 
 						this.ItemUpdate(item);
-						EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
 					}
 				}
 			}
@@ -275,7 +272,6 @@ namespace Aura.World.World
 								toRemove.Add(item);
 
 							this.ItemUpdate(item);
-							EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
 						}
 					}
 				}
@@ -284,7 +280,7 @@ namespace Aura.World.World
 			foreach (var item in toRemove)
 				this.Items.Remove(item);
 
-			EventManager.Instance.CreatureEvents.OnCreatureItemAction(this, new ItemActionEventArgs(itemClass));
+			EventManager.CreatureEvents.OnCreatureItemAction(this, itemClass);
 		}
 
 		/// <summary>
@@ -355,10 +351,8 @@ namespace Aura.World.World
 				this.Items.Remove(item);
 
 			this.ItemUpdate(item);
-			EventManager.Instance.CreatureEvents.OnCreatureItemUpdate(this, new ItemUpdateEventArgs(item));
 
-
-			EventManager.Instance.CreatureEvents.OnCreatureItemAction(this, new ItemActionEventArgs(item.Info.Class));
+			EventManager.CreatureEvents.OnCreatureItemAction(this, item.Info.Class);
 		}
 
 		public void ItemUpdate(MabiItem item, bool isNew = false)

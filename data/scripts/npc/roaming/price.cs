@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Aura.Shared.Const;
+using Aura.Shared.Util;
 using Aura.World.Events;
 using Aura.World.Network;
 using Aura.World.Scripting;
@@ -51,8 +52,8 @@ public class PriceScript : NPCScript
 		EquipItem(Pocket.Shoe, 17044, 0x74562E, 0xFFFFFF, 0xFFFFFF);
 		EquipItem(Pocket.Head, 18024, 0x4E7271, 0x24312F, 0xFFFFFF);
 		
-		EventManager.Instance.TimeEvents.ErinnMidnightTick += OnMidnightTick;
-		OnMidnightTick(null, null); // Move Price when he loads
+		EventManager.TimeEvents.ErinnMidnightTick += OnMidnightTick;
+		OnMidnightTick(MabiTime.Now); // Move Price when he loads
 
 		Phrases.Add("...");
 		Phrases.Add("...Maybe it's time for me to move to another town...");
@@ -68,11 +69,11 @@ public class PriceScript : NPCScript
 	
 	public override void Dispose()
 	{
-		EventManager.Instance.TimeEvents.ErinnMidnightTick += OnMidnightTick;
+		EventManager.TimeEvents.ErinnMidnightTick += OnMidnightTick;
 		base.Dispose();
 	}
 	
-	private void OnMidnightTick(object sender, TimeEventArgs e)
+	private void OnMidnightTick(MabiTime time)
 	{
 		var next = GetLocation(DateTime.Now);
 		WarpNPC(next.Item1, next.Item2, next.Item3);

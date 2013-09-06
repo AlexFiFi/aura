@@ -13,15 +13,14 @@ public class _FletaRabTimerScript : NPCScript
 
 	public override void OnLoad()
 	{
-        this.OnErinnTimeTick(null, new TimeEventArgs(MabiTime.Now)); // Initialize
+        this.OnErinnTimeTick(MabiTime.Now); // Initialize
 	}
 	
-    protected override void OnErinnTimeTick(object sender, TimeEventArgs e)
+    protected override void OnErinnTimeTick(MabiTime time)
     {
-        if (sender != null)
-            base.OnErinnTimeTick(sender, e);
+        base.OnErinnTimeTick(time);
     
-		var h = e.Time.Hour;
+		var h = time.Hour;
 	
 		// Visible from 9-11, 15-17, and 19-21
 		if((h >= 9 && h < 11) || (h >= 15 && h < 17) || (h >= 19 && h < 21))

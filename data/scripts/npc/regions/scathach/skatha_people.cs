@@ -1,4 +1,5 @@
 using Aura.Shared.Const;
+using Aura.Shared.Util;
 using Aura.World.Events;
 using System;
 using Aura.World.Network;
@@ -23,7 +24,7 @@ public class Skatha_peopleScript : NPCScript
 
 		SetDirection(194);
         
-        EventManager.Instance.TimeEvents.ErinnDaytimeTick += On12HrTick;
+        EventManager.TimeEvents.ErinnDaytimeTick += On12HrTick;
         
 		SetStand("chapter4/human/female/anim/female_c4_npc_skatha_human_stand");
         
@@ -34,13 +35,13 @@ public class Skatha_peopleScript : NPCScript
 	}
 	public override void Dispose()
 	{
-		EventManager.Instance.TimeEvents.ErinnDaytimeTick -= On12HrTick;
+		EventManager.TimeEvents.ErinnDaytimeTick -= On12HrTick;
 		base.Dispose();
 	}
     
-    private void On12HrTick(object sender, TimeEventArgs e)
+    private void On12HrTick(MabiTime time)
 	{
-		if (!e.Time.IsNight)
+		if (!time.IsNight)
 			WarpNPC(region: 15, x: 100, y: 0);
 		else
             WarpNPC(region: 4015, x: 32951, y: 40325);

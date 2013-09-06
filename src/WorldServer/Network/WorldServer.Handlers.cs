@@ -369,7 +369,7 @@ namespace Aura.World.Network
 			}
 
 			Send.Chat(creature, message);
-			EventManager.Instance.CreatureEvents.OnCreatureTalks(this, new ChatEventArgs(creature, message));
+			EventManager.PlayerEvents.OnPlayerTalks(creature, message);
 		}
 
 		private void HandleWhisperChat(WorldClient client, MabiPacket packet)
@@ -1173,7 +1173,7 @@ namespace Aura.World.Network
 			item.Id = MabiItem.NewItemId;
 			var pos = creature.GetPosition();
 			WorldManager.Instance.DropItem(item, creature.Region, pos.X, pos.Y);
-			EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
+			EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
 
 			// Done
 			var p = new MabiPacket(Op.ItemDropR, creature.Id);
@@ -1274,7 +1274,7 @@ namespace Aura.World.Network
 
 			creature.Items.Remove(item);
 			this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
-			EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
+			EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
 
 			client.Send(PacketCreator.ItemRemove(creature, item));
 			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
@@ -1345,7 +1345,7 @@ namespace Aura.World.Network
 					}
 				}
 
-				EventManager.Instance.CreatureEvents.OnCreatureItemAction(creature, new ItemActionEventArgs(item.Info.Class));
+				EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
 			}
 
 			var response = new MabiPacket(Op.ItemPickUpR, creature.Id);
@@ -1510,7 +1510,7 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.CreatureEnterRegionPVPStuff(creature);
 
-			EventManager.Instance.PlayerEvents.OnPlayerChangesRegion(this, new PlayerEventArgs(creature as MabiPC));
+			EventManager.PlayerEvents.OnPlayerChangesRegion(creature as MabiPC);
 		}
 
 		/// <summary>
@@ -2664,7 +2664,7 @@ namespace Aura.World.Network
 			if (WorldConf.Motd != string.Empty)
 				Send.ServerMessage(client, client.Character, WorldConf.Motd);
 
-			EventManager.Instance.PlayerEvents.OnPlayerLoggedIn(creature, new PlayerEventArgs(creature as MabiPC));
+			EventManager.PlayerEvents.OnPlayerLoggedIn(creature as MabiPC);
 		}
 
 		public void HandleMoonGateRequest(WorldClient client, MabiPacket packet)
@@ -3348,7 +3348,7 @@ namespace Aura.World.Network
 			}
 
 			client.State = ClientState.LoggedIn;
-			this.SendChannelStatus(null, null);
+			this.SendChannelStatus(MabiTime.Now);
 		}
 
 		private void HandleCutsceneFinished(WorldClient client, MabiPacket packet)

@@ -58,7 +58,9 @@ namespace Aura.World.Scripting
 				(this.Info.Objectives[0] as QuestObjectiveInfo).Unlocked = true;
 
 			if (this.ReceiveMethod == Receive.Auto)
-				EventManager.Instance.PlayerEvents.PlayerLoggedIn += this.OnPlayerLoggedIn;
+				EventManager.PlayerEvents.PlayerLoggedIn += this.OnPlayerLoggedIn;
+
+			base.OnLoadDone();
 		}
 
 		public override void Dispose()
@@ -67,15 +69,13 @@ namespace Aura.World.Scripting
 
 			// Just remove the subscriptions, no problem if they
 			// weren't subscribed to them.
-			EventManager.Instance.PlayerEvents.PlayerLoggedIn -= this.OnPlayerLoggedIn;
-			EventManager.Instance.PlayerEvents.KilledByPlayer -= this.OnKilledByPlayer;
-			EventManager.Instance.CreatureEvents.CreatureItemAction -= this.OnCreatureItemAction;
+			EventManager.PlayerEvents.PlayerLoggedIn -= this.OnPlayerLoggedIn;
+			EventManager.PlayerEvents.KilledByPlayer -= this.OnKilledByPlayer;
+			EventManager.CreatureEvents.CreatureItemAction -= this.OnCreatureItemAction;
 		}
 
-		public void OnPlayerLoggedIn(object sender, EventArgs args)
+		public void OnPlayerLoggedIn(MabiPC character)
 		{
-			var character = sender as MabiPC;
-
 			//if (this.ReceiveMethod == Receive.Auto)
 			//{
 			//    if (!this.HasQuest(character, this.Id))
@@ -131,10 +131,9 @@ namespace Aura.World.Scripting
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void OnKilledByPlayer(object sender, EventArgs args)
+		public void OnKilledByPlayer(MabiCreature victim, MabiCreature killer)
 		{
-			var ea = args as CreatureKilledEventArgs;
-			var character = ea.Killer as MabiPC;
+			var character = killer as MabiPC;
 
 			// Has quest?
 			var quest = character.GetQuestOrNull(this.Id);
@@ -153,7 +152,7 @@ namespace Aura.World.Scripting
 				return;
 
 			// Correct monster?
-			if (!objective.Races.Contains(ea.Victim.Race))
+			if (!objective.Races.Contains(victim.Race))
 				return;
 
 			// Target amount reached?
@@ -173,10 +172,9 @@ namespace Aura.World.Scripting
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void OnCreatureItemAction(object sender, EventArgs args)
+		public void OnCreatureItemAction(MabiCreature creature, uint cls)
 		{
-			var ea = args as ItemActionEventArgs;
-			var character = sender as MabiPC;
+			var character = creature as MabiPC;
 
 			// Sender actually a player?
 			if (character == null)
@@ -209,7 +207,7 @@ namespace Aura.World.Scripting
 				return;
 
 			// Correct item?
-			if (objective.Id != ea.Class)
+			if (objective.Id != cls)
 				return;
 
 			progress.Count = character.CountItem(objective.Id);
@@ -254,15 +252,15 @@ namespace Aura.World.Scripting
 			// Subscribe to KilledByPlayer once for this quest, if needed for this objective.
 			if (info.Type == ObjectiveType.Kill)
 			{
-				EventManager.Instance.PlayerEvents.KilledByPlayer -= this.OnKilledByPlayer;
-				EventManager.Instance.PlayerEvents.KilledByPlayer += this.OnKilledByPlayer;
+				EventManager.PlayerEvents.KilledByPlayer -= this.OnKilledByPlayer;
+				EventManager.PlayerEvents.KilledByPlayer += this.OnKilledByPlayer;
 			}
 
 			// Subscribe to OnCreatureItemAction once for this quest, if needed for this objective.
 			if (info.Type == ObjectiveType.Collect)
 			{
-				EventManager.Instance.CreatureEvents.CreatureItemAction -= this.OnCreatureItemAction;
-				EventManager.Instance.CreatureEvents.CreatureItemAction += this.OnCreatureItemAction;
+				EventManager.CreatureEvents.CreatureItemAction -= this.OnCreatureItemAction;
+				EventManager.CreatureEvents.CreatureItemAction += this.OnCreatureItemAction;
 			}
 
 			this.Info.Objectives.Add(ident, info);
