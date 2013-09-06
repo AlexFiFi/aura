@@ -453,7 +453,6 @@ namespace Aura.Login.Database
 		{
 			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				// TODO: Filter visible items.
 				var mc = new MySqlCommand("SELECT * FROM `items` WHERE `characterId` = @characterId", conn);
 				mc.Parameters.AddWithValue("@characterId", characterId);
 
@@ -465,16 +464,19 @@ namespace Aura.Login.Database
 						var item = new Item();
 						item.Id = reader.GetUInt64("itemID");
 						item.Info.Pocket = reader.GetByte("pocketId");
-						item.Info.Class = reader.GetUInt32("class");
-						item.Info.ColorA = reader.GetUInt32("color_01");
-						item.Info.ColorB = reader.GetUInt32("color_02");
-						item.Info.ColorC = reader.GetUInt32("color_03");
-						item.Info.Amount = reader.GetUInt16("bundle");
-						item.Info.X = reader.GetUInt32("pos_x");
-						item.Info.Y = reader.GetUInt32("pos_y");
-						item.Info.FigureA = (byte)reader.GetUInt32("figure");
+						if (item.IsVisible)
+						{
+							item.Info.Class = reader.GetUInt32("class");
+							item.Info.ColorA = reader.GetUInt32("color_01");
+							item.Info.ColorB = reader.GetUInt32("color_02");
+							item.Info.ColorC = reader.GetUInt32("color_03");
+							item.Info.Amount = reader.GetUInt16("bundle");
+							item.Info.X = reader.GetUInt32("pos_x");
+							item.Info.Y = reader.GetUInt32("pos_y");
+							item.Info.FigureA = (byte)reader.GetUInt32("figure");
 
-						result.Add(item);
+							result.Add(item);
+						}
 					}
 					return result;
 				}

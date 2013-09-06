@@ -146,7 +146,7 @@ namespace Aura.World.Scripting
 			CheckForInterrupt();
 		}
 
-		public abstract void Definition(); // TODO: Base implementation?
+		public abstract void Definition();
 
 		protected virtual void DefineAction(Trigger t, Behavior b)
 		{

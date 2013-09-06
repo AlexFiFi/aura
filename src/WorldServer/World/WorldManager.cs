@@ -16,6 +16,7 @@ using Aura.World.Player;
 using Aura.World.Scripting;
 using Aura.World.Skills;
 using Aura.World.Util;
+using Aura.Shared.World;
 
 namespace Aura.World.World
 {
@@ -248,11 +249,13 @@ namespace Aura.World.World
 		/// <param name="state"></param>
 		private void UpdateCreatures(object state)
 		{
-			// TODO: Not good... >_>
 			var entities = new List<MabiEntity>();
 			lock (_creatures)
 				entities.AddRange(_creatures);
-			entities.AddRange(_items);
+			lock (_items)
+				entities.AddRange(_items);
+			lock (_props)
+				entities.AddRange(_props);
 
 			// Remove dead entites
 			var toRemove = new List<MabiEntity>();
@@ -280,18 +283,26 @@ namespace Aura.World.World
 				{
 					this.RemoveItem(entity as MabiItem);
 				}
+				else if (entity is MabiProp)
+				{
+					this.RemoveProp(entity as MabiProp);
+				}
 
 				entities.Remove(entity);
 			}
 
+			// Remove all props before we go to visibility,
+			// custom props are always visible.
+			entities.RemoveAll(entity => entity is MabiProp);
+
 			var clients = new List<WorldClient>();
-			clients.AddRange(_clients);
+			lock (_clients)
+				clients.AddRange(_clients);
 
 			foreach (var client in clients)
 			{
 				var creaturePos = client.Character.GetPosition();
 
-				// XXX: Better/Faster way?
 				var toAppear = new List<MabiEntity>();
 				var toDisappear = new List<MabiEntity>();
 

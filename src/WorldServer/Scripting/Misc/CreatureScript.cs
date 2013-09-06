@@ -10,6 +10,7 @@ using Aura.World.World;
 using Aura.World.Events;
 using Aura.Shared.Network;
 using Aura.Shared.Const;
+using Aura.Shared.World;
 
 namespace Aura.World.Scripting
 {

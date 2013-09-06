@@ -87,8 +87,6 @@ namespace Aura.World.World
 			this.BattleExp *= 20;
 			this.Height *= 2;
 
-			/// XXX: Maybe do this by default for all monsters?
-			/// XXX: Will be changed once mobs get an actual inv.
 			this.Drops = new List<DropInfo>(this.Drops);
 			this.Drops.AddRange(MabiData.AncientDropDb.Entries);
 

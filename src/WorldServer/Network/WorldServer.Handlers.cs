@@ -18,6 +18,7 @@ using Aura.World.Skills;
 using Aura.World.Util;
 using Aura.World.World;
 using Aura.World.World.Guilds;
+using Aura.Shared.World;
 
 namespace Aura.World.Network
 {
@@ -171,8 +172,7 @@ namespace Aura.World.Network
 
 			this.RegisterPacketHandler(0x61A8, (client, packet) =>
 			{
-				// TODO: Send entities?
-				// NOTE: No idea what this does anymore...
+				// XXX: No idea what this does anymore...
 			});
 
 			this.RegisterPacketHandler(0xA897, (client, packet) =>
@@ -407,12 +407,7 @@ namespace Aura.World.Network
 			var info = MabiData.MotionDb.Find(motion);
 			if (info != null)
 			{
-				// TODO: Temp fix, add information to motion list.
-				var loop = false;
-				if (info.Name == "listen_music")
-					loop = true;
-
-				Send.UseMotion(creature, info.Category, info.Type, loop);
+				Send.UseMotion(creature, info.Category, info.Type, info.Loop);
 
 				result = true;
 			}
@@ -1119,10 +1114,6 @@ namespace Aura.World.Network
 		/// Checks for moving second hand equipment and unequiping,
 		/// and sends the needed packets.
 		/// </summary>
-		/// <param name="creature"></param>
-		/// <param name="item"></param>
-		/// <param name="pocket"></param>
-		// TODO: Move this to MabiCreature.
 		private void CheckItemMove(MabiCreature creature, MabiItem item, Pocket pocket)
 		{
 			// Check for moving second hand
@@ -1289,8 +1280,6 @@ namespace Aura.World.Network
 			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
 		}
 
-		// TODO: This code is kinda redundant... we should try to use
-		//   MabiCreature.GiveItem somehow.
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
 		{
 			var creature = client.GetCreatureOrNull(packet.Id);
@@ -1891,8 +1880,6 @@ namespace Aura.World.Network
 			}
 
 			creature.GiveGold(sellingPrice);
-
-			// TODO: There could be an optional tab for rebuying sold things.
 
 			client.Send(p);
 		}
@@ -2546,7 +2533,16 @@ namespace Aura.World.Network
 					break;
 
 				case DeadMenuOptions.NaoRevival1:
-					// TODO: Take stone
+					// TODO: Add item groups, so we can remove on of the
+					//   various available soul stones.
+
+					if (!creature.HasItem(75213))
+					{
+						Send.ReviveFail(creature);
+						return;
+					}
+					creature.RemoveItem(75213, 1);
+
 					creature.FullHeal();
 					creature.Revive();
 					WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.Revive), SendTargets.Range, creature);
@@ -3024,7 +3020,6 @@ namespace Aura.World.Network
 			creature.GuildMember.Save();
 
 			Send.ConvertGpConfirmR(creature, true);
-			Send.ConvertGpConfirmR(creature, false); // TODO: Do we really need both of these?
 		}
 
 		protected void HandleGuildDonate(WorldClient client, MabiPacket packet)
@@ -3362,8 +3357,8 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			// TODO: Check if vaild (is leader and whatnot)
-			// if cutscene.IsLeader(creature)
+			if (creature.CurrentCutscene.Leader != creature)
+				return;
 
 			client.Send(new MabiPacket(Op.CutsceneEnd, Id.World).PutLong(creature.Id));
 

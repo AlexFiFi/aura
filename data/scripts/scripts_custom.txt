@@ -7,3 +7,4 @@
 //custom/proff.cs
 //custom/telephant.cs
 //custom/custom_bgm.cs
+//custom/chalk_on_death.cs

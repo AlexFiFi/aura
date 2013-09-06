@@ -9,5 +9,25 @@ namespace Aura.Login.Database
 	{
 		public ulong Id { get; set; }
 		public MabiItemInfo Info;
+
+		public bool IsVisible
+		{
+			get
+			{
+				// Head
+				if (this.Info.Pocket >= 3 && this.Info.Pocket <= 4)
+					return true;
+
+				// Equipment
+				if (this.Info.Pocket >= 5 && this.Info.Pocket <= 15)
+					return true;
+
+				// Style
+				if (this.Info.Pocket >= 43 && this.Info.Pocket <= 47)
+					return true;
+
+				return false;
+			}
+		}
 	}
 }

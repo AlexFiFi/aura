@@ -19,6 +19,7 @@ using Aura.World.Scripting;
 using Aura.World.Util;
 using CSScriptLibrary;
 using Aura.World.World.Guilds;
+using Aura.Shared.World;
 
 namespace Aura.World.World
 {
@@ -173,7 +174,6 @@ namespace Aura.World.World
 					return true;
 				}
 
-				// TODO: Add option if unknown commands should appear in public.
 				Send.ServerMessage(client, creature, Localization.Get("gm.unknown")); // Unknown command.
 				return true;
 			}
@@ -664,9 +664,11 @@ namespace Aura.World.World
 			if (args.Length < 3)
 				return CommandResult.WrongParameter;
 
-			// TODO: exception checks.
+			ushort category = 0, type = 0;
+			if (!ushort.TryParse(args[1], out category) || !ushort.TryParse(args[2], out type))
+				return CommandResult.WrongParameter;
 
-			Send.UseMotion(creature, ushort.Parse(args[1]), ushort.Parse(args[2]));
+			Send.UseMotion(creature, category, type);
 
 			return CommandResult.Okay;
 		}
@@ -697,7 +699,6 @@ namespace Aura.World.World
 			if (!ushort.TryParse(args[1], out raceId))
 				return CommandResult.Fail;
 
-			// TODO: Check if this can be done without relog.
 			creature.Race = raceId;
 
 			Send.ServerMessage(client, creature, Localization.Get("gm.setrace")); // Your race has been changed. You'll be logged out to complete the process.

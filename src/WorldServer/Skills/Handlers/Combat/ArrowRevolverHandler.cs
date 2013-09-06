@@ -16,8 +16,8 @@ namespace Aura.World.Skills
 		/// <summary>
 		/// Stun time for attacker and target.
 		/// </summary>
-		private const ushort StunTime = 2600; // TODO:
-		private const ushort AfterUseStun = 600; // TODO:
+		private const ushort StunTime = 2600;
+		private const ushort AfterUseStun = 600;
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{

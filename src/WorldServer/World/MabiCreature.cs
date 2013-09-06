@@ -1042,18 +1042,6 @@ namespace Aura.World.World
 				return;
 
 			this.State &= ~CreatureStates.Dead;
-
-			// TODO: Move to a custom script
-			if (((this is MabiNPC) && (Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Mob) != 0) ||
-				((this is MabiPC) && (Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Player) != 0))
-			{
-				var pos = this.GetPosition();
-				var p = new MabiProp(50, this.Region, pos.X, pos.Y, this.Direction + 90);
-				p.DisappearTime = ((Util.WorldConf.ChalkOnDeath & (int)Util.WorldConf.ChalkDeathFlags.Permanent) != 0 ? DateTime.MaxValue : DateTime.Now.AddMinutes(2));
-
-				WorldManager.Instance.AddProp(p);
-			}
-
 			this.CauseOfDeath = DeathCauses.None;
 			this.WaitingForRes = false;
 

@@ -41,7 +41,6 @@ namespace Aura.World.Player
 
 		public override float CombatPower
 		{
-			// TODO: Cache?
 			get
 			{
 				float result = 0;

@@ -626,14 +626,14 @@ namespace Aura.World.Database
 			}
 		}
 
-		public bool IsValidMailRecpient(string name, out ulong id) //TODO: Server
+		// TODO: Server
+		public bool IsValidMailRecpient(string name, out ulong id)
 		{
 			id = 0;
 			if (!(new Regex(@"^[a-zA-Z0-9]{3,15}$")).IsMatch(name))
 				return false;
 
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using(var conn = MabiDb.Instance.GetConnection())
 			{
 				name = MySqlHelper.EscapeString(name);
 
@@ -648,10 +648,6 @@ namespace Aura.World.Database
 					else
 						return false;
 				}
-			}
-			finally
-			{
-				conn.Close();
 			}
 		}
 

@@ -11,6 +11,7 @@ using Aura.Shared.Const;
 using Aura.Shared.Util;
 using Aura.World.Player;
 using Aura.World.Events;
+using Aura.Shared.World;
 
 namespace Aura.World.Network
 {
@@ -307,7 +308,6 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 
-			// TODO: !
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 		}
 
@@ -319,7 +319,6 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 
-			// TODO: !
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 		}
 	}

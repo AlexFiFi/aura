@@ -143,6 +143,18 @@ namespace Aura.Data
 			return string.IsNullOrWhiteSpace(this.Fields[index < 0 ? this.Pointer : index]);
 		}
 
+		public bool ReadBool(int index = -1)
+		{
+			if (IsFieldEmpty(index))
+			{
+				this.Pointer++;
+				return false;
+			}
+
+			var val = this.Fields[index < 0 ? this.Pointer++ : index];
+			return (val == "1" || val == "true" || val == "yes");
+		}
+
 		public byte ReadUByte(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToByte(this.Fields[index < 0 ? this.Pointer++ : index]); }
 		public sbyte ReadSByte(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToSByte(this.Fields[index < 0 ? this.Pointer++ : index]); }
 		public byte ReadUByteHex(int index = -1) { if (IsFieldEmpty(index)) { this.Pointer++; return 0; } return Convert.ToByte(this.Fields[index < 0 ? this.Pointer++ : index], 16); }

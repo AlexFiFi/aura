@@ -147,7 +147,6 @@ namespace Aura.World.Util
 			WorldConf.EnableItemShop = _conf.GetBool("world.enable_itemshop", false);
 			WorldConf.MailExpires = _conf.GetInt("world.mail_expires", 30);
 			WorldConf.EnableVisual = _conf.GetBool("world.enable_visual", true);
-			WorldConf.ChalkOnDeath = _conf.GetInt("world.chalk_on_death", (int)ChalkDeathFlags.None);
 			WorldConf.SafeDye = _conf.GetBool("world.safe_dye", false);
 
 			WorldConf.BunshinSouls = _conf.GetBool("world.bunshinsouls", true);
@@ -170,15 +169,6 @@ namespace Aura.World.Util
 				Logger.Warning("'motd.txt' not found.");
 				WorldConf.Motd = string.Empty;
 			}
-		}
-
-		public enum ChalkDeathFlags
-		{
-			None = 0x0,
-			Player = 0x1,
-			Mob = 0x2,
-			All = Player | Mob,
-			Permanent = 0x4
 		}
 	}
 }
