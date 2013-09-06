@@ -18,19 +18,6 @@ namespace Aura.World.Network
 	/// </summary>
 	public static class PacketCreator
 	{
-		public static MabiPacket GuildMessage(MabiGuild guild, MabiCreature target, string message)
-		{
-			var character = target as MabiPC;
-			return new MabiPacket(Op.GuildMessage, target.Id)
-				.PutLong(guild.Id)
-				.PutString(character == null ? "Aura" : character.Server)
-				.PutLong(target.Id)
-				.PutString(guild.Name)
-				.PutString(message)
-				.PutByte(1)
-				.PutByte(1);
-		}
-
 		/// <summary>
 		/// Sends info on guild membership status changed. Pass null for guild to remove.
 		/// </summary>

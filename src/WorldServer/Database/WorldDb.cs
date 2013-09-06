@@ -250,9 +250,9 @@ namespace Aura.World.Database
 				this.GetCooldowns(character);
 
 				character.Guild = this.GetGuildForChar(character.Id);
-				character.GuildMemberInfo = this.GetGuildMemberInfo(character.Id);
+				character.GuildMember = this.GetGuildMember(character.Id);
 
-				if (character.Guild != null && character.GuildMemberInfo.MemberRank < GuildMemberRank.Applied && character.Guild.Title != null)
+				if (character.Guild != null && character.GuildMember.MemberRank < GuildMemberRank.Applied && character.Guild.Title != null)
 					character.Titles.Add(50000, true);
 
 				character.Shamalas.Add(new ShamalaTransformation(1, 1, ShamalaState.Available));
@@ -1121,64 +1121,66 @@ namespace Aura.World.Database
 			}
 		}
 
+		// XXX: Should we really do all this on-the-fly?
 		public MabiGuild GetGuildForChar(ulong charId)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				using (var reader = MabiDb.Instance.Query("SELECT guildId FROM guild_members WHERE characterId = " + charId, conn))
+				var mc = new MySqlCommand("SELECT guildId FROM guild_members WHERE characterId = " + charId, conn);
+
+				using (var reader = mc.ExecuteReader())
 				{
 					if (reader.Read())
 						return this.GetGuild(reader.GetUInt64("guildId"));
-					return null;
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
+
+			return null;
 		}
 
 		public MabiGuild GetGuild(ulong guildId)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				using (var reader = MabiDb.Instance.Query("SELECT * FROM guilds WHERE guildId=" + guildId, conn))
+				var mc = new MySqlCommand(
+					"SELECT g.*, c.characterId AS leaderId, c.name AS leaderName " +
+					"FROM guilds AS g " +
+					"INNER JOIN guild_members AS gm ON g.guildId = gm.guildId " +
+					"INNER JOIN characters AS c ON gm.characterId = c.characterId " +
+					"WHERE g.guildId = @guildId AND gm.rank = 0"
+				, conn);
+
+				mc.Parameters.AddWithValue("@guildId", guildId);
+
+				using (var reader = mc.ExecuteReader())
 				{
 					if (reader.Read())
-					{
 						return ParseGuild(reader);
-					}
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
+
 			return null;
 		}
 
 		public List<MabiGuild> LoadGuilds()
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			List<MabiGuild> guilds = new List<MabiGuild>();
+			var guilds = new List<MabiGuild>();
 
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				using (var reader = MabiDb.Instance.Query("SELECT * FROM guilds", conn))
+				var mc = new MySqlCommand(
+					"SELECT g.*, c.characterId AS leaderId, c.name AS leaderName " +
+					"FROM guilds AS g " +
+					"INNER JOIN guild_members AS gm ON g.guildId = gm.guildId " +
+					"INNER JOIN characters AS c ON gm.characterId = c.characterId " +
+					"WHERE gm.rank = 0"
+				, conn);
+
+				using (var reader = mc.ExecuteReader())
 				{
 					while (reader.Read())
-					{
 						guilds.Add(ParseGuild(reader));
-					}
 				}
-			}
-			finally
-			{
-				conn.Close();
 			}
 
 			return guilds;
@@ -1186,173 +1188,118 @@ namespace Aura.World.Database
 
 		private MabiGuild ParseGuild(MySqlDataReader reader)
 		{
-			var g = new MabiGuild();
-			g.Id = reader.GetUInt64("guildId");
-			g.Name = reader.GetString("name");
-			g.IntroMessage = reader.GetString("intro");
-			g.WelcomeMessage = reader.GetString("welcome");
-			g.LeavingMessage = reader.GetString("leaving");
-			g.RejectionMessage = reader.GetString("rejection");
+			var guild = new MabiGuild();
+			guild.Id = reader.GetUInt64("guildId");
+			guild.Name = reader.GetString("name");
+			guild.IntroMessage = reader.GetString("intro");
+			guild.WelcomeMessage = reader.GetString("welcome");
+			guild.LeavingMessage = reader.GetString("leaving");
+			guild.RejectionMessage = reader.GetString("rejection");
 
-			g.GuildLevel = (GuildLevel)reader.GetByte("level");
-			g.Type = (GuildType)reader.GetByte("type");
+			guild.GuildLevel = (GuildLevel)reader.GetByte("level");
+			guild.Type = (GuildType)reader.GetByte("type");
 
-			g.Region = reader.GetUInt32("region");
-			g.X = reader.GetUInt32("x");
-			g.Y = reader.GetUInt32("y");
-			g.Rotation = reader.GetByte("rotation");
+			guild.Region = reader.GetUInt32("region");
+			guild.X = reader.GetUInt32("x");
+			guild.Y = reader.GetUInt32("y");
+			guild.Rotation = reader.GetByte("rotation");
 
-			g.Gp = reader.GetUInt32("gp");
-			g.Gold = reader.GetUInt32("gold");
-			g.StoneClass = (GuildStoneType)reader.GetUInt32("stone_type");
+			guild.Gp = reader.GetUInt32("gp");
+			guild.Gold = reader.GetUInt32("gold");
+			guild.StoneClass = (GuildStoneType)reader.GetUInt32("stone_type");
 
-			g.Title = reader.GetStringSafe("title");
-			g.Options = reader.GetByte("Options");
+			guild.Title = reader.GetStringSafe("title");
+			guild.Options = reader.GetByte("Options");
 
-			g.LeaderName = GetGuildLeaderName(g);
+			guild.LeaderName = reader.GetStringSafe("leaderName");
 
-			if (g.LeaderName == null)
-				Logger.Warning("Guild \"{0}\" doesn't have a leader!", g.Name);
+			if (guild.LeaderName == null)
+				Logger.Warning("Guild \"{0}\" doesn't have a leader!", guild.Name);
 
-			return g;
+			return guild;
 		}
 
 		/// <summary>
 		/// Checks if the name is okay, and if a guild with the given name exists.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
 		public bool GuildNameOkay(string name)
 		{
-			if (!(new Regex(@"^[a-zA-Z0-9]{1,15}$")).IsMatch(name))
+			if (!Regex.IsMatch(name, @"^[a-zA-Z0-9]{1,15}$"))
 				return false;
 
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				name = MySqlHelper.EscapeString(name);
 
-				using (var reader = MabiDb.Instance.Query("SELECT guildId FROM guilds WHERE name = '" + name + "'", conn))
-				{
+				var mc = new MySqlCommand("SELECT guildId FROM guilds WHERE name = @name", conn);
+				mc.Parameters.AddWithValue("@name", name);
+
+				using (var reader = mc.ExecuteReader())
 					return !reader.HasRows;
-				}
-			}
-			finally
-			{
-				conn.Close();
 			}
 		}
 
-
-		public void DeleteGuildMember(MabiGuildMemberInfo m)
+		public void DeleteGuildMember(MabiGuildMember m)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				MabiDb.Instance.QueryN("DELETE FROM guild_members WHERE characterId = " + m.CharacterId, conn);
-			}
-			finally
-			{
-				conn.Close();
 			}
 		}
 
 		public void DeleteGuild(MabiGuild guild)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				MabiDb.Instance.QueryN("DELETE FROM guild_members WHERE guildId = " + guild.Id, conn);
-				MabiDb.Instance.QueryN("DELETE FROM guilds WHERE guildId = " + guild.Id, conn);
+				var delmc = new MySqlCommand("DELETE FROM guilds WHERE guildId = @guildId", conn);
+				delmc.Parameters.AddWithValue("@guildId", guild.Id);
+				delmc.ExecuteNonQuery();
 			}
-			finally
-			{
-				conn.Close();
-			}
-		}
-
-		public ulong GetGuildLeaderId(MabiGuild g)
-		{
-			return GetGuildLeaderId(g.Id);
 		}
 
 		public ulong GetGuildLeaderId(ulong guildId)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE guildId = " + guildId, conn))
+				var mc = new MySqlCommand("SELECT * FROM guild_members WHERE guildId = @guildId AND rank = 0", conn);
+
+				using (var reader = mc.ExecuteReader())
 				{
-					while (mem_reader.Read())
-					{
-						var CharacterId = mem_reader.GetUInt64("characterId");
-						var MemberRank = mem_reader.GetByte("rank");
-						if (MemberRank == (byte)GuildMemberRank.Leader)
-						{
-							return CharacterId;
-						}
-					}
+					if (reader.Read())
+						return reader.GetUInt64("characterId");
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
+
 			return 0;
 		}
 
-		public string GetGuildLeaderName(ulong characterId)
+		public ulong SaveGuild(MabiGuild guild)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				using (var l_reader = MabiDb.Instance.Query("SELECT name FROM characters WHERE characterId = " + characterId, conn))
-				{
-					if (l_reader.Read())
-					{
-						return l_reader.GetString("name");
-					}
-				}
-			}
-			finally
-			{
-				conn.Close();
-			}
-			return null;
-		}
-
-		public string GetGuildLeaderName(MabiGuild g)
-		{
-			return GetGuildLeaderName(GetGuildLeaderId(g));
-		}
-
-		public ulong SaveGuild(MabiGuild g)
-		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
-			{
-				var mc = new MySqlCommand("INSERT INTO `guilds`" +
+				var mc = new MySqlCommand(
+					"INSERT INTO `guilds`" +
 					"(`name`, `intro`, `welcome`, `leaving`, `rejection`, `level`, `type`, `region`, `x`, `y`, `rotation`, `gp`, `gold`, `stone_type`) " +
-					"VALUES(@name, @intro, @welcome, @leaving, @rejection, @level, @type, @region, @x, @y, @rotation, @gp, @gold, @stone_type) " +
-					"ON DUPLICATE KEY UPDATE `gp` = @gp, `gold` =  @gold", conn);
-				mc.Parameters.AddWithValue("@name", g.Name);
-				mc.Parameters.AddWithValue("@intro", g.IntroMessage);
-				mc.Parameters.AddWithValue("@welcome", g.WelcomeMessage);
-				mc.Parameters.AddWithValue("@leaving", g.LeavingMessage);
-				mc.Parameters.AddWithValue("@rejection", g.RejectionMessage);
-				mc.Parameters.AddWithValue("@level", g.GuildLevel);
-				mc.Parameters.AddWithValue("@type", g.Type);
-				mc.Parameters.AddWithValue("@region", g.Region);
-				mc.Parameters.AddWithValue("@x", g.X);
-				mc.Parameters.AddWithValue("@y", g.Y);
-				mc.Parameters.AddWithValue("@rotation", g.Rotation);
-				mc.Parameters.AddWithValue("@gp", g.Gp);
-				mc.Parameters.AddWithValue("@gold", g.Gold);
-				mc.Parameters.AddWithValue("@stone_type", g.StoneClass);
+					"VALUES (@name, @intro, @welcome, @leaving, @rejection, @level, @type, @region, @x, @y, @rotation, @gp, @gold, @stone_type) " +
+					"ON DUPLICATE KEY UPDATE `gp` = @gp, `gold` =  @gold"
+				, conn);
 
-				mc.ExecuteNonQuery().ToString();
+				mc.Parameters.AddWithValue("@name", guild.Name);
+				mc.Parameters.AddWithValue("@intro", guild.IntroMessage);
+				mc.Parameters.AddWithValue("@welcome", guild.WelcomeMessage);
+				mc.Parameters.AddWithValue("@leaving", guild.LeavingMessage);
+				mc.Parameters.AddWithValue("@rejection", guild.RejectionMessage);
+				mc.Parameters.AddWithValue("@level", (byte)guild.GuildLevel);
+				mc.Parameters.AddWithValue("@type", (byte)guild.Type);
+				mc.Parameters.AddWithValue("@region", guild.Region);
+				mc.Parameters.AddWithValue("@x", guild.X);
+				mc.Parameters.AddWithValue("@y", guild.Y);
+				mc.Parameters.AddWithValue("@rotation", guild.Rotation);
+				mc.Parameters.AddWithValue("@gp", guild.Gp);
+				mc.Parameters.AddWithValue("@gold", guild.Gold);
+				mc.Parameters.AddWithValue("@stone_type", (uint)guild.StoneClass);
+
+				mc.ExecuteNonQuery();
 
 				using (var r = MabiDb.Instance.Query("SELECT LAST_INSERT_ID()", conn))
 				{
@@ -1362,88 +1309,82 @@ namespace Aura.World.Database
 
 				//return (ulong)mc.LastInsertedId;
 			}
-			finally
-			{
-				conn.Close();
-			}
 		}
 
-		public void SaveGuildMember(MabiGuildMemberInfo m, ulong guildId)
+		public void SaveGuildMember(MabiGuildMember member, ulong guildId)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				var mc = new MySqlCommand("INSERT INTO `guild_members` (`characterId`, `guildId`, `rank`, `joined`, `guildPoints`, `appMessage`) VALUES" +
-					"(@character_id, @guild_id, @rank, @joined, @guild_points, @appMessage) " +
-					"ON DUPLICATE KEY UPDATE `guildPoints` = @guild_points", conn);
-				mc.Parameters.AddWithValue("@character_id", m.CharacterId);
-				mc.Parameters.AddWithValue("@guild_id", guildId);
-				mc.Parameters.AddWithValue("@rank", m.MemberRank);
-				mc.Parameters.AddWithValue("@joined", m.JoinedDate);
-				mc.Parameters.AddWithValue("@guild_points", (uint)m.Gp);
-				mc.Parameters.AddWithValue("@appMessage", m.ApplicationText);
+				var mc = new MySqlCommand(
+					"INSERT INTO `guild_members` (`characterId`, `guildId`, `rank`, `joined`, `guildPoints`, `appMessage`) " +
+					"VALUES (@characterId, @guildId, @rank, @joined, @guildPoints, @appMessage) " +
+					"ON DUPLICATE KEY UPDATE `guildPoints` = @guild_points"
+				, conn);
+
+				mc.Parameters.AddWithValue("@characterId", member.CharacterId);
+				mc.Parameters.AddWithValue("@guildId", guildId);
+				mc.Parameters.AddWithValue("@rank", (byte)member.MemberRank);
+				mc.Parameters.AddWithValue("@joined", member.JoinedDate);
+				mc.Parameters.AddWithValue("@guildPoints", (uint)member.Gp);
+				mc.Parameters.AddWithValue("@appMessage", member.ApplicationText);
 
 				mc.ExecuteNonQuery();
 			}
-			finally
-			{
-
-			}
 		}
 
-		public List<MabiGuildMemberInfo> GetGuildMemberInfos(MabiGuild g)
+		public List<MabiGuildMember> GetGuildMembers(ulong guildId)
 		{
-			var conn = MabiDb.Instance.GetConnection();
+			var members = new List<MabiGuildMember>();
 
-			List<MabiGuildMemberInfo> members = new List<MabiGuildMemberInfo>();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE guildId = " + g.Id, conn))
-				{
-					while (mem_reader.Read())
-					{
-						var m = new MabiGuildMemberInfo();
-						m.CharacterId = mem_reader.GetUInt64("characterId");
-						m.MemberRank = (GuildMemberRank)mem_reader.GetByte("rank");
-						m.JoinedDate = mem_reader.GetDateTime("joined");
-						m.Gp = mem_reader.GetUInt32("guildPoints");
-						m.ApplicationText = mem_reader.GetString("appMessage");
+				var mc = new MySqlCommand("SELECT * FROM guild_members WHERE guildId = @guildId", conn);
+				mc.Parameters.AddWithValue("@guildId", guildId);
 
-						members.Add(m);
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var member = new MabiGuildMember();
+						member.CharacterId = reader.GetUInt64("characterId");
+						member.GuildId = reader.GetUInt64("guildId");
+						member.MemberRank = (GuildMemberRank)reader.GetByte("rank");
+						member.JoinedDate = reader.GetDateTime("joined");
+						member.Gp = reader.GetUInt32("guildPoints");
+						member.ApplicationText = reader.GetString("appMessage");
+
+						members.Add(member);
 					}
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
+
 			return members;
 		}
 
-		public MabiGuildMemberInfo GetGuildMemberInfo(ulong characterId)
+		public MabiGuildMember GetGuildMember(ulong characterId)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				using (var mem_reader = MabiDb.Instance.Query("SELECT * FROM guild_members WHERE characterId = " + characterId, conn))
-				{
-					if (mem_reader.Read())
-					{
-						var m = new MabiGuildMemberInfo();
-						m.CharacterId = mem_reader.GetUInt64("characterId");
-						m.MemberRank = (GuildMemberRank)mem_reader.GetByte("rank");
-						m.JoinedDate = mem_reader.GetDateTime("joined");
-						m.Gp = mem_reader.GetUInt32("guildPoints");
-						m.ApplicationText = mem_reader.GetString("appMessage");
+				var mc = new MySqlCommand("SELECT * FROM guild_members WHERE characterId = @characterId", conn);
+				mc.Parameters.AddWithValue("@characterId", characterId);
 
-						return m;
+				using (var reader = mc.ExecuteReader())
+				{
+					if (reader.Read())
+					{
+						var member = new MabiGuildMember();
+						member.CharacterId = reader.GetUInt64("characterId");
+						member.GuildId = reader.GetUInt64("guildId");
+						member.MemberRank = (GuildMemberRank)reader.GetByte("rank");
+						member.JoinedDate = reader.GetDateTime("joined");
+						member.Gp = reader.GetUInt32("guildPoints");
+						member.ApplicationText = reader.GetString("appMessage");
+
+						return member;
 					}
 				}
 			}
-			finally
-			{
-				conn.Close();
-			}
+
 			return null;
 		}
 

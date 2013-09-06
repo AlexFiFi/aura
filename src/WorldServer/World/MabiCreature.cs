@@ -25,7 +25,7 @@ namespace Aura.World.World
 		public string Name;
 
 		public MabiGuild Guild;
-		public MabiGuildMemberInfo GuildMemberInfo;
+		public MabiGuildMember GuildMember;
 
 		public uint Race;
 		public RaceInfo RaceInfo = null;

@@ -13,4 +13,4 @@ $conf->load('../../conf/database.conf');
 
 // Db init
 $db = new MabiDb();
-$db->init($conf->get('database_host'), $conf->get('database_user'), $conf->get('database_pass'), $conf->get('database_db'));
+$db->init($conf->get('database.host'), $conf->get('database.user'), $conf->get('database.pass'), $conf->get('database.db'));

@@ -9,6 +9,7 @@ using Aura.World.Database;
 using Aura.World.Network;
 using Aura.Shared.Util;
 using Aura.Shared.Network;
+using System.Text.RegularExpressions;
 
 namespace Aura.World.World.Guilds
 {
@@ -56,12 +57,12 @@ namespace Aura.World.World.Guilds
 
 			var guildId = guild.Save();
 
-			leader.GuildMemberInfo = new MabiGuildMemberInfo(leader.Id, GuildMemberRank.Leader);
-			WorldDb.Instance.SaveGuildMember(leader.GuildMemberInfo, guildId);
+			leader.GuildMember = new MabiGuildMember(leader.Id, guildId, GuildMemberRank.Leader);
+			leader.GuildMember.Save();
 			foreach (var member in otherMembers)
 			{
-				member.GuildMemberInfo = new MabiGuildMemberInfo(member.Id, GuildMemberRank.SeniorMember);
-				WorldDb.Instance.SaveGuildMember(member.GuildMemberInfo, guildId);
+				member.GuildMember = new MabiGuildMember(member.Id, guildId, GuildMemberRank.SeniorMember);
+				member.GuildMember.Save();
 			}
 
 			// Reload guild to make sure it gets initialized and gets an id
@@ -102,36 +103,62 @@ namespace Aura.World.World.Guilds
 		{
 			var extra = string.Format("<xml guildid=\"{0}\"{1}/>", guild.Id, guild.HasOption(GuildOptionFlags.Warp) ? " gh_warp=\"true\"" : "");
 			var prop = new MabiProp("", guild.Name, extra, (uint)guild.StoneClass, guild.Region, guild.X, guild.Y, guild.Rotation);
-			
+
 			WorldManager.Instance.AddProp(prop);
 			WorldManager.Instance.SetPropBehavior(new MabiPropBehavior(prop, GuildstoneTouch));
 		}
 
 		private static void GuildstoneTouch(WorldClient client, MabiCreature creature, MabiProp p)
 		{
-			// TODO: Better way to get this ID... Pake could be used to fake it
-			string gid = p.ExtraData.Substring(p.ExtraData.IndexOf("guildid=\""));
-			gid = gid.Substring(9);
-			gid = gid.Substring(0, gid.IndexOf("\""));
-			ulong bid = ulong.Parse(gid);
+			var match = Regex.Match(p.ExtraData, "guildid=\"([0-9]+)\"");
+			if (!match.Success)
+				return;
 
-			var g = WorldDb.Instance.GetGuild(bid);
-			if (g != null)
+			var guildId = ulong.Parse(match.Groups[1].Value);
+
+			var guild = WorldDb.Instance.GetGuild(guildId);
+			if (guild != null)
 			{
 				if (creature.Guild != null)
 				{
-					if (g.Id == creature.Guild.Id && creature.GuildMemberInfo.MemberRank < GuildMemberRank.Applied)
-						client.Send(new MabiPacket(Op.OpenGuildPanel, creature.Id).PutLong(g.Id).PutBytes(0, 0, 0)); // 3 Unknown bytes...
+					if (guild.Id == creature.Guild.Id && creature.GuildMember.MemberRank < GuildMemberRank.Applied)
+					{
+						client.Send(new MabiPacket(Op.OpenGuildPanel, creature.Id).PutLong(guild.Id).PutBytes(0, 0, 0));
+					}
 					else
-						client.Send(new MabiPacket(Op.GuildInfo, creature.Id).PutLong(g.Id).PutStrings(g.Name, g.LeaderName)
-							.PutInt((uint)WorldDb.Instance.GetGuildMemberInfos(g).Count(m => m.MemberRank < GuildMemberRank.Applied))
-							.PutString(g.IntroMessage));
+					{
+						client.Send(
+							new MabiPacket(Op.GuildInfo, creature.Id)
+							.PutLong(guild.Id)
+							.PutString(guild.Name)
+							.PutString(guild.LeaderName)
+							.PutInt(CountAcceptedMembers(guild.Id))
+							.PutString(guild.IntroMessage)
+						);
+					}
 				}
 				else
-					client.Send(new MabiPacket(Op.GuildInfoNoGuild, creature.Id).PutLong(g.Id).PutStrings(g.Name, g.LeaderName)
-						.PutInt((uint)WorldDb.Instance.GetGuildMemberInfos(g).Count(m => m.MemberRank < GuildMemberRank.Applied))
-						.PutString(g.IntroMessage));
+				{
+					client.Send(
+						new MabiPacket(Op.GuildInfoNoGuild, creature.Id)
+						.PutLong(guild.Id)
+						.PutStrings(guild.Name)
+						.PutStrings(guild.LeaderName)
+						.PutInt(CountAcceptedMembers(guild.Id))
+						.PutString(guild.IntroMessage)
+					);
+				}
 			}
+		}
+
+		public static List<MabiGuildMember> GetMembers(ulong guildId)
+		{
+			return WorldDb.Instance.GetGuildMembers(guildId);
+		}
+
+		public static uint CountAcceptedMembers(ulong guildId)
+		{
+			return (uint)GetMembers(guildId).Count(member => member.MemberRank < GuildMemberRank.Applied);
 		}
 	}
 }

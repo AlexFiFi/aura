@@ -8,6 +8,8 @@ using System.Text;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.World.World;
+using Aura.World.Player;
+using Aura.World.World.Guilds;
 
 namespace Aura.World.Network
 {
@@ -139,6 +141,33 @@ namespace Aura.World.Network
 			packet.PutByte((byte)align);
 
 			client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends GuildMessage to creature's client.
+		/// </summary>
+		public static void GuildMessage(MabiCreature creature, string format, params object[] args)
+		{
+			GuildMessage(creature, creature.Guild, format, args);
+		}
+
+		/// <summary>
+		/// Sends GuildMessage to creature's client.
+		/// </summary>
+		public static void GuildMessage(MabiCreature creature, MabiGuild guild, string format, params object[] args)
+		{
+			var character = creature as MabiPC;
+
+			var packet = new MabiPacket(Op.GuildMessage, creature.Id);
+			packet.PutLong(guild.Id);
+			packet.PutString(character == null ? "Aura" : character.Server);
+			packet.PutLong(creature.Id);
+			packet.PutString(guild.Name);
+			packet.PutString(string.Format(format, args));
+			packet.PutByte(1);
+			packet.PutByte(1);
+
+			creature.Client.Send(packet);
 		}
 	}
 

@@ -44,31 +44,37 @@ namespace Aura.World.World.Guilds
 		}
 	}
 
-	public class MabiGuildMemberInfo
+	public class MabiGuildMember
 	{
-		public ulong CharacterId;
+		public ulong CharacterId, GuildId;
 		public GuildMemberRank MemberRank;
 		public DateTime JoinedDate;
 		public double Gp;
 		public string ApplicationText;
 		public GuildMessageFlags MessageFlags;
 
-		public MabiGuildMemberInfo()
+		public MabiGuildMember()
 		{
 			this.JoinedDate = DateTime.Now;
 			this.ApplicationText = string.Empty;
 		}
 
-		public MabiGuildMemberInfo(ulong characterId, GuildMemberRank rank)
+		public MabiGuildMember(ulong characterId, ulong guildId, GuildMemberRank rank)
 			: this()
 		{
 			this.CharacterId = characterId;
+			this.GuildId = guildId;
 			this.MemberRank = rank;
 		}
 
 		public bool Has(GuildMessageFlags test)
 		{
 			return (MessageFlags & test) != 0;
+		}
+
+		public void Save()
+		{
+			WorldDb.Instance.SaveGuildMember(this, this.GuildId);
 		}
 	}
 

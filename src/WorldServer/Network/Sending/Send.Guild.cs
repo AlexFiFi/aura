@@ -25,5 +25,50 @@ namespace Aura.World.Network
 
 			client.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends GuildApplyR to creature's client.
+		/// </summary>
+		public static void GuildApplyR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.GuildApplyR, creature.Id);
+			packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends GuildDonateR to creature's client.
+		/// </summary>
+		public static void GuildDonateR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.GuildDonateR, creature.Id);
+			packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ConvertGpConfirmR to creature's client.
+		/// </summary>
+		public static void ConvertGpConfirmR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.ConvertGpConfirmR, creature.Id);
+			packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ConvertGpR to creature's client.
+		/// </summary>
+		public static void ConvertGpR(MabiCreature creature, bool success, uint amount)
+		{
+			var packet = new MabiPacket(Op.ConvertGpR, creature.Id);
+			packet.PutByte(success);
+			packet.PutInt(amount);
+
+			creature.Client.Send(packet);
+		}
 	}
 }

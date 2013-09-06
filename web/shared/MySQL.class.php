@@ -15,7 +15,7 @@ class MySQL
 	
 	public function select($db)
 	{
-		if(!@mysql_selectDb($db, $this->connection))
+		if(!@mysql_select_db($db, $this->connection))
 			throw new exception('Unable to select database ('. mysql_error($this->connection) .').');
 	}
 	
