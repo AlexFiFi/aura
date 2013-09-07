@@ -27,8 +27,6 @@ public class Skatha_witchScript : NPCScript
 
 		SetDirection(194);
         
-        EventManager.TimeEvents.ErinnDaytimeTick += On12HrTick;
-        
 		SetStand("chapter4/human/female/anim/female_c4_npc_skatha_stand");
         
         Phrases.Add("Don't come any closer!");
@@ -38,13 +36,18 @@ public class Skatha_witchScript : NPCScript
         Phrases.Add("You'll pay for this, Manannan...");
 
 	}
-    public override void Dispose()
+	
+	protected override void Subscribe()
 	{
-		EventManager.TimeEvents.ErinnDaytimeTick -= On12HrTick;
-		base.Dispose();
+        EventManager.TimeEvents.ErinnDaytimeTick += OnErinnDaytimeTick;
+	}
+	
+    protected override void Unsubscribe()
+	{
+		EventManager.TimeEvents.ErinnDaytimeTick -= OnErinnDaytimeTick;
 	}
 
-	private void On12HrTick(MabiTime time)
+	private void OnErinnDaytimeTick(MabiTime time)
 	{
 		if (!time.IsNight)
 			WarpNPC(region: 4015, x: 32951, y: 40325, flash: false);

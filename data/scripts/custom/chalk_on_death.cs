@@ -1,9 +1,9 @@
 // --- Aura Script ----------------------------------------------------------
-//  Custom BGM
+//  Chalk on death
 // --- Description ----------------------------------------------------------
-//  Automatically changes BGM upon entering, depending on configuration.
+//  Spawns chalk outline (prop) when a creature dies.
 // --- By -------------------------------------------------------------------
-//  exec
+//  Xcelled, exec
 // --------------------------------------------------------------------------
 
 using System;
@@ -16,7 +16,7 @@ using Aura.World.World;
 
 public class ChalkOnDeathScript : BaseScript
 {
-	private void Init()
+	public override void OnLoad()
 	{
 		// -- <configuration> -----------------------------------------------
 		
@@ -38,17 +38,14 @@ public class ChalkOnDeathScript : BaseScript
 	private bool players, npcs, permanent;
 	private int duration;
 	
-	public override void OnLoad()
+	protected override void Subscribe()
 	{
-		Init();
 		EventManager.CreatureEvents.CreatureKilled += OnCreatureKilled;
 	}
 
-	public override void Dispose()
+	protected override void Unsubscribe()
 	{
 		EventManager.CreatureEvents.CreatureKilled -= OnCreatureKilled;
-
-		base.Dispose();
 	}
 
 	public void OnCreatureKilled(MabiCreature victim, MabiCreature killer)

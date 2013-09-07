@@ -8,7 +8,6 @@ using Aura.Shared.Const;
 
 public class ProffScript : NPCScript
 {
-	
 	public override void OnLoad()
 	{
 		SetName("_<mini>NPC</mini> The Proffessor");

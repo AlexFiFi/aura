@@ -13,22 +13,16 @@ public class CastaneaScript : NPCScript
 		SetRace(9001);
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1.1f);
 		SetFace(skin: 18, eye: 39, eyeColor: 3, lip: 2);
-
-		SetColor(0x0, 0x0, 0x0);
+		SetLocation(3100, 379510, 425770, 149);
+		SetStand("elf/female/anim/elf_npc_castanea_stand_friendly");
 
 		EquipItem(Pocket.Face, 0x170C, 0xCBA0C8, 0xB97B7E, 0x53686D);
 		EquipItem(Pocket.Hair, 0x138B, 0x926287, 0x926287, 0x926287);
 		EquipItem(Pocket.Armor, 0x3B41, 0xFF808080, 0xFF07497A, 0xFF07497A);
 		EquipItem(Pocket.Shoe, 0x42A9, 0xD0B18, 0xB0506, 0x947200);
 		EquipItem(Pocket.Robe, 0x4A42, 0x2C0309, 0x0, 0x611532);
-        
-        NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
+		SetHoodDown();
 
-		SetLocation(region: 3100, x: 379510, y: 425770);
-
-		SetDirection(149);
-		SetStand("elf/female/anim/elf_npc_castanea_stand_friendly");
-        
 		Phrases.Add("A long dark winter is beginning...");
 		Phrases.Add("Don't be afraid of the sun going down and the night beginning.");
 		Phrases.Add("Everything will start getting fuzzier like sand dust.");

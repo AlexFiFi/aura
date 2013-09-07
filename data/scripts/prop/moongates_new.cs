@@ -43,11 +43,19 @@ public class MoongateScript : BaseScript
 		foreach (var gate in _gates.Values)
 			gate.Prop = SpawnProp(gate.PropId, gate.Ident, "", "", 40100, gate.Region, gate.X, gate.Y, gate.Direction, 1, OpenMapWindow);
 		
-		// Event for opening/closing
-		EventManager.TimeEvents.ErinnDaytimeTick += OnErinnDaytimeTick;
-		
 		// Handling the moon gate stuff completely in the script is much easier.
 		WorldServer.Instance.RegisterPacketHandler(Op.MoonGateUse, HandleMoonGateUse);
+	}
+	
+	protected override void Subscribe()
+	{
+		// Event for opening/closing
+		EventManager.TimeEvents.ErinnDaytimeTick += OnErinnDaytimeTick;
+	}
+	
+	protected override void Unsubscribe()
+	{
+		EventManager.TimeEvents.ErinnDaytimeTick -= OnErinnDaytimeTick;
 	}
 
 	private Dictionary<string, MoonGate> _gates = new Dictionary<string, MoonGate>();
@@ -59,12 +67,6 @@ public class MoongateScript : BaseScript
 		_gates.Add(ident, new MoonGate(propId, keywordId, ident, region, x, y, direction));
 	}
 	
-	public override void Dispose()
-	{
-		EventManager.TimeEvents.ErinnDaytimeTick -= OnErinnDaytimeTick;
-		base.Dispose();
-	}
-
 	public void OnErinnDaytimeTick(MabiTime time)
 	{
 		var state = "closed";

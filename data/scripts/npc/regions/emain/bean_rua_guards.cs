@@ -48,14 +48,21 @@ public class _BeanRuaGuardBaseScript : NPCScript
 		Phrases.Add("We're open now. Line up!");
 		Phrases.Add("You may want to come back later if you want to go in.");
 		
-		this.OnErinnTimeTick(MabiTime.Now); // Initialize Guard
+		OnErinnTimeTick(MabiTime.Now); // Initialize Guard
 	}
 	
-	protected override void OnErinnTimeTick(MabiTime time)
+	protected override void Subscribe()
 	{
-		// Call base for phrases.
-		base.OnErinnTimeTick(time);
-		
+		EventManager.TimeEvents.ErinnTimeTick += OnErinnTimeTick;
+	}
+	
+	protected override void Unsubscribe()
+	{
+		EventManager.TimeEvents.ErinnTimeTick -= OnErinnTimeTick;
+	}
+	
+	protected void OnErinnTimeTick(MabiTime time)
+	{
 		if(time.Hour >= 17 || time.Hour < 6)
 		{
 			if(!_visible)

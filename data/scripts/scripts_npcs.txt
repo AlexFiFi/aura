@@ -169,7 +169,7 @@ npc/regions/ceo/muro.cs
 
 // Sen Mag Plateau
 //---------------------------------------------------------------------------
-npc/regions/sen/fleta_rab.cs
+npc/regions/sen_mag/fleta_rab.cs
 
 // Gairech
 //---------------------------------------------------------------------------

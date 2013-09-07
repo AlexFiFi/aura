@@ -21,7 +21,12 @@ namespace Aura.Shared.World
 		public uint Region;
 		public uint X;
 		public uint Y;
+
+		/// <summary>
+		/// State of the item? (eg. hoods and helmets)
+		/// </summary>
 		public byte FigureA;
+
 		public byte uFigureB;
 		public byte uFigureC;
 		public byte uFigureD;

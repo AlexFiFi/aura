@@ -24,8 +24,6 @@ public class Skatha_peopleScript : NPCScript
 
 		SetDirection(194);
         
-        EventManager.TimeEvents.ErinnDaytimeTick += On12HrTick;
-        
 		SetStand("chapter4/human/female/anim/female_c4_npc_skatha_human_stand");
         
         Phrases.Add("I'll miss the sounds of the ocean...");
@@ -33,13 +31,18 @@ public class Skatha_peopleScript : NPCScript
         Phrases.Add("You don't have to fear me. Really!");
 
 	}
-	public override void Dispose()
+	
+	protected override void Subscribe()
 	{
-		EventManager.TimeEvents.ErinnDaytimeTick -= On12HrTick;
-		base.Dispose();
+        EventManager.TimeEvents.ErinnDaytimeTick += OnErinnDaytimeTick;
+	}
+	
+	protected override void Unsubscribe()
+	{
+		EventManager.TimeEvents.ErinnDaytimeTick -= OnErinnDaytimeTick;
 	}
     
-    private void On12HrTick(MabiTime time)
+    private void OnErinnDaytimeTick(MabiTime time)
 	{
 		if (!time.IsNight)
 			WarpNPC(region: 15, x: 100, y: 0);

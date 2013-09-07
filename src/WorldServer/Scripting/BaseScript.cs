@@ -30,7 +30,11 @@ namespace Aura.World.Scripting
 
 		public virtual void OnLoadDone()
 		{
+			Subscribe();
 		}
+
+		protected virtual void Subscribe() { }
+		protected virtual void Unsubscribe() { }
 
 		/// <inheritdoc/>
 		/// <summary>
@@ -39,6 +43,7 @@ namespace Aura.World.Scripting
 		/// </summary>
 		public virtual void Dispose()
 		{
+			Unsubscribe();
 			this.Disposed = true;
 		}
 

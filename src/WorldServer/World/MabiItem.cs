@@ -64,6 +64,12 @@ namespace Aura.World.World
 			get { return (AttackSpeed)this.OptionInfo.AttackSpeed; }
 		}
 
+		public Pocket Pocket
+		{
+			get { return (Pocket)this.Info.Pocket; }
+			set { this.Info.Pocket = (byte)value; }
+		}
+
 		private bool _firstTimeAppear = true;
 		/// <summary>
 		/// Returns true once, and false afterwards, until it's set true again.

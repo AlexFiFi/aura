@@ -51,9 +51,6 @@ public class PriceScript : NPCScript
 		EquipItem(Pocket.Armor, 15052, 0x986C4B, 0x181E13, 0xC2B39E);
 		EquipItem(Pocket.Shoe, 17044, 0x74562E, 0xFFFFFF, 0xFFFFFF);
 		EquipItem(Pocket.Head, 18024, 0x4E7271, 0x24312F, 0xFFFFFF);
-		
-		EventManager.TimeEvents.ErinnMidnightTick += OnMidnightTick;
-		OnMidnightTick(MabiTime.Now); // Move Price when he loads
 
 		Phrases.Add("...");
 		Phrases.Add("...Maybe it's time for me to move to another town...");
@@ -65,12 +62,18 @@ public class PriceScript : NPCScript
 		Phrases.Add("Today's sales stink.");
 		Phrases.Add("You don't need other merchants besides me.");
 		Phrases.Add("You're not even going to buy...");
+		
+		OnMidnightTick(MabiTime.Now); // Move Price when he loads
 	}
 	
-	public override void Dispose()
+	protected override void Subscribe()
 	{
 		EventManager.TimeEvents.ErinnMidnightTick += OnMidnightTick;
-		base.Dispose();
+	}
+	
+	protected override void Unsubscribe()
+	{
+		EventManager.TimeEvents.ErinnMidnightTick += OnMidnightTick;
 	}
 	
 	private void OnMidnightTick(MabiTime time)

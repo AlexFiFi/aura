@@ -16,7 +16,7 @@ using Aura.World.World;
 
 public class CustomBGMScript : BaseScript
 {
-	private void Init()
+	public override void OnLoad()
 	{
 		// -- <configuration> -----------------------------------------------
 
@@ -38,17 +38,14 @@ public class CustomBGMScript : BaseScript
 		_regions[region] = new Tuple<string, PlayType>(bgm, type);
 	}
 
-	public override void OnLoad()
+	protected override void Subscribe()
 	{
-		Init();
 		EventManager.PlayerEvents.PlayerChangesRegion += OnPlayerChangesRegion;
 	}
 
-	public override void Dispose()
+	protected override void Unsubscribe()
 	{
 		EventManager.PlayerEvents.PlayerChangesRegion -= OnPlayerChangesRegion;
-
-		base.Dispose();
 	}
 
 	public void OnPlayerChangesRegion(MabiCreature creature)

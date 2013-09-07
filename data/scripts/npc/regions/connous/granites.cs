@@ -13,8 +13,8 @@ public class GranitesScript : NPCScript
 		SetRace(9002);
 		SetBody(height: 1.2f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 40, eyeColor: 126, lip: 2);
-
-		SetColor(0x808080, 0x808080, 0x808080);
+		SetLocation( 3100, 368232, 419384, 224);
+		SetStand("elf/male/anim/elf_npc_granites_stand_friendly");
 
 		EquipItem(Pocket.Face, 0x1AF4, 0x395F74, 0x19A78, 0xF40F32);
 		EquipItem(Pocket.Hair, 0x1773, 0xABDBD7, 0xABDBD7, 0xABDBD7);
@@ -22,14 +22,8 @@ public class GranitesScript : NPCScript
 		EquipItem(Pocket.Robe, 0x4A4E, 0x63967, 0x7283C4, 0xD1239);
 		EquipItem(Pocket.RightHand1, 0x9D0C, 0xFF808080, 0xFF07497A, 0xFF07497A);
 		EquipItem(Pocket.LeftHand1, 0x9C44, 0xFF808080, 0xFF07497A, 0xFF07497A);
-        
-        NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
+		SetHoodDown();
 
-		SetLocation(region: 3100, x: 368232, y: 419384);
-
-		SetDirection(224);
-		SetStand("elf/male/anim/elf_npc_granites_stand_friendly");
-        
 		Phrases.Add("Are you here because you've missed me so? Geez. I can't say that I've felt the same way...");
 		Phrases.Add("Even when time passes, not much changes.");
 		Phrases.Add("Hey you, just wait over there. Let me tell you the same story once again.");

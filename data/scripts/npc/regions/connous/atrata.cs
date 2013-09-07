@@ -11,10 +11,9 @@ public class AtrataScript : NPCScript
 		base.OnLoad();
 		SetName("_atrata");
 		SetRace(9001);
-		SetBody(height: 0.9999999f, fat: 1f, upper: 1f, lower: 1f);
 		SetFace(skin: 15, eye: 35, eyeColor: 238, lip: 2);
-
-		SetColor(0x0, 0x0, 0x0);
+		SetLocation(3100, 379708, 421574, 181);
+		SetStand("elf/female/anim/elf_npc_atrata_stand_friendly");
 
 		EquipItem(Pocket.Face, 0x170C, 0x1B71A9, 0x6F4D00, 0x91066E);
 		EquipItem(Pocket.Hair, 0x138A, 0xB141D, 0xB141D, 0xB141D);
@@ -22,14 +21,8 @@ public class AtrataScript : NPCScript
 		EquipItem(Pocket.Head, 0x46D0, 0xFFFFFF, 0x979CF9, 0x4600D8);
 		EquipItem(Pocket.Robe, 0x4A4E, 0xEF96A0, 0x5B0E2B, 0x17041F);
 		EquipItem(Pocket.RightHand1, 0xB3C7, 0x3A142A, 0x5C9AFC, 0x47ABF1);
-        
-        NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
+		SetHoodDown();
 
-		SetLocation(region: 3100, x: 379708, y: 421574);
-
-		SetDirection(181);
-		SetStand("elf/female/anim/elf_npc_atrata_stand_friendly");
-        
 		Phrases.Add("Do you think that we can ever get used to the idea of death?");
 		Phrases.Add("How long have you been sick?");
 		Phrases.Add("I'm trying very hard to remember.");

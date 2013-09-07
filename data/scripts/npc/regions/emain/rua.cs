@@ -32,8 +32,6 @@ public class RuaScript : NPCScript
 			false, false, false, true, false, false, false, false, true, false, false, true, false, true, true, false, true, true, true, false, false, false, false, false, false, false, true, false, true, false, false, true, false, false, false, true, false, false, false, true, false, false, true
 		};
 		
-		EventManager.TimeEvents.ErinnMidnightTick += OnMidnightTick;
-		
 		currentlyWorking = !IsWorking(DateTime.Now); //Make sure we move her on startup
 		OnMidnightTick(MabiTime.Now);
 
@@ -47,10 +45,14 @@ public class RuaScript : NPCScript
 
 	}
 	
-	public override void Dispose()
+	protected override void Subscribe()
 	{
 		EventManager.TimeEvents.ErinnMidnightTick += OnMidnightTick;
-		base.Dispose();
+	}
+	
+	protected override void Unsubscribe()
+	{
+		EventManager.TimeEvents.ErinnMidnightTick -= OnMidnightTick;
 	}
 	
 	private void OnMidnightTick(MabiTime time)

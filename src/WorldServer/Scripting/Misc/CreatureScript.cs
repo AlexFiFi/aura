@@ -105,27 +105,29 @@ namespace Aura.World.Scripting
 		{
 			if (flash)
 			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.Creature.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.Creature);
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.Creature.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.Creature);
+				Send.Effect(Effect.ScreenFlash, this.Creature, 3000u, 0u);
+				Send.PlaySound("data/sound/Tarlach_change.wav", this.Creature);
 			}
+
 			WorldManager.Instance.CreatureLeaveRegion(this.Creature);
 			SetLocation(region, x, y);
+
 			if (flash)
 			{
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, this.Creature.Id).PutInts(Effect.ScreenFlash, 3000, 0), SendTargets.Range, this.Creature);
-				WorldManager.Instance.Broadcast(new MabiPacket(Op.PlaySound, this.Creature.Id).PutString("data/sound/Tarlach_change.wav"), SendTargets.Range, this.Creature);
+				Send.Effect(Effect.ScreenFlash, this.Creature, 3000u, 0u);
+				Send.PlaySound("data/sound/Tarlach_change.wav", this.Creature);
 			}
 
 			Send.EntityAppears(this.Creature);
 		}
 
-		protected virtual void EquipItem(Pocket slot, uint itemClass, uint color1 = 0, uint color2 = 0, uint color3 = 0)
+		protected virtual void EquipItem(Pocket pocket, uint itemClass, uint color1 = 0, uint color2 = 0, uint color3 = 0)
 		{
 			var item = new MabiItem(itemClass);
 			item.Info.ColorA = color1;
 			item.Info.ColorB = color2;
 			item.Info.ColorC = color3;
-			item.Info.Pocket = (byte)slot;
+			item.Info.Pocket = (byte)pocket;
 
 			//var inPocket = this.Creature.GetItemInPocket(slot);
 			//if (inPocket != null)
@@ -134,6 +136,16 @@ namespace Aura.World.Scripting
 			this.Creature.Items.Add(item);
 
 			Send.EquipmentChanged(this.Creature, item);
+		}
+
+		protected void SetHoodDown()
+		{
+			var item = this.Creature.GetItemInPocket(Pocket.Robe);
+			if (item != null)
+				item.Info.FigureA = 0;
+			item = this.Creature.GetItemInPocket(Pocket.RobeStyle);
+			if (item != null)
+				item.Info.FigureA = 0;
 		}
 
 		protected virtual void EquipItem(Pocket slot, string itemName, uint color1 = 0, uint color2 = 0, uint color3 = 0)

@@ -28,10 +28,8 @@ public class TarlachScript : NPCScript
 		EquipItem(Pocket.Head, 18028, 6446916, 12632256, 6296681);
 		EquipItem(Pocket.Armor, 15002, 12058662, 12058662, 5729677);
 		EquipItem(Pocket.Shoe, 17009, 5648913, 16571605, 8235060);
-		EquipItem(Pocket.Robe, 19004, 13269812, 11817009, 14335111); // Muffler robe
-		NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
-
-		EventManager.TimeEvents.ErinnDaytimeTick += On12HrTick;
+		EquipItem(Pocket.Robe, 19004, 13269812, 11817009, 14335111);
+		SetHoodDown();
 
 		Phrases.Add("...I'll just wait a little longer...");
 		Phrases.Add("Ah...");
@@ -43,14 +41,18 @@ public class TarlachScript : NPCScript
 		Phrases.Add("...I can take it...");
 		Phrases.Add("I guess not yet...");
 	}
-
-	public override void Dispose()
+	
+	protected override void Subscribe()
 	{
-		EventManager.TimeEvents.ErinnDaytimeTick -= On12HrTick;
-		base.Dispose();
+		EventManager.TimeEvents.ErinnDaytimeTick += OnErinnDaytimeTick;
 	}
 
-	private void On12HrTick(MabiTime time)
+	protected override void Unsubscribe()
+	{
+		EventManager.TimeEvents.ErinnDaytimeTick -= OnErinnDaytimeTick;
+	}
+
+	private void OnErinnDaytimeTick(MabiTime time)
 	{
 		if(time.IsNight)
 			WarpNPC(48, 11100, 30400);

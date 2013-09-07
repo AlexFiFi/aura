@@ -13,8 +13,7 @@ public class NeleScript : NPCScript
 		SetRace(10002);
 		SetBody(height: 1.1f, fat: 1f, upper: 1.2f, lower: 1.2f);
 		SetFace(skin: 17, eye: 5, eyeColor: 0, lip: 1);
-
-		SetColor(0x0, 0x0, 0x0);
+		SetLocation(52, 40527, 41230, 217);
 
 		EquipItem(Pocket.Face, 0x1324, 0x6D6161, 0x6F555E, 0x66A2);
 		EquipItem(Pocket.Hair, 0x1359, 0xA97534, 0xA97534, 0xA97534);
@@ -23,14 +22,8 @@ public class NeleScript : NPCScript
 		EquipItem(Pocket.Head, 0x467D, 0x45250C, 0x0, 0xFEF1CB);
 		EquipItem(Pocket.Robe, 0x4A3C, 0xFDE8B7, 0x539540, 0x6A8C91);
 		EquipItem(Pocket.RightHand1, 0x9C51, 0x67974, 0x31150F, 0x1D5567);
-        
-        NPC.GetItemInPocket(Pocket.Robe).Info.FigureA = 1;
+		SetHoodDown();
 
-		SetLocation(region: 52, x: 40527, y: 41230);
-
-		SetDirection(217);
-		SetStand("");
-        
         Phrases.Add("A great day to listen to music, don't you think...?");
 		Phrases.Add("Everyone. Please hear my music.");
 		Phrases.Add("Hmm... I'm hungry... Hahaha...");

@@ -161,8 +161,6 @@ namespace Aura.World.World
 		/// <summary>
 		/// This is a general method that's run once every 1500ms (1 Erinn minute).
 		/// It's used to raise the Erinn and Real time events (once per Erinn/Real minute).
-		/// Possibly, it could also be used for other things,
-		/// if it's not enough to just subscribe those, to the time events.
 		/// </summary>
 		/// <param name="state"></param>
 		private void Heartbeat(object state)
@@ -253,6 +251,7 @@ namespace Aura.World.World
 				entities.AddRange(_props);
 
 			// Remove dead entites
+			// TODO: This doesn' have to run every few ms.
 			var toRemove = new List<MabiEntity>();
 			foreach (var entity in entities)
 			{
@@ -290,16 +289,17 @@ namespace Aura.World.World
 			// custom props are always visible.
 			entities.RemoveAll(entity => entity is MabiProp);
 
+			// Appear/disappear updates
 			var clients = new List<WorldClient>();
 			lock (_clients)
 				clients.AddRange(_clients);
 
+			var toAppear = new List<MabiEntity>();
+			var toDisappear = new List<MabiEntity>();
+
 			foreach (var client in clients)
 			{
 				var creaturePos = client.Character.GetPosition();
-
-				var toAppear = new List<MabiEntity>();
-				var toDisappear = new List<MabiEntity>();
 
 				foreach (var entity in entities)
 				{
@@ -317,33 +317,36 @@ namespace Aura.World.World
 						if (!InRange(client.Character.PrevPosition, entity.PrevPosition) || (entityCreature != null && (((entityCreature.Conditions.A & CreatureConditionA.Invisible) == 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) != 0))))
 						{
 							toAppear.Add(entity);
-							//Send.EntityAppears(client, entity);
 						}
 						// Invisible now, but not before.
 						else if (entityCreature != null && ((entityCreature.Conditions.A & CreatureConditionA.Invisible) != 0) && ((entityCreature.PrevConditions.A & CreatureConditionA.Invisible) == 0))
 						{
 							toDisappear.Add(entity);
-							//Send.EntityDisappears(client, entity);
 						}
 					}
 					else
 					{
-						// Not in range now
-						if (InRange(client.Character.PrevPosition, entity.PrevPosition)) // but was before
+						// Not in range now, but was before
+						if (InRange(client.Character.PrevPosition, entity.PrevPosition))
 						{
 							toDisappear.Add(entity);
-							//Send.EntityDisappears(client, entity);
 						}
 					}
 				}
 
 				if (toAppear.Count > 0)
+				{
 					Send.EntitiesAppear(client, toAppear);
+					toAppear.Clear();
+				}
 				if (toDisappear.Count > 0)
+				{
 					Send.EntitiesDisappear(client, toDisappear);
+					toDisappear.Clear();
+				}
 			}
 
-			// Update previous position
+			// Update previous position, required for the above checks.
 			foreach (var entity in entities)
 			{
 				var pos = entity.GetPosition();
