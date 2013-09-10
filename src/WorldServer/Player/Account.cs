@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using Aura.World.Scripting;
 
 namespace Aura.World.Player
 {
@@ -24,8 +25,11 @@ namespace Aura.World.Player
 		public List<MabiCharacter> Characters = new List<MabiCharacter>();
 		public List<MabiPet> Pets = new List<MabiPet>();
 
+		public ScriptingVariables Vars { get; protected set; }
+
 		public Account()
 		{
+			this.Vars = new ScriptingVariables();
 		}
 	}
 }

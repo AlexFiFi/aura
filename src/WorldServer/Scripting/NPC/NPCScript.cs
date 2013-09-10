@@ -13,6 +13,7 @@ using Aura.World.World;
 using Aura.World.Events;
 using System.Web;
 using System.Text.RegularExpressions;
+using Aura.World.Util;
 
 namespace Aura.World.Scripting
 {
@@ -296,10 +297,15 @@ namespace Aura.World.Scripting
 		/// <param name="lines"></param>
 		public virtual void Intro(WorldClient client, params string[] lines)
 		{
-			// TODO: Check if char has already seen it.
+			var varName = "NpcIntro" + this.NPC.Name;
 
-			var msg = string.Join("<br/>", lines);
-			this.Msg(client, Options.FaceAndName, msg);
+			if (!WorldConf.NpcIntroOnce || client.Character.Vars.Perm[varName] == null)
+			{
+				var msg = string.Join("<br/>", lines);
+				this.Msg(client, Options.FaceAndName, msg);
+
+				client.Character.Vars.Perm[varName] = true;
+			}
 		}
 
 		// Dialog element factory

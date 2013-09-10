@@ -469,12 +469,14 @@ namespace Aura.World.Scripting
 
 			if (WorldConf.ScriptStrictMode)
 			{
-				sb.Append("//css_co /warnaserror+ /warn:4;\r\n");
+				sb.AppendLine("//css_co /warnaserror+ /warn:4;");
 			}
 			else
 			{
-				sb.Append("//css_co /warnaserror- /warn:0;\r\n");
+				sb.AppendLine("//css_co /warnaserror- /warn:0;");
 			}
+
+			sb.AppendLine("//css_ref Microsoft.CSharp.dll");
 
 			// Usings
 			{

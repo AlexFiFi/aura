@@ -51,7 +51,7 @@ namespace Aura.World.World
 			WorldDb.Instance.DeleteMail(this.MessageId);
 		}
 
-		public void Return(string message)
+		public void Return(string format, params object[] args)
 		{
 			MabiMail m = new MabiMail();
 			m.COD = 0;
@@ -60,7 +60,7 @@ namespace Aura.World.World
 			m.SenderName = this.RecipientName;
 			m.RecipientId = this.SenderId;
 			m.RecipientName = this.SenderName;
-			m.Text = message;
+			m.Text = string.Format(format, args);
 			m.Type = (byte)MailTypes.Return;
 			this.Delete();
 			m.Save(true);

@@ -3,15 +3,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using Aura.Shared.Const;
 using Aura.Shared.Database;
 using Aura.Shared.Util;
 using Aura.World.Player;
+using Aura.World.Scripting;
 using Aura.World.World;
-using MySql.Data.MySqlClient;
 using Aura.World.World.Guilds;
+using MySql.Data.MySqlClient;
 
 namespace Aura.World.Database
 {
@@ -122,6 +125,8 @@ namespace Aura.World.Database
 
 				this.GetCharacters(account);
 
+				account.Vars.Load(account.Name, 0);
+
 				return account;
 			}
 		}
@@ -144,6 +149,8 @@ namespace Aura.World.Database
 					{
 						var character = this.GetCharacter<MabiCharacter>((ulong)reader.GetInt64("characterId"));
 
+						character.Vars.Load(account.Name, character.Id);
+
 						// Add GM titles for the characters of authority 50+ accounts
 						if (account.Authority >= Authority.GameMaster) character.Titles.Add(60000, true); // GM
 						if (account.Authority >= Authority.Admin) character.Titles.Add(60001, true); // devCat
@@ -157,8 +164,11 @@ namespace Aura.World.Database
 				{
 					while (reader.Read())
 					{
-						var p = this.GetCharacter<MabiPet>((ulong)reader.GetInt64("characterId"));
-						account.Pets.Add(p);
+						var pet = this.GetCharacter<MabiPet>((ulong)reader.GetInt64("characterId"));
+
+						pet.Vars.Load(account.Name, pet.Id);
+
+						account.Pets.Add(pet);
 					}
 					reader.Close();
 				}
@@ -633,7 +643,7 @@ namespace Aura.World.Database
 			if (!(new Regex(@"^[a-zA-Z0-9]{3,15}$")).IsMatch(name))
 				return false;
 
-			using(var conn = MabiDb.Instance.GetConnection())
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				name = MySqlHelper.EscapeString(name);
 
@@ -682,6 +692,8 @@ namespace Aura.World.Database
 
 			foreach (var pet in account.Pets.Where(a => a.Save))
 				this.SaveCharacter(account, pet);
+
+			account.Vars.Save(account.Name, 0);
 		}
 
 		public void SaveCharacter(Account account, MabiPC character)
@@ -776,6 +788,8 @@ namespace Aura.World.Database
 			this.SaveSkills(character);
 			this.SaveTitles(character);
 			this.SaveCooldowns(character);
+
+			character.Vars.Save(account.Name, character.Id);
 		}
 
 		private void SaveQuests(MabiPC character)
@@ -1429,6 +1443,149 @@ namespace Aura.World.Database
 				{
 					transaction.Rollback();
 					throw;
+				}
+			}
+		}
+
+		public VariableManager LoadVars(string accountName, ulong characterId)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				var mc = new MySqlCommand("SELECT * FROM vars WHERE accountId = @accountId AND characterId = @characterId", conn);
+				mc.Parameters.AddWithValue("@accountId", accountName);
+				mc.Parameters.AddWithValue("@characterId", characterId);
+
+				var vars = new VariableManager();
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+						this.ReadVars(reader, vars);
+				}
+
+				return vars;
+			}
+		}
+
+		private void ReadVars(MySqlDataReader reader, IDictionary<string, object> vars)
+		{
+			var name = reader.GetString("name");
+			var type = reader.GetString("type");
+			var val = reader.GetStringSafe("value");
+
+			if (val == null)
+				return;
+
+			switch (type)
+			{
+				case "1u": vars[name] = byte.Parse(val); break;
+				case "2u": vars[name] = ushort.Parse(val); break;
+				case "4u": vars[name] = uint.Parse(val); break;
+				case "8u": vars[name] = ulong.Parse(val); break;
+				case "1": vars[name] = sbyte.Parse(val); break;
+				case "2": vars[name] = short.Parse(val); break;
+				case "4": vars[name] = int.Parse(val); break;
+				case "8": vars[name] = long.Parse(val); break;
+				case "f": vars[name] = float.Parse(val); break;
+				case "d": vars[name] = double.Parse(val); break;
+				case "b": vars[name] = bool.Parse(val); break;
+				case "s": vars[name] = val; break;
+				case "o":
+					{
+						var buffer = Convert.FromBase64String(val);
+						var bf = new BinaryFormatter();
+						using (var ms = new MemoryStream(buffer))
+						{
+							vars[name] = bf.Deserialize(ms);
+						}
+
+						break;
+					}
+				default:
+					throw new Exception("Unknown variable type '" + type + "'");
+			}
+		}
+
+		public void SaveVars(string accountName, ulong characterId, IDictionary<string, object> vars)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				MySqlTransaction transaction = null;
+				try
+				{
+					transaction = conn.BeginTransaction();
+
+					var deleteMc = new MySqlCommand("DELETE FROM vars WHERE accountId = @accountId AND characterId = @characterId", conn, transaction);
+					deleteMc.Parameters.AddWithValue("@accountId", accountName);
+					deleteMc.Parameters.AddWithValue("@characterId", characterId);
+					deleteMc.ExecuteNonQuery();
+
+					var bf = new BinaryFormatter();
+
+					lock (vars)
+					{
+						foreach (var var in vars)
+						{
+							if (var.Value == null)
+								continue;
+
+							// Get type
+							string type;
+							if (var.Value is byte) type = "1u";
+							else if (var.Value is ushort) type = "2u";
+							else if (var.Value is uint) type = "4u";
+							else if (var.Value is ulong) type = "8u";
+							else if (var.Value is sbyte) type = "1";
+							else if (var.Value is short) type = "2";
+							else if (var.Value is int) type = "4";
+							else if (var.Value is long) type = "8";
+							else if (var.Value is float) type = "f";
+							else if (var.Value is double) type = "d";
+							else if (var.Value is bool) type = "b";
+							else if (var.Value is string) type = "s";
+							else type = "o";
+
+							// Get value
+							var val = string.Empty;
+							if (type != "o")
+							{
+								val = var.Value.ToString();
+							}
+							else
+							{
+								using (var ms = new MemoryStream())
+								{
+									bf.Serialize(ms, var.Value);
+									val = Convert.ToBase64String(ms.ToArray());
+								}
+							}
+
+							if (val.Length > ushort.MaxValue)
+							{
+								Logger.Warning("Skipping variable '{0}', it's too big.");
+								continue;
+							}
+
+							// Save
+							var mc = new MySqlCommand(
+								"INSERT INTO vars (accountId, characterId, name, type, value) " +
+								"VALUES (@accountId, @characterId, @name, @type, @value)"
+							, conn, transaction);
+							mc.Parameters.AddWithValue("@accountId", accountName);
+							mc.Parameters.AddWithValue("@characterId", characterId);
+							mc.Parameters.AddWithValue("@name", var.Key);
+							mc.Parameters.AddWithValue("@type", type);
+							mc.Parameters.AddWithValue("@value", val);
+							mc.ExecuteNonQuery();
+						}
+
+						transaction.Commit();
+					}
+				}
+				catch (Exception ex)
+				{
+					Logger.Exception(ex);
+					transaction.Rollback();
 				}
 			}
 		}

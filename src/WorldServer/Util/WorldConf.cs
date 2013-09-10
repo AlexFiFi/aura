@@ -85,6 +85,9 @@ namespace Aura.World.Util
 		public static int TimeBeforeAncient;
 		public static float AncientRate;
 
+		// NPC
+		public static bool NpcIntroOnce;
+
 		private static Configuration _conf;
 
 		public static void Load(string[] args)
@@ -159,6 +162,8 @@ namespace Aura.World.Util
 
 			WorldConf.TimeBeforeAncient = _conf.GetInt("world.time_before_ancient", 300);
 			WorldConf.AncientRate = _conf.Get<float>("world.ancient_rate", .33f);
+
+			WorldConf.NpcIntroOnce = _conf.GetBool("world.npc_intro_once", true);
 
 			try
 			{

@@ -4,19 +4,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
-using Aura.World.Database;
 using Aura.World.Events;
 using Aura.World.Scripting;
+using Aura.World.Skills;
 using Aura.World.Util;
 using Aura.World.World;
-using Aura.World.Skills;
 using Aura.World.World.Guilds;
 
 namespace Aura.World.Network
@@ -102,6 +100,7 @@ namespace Aura.World.Network
 			// --------------------------------------------------------------
 			Logger.Info("Connecting to database...");
 			ServerUtil.TryConnectToDatabase(WorldConf.DatabaseHost, WorldConf.DatabaseUser, WorldConf.DatabasePass, WorldConf.DatabaseDb);
+			Global.Init();
 
 			//Logger.Info("Clearing database cache...");
 			//MabiDb.Instance.ClearDatabaseCache();
@@ -225,6 +224,7 @@ namespace Aura.World.Network
 						// Set a timer when to exit this server.
 						_shutdownTimer2 = new Timer(_ =>
 						{
+							Global.RegularVarSave(null, null);
 							ServerUtil.Exit(0, false);
 						},
 							null, exitSeconds * 1000, Timeout.Infinite

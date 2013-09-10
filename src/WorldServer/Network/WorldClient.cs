@@ -21,7 +21,7 @@ namespace Aura.World.Network
 	{
 		public Account Account;
 		public List<MabiCreature> Creatures = new List<MabiCreature>();
-		public MabiCreature Character;
+		public MabiPC Character;
 
 		public readonly NPCSession NPCSession = new NPCSession();
 

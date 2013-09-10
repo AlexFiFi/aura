@@ -11,6 +11,7 @@ using Aura.Shared.Util;
 using Aura.World.Events;
 using Aura.World.Network;
 using Aura.World.Player;
+using Aura.World.Scripting;
 using Aura.World.Skills;
 using Aura.World.World.Guilds;
 
@@ -51,6 +52,8 @@ namespace Aura.World.World
 		public byte WeaponSet;
 		public byte BattleState;
 		public bool IsFlying;
+
+		public ScriptingVariables Vars = new ScriptingVariables();
 
 		private ushort _title;
 		/// <summary>

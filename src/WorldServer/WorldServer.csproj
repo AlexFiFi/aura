@@ -97,6 +97,7 @@
     <Compile Include="Scripting\Quest\QuestPrerequisit.cs" />
     <Compile Include="Scripting\Quest\QuestScript.Rewards.cs" />
     <Compile Include="Scripting\Quest\QuestScript.cs" />
+    <Compile Include="Scripting\ScriptingVariables.cs" />
     <Compile Include="Scripting\ScriptManager.cs" />
     <Compile Include="Scripting\NPC\NPCScript.cs" />
     <Compile Include="Scripting\NPC\NPCSession.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="World\CreatureTalentManager.cs" />
     <Compile Include="World\CreatureTemp.cs" />
     <Compile Include="World\DeadMenuOptions.cs" />
+    <Compile Include="Scripting\Global.cs" />
     <Compile Include="World\Guilds\GuildManager.cs" />
     <Compile Include="World\MabiCooldown.cs" />
     <Compile Include="World\MabiCreature.cs" />

@@ -7,6 +7,7 @@
 using System;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
+using Aura.Shared.Util;
 using Aura.World.Network;
 using Aura.World.Player;
 using Aura.World.Scripting;
@@ -346,16 +347,20 @@ public abstract class _SealStoneScript : BaseScript
 		Init();
 	
 		var stone = new MabiProp(_ident, "", "", 40000, _region, _x, _y, _direction);
-		
 		stone.State = "state1";
+		
+		if(Global.Vars.Perm["SealStoneId" + _ident] != null)
+		{
+			var id = (ulong)Global.Vars.Perm["SealStoneId" + _ident];
+			var name = (string)Global.Vars.Perm["SealStoneName" + _ident];
+			SetBreaker(stone, id, name);
+		}
 		
 		SpawnProp(stone, OnHit);
 	}
 	
 	public void OnHit(WorldClient c, MabiPC cr, MabiProp pr)
 	{
-		var character = cr as MabiPC;
-		
 		lock(_ident)
 		{
 			if(_hits > _required)
@@ -368,14 +373,14 @@ public abstract class _SealStoneScript : BaseScript
 			}
 			
 			// You can only become breaker once officially.
-			if(IsBreaker(character) && !AllowMultiple)
+			if(IsBreaker(cr) && !AllowMultiple)
 			{
 				Send.Notice(c, "Unable to break the Seal.\nYou already hold the title of a Seal Breaker.");
 				return;
 			}
 			
 			// Fulfilling the requirements?
-			if(!Check(c, character, pr))
+			if(!Check(c, cr, pr))
 			{
 				Send.Notice(c, _help);
 				return;
@@ -388,10 +393,12 @@ public abstract class _SealStoneScript : BaseScript
 			// Done
 			if(_hits == _required)
 			{
-				pr.State = "state3";
-				pr.ExtraData = string.Format("<xml breaker_id=\"{0}\" breaker_name=\"{1}\"/>", cr.Id, cr.Name);
+				SetBreaker(pr, cr.Id, cr.Name);
 				
-				OnBreak(character);
+				Global.Vars.Perm["SealStoneId" + _ident] = cr.Id;
+				Global.Vars.Perm["SealStoneName" + _ident] = cr.Name;
+				
+				OnBreak(cr);
 				
 				Send.PropUpdate(pr);
 				Send.RegionNotice(cr.Region, "{0} successfully broke {1} apart.", cr.Name, _name);
@@ -405,6 +412,13 @@ public abstract class _SealStoneScript : BaseScript
 				Send.RegionNotice(cr.Region, "{0} has started breaking {1} apart.", cr.Name, _name);
 			}
 		}
+	}
+	
+	private void SetBreaker(MabiProp prop, ulong characterId, string characterName)
+	{
+		prop.State = "state3";
+		prop.ExtraData = string.Format("<xml breaker_id=\"{0}\" breaker_name=\"{1}\"/>", characterId, characterName);
+		_hits = _required;
 	}
 	
 	public void SetName(string name, string ident) { _name = name; _ident = ident; }
