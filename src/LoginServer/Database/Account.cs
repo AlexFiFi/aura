@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Aura.Shared.Database;
 using Aura.Shared.Network;
+using Aura.Shared.Util;
 
 namespace Aura.Login.Database
 {
@@ -14,6 +15,7 @@ namespace Aura.Login.Database
 		public string Name { get; set; }
 		public string Password { get; set; }
 		public string SecondaryPassword { get; set; }
+		public PasswordType PasswordType { get; set; }
 
 		public byte Authority { get; set; }
 

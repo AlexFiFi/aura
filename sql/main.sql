@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `accountId` varchar(50) NOT NULL,
   `password` varchar(64) NOT NULL,
   `secPassword` varchar(64) DEFAULT NULL,
+  `passwordType` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `authority` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `creation` datetime DEFAULT NULL,
   `lastlogin` datetime DEFAULT NULL,

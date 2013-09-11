@@ -56,6 +56,8 @@ namespace Aura.Shared.Network
 			Setup(Feature.NewPoisonCrInfo, Enable(180100));
 
 			Setup(Feature.NewUnkCrInfo, Enable(180300));
+
+			Setup(Feature.SHAPasswords, Enable(180800, MabiRegion.KR), Enable(180800, MabiRegion.KRT));
 		}
 
 		// First and only region >=| But we seriously won't ever care about that code again...
@@ -231,6 +233,11 @@ namespace Aura.Shared.Network
 		/// New values in creatures, first seen on KR 1803?
 		/// </summary>
 		NewUnkCrInfo,
+
+		/// <summary>
+		/// New SHA256 password hash, first seen on KR 1808?
+		/// </summary>
+		SHAPasswords,
 
 		// ------------------------------------------------------------------
 

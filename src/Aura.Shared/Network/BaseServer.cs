@@ -156,6 +156,7 @@ namespace Aura.Shared.Network
 				else
 				{
 					var packet = new MabiPacket(buffer);
+					//Logger.Debug(packet);
 					this.HandlePacket(client, packet);
 				}
 			}

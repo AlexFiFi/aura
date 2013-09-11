@@ -4,6 +4,7 @@
 using System.Text.RegularExpressions;
 using Aura.Shared.Const;
 using MySql.Data.MySqlClient;
+using Aura.Shared.Util;
 
 namespace Aura.Shared.Database
 {
@@ -201,6 +202,23 @@ namespace Aura.Shared.Database
 
 				using (var reader = mc.ExecuteReader())
 					return reader.HasRows;
+			}
+		}
+
+		/// <summary>
+		/// Resets password for account to its name.
+		/// </summary>
+		/// <param name="accName"></param>
+		/// <returns></returns>
+		public void SetAccountPassword(string accountName, string password)
+		{
+			using (var conn = MabiDb.Instance.GetConnection())
+			{
+				var mc = new MySqlCommand("UPDATE `accounts` SET password = @password, passwordType = @passwordType WHERE `accountId` = @accountId", conn);
+				mc.Parameters.AddWithValue("@password", MabiPassword.HashRaw(password));
+				mc.Parameters.AddWithValue("@passwordType", MabiPassword.CurrentType);
+				mc.Parameters.AddWithValue("@accountId", accountName);
+				mc.ExecuteNonQuery();
 			}
 		}
 

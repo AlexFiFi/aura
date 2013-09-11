@@ -131,6 +131,7 @@ namespace Aura.Login.Network
 						Logger.Info("  status       Shows some status information about the channel");
 						Logger.Info("  auth         Sets the authority of the given user");
 						Logger.Info("  addcard      Adds the specified card to an account");
+						Logger.Info("  passwd       Sets password of an account");
 						Logger.Info("  help         Shows this");
 					}
 					break;
@@ -209,6 +210,29 @@ namespace Aura.Login.Network
 						}
 
 						Logger.Info("Card added.");
+					}
+					break;
+
+				case "passwd":
+					{
+						if (args.Length < 3)
+						{
+							Logger.Info("Usage: passwd <account id> <password>");
+							break;
+						}
+
+						var accountName = args[1];
+						var password = args[2];
+
+						if (!MabiDb.Instance.AccountExists(accountName))
+						{
+							Logger.Error("Please specify an existing account.");
+							return;
+						}
+
+						MabiDb.Instance.SetAccountPassword(accountName, password);
+
+						Logger.Info("Password reset.");
 					}
 					break;
 

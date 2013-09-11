@@ -34,6 +34,7 @@ namespace Aura.Shared.Network
 		// 
 		// KR:  170400, 21.12.2012+ (Aura)
 		//      180400, 25.05.2012+ (Aura)
+		//      180800, 11.09.2013+ (Aura) (Partial support, set for password compatibility)
 		// 
 		// KRT: 170300, 12.12.2012+ (Aura)
 		//      180100, 13.03.2013+

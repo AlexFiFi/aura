@@ -318,7 +318,7 @@ namespace Aura.World.Network
 
 					// Identify
 					LoginServer.State = ClientState.LoggingIn;
-					LoginServer.Send(new MabiPacket(Op.Internal.ServerIdentify).PutString(BCrypt.HashPassword(WorldConf.Password, BCrypt.GenerateSalt(10))));
+					LoginServer.Send(new MabiPacket(Op.Internal.ServerIdentify).PutString(MabiPassword.Hash(WorldConf.Password)));
 
 					success = true;
 				}

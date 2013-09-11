@@ -29,9 +29,10 @@ namespace Aura.Login.Database
 		{
 			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				var mc = new MySqlCommand("INSERT INTO `accounts` (`accountId`, `password`, `creation`) VALUES (@id, @password, @creation)", conn);
+				var mc = new MySqlCommand("INSERT INTO `accounts` (`accountId`, `password`, `passwordType`, `creation`) VALUES (@id, @password, @passwordType, @creation)", conn);
 				mc.Parameters.AddWithValue("@id", accountName);
-				mc.Parameters.AddWithValue("@password", BCrypt.HashPassword(password, BCrypt.GenerateSalt(12)));
+				mc.Parameters.AddWithValue("@password", MabiPassword.Hash(password));
+				mc.Parameters.AddWithValue("@passwordType", MabiPassword.CurrentType);
 				mc.Parameters.AddWithValue("@creation", DateTime.Now);
 				mc.ExecuteNonQuery();
 			}
@@ -45,8 +46,10 @@ namespace Aura.Login.Database
 		{
 			using (var conn = MabiDb.Instance.GetConnection())
 			{
-				var mc = new MySqlCommand("UPDATE `accounts` SET `lastlogin` = @lastlogin, `lastip` = @lastip, `loggedIn` = @loggedIn WHERE `accountId` = @id", conn);
+				var mc = new MySqlCommand("UPDATE `accounts` SET `password` = @password, `passwordType` = @passwordType, `lastlogin` = @lastlogin, `lastip` = @lastip, `loggedIn` = @loggedIn WHERE `accountId` = @id", conn);
 				mc.Parameters.AddWithValue("@id", account.Name);
+				mc.Parameters.AddWithValue("@password", account.Password);
+				mc.Parameters.AddWithValue("@passwordType", account.PasswordType);
 				mc.Parameters.AddWithValue("@lastlogin", account.LastLogin);
 				mc.Parameters.AddWithValue("@lastip", account.LastIp);
 				mc.Parameters.AddWithValue("@loggedIn", account.LoggedIn);
@@ -91,6 +94,7 @@ namespace Aura.Login.Database
 						Name = accountName,
 						Password = reader.GetString("password"),
 						SecondaryPassword = reader.GetStringSafe("secPassword"),
+						PasswordType = (PasswordType)reader.GetByte("passwordType"),
 						Authority = reader.GetByte("authority"),
 						Creation = reader["creation"] as DateTime? ?? DateTime.MinValue,
 						LastIp = reader.GetString("lastip"),

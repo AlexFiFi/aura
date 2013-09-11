@@ -13,6 +13,7 @@ using Aura.Shared.Database;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 
 namespace Aura.Login.Network
 {
@@ -79,7 +80,7 @@ namespace Aura.Login.Network
 				case LoginType.CmdLogin:
 
 					var passbin = packet.GetBin();
-					password = System.Text.Encoding.UTF8.GetString(passbin);
+					password = Encoding.UTF8.GetString(passbin);
 
 					if (!Feature.MD5Passwords.IsEnabled())
 					{
@@ -88,8 +89,7 @@ namespace Aura.Login.Network
 						foreach (var chr in passbin.TakeWhile(a => a != 0))
 							password += (char)chr;
 
-						var md5 = System.Security.Cryptography.MD5.Create();
-						password = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(password))).Replace("-", "");
+						password = MabiPassword.RawToMD5(password);
 					}
 
 					// Create new account
@@ -99,6 +99,10 @@ namespace Aura.Login.Network
 
 						if (!MabiDb.Instance.AccountExists(username) && password != "")
 						{
+							// Update MD5 based hashes for older clients
+							if (!Feature.SHAPasswords.IsEnabled())
+								password = MabiPassword.MD5ToSHA256(password);
+
 							LoginDb.Instance.CreateAccount(username, password);
 							Logger.Info("New account '{0}' was created.", username);
 						}
@@ -164,11 +168,31 @@ namespace Aura.Login.Network
 				return;
 			}
 
-			// Check password/session
-			if (!BCrypt.CheckPassword(password, account.Password) && !MabiDb.Instance.IsSessionKey(username, sessionKey))
+			// Update client's MD5 hash, if necessary.
+			if (account.PasswordType == PasswordType.SHA256 && password.Length == 32)
 			{
+				password = MabiPassword.MD5ToSHA256(password);
+			}
+
+			if (!MabiPassword.Check(password, account.Password) && !MabiDb.Instance.IsSessionKey(username, sessionKey))
+			{
+				// Old hash in the db, new hash from the client
+				if (account.PasswordType == PasswordType.MD5 && password.Length == 64)
+				{
+					Send.LoginResponse(client, "Your client is using a newer password encryption, you have to reset your password.");
+					return;
+				}
+
 				Send.LoginResponse(client, LoginResult.IdOrPassIncorrect);
 				return;
+			}
+
+			// Update MD5 based passwords
+			if (account.PasswordType == PasswordType.MD5)
+			{
+				password = MabiPassword.MD5ToSHA256(password);
+				account.Password = MabiPassword.Hash(password);
+				account.PasswordType = PasswordType.SHA256;
 			}
 
 			// Check secondary password
@@ -726,7 +750,7 @@ namespace Aura.Login.Network
 		{
 			var pass = packet.GetString();
 
-			if (!BCrypt.CheckPassword(LoginConf.Password, pass))
+			if (!MabiPassword.Check(LoginConf.Password, pass))
 			{
 				Send.ServerIdentifyResponse(client, false);
 
