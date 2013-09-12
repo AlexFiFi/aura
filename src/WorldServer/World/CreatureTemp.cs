@@ -35,5 +35,9 @@ namespace Aura.World.World
 		public MabiStatRegen DemiHpRegen;
 		public MabiStatRegen DemiMpRegen;
 		public MabiStatRegen DemiStmRegen;
+
+		public MabiCutscene CurrentCutscene;
+
+		public DateTime AimStart;
 	}
 }

@@ -18,6 +18,8 @@ namespace Aura.World.World
 		public MabiItem LeftHand { get; set; }
 		public MabiItem Magazine { get; set; }
 
+		public byte WeaponSet { get; set; }
+
 		/// <summary>
 		/// Saves references to the equipment in fields, for quicker use and caching.
 		/// </summary>

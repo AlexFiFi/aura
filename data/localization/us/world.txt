@@ -17,3 +17,5 @@ too_far		You're too far away.
 insufficient_space		Not enough space.
 
 mount_sit	You cannot mount while resting.
+
+shutdown	The server will shutdown in {0} seconds, please log out before that time, for your own safety.

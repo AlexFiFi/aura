@@ -47,7 +47,7 @@ namespace Aura.World.World
 		/// <param name="client"></param>
 		public void Play(WorldClient client)
 		{
-			client.Character.CurrentCutscene = this;
+			client.Character.Temp.CurrentCutscene = this;
 
 			Send.EntityDisappears(client.Character);
 			Send.EntitiesDisappear(client, WorldManager.Instance.GetCreaturesInRange(client.Character));

@@ -206,10 +206,10 @@ namespace Aura.World.Database
 					character.Race = reader.GetUInt32("race");
 					character.SkinColor = reader.GetByte("skinColor");
 					character.EyeColor = reader.GetByte("eyeColor");
-					character.Eye = reader.GetByte("eyeType");
-					character.Lip = reader.GetByte("mouthType");
+					character.EyeType = reader.GetByte("eyeType");
+					character.Mouth = reader.GetByte("mouthType");
 					character.Height = reader.GetFloat("height");
-					character.Fat = reader.GetFloat("fatness");
+					character.Weight = reader.GetFloat("fatness");
 					character.Upper = reader.GetFloat("upper");
 					character.Lower = reader.GetFloat("lower");
 					character.SetLocation(reader.GetUInt32("region"), reader.GetUInt32("x"), reader.GetUInt32("y"));
@@ -732,7 +732,7 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@race", character.Race);
 				mc.Parameters.AddWithValue("@status", (uint)character.State);
 				mc.Parameters.AddWithValue("@height", character.Height);
-				mc.Parameters.AddWithValue("@fatness", character.Fat);
+				mc.Parameters.AddWithValue("@fatness", character.Weight);
 				mc.Parameters.AddWithValue("@upper", character.Upper);
 				mc.Parameters.AddWithValue("@lower", character.Lower);
 				mc.Parameters.AddWithValue("@region", character.Region);

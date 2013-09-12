@@ -21,7 +21,8 @@ namespace Aura.World.World
 	{
 		public const float HandBalance = 0.3f;
 
-		public Client Client = new DummyClient();
+		// General
+		// ------------------------------------------------------------------
 
 		public string Name;
 
@@ -31,35 +32,42 @@ namespace Aura.World.World
 		public uint Race;
 		public RaceInfo RaceInfo = null;
 
-		public uint BattleExp = 0;
+		public CreatureStates State;
+		public CreatureStatesEx StateEx;
+		public CreatureCondition Conditions;
+		public CreatureCondition PrevConditions;
 
-		public List<MabiStatRegen> StatRegens = new List<MabiStatRegen>();
-		public readonly MabiStatMods StatMods = new MabiStatMods();
-		public MabiStatRegen LifeRegen, ManaRegen, StaminaRegen;
+		// Look
+		// ------------------------------------------------------------------
 
-		public byte SkinColor, Eye, EyeColor, Lip;
+		public byte SkinColor { get; set; }
+		public byte EyeType { get; set; }
+		public byte EyeColor { get; set; }
+		public byte Mouth { get; set; }
+		public float Height { get; set; }
+		public float Weight { get; set; }
+		public float Upper { get; set; }
+		public float Lower { get; set; }
 
 		private string _standStyle = "", _standStyleTalk = "";
 		public string StandStyle { get { return (this.Shamala == null ? _standStyle : ""); } set { _standStyle = value; } }
 		public string StandStyleTalk { get { return (this.Shamala == null ? _standStyleTalk : ""); } set { _standStyleTalk = value; } }
 
-		public uint Color1 = 0x808080;
-		public uint Color2 = 0x808080;
-		public uint Color3 = 0x808080;
+		public uint Color1 = 0x808080, Color2 = 0x808080, Color3 = 0x808080;
 
-		public byte WeaponSet;
-		public byte BattleState;
-		public bool IsFlying;
-
-		public ScriptingVariables Vars = new ScriptingVariables();
+		// Titles
+		// ------------------------------------------------------------------
 
 		private ushort _title;
 		/// <summary>
 		/// Changes/Returns Title and updates TitleApplied.
 		/// </summary>
 		public ushort Title { get { return _title; } set { _title = value; this.TitleApplied = DateTime.Now; } }
-		public ushort OptionTitle;
+		public ushort OptionTitle { get; set; }
 		public DateTime TitleApplied { get; protected set; }
+
+		// Skills
+		// ------------------------------------------------------------------
 
 		public CreatureSkillManager Skills { get; protected set; }
 		//public Dictionary<ushort, MabiSkill> Skills = new Dictionary<ushort, MabiSkill>();
@@ -69,13 +77,8 @@ namespace Aura.World.World
 		public DateTime ActiveSkillPrepareEnd;
 		public uint SoulCount;
 
-		public CreatureTalentManager Talents { get; protected set; }
-
-		public CreatureTemp Temp = new CreatureTemp();
-
-		public List<MabiCooldown> Cooldowns = new List<MabiCooldown>();
-
-		public MabiCutscene CurrentCutscene;
+		// PvP
+		// ------------------------------------------------------------------
 
 		public ArenaPvPManager ArenaPvPManager;
 		public ulong PvPWins, PvPLosses;
@@ -84,6 +87,9 @@ namespace Aura.World.World
 		private byte _evgSupportRace;
 		public byte EvGSupportRace { get { return (byte)(this.IsHuman ? _evgSupportRace : (this.IsElf ? 1 : 2)); } set { _evgSupportRace = value; } }
 
+		// Moving
+		// ------------------------------------------------------------------
+
 		public byte Direction;
 		private readonly MabiVertex _position = new MabiVertex(0, 0);
 		public MabiVertex Destination { get; protected set; }
@@ -91,56 +97,21 @@ namespace Aura.World.World
 		private double _movementX, _movementY, _movementH;
 		private double _moveDuration;
 		public bool IsWalking { get; protected set; }
+		public bool IsFlying { get; set; }
+		public bool IsMoving { get { return (!_position.Equals(Destination)); } }
+
+		// Battle
+		// ------------------------------------------------------------------
 
 		public MabiCreature Target = null;
-		public float _stun;
+		private float _stun;
 		private DateTime _stunChange;
-		public bool WaitingForRes = false;
-		public float _knockBack;
+		private float _knockBack;
 		private DateTime _knockBackChange;
-
-		public MabiCreature Owner, Pet, Vehicle;
-
-		public readonly List<MabiCreature> Riders = new List<MabiCreature>();
-
-		public CreatureStates State;
-		public CreatureStatesEx StateEx;
-		public CreatureCondition Conditions;
-		public CreatureCondition PrevConditions;
-
-		public ulong LastEventTriggered = 0;
-		public DungeonAltar OnAltar = DungeonAltar.None;
-
-		public MabiParty Party = null;
-		public uint PartyNumber = 0;
-
-		public ShamalaInfo Shamala = null;
-		public RaceInfo ShamalaRace = null;
-
-		public byte RestPose
-		{
-			get
-			{
-				var skill = this.Skills.Get(SkillConst.Rest);
-				if (skill == null)
-					return 0;
-
-				byte pose = 0;
-				if (skill.Rank >= SkillRank.R9)
-					pose = 4;
-				if (skill.Rank >= SkillRank.R1)
-					pose = 5;
-
-				return pose;
-			}
-		}
-
+		public byte BattleState;
+		public uint BattleExp;
+		public bool WaitingForRes = false;
 		public bool LevelingEnabled = false;
-
-		public override ushort DataType
-		{
-			get { return 16; }
-		}
 
 		/// <summary>
 		/// No actions supposed to be possible, while being stunned.
@@ -169,8 +140,6 @@ namespace Aura.World.World
 			}
 		}
 
-		public virtual float CombatPower { get { return (this.RaceInfo != null ? this.RaceInfo.CombatPower : 1); } }
-
 		public float KnockBack
 		{
 			get
@@ -194,21 +163,53 @@ namespace Aura.World.World
 		public bool IsStunned { get { return (this.Stun > 0); } }
 		public bool IsDead { get { return this.Has(CreatureStates.Dead); } }
 
-		public bool IsMoving { get { return (!_position.Equals(Destination)); } }
+		// Misc
+		// ------------------------------------------------------------------
 
-		public float Height { get; set; }
-		public float Fat { get; set; }
-		public float Upper { get; set; }
-		public float Lower { get; set; }
+		public Client Client = new DummyClient();
 
-		public float StrBaseSkill { get; set; }
-		public float WillBaseSkill { get; set; }
-		public float IntBaseSkill { get; set; }
-		public float LuckBaseSkill { get; set; }
-		public float DexBaseSkill { get; set; }
-		public float ManaMaxBaseSkill { get; set; }
-		public float LifeMaxBaseSkill { get; set; }
-		public float StaminaMaxBaseSkill { get; set; }
+		public ScriptingVariables Vars { get; protected set; }
+
+		public CreatureTalentManager Talents { get; protected set; }
+
+		public CreatureTemp Temp = new CreatureTemp();
+
+		public List<MabiCooldown> Cooldowns = new List<MabiCooldown>();
+
+		public MabiCreature Owner, Pet, Vehicle;
+		public readonly List<MabiCreature> Riders = new List<MabiCreature>();
+
+		public ulong LastEventTriggered = 0;
+		public DungeonAltar OnAltar = DungeonAltar.None;
+
+		public MabiParty Party = null;
+		public uint PartyNumber = 0;
+
+		public ShamalaInfo Shamala = null;
+		public RaceInfo ShamalaRace = null;
+
+		public override ushort DataType { get { return 16; } }
+
+		public byte RestPose
+		{
+			get
+			{
+				var skill = this.Skills.Get(SkillConst.Rest);
+				if (skill == null)
+					return 0;
+
+				byte pose = 0;
+				if (skill.Rank >= SkillRank.R9)
+					pose = 4;
+				if (skill.Rank >= SkillRank.R1)
+					pose = 5;
+
+				return pose;
+			}
+		}
+
+		// Life
+		// ------------------------------------------------------------------
 
 		private float _life, _injuries;
 		public float Life
@@ -223,23 +224,15 @@ namespace Aura.World.World
 				else
 					_life = value;
 
-				/* Bad server lagger here
-				if (_life < 0) //Todo: cache?
+				if (_life < 0 && !this.Has(CreatureConditionA.Deadly))
 				{
-					if ((this.Conditions.A & CreatureConditionA.Deadly) != CreatureConditionA.Deadly)
-					{
-						this.Conditions.A |= CreatureConditionA.Deadly; //Todo: What about prevCondition?
-						EntityEvents.OnCreatureStatUpdates(this);
-					}
+					this.Activate(CreatureConditionA.Deadly);
 				}
-				else
+				else if (_life >= 0 && this.Has(CreatureConditionA.Deadly))
 				{
-					if ((this.Conditions.A & CreatureConditionA.Deadly) == CreatureConditionA.Deadly)
-					{
-						this.Conditions.A &= ~CreatureConditionA.Deadly;
-						EntityEvents.OnCreatureStatUpdates(this);
-					}
-				}*/
+					this.Deactivate(CreatureConditionA.Deadly);
+				}
+
 			}
 		}
 		public float Injuries
@@ -257,6 +250,9 @@ namespace Aura.World.World
 		public float LifeMaxBaseTotal { get { return this.LifeMaxBase + this.LifeMaxBaseSkill; } }
 		public float LifeMax { get { return this.LifeMaxBaseTotal + this.StatMods.GetMod(Stat.LifeMaxMod); } }
 		public float LifeInjured { get { return this.LifeMax - _injuries; } }
+
+		// Mana
+		// ------------------------------------------------------------------
 
 		private float _mana;
 		public float Mana
@@ -276,6 +272,9 @@ namespace Aura.World.World
 		public float ManaMaxBase { get; set; }
 		public float ManaMaxBaseTotal { get { return this.ManaMaxBase + this.ManaMaxBaseSkill; } }
 		public float ManaMax { get { return ManaMaxBaseTotal + this.StatMods.GetMod(Stat.ManaMaxMod); } }
+
+		// Stamina
+		// ------------------------------------------------------------------
 
 		private float _stamina, _hunger;
 		public float Stamina
@@ -306,6 +305,24 @@ namespace Aura.World.World
 		public float StaminaMaxBaseTotal { get { return this.StaminaMaxBase + this.StaminaMaxBaseSkill; } }
 		public float StaminaMax { get { return this.StaminaMaxBaseTotal + this.StatMods.GetMod(Stat.StaminaMaxMod); } }
 		public float StaminaHunger { get { return this.StaminaMax - _hunger; } }
+
+		// Other stats
+		// ------------------------------------------------------------------
+
+		public List<MabiStatRegen> StatRegens = new List<MabiStatRegen>();
+		public readonly MabiStatMods StatMods = new MabiStatMods();
+		public MabiStatRegen LifeRegen, ManaRegen, StaminaRegen;
+
+		public virtual float CombatPower { get { return (this.RaceInfo != null ? this.RaceInfo.CombatPower : 1); } }
+
+		public float StrBaseSkill { get; set; }
+		public float WillBaseSkill { get; set; }
+		public float IntBaseSkill { get; set; }
+		public float LuckBaseSkill { get; set; }
+		public float DexBaseSkill { get; set; }
+		public float ManaMaxBaseSkill { get; set; }
+		public float LifeMaxBaseSkill { get; set; }
+		public float StaminaMaxBaseSkill { get; set; }
 
 		public float StrBase { get; set; }
 		public float DexBase { get; set; }
@@ -338,8 +355,6 @@ namespace Aura.World.World
 
 		public int DefenseBaseSkill { get; set; }
 		public int ProtectionBaseSkill { get; set; }
-
-		public DateTime AimStart;
 
 		public DeadMenuOptions RevivalOptions;
 		public DeathCauses CauseOfDeath;
@@ -445,11 +460,6 @@ namespace Aura.World.World
 			}
 		}
 
-		public float CriticalChanceAgainst(MabiCreature other)
-		{
-			return (this.CriticalChance - (other.Protection * 2));
-		}
-
 		public float CriticalMultiplier
 		{
 			get
@@ -458,13 +468,7 @@ namespace Aura.World.World
 			}
 		}
 
-		public float MagicAttack
-		{
-			get
-			{
-				return this.Int / 20f;
-			}
-		}
+		public float MagicAttack { get { return this.Int / 20f; } }
 
 		public bool IsPlayer { get { return (this.EntityType == EntityType.Character || this.EntityType == EntityType.Pet); } }
 
@@ -480,6 +484,7 @@ namespace Aura.World.World
 			this.Destination = new MabiVertex(0, 0);
 			this.Skills = new CreatureSkillManager(this);
 			this.Talents = new CreatureTalentManager(this);
+			this.Vars = new ScriptingVariables();
 		}
 
 		public bool Has(CreatureConditionA condition) { return ((this.Conditions.A & condition) != 0); }
@@ -587,6 +592,12 @@ namespace Aura.World.World
 			var balance = this.GetRndBalance(this.RightHand);
 
 			return min + ((max - min) * balance);
+		}
+
+
+		public float CriticalChanceAgainst(MabiCreature other)
+		{
+			return (this.CriticalChance - (other.Protection * 2));
 		}
 
 		public void LoadDefault()
@@ -719,7 +730,7 @@ namespace Aura.World.World
 		public virtual void CalculateBaseStats()
 		{
 			this.Height = 1.0f;
-			this.Fat = 1.0f;
+			this.Weight = 1.0f;
 			this.Upper = 1.0f;
 			this.Lower = 1.0f;
 
@@ -995,7 +1006,7 @@ namespace Aura.World.World
 		/// <returns></returns>
 		public bool IsDestination(MabiVertex dest)
 		{
-			return (Destination.Equals(dest));
+			return (this.Destination.Equals(dest));
 		}
 
 		public void TakeDamage(float damage)
@@ -1062,7 +1073,7 @@ namespace Aura.World.World
 
 			var levelStats = MabiData.StatsLevelUpDb.Find(this.Race, this.Age);
 			if (levelStats == null)
-				Logger.Unimplemented("Level up stats missing for race '" + this.Race.ToString() + "'.");
+				Logger.Unimplemented("Level up stats missing for race '{0}'.", this.Race);
 
 			while (this.Level < MabiData.ExpDb.MaxLevel && this.Experience >= MabiData.ExpDb.GetTotalForNextLevel(this.Level))
 			{
@@ -1105,7 +1116,7 @@ namespace Aura.World.World
 
 			var distance = Math.Sqrt((Math.Pow(((float)aPos.X - (float)tPos.X), 2) + Math.Pow(((float)aPos.Y - (float)tPos.Y), 2)));
 
-			var aimTime = (DateTime.Now - this.AimStart).TotalMilliseconds;
+			var aimTime = (DateTime.Now - this.Temp.AimStart).TotalMilliseconds;
 			var aimRate = Math.Min(320 / distance, 1);
 			var aimPercent = Math.Min(aimTime * aimRate * aimBoost / 10 + aimInitial, 99);
 			var overTime = aimTime - (990 / (aimRate * aimBoost)); // Time after 99%
@@ -1129,7 +1140,7 @@ namespace Aura.World.World
 			if (this.Target != null)
 				this.Client.Send(new MabiPacket(Op.CombatSetAimR, this.Id).PutByte(0));
 
-			this.AimStart = DateTime.MaxValue;
+			this.Temp.AimStart = DateTime.MaxValue;
 		}
 
 		/// <summary>

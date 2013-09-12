@@ -3017,7 +3017,7 @@ namespace Aura.World.Network
 				return;
 
 			creature.Guild.Gp += (uint)creature.GuildMember.Gp;
-			Send.GuildMessage(creature, "Added {0} Point(s)", creature.GuildMember.Gp);
+			Send.GuildMessage(creature, Localization.Get("guild.points"), creature.GuildMember.Gp); // Added {0} Point(s)
 			creature.GuildMember.Gp = 0;
 
 			creature.Guild.Save();
@@ -3049,7 +3049,7 @@ namespace Aura.World.Network
 
 			creature.Guild.Save();
 
-			Send.GuildMessage(creature, "You have donated {0} Gold", amount);
+			Send.GuildMessage(creature, Localization.Get("guild.donated"), amount); // You have donated {0} Gold
 			Send.GuildDonateR(creature, true);
 		}
 
@@ -3064,7 +3064,7 @@ namespace Aura.World.Network
 
 			if (WorldDb.Instance.GetGuildForChar(creature.Id) != null)
 			{
-				Send.MsgBox(client, creature, "You are already a member of a guild");
+				Send.MsgBox(client, creature, Localization.Get("guild.already_you")); // You are already a member of a guild
 				Send.GuildApplyR(creature, false);
 				return;
 			}
@@ -3072,7 +3072,7 @@ namespace Aura.World.Network
 			var guild = WorldDb.Instance.GetGuild(guildId);
 			if (guild == null)
 			{
-				Send.MsgBox(client, creature, "Guild does not exist");
+				Send.MsgBox(client, creature, Localization.Get("guild.not_found")); // Guild does not exist
 				Send.GuildApplyR(creature, false);
 				return;
 			}
@@ -3087,7 +3087,7 @@ namespace Aura.World.Network
 			member.ApplicationText = appText;
 			member.Save();
 
-			Send.GuildMessage(creature, guild, "Your application has been accepted.\nPlease wait for the Guild Leader to make the final confirmation.");
+			Send.GuildMessage(creature, guild, Localization.Get("guild.pls_wait")); // Your application has been accepted.\nPlease wait [...]
 			Send.GuildApplyR(creature, true);
 		}
 
@@ -3361,7 +3361,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			if (creature.CurrentCutscene.Leader != creature)
+			if (creature.Temp.CurrentCutscene.Leader != creature)
 				return;
 
 			client.Send(new MabiPacket(Op.CutsceneEnd, Id.World).PutLong(creature.Id));
@@ -3373,12 +3373,12 @@ namespace Aura.World.Network
 
 			//client.Send(new MabiPacket(Op.CutsceneEnd+1, Id.World).PutLong(creature.Id));
 
-			if (creature.CurrentCutscene != null)
+			if (creature.Temp.CurrentCutscene != null)
 			{
-				if (creature.CurrentCutscene.OnComplete != null)
-					creature.CurrentCutscene.OnComplete(client);
+				if (creature.Temp.CurrentCutscene.OnComplete != null)
+					creature.Temp.CurrentCutscene.OnComplete(client);
 
-				creature.CurrentCutscene = null;
+				creature.Temp.CurrentCutscene = null;
 			}
 		}
 
@@ -3409,7 +3409,7 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			creature.AimStart = DateTime.Now;
+			creature.Temp.AimStart = DateTime.Now;
 
 			client.Send(new MabiPacket(Op.CombatSetAimR, creature.Id)
 			.PutByte(1)

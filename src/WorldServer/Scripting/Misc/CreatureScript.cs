@@ -55,7 +55,7 @@ namespace Aura.World.Scripting
 		protected virtual void SetBody(float height = 1.0f, float fat = 1.0f, float lower = 1.0f, float upper = 1.0f)
 		{
 			this.Creature.Height = height;
-			this.Creature.Fat = fat;
+			this.Creature.Weight = fat;
 			this.Creature.Lower = lower;
 			this.Creature.Upper = upper;
 		}
@@ -63,9 +63,9 @@ namespace Aura.World.Scripting
 		protected virtual void SetFace(byte skin, byte eye, byte eyeColor, byte lip)
 		{
 			this.Creature.SkinColor = skin;
-			this.Creature.Eye = eye;
+			this.Creature.EyeType = eye;
 			this.Creature.EyeColor = eyeColor;
-			this.Creature.Lip = lip;
+			this.Creature.Mouth = lip;
 		}
 
 		protected virtual void SetColor(uint c1 = 0x808080, uint c2 = 0x808080, uint c3 = 0x808080)

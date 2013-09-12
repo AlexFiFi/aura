@@ -185,7 +185,7 @@ namespace Aura.World.Network
 				switch (stat)
 				{
 					case Stat.Height: packet.PutFloat(creature.Height); break;
-					case Stat.Weight: packet.PutFloat(creature.Fat); break;
+					case Stat.Weight: packet.PutFloat(creature.Weight); break;
 					case Stat.Upper: packet.PutFloat(creature.Upper); break;
 					case Stat.Lower: packet.PutFloat(creature.Lower); break;
 

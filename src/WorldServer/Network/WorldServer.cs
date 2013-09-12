@@ -209,7 +209,7 @@ namespace Aura.World.Network
 						int exitSeconds = dcSeconds + 30;
 
 						// Broadcast a notice.
-						Send.ChannelNotice(NoticeType.TopRed, "The server will shutdown in {0} seconds, please log out before that time, for your own safety.", dcSeconds);
+						Send.ChannelNotice(NoticeType.TopRed, Localization.Get("world.shutdown"), dcSeconds); // The server will shutdown in {0} seconds, [...]
 
 						// Set a timer when to send the dc request all remaining players.
 						_shutdownTimer1 = new Timer(_ =>

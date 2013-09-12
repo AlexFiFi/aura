@@ -19,7 +19,7 @@ namespace Aura.World.World.Guilds
 		{
 			if (WorldDb.Instance.GetGuildForChar(leader.Id) != null)
 			{
-				Send.MsgBox(leader.Client, leader, "You are already a member of a guild");
+				Send.MsgBox(leader.Client, leader, Localization.Get("guild.already_you")); // You are already a member of a guild
 				return false;
 			}
 
@@ -27,14 +27,14 @@ namespace Aura.World.World.Guilds
 			{
 				if (WorldDb.Instance.GetGuildForChar(member.Id) != null)
 				{
-					Send.MsgBox(leader.Client, leader, "{0} is already a member of a guild", member.Name);
+					Send.MsgBox(leader.Client, leader, Localization.Get("guild.already"), member.Name); // {0} is already a member of a guild
 					return false;
 				}
 			}
 
 			if (!WorldDb.Instance.GuildNameOkay(name))
 			{
-				Send.MsgBox(leader.Client, leader, "That name is not valid or is already in use.");
+				Send.MsgBox(leader.Client, leader, Localization.Get("guild.name_used")); // That name is not valid or is already in use.
 				return false;
 			}
 
@@ -43,10 +43,10 @@ namespace Aura.World.World.Guilds
 			var pos = leader.GetPosition();
 
 			var guild = new MabiGuild();
-			guild.IntroMessage = "Guild stone for the " + name + " guild";
-			guild.LeavingMessage = "You have left the " + name + " guild";
-			guild.RejectionMessage = "You have been denied admission to the " + name + " guild.";
-			guild.WelcomeMessage = "Welcome to the " + name + " guild!";
+			guild.IntroMessage = string.Format(Localization.Get("guild.intro"), name);         // Guild stone for the {0} guild
+			guild.LeavingMessage = string.Format(Localization.Get("guild.leaving"), name);	   // You have left the {0} guild
+			guild.RejectionMessage = string.Format(Localization.Get("guild.rejection"), name); // You have been denied admission to the {0} guild.
+			guild.WelcomeMessage = string.Format(Localization.Get("guild.welcome"), name);	   // Welcome to the {0} guild!
 			guild.Name = name;
 			guild.Region = leader.Region;
 			guild.X = pos.X;
@@ -80,7 +80,7 @@ namespace Aura.World.World.Guilds
 
 			AddGuildStone(guild);
 
-			Send.ChannelNotice(NoticeType.Top, 20000, "{0} Guild has been created. Guild leader: {1}", name, leader.Name);
+			Send.ChannelNotice(NoticeType.Top, 20000, Localization.Get("guild.created"), name, leader.Name); // {0} Guild has been created. Guild leader: {1}
 
 			return true;
 		}

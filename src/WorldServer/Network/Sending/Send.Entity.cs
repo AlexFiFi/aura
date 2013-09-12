@@ -142,16 +142,16 @@ namespace Aura.World.Network
 			packet.PutString("");				 // Eng Title
 			packet.PutInt(creature.Race);
 			packet.PutByte(creature.SkinColor);
-			packet.PutByte(creature.Eye);
+			packet.PutByte(creature.EyeType);
 			packet.PutByte(creature.EyeColor);
-			packet.PutByte(creature.Lip);
+			packet.PutByte(creature.Mouth);
 			packet.PutInt((uint)creature.State);
 			if (type == CreaturePacketType.Public)
 			{
 				packet.PutInt((uint)creature.StateEx);
 			}
 			packet.PutFloat(creature.Height);
-			packet.PutFloat(creature.Fat);
+			packet.PutFloat(creature.Weight);
 			packet.PutFloat(creature.Upper);
 			packet.PutFloat(creature.Lower);
 			packet.PutInt(creature.Region);
