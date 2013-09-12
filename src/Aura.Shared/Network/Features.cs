@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Aura.Shared.Network
 {
 	/// <summary>
@@ -58,6 +53,10 @@ namespace Aura.Shared.Network
 			Setup(Feature.NewUnkCrInfo, Enable(180300));
 
 			Setup(Feature.SHAPasswords, Enable(180800, MabiRegion.KR), Enable(180800, MabiRegion.KRT));
+			Setup(Feature.KR711, Enable(180800, MabiRegion.KR), Enable(180800, MabiRegion.KRT));
+			Setup(Feature.KR714, Enable(180800, MabiRegion.KR), Enable(180800, MabiRegion.KRT));
+			Setup(Feature.KR717, Enable(180800, MabiRegion.KR), Enable(180800, MabiRegion.KRT));
+			Setup(Feature.KR729, Enable(180800, MabiRegion.KR), Enable(180800, MabiRegion.KRT));
 		}
 
 		// First and only region >=| But we seriously won't ever care about that code again...
@@ -238,6 +237,26 @@ namespace Aura.Shared.Network
 		/// New SHA256 password hash, first seen on KR 1808?
 		/// </summary>
 		SHAPasswords,
+
+		/// <summary>
+		/// KR 711, 2013-06-04
+		/// </summary>
+		KR711,
+
+		/// <summary>
+		/// KR 714, 2013-06-20
+		/// </summary>
+		KR714,
+
+		/// <summary>
+		/// KR 717, 2013-07-11
+		/// </summary>
+		KR717,
+
+		/// <summary>
+		/// KR 729, 2013-09-05
+		/// </summary>
+		KR729,
 
 		// ------------------------------------------------------------------
 

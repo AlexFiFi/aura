@@ -33,8 +33,6 @@ namespace Aura.World.World
 
 		public uint BattleExp = 0;
 
-		private Dictionary<Stat, object> _stats = new Dictionary<Stat, object>();
-
 		public List<MabiStatRegen> StatRegens = new List<MabiStatRegen>();
 		public readonly MabiStatMods StatMods = new MabiStatMods();
 		public MabiStatRegen LifeRegen, ManaRegen, StaminaRegen;

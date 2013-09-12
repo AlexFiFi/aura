@@ -862,6 +862,15 @@ namespace Aura.World.Network
 				packet.PutInt(0);
 			}
 
+			if (Feature.KR711.IsEnabled())
+			{
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutLong(0);
+				packet.PutString("");
+				packet.PutByte(0);
+			}
+
 			// ?
 			// --------------------------------------------------------------
 			if (Feature.UnkNATW1.IsEnabled())
@@ -898,6 +907,10 @@ namespace Aura.World.Network
 			{
 				packet.PutLong(0);			         // DoubleGoreTarget
 				packet.PutInt(0);			         // DoubleGoreTargetType
+
+				if (Feature.KR714.IsEnabled())
+					packet.PutLong(0);
+
 				if (!creature.IsMoving)
 				{
 					packet.PutByte(0);
@@ -943,6 +956,12 @@ namespace Aura.World.Network
 			packet.PutByte(0);
 			packet.PutByte(0);
 			if (Feature.NewPremiumThing.IsEnabled())
+				packet.PutByte(0);
+			if (Feature.KR714.IsEnabled())
+				packet.PutByte(0);
+			if (Feature.KR717.IsEnabled())
+				packet.PutByte(0);
+			if (Feature.KR729.IsEnabled())
 				packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutByte(0);
