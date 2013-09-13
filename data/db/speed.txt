@@ -397,3 +397,11 @@ petmaplefox/*/run,             500.000000
 petmaplefox/*/walk,            180.435000
 scooter/*/run,                 845.000000
 scooter/*/walk,                400.000000
+vategolem/*/run,               900.000000
+vategolem/*/walk,              207.689000
+treeboss/*/run,                152.241000
+treeboss/none/walk,            152.241000
+vampire/*/run,                 400.000000
+vampire/*/walk,                400.000000
+Mobslime/*/walk,                42.843640
+Mobslime/*/Run,                510.294000

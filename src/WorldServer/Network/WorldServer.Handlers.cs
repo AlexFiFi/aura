@@ -1108,6 +1108,20 @@ namespace Aura.World.Network
 						if (!creature.Skills.Has(SkillConst.Umbrella))
 							creature.Skills.Give(SkillConst.Umbrella, SkillRank.Novice);
 						break;
+
+					// Spread Wings
+					case 19138:
+					case 19139:
+					case 19140:
+					case 19141:
+					case 19142:
+					case 19143:
+					case 19157:
+					case 19158:
+					case 19159:
+						if (!creature.Skills.Has(SkillConst.SpreadWings))
+							creature.Skills.Give(SkillConst.SpreadWings, SkillRank.Novice);
+						break;
 				}
 			}
 

@@ -183,6 +183,8 @@ namespace Aura.Shared.Network
 		public const uint CharacterUnlock = 0x701F;
 		public const uint OpenUmbrella = 0x7025;
 		public const uint CloseUmbrella = 0x7026;
+		public const uint SpreadWingsOn = 0x702E;
+		public const uint SpreadWingsOff = 0x702F;
 		public const uint ShopBuyItem = 0x7150;
 		public const uint ShopBuyItemR = 0x7151;
 		public const uint ShopSellItem = 0x7152;

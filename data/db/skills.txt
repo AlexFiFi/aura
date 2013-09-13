@@ -33,6 +33,10 @@
 10036,"Make Theatre Mission Pass",0
 10037,"Wine Making",50015
 10038,"Perfume Making",0
+10040,"Hillwen Engineering",10920
+10041,"Magic Craft",10921
+10042,"Rare Mineralogy",10922
+10043,"Shyllien Ecology",10923
 50005,"Web Spinning",0
 50115,"Wyvern Fire Breath",0
 50160,"Save Location",0
@@ -248,6 +252,7 @@
 50162,"Restful Wind",0
 50163,"Holy Shower",0
 50164,"Holy Rush",0
+50166,"Pet Summoned Engine Shock",0
 52001,"Merrow Rising Dragon",0
 52002,"Merrow Tidal Wave",0
 
@@ -327,6 +332,17 @@
 54201,"Wire Pull",10910
 54202,"Puppet's Snare",10911
 
+// Guns
+//---------------------------------------------------------------------------
+54302,"Dual Gun Mastery",10912
+54303,"Flash Launcher",10914
+54304,"Grapple Shot",10915
+54305,"Bullet Slide",10916
+54306,"Shooting Rush",10917
+54307,"Bullet Storm",10918
+54401,"Reload",10913
+54402,"Way of the Gun",10919
+
 // Transformation
 //---------------------------------------------------------------------------
 40001,"Spirit of Order",0
@@ -364,6 +380,8 @@
 
 // Demi
 //---------------------------------------------------------------------------
+23048,"Nuadha Spear of Light",0
+23049,"Nuadha Fury of Light",0
 45001,"Awakening of Light",0
 45002,"Spear of Light",0
 45003,"Fury of Light",0
@@ -390,6 +408,8 @@
 50048,"Cylinder On/Off",0
 50057,"Continent Warp",0
 50058,"Add Seasoning",0
+50065,"Blow Balloon",0
+50066,"Party Motion",0
 50126,"Watering",0
 50127,"Fertilizing",0
 50128,"Bug Catching",0
@@ -417,7 +437,7 @@
 24103,"Chain: Counter Punch",14001
 30105,"Shockwave",14000
 
-// Hidden?
+// ???
 //---------------------------------------------------------------------------
 10032,"Exclusive Street Artist skill",0
 10034,"Gardening",0
@@ -426,8 +446,6 @@
 23015,"Dagger Mastery",0
 23017,"Dual Weapon Mastery",0
 23044,"Python Stone Long Range Attack",0
-23048,"Nuadha Spear of Light",0
-23049,"Nuadha Fury of Light",0
 23104,"Loot",0
 23105,"Escape",0
 50001,"Hidden Enchant",0

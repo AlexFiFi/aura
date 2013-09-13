@@ -675,7 +675,7 @@ namespace Aura.World.Network
 			//   packet.PutByte
 
 			// Farming
-			// [150100-170400] Public
+			// [150100-170400] Public too
 			// --------------------------------------------------------------
 			if (type == CreaturePacketType.Private)
 			{

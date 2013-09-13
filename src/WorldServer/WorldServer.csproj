@@ -103,7 +103,8 @@
     <Compile Include="Scripting\NPC\NPCSession.cs" />
     <Compile Include="Skills\CombatAction.cs" />
     <Compile Include="Skills\CombatFactory.cs" />
-    <Compile Include="Skills\Handlers\Actions\ActionSkillHandlers.cs" />
+    <Compile Include="Skills\Handlers\Actions\SpreadWingsHandler.cs" />
+    <Compile Include="Skills\Handlers\Actions\UmbrellaHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\ArrowRevolverHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\SupportShotHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\MagnumShotHandler.cs" />

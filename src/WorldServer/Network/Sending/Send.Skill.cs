@@ -321,5 +321,17 @@ namespace Aura.World.Network
 
 			client.Send(packet);
 		}
+
+		/// <summary>
+		/// Broadcasts SpreadWingsOn or SpreadWingsOff in range.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="onOff"></param>
+		public static void SpreadWings(MabiCreature creature, bool onOff)
+		{
+			var packet = new MabiPacket(onOff ? Op.SpreadWingsOn : Op.SpreadWingsOff, creature.Id);
+
+			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
+		}
 	}
 }

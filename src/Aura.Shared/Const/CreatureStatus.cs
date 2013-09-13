@@ -474,7 +474,7 @@ namespace Aura.Shared.Const
 		DragonSummonBonus = 0x0000002000000000,
 		WayOfTheGun = 0x0000004000000000,
 		DualGunSkillExpBoost = 0x0000008000000000,
-		UseWing = 0x0000010000000000,
+		SpreadWings = 0x0000010000000000,
 		MeteorStrike = 0x0000020000000000,
 		InstanceCasting = 0x0000040000000000,
 		Frostbite = 0x0000080000000000,
