@@ -231,8 +231,10 @@ namespace Aura.World.Network
 				packet.PutShort(0);			         // RightRateMod
 				packet.PutFloat(0);			         // MagicDefenseMod
 				packet.PutFloat(0);			         // MagicAttackMod
-				if (Feature.NewUnkCrInfo.IsEnabled())
-					packet.PutFloat(0);			     // ?
+				// [180300] New creature info
+				{
+					//packet.PutFloat(0);			     // ?
+				}
 				packet.PutShort(15);		         // MeleeAttackRateMod
 				packet.PutShort(15);		         // RangeAttackRateMod
 				packet.PutFloat(0);			         // CriticalBase
@@ -245,8 +247,10 @@ namespace Aura.World.Network
 				packet.PutShort(0);			         // RateMod
 				packet.PutShort(0);			         // Rank1
 				packet.PutShort(0);			         // Rank2
-				if (Feature.NewUnkCrInfo.IsEnabled())
-					packet.PutShort(0);			     // ?
+				// [180300] New creature info
+				{
+					//packet.PutFloat(0);			     // ?
+				}
 				packet.PutLong(0);			         // Score
 				packet.PutShort(0);			         // AttackMinBaseMod
 				packet.PutShort(8);			         // AttackMaxBaseMod
@@ -266,7 +270,7 @@ namespace Aura.World.Network
 				packet.PutShort(0);			         // RangeWAttackMaxBaseMod
 				packet.PutShort(0);			         // PoisonBase
 				packet.PutShort(0);			         // PoisonMod
-				if (Feature.NewPoisonCrInfo.IsEnabled())
+				// [180100] New poison info?
 				{
 					packet.PutShort(0);			     // ?
 					packet.PutShort(0);			     // ?
@@ -376,7 +380,7 @@ namespace Aura.World.Network
 
 			// Destiny
 			// --------------------------------------------------------------
-			packet.PutByte(0);			         // (0:Venturer, 1:Knight, 2:Wizard, 3:Bard, 4:Merchant, 5:Alchemist)
+			packet.PutByte(0);			             // (0:Venturer, 1:Knight, 2:Wizard, 3:Bard, 4:Merchant, 5:Alchemist)
 
 			// Inventory
 			// --------------------------------------------------------------
@@ -440,8 +444,10 @@ namespace Aura.World.Network
 				//   packet.PutShort
 			}
 
-			if (Feature.UnkAny1.IsEnabled())
+			// [150100] ?
+			{
 				packet.PutByte(0);			     // {PLGCNT}
+			}
 
 			// Banner
 			// --------------------------------------------------------------
@@ -465,15 +471,19 @@ namespace Aura.World.Network
 			packet.PutLong((ulong)creature.Conditions.A);
 			packet.PutLong((ulong)creature.Conditions.B);
 			packet.PutLong((ulong)creature.Conditions.C);
-			if (Feature.ConditionD.IsEnabled())
+			// [150100] New conditions list
+			{
 				packet.PutLong((ulong)creature.Conditions.D);
+			}
 			packet.PutInt(0);					 // condition event message list
 			// loop
 			//   packet.PutInt
 			//   packet.PutString
 
-			if (Feature.UnkAny2.IsEnabled())
+			// [180100] Zero Talent
+			{
 				packet.PutLong(0);
+			}
 
 			// Guild
 			// --------------------------------------------------------------
@@ -538,9 +548,9 @@ namespace Aura.World.Network
 				}
 			}
 
-			// ?
+			// [170100] ?
 			// --------------------------------------------------------------
-			if (type == CreaturePacketType.Private && Feature.UnkAny3.IsEnabled())
+			if (type == CreaturePacketType.Private)
 			{
 				packet.PutFloat(1);
 				packet.PutLong(0);
@@ -665,9 +675,9 @@ namespace Aura.World.Network
 			//   packet.PutByte
 
 			// Farming
+			// [150100-170400] Public
 			// --------------------------------------------------------------
-			if (type == CreaturePacketType.Private ||
-			   (type == CreaturePacketType.Public && Feature.FarmingPublic.IsEnabled()))
+			if (type == CreaturePacketType.Private)
 			{
 				packet.PutLong(0);					 // FarmId
 				//   packet.PutLong
@@ -692,7 +702,7 @@ namespace Aura.World.Network
 			// packet.PutInt					 // HitPoint
 			// packet.PutInt					 // MaxHitPoint
 
-			if (Feature.UnkAny4.IsEnabled())
+			// [170300] ?
 			{
 				packet.PutString("");
 				packet.PutByte(0);
@@ -771,29 +781,24 @@ namespace Aura.World.Network
 				packet.PutInt(0);					 // SupportType (0:None, 1:Neamhain, 2:Morrighan)
 			}
 
-			// NPC
+			// [150100] NPC options
 			// --------------------------------------------------------------
-			if (type == CreaturePacketType.Public && Feature.NPCOptions.IsEnabled())
+			if (type == CreaturePacketType.Public && creature.EntityType == EntityType.NPC)
 			{
-				if (creature.EntityType == EntityType.NPC)
-				{
-					packet.PutShort(0);		         // OnlyShowFilter
-					packet.PutShort(0);		         // HideFilter
-				}
+				packet.PutShort(0);		         // OnlyShowFilter
+				packet.PutShort(0);		         // HideFilter
 			}
 
-			// Commerce
+			// [150100] Commerce
 			// --------------------------------------------------------------
-			if (Feature.Commerce.IsEnabled())
 			{
 				packet.PutByte(1);               // IsInCommerceCombat
 				packet.PutLong(0);               // TransportCharacterId
 				packet.PutFloat(1);              // ScaleHeight
 			}
 
-			// Talents
+			// [170100] Talents
 			// --------------------------------------------------------------
-			if (Feature.Talents.IsEnabled())
 			{
 				if (type == CreaturePacketType.Public)
 				{
@@ -811,9 +816,8 @@ namespace Aura.World.Network
 				}
 			}
 
-			// Shamala
+			// [170300] Shamala
 			// --------------------------------------------------------------
-			if (Feature.Shamala.IsEnabled())
 			{
 				if (type == CreaturePacketType.Private)
 				{
@@ -854,26 +858,16 @@ namespace Aura.World.Network
 				}
 			}
 
-			// ?
+			// [180100] ?
 			// --------------------------------------------------------------
-			if (type == CreaturePacketType.Private && Feature.UnkAny6.IsEnabled())
+			if (type == CreaturePacketType.Private)
 			{
 				packet.PutInt(0);
 				packet.PutInt(0);
 			}
 
-			if (Feature.KR711.IsEnabled())
-			{
-				packet.PutInt(0);
-				packet.PutLong(0);
-				packet.PutLong(0);
-				packet.PutString("");
-				packet.PutByte(0);
-			}
-
-			// ?
+			// [NA170403, TW170300] ?
 			// --------------------------------------------------------------
-			if (Feature.UnkNATW1.IsEnabled())
 			{
 				packet.PutInt(0);
 				packet.PutLong(0);
@@ -908,9 +902,6 @@ namespace Aura.World.Network
 				packet.PutLong(0);			         // DoubleGoreTarget
 				packet.PutInt(0);			         // DoubleGoreTargetType
 
-				if (Feature.KR714.IsEnabled())
-					packet.PutLong(0);
-
 				if (!creature.IsMoving)
 				{
 					packet.PutByte(0);
@@ -927,11 +918,15 @@ namespace Aura.World.Network
 					packet.PutString(creature.StandStyleTalk);
 				}
 
-				if (Feature.BombEvent.IsEnabled())
+				// [150100] Bomb Event
+				{
 					packet.PutByte(0);			     // BombEventState
+				}
 
-				if (Feature.UnkAny5.IsEnabled())
+				// [170400] ?
+				{
 					packet.PutByte(0);
+				}
 
 				// NA G18 NPC?, 162 [..............01] Byte   : 1
 
@@ -940,10 +935,12 @@ namespace Aura.World.Network
 
 			// private:
 
+			// [JP] ?
 			// This int is needed in the JP client (1704 log),
 			// but doesn't appear in the NA 1704 or KR test 1801 log.
-			if (Feature.UnkJP1.IsEnabled())
-				packet.PutInt(4);
+			{
+				//packet.PutInt(4);
+			}
 
 			// Premium stuff
 			// --------------------------------------------------------------
@@ -955,14 +952,10 @@ namespace Aura.World.Network
 			packet.PutByte(1);                   // Premium Gestures
 			packet.PutByte(0);
 			packet.PutByte(0);
-			if (Feature.NewPremiumThing.IsEnabled())
+			// [170402, TW170300] New premium thing
+			{
 				packet.PutByte(0);
-			if (Feature.KR714.IsEnabled())
-				packet.PutByte(0);
-			if (Feature.KR717.IsEnabled())
-				packet.PutByte(0);
-			if (Feature.KR729.IsEnabled())
-				packet.PutByte(0);
+			}
 			packet.PutInt(0);
 			packet.PutByte(0);
 			packet.PutInt(0);
@@ -984,9 +977,8 @@ namespace Aura.World.Network
 			packet.PutByte(0);
 			packet.PutByte(2);
 
-			// Pocket ExpireTime List
+			// [150100] Pocket ExpireTime List
 			// --------------------------------------------------------------
-			if (Feature.ExpiringPockets.IsEnabled())
 			{
 				// Style
 				packet.PutLong(DateTime.Now.AddMonths(1));

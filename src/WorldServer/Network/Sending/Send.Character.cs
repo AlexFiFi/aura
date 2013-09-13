@@ -146,8 +146,10 @@ namespace Aura.World.Network
 			packet.PutLong((ulong)creature.Conditions.A);
 			packet.PutLong((ulong)creature.Conditions.B);
 			packet.PutLong((ulong)creature.Conditions.C);
-			if (Feature.ConditionD.IsEnabled())
+			// [150100] New conditions list
+			{
 				packet.PutLong((ulong)creature.Conditions.D);
+			}
 			packet.PutInt(0);
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
@@ -297,8 +299,10 @@ namespace Aura.World.Network
 			packet.PutInt(creature.Talents.GetExp(TalentId.Tailoring));
 			packet.PutInt(creature.Talents.GetExp(TalentId.Medicine));
 			packet.PutInt(creature.Talents.GetExp(TalentId.Carpentry));
-			if (Feature.ZeroTalent.IsEnabled())
+			// [180100] Zero Talent
+			{
 				packet.PutInt(0);
+			}
 
 			// Talent titles
 			// ----------------------------------------------------------

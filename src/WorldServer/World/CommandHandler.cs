@@ -294,12 +294,6 @@ namespace Aura.World.World
 				return CommandResult.Fail;
 			}
 
-			if (info.Version > Op.Version)
-			{
-				// Only warn for now, while there aren't many items that actually use this.
-				Logger.Warning("Item '" + info.Id + "' is said to work only with version '" + info.Version + "' and above.");
-			}
-
 			var newItem = new MabiItem(itemId);
 			newItem.Info.Amount = 1;
 

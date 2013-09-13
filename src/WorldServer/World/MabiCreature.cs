@@ -1168,6 +1168,5 @@ namespace Aura.World.World
 			this.ActiveSkillId = SkillConst.None;
 			this.ActiveSkillStacks = 0;
 		}
-
 	}
 }

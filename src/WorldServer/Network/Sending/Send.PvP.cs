@@ -54,7 +54,7 @@ namespace Aura.World.Network
 			packet.PutInt(0);// PenaltyPoints
 			packet.PutByte(1);  // unk
 
-			if (Feature.NewPVPInfo.IsEnabled())
+			// [170300] ?
 			{
 				packet.PutByte(0);
 				packet.PutInt(0);

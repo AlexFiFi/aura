@@ -73,7 +73,7 @@ namespace Aura.Login.Network
 
 			switch (loginType)
 			{
-				// Normal login, (MD5) password
+				// Normal login, password
 				case LoginType.Normal:
 				case LoginType.EU:
 				case LoginType.KR:
@@ -82,14 +82,14 @@ namespace Aura.Login.Network
 					var passbin = packet.GetBin();
 					password = Encoding.UTF8.GetString(passbin);
 
-					if (!Feature.MD5Passwords.IsEnabled())
+					// [150100] Client-side MD5 password hashing
 					{
 						// EU had no client side hashing. Let's make it compatible to NA.
-						password = string.Empty;
-						foreach (var chr in passbin.TakeWhile(a => a != 0))
-							password += (char)chr;
+						//password = string.Empty;
+						//foreach (var chr in passbin.TakeWhile(a => a != 0))
+						//    password += (char)chr;
 
-						password = MabiPassword.RawToMD5(password);
+						//password = MabiPassword.RawToMD5(password);
 					}
 
 					// Create new account
@@ -99,9 +99,11 @@ namespace Aura.Login.Network
 
 						if (!MabiDb.Instance.AccountExists(username) && password != "")
 						{
-							// Update MD5 based hashes for older clients
-							if (!Feature.SHAPasswords.IsEnabled())
+							// [KR180XXX] Client-side SHA(MD5) password hashing
+							if (password.Length == 32) // MD5
+							{
 								password = MabiPassword.MD5ToSHA256(password);
+							}
 
 							LoginDb.Instance.CreateAccount(username, password);
 							Logger.Info("New account '{0}' was created.", username);
@@ -118,8 +120,10 @@ namespace Aura.Login.Network
 				// Logging in, comming from a channel
 				case LoginType.FromChannel:
 
-					if (Feature.DoubleAccName.IsEnabled())
+					// [160XXX] Double account name
+					{
 						packet.GetString();
+					}
 					sessionKey = packet.GetLong();
 
 					break;

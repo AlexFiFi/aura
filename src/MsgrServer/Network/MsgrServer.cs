@@ -26,7 +26,6 @@ namespace Aura.Msgr.Network
 			Logger.FileLog = "../../logs/msgr.txt";
 
 			Logger.Info("Initializing server @ " + DateTime.Now);
-			Logger.Info("Version: {0}, {1}", Op.Version, Op.Region);
 
 			// Configuration
 			// --------------------------------------------------------------

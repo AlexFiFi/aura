@@ -76,8 +76,10 @@ namespace Aura.Login.Network
 			var packet = new MabiPacket(Op.LoginR, Id.Login);
 			packet.PutByte((byte)LoginResult.Success);
 			packet.PutString(account.Name);
-			if (Feature.DoubleAccName.IsEnabled())
+			// [160XXX] Double account name
+			{
 				packet.PutString(account.Name);
+			}
 			packet.PutLong(sessionKey);
 			packet.PutByte(0);
 
@@ -461,7 +463,7 @@ namespace Aura.Login.Network
 			packet.PutInt(0x800200FF);
 			packet.PutByte(1);
 
-			// Premium services
+			// Premium services, listed in char selection
 			// --------------------------------------------------------------
 			// All 3 are visible, if one is set.
 			packet.PutByte(false);			// Nao's Support
@@ -482,9 +484,9 @@ namespace Aura.Login.Network
 			packet.PutByte(false);          // Mabinogi VIP
 			packet.PutLong(0);
 
-			// Invisible?
-			if (Feature.NewPremiumThing.IsEnabled())
+			// [170402, TW170300] New premium thing
 			{
+				// Invisible?
 				packet.PutByte(0);
 				packet.PutLong(0);
 			}

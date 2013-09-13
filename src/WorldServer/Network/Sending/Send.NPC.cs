@@ -68,8 +68,10 @@ namespace Aura.World.Network
 			{
 				packet.PutString("[{0}]{1}", i, shop.Tabs[i].Name);
 
-				if (Feature.UnkNewShopInfo.IsEnabled())
+				// [160200] ?
+				{
 					packet.PutByte(0);
+				}
 
 				packet.PutShort((ushort)shop.Tabs[i].Items.Count);
 				foreach (var item in shop.Tabs[i].Items)

@@ -39,7 +39,6 @@ namespace Aura.Login.Network
 			Logger.FileLog = "../../logs/login.txt";
 
 			Logger.Info("Initializing server @ " + DateTime.Now);
-			Logger.Info("Version: {0}, {1}", Op.Version, Op.Region);
 
 			// Configuration
 			// --------------------------------------------------------------
@@ -232,7 +231,7 @@ namespace Aura.Login.Network
 
 						MabiDb.Instance.SetAccountPassword(accountName, password);
 
-						Logger.Info("Password reset.");
+						Logger.Info("Password changed.");
 					}
 					break;
 

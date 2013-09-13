@@ -215,8 +215,10 @@ namespace Aura.World.Network
 		private void HandleLogin(WorldClient client, MabiPacket packet)
 		{
 			var userName = packet.GetString();
-			if (Feature.DoubleAccName.IsEnabled())
+			// [160XXX] Double account name
+			{
 				packet.GetString();
+			}
 			var seedKey = packet.GetLong();
 			var charID = packet.GetLong();
 			//byte unk1 = packet.GetByte();
