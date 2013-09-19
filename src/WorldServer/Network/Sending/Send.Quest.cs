@@ -57,6 +57,14 @@ namespace Aura.World.Network
 			packet.PutByte(0);
 			packet.PutByte(0); // 1 = blue icon
 			packet.PutByte(0);
+
+			// [180300, NA166 (18.09.2013)] ?
+			{
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+			}
+
 			packet.PutString(""); // data\gfx\image\gui_temporary_quest.dds
 			packet.PutInt(0);     // 4, x y ?
 			packet.PutInt(0);

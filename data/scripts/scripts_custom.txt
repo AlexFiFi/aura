@@ -8,3 +8,4 @@
 //custom/telephant.cs
 //custom/custom_bgm.cs
 //custom/chalk_on_death.cs
+//custom/oriental_town.cs

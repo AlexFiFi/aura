@@ -149,6 +149,11 @@ namespace Aura.World.Network
 			if (type == CreaturePacketType.Public)
 			{
 				packet.PutInt((uint)creature.StateEx);
+
+				// [180300, NA166 (18.09.2013)
+				{
+					packet.PutInt(0);
+				}
 			}
 			packet.PutFloat(creature.Height);
 			packet.PutFloat(creature.Weight);
@@ -231,9 +236,9 @@ namespace Aura.World.Network
 				packet.PutShort(0);			         // RightRateMod
 				packet.PutFloat(0);			         // MagicDefenseMod
 				packet.PutFloat(0);			         // MagicAttackMod
-				// [180300] New creature info
+				// [180300, NA166 (18.09.2013)] New creature info
 				{
-					//packet.PutFloat(0);			     // ?
+					packet.PutFloat(0);			     // ?
 				}
 				packet.PutShort(15);		         // MeleeAttackRateMod
 				packet.PutShort(15);		         // RangeAttackRateMod
@@ -247,9 +252,11 @@ namespace Aura.World.Network
 				packet.PutShort(0);			         // RateMod
 				packet.PutShort(0);			         // Rank1
 				packet.PutShort(0);			         // Rank2
-				// [180300] New creature info
+				// [180300, NA166 (18.09.2013)] New creature info
 				{
+					// From a KR log I had float here, NA has a short... my mistake?
 					//packet.PutFloat(0);			     // ?
+					packet.PutShort(0);			     // ?
 				}
 				packet.PutLong(0);			         // Score
 				packet.PutShort(0);			         // AttackMinBaseMod
@@ -449,7 +456,7 @@ namespace Aura.World.Network
 				packet.PutByte(0);			     // {PLGCNT}
 			}
 
-			// Banner
+			// Party
 			// --------------------------------------------------------------
 			if (creature.Party != null)
 			{
@@ -767,12 +774,12 @@ namespace Aura.World.Network
 			// Family
 			// --------------------------------------------------------------
 			packet.PutLong(0);					 // FamilyId
-			// loop
-			//   packet.WriteString				 // FamilyName
+			// if
+			//   packet.PutString				 // FamilyName
 			//   packet.PutShort
 			//   packet.PutShort
 			//   packet.PutShort
-			//   packet.WriteString				 // FamilyTitle
+			//   packet.PutString				 // FamilyTitle
 
 			// Demigod
 			// --------------------------------------------------------------
@@ -878,6 +885,33 @@ namespace Aura.World.Network
 				packet.PutByte(0);    // Banner enabled?
 			}
 
+			// [180300, NA166 (18.09.2013)] ?
+			// Required, even though it looks like a list.
+			// --------------------------------------------------------------
+			{
+				packet.PutInt(10); // Count?
+				packet.PutLong(4194304);
+				packet.PutInt(1347950097);
+				packet.PutLong(34359771136);
+				packet.PutInt(1346340501);
+				packet.PutLong(0);
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutInt(0);
+				packet.PutLong(0);
+				packet.PutInt(0);
+			}
+
 			// Character
 			// --------------------------------------------------------------
 			if (type == CreaturePacketType.Public)
@@ -901,6 +935,11 @@ namespace Aura.World.Network
 			{
 				packet.PutLong(0);			         // DoubleGoreTarget
 				packet.PutInt(0);			         // DoubleGoreTargetType
+
+				// [180300, NA166 (18.09.2013)] ?
+				{
+					packet.PutLong(0);
+				}
 
 				if (!creature.IsMoving)
 				{
@@ -928,7 +967,10 @@ namespace Aura.World.Network
 					packet.PutByte(0);
 				}
 
-				// NA G18 NPC?, 162 [..............01] Byte   : 1
+				// [180?00] ?
+				{
+					packet.PutByte(1);
+				}
 
 				return;
 			}
@@ -954,6 +996,11 @@ namespace Aura.World.Network
 			packet.PutByte(0);
 			// [170402, TW170300] New premium thing
 			{
+				packet.PutByte(1); // VIP inv?
+			}
+			// [180300, NA166 (18.09.2013)] ?
+			{
+				packet.PutByte(0);
 				packet.PutByte(0);
 			}
 			packet.PutInt(0);
@@ -987,6 +1034,8 @@ namespace Aura.World.Network
 				// ?
 				packet.PutLong(0);
 				packet.PutShort(73);
+
+				packet.PutLong(0);
 			}
 		}
 

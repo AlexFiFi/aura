@@ -33,8 +33,8 @@ public class CaitinScript : NPCScript
         //----------------
 
         //Page 1
-        Shop.AddItem("Grocery", 5004);		//Bread
-        Shop.AddItem("Grocery", 5002);		//Slice of Cheese
+        Shop.AddItem("Grocery", 50004);		//Bread
+        Shop.AddItem("Grocery", 50002);		//Slice of Cheese
         Shop.AddItem("Grocery", 50111);		//Carrot
         Shop.AddItem("Grocery", 50131);		//Sugar
         Shop.AddItem("Grocery", 50131, 10);	//Sugar x10

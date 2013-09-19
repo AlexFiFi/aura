@@ -118,7 +118,8 @@ namespace Aura.Shared.Network
 		public const uint ItemAmount = 0x59EA;
 		public const uint ItemUse = 0x59EB;
 		public const uint UseItemR = 0x59EC;
-		public const uint NPCTalkSelectEnd = 0x59F9;
+		//public const uint ? = 0x59F9; // "Unable to receive [something]."
+		public const uint NPCTalkSelectEnd = 0x59FB;
 		public const uint SwitchSet = 0x5BCD;
 		public const uint SwitchSetR = 0x5BCE;
 		public const uint SwitchedSet = 0x5BCF;
@@ -519,5 +520,10 @@ namespace Aura.Shared.Network
 		// ShamalaTransformation = 0xAB15;
 		// ShamalaTransformationEnd = 0xAB16;
 		// ShamalaTransformationEndR = 0xAB17;
+
+		// [180300, NA166 (18.09.2013)]
+		// Values shifted due to inserts?
+		// Old ones:
+		// NPCTalkSelectEnd = 0x59F9;
 	}
 }
