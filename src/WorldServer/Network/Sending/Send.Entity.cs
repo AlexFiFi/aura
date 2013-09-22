@@ -987,16 +987,16 @@ namespace Aura.World.Network
 			// Premium stuff
 			// --------------------------------------------------------------
 			packet.PutByte(0);                   // IsUsingExtraStorage (old service)
-			packet.PutByte(0);                   // IsUsingNaosSupport (old service)
+			packet.PutByte(1);                   // IsUsingNaosSupport (old service) (Style tab in 1803?)
 			packet.PutByte(0);                   // IsUsingAdvancedPlay (old service)
 			packet.PutByte(0);                   // PremiumService 0
 			packet.PutByte(0);                   // PremiumService 1
 			packet.PutByte(1);                   // Premium Gestures
-			packet.PutByte(0);
+			packet.PutByte(1);					 // ? (Default 1 on NA?)
 			packet.PutByte(0);
 			// [170402, TW170300] New premium thing
 			{
-				packet.PutByte(1); // VIP inv?
+				packet.PutByte(1); // VIP inv? (since 1803?)
 			}
 			// [180300, NA166 (18.09.2013)] ?
 			{

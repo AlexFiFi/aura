@@ -344,6 +344,7 @@ namespace Aura.World.Network
 				Send.UnreadMailCount(client, character, (uint)MabiMail.GetUnreadCount(character));
 
 				// Button will be disabled if we don't send this packet.
+				// Update: Doesn't seem to be the case anymore (noticed in NA166).
 				if (WorldConf.EnableItemShop)
 					Send.ItemShopInfo(client);
 

@@ -51,6 +51,15 @@ namespace Aura.Login.Network
 
 			RegisterPacketHandler(Op.Internal.ServerIdentify, HandleServerIdentify);
 			RegisterPacketHandler(Op.Internal.ChannelStatus, HandleChannelStatus);
+
+			// Temp/Unknown
+			// --------------------------------------------------------------
+
+			RegisterPacketHandler(0x5A, (client, packet) =>
+			{
+				// NA seems to always answer this with a single 0 byte.
+				client.Send(new MabiPacket(0x5B, Id.Login).PutByte(0));
+			});
 		}
 
 		private void HandleVersionCheck(LoginClient client, MabiPacket packet)

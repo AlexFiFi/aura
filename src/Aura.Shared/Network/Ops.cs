@@ -118,8 +118,13 @@ namespace Aura.Shared.Network
 		public const uint ItemAmount = 0x59EA;
 		public const uint ItemUse = 0x59EB;
 		public const uint UseItemR = 0x59EC;
+
+		// [180300, NA166 (18.09.2013)] 2 new ops
+		//public const uint ? = 0x59F8; // Request for that --v ?
 		//public const uint ? = 0x59F9; // "Unable to receive [something]."
+
 		public const uint NPCTalkSelectEnd = 0x59FB;
+
 		public const uint SwitchSet = 0x5BCD;
 		public const uint SwitchSetR = 0x5BCE;
 		public const uint SwitchedSet = 0x5BCF;
@@ -345,28 +350,31 @@ namespace Aura.Shared.Network
 		//public const uint StunMeter? = 0xAA1E;
 		public const uint HomesteadInfoRequest = 0xAA54;
 		public const uint HomesteadInfoRequestR = 0xAA55;
-		public const uint CollectionRequest = 0xAA85;
-		public const uint CollectionRequestR = 0xAA86;
 
-		public const uint GoBeautyShop = 0xAAF2;
-		public const uint GoBeautyShopR = 0xAAF3;
-		public const uint LeaveBeautyShop = 0xAAF4;
-		public const uint LeaveBeautyShopR = 0xAAF5;
-		public const uint OpenBeautyShop = 0xAAF6;
-		//public const uint ? = 0xAAF7;	// Buy looks?
-		//public const uint ? = 0xAAF8;	// Buy looks R?
-		public const uint CancelBeautyShop = 0xAAF9;
-		public const uint CancelBeautyShopR = 0xAAFA;
+		// [180300, NA166 (18.09.2013)] 2 new ops somewhere here
 
-		public const uint TalentInfoUpdate = 0xAB11;
-		public const uint TalentTitleChange = 0xAB12;
-		public const uint TalentTitleUpdate = 0xAB13;
+		public const uint CollectionRequest = 0xAA87;
+		public const uint CollectionRequestR = 0xAA88;
 
-		public const uint ShamalaTransformationUpdate = 0xAB15;
-		public const uint ShamalaTransformationUse = 0xAB16;
-		public const uint ShamalaTransformation = 0xAB17;
-		public const uint ShamalaTransformationEnd = 0xAB18;
-		public const uint ShamalaTransformationEndR = 0xAB19;
+		public const uint GoBeautyShop = 0xAAF4;
+		public const uint GoBeautyShopR = 0xAAF5;
+		public const uint LeaveBeautyShop = 0xAAF6;
+		public const uint LeaveBeautyShopR = 0xAAF7;
+		public const uint OpenBeautyShop = 0xAAF8;
+		//public const uint ? = 0xAAF9;	// Buy looks?
+		//public const uint ? = 0xAAFA;	// Buy looks R?
+		public const uint CancelBeautyShop = 0xAAFB;
+		public const uint CancelBeautyShopR = 0xAAFC;
+
+		public const uint TalentInfoUpdate = 0xAB13;
+		public const uint TalentTitleChange = 0xAB14;
+		public const uint TalentTitleUpdate = 0xAB15;
+
+		public const uint ShamalaTransformationUpdate = 0xAB17;
+		public const uint ShamalaTransformationUse = 0xAB18;
+		public const uint ShamalaTransformation = 0xAB19;
+		public const uint ShamalaTransformationEnd = 0xAB1A;
+		public const uint ShamalaTransformationEndR = 0xAB1B;
 
 		public const uint NPCTalk = 0x13882;
 		public const uint NPCTalkSelect = 0x13883;
@@ -525,5 +533,22 @@ namespace Aura.Shared.Network
 		// Values shifted due to inserts?
 		// Old ones:
 		// NPCTalkSelectEnd = 0x59F9;
+		// CollectionRequest = 0xAA85;
+		// CollectionRequestR = 0xAA86;
+		// GoBeautyShop = 0xAAF2;
+		// GoBeautyShopR = 0xAAF3;
+		// LeaveBeautyShop = 0xAAF4;
+		// LeaveBeautyShopR = 0xAAF5;
+		// OpenBeautyShop = 0xAAF6;
+		// CancelBeautyShop = 0xAAF9;
+		// CancelBeautyShopR = 0xAAFA;
+		// TalentInfoUpdate = 0xAB11;
+		// TalentTitleChange = 0xAB12;
+		// TalentTitleUpdate = 0xAB13;
+		// ShamalaTransformationUpdate = 0xAB15;
+		// ShamalaTransformationUse = 0xAB16;
+		// ShamalaTransformation = 0xAB17;
+		// ShamalaTransformationEnd = 0xAB18;
+		// ShamalaTransformationEndR = 0xAB19;
 	}
 }
