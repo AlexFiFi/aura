@@ -27,6 +27,7 @@ namespace Aura.World.Skills
 			var title = packet.GetString();
 			var author = packet.GetString();
 			var mml = packet.GetString();
+			var singing = packet.GetString(); // [180300, NA166 (18.09.2013)] Singing
 			var hidden = packet.GetByte();
 
 			var item = creature.GetItem(itemId);
@@ -60,6 +61,7 @@ namespace Aura.World.Skills
 			item.Tags.SetString("TITLE", title);
 			item.Tags.SetString("AUTHOR", author);
 			item.Tags.SetString("SCORE", MabiZip.Compress(mml));
+			item.Tags.SetString("SCSING", ""); // [180300, NA166 (18.09.2013)] Singing
 			item.Tags.SetByte("HIDDEN", hidden);
 			item.Tags.SetShort("LEVEL", (ushort)level);
 

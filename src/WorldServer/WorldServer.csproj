@@ -87,9 +87,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\Misc\AIScript.cs" />
-    <Compile Include="Scripting\BaseScript.cs" />
-    <Compile Include="Scripting\BaseScript.Props.cs" />
-    <Compile Include="Scripting\BaseScript.Quests.cs" />
+    <Compile Include="Scripting\Base\BaseScript.cs" />
+    <Compile Include="Scripting\Base\BaseScript.Props.cs" />
+    <Compile Include="Scripting\Base\BaseScript.Quests.cs" />
     <Compile Include="Scripting\Misc\CreatureScript.cs" />
     <Compile Include="Scripting\NPC\DialogElements.cs" />
     <Compile Include="Scripting\Misc\ItemScript.cs" />

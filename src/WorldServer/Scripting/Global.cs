@@ -8,8 +8,8 @@ using Aura.Shared.Util;
 namespace Aura.World.Scripting
 {
 	/// <summary>
-	/// The main purpose for this class is giving easy access to the
-	/// global scripting variables and saving them reguarly, for now.
+	/// The main purpose of this class for now is to give easy access
+	/// to the global scripting variables and saving them reguarly.
 	/// </summary>
 	public static class Global
 	{

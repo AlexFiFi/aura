@@ -49,9 +49,9 @@ public class SiobhaninScript : NPCScript
         Shop.AddItem("General Goods", 62021, 100);	//Six-sided Die
         Shop.AddItem("General Goods", 63020);		//Empty Bottle
         Shop.AddItem("General Goods", 60045);		//Handicraft Kit
-        Shop.AddItem("General Goods", 4004);		//Lute
-        Shop.AddItem("General Goods", 4004);		//Lute
-        Shop.AddItem("General Goods", 4004);		//Lute
+        Shop.AddItem("General Goods", 40004);		//Lute
+        Shop.AddItem("General Goods", 40004);		//Lute
+        Shop.AddItem("General Goods", 40004);		//Lute
         Shop.AddItem("General Goods", 50078);		//Ticking Quiz Bomb
         Shop.AddItem("General Goods", 2001);		//Gold Pouch
         Shop.AddItem("General Goods", 40215);		//Snare Drum
