@@ -1,6 +1,7 @@
 # Aura files
 
 /conf/user/*.conf
+!/conf/user/database-example.conf
 /cache/
 /log/
 
