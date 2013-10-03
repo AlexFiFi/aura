@@ -36,8 +36,8 @@ namespace Aura.World.World
 
 			this.AddCommand("go", "<destination>", Authority.VIP, Command_go);
 			this.AddCommand("shamala", "<race>", Authority.VIP, Command_shamala);
-			this.AddCommand("setrace", "<race>", Authority.Player, Command_setrace);
-			this.AddCommand("guild", "<name>", Authority.Player, Command_guild);
+			this.AddCommand("setrace", "<race>", Authority.VIP, Command_setrace);
+			this.AddCommand("guild", "<name>", Authority.VIP, Command_guild);
 
 			this.AddCommand("gmcp", Authority.GameMaster, Command_gmcp);
 			this.AddCommand("item", "<id|item_name> [<amount|[color1> <color2> <color3>]]", Authority.GameMaster, Command_item);
