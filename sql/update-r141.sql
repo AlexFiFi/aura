@@ -1,2 +1,0 @@
-ALTER TABLE  `characters` ADD  `talentTitle` SMALLINT( 5 ) UNSIGNED NOT NULL DEFAULT  '0' AFTER  `optionTitle` ,
-ADD  `grandmasterTalent` TINYINT( 3 ) UNSIGNED NOT NULL DEFAULT  '255' AFTER  `talentTitle`;
