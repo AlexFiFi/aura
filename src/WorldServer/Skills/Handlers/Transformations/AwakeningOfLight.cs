@@ -23,14 +23,14 @@ namespace Aura.World.Skills.Handlers.Transformations
 	/// Var9: Skill exp used? (600 (/1000))
 	/// </summary>
 	[SkillAttr(SkillConst.AwakeningofLight)]
-	public class AwakeningOfLightHandler : SkillHandler
+	public class AwakeningOfLightHandler : StartStopSkillHandler
 	{
 		private const uint EruptionRadius = 500;
 		private const uint EruptionDamage = 120;
 		private const ushort EruptionStun = 5000;
 		private const int EruptionKnockBack = 375;
 
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
 		{
 			creature.Activate(CreatureConditionB.Demigod);
 
@@ -82,7 +82,7 @@ namespace Aura.World.Skills.Handlers.Transformations
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags)
 		{
 			creature.Deactivate(CreatureConditionB.Demigod);
 

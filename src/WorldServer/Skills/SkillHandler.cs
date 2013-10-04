@@ -82,13 +82,13 @@ namespace Aura.World.Skills
 		}
 
 		// Skills like Rest, that don't load and are simply (de)activated.
-		public virtual SkillResults Start(MabiCreature creature, MabiSkill skill)
+		public virtual SkillResults Start(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			Logger.Unimplemented("Skill start handler for '{0}' ({1}).", skill.Id, skill.Info.Id);
 			return SkillResults.Unimplemented;
 		}
 
-		public virtual SkillResults Stop(MabiCreature creature, MabiSkill skill)
+		public virtual SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
 			Logger.Unimplemented("Skill stop handler for '{0}' ({1}).", skill.Id, skill.Info.Id);
 			return SkillResults.Unimplemented;

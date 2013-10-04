@@ -291,7 +291,7 @@ namespace Aura.World.Skills
 			target.Mana -= manaDamage;
 
 			if (target.Mana <= 0)
-				SkillManager.GetHandler(SkillConst.ManaShield).Stop(target, skill);
+				SkillManager.GetHandler(SkillConst.ManaShield).Stop(target, skill, null);
 
 			return manaDamage;
 		}

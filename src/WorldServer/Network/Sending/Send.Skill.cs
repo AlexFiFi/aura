@@ -333,5 +333,50 @@ namespace Aura.World.Network
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 		}
+
+		/// <summary>
+		/// Sends SkillStart to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skillId"></param>
+		/// <param name="parameter"></param>
+		public static void SkillStart(MabiCreature creature, SkillConst skillId, string parameter)
+		{
+			var packet = new MabiPacket(Op.SkillStart, creature.Id);
+			packet.PutShort((ushort)skillId);
+			packet.PutString(parameter);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends SkillStop to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skillId"></param>
+		/// <param name="parameter"></param>
+		public static void SkillStop(MabiCreature creature, SkillConst skillId, byte parameter)
+		{
+			var packet = new MabiPacket(Op.SkillStop, creature.Id);
+			packet.PutShort((ushort)skillId);
+			packet.PutByte(parameter);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends SkillStop to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="skillId"></param>
+		/// <param name="parameter"></param>
+		public static void SkillStop(MabiCreature creature, SkillConst skillId, string parameter)
+		{
+			var packet = new MabiPacket(Op.SkillStop, creature.Id);
+			packet.PutShort((ushort)skillId);
+			packet.PutString(parameter);
+
+			creature.Client.Send(packet);
+		}
 	}
 }

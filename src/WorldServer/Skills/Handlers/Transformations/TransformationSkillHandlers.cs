@@ -1,20 +1,20 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
-using Aura.Shared.Network;
-using Aura.World.World;
-using System;
-using Aura.World.Network;
-using Aura.Shared.Const;
-using Aura.World.Util;
 using System.Threading;
+using Aura.Shared.Const;
+using Aura.Shared.Network;
+using Aura.Shared.Util;
+using Aura.World.Network;
+using Aura.World.Util;
+using Aura.World.World;
 
 namespace Aura.World.Skills
 {
 	[SkillAttr(SkillConst.SpiritOfOrder)]
-	public class SpiritOfOrderHandler : SkillHandler
+	public class SpiritOfOrderHandler : StartStopSkillHandler
 	{
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
 		{
 			WorldManager.Instance.Broadcast(GetPacket(creature, skill, true), SendTargets.Range, creature);
 
@@ -33,7 +33,7 @@ namespace Aura.World.Skills
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags)
 		{
 			WorldManager.Instance.Broadcast(GetPacket(creature, skill, false), SendTargets.Range, creature);
 
@@ -81,9 +81,9 @@ namespace Aura.World.Skills
 	{
 		protected override byte TransformId { get { return 2; } }
 
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
 		{
-			var result = base.Start(creature, skill);
+			var result = base.Start(creature, skill, tags);
 
 			if (WorldConf.DkSoundFix && (result & SkillResults.Okay) == SkillResults.Okay)
 			{

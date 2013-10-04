@@ -1719,7 +1719,6 @@ namespace Aura.World.Network
 		private void HandleSkillStart(WorldClient client, MabiPacket packet)
 		{
 			var skillId = (SkillConst)packet.GetShort();
-			var parameters = packet.GetStringOrEmpty();
 
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
@@ -1733,15 +1732,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var result = handler.Start(creature, skill);
-
-			if ((result & SkillResults.Okay) == 0)
-				return;
-
-			var r = new MabiPacket(Op.SkillStart, creature.Id);
-			r.PutShort((ushort)skillId);
-			r.PutString("");
-			client.Send(r);
+			handler.Start(creature, skill, packet);
 		}
 
 		/// <summary>
@@ -1752,7 +1743,6 @@ namespace Aura.World.Network
 		private void HandleSkillStop(WorldClient client, MabiPacket packet)
 		{
 			var skillId = (SkillConst)packet.GetShort();
-			var parameters = packet.GetStringOrEmpty();
 
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
@@ -1763,15 +1753,7 @@ namespace Aura.World.Network
 			if (skill == null || handler == null)
 				return;
 
-			var result = handler.Stop(creature, skill);
-
-			//if ((result & SkillResults.Okay) == 0)
-			//    return;
-
-			var r = new MabiPacket(Op.SkillStop, creature.Id);
-			r.PutShort((ushort)skillId);
-			r.PutByte(1);
-			client.Send(r);
+			handler.Stop(creature, skill, packet);
 		}
 
 		private void HandleChangeStance(WorldClient client, MabiPacket packet)
