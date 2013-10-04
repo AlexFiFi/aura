@@ -30,7 +30,7 @@ namespace Aura.World.Skills.Handlers.Transformations
 		private const ushort EruptionStun = 5000;
 		private const int EruptionKnockBack = 375;
 
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Activate(CreatureConditionB.Demigod);
 
@@ -82,7 +82,7 @@ namespace Aura.World.Skills.Handlers.Transformations
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Deactivate(CreatureConditionB.Demigod);
 

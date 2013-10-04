@@ -12,7 +12,7 @@ namespace Aura.World.Skills
 	[SkillAttr(SkillConst.ManaShield)]
 	public class ManaShieldHandler : StartStopSkillHandler
 	{
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Conditions.A |= CreatureConditionA.ManaShield;
 			Send.StatusEffectUpdate(creature);
@@ -21,7 +21,7 @@ namespace Aura.World.Skills
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Conditions.A &= ~CreatureConditionA.ManaShield;
 			Send.StatusEffectUpdate(creature);

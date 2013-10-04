@@ -14,7 +14,7 @@ namespace Aura.World.Skills
 	[SkillAttr(SkillConst.SpiritOfOrder)]
 	public class SpiritOfOrderHandler : StartStopSkillHandler
 	{
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			WorldManager.Instance.Broadcast(GetPacket(creature, skill, true), SendTargets.Range, creature);
 
@@ -33,7 +33,7 @@ namespace Aura.World.Skills
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			WorldManager.Instance.Broadcast(GetPacket(creature, skill, false), SendTargets.Range, creature);
 
@@ -81,9 +81,9 @@ namespace Aura.World.Skills
 	{
 		protected override byte TransformId { get { return 2; } }
 
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
-			var result = base.Start(creature, skill, tags);
+			var result = base.Start(creature, skill);
 
 			if (WorldConf.DkSoundFix && (result & SkillResults.Okay) == SkillResults.Okay)
 			{

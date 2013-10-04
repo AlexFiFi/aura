@@ -11,7 +11,7 @@ namespace Aura.World.Skills.Handlers.Actions
 	[SkillAttr(SkillConst.SpreadWings)]
 	public class SpreadWingsHandler : StartStopSkillHandler
 	{
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Activate(CreatureConditionD.SpreadWings);
 
@@ -20,7 +20,7 @@ namespace Aura.World.Skills.Handlers.Actions
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			creature.Deactivate(CreatureConditionD.SpreadWings);
 

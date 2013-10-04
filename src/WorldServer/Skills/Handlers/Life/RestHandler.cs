@@ -9,7 +9,7 @@ using Aura.World.World;
 namespace Aura.World.Skills
 {
 	[SkillAttr(SkillConst.Rest)]
-	public class RestHandler : StartStopSkillHandler
+	public class RestHandler : StartStopTagsSkillHandler
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
 		{

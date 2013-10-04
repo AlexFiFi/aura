@@ -11,7 +11,7 @@ namespace Aura.World.Skills
 	[SkillAttr(SkillConst.Umbrella)]
 	public class UmbrellaSkillHandler : StartStopSkillHandler
 	{
-		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Start(MabiCreature creature, MabiSkill skill)
 		{
 			if (creature.RightHand == null)
 				return SkillResults.Failure;
@@ -21,7 +21,7 @@ namespace Aura.World.Skills
 			return SkillResults.Okay;
 		}
 
-		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags)
+		public override SkillResults Stop(MabiCreature creature, MabiSkill skill)
 		{
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.CloseUmbrella, creature.Id), SendTargets.Range, creature);
 

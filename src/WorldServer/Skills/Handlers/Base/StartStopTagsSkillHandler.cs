@@ -10,15 +10,18 @@ namespace Aura.World.Skills
 {
 	/// <summary>
 	/// Simplified handler for skills using Start/Stop, that's automatically
-	/// sending back back SkillStart/SkillStop.
+	/// checking for tags, and sends back SkillStart/SkillStop.
 	/// </summary>
-	public abstract class StartStopSkillHandler : SkillHandler
+	public abstract class StartStopTagsSkillHandler : SkillHandler
 	{
 		public override SkillResults Start(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
-			var parameter = (packet != null ? packet.GetStringOrEmpty() : "");
+			// Usually the second parameter is an empty string,
+			// but if it's not empty it seems to be tags.
+			var parameter = (packet != null && packet.GetElementType() == ElementType.String ? packet.GetString() : null);
+			var tags = new MabiTags(parameter);
 
-			var result = this.Start(creature, skill);
+			var result = this.Start(creature, skill, tags);
 
 			Send.SkillStart(creature, skill.Id, parameter);
 
@@ -27,9 +30,13 @@ namespace Aura.World.Skills
 
 		public override SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiPacket packet)
 		{
+			// Sometimes the second stop parameter is a byte,
+			// possibly when canceling by moving (eg Rest).
+			// The client doesn't really seem to care about what we send back though...
 			var parameter = (packet != null && packet.GetElementType() == ElementType.String ? packet.GetString() : null);
+			var tags = new MabiTags(parameter);
 
-			var result = this.Stop(creature, skill);
+			var result = this.Stop(creature, skill, tags);
 
 			if (parameter != null)
 				Send.SkillStop(creature, skill.Id, parameter);
@@ -39,7 +46,7 @@ namespace Aura.World.Skills
 			return result;
 		}
 
-		public abstract SkillResults Start(MabiCreature creature, MabiSkill skill);
-		public abstract SkillResults Stop(MabiCreature creature, MabiSkill skill);
+		public abstract SkillResults Start(MabiCreature creature, MabiSkill skill, MabiTags tags);
+		public abstract SkillResults Stop(MabiCreature creature, MabiSkill skill, MabiTags tags);
 	}
 }

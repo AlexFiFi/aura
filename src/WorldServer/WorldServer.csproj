@@ -105,6 +105,7 @@
     <Compile Include="Skills\CombatFactory.cs" />
     <Compile Include="Skills\Handlers\Actions\SpreadWingsHandler.cs" />
     <Compile Include="Skills\Handlers\Actions\UmbrellaHandler.cs" />
+    <Compile Include="Skills\Handlers\Base\StartStopTagsSkillHandler.cs" />
     <Compile Include="Skills\Handlers\Base\StartStopSkillHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\ArrowRevolverHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\SupportShotHandler.cs" />
