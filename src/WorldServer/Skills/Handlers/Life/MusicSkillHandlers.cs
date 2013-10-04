@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
+using System;
+using Aura.Data;
 using Aura.Shared.Const;
 using Aura.Shared.Network;
 using Aura.Shared.Util;
@@ -19,7 +21,7 @@ namespace Aura.World.Skills
 	[SkillAttr(SkillConst.Composing)]
 	public class ComposingHandler : SkillHandler
 	{
-		const int MMLMaxLength = 10000;
+		private const int MMLMaxLength = 10000;
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
@@ -88,8 +90,11 @@ namespace Aura.World.Skills
 	public class PlayingInstrumentHandler : SkillHandler
 	{
 		// tmp
-		const int RandomScoreMin = 1, RandomScoreMax = 52;
-		const int DurabilityUse = 1000;
+		private const int RandomScoreMin = 1, RandomScoreMax = 52;
+		private const int DurabilityUse = 1000;
+
+		private const uint CelloChair = 44291;
+		private const uint GiantCelloChair = 44292;
 
 		public override SkillResults Prepare(MabiCreature creature, MabiSkill skill, MabiPacket packet, uint castTime)
 		{
@@ -98,6 +103,26 @@ namespace Aura.World.Skills
 			// Check for instrument
 			if (creature.RightHand == null || creature.RightHand.Type != ItemType.Instrument)
 				return SkillResults.Failure;
+
+			// Spawn chair for Cello
+			if (creature.RightHand.DataInfo.Instrument == InstrumentType.Cello)
+			{
+				var pos = creature.GetPosition();
+
+				// Chair prop
+				var prop = new MabiProp((!creature.IsGiant ? CelloChair : GiantCelloChair), creature.Region, pos.X, pos.Y, MabiMath.DirToRad(creature.Direction));
+				prop.State = "stand";
+				WorldManager.Instance.AddProp(prop);
+
+				// Move char
+				Send.AssignChair(creature, prop.Id, 1);
+
+				// Update chair
+				prop.ExtraData = string.Format("<xml OWNER='{0}' SITCHAR='{0}'/>", creature.Id);
+				Send.PropUpdate(prop);
+
+				creature.Temp.SittingProp = prop;
+			}
 
 			// Score scrolls go into the magazine pocket and need a SCORE tag.
 			// XXX: Is it possbile to play random with a low durability scroll?
@@ -180,6 +205,8 @@ namespace Aura.World.Skills
 			// Result notice
 			Send.Notice(creature.Client, this.GetRandomComplete(creature.Temp.PlayingInstrumentQuality));
 
+			this.RemoveChair(creature);
+
 			// skill training
 
 			Send.SkillComplete(creature.Client, creature, skill.Id);
@@ -192,7 +219,30 @@ namespace Aura.World.Skills
 			// Stop effect
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(Effect.StopMusic), SendTargets.Range, creature);
 
+			this.RemoveChair(creature);
+
 			return SkillResults.Okay;
+		}
+
+		/// <summary>
+		/// Removes creature's sitting prop, if instrument was a Cello.
+		/// </summary>
+		/// <param name="creature"></param>
+		private void RemoveChair(MabiCreature creature)
+		{
+			if (creature.RightHand.DataInfo.Instrument == InstrumentType.Cello)
+			{
+				// Update chair
+				creature.Temp.SittingProp.ExtraData = string.Format("<xml OWNER='0' SITCHAR='0'/>");
+				Send.PropUpdate(creature.Temp.SittingProp);
+
+				Send.AssignChair(creature, 0, 0);
+
+				// Remove chair in 1s
+				creature.Temp.SittingProp.DisappearTime = DateTime.Now.AddSeconds(1);
+
+				creature.Temp.SittingProp = null;
+			}
 		}
 
 		/// <summary>

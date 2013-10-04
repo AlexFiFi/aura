@@ -113,6 +113,7 @@ namespace Aura.Data
 		Roncadora = 4,
 		Flute = 5,
 		Chalumeau = 6,
+
 		ToneBottleC = 7,
 		ToneBottleD = 8,
 		ToneBottleE = 9,
@@ -120,12 +121,19 @@ namespace Aura.Data
 		ToneBottleG = 11,
 		ToneBottleB = 12,
 		ToneBottleA = 13,
+
 		Tuba = 18,
 		Lyra = 19,
 		ElectricGuitar = 20,
+
+		Piano = 21,
+		Violin = 22,
+		Cello = 23,
+
 		BassDrum = 66,
 		Drum = 67,
 		Cymbals = 68,
+
 		HandbellC = 69,
 		HandbellD = 70,
 		HandbellE = 71,
@@ -134,6 +142,17 @@ namespace Aura.Data
 		HandbellB = 74,
 		HandbellA = 75,
 		HandbellHighC = 76,
+
 		Xylophone = 77,
+
+		MaleVoice1 = 81,
+		MaleVoice2 = 82,
+		MaleVoice3 = 83,
+		MaleVoice4 = 84,
+		FemaleVoice1 = 90,
+		FemaleVoice2 = 91,
+		FemaleVoice3 = 92,
+		FemaleVoice4 = 93,
+		FemaleVoice5 = 94,
 	}
 }

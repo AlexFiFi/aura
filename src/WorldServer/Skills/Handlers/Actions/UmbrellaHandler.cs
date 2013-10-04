@@ -3,7 +3,6 @@
 
 using Aura.Shared.Const;
 using Aura.Shared.Network;
-using Aura.Shared.Util;
 using Aura.World.World;
 
 namespace Aura.World.Skills

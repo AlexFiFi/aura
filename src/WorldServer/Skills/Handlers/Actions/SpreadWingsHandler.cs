@@ -2,11 +2,10 @@
 // For more information, see licence.txt in the main folder
 
 using Aura.Shared.Const;
-using Aura.Shared.Util;
 using Aura.World.Network;
 using Aura.World.World;
 
-namespace Aura.World.Skills.Handlers.Actions
+namespace Aura.World.Skills
 {
 	[SkillAttr(SkillConst.SpreadWings)]
 	public class SpreadWingsHandler : StartStopSkillHandler
