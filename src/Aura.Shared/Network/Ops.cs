@@ -70,6 +70,7 @@ namespace Aura.Shared.Network
 		public const uint EntityDisappears = 0x520D;
 		public const uint ItemAppears = 0x5211;
 		public const uint ItemDisappears = 0x5212;
+		public const uint AssignChair = 0x5215;
 		public const uint Chat = 0x526C;
 		public const uint Notice = 0x526D;
 		public const uint WarpUnk2 = 0x526E;

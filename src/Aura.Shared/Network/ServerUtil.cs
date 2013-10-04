@@ -134,6 +134,7 @@ namespace Aura.Shared.Network
 				if ((toLoad & DataLoad.Items) != 0)
 				{
 					LoadDb(MabiData.ItemDb, dataPath + "/db/items.txt", reload);
+					LoadDb(MabiData.ChairDb, dataPath + "/db/chairs.txt", reload);
 				}
 
 				if ((toLoad & DataLoad.Skills) != 0)

@@ -120,6 +120,12 @@ namespace Aura.Shared.Const
 		/// Used in thunder's final stage
 		/// </summary>
 		public static readonly uint Thunderbolt = 297;
+
+		/// <summary>
+		/// Cherry blossoms falling onto the character.
+		/// byte:1|0 (on/off)
+		/// </summary>
+		public static readonly uint CherryBlossoms = 345;
 	}
 
 	public enum SpawnEffect : byte

@@ -312,5 +312,19 @@ namespace Aura.World.Network
 			foreach (var title in titles)
 				packet.PutShort(title);
 		}
+
+		/// <summary>
+		/// Broadcasts AssignChair in range. The packet moves the creature
+		/// into position, to sit down on the chair. Pass 0 for the parameters
+		/// to undo.
+		/// </summary>
+		public static void AssignChair(MabiCreature creature, ulong chairOId, uint unk)
+		{
+			var packet = new Aura.Shared.Network.MabiPacket(Op.AssignChair, creature.Id);
+			packet.PutLong(chairOId);
+			packet.PutInt(unk);
+
+			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
+		}
 	}
 }

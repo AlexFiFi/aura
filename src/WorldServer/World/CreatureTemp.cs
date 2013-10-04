@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Aura.Shared.Const;
+using Aura.Data;
 
 namespace Aura.World.World
 {
@@ -39,5 +40,11 @@ namespace Aura.World.World
 		public MabiCutscene CurrentCutscene;
 
 		public DateTime AimStart;
+
+		/// <summary>
+		/// Rest
+		/// </summary>
+		public MabiProp SittingProp;
+		public ChairInfo CurrentChair;
 	}
 }

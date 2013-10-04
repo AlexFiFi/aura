@@ -72,7 +72,12 @@ namespace Aura.World.Network
 			var packet = new MabiPacket(Op.Effect, source.Id);
 			packet.PutInt(effect);
 			foreach (var arg in args)
-				packet.Put(arg);
+			{
+				if (!(arg is bool))
+					packet.Put(arg);
+				else
+					packet.PutByte((bool)arg);
+			}
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, source);
 		}
@@ -88,7 +93,12 @@ namespace Aura.World.Network
 			packet.PutInt(delay);
 			packet.PutInt(effect);
 			foreach (var arg in args)
-				packet.Put(arg);
+			{
+				if (!(arg is bool))
+					packet.Put(arg);
+				else
+					packet.PutByte((bool)arg);
+			}
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, source);
 		}

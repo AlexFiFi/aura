@@ -277,8 +277,11 @@ namespace Aura.World.Network
 
 		public static void SitDown(MabiCreature creature)
 		{
+			// How exactly is the rest pose acquired?
+			// 0 seems be the default pose though.
+
 			var packet = new MabiPacket(Op.SitDown, creature.Id);
-			packet.PutByte(creature.RestPose);
+			packet.PutByte(0); // creature.RestPose
 
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 		}

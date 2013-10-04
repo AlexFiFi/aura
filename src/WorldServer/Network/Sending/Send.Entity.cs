@@ -926,7 +926,13 @@ namespace Aura.World.Network
 			}
 
 			packet.PutByte(0);					 // IsGhost
-			packet.PutLong(0);					 // SittingProp
+
+			// SittingProp
+			if (creature.Temp.SittingProp == null)
+				packet.PutLong(0);
+			else
+				packet.PutLong(creature.Temp.SittingProp.Id);
+
 			packet.PutSInt(-1);					 // SittedSocialMotionId
 
 			// ? (Last Part of public)
