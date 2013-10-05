@@ -127,9 +127,49 @@ namespace Aura.World.Database
 
 				account.Vars.Load(account.Name, 0);
 
+                // Load the bank manager
+                //account.BankManager = this.GetBankAccount(account);
+                account.BankManager = new AccountBankManager(account, 0, "");
+
 				return account;
 			}
 		}
+
+        /// <summary>
+        /// Get the bank account (AccountBankManager) of an account.
+        /// Currently unused for testing.
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public AccountBankManager GetBankAccount(Account account)
+        {
+            using (var conn = MabiDb.Instance.GetConnection())
+            {
+                var accName = MySqlHelper.EscapeString(account.Name);
+                AccountBankManager bankMgr = null;
+
+                using (var reader = MabiDb.Instance.Query("SELECT * FROM bank_accounts WHERE accountId = '" + accName + "'", conn))
+                {
+                    if (!reader.Read())
+                    {
+                        // Temp fix
+                        return new AccountBankManager(account, 0, "");
+
+                        //return null;
+                    }
+
+                    var gold = reader.GetUInt32("gold");
+                    var password = reader.GetString("password");
+                    var lastUse = reader["last_use"] as DateTime? ?? DateTime.MinValue;
+
+                    bankMgr = new AccountBankManager(account, gold, password);
+                }
+
+                // TODO: Load bank pockets/inventories
+
+                return bankMgr;
+            }
+        }
 
 		/// <summary>
 		/// Reads all characters in the given account from the database and adds them to it.
