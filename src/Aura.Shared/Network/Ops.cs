@@ -418,6 +418,27 @@ namespace Aura.Shared.Network
 		public const uint Walking = 0x0FD13021;
 		public const uint Walk = 0x0FF23431;
 
+        // Unsure about all item related packets
+        public readonly static uint BankInventoryRequest = 0x7211;
+        public readonly static uint BankInventoryRequestR = 0x7212;
+        public readonly static uint BankClose = 0x7215;
+        public readonly static uint BankCloseR = 0x7216;
+        public readonly static uint BankItemMove = 0x7217;
+        public readonly static uint BankItemMoveR = 0x7218;
+        public readonly static uint BankItemNew = 0x7219;
+        public readonly static uint BankItemNewR = 0x721A;
+        public readonly static uint BankGoldDeposit = 0x721B;
+        public readonly static uint BankGoldDepositR = 0x721C;
+        public readonly static uint BankGoldWithdraw = 0x721D;
+        public readonly static uint BankGoldWithdrawR = 0x721E;
+        public readonly static uint BankGoldAmount = 0x721F; // Server -> Client
+        //public readonly static uint BankItemNew = 0x7220; // Server -> Client
+        //public readonly static uint BankItemRemove = 0x7221; // Server -> Client
+        public readonly static uint BankPasswordChange = 0xA8E3;
+        public readonly static uint BankPasswordChangeR = 0xA8E4;
+        public readonly static uint BankUnlock = 0xA8E5;
+        public readonly static uint BankUnlockR = 0xA8E6;
+
 		// Messenger Server
 		// ------------------------------------------------------------------
 		public static class Msgr
