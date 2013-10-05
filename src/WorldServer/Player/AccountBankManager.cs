@@ -11,7 +11,8 @@ namespace Aura.World.Player
         public delegate double TaxCallback(Account account, AccountBankManager bankManager);
         public delegate bool CheckAmountCallback(uint gold);
 
-        public List<BankPocket> Pockets { get; private set; }
+        //public List<BankPocket> Pockets { get; private set; }
+        public Dictionary<byte, BankPocket> Pockets { get; private set; }
 
         private uint _gold = 0; // Sent as uint in 0x721F
         public uint Gold
@@ -62,7 +63,15 @@ namespace Aura.World.Player
 
             this.Session = new BankSession();
 
-            this.Pockets = new List<BankPocket>();
+            this.Pockets = new Dictionary<byte, BankPocket>();
+        }
+
+        public BankPocket GetPocketOrNull(byte index)
+        {
+            BankPocket pocket = null;
+            if (this.Pockets.TryGetValue(index, out pocket))
+                return pocket;
+            return null;
         }
 
         public bool ChangePassword(string oldPass, string newPass)

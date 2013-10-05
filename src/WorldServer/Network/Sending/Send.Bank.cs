@@ -10,26 +10,21 @@ namespace Aura.World.Network
 {
     public static partial class Send
     {
+        public static void BankStatus(WorldClient client, byte pocketIndex)
+        {
+            var bankManager = client.Account.BankManager;
+
+            List<BankPocket> pockets = new List<BankPocket>();
+
+            var pocket = bankManager.GetPocketOrNull(pocketIndex);
+            if (pocket != null)
+                pockets.Add(pocket);
+
+            Send.BankStatus(client, pockets);
+        }
+
         public static void BankStatus(WorldClient client, List<BankPocket> pockets)
         {
-            /*
-            Op: 00007212, Id: 00100000000DD69B
-
-            001 [..............01] Byte   : 1
-            002 [..............01] Byte   : 1
-            003 [000039C47B440580] Long   : 63516044428672
-            004 [..............01] Byte   : 1
-            005 [................] String : efe527f57b24
-            006 [................] String : DunbartonBank
-            007 [................] String : Dunbarton Bank
-            008 [........000ECD9C] Int    : 970140
-            009 [........00000001] Int    : 1
-            010 [................] String : Fallere
-            011 [..............01] Byte   : 1
-            012 [........0000000C] Int    : 12
-            013 [........00000008] Int    : 8
-            014 [........00000000] Int    : 0
-            */
             var character = client.Character;
             if (character == null) return;
 
@@ -43,7 +38,7 @@ namespace Aura.World.Network
                 .PutByte(race) // Might also be index..? But what about multiple pockets?
                 .PutLong((ulong)DateTime.Now.Ticks) // Might be last-access timestamp?
                 .PutByte(0) // Seen 1 and 0
-                .PutString(client.Account.Password) // Hashed password here? Length: 12 chars
+                .PutString(character.Name) //.PutString(client.Account.Password) // Hashed password here? Length: 12 chars
                 .PutString("DunbartonBank") // Bank name
                 .PutString("") // "Dunbarton Bank", dialog title, but I don't like it, font is weird
                 .PutInt(client.Account.BankManager.Gold); // Gold amount
@@ -54,6 +49,8 @@ namespace Aura.World.Network
             {
                 packet.AddBankPocket(pocket);
             }
+
+            client.Send(packet);
         }
 
         public static void BankGoldAmount(WorldClient client)
@@ -87,6 +84,13 @@ namespace Aura.World.Network
             // Add items...
             // Dunno how this should be handled yet, no items
             packet.PutInt(0);
+        }
+
+        public static void BankCloseR(WorldClient client, bool success)
+        {
+            var character = client.Character;
+            character.Client.Send(new MabiPacket(Op.BankCloseR, character.Id)
+                .PutByte(success));
         }
     }
 }
