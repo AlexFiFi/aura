@@ -70,19 +70,19 @@ public class NaoScript : NPCScript
 		}
 
 		// Talent selection
-		if (SelectTalent)
-		{
-			Msg(c, "<username/>, you have the freedom to do whatever you wish in life.<br/>But having a goal will make life more meaningful, don't you think?<br/>This goal, also known as a Talent, will help you train specific skills.<br/>It will also grant bonuses to related stats.<p/><username/>, would you like to choose an active Talent?<br/>You can change this Talent anytime you rebirth.<br/>So take a look, and see which Talent you'd like. <talent_select />");
-
-			var talent = Select(c);
-			//switch(talent)
-			//{
-			//    case "@talent7": ...
-			//}
-
-			Msg(c, "<talent_select hide='true' />");
-			Msg(c, "You've selected Music as your active Talent.<br/>Here, take this instrument as a gift from me.<p/>Remember, you can change your active Talent anytime<br/>you rebirth. I wish you the best on your new journey, <username/>.");
-		}
+		//if (SelectTalent)
+		//{
+		//	Msg(c, "<username/>, you have the freedom to do whatever you wish in life.<br/>But having a goal will make life more meaningful, don't you think?<br/>This goal, also known as a Talent, will help you train specific skills.<br/>It will also grant bonuses to related stats.<p/><username/>, would you like to choose an active Talent?<br/>You can change this Talent anytime you rebirth.<br/>So take a look, and see which Talent you'd like. <talent_select />");
+		//
+		//	var talent = Select(c);
+		//	//switch(talent)
+		//	//{
+		//	//    case "@talent7": ...
+		//	//}
+		//
+		//	Msg(c, "<talent_select hide='true' />");
+		//	Msg(c, "You've selected Music as your active Talent.<br/>Here, take this instrument as a gift from me.<p/>Remember, you can change your active Talent anytime<br/>you rebirth. I wish you the best on your new journey, <username/>.");
+		//}
 
 		// End
 		Msg(c, "Soon, you'll be able to go to Erinn.");
