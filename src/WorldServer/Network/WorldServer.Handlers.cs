@@ -1003,91 +1003,26 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var item = creature.GetItem(itemId);
+			var item = creature.Inventory.GetItem(itemId);
 			if (item == null || item.Type == ItemType.Hair || item.Type == ItemType.Face)
+			{
+				Send.ItemMoveR(creature, false);
 				return;
+			}
 
 			// Stop moving when changing weapons
 			if ((target >= Pocket.RightHand1 && target <= Pocket.Magazine2) || (source >= Pocket.RightHand1 && source <= Pocket.Magazine2))
 				creature.StopMove();
 
-			// Inv -> Cursor
-			// --------------------------------------------------------------
-			if (target == Pocket.Cursor)
+			// Try to move item
+			if (!creature.Inventory.MoveItem(item, target, targetX, targetY))
 			{
-				// Move
-				client.Send(
-					new MabiPacket(Op.ItemMoveInfo, creature.Id)
-					.PutLong(item.Id).PutBytes((byte)source, (byte)target)
-					.PutByte(unk).PutBytes(0, 0)
-				);
-
-				item.Move(target, targetX, targetY);
-				this.CheckItemMove(creature, item, source);
-
-				// Update euip
-				//if (source >= Pocket.Armor && source <= Pocket.Accessory2)
-				//    WorldManager.Instance.CreatureUnequip(creature, source, target);
-
-				// Okay
-				client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
+				Send.ItemMoveR(creature, false);
 				return;
 			}
 
-			// Cursor -> Inv
-			// --------------------------------------------------------------
+			Send.ItemMoveR(creature, true);
 
-			// Check for item at the target space
-			var collidingItem = creature.GetItemColliding(target, targetX, targetY, item);
-
-			// Is there a collision?
-			if (collidingItem != null && ((collidingItem.StackType == BundleType.Sac && (collidingItem.StackItem == item.Info.Class || collidingItem.StackItem == item.StackItem)) || (item.StackType == BundleType.Stackable && item.Info.Class == collidingItem.Info.Class)))
-			{
-				if (collidingItem.Info.Amount < collidingItem.StackMax)
-				{
-					var diff = (ushort)(collidingItem.StackMax - collidingItem.Info.Amount);
-
-					collidingItem.Info.Amount += Math.Min(diff, item.Info.Amount);
-					client.Send(PacketCreator.ItemAmount(creature, collidingItem));
-
-					item.Info.Amount -= Math.Min(diff, item.Info.Amount);
-					if (item.Info.Amount > 0)
-					{
-						client.Send(PacketCreator.ItemAmount(creature, item));
-					}
-					else
-					{
-						creature.Items.Remove(item);
-						client.Send(PacketCreator.ItemRemove(creature, item));
-					}
-
-					client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
-
-					return;
-				}
-			}
-
-			var p = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveInfo : Op.ItemSwitchInfo), creature.Id);
-			p.PutLong(item.Id);
-			p.PutByte((byte)source);
-			p.PutByte((byte)target);
-			p.PutByte(unk);
-			p.PutByte(targetX);
-			p.PutByte(targetY);
-			if (collidingItem != null)
-			{
-				p.PutLong(collidingItem.Id);
-				p.PutByte(collidingItem.Info.Pocket);
-				p.PutByte(1);
-				p.PutByte(unk);
-				p.PutByte(0);
-				p.PutByte(0);
-
-				collidingItem.Move(item.Info.Pocket, item.Info.X, item.Info.Y);
-			}
-			client.Send(p);
-
-			item.Move(target, targetX, targetY);
 			this.CheckItemMove(creature, item, target);
 
 			// Update Equip
@@ -1125,8 +1060,6 @@ namespace Aura.World.Network
 						break;
 				}
 			}
-
-			client.Send(new MabiPacket(Op.ItemMoveR, creature.Id).PutByte(1));
 		}
 
 		/// <summary>

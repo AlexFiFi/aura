@@ -61,5 +61,78 @@ namespace Aura.World.Network
 
 			client.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends ItemMoveR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
+		public static void ItemMoveR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.ItemMoveR, creature.Id);
+			packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ItemMoveInfo or ItemSwitchInfo to creature's client,
+		/// depending on whether collidingItem is null.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="item"></param>
+		/// <param name="source"></param>
+		/// <param name="target"></param>
+		/// <param name="collidingItem"></param>
+		public static void ItemMoveInfo(MabiCreature creature, MabiItem item, Pocket source, MabiItem collidingItem)
+		{
+			var packet = new MabiPacket((uint)(collidingItem == null ? Op.ItemMoveInfo : Op.ItemSwitchInfo), creature.Id);
+			packet.PutLong(item.Id);
+			packet.PutByte((byte)source);
+			packet.PutByte(item.Info.Pocket);
+			packet.PutByte(2);
+			packet.PutByte((byte)item.Info.X);
+			packet.PutByte((byte)item.Info.Y);
+			if (collidingItem != null)
+			{
+				packet.PutLong(collidingItem.Id);
+				packet.PutByte(item.Info.Pocket);
+				packet.PutByte(collidingItem.Info.Pocket);
+				packet.PutByte(2);
+				packet.PutByte((byte)collidingItem.Info.X);
+				packet.PutByte((byte)collidingItem.Info.Y);
+			}
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ItemAmount to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="item"></param>
+		public static void ItemAmount(MabiCreature creature, MabiItem item)
+		{
+			var packet = new MabiPacket(Op.ItemAmount, creature.Id);
+			packet.PutLong(item.Id);
+			packet.PutShort(item.Info.Amount);
+			packet.PutByte(2);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ItemRemove to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="item"></param>
+		public static void ItemRemove(MabiCreature creature, MabiItem item)
+		{
+			var packet = new MabiPacket(Op.ItemRemove, creature.Id);
+			packet.PutLong(item.Id);
+			packet.PutByte(item.Info.Pocket);
+
+			creature.Client.Send(packet);
+		}
 	}
 }
