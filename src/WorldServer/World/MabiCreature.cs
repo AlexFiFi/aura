@@ -485,6 +485,7 @@ namespace Aura.World.World
 			this.Skills = new CreatureSkillManager(this);
 			this.Talents = new CreatureTalentManager(this);
 			this.Vars = new ScriptingVariables();
+			this.Inventory = new CreatureInventory(this);
 		}
 
 		public bool Has(CreatureConditionA condition) { return ((this.Conditions.A & condition) != 0); }

@@ -422,6 +422,7 @@ namespace Aura.World.Database
 						var item = GetItem(reader);
 
 						character.Items.Add(item);
+						character.Inventory[item.Pocket].ForcePutItem(item);
 					}
 
 					character.UpdateItemsFromPockets();

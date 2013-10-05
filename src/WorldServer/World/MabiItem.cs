@@ -257,11 +257,23 @@ namespace Aura.World.World
 			return new MabiVertex(Info.X, Info.Y);
 		}
 
+		/// <summary>
+		/// Sets pocket, x, and y for item.
+		/// </summary>
+		/// <param name="pocket"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
 		public void Move(Pocket pocket, uint x, uint y)
 		{
 			this.Move((byte)pocket, x, y);
 		}
 
+		/// <summary>
+		/// Sets pocket, x, and y for item.
+		/// </summary>
+		/// <param name="pocket"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
 		public void Move(byte pocket, uint x, uint y)
 		{
 			this.Info.Pocket = pocket;

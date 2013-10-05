@@ -140,6 +140,7 @@
     <Compile Include="World\DeadMenuOptions.cs" />
     <Compile Include="Scripting\Global.cs" />
     <Compile Include="World\Guilds\GuildManager.cs" />
+    <Compile Include="World\CreatureInventory.cs" />
     <Compile Include="World\MabiCooldown.cs" />
     <Compile Include="World\MabiCreature.cs" />
     <Compile Include="World\MabiCreature.Items.cs" />

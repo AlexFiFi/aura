@@ -12,6 +12,8 @@ namespace Aura.World.World
 {
 	public abstract partial class MabiCreature : MabiEntity
 	{
+		public CreatureInventory Inventory { get; protected set; }
+
 		public List<MabiItem> Items = new List<MabiItem>();
 
 		public MabiItem RightHand { get; set; }
