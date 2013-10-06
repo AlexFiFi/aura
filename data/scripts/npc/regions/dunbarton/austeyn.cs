@@ -61,7 +61,7 @@ public class AusteynScript : NPCScript
     public override IEnumerable OnTalk(WorldClient c)
     {
         Msg(c, Options.FaceAndName, "His gray hair and mustache may show his age, but his firm build and the smile on his face show a youthful presence.<br/>It's as if he wants to prove that he can smile even with his small eyes.");
-        Msg(c, "Now, what can i help you with?", Button("Start a Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Trade", "@shop"));
+        Msg(c, "Now, what can I help you with?", Button("Start a Conversation", "@talk"), Button("Open My Account", "@bank"), Button("Redeem Coupon", "@redeem"), Button("Trade", "@shop"));
 
         var r = Select(c);
         switch (r)
@@ -81,7 +81,8 @@ public class AusteynScript : NPCScript
 
             case "@bank":
                 {
-                    Msg(c, "(Unimplemented)");
+                    //Msg(c, "(Unimplemented)");
+					OpenBank(c);
                     End();
                 }
             case "@redeem":

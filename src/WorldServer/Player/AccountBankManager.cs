@@ -12,7 +12,7 @@ namespace Aura.World.Player
         public delegate bool CheckAmountCallback(uint gold);
 
         //public List<BankPocket> Pockets { get; private set; }
-        public Dictionary<byte, BankPocket> Pockets { get; private set; }
+        public Dictionary<byte, BankPocket> Pockets { get; set; }
 
         private uint _gold = 0; // Sent as uint in 0x721F
         public uint Gold
@@ -25,10 +25,20 @@ namespace Aura.World.Player
         }
 
         private string _password = "";
+        public string Password
+        {
+            get { return _password; }
+        }
         public bool HasPassword
         {
             get { return (_password != null && !_password.Equals("")); }
         }
+        
+        /// <summary>
+        /// Last time a bank session was opened (closed? needs more research).
+        /// Not yet implemented.
+        /// </summary>
+        public DateTime LastUse = DateTime.MinValue;
 
         private Object _lock = new Object();
 
@@ -45,7 +55,7 @@ namespace Aura.World.Player
         private static TaxCallback _withdrawTax = null; // No wihdraw tax by default
         private static TaxCallback _depositItemTax = AccountBankManager.DepositItemTaxDefault;
         private static TaxCallback _withdrawItemTax = null; // No withdraw tax by default
-        private static TaxCallback _withdrawCheckTax = AccountBankManager.CreateCheckTaxDefault;
+        private static TaxCallback _withdrawCheckTax = AccountBankManager.WithdrawCheckTaxDefault;
         private static TaxCallback _depositCheckTax = null; // No withdraw tax by default
 
         private static CheckAmountCallback _canMakeCheck = AccountBankManager.CanMakeCheckDefault;
@@ -54,6 +64,12 @@ namespace Aura.World.Player
 
         public Account Account { get; private set; }
 
+        /// <summary>
+        /// Create a new bank manager.
+        /// </summary>
+        /// <param name="account">Parent account</param>
+        /// <param name="gold">Initial amount of gold</param>
+        /// <param name="pass">Password for lock</param>
         public AccountBankManager(Account account, uint gold = 0, string pass = "")
         {
             this.Account = account;
@@ -66,6 +82,11 @@ namespace Aura.World.Player
             this.Pockets = new Dictionary<byte, BankPocket>();
         }
 
+        /// <summary>
+        /// Get a pocket from this bank account.
+        /// </summary>
+        /// <param name="index">Pocket index</param>
+        /// <returns>Pocket of specified index, or null if none found</returns>
         public BankPocket GetPocketOrNull(byte index)
         {
             BankPocket pocket = null;
@@ -74,6 +95,34 @@ namespace Aura.World.Player
             return null;
         }
 
+        /// <summary>
+        /// Add multiple pockets to this bank account.
+        /// </summary>
+        /// <param name="pockets">Pockets to add</param>
+        public void AddPockets(IEnumerable<BankPocket> pockets)
+        {
+            if (pockets == null) return;
+            foreach (BankPocket pocket in pockets)
+                this.AddPocket(pocket);
+        }
+
+        /// <summary>
+        /// Add a pocket to this bank account.
+        /// </summary>
+        /// <param name="pocket">Pocket to add</param>
+        public void AddPocket(BankPocket pocket)
+        {
+            if (pocket == null) return;
+            try { this.Pockets.Add(pocket.Index, pocket); }
+            catch { }
+        }
+
+        /// <summary>
+        /// Change the password of this bank account.
+        /// </summary>
+        /// <param name="oldPass">Old password, ignored if account not yet password protected</param>
+        /// <param name="newPass">New password to use</param>
+        /// <returns>true if successful, false otherwise (bad oldPass)</returns>
         public bool ChangePassword(string oldPass, string newPass)
         {
             // I don't see much purpose in making password changing atomic..
@@ -88,16 +137,29 @@ namespace Aura.World.Player
             return false;
         }
 
+        /// <summary>
+        /// Password check.
+        /// </summary>
+        /// <param name="pass">Password to check</param>
+        /// <returns>true if password, false otherwise</returns>
         public bool IsPassword(string pass)
         {
             return (!this.HasPassword || _password.Equals(pass));
         }
 
+        /// <summary>
+        /// Deposit gold into this bank account (atomically).
+        /// </summary>
+        /// <param name="character">Character depositing the gold</param>
+        /// <param name="gold">Amount of gold to deposit</param>
+        /// <param name="isCheck">true to deposit a check, false to deposit gold</param>
+        /// <returns>true if success, false otherwise</returns>
         public bool Deposit(MabiCharacter character, uint gold, bool isCheck = false)
         {
-            var success = true;
+            // TODO: Add support for checks/check tax. (For now, isCheck is ignored)
 
-            // fuck the IRS
+            var success = true;
+            
             uint tax = 0;
             if (_depositTax != null)
                 tax = (uint)(_depositTax(null, this) * gold);
@@ -105,23 +167,39 @@ namespace Aura.World.Player
             // Atomic enough?
             lock (_lock)
             {
-                // Make sure we have enough gold
-                if (!character.HasGold(gold + tax))
+                // Warning: Double lock, don't call any session funcs/accessors
+                // inside this block (they share the same lock)
+                lock (this.Session.Lock)
                 {
-                    success = false;
-                }
-                else
-                {
-                    character.RemoveGold(gold + tax);
-                    _gold += gold;
+                    // Make sure we have enough gold
+                    if (!character.HasGold(gold + tax))
+                    {
+                        success = false;
+                    }
+                    else
+                    {
+                        character.RemoveGold(gold + tax);
+                        _gold += gold;
+                    }
                 }
             }
 
             return success;
         }
 
+        /// <summary>
+        /// Withdraw gold from this bank account (atomically).
+        /// </summary>
+        /// <param name="character">Character withdrawing gold</param>
+        /// <param name="gold">Amount of gold to withdraw</param>
+        /// <param name="isCheck">true to withdraw as a check, false to withdraw as gold</param>
+        /// <returns></returns>
         public bool Withdraw(MabiCharacter character, uint gold, bool isCheck = false)
         {
+            // Not really the correct way to force activity within a session..
+            if (!this.Session.IsActive)
+                return false;
+
             if (gold > AccountBankManager.MaxWithdraw)
                 return false;
 
@@ -145,20 +223,25 @@ namespace Aura.World.Player
 
             lock (_lock)
             {
-                // For now, take ONLY from bank account
-
-                if (_gold < (gold + tax))
-                    success = false;
-                else
+                // Warning: Double lock, don't call any session funcs/accessors
+                // inside this block (they share the same lock)
+                lock (this.Session.Lock)
                 {
-                    _gold -= (gold + tax);
+                    // For now, take ONLY from bank account
 
-                    if (!isCheck)
-                        character.GiveGold(gold); // Give gold
+                    if (_gold < (gold + tax))
+                        success = false;
                     else
                     {
-                        // Give check
-                        this.GiveCheck(character, gold);
+                        _gold -= (gold + tax);
+
+                        if (!isCheck)
+                            character.GiveGold(gold); // Give gold
+                        else
+                        {
+                            // Give check
+                            this.GiveCheck(character, gold);
+                        }
                     }
                 }
             }
@@ -169,16 +252,34 @@ namespace Aura.World.Player
         /// <summary>
         /// Give a check to a player.
         /// </summary>
-        /// <param name="character"></param>
-        /// <param name="gold"></param>
-        /// <returns></returns>
+        /// <param name="character">Player to give the check to</param>
+        /// <param name="gold">Amount of gold the check is worth</param>
+        /// <returns>Check item</returns>
         private MabiItem GiveCheck(MabiCharacter character, uint gold)
         {
             // Check class Id: 0x7D4
-            var item = character.GiveItem(0x7D4, 1); // Not sure if this sends ItemNew..?
+            var item = character.GiveItem(0x7D4, 1); // Not sure if this sends ItemNew..? (Edit: it does)
             item.Tags.SetInt("EVALUE", gold);
             character.ItemUpdate(item, false); // Eh, whatever works for now
             return item;
+        }
+
+        public bool IsSessionActive
+        {
+            get
+            {
+                return this.Session.IsActive;
+            }
+        }
+
+        public void OpenSession(MabiCharacter character)
+        {
+            this.Session.Open();
+        }
+
+        public void CloseSession(MabiCharacter character)
+        {
+            this.Session.Close();
         }
 
         /// <summary>
@@ -197,7 +298,7 @@ namespace Aura.World.Player
             return AccountBankManager.WednesdayBonus(0.025d); // 2.5%
         }
 
-        private static double CreateCheckTaxDefault(Account account, AccountBankManager bankManager)
+        private static double WithdrawCheckTaxDefault(Account account, AccountBankManager bankManager)
         {
             return AccountBankManager.WednesdayBonus(0.05d); // 5%
         }
@@ -246,7 +347,7 @@ namespace Aura.World.Player
         /// Whether or not this bank pocket is enabled. Should mainly be disabled
         /// for characters that have not yet been created (indexes 0, 1, 2).
         /// </summary>
-        public bool IsEnabled { get; private set; }
+        public bool IsEnabled { get; set; }
 
         /// <summary>
         /// Index of the bank pocket, relative to Account. Each account may have
@@ -270,8 +371,18 @@ namespace Aura.World.Player
         bool _open = false;
 
         private Object _lock = new Object();
+        public Object Lock { get { return _lock; } }
 
         public BankSession() { }
+
+        public bool IsActive
+        {
+            get
+            {
+                lock(_lock)
+                    return _open;
+            }
+        }
 
         public void Apply()
         {

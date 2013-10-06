@@ -88,6 +88,7 @@
     <Compile Include="Player\ShamalaTransformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\Base\BaseScript.Bank.cs" />
     <Compile Include="Scripting\Misc\AIScript.cs" />
     <Compile Include="Scripting\Base\BaseScript.cs" />
     <Compile Include="Scripting\Base\BaseScript.Props.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Skills\SkillHelper.cs" />
     <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Util\WorldConf.cs" />
+    <Compile Include="World\BankManager.cs" />
     <Compile Include="World\CommandHandler.cs" />
     <Compile Include="World\CreatureSkillManager.cs" />
     <Compile Include="World\CreatureTalentManager.cs" />

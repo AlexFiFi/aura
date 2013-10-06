@@ -10,6 +10,20 @@ namespace Aura.World.Network
 {
     public static partial class Send
     {
+        public static void BankStatus(WorldClient client)
+        {
+            var character = client.Character;
+            if (character == null) return;
+
+            byte race = 0;
+            if (character.IsHuman) race = 0;
+            else if (character.IsElf) race = 1;
+            else if (character.IsGiant) race = 2;
+            else return; // Unsure how bank NPCs react to pets opening accounts? Something to check
+
+            Send.BankStatus(client, race);
+        }
+
         public static void BankStatus(WorldClient client, byte pocketIndex)
         {
             var bankManager = client.Account.BankManager;

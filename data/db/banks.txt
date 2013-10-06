@@ -1,7 +1,7 @@
 // Banks
-// BankId BankStringId BankDialogTitle DepositEnabled WithdrawEnabled ItemDepositEnabled ItemWithdrawEnabled
-0, DunbartonBank, Dunbarton Bank, 1, 1, 1, 1
+// BankId BankDialogTitle DepositEnabled WithdrawEnabled ItemDepositEnabled ItemWithdrawEnabled LockModifyEnabled
+DunbartonBank, Dunbarton Bank, 1, 1, 1, 1, 1
 
 // Bank distances - for item withdraw time
-// BankStringId RemoteBankId Distance
+// BankId RemoteBankId Distance
 DunbartonBank, TirBank, 1000
