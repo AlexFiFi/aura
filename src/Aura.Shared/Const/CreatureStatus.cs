@@ -149,8 +149,8 @@ namespace Aura.Shared.Const
 		LeftRateMod,
 		RightRateMod,
 		MagicDefenseMod,
-		MagicAttackMod,
 		MagicProtectMod, // [180300, NA166 (18.09.2013)]
+		MagicAttackMod,
 		MeleeAttackRateMod,
 		RangeAttackRateMod,
 		CriticalBase,
@@ -181,14 +181,14 @@ namespace Aura.Shared.Const
 		RangeAttackMaxBaseMod,
 		RangeWattackMinBaseMod,
 		RangeWattackMaxBaseMod,
-		PoisonBase,
-		PoisonMod,
-		PoisonImmuneBase,
-		PoisonImmuneMod,
 		DualgunAttackMinBaseMod, // [180300, NA166 (18.09.2013)]
 		DualgunAttackMaxBaseMod, // [180300, NA166 (18.09.2013)]
 		DualgunWAttackMinBaseMod, // [180300, NA166 (18.09.2013)]
 		DualgunWAttackMaxBaseMod, // [180300, NA166 (18.09.2013)]
+		PoisonBase,
+		PoisonMod,
+		PoisonImmuneBase,
+		PoisonImmuneMod,
 		PoisonDamageRatio1,
 		PoisonDamageRatio2,
 		EnchantCombatPowerMod,
