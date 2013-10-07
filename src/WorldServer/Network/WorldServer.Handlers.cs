@@ -1022,81 +1022,6 @@ namespace Aura.World.Network
 			}
 
 			Send.ItemMoveR(creature, true);
-
-			this.CheckItemMove(creature, item, target);
-
-			// Update Equip
-			if (target.IsEquip())
-			{
-				Send.EquipmentChanged(creature, item);
-				switch (item.Info.Class)
-				{
-					// Umbrella Skill
-					case 41021:
-					case 41022:
-					case 41023:
-					case 41025:
-					case 41026:
-					case 41027:
-					case 41061:
-					case 41062:
-					case 41063:
-						if (!creature.Skills.Has(SkillConst.Umbrella))
-							creature.Skills.Give(SkillConst.Umbrella, SkillRank.Novice);
-						break;
-
-					// Spread Wings
-					case 19138:
-					case 19139:
-					case 19140:
-					case 19141:
-					case 19142:
-					case 19143:
-					case 19157:
-					case 19158:
-					case 19159:
-						if (!creature.Skills.Has(SkillConst.SpreadWings))
-							creature.Skills.Give(SkillConst.SpreadWings, SkillRank.Novice);
-						break;
-				}
-			}
-		}
-
-		/// <summary>
-		/// Checks for moving second hand equipment and unequiping,
-		/// and sends the needed packets.
-		/// </summary>
-		private void CheckItemMove(MabiCreature creature, MabiItem item, Pocket pocket)
-		{
-			// Check for moving second hand
-			if (pocket == Pocket.RightHand1 || pocket == Pocket.RightHand2)
-			{
-				var secSource = pocket + 2; // RightHand1/2
-				var secItem = creature.GetItemInPocket(secSource);
-				if (secItem != null || (secItem = creature.GetItemInPocket(secSource = (Pocket)((byte)secSource + 2))) != null)
-				{
-					var secTarget = Pocket.Inventory;
-					var free = creature.GetFreeItemSpace(secItem, secTarget);
-					if (free == null)
-					{
-						secTarget = Pocket.Temporary;
-						free = new MabiVertex(0, 0);
-					}
-					creature.Client.Send(
-						new MabiPacket(Op.ItemMoveInfo, creature.Id)
-						.PutLong(secItem.Id).PutBytes((byte)secSource, (byte)secTarget)
-						.PutByte(2).PutBytes((byte)free.X, (byte)free.Y)
-					);
-					secItem.Move(secTarget, free.X, free.Y);
-					Send.EquipmentMoved(creature, secSource);
-				}
-			}
-
-			creature.UpdateItemsFromPockets(pocket);
-
-			// Notify clients of equip change if equipment is being dropped
-			if (pocket.IsEquip())
-				Send.EquipmentMoved(creature, pocket);
 		}
 
 		private void HandleItemDrop(WorldClient client, MabiPacket packet)
@@ -1115,7 +1040,7 @@ namespace Aura.World.Network
 			var source = item.Pocket;
 
 			creature.Items.Remove(item);
-			this.CheckItemMove(creature, item, source);
+			//this.CheckItemMove(creature, item, source);
 			client.Send(PacketCreator.ItemRemove(creature, item));
 
 			if (HandleDungeonDrop(client, creature, item))
@@ -1226,7 +1151,7 @@ namespace Aura.World.Network
 				return;
 
 			creature.Items.Remove(item);
-			this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
+			//this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
 			EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
 
 			client.Send(PacketCreator.ItemRemove(creature, item));
