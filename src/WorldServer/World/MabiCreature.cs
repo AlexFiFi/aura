@@ -485,7 +485,6 @@ namespace Aura.World.World
 			this.Skills = new CreatureSkillManager(this);
 			this.Talents = new CreatureTalentManager(this);
 			this.Vars = new ScriptingVariables();
-			this.Inventory = new CreatureInventory(this);
 		}
 
 		public bool Has(CreatureConditionA condition) { return ((this.Conditions.A & condition) != 0); }
@@ -630,6 +629,9 @@ namespace Aura.World.World
 
 			if (MabiTime.Now.IsNight)
 				this.ManaRegen.ChangePerSecond *= 3;
+
+			// Placed here because race has to be loaded first.
+			this.Inventory = new CreatureInventory(this);
 
 			this.HookUp();
 		}

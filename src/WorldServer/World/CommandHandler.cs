@@ -364,10 +364,11 @@ namespace Aura.World.World
 			{
 				// >item
 
-				newItem.Info.Pocket = (byte)Pocket.Temporary;
-				creature.Items.Add(newItem);
+				//newItem.Info.Pocket = (byte)Pocket.Temporary;
+				//creature.Items.Add(newItem);
+				creature.Inventory.PutItem(newItem, Pocket.Temporary);
 
-				Send.ItemInfo(client, creature, newItem);
+				//Send.ItemInfo(client, creature, newItem);
 			}
 
 			return CommandResult.Okay;
