@@ -46,7 +46,9 @@ namespace Aura.World.Network
 				packet.PutBin(item.OptionInfo);
 				packet.PutString(item.Tags.ToString());
 				packet.PutString("");
-				packet.PutByte(0);
+				packet.PutByte(0); // upgrade count?
+				// for upgrades
+				//     Bin    : 01 00 00 00 68 21 11 00 00 00 00 00 05 00 1E 00 00 00 00 00 0A 00 00 00 D3 E4 90 65 0A 00 00 00 F0 18 9E 65
 				packet.PutLong(item.QuestId);
 			}
 		}
