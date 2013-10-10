@@ -1033,29 +1033,27 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var item = creature.Items.FirstOrDefault(a => a.Id == itemId);
+			var item = creature.Inventory.GetItem(itemId);
 			if (item == null || item.Type == ItemType.Hair || item.Type == ItemType.Face)
+			{
+				Send.ItemDropR(creature, false);
 				return;
+			}
 
-			var source = item.Pocket;
-
-			creature.Items.Remove(item);
-			//this.CheckItemMove(creature, item, source);
-			Send.ItemRemove(creature, item);
+			creature.Inventory.Remove(item);
 
 			if (HandleDungeonDrop(client, creature, item))
 				return;
 
 			// Drop it
-			item.Id = MabiItem.NewItemId;
+			var rnd = RandomProvider.Get();
 			var pos = creature.GetPosition();
-			WorldManager.Instance.DropItem(item, creature.Region, pos.X, pos.Y);
+
+			item.Id = MabiItem.NewItemId;
+			WorldManager.Instance.DropItem(item, creature.Region, (uint)(pos.X + rnd.Next(-50, 51)), (uint)(pos.Y + rnd.Next(-50, 51)));
 			EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
 
-			// Done
-			var p = new MabiPacket(Op.ItemDropR, creature.Id);
-			p.PutByte(1);
-			client.Send(p);
+			Send.ItemDropR(creature, true);
 		}
 
 		/// <summary>

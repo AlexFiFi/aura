@@ -117,9 +117,7 @@ namespace Aura.World.World
 				Send.ItemMoveInfo(_creature, item, source, collidingItem);
 			}
 
-			this.CheckLeftHand(item, source, target);
-			this.UpdateEquipReferences(item, source, target);
-			this.CheckEquipMoved(item, source, target);
+			this.UpdateInventory(item, source, target);
 
 			return true;
 		}
@@ -196,7 +194,8 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
-		/// Removes item from inventory. Sends ItemRemove on success.
+		/// Removes item from inventory. Sends ItemRemove on success,
+		/// and possibly others, if equipment is removed.
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
@@ -206,12 +205,21 @@ namespace Aura.World.World
 			{
 				if (pocket.Remove(item))
 				{
+					this.UpdateInventory(item, item.Pocket, Pocket.None);
+
 					Send.ItemRemove(_creature, item);
 					return true;
 				}
 			}
 
 			return false;
+		}
+
+		private void UpdateInventory(MabiItem item, Pocket source, Pocket target)
+		{
+			this.CheckLeftHand(item, source, target);
+			this.UpdateEquipReferences(item, source, target);
+			this.CheckEquipMoved(item, source, target);
 		}
 
 		private void UpdateChangedItemAmounts(IEnumerable<MabiItem> items)
