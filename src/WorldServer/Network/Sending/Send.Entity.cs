@@ -237,11 +237,11 @@ namespace Aura.World.Network
 				packet.PutShort(0);			         // LeftRateMod
 				packet.PutShort(0);			         // RightRateMod
 				packet.PutFloat(0);			         // MagicDefenseMod
-				packet.PutFloat(0);			         // MagicAttackMod
 				// [180300, NA166 (18.09.2013)] New creature info
 				{
-					packet.PutFloat(0);			     // ?
+					packet.PutFloat(0);			     // MagicProtectMod
 				}
+				packet.PutFloat(0);			         // MagicAttackMod
 				packet.PutShort(15);		         // MeleeAttackRateMod
 				packet.PutShort(15);		         // RangeAttackRateMod
 				packet.PutFloat(0);			         // CriticalBase
@@ -257,8 +257,7 @@ namespace Aura.World.Network
 				// [180300, NA166 (18.09.2013)] New creature info
 				{
 					// From a KR log I had float here, NA has a short... my mistake?
-					//packet.PutFloat(0);			     // ?
-					packet.PutShort(0);			     // ?
+					packet.PutShort(0);			     // ArmorPierceMod
 				}
 				packet.PutLong(0);			         // Score
 				packet.PutShort(0);			         // AttackMinBaseMod
@@ -277,15 +276,15 @@ namespace Aura.World.Network
 				packet.PutShort(25);		         // RangeAttackMaxBaseMod
 				packet.PutShort(0);			         // RangeWAttackMinBaseMod
 				packet.PutShort(0);			         // RangeWAttackMaxBaseMod
-				packet.PutShort(0);			         // PoisonBase
-				packet.PutShort(0);			         // PoisonMod
 				// [180100] New poison info?
 				{
-					packet.PutShort(0);			     // ?
-					packet.PutShort(0);			     // ?
-					packet.PutShort(0);			     // ?
-					packet.PutShort(0);			     // ?
+					packet.PutShort(0);			     // DualgunAttackMinBaseMod
+					packet.PutShort(0);			     // DualgunAttackMaxBaseMod
+					packet.PutShort(0);			     // DualgunWAttackMinBaseMod
+					packet.PutShort(0);			     // DualgunWAttackMaxBaseMod
 				}
+				packet.PutShort(0);			         // PoisonBase
+				packet.PutShort(0);			         // PoisonMod
 				packet.PutShort(67);		         // PoisonImmuneBase
 				packet.PutShort(0);			         // PoisonImmuneMod
 				packet.PutFloat(0.5f);		         // PoisonDamageRatio1
