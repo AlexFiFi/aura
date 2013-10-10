@@ -116,7 +116,7 @@ namespace Aura.World.Network
 			var packet = new MabiPacket(Op.ItemAmount, creature.Id);
 			packet.PutLong(item.Id);
 			packet.PutShort(item.Info.Amount);
-			packet.PutByte(2);
+			packet.PutByte(2); // ? (related to the 2 in move item?)
 
 			creature.Client.Send(packet);
 		}
