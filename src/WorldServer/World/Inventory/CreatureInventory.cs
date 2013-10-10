@@ -49,14 +49,18 @@ namespace Aura.World.World
 			if (creature.RaceInfo == null)
 				Logger.Warning("Race for creature '{0:X016}' not loaded before initializing inventory.", creature.Id);
 
-			// Cursor, Inv, Equipment, Style
+			// Cursor, Inv, etc
 			this.Add(new InventoryPocketStack(Pocket.Temporary));
 			this.Add(new InventoryPocketSingle(Pocket.Cursor));
 			this.Add(new InventoryPocketNormal(Pocket.Inventory, width, height));
 			this.Add(new InventoryPocketNormal(Pocket.PersonalInventory, width, height));
 			this.Add(new InventoryPocketNormal(Pocket.VIPInventory, width, height));
-			for (var i = Pocket.Face; i <= Pocket.Robe; ++i)
+
+			// Equipment
+			for (var i = Pocket.Face; i <= Pocket.Accessory2; ++i)
 				this.Add(new InventoryPocketSingle(i));
+
+			// Style
 			for (var i = Pocket.ArmorStyle; i <= Pocket.RobeStyle; ++i)
 				this.Add(new InventoryPocketSingle(i));
 		}
