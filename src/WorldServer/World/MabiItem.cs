@@ -379,6 +379,7 @@ namespace Aura.World.World
 
 		Accessory1 = 16,
 		Accessory2 = 17,
+
 		Trade = 19,
 		Temporary = 20,
 		Quest = 23,
