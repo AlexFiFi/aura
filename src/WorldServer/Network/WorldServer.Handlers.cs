@@ -1040,7 +1040,11 @@ namespace Aura.World.Network
 				return;
 			}
 
-			creature.Inventory.Remove(item);
+			if (!creature.Inventory.Remove(item))
+			{
+				Send.ItemDropR(creature, false);
+				return;
+			}
 
 			if (HandleDungeonDrop(client, creature, item))
 				return;
@@ -1144,16 +1148,22 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			var item = creature.GetItem(itemId);
+			var item = creature.Inventory.GetItem(itemId);
 			if (item == null || item.Type == ItemType.Hair || item.Type == ItemType.Face)
+			{
+				Send.ItemDestroyR(creature, false);
 				return;
+			}
 
-			creature.Items.Remove(item);
-			//this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
+			if (!creature.Inventory.Remove(item))
+			{
+				Send.ItemDestroyR(creature, false);
+				return;
+			}
+
+			Send.ItemDestroyR(creature, true);
+
 			EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
-
-			Send.ItemRemove(creature, item);
-			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
 		}
 
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)

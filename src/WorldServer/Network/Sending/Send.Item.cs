@@ -173,5 +173,18 @@ namespace Aura.World.Network
 
 			creature.Client.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends ItemDestroyR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
+		public static void ItemDestroyR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.ItemDestroyR, creature.Id);
+			packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
 	}
 }
