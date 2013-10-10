@@ -868,7 +868,7 @@ namespace Aura.World.Network
 					return;
 				}
 
-				client.Send(PacketCreator.ItemRemove(client.Character, item));
+				Send.ItemRemove(client.Character, item);
 				client.Character.Items.Remove(item);
 				WorldDb.Instance.SaveMailItem(item, null);
 			}
@@ -1041,7 +1041,7 @@ namespace Aura.World.Network
 
 			creature.Items.Remove(item);
 			//this.CheckItemMove(creature, item, source);
-			client.Send(PacketCreator.ItemRemove(creature, item));
+			Send.ItemRemove(creature, item);
 
 			if (HandleDungeonDrop(client, creature, item))
 				return;
@@ -1154,7 +1154,7 @@ namespace Aura.World.Network
 			//this.CheckItemMove(creature, item, (Pocket)item.Info.Pocket);
 			EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
 
-			client.Send(PacketCreator.ItemRemove(creature, item));
+			Send.ItemRemove(creature, item);
 			client.Send(new MabiPacket(Op.ItemDestroyR, creature.Id).PutByte(1));
 		}
 
@@ -1224,12 +1224,12 @@ namespace Aura.World.Network
 
 			if (item.Info.Amount > 0 || item.StackItem != 0)
 			{
-				client.Send(PacketCreator.ItemAmount(creature, item));
+				Send.ItemAmount(creature, item);
 			}
 			else
 			{
 				creature.Items.Remove(item);
-				client.Send(PacketCreator.ItemRemove(creature, item));
+				Send.ItemRemove(creature, item);
 			}
 
 			Send.ItemSplitR(creature, true);
@@ -1674,7 +1674,7 @@ namespace Aura.World.Network
 			var p = new MabiPacket(Op.ShopSellItemR, creature.Id);
 
 			creature.Items.Remove(item);
-			client.Send(PacketCreator.ItemRemove(creature, item));
+			Send.ItemRemove(creature, item);
 
 			var sellingPrice = item.OptionInfo.SellingPrice;
 

@@ -193,7 +193,7 @@ namespace Aura.World.World
 				return;
 
 			foreach (var item in items)
-				_creature.Client.Send(PacketCreator.ItemAmount(_creature, item));
+				Send.ItemAmount(_creature, item);
 		}
 
 		/// <summary>

@@ -543,7 +543,7 @@ namespace Aura.World.World
 			foreach (var item in toRemove)
 			{
 				creature.Items.Remove(item);
-				client.Send(PacketCreator.ItemRemove(creature, item));
+				Send.ItemRemove(creature, item);
 			}
 
 			Send.ServerMessage(client, creature, Localization.Get("gm.si_cleared"), ((Pocket)pocket), toRemove.Count); // Cleared pocket '{0}'. (Deleted items: {1})

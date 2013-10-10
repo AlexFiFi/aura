@@ -42,34 +42,6 @@ namespace Aura.World.Network
 			return p;
 		}
 
-		public static MabiPacket ItemRemove(MabiCreature creature, MabiItem item)
-		{
-			var p = new MabiPacket(Op.ItemRemove, creature.Id);
-			p.PutLong(item.Id);
-			p.PutByte(item.Info.Pocket);
-			return p;
-		}
-
-		public static MabiPacket ItemAmount(MabiCreature creature, MabiItem item)
-		{
-			var p = new MabiPacket(Op.ItemAmount, creature.Id);
-			p.PutLong(item.Id);
-			p.PutShort(item.Info.Amount);
-			p.PutByte(2);
-			return p;
-		}
-
-		//public static MabiPacket Effect(MabiCreature creature, uint id, params object[] args)
-		//{
-		//    var p = new MabiPacket(Op.Effect, creature.Id);
-		//    p.PutInt(id);
-
-		//    foreach (var arg in args)
-		//        p.Put(arg);
-
-		//    return p;
-		//}
-
 		/// <summary>
 		/// Lets the creature face the target.
 		/// </summary>

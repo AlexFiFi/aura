@@ -366,11 +366,11 @@ namespace Aura.World.World
 				// Update or remove, depending on type and amount
 				if (item.StackType == BundleType.Sac || item.Info.Amount > 0)
 				{
-					this.Client.Send(PacketCreator.ItemAmount(this, item));
+					Send.ItemAmount(this, item);
 				}
 				else
 				{
-					this.Client.Send(PacketCreator.ItemRemove(this, item));
+					Send.ItemRemove(this, item);
 				}
 			}
 			else
