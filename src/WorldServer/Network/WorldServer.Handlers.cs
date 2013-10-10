@@ -1168,7 +1168,10 @@ namespace Aura.World.Network
 
 			var item = WorldManager.Instance.GetItemById(itemId);
 			if (item == null)
+			{
 				Send.ItemPickUpR(creature, false);
+				return;
+			}
 
 			var success = creature.Inventory.FitIn(item, false);
 			if (success)
@@ -1189,47 +1192,47 @@ namespace Aura.World.Network
 			if (creature == null)
 				return;
 
-			packet = new MabiPacket(Op.ItemSplitR, creature.Id);
-
+			// Check item
 			var item = creature.GetItem(itemId);
-			if (item != null && item.StackType != BundleType.None)
+			if (item == null || item.StackType == BundleType.None)
 			{
-				if (item.Info.Amount < amount)
-					amount = item.Info.Amount;
+				Send.ItemSplitR(creature, false);
+				return;
+			}
 
-				item.Info.Amount -= amount;
+			// Check requested amount
+			if (item.Info.Amount < amount)
+				amount = item.Info.Amount;
 
-				MabiItem splitItem;
-				if (item.StackItem == 0)
-					splitItem = new MabiItem(item);
-				else
-					splitItem = new MabiItem(item.StackItem);
-				splitItem.Info.Amount = amount;
-				splitItem.Move(Pocket.Cursor, 0, 0);
-				creature.Items.Add(splitItem);
+			// Clone item or create new one based on stack item
+			MabiItem splitItem;
+			if (item.StackItem == 0)
+				splitItem = new MabiItem(item);
+			else
+				splitItem = new MabiItem(item.StackItem);
+			splitItem.Info.Amount = amount;
 
-				// New item on cursor
-				Send.ItemInfo(client, creature, splitItem);
+			// New item on cursor
+			if (!creature.Inventory.PutItem(splitItem, Pocket.Cursor))
+			{
+				Send.ItemSplitR(creature, false);
+				return;
+			}
 
-				// Update amount or remove
-				if (item.Info.Amount > 0 || item.StackItem != 0)
-				{
-					client.Send(PacketCreator.ItemAmount(creature, item));
-				}
-				else
-				{
-					creature.Items.Remove(item);
-					client.Send(PacketCreator.ItemRemove(creature, item));
-				}
+			// Update amount or remove
+			item.Info.Amount -= amount;
 
-				packet.PutByte(true);
+			if (item.Info.Amount > 0 || item.StackItem != 0)
+			{
+				client.Send(PacketCreator.ItemAmount(creature, item));
 			}
 			else
 			{
-				packet.PutByte(false);
+				creature.Items.Remove(item);
+				client.Send(PacketCreator.ItemRemove(creature, item));
 			}
 
-			client.Send(packet);
+			Send.ItemSplitR(creature, true);
 		}
 
 		private void HandleSwitchSet(WorldClient client, MabiPacket packet)
