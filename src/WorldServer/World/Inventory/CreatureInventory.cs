@@ -165,7 +165,15 @@ namespace Aura.World.World
 			return false;
 		}
 
-		public bool FitIn(MabiItem item, bool tempFallback)
+		/// <summary>
+		/// Puts item into inventory, if possible. Tries to fill stacks first.
+		/// If tempFallback is true, leftovers will be put into temp.
+		/// Sends ItemAmount and ItemNew if required/enabled.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="tempFallback"></param>
+		/// <returns></returns>
+		public bool FitIn(MabiItem item, bool tempFallback, bool sendItemNew)
 		{
 			var amount = item.Info.Amount;
 
@@ -181,10 +189,29 @@ namespace Aura.World.World
 				success = _pockets[Pocket.Temporary].PutItem(item);
 
 			// Inform about new item, if it wasn't added to stacks completely
-			if (success && item.Info.Amount > 0)
+			if (success && item.Info.Amount > 0 && sendItemNew)
 				Send.ItemInfo(_creature.Client, _creature, item);
 
 			return success;
+		}
+
+		/// <summary>
+		/// Removes item from inventory. Sends ItemRemove on success.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool Remove(MabiItem item)
+		{
+			foreach (var pocket in _pockets.Values)
+			{
+				if (pocket.Remove(item))
+				{
+					Send.ItemRemove(_creature, item);
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private void UpdateChangedItemAmounts(IEnumerable<MabiItem> items)

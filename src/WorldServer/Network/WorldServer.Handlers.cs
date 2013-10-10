@@ -1173,9 +1173,14 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var success = creature.Inventory.FitIn(item, false);
+			var success = creature.Inventory.FitIn(item, false, false);
 			if (success)
+			{
+				// Order is important here, remove from world first =/
 				WorldManager.Instance.RemoveItem(item);
+				if (item.Info.Amount > 0)
+					Send.ItemInfo(client, creature, item);
+			}
 			else
 				Send.SystemMessage(client, creature, Localization.Get("world.insufficient_space")); // Not enough space.
 
@@ -1193,7 +1198,7 @@ namespace Aura.World.Network
 				return;
 
 			// Check item
-			var item = creature.GetItem(itemId);
+			var item = creature.Inventory.GetItem(itemId);
 			if (item == null || item.StackType == BundleType.None)
 			{
 				Send.ItemSplitR(creature, false);
@@ -1228,8 +1233,7 @@ namespace Aura.World.Network
 			}
 			else
 			{
-				creature.Items.Remove(item);
-				Send.ItemRemove(creature, item);
+				creature.Inventory.Remove(item);
 			}
 
 			Send.ItemSplitR(creature, true);
