@@ -134,5 +134,18 @@ namespace Aura.World.Network
 
 			creature.Client.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends ItemPickUpR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
+		public static void ItemPickUpR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.ItemPickUpR, creature.Id);
+			packet.PutByte(success ? (byte)1 : (byte)2);
+
+			creature.Client.Send(packet);
+		}
 	}
 }

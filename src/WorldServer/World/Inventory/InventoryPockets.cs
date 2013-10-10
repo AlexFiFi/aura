@@ -37,6 +37,8 @@ namespace Aura.World.World
 
 		public abstract bool PutItem(MabiItem item);
 
+		public abstract bool FitIn(MabiItem item, out List<MabiItem> changed);
+
 		/// <summary>
 		/// Removes item from pocket.
 		/// </summary>
@@ -119,7 +121,6 @@ namespace Aura.World.World
 					_map[x, y] = item;
 				}
 			}
-			//TestMap();
 		}
 
 		protected void ClearFromMap(MabiItem item)
@@ -138,29 +139,6 @@ namespace Aura.World.World
 							return;
 					}
 				}
-			}
-			//TestMap();
-		}
-
-		protected void TestMap()
-		{
-			var items = Items.ToList();
-			for (int i = 0; i < items.Count; ++i)
-			{
-				Console.WriteLine((i + 1) + ") " + items[i].DataInfo.Name);
-				items[i].OptionInfo.Price = (uint)i + 1;
-			}
-			for (var y = 0; y < _height; ++y)
-			{
-				for (var x = 0; x < _width; ++x)
-				{
-					if (_map[x, y] != null)
-						Console.Write(_map[x, y].OptionInfo.Price + " ");
-					else
-						Console.Write(0 + " ");
-				}
-				Console.WriteLine("|");
-				Console.WriteLine();
 			}
 		}
 
@@ -210,7 +188,24 @@ namespace Aura.World.World
 
 		public override bool PutItem(MabiItem item)
 		{
-			throw new NotImplementedException();
+			MabiItem collidingItem;
+
+			for (byte y = 0; y < _height - item.DataInfo.Height; ++y)
+			{
+				for (byte x = 0; x < _width - item.DataInfo.Width; ++x)
+				{
+					if (_map[x, y] != null)
+						continue;
+
+					if (!this.TryGetCollidingItem(x, y, item, out collidingItem))
+					{
+						this.TryPutItem(item, x, y, out collidingItem);
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 
 		public override MabiItem GetItemAt(uint x, uint y)
@@ -218,6 +213,44 @@ namespace Aura.World.World
 			if (x > _width - 1 || y > _height - 1)
 				return null;
 			return _map[x, y];
+		}
+
+		public override bool FitIn(MabiItem item, out List<MabiItem> changed)
+		{
+			changed = new List<MabiItem>();
+
+			// Try to fit item into stacks first.
+			if (item.StackType == BundleType.Stackable)
+			{
+				foreach (var invItem in _items.Values)
+				{
+					// If same class or item is stack item of inventory item
+					if (item.Info.Class == invItem.Info.Class || invItem.StackItem == item.Info.Class)
+					{
+						// If item fits into stack 100%
+						if (invItem.Info.Amount + item.Info.Amount <= invItem.StackMax)
+						{
+							invItem.Info.Amount += item.Info.Amount;
+							item.Info.Amount = 0;
+
+							changed.Add(invItem);
+
+							return true;
+						}
+
+						// If stack is not full
+						if (invItem.Info.Amount < invItem.StackMax)
+						{
+							item.Info.Amount -= (ushort)(invItem.StackMax - invItem.Info.Amount);
+							invItem.Info.Amount = invItem.StackMax;
+
+							changed.Add(invItem);
+						}
+					}
+				}
+			}
+
+			return this.PutItem(item);
 		}
 	}
 
@@ -281,6 +314,12 @@ namespace Aura.World.World
 		{
 			return _item;
 		}
+
+		public override bool FitIn(MabiItem item, out List<MabiItem> changed)
+		{
+			changed = null;
+			return this.PutItem(item);
+		}
 	}
 
 	/// <summary>
@@ -332,6 +371,12 @@ namespace Aura.World.World
 		public override MabiItem GetItemAt(uint x, uint y)
 		{
 			return _items.FirstOrDefault();
+		}
+
+		public override bool FitIn(MabiItem item, out List<MabiItem> changed)
+		{
+			changed = null;
+			return this.PutItem(item);
 		}
 	}
 }
