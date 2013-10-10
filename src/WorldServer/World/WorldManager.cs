@@ -801,7 +801,8 @@ namespace Aura.World.World
 
 			var disappears = new MabiPacket(Op.ItemDisappears, Id.Broadcast);
 			disappears.PutLong(item.Id);
-			this.Broadcast(disappears, SendTargets.Range, item);
+			// Temp fix, because item's position might've changed by now...
+			this.BroadcastRegion(disappears, item.Region);
 
 			EventManager.EntityEvents.OnEntityLeavesRegion(item);
 

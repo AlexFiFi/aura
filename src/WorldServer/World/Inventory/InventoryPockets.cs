@@ -43,7 +43,7 @@ namespace Aura.World.World
 		/// Removes item from pocket.
 		/// </summary>
 		/// <param name="item"></param>
-		public abstract void Remove(MabiItem item);
+		public abstract bool Remove(MabiItem item);
 
 		public abstract MabiItem GetItemAt(uint x, uint y);
 	}
@@ -180,19 +180,24 @@ namespace Aura.World.World
 			item.Pocket = this.Pocket;
 		}
 
-		public override void Remove(MabiItem item)
+		public override bool Remove(MabiItem item)
 		{
 			if (_items.Remove(item.Id))
+			{
 				this.ClearFromMap(item);
+				return true;
+			}
+
+			return false;
 		}
 
 		public override bool PutItem(MabiItem item)
 		{
 			MabiItem collidingItem;
 
-			for (byte y = 0; y < _height - item.DataInfo.Height; ++y)
+			for (byte y = 0; y <= _height - item.DataInfo.Height; ++y)
 			{
-				for (byte x = 0; x < _width - item.DataInfo.Width; ++x)
+				for (byte x = 0; x <= _width - item.DataInfo.Width; ++x)
 				{
 					if (_map[x, y] != null)
 						continue;
@@ -250,6 +255,7 @@ namespace Aura.World.World
 				}
 			}
 
+			// Try to put it into an empty space.
 			return this.PutItem(item);
 		}
 	}
@@ -295,10 +301,15 @@ namespace Aura.World.World
 			_item.Move(this.Pocket, 0, 0);
 		}
 
-		public override void Remove(MabiItem item)
+		public override bool Remove(MabiItem item)
 		{
 			if (_item == item)
+			{
 				_item = null;
+				return true;
+			}
+
+			return false;
 		}
 
 		public override bool PutItem(MabiItem item)
@@ -357,9 +368,9 @@ namespace Aura.World.World
 			item.Move(this.Pocket, 0, 0);
 		}
 
-		public override void Remove(MabiItem item)
+		public override bool Remove(MabiItem item)
 		{
-			_items.Remove(item);
+			return _items.Remove(item);
 		}
 
 		public override bool PutItem(MabiItem item)
