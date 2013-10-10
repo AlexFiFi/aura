@@ -145,6 +145,58 @@ namespace Aura.World.World
 		}
 
 		/// <summary>
+		/// Attempts to store item somewhere in the inventory.
+		/// If temp is true, it will fallback to the temp inv, if there's not space.
+		/// Returns whether the item was successfully stored somewhere.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="temp"></param>
+		/// <returns></returns>
+		public bool PutItem(MabiItem item, bool tempFallback)
+		{
+			// Try inv
+			if (_pockets[Pocket.Inventory].PutItem(item))
+				return true;
+
+			// Try temp
+			if (tempFallback && _pockets[Pocket.Temporary].PutItem(item))
+				return true;
+
+			return false;
+		}
+
+		public bool FitIn(MabiItem item, bool tempFallback)
+		{
+			var amount = item.Info.Amount;
+
+			List<MabiItem> changed;
+			bool success;
+
+			// Try inv
+			success = _pockets[Pocket.Inventory].FitIn(item, out changed);
+			this.UpdateChangedItemAmounts(changed);
+
+			// Try temp
+			if (!success && tempFallback)
+				success = _pockets[Pocket.Temporary].PutItem(item);
+
+			// Inform about new item, if it wasn't added to stacks completely
+			if (success && item.Info.Amount > 0)
+				Send.ItemInfo(_creature.Client, _creature, item);
+
+			return success;
+		}
+
+		private void UpdateChangedItemAmounts(IEnumerable<MabiItem> items)
+		{
+			if (items == null)
+				return;
+
+			foreach (var item in items)
+				_creature.Client.Send(PacketCreator.ItemAmount(_creature, item));
+		}
+
+		/// <summary>
 		/// Unequips item in left hand/magazine, if item in right hand is moved.
 		/// </summary>
 		/// <param name="item"></param>

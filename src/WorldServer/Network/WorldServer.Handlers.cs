@@ -1160,75 +1160,23 @@ namespace Aura.World.Network
 
 		private void HandleItemPickUp(WorldClient client, MabiPacket packet)
 		{
+			var itemId = packet.GetLong();
+
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
-			var itemId = packet.GetLong();
-
-			byte result = 2;
-
 			var item = WorldManager.Instance.GetItemById(itemId);
-			if (item != null)
-			{
-				if (item.StackType == BundleType.Stackable)// && item.Type == ItemType.Sac)
-				{
-					foreach (var invItem in creature.Items)
-					{
-						if (item.Info.Class == invItem.Info.Class || item.Info.Class == invItem.StackItem)
-						{
-							if (invItem.Info.Amount + item.Info.Amount > invItem.StackMax)
-							{
-								if (invItem.Info.Amount < invItem.StackMax)
-								{
-									item.Info.Amount -= (ushort)(invItem.StackMax - invItem.Info.Amount);
-									invItem.Info.Amount = invItem.StackMax;
+			if (item == null)
+				Send.ItemPickUpR(creature, false);
 
-									client.Send(PacketCreator.ItemAmount(creature, invItem));
+			var success = creature.Inventory.FitIn(item, false);
+			if (success)
+				WorldManager.Instance.RemoveItem(item);
+			else
+				Send.SystemMessage(client, creature, Localization.Get("world.insufficient_space")); // Not enough space.
 
-									result = 1;
-								}
-							}
-							else
-							{
-								invItem.Info.Amount += item.Info.Amount;
-								item.Info.Amount = 0;
-
-								WorldManager.Instance.RemoveItem(item);
-								client.Send(PacketCreator.ItemAmount(creature, invItem));
-
-								result = 1;
-							}
-						}
-					}
-				}
-
-				if (item.Info.Amount > 0 || (item.Type == ItemType.Sac && item.StackType == BundleType.Sac))
-				{
-					var pos = creature.GetFreeItemSpace(item, Pocket.Inventory);
-					if (pos != null)
-					{
-						WorldManager.Instance.RemoveItem(item);
-
-						item.Move(Pocket.Inventory, pos.X, pos.Y);
-						creature.Items.Add(item);
-
-						Send.ItemInfo(client, creature, item);
-
-						result = 1;
-					}
-					else
-					{
-						Send.SystemMessage(client, creature, Localization.Get("world.insufficient_space")); // Not enough space.
-					}
-				}
-
-				EventManager.CreatureEvents.OnCreatureItemAction(creature, item.Info.Class);
-			}
-
-			var response = new MabiPacket(Op.ItemPickUpR, creature.Id);
-			response.PutByte(result);
-			client.Send(response);
+			Send.ItemPickUpR(creature, success);
 		}
 
 		private void HandleItemSplit(WorldClient client, MabiPacket packet)
