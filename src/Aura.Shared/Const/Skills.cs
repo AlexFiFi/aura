@@ -355,13 +355,11 @@ namespace Aura.Shared.Const
 		InstallUninstallCylinder = 50048,
 		HolyFlame = 50049,
 
-
 		UseMorrighansFeather = 50050,
 		CreateFaliasPortal = 50051,
 		UseItemChattingColorChange = 50052,
 		InstallPrivateFarmFacility = 50053,
 		ReorientHomesteadbuilding = 50054,
-
 
 		Paint = 50055,
 		MixPaint = 50056,
@@ -458,7 +456,6 @@ namespace Aura.Shared.Const
 		JulietsFeelings = 51006,
 		ShylocksStep = 51007,
 
-
 		MerrowSmash = 52000,
 		MerrowRisingDragon = 52001,
 		MerrowTidalWave = 52002,
@@ -501,6 +498,16 @@ namespace Aura.Shared.Const
 		Hoeing = 55007,
 		CommerceMastery = 55100,
 		TransformationMastery = 56001,
+
+		// Dual Gun
+		DualGunMastery = 54302,
+		FlashLauncher = 54303,
+		GrappleShot = 54304,
+		BulletSlide = 54305,
+		ShootingRush = 54306,
+		BulletStorm = 54307,
+		Reload = 54401,
+		WayOfTheGun = 54402,
 
 		// GM
 		PickupItemGMSkill = 65001,

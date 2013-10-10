@@ -72,7 +72,7 @@ namespace Aura.World.Network
 			client.Send(packet);
 		}
 
-		public static void SendSkillPrepareFail(Client client, MabiCreature creature)
+		public static void SkillPrepareFail(Client client, MabiCreature creature)
 		{
 			SkillPrepare(client, creature, SkillConst.None, 0);
 		}
@@ -200,6 +200,14 @@ namespace Aura.World.Network
 			var packet = new MabiPacket(Op.SkillUse, creature.Id);
 			packet.PutShort((ushort)skillId);
 			packet.PutLong(targetId);
+
+			client.Send(packet);
+		}
+
+		public static void SkillUse(Client client, MabiCreature creature, SkillConst skillId)
+		{
+			var packet = new MabiPacket(Op.SkillUse, creature.Id);
+			packet.PutShort((ushort)skillId);
 
 			client.Send(packet);
 		}

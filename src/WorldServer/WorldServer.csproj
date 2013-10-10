@@ -117,6 +117,8 @@
     <Compile Include="Skills\Handlers\Combat\ShadowBunshinHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\WindmillHandler.cs" />
     <Compile Include="Skills\Handlers\Combat\SmashHandler.cs" />
+    <Compile Include="Skills\Handlers\Guns\DualGunMasteryHandler.cs" />
+    <Compile Include="Skills\Handlers\Guns\ReloadHandler.cs" />
     <Compile Include="Skills\Handlers\Hidden\DyeHandler.cs" />
     <Compile Include="Skills\Handlers\Hidden\ResurrectionlHandler.cs" />
     <Compile Include="Skills\Handlers\Life\MusicSkillHandlers.cs" />

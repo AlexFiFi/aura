@@ -1549,7 +1549,7 @@ namespace Aura.World.Network
 			SkillManager.CheckOutSkill(creature, skillId, out skill, out handler);
 			if (skill == null || handler == null)
 			{
-				Send.SendSkillPrepareFail(client, creature);
+				Send.SkillPrepareFail(client, creature);
 				return;
 			}
 
@@ -1557,7 +1557,7 @@ namespace Aura.World.Network
 			if (creature.Mana < skill.RankInfo.ManaCost)
 			{
 				Send.SystemMessage(client, creature, Localization.Get("skills.insufficient_mana")); // Insufficient Mana
-				Send.SendSkillPrepareFail(client, creature);
+				Send.SkillPrepareFail(client, creature);
 				return;
 			}
 
@@ -1565,7 +1565,7 @@ namespace Aura.World.Network
 			if (creature.Stamina < skill.RankInfo.StaminaCost)
 			{
 				Send.SystemMessage(client, creature, Localization.Get("skills.insufficient_stamina")); // Insufficient Stamina
-				Send.SendSkillPrepareFail(client, creature);
+				Send.SkillPrepareFail(client, creature);
 				return;
 			}
 
@@ -1584,7 +1584,7 @@ namespace Aura.World.Network
 
 			if ((result & SkillResults.Failure) != 0)
 			{
-				Send.SendSkillPrepareFail(client, creature);
+				Send.SkillPrepareFail(client, creature);
 				return;
 			}
 
