@@ -1267,8 +1267,8 @@ namespace Aura.World.Network
 
 		private void HandleItemStateChange(WorldClient client, MabiPacket packet)
 		{
-			var firstTarget = packet.GetByte();
-			var secondTarget = packet.GetByte();
+			var firstTarget = (Pocket)packet.GetByte();
+			var secondTarget = (Pocket)packet.GetByte();
 			var unk = packet.GetByte();
 
 			var creature = client.GetCreatureOrNull(packet.Id);
@@ -1278,11 +1278,11 @@ namespace Aura.World.Network
 			// This might not be entirely correct, but works fine.
 			// Robe is opened first, Helm secondly, then Robe and Helm are both closed.
 
-			foreach (var target in new byte[] { firstTarget, secondTarget })
+			foreach (var target in new Pocket[] { firstTarget, secondTarget })
 			{
 				if (target > 0)
 				{
-					var item = creature.GetItemInPocket((Pocket)target);
+					var item = creature.Inventory.GetItemAt(target, 0, 0);
 					if (item != null)
 					{
 						item.Info.FigureA = (byte)(item.Info.FigureA == 1 ? 0 : 1);
@@ -1291,7 +1291,7 @@ namespace Aura.World.Network
 				}
 			}
 
-			client.Send(new MabiPacket(Op.ItemStateChangeR, creature.Id));
+			Send.ItemStateChangeR(creature);
 		}
 
 		private void HandleEnterRegion(WorldClient client, MabiPacket packet)

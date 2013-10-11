@@ -314,6 +314,11 @@ namespace Aura.World.Network
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 		}
 
+		/// <summary>
+		/// Broadcasts EquipmentChanged in creature's range and and stat update.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="item"></param>
 		public static void EquipmentChanged(MabiCreature creature, MabiItem item)
 		{
 			var packet = new MabiPacket(Op.EquipmentChanged, creature.Id);

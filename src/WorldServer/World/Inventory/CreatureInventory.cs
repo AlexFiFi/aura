@@ -96,6 +96,14 @@ namespace Aura.World.World
 			return this.Items.FirstOrDefault(a => a.Id == itemId);
 		}
 
+		public MabiItem GetItemAt(Pocket pocket, uint x, uint y)
+		{
+			if (!this.Has(pocket))
+				return null;
+
+			return _pockets[pocket].GetItemAt(x, y);
+		}
+
 		public bool MoveItem(MabiItem item, Pocket target, byte targetX, byte targetY)
 		{
 			if (!this.Has(target))
