@@ -186,5 +186,26 @@ namespace Aura.World.Network
 
 			creature.Client.Send(packet);
 		}
+
+		/// <summary>
+		/// Broadcasts UpdateWeaponSet in creature's range.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
+		public static void UpdateWeaponSet(MabiCreature creature)
+		{
+			var packet = new MabiPacket(Op.UpdateWeaponSet, creature.Id);
+			packet.PutByte((byte)creature.Inventory.WeaponSet);
+
+			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
+		}
+
+		public static void SwitchSetR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.SwitchSetR, creature.Id);
+			packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
 	}
 }

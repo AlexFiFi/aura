@@ -128,7 +128,7 @@ namespace Aura.Shared.Network
 
 		public const uint SwitchSet = 0x5BCD;
 		public const uint SwitchSetR = 0x5BCE;
-		public const uint SwitchedSet = 0x5BCF;
+		public const uint UpdateWeaponSet = 0x5BCF;
 		public const uint ItemStateChange = 0x5BD0;
 		public const uint ItemStateChangeR = 0x5BD1;
 		public const uint ItemUpdate = 0x5BD4;

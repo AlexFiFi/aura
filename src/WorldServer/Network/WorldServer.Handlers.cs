@@ -1249,30 +1249,20 @@ namespace Aura.World.Network
 
 		private void HandleSwitchSet(WorldClient client, MabiPacket packet)
 		{
+			var set = (WeaponSet)packet.GetByte();
+
 			var creature = client.GetCreatureOrNull(packet.Id);
 			if (creature == null)
 				return;
 
-			var set = packet.GetByte();
-
 			creature.StopMove();
 
-			// TODO: Check this, GetItemInPocket doesn't return the correct stuff.
-			creature.WeaponSet = set;
+			creature.Inventory.WeaponSet = set;
 
-			creature.UpdateItemsFromPockets(Pocket.RightHand1);
-			creature.UpdateItemsFromPockets(Pocket.LeftHand1);
-			creature.UpdateItemsFromPockets(Pocket.Magazine1);
-
-			var p = new MabiPacket(Op.SwitchedSet, creature.Id);
-			p.PutByte(creature.WeaponSet);
-			WorldManager.Instance.Broadcast(p, SendTargets.Range, creature);
-
+			Send.UpdateWeaponSet(creature);
 			WorldManager.Instance.CreatureStatsUpdate(creature);
 
-			var response = new MabiPacket(Op.SwitchSetR, creature.Id);
-			response.PutByte(1);
-			client.Send(response);
+			Send.SwitchSetR(creature, true);
 		}
 
 		private void HandleItemStateChange(WorldClient client, MabiPacket packet)
