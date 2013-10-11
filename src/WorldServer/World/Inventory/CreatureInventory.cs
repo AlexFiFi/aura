@@ -34,6 +34,19 @@ namespace Aura.World.World
 			}
 		}
 
+		private WeaponSet _weaponSet;
+		public WeaponSet WeaponSet
+		{
+			get { return _weaponSet; }
+			set
+			{
+				_weaponSet = value;
+				// params?
+				this.UpdateEquipReferences(Pocket.RightHand1, Pocket.RightHand2);
+				this.UpdateEquipReferences(Pocket.RightHand2, Pocket.RightHand1);
+			}
+		}
+
 		public MabiItem RightHand { get; protected set; }
 		public MabiItem LeftHand { get; protected set; }
 		public MabiItem Magazine { get; protected set; }
@@ -67,6 +80,9 @@ namespace Aura.World.World
 
 		public void Add(InventoryPocket inventoryPocket)
 		{
+			if (_pockets.ContainsKey(inventoryPocket.Pocket))
+				Logger.Warning("Replacing pocket '{0}' in '{1}'s inventory.", inventoryPocket.Pocket, _creature);
+
 			_pockets[inventoryPocket.Pocket] = inventoryPocket;
 		}
 
@@ -222,7 +238,7 @@ namespace Aura.World.World
 		private void UpdateInventory(MabiItem item, Pocket source, Pocket target)
 		{
 			this.CheckLeftHand(item, source, target);
-			this.UpdateEquipReferences(item, source, target);
+			this.UpdateEquipReferences(source, target);
 			this.CheckEquipMoved(item, source, target);
 		}
 
@@ -275,7 +291,7 @@ namespace Aura.World.World
 			}
 		}
 
-		private void UpdateEquipReferences(MabiItem item, Pocket source, Pocket target)
+		private void UpdateEquipReferences(Pocket source, Pocket target)
 		{
 			// Right Hand
 			if (source == Pocket.RightHand1 || target == Pocket.RightHand1)
@@ -338,5 +354,11 @@ namespace Aura.World.World
 				}
 			}
 		}
+	}
+
+	public enum WeaponSet : byte
+	{
+		First = 0,
+		Second = 1,
 	}
 }
