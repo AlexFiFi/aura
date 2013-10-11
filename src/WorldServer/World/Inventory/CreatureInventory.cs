@@ -17,20 +17,42 @@ namespace Aura.World.World
 		private MabiCreature _creature;
 		private Dictionary<Pocket, InventoryPocket> _pockets;
 
+		/// <summary>
+		/// List of all items in this inventory.
+		/// </summary>
 		public IEnumerable<MabiItem> Items
 		{
 			get
 			{
 				foreach (var pocket in _pockets.Values)
-				{
-					foreach (var item in pocket.Items)
-					{
-						if (item == null)
-							continue;
-
+					foreach (var item in pocket.Items.Where(a => a != null))
 						yield return item;
-					}
-				}
+			}
+		}
+
+		/// <summary>
+		/// List of all items sitting in equipment pockets in this inventory.
+		/// </summary>
+		public IEnumerable<MabiItem> Equipment
+		{
+			get
+			{
+				foreach (var pocket in _pockets.Values.Where(a => a.Pocket.IsEquip()))
+					foreach (var item in pocket.Items.Where(a => a != null))
+						yield return item;
+			}
+		}
+
+		/// <summary>
+		/// List of all items in equipment slots, minus hair and face.
+		/// </summary>
+		public IEnumerable<MabiItem> ActualEquipment
+		{
+			get
+			{
+				foreach (var pocket in _pockets.Values.Where(a => a.Pocket.IsEquip() && a.Pocket != Pocket.Hair && a.Pocket != Pocket.Face))
+					foreach (var item in pocket.Items.Where(a => a != null))
+						yield return item;
 			}
 		}
 

@@ -2487,13 +2487,13 @@ namespace Aura.World.Network
 
 		public void HandleVisualChat(WorldClient client, MabiPacket packet)
 		{
-			var creature = client.GetCreatureOrNull(packet.Id);
-			if (creature == null || !WorldConf.EnableVisual)
-				return;
-
 			var url = packet.GetString();
 			var width = packet.GetShort();
 			var height = packet.GetShort();
+
+			var creature = client.GetCreatureOrNull(packet.Id);
+			if (creature == null || !WorldConf.EnableVisual)
+				return;
 
 			var p = new MabiPacket(Op.VisualChat, creature.Id);
 			p.PutString(creature.Name);
@@ -2507,7 +2507,7 @@ namespace Aura.World.Network
 		{
 			var targetId = packet.GetLong();
 
-			if (client.Character.DataType != packet.Id)
+			if (client.Character.Id != packet.Id)
 				return;
 
 			var target = WorldManager.Instance.GetCreatureById(targetId);
@@ -2517,9 +2517,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var items = target.Items.FindAll(a => a.IsEquipped() && a.Type != ItemType.Hair && a.Type != ItemType.Face);
-
-			Send.ViewEquipmentResponse(client, targetId, items);
+			Send.ViewEquipmentResponse(client, targetId, target.Inventory.ActualEquipment);
 		}
 
 		public void HandleSkillAdvance(WorldClient client, MabiPacket packet)
