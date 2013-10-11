@@ -200,10 +200,27 @@ namespace Aura.World.Network
 			WorldManager.Instance.Broadcast(packet, SendTargets.Range, creature);
 		}
 
+		/// <summary>
+		/// Sends SwitchSetR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
 		public static void SwitchSetR(MabiCreature creature, bool success)
 		{
 			var packet = new MabiPacket(Op.SwitchSetR, creature.Id);
 			packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ItemStateChangeR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
+		public static void ItemStateChangeR(MabiCreature creature)
+		{
+			var packet = new MabiPacket(Op.ItemStateChangeR, creature.Id);
 
 			creature.Client.Send(packet);
 		}
