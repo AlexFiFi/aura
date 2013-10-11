@@ -174,19 +174,25 @@ namespace Aura.World.World
 		/// Attempts to store item somewhere in the inventory.
 		/// If temp is true, it will fallback to the temp inv, if there's not space.
 		/// Returns whether the item was successfully stored somewhere.
+		/// Sends ItemNew on success.
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="temp"></param>
 		/// <returns></returns>
 		public bool PutItem(MabiItem item, bool tempFallback)
 		{
+			bool success;
+
 			// Try inv
-			if (_pockets[Pocket.Inventory].PutItem(item))
-				return true;
+			success = _pockets[Pocket.Inventory].PutItem(item);
 
 			// Try temp
-			if (tempFallback && _pockets[Pocket.Temporary].PutItem(item))
-				return true;
+			if (!success && tempFallback)
+				success = _pockets[Pocket.Temporary].PutItem(item);
+
+			// Inform about new item
+			if (success)
+				Send.ItemInfo(_creature.Client, _creature, item);
 
 			return false;
 		}

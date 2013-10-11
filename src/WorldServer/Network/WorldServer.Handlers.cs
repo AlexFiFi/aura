@@ -1615,46 +1615,33 @@ namespace Aura.World.Network
 			if (newItem == null)
 				return;
 
-			if (targetPocket == 0)
-			{
-				newItem.Move(Pocket.Cursor, 0, 0);
-			}
-			else if (targetPocket == 1)
-			{
-				var pos = creature.GetFreeItemSpace(newItem, Pocket.Inventory);
-				if (pos != null)
-				{
-					newItem.Move(Pocket.Inventory, pos.X, pos.Y);
-				}
-				else
-				{
-					newItem = null;
-				}
-			}
-
 			// The client expects the price for a full stack to be sent,
 			// so we have to calculate the actual price here.
 			var price = newItem.OptionInfo.Price;
 			if (newItem.StackType == BundleType.Stackable)
 				price = (uint)(price / newItem.StackMax * newItem.Count);
 
-			var p = new MabiPacket(Op.ShopBuyItemR, creature.Id);
-			if (creature.HasGold(price) && newItem != null)
-			{
-				creature.RemoveGold(price);
-
-				creature.Items.Add(newItem);
-				Send.ItemInfo(client, creature, newItem);
-
-				// p.Put true? o.o
-			}
-			else
+			// Check gold
+			if (!creature.HasGold(price))
 			{
 				Send.MsgBox(client, creature, Localization.Get("world.shop_gold")); // Insufficient amount of gold.
-
-				p.PutByte(false);
+				Send.ShopBuyItemR(creature, false);
+				return;
 			}
-			client.Send(p);
+
+			var success = false;
+
+			// Cursor
+			if (targetPocket == 0)
+				success = creature.Inventory.PutItem(newItem, Pocket.Cursor);
+			// Inventory
+			else if (targetPocket == 1)
+				success = creature.Inventory.PutItem(newItem, false);
+
+			if (success)
+				creature.RemoveGold(price);
+
+			Send.ShopBuyItemR(creature, success);
 		}
 
 		private void HandleShopSellItem(WorldClient client, MabiPacket packet)
@@ -1669,19 +1656,20 @@ namespace Aura.World.Network
 			if (!client.NPCSession.IsValid)
 				return;
 
-			var item = creature.GetItem(itemId);
+			var item = creature.Inventory.GetItem(itemId);
 			if (item == null)
 				return;
 
-			var p = new MabiPacket(Op.ShopSellItemR, creature.Id);
+			// Remove from inv
+			if (!creature.Inventory.Remove(item))
+				return;
 
-			creature.Items.Remove(item);
-			Send.ItemRemove(creature, item);
-
+			// Calculate selling price
 			var sellingPrice = item.OptionInfo.SellingPrice;
 
 			if (item.StackType == BundleType.Sac)
 			{
+				// Add costs of the items inside the sac
 				var stackItem = MabiData.ItemDb.Find(item.StackItem);
 				if (stackItem != null)
 				{
@@ -1690,12 +1678,13 @@ namespace Aura.World.Network
 			}
 			else if (item.StackType == BundleType.Stackable)
 			{
+				// Individuel price for this stack
 				sellingPrice = (uint)(sellingPrice / item.StackMax * item.Count);
 			}
 
 			creature.GiveGold(sellingPrice);
 
-			client.Send(p);
+			Send.ShopSellItemR(creature);
 		}
 
 		private void HandleChangeTitle(WorldClient client, MabiPacket packet)

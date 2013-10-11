@@ -79,5 +79,30 @@ namespace Aura.World.Network
 			}
 			client.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends ShopBuyItemR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
+		public static void ShopBuyItemR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.ShopBuyItemR, creature.Id);
+			if (!success)
+				packet.PutByte(success);
+
+			creature.Client.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends ShopSellItemR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		public static void ShopSellItemR(MabiCreature creature)
+		{
+			var packet = new MabiPacket(Op.ShopSellItemR, creature.Id);
+
+			creature.Client.Send(packet);
+		}
 	}
 }
