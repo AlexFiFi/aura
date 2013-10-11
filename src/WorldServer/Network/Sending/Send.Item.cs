@@ -217,7 +217,6 @@ namespace Aura.World.Network
 		/// Sends ItemStateChangeR to creature's client.
 		/// </summary>
 		/// <param name="creature"></param>
-		/// <param name="success"></param>
 		public static void ItemStateChangeR(MabiCreature creature)
 		{
 			var packet = new MabiPacket(Op.ItemStateChangeR, creature.Id);
