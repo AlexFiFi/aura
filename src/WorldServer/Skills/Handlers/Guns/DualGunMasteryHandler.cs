@@ -22,7 +22,7 @@ namespace Aura.World.Skills
 
 			if (creature.RightHand == null)
 			{
-				Send.SendSkillPrepareFail(creature.Client, creature);
+				Send.SkillPrepareFail(creature.Client, creature);
 				return SkillResults.Failure;
 			}
 
@@ -32,7 +32,7 @@ namespace Aura.World.Skills
 			ushort bulletCount = creature.RightHand.Tags[BulletCountTag];
 			if (bulletCount < 2)
 			{
-				Send.SendSkillPrepareFail(creature.Client, creature);
+				Send.SkillPrepareFail(creature.Client, creature);
 				return SkillResults.Failure;
 			}
 
