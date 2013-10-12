@@ -62,9 +62,7 @@ namespace Aura.World.Skills
 			cap.Add(aAction, tAction);
 
 			// Damage
-
 			{
-
 				var damage = attacker.GetRndTotalDamage(); //+ ((attacker.Str + attacker.Int) / 5)
 				target.TakeDamage(tAction.Damage = damage);
 			}
