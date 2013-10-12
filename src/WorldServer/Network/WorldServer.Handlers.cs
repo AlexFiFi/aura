@@ -61,6 +61,8 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.NPCTalkPartner, HandleNPCTalkPartner);
 			this.RegisterPacketHandler(Op.NPCTalkKeyword, HandleNPCTalkKeyword);
 			this.RegisterPacketHandler(Op.NPCTalkSelect, HandleNPCTalkSelect);
+			this.RegisterPacketHandler(Op.ShopBuyItem, HandleShopBuyItem);
+			this.RegisterPacketHandler(Op.ShopSellItem, HandleShopSellItem);
 
 			this.RegisterPacketHandler(Op.LeaveSoulStream, HandleLeaveSoulStream);
 
@@ -79,9 +81,6 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.PartyWantedHide, HandlePartyWantedHide);
 			this.RegisterPacketHandler(Op.PartyChangeFinish, HandlePartyChangeFinish);
 			this.RegisterPacketHandler(Op.PartyChangeExp, HandlePartyChangeExp);
-
-			this.RegisterPacketHandler(Op.ShopBuyItem, HandleShopBuyItem);
-			this.RegisterPacketHandler(Op.ShopSellItem, HandleShopSellItem);
 
 			this.RegisterPacketHandler(Op.GetMails, HandleGetMails);
 			this.RegisterPacketHandler(Op.ConfirmMailRecipent, HandleConfirmMailRecipient);

@@ -285,9 +285,9 @@ namespace Aura.World.World
 		{
 			uint result = 0;
 
-			for (var y = _height; y >= 0; --y)
+			for (int y = (int)_height - 1; y >= 0; --y)
 			{
-				for (var x = _width; x >= 0; --x)
+				for (int x = (int)_width - 1; x >= 0; --x)
 				{
 					if (_map[x, y] == null)
 						continue;
