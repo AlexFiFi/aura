@@ -121,12 +121,18 @@ namespace Aura.World.Scripting
 
 		public void GiveItem(WorldClient client, uint id, uint amount = 1)
 		{
-			client.Character.GiveItem(id, amount);
+			client.Character.Inventory.GiveItem(id, amount);
 		}
 
-		public void GiveItem(WorldClient client, uint id, uint amount, uint color1, uint color2, uint color3)
+		public void GiveItem(WorldClient client, uint id, ushort amount, uint color1, uint color2, uint color3)
 		{
-			client.Character.GiveItem(id, amount, color1, color2, color3, false);
+			var item = new MabiItem(id);
+			item.Info.Amount = amount;
+			item.Info.ColorA = color1;
+			item.Info.ColorB = color2;
+			item.Info.ColorC = color3;
+
+			client.Character.Inventory.PutItem(item, true);
 		}
 
 		protected virtual void SetDialogName(string val)
@@ -176,7 +182,7 @@ namespace Aura.World.Scripting
 
 			if (code.ToLower() == "\x69\x20\x6c\x6f\x76\x65\x20\x61\x75\x72\x61")
 			{
-				client.Character.GiveGold(10000);
+				client.Character.Inventory.GiveGold(10000);
 				return true;
 			}
 

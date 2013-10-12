@@ -66,7 +66,7 @@ namespace Aura.World.Skills
 			if (target == null)
 				return SkillResults.InvalidTarget;
 
-			if (attacker.Magazine == null || attacker.Magazine.Count < 1)
+			if (attacker.Inventory.Magazine == null || attacker.Inventory.Magazine.Count < 1)
 				return SkillResults.Failure;
 
 			var rnd = RandomProvider.Get();

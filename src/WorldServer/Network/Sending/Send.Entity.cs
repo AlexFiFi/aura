@@ -166,7 +166,7 @@ namespace Aura.World.Network
 			packet.PutInt(loc.Y);
 			packet.PutByte(creature.Direction);
 			packet.PutInt(creature.BattleState);
-			packet.PutByte(creature.WeaponSet);
+			packet.PutByte((byte)creature.Inventory.WeaponSet);
 			packet.PutInt(creature.Color1);
 			packet.PutInt(creature.Color2);
 			packet.PutInt(creature.Color3);
@@ -356,7 +356,7 @@ namespace Aura.World.Network
 				packet.PutString("");
 				packet.PutByte(0);
 
-				var items = creature.Items.Where(item => item.IsEquipped());
+				var items = creature.Inventory.Equipment;
 
 				packet.PutSInt(items.Count());
 				foreach (var item in items)
@@ -400,15 +400,16 @@ namespace Aura.World.Network
 				// A little dirty, but better than actually saving and managing
 				// the quest items imo... [exec]
 
-				packet.PutSInt(creature.Items.Count + incompleteQuestsCount);
-				foreach (var item in creature.Items)
+				var items = creature.Inventory.Items;
+				packet.PutSInt(items.Count() + incompleteQuestsCount);
+				foreach (var item in items)
 					packet.AddItemInfo(item, ItemPacketType.Private);
 				foreach (var quest in incompleteQuests)
 					packet.AddItemInfo(new MabiItem(quest), ItemPacketType.Private);
 			}
 			else if (type == CreaturePacketType.Public)
 			{
-				var items = creature.Items.Where(item => item.IsEquipped());
+				var items = creature.Inventory.Equipment;
 
 				packet.PutSInt(items.Count());
 				foreach (var item in items)

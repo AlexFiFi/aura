@@ -21,7 +21,7 @@ namespace Aura.World.Skills
 				return SkillResults.Failure;
 
 			// Check item
-			var item = creature.GetItem(itemOId);
+			var item = creature.Inventory.GetItem(itemOId);
 			if (item == null)
 				return SkillResults.Failure;
 
@@ -60,7 +60,7 @@ namespace Aura.World.Skills
 			if (creature.Temp.SkillItem1 == null || creature.Temp.SkillItem1.Info.Class != 63000 || creature.Temp.SkillItem1.Info.Amount < 1)
 				return SkillResults.Failure;
 
-			creature.DecItem(creature.Temp.SkillItem1);
+			creature.Inventory.DecItem(creature.Temp.SkillItem1);
 
 			// TODO: stats
 

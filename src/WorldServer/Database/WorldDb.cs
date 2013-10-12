@@ -215,7 +215,7 @@ namespace Aura.World.Database
 					character.SetLocation(reader.GetUInt32("region"), reader.GetUInt32("x"), reader.GetUInt32("y"));
 					character.Direction = reader.GetByte("direction");
 					character.BattleState = reader.GetByte("battleState");
-					character.WeaponSet = reader.GetByte("weaponSet");
+					character.Inventory.WeaponSet = (WeaponSet)reader.GetByte("weaponSet");
 					character.Injuries = reader.GetFloat("injuries");
 					character.Life = (character.LifeMaxBase = reader.GetFloat("lifeMax"));
 					lifeDelta = reader.GetFloat("lifeDelta");
@@ -412,8 +412,7 @@ namespace Aura.World.Database
 		/// <param name="character"></param>
 		private void GetItems(MabiPC character)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				using (var reader = MabiDb.Instance.Query("SELECT * FROM items WHERE characterId = " + character.Id.ToString() + " ORDER BY pocketId, pos_y, pos_x", conn))
 				{
@@ -421,25 +420,15 @@ namespace Aura.World.Database
 					{
 						var item = GetItem(reader);
 
-						character.Items.Add(item);
 						character.Inventory.ForcePutItem(item, item.Pocket);
 					}
-
-					character.UpdateItemsFromPockets();
-
-					reader.Close();
 				}
-			}
-			finally
-			{
-				conn.Close();
 			}
 		}
 
 		public MabiItem GetItem(ulong Id)
 		{
-			var conn = MabiDb.Instance.GetConnection();
-			try
+			using (var conn = MabiDb.Instance.GetConnection())
 			{
 				using (var reader = MabiDb.Instance.Query("SELECT * FROM items WHERE itemId = " + Id.ToString(), conn))
 				{
@@ -448,10 +437,6 @@ namespace Aura.World.Database
 					reader.Read();
 					return GetItem(reader);
 				}
-			}
-			finally
-			{
-				conn.Close();
 			}
 		}
 
@@ -741,7 +726,7 @@ namespace Aura.World.Database
 				mc.Parameters.AddWithValue("@y", characterLocation.Y);
 				mc.Parameters.AddWithValue("@direction", character.Direction);
 				mc.Parameters.AddWithValue("@battleState", character.BattleState);
-				mc.Parameters.AddWithValue("@weaponSet", character.WeaponSet);
+				mc.Parameters.AddWithValue("@weaponSet", (byte)character.Inventory.WeaponSet);
 				mc.Parameters.AddWithValue("@lifeDelta", character.LifeMax - character.Life);
 				mc.Parameters.AddWithValue("@injuries", character.Injuries);
 				mc.Parameters.AddWithValue("@lifeMax", character.LifeMaxBase);
@@ -1068,7 +1053,7 @@ namespace Aura.World.Database
 						+ " @experience, @exp_point, @upgraded, @upgraded_max, @grade, @prefix, @suffix, @data, @option, @sellingprice, @expiration, @update_time, @tags)"
 					, conn, transaction);
 
-					foreach (var item in character.Items)
+					foreach (var item in character.Inventory.Items)
 					{
 						// If item has a temporary Id
 						if (item.Id >= Id.TmpItems)

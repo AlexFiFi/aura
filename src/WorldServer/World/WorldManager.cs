@@ -1237,12 +1237,12 @@ namespace Aura.World.World
 							break;
 
 						case RewardType.Gold:
-							creature.GiveItem(2000, reward.Amount);
+							creature.Inventory.GiveGold(reward.Amount);
 							creature.Client.Send(PacketCreator.AcquireItem(creature, reward.Id, reward.Amount));
 							break;
 
 						case RewardType.Item:
-							creature.GiveItem(reward.Id, reward.Amount);
+							creature.Inventory.GiveItem(reward.Id, reward.Amount);
 							creature.Client.Send(PacketCreator.AcquireItem(creature, reward.Id, reward.Amount));
 							break;
 

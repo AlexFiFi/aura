@@ -55,6 +55,14 @@ namespace Aura.World.World
 
 		public uint Color1 = 0x808080, Color2 = 0x808080, Color3 = 0x808080;
 
+		// Inventory
+		// ------------------------------------------------------------------
+
+		public CreatureInventory Inventory { get; protected set; }
+		public MabiItem RightHand { get { return this.Inventory.RightHand; } }
+		public MabiItem LeftHand { get { return this.Inventory.LeftHand; } }
+		public MabiItem Magazine { get { return this.Inventory.Magazine; } }
+
 		// Titles
 		// ------------------------------------------------------------------
 
@@ -372,7 +380,7 @@ namespace Aura.World.World
 					result += this.RaceInfo.Defense;
 
 				// Add equips
-				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Defense);
+				result += this.Inventory.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Defense);
 
 				return (int)result;
 
@@ -403,7 +411,7 @@ namespace Aura.World.World
 				}
 
 				// Add equips
-				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Defense);
+				result += this.Inventory.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Defense);
 
 				return (int)result;
 			}
@@ -419,7 +427,7 @@ namespace Aura.World.World
 				float result = this.ProtectionBase + this.ProtectionBaseSkill + this.StatMods.GetMod(Stat.ProtectMod);
 
 				// Add equips
-				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Protection);
+				result += this.Inventory.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Protection);
 
 				return (result / 100);
 			}
@@ -440,7 +448,7 @@ namespace Aura.World.World
 					result += defenseSkill.RankInfo.Var4;
 
 				// Add equips
-				result += this.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Protection);
+				result += this.Inventory.Items.Where(i => i.IsEquipped(false, this)).Sum(i => i.OptionInfo.Protection);
 
 				return (result / 100);
 			}
@@ -478,6 +486,8 @@ namespace Aura.World.World
 
 		public bool IsMale { get { return (this.RaceInfo != null && this.RaceInfo.Gender == Gender.Male); } }
 		public bool IsFemale { get { return (this.RaceInfo != null && this.RaceInfo.Gender == Gender.Female); } }
+
+		// ------------------------------------------------------------------
 
 		public MabiCreature()
 		{

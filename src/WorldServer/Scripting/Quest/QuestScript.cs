@@ -210,7 +210,7 @@ namespace Aura.World.Scripting
 			if (objective.Id != cls)
 				return;
 
-			progress.Count = character.CountItem(objective.Id);
+			progress.Count = character.Inventory.CountItem(objective.Id);
 
 			if (!progress.Done && progress.Count >= objective.Amount)
 			{

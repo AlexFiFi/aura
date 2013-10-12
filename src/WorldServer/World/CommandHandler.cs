@@ -535,15 +535,14 @@ namespace Aura.World.World
 			}
 
 			var toRemove = new List<MabiItem>();
-			foreach (var item in creature.Items)
+			foreach (var item in creature.Inventory.Items)
 			{
 				if (item.Info.Pocket == pocket)
 					toRemove.Add(item);
 			}
 			foreach (var item in toRemove)
 			{
-				creature.Items.Remove(item);
-				Send.ItemRemove(creature, item);
+				creature.Inventory.Remove(item);
 			}
 
 			Send.ServerMessage(client, creature, Localization.Get("gm.si_cleared"), ((Pocket)pocket), toRemove.Count); // Cleared pocket '{0}'. (Deleted items: {1})

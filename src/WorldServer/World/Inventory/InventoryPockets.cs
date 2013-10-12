@@ -59,6 +59,10 @@ namespace Aura.World.World
 		/// <param name="y"></param>
 		/// <returns></returns>
 		public abstract MabiItem GetItemAt(uint x, uint y);
+
+		public abstract uint Remove(uint itemId, uint amount, ref List<MabiItem> changed);
+
+		public abstract uint CountItem(uint itemId);
 	}
 
 	/// <summary>
@@ -276,6 +280,69 @@ namespace Aura.World.World
 		{
 			return _items.ContainsValue(item);
 		}
+
+		public override uint Remove(uint itemId, uint amount, ref List<MabiItem> changed)
+		{
+			uint result = 0;
+
+			for (var y = _height; y >= 0; --y)
+			{
+				for (var x = _width; x >= 0; --x)
+				{
+					if (_map[x, y] == null)
+						continue;
+
+					var item = _map[x, y];
+					if (changed.Contains(item))
+						continue;
+
+					// Normal
+					if (item.Info.Class == itemId && item.StackType == BundleType.None)
+					{
+						result++;
+						amount--;
+						item.Info.Amount = 0;
+						changed.Add(item);
+					}
+
+					// Sacs/Stackables
+					if (item.StackItem == itemId || (item.Info.Class == itemId && item.StackType == BundleType.Stackable))
+					{
+						if (amount >= item.Info.Amount)
+						{
+							result += item.Info.Amount;
+							amount -= item.Info.Amount;
+							item.Info.Amount = 0;
+							changed.Add(item);
+						}
+						else
+						{
+							result += (uint)amount;
+							item.Info.Amount -= (ushort)amount;
+							amount = 0;
+							changed.Add(item);
+						}
+					}
+
+					if (amount == 0)
+						goto L_Result;
+				}
+			}
+
+		L_Result:
+			return result;
+		}
+
+		public override uint CountItem(uint itemId)
+		{
+			uint result = 0;
+
+			foreach (var item in _items.Values)
+				if (item.Info.Class == itemId || item.StackItem == itemId)
+					result += item.Info.Amount;
+
+			return result;
+		}
 	}
 
 	/// <summary>
@@ -354,6 +421,18 @@ namespace Aura.World.World
 		{
 			return _item == item;
 		}
+
+		public override uint Remove(uint itemId, uint amount, ref List<MabiItem> changed)
+		{
+			return 0;
+		}
+
+		public override uint CountItem(uint itemId)
+		{
+			if (_item != null && _item.Info.Class == itemId)
+				return _item.Info.Amount;
+			return 0;
+		}
 	}
 
 	/// <summary>
@@ -416,6 +495,22 @@ namespace Aura.World.World
 		public override bool Has(MabiItem item)
 		{
 			return _items.Contains(item);
+		}
+
+		public override uint Remove(uint itemId, uint amount, ref List<MabiItem> changed)
+		{
+			return 0;
+		}
+
+		public override uint CountItem(uint itemId)
+		{
+			uint result = 0;
+
+			foreach (var item in _items)
+				if (item.Info.Class == itemId || item.StackItem == itemId)
+					result += item.Info.Amount;
+
+			return result;
 		}
 	}
 }
