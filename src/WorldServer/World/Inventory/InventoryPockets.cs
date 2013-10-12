@@ -45,6 +45,19 @@ namespace Aura.World.World
 		/// <param name="item"></param>
 		public abstract bool Remove(MabiItem item);
 
+		/// <summary>
+		/// Returns whether the item exists in this pocket.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public abstract bool Has(MabiItem item);
+
+		/// <summary>
+		/// Returns the item at the location, or null.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
 		public abstract MabiItem GetItemAt(uint x, uint y);
 	}
 
@@ -258,6 +271,11 @@ namespace Aura.World.World
 			// Try to put it into an empty space.
 			return this.PutItem(item);
 		}
+
+		public override bool Has(MabiItem item)
+		{
+			return _items.ContainsValue(item);
+		}
 	}
 
 	/// <summary>
@@ -331,6 +349,11 @@ namespace Aura.World.World
 			changed = null;
 			return this.PutItem(item);
 		}
+
+		public override bool Has(MabiItem item)
+		{
+			return _item == item;
+		}
 	}
 
 	/// <summary>
@@ -388,6 +411,11 @@ namespace Aura.World.World
 		{
 			changed = null;
 			return this.PutItem(item);
+		}
+
+		public override bool Has(MabiItem item)
+		{
+			return _items.Contains(item);
 		}
 	}
 }

@@ -390,6 +390,35 @@ namespace Aura.World.World
 				}
 			}
 		}
+
+		public bool DecItem(MabiItem item, ushort amount = 1)
+		{
+			if (!this.Has(item) || item.Info.Amount == 0 || item.Info.Amount < amount)
+				return false;
+
+			item.Info.Amount -= amount;
+
+			if (item.Info.Amount > 0 || item.StackType == BundleType.Sac)
+			{
+				Send.ItemAmount(_creature, item);
+			}
+			else
+			{
+				this.Remove(item);
+				Send.ItemRemove(_creature, item);
+			}
+
+			return true;
+		}
+
+		public bool Has(MabiItem item)
+		{
+			foreach (var pocket in _pockets.Values)
+				if (pocket.Has(item))
+					return true;
+
+			return false;
+		}
 	}
 
 	public enum WeaponSet : byte
