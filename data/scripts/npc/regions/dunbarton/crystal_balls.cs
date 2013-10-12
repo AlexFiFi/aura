@@ -1974,37 +1974,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_41_b_Glas_override_mores.Items.Add(item0);
+				G1_41_b_Glas_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_41_b_Glas_override_mores.Items.Add(item1);
+				G1_41_b_Glas_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_41_b_Glas_override_mores.Items.Add(item2);
+				G1_41_b_Glas_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_41_b_Glas_override_mores.Items.Add(item3);
+				G1_41_b_Glas_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_41_b_Glas_override_mores.Items.Add(item4);
+				G1_41_b_Glas_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_41_b_Glas_override_mores.Items.Add(item5);
+				G1_41_b_Glas_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_41_b_Glas_override_mores;
 			}
@@ -2038,46 +2038,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_41_b_Glas_override_player1.Items.Add(item0);
+				G1_41_b_Glas_override_player1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_41_b_Glas_override_player1.Items.Add(item1);
+				G1_41_b_Glas_override_player1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_41_b_Glas_override_player1.Items.Add(item2);
+				G1_41_b_Glas_override_player1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_41_b_Glas_override_player1.Items.Add(item3);
+				G1_41_b_Glas_override_player1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_41_b_Glas_override_player1.Items.Add(item4);
+				G1_41_b_Glas_override_player1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_41_b_Glas_override_player1.Items.Add(item5);
+				G1_41_b_Glas_override_player1.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_41_b_Glas_override_player1.Items.Add(item6);
+				G1_41_b_Glas_override_player1.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_41_b_Glas_override_player1;
 			}
@@ -2111,33 +2111,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_41_b_Glas_override_player2.Items.Add(item0);
+				G1_41_b_Glas_override_player2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_41_b_Glas_override_player2.Items.Add(item1);
+				G1_41_b_Glas_override_player2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_41_b_Glas_override_player2.Items.Add(item2);
+				G1_41_b_Glas_override_player2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_41_b_Glas_override_player2.Items.Add(item3);
+				G1_41_b_Glas_override_player2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_41_b_Glas_override_player2.Items.Add(item4);
+				G1_41_b_Glas_override_player2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -2145,7 +2145,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_41_b_Glas_override_player2.Items.Add(item5);
+				G1_41_b_Glas_override_player2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_41_b_Glas_override_player2;
 			}
@@ -2238,46 +2238,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_40_b_Cichol_override_player1.Items.Add(item0);
+				G1_40_b_Cichol_override_player1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_40_b_Cichol_override_player1.Items.Add(item1);
+				G1_40_b_Cichol_override_player1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_40_b_Cichol_override_player1.Items.Add(item2);
+				G1_40_b_Cichol_override_player1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_40_b_Cichol_override_player1.Items.Add(item3);
+				G1_40_b_Cichol_override_player1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_40_b_Cichol_override_player1.Items.Add(item4);
+				G1_40_b_Cichol_override_player1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_40_b_Cichol_override_player1.Items.Add(item5);
+				G1_40_b_Cichol_override_player1.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_40_b_Cichol_override_player1.Items.Add(item6);
+				G1_40_b_Cichol_override_player1.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_40_b_Cichol_override_player1;
 			}
@@ -2311,33 +2311,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_40_b_Cichol_override_player2.Items.Add(item0);
+				G1_40_b_Cichol_override_player2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_40_b_Cichol_override_player2.Items.Add(item1);
+				G1_40_b_Cichol_override_player2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_40_b_Cichol_override_player2.Items.Add(item2);
+				G1_40_b_Cichol_override_player2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_40_b_Cichol_override_player2.Items.Add(item3);
+				G1_40_b_Cichol_override_player2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_40_b_Cichol_override_player2.Items.Add(item4);
+				G1_40_b_Cichol_override_player2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -2345,7 +2345,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_40_b_Cichol_override_player2.Items.Add(item5);
+				G1_40_b_Cichol_override_player2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_40_b_Cichol_override_player2;
 			}
@@ -2381,14 +2381,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G1_40_b_Cichol_override_dark_lord.Items.Add(item0);
+				G1_40_b_Cichol_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_40_b_Cichol_override_dark_lord.Items.Add(item1);
+				G1_40_b_Cichol_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G1_40_b_Cichol_override_dark_lord;
 			}
@@ -2481,37 +2481,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_40_b_Cichol_override_mores.Items.Add(item0);
+				G1_40_b_Cichol_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_40_b_Cichol_override_mores.Items.Add(item1);
+				G1_40_b_Cichol_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_40_b_Cichol_override_mores.Items.Add(item2);
+				G1_40_b_Cichol_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_40_b_Cichol_override_mores.Items.Add(item3);
+				G1_40_b_Cichol_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_40_b_Cichol_override_mores.Items.Add(item4);
+				G1_40_b_Cichol_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_40_b_Cichol_override_mores.Items.Add(item5);
+				G1_40_b_Cichol_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_40_b_Cichol_override_mores;
 			}
@@ -2578,14 +2578,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G1_40_a_Cichol_override_dark_lord.Items.Add(item0);
+				G1_40_a_Cichol_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_40_a_Cichol_override_dark_lord.Items.Add(item1);
+				G1_40_a_Cichol_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G1_40_a_Cichol_override_dark_lord;
 			}
@@ -2619,46 +2619,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_40_a_Cichol_override_player1.Items.Add(item0);
+				G1_40_a_Cichol_override_player1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_40_a_Cichol_override_player1.Items.Add(item1);
+				G1_40_a_Cichol_override_player1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_40_a_Cichol_override_player1.Items.Add(item2);
+				G1_40_a_Cichol_override_player1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_40_a_Cichol_override_player1.Items.Add(item3);
+				G1_40_a_Cichol_override_player1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_40_a_Cichol_override_player1.Items.Add(item4);
+				G1_40_a_Cichol_override_player1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_40_a_Cichol_override_player1.Items.Add(item5);
+				G1_40_a_Cichol_override_player1.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_40_a_Cichol_override_player1.Items.Add(item6);
+				G1_40_a_Cichol_override_player1.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_40_a_Cichol_override_player1;
 			}
@@ -2692,33 +2692,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_40_a_Cichol_override_player2.Items.Add(item0);
+				G1_40_a_Cichol_override_player2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_40_a_Cichol_override_player2.Items.Add(item1);
+				G1_40_a_Cichol_override_player2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_40_a_Cichol_override_player2.Items.Add(item2);
+				G1_40_a_Cichol_override_player2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_40_a_Cichol_override_player2.Items.Add(item3);
+				G1_40_a_Cichol_override_player2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_40_a_Cichol_override_player2.Items.Add(item4);
+				G1_40_a_Cichol_override_player2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -2726,7 +2726,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_40_a_Cichol_override_player2.Items.Add(item5);
+				G1_40_a_Cichol_override_player2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_40_a_Cichol_override_player2;
 			}
@@ -2820,14 +2820,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G1_31_c_ShielaRP_override_dark_lord.Items.Add(item0);
+				G1_31_c_ShielaRP_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_31_c_ShielaRP_override_dark_lord.Items.Add(item1);
+				G1_31_c_ShielaRP_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G1_31_c_ShielaRP_override_dark_lord;
 			}
@@ -2864,20 +2864,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				G1_31_c_ShielaRP_override_ghost_armor.Items.Add(item0);
+				G1_31_c_ShielaRP_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_31_c_ShielaRP_override_ghost_armor.Items.Add(item1);
+				G1_31_c_ShielaRP_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				G1_31_c_ShielaRP_override_ghost_armor.Items.Add(item2);
+				G1_31_c_ShielaRP_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_31_c_ShielaRP_override_ghost_armor;
 			}
@@ -2911,37 +2911,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_31_c_ShielaRP_override_mores.Items.Add(item0);
+				G1_31_c_ShielaRP_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_31_c_ShielaRP_override_mores.Items.Add(item1);
+				G1_31_c_ShielaRP_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_31_c_ShielaRP_override_mores.Items.Add(item2);
+				G1_31_c_ShielaRP_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_31_c_ShielaRP_override_mores.Items.Add(item3);
+				G1_31_c_ShielaRP_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_31_c_ShielaRP_override_mores.Items.Add(item4);
+				G1_31_c_ShielaRP_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_31_c_ShielaRP_override_mores.Items.Add(item5);
+				G1_31_c_ShielaRP_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_31_c_ShielaRP_override_mores;
 			}
@@ -3004,27 +3004,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15798145;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_31_c_ShielaRP_override_mob1.Items.Add(item0);
+				G1_31_c_ShielaRP_override_mob1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4007);
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_31_c_ShielaRP_override_mob1.Items.Add(item1);
+				G1_31_c_ShielaRP_override_mob1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15044);
 				item2.Info.Pocket = 5;
-				G1_31_c_ShielaRP_override_mob1.Items.Add(item2);
+				G1_31_c_ShielaRP_override_mob1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17017);
 				item3.Info.Pocket = 7;
-				G1_31_c_ShielaRP_override_mob1.Items.Add(item3);
+				G1_31_c_ShielaRP_override_mob1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19002);
 				item4.Info.Pocket = 9;
-				G1_31_c_ShielaRP_override_mob1.Items.Add(item4);
+				G1_31_c_ShielaRP_override_mob1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40035);
 				item5.Info.ColorA = 3288852;
 				item5.Info.ColorB = 13420715;
 				item5.Info.ColorC = 21627;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_31_c_ShielaRP_override_mob1.Items.Add(item5);
+				G1_31_c_ShielaRP_override_mob1.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_31_c_ShielaRP_override_mob1;
 			}
@@ -3056,27 +3056,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15922913;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_31_c_ShielaRP_override_mob2.Items.Add(item0);
+				G1_31_c_ShielaRP_override_mob2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4007);
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_31_c_ShielaRP_override_mob2.Items.Add(item1);
+				G1_31_c_ShielaRP_override_mob2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15003);
 				item2.Info.Pocket = 5;
-				G1_31_c_ShielaRP_override_mob2.Items.Add(item2);
+				G1_31_c_ShielaRP_override_mob2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17020);
 				item3.Info.Pocket = 7;
-				G1_31_c_ShielaRP_override_mob2.Items.Add(item3);
+				G1_31_c_ShielaRP_override_mob2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19001);
 				item4.Info.Pocket = 9;
-				G1_31_c_ShielaRP_override_mob2.Items.Add(item4);
+				G1_31_c_ShielaRP_override_mob2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40035);
 				item5.Info.ColorA = 3288852;
 				item5.Info.ColorB = 13420715;
 				item5.Info.ColorC = 21627;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_31_c_ShielaRP_override_mob2.Items.Add(item5);
+				G1_31_c_ShielaRP_override_mob2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_31_c_ShielaRP_override_mob2;
 			}
@@ -3171,20 +3171,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				G1_31_b_ShielaRP_override_ghost_armor.Items.Add(item0);
+				G1_31_b_ShielaRP_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_31_b_ShielaRP_override_ghost_armor.Items.Add(item1);
+				G1_31_b_ShielaRP_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				G1_31_b_ShielaRP_override_ghost_armor.Items.Add(item2);
+				G1_31_b_ShielaRP_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_31_b_ShielaRP_override_ghost_armor;
 			}
@@ -3249,37 +3249,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_31_b_ShielaRP_override_mores.Items.Add(item0);
+				G1_31_b_ShielaRP_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_31_b_ShielaRP_override_mores.Items.Add(item1);
+				G1_31_b_ShielaRP_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_31_b_ShielaRP_override_mores.Items.Add(item2);
+				G1_31_b_ShielaRP_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_31_b_ShielaRP_override_mores.Items.Add(item3);
+				G1_31_b_ShielaRP_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_31_b_ShielaRP_override_mores.Items.Add(item4);
+				G1_31_b_ShielaRP_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_31_b_ShielaRP_override_mores.Items.Add(item5);
+				G1_31_b_ShielaRP_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_31_b_ShielaRP_override_mores;
 			}
@@ -3313,37 +3313,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_31_a_ShielaRP_override_mores.Items.Add(item0);
+				G1_31_a_ShielaRP_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_31_a_ShielaRP_override_mores.Items.Add(item1);
+				G1_31_a_ShielaRP_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_31_a_ShielaRP_override_mores.Items.Add(item2);
+				G1_31_a_ShielaRP_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_31_a_ShielaRP_override_mores.Items.Add(item3);
+				G1_31_a_ShielaRP_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_31_a_ShielaRP_override_mores.Items.Add(item4);
+				G1_31_a_ShielaRP_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_31_a_ShielaRP_override_mores.Items.Add(item5);
+				G1_31_a_ShielaRP_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_31_a_ShielaRP_override_mores;
 			}
@@ -3408,37 +3408,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_31_0_ShielaRP_override_mores.Items.Add(item0);
+				G1_31_0_ShielaRP_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_31_0_ShielaRP_override_mores.Items.Add(item1);
+				G1_31_0_ShielaRP_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_31_0_ShielaRP_override_mores.Items.Add(item2);
+				G1_31_0_ShielaRP_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_31_0_ShielaRP_override_mores.Items.Add(item3);
+				G1_31_0_ShielaRP_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_31_0_ShielaRP_override_mores.Items.Add(item4);
+				G1_31_0_ShielaRP_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_31_0_ShielaRP_override_mores.Items.Add(item5);
+				G1_31_0_ShielaRP_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_31_0_ShielaRP_override_mores;
 			}
@@ -3563,46 +3563,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_d_3WarriorsRP2_override_tarlach.Items.Add(item0);
+				G1_25_d_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_d_3WarriorsRP2_override_tarlach.Items.Add(item1);
+				G1_25_d_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_25_d_3WarriorsRP2_override_tarlach.Items.Add(item2);
+				G1_25_d_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_25_d_3WarriorsRP2_override_tarlach.Items.Add(item3);
+				G1_25_d_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_25_d_3WarriorsRP2_override_tarlach.Items.Add(item4);
+				G1_25_d_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_25_d_3WarriorsRP2_override_tarlach.Items.Add(item5);
+				G1_25_d_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_25_d_3WarriorsRP2_override_tarlach.Items.Add(item6);
+				G1_25_d_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_25_d_3WarriorsRP2_override_tarlach;
 			}
@@ -3636,33 +3636,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_d_3WarriorsRP2_override_mari.Items.Add(item0);
+				G1_25_d_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_d_3WarriorsRP2_override_mari.Items.Add(item1);
+				G1_25_d_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_d_3WarriorsRP2_override_mari.Items.Add(item2);
+				G1_25_d_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_25_d_3WarriorsRP2_override_mari.Items.Add(item3);
+				G1_25_d_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_25_d_3WarriorsRP2_override_mari.Items.Add(item4);
+				G1_25_d_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -3670,7 +3670,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_25_d_3WarriorsRP2_override_mari.Items.Add(item5);
+				G1_25_d_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_d_3WarriorsRP2_override_mari;
 			}
@@ -3705,39 +3705,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16359238;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_d_3WarriorsRP2_override_ruairi.Items.Add(item0);
+				G1_25_d_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_d_3WarriorsRP2_override_ruairi.Items.Add(item1);
+				G1_25_d_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_d_3WarriorsRP2_override_ruairi.Items.Add(item2);
+				G1_25_d_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G1_25_d_3WarriorsRP2_override_ruairi.Items.Add(item3);
+				G1_25_d_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G1_25_d_3WarriorsRP2_override_ruairi.Items.Add(item4);
+				G1_25_d_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G1_25_d_3WarriorsRP2_override_ruairi.Items.Add(item5);
+				G1_25_d_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_d_3WarriorsRP2_override_ruairi;
 			}
@@ -3771,37 +3771,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_d_3WarriorsRP2_override_mores.Items.Add(item0);
+				G1_25_d_3WarriorsRP2_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_d_3WarriorsRP2_override_mores.Items.Add(item1);
+				G1_25_d_3WarriorsRP2_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_25_d_3WarriorsRP2_override_mores.Items.Add(item2);
+				G1_25_d_3WarriorsRP2_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_25_d_3WarriorsRP2_override_mores.Items.Add(item3);
+				G1_25_d_3WarriorsRP2_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_25_d_3WarriorsRP2_override_mores.Items.Add(item4);
+				G1_25_d_3WarriorsRP2_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_25_d_3WarriorsRP2_override_mores.Items.Add(item5);
+				G1_25_d_3WarriorsRP2_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_d_3WarriorsRP2_override_mores;
 			}
@@ -3837,14 +3837,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G1_25_d_3WarriorsRP2_override_dark_lord.Items.Add(item0);
+				G1_25_d_3WarriorsRP2_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_25_d_3WarriorsRP2_override_dark_lord.Items.Add(item1);
+				G1_25_d_3WarriorsRP2_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G1_25_d_3WarriorsRP2_override_dark_lord;
 			}
@@ -3881,20 +3881,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				G1_25_d_3WarriorsRP2_override_ghost_armor.Items.Add(item0);
+				G1_25_d_3WarriorsRP2_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_25_d_3WarriorsRP2_override_ghost_armor.Items.Add(item1);
+				G1_25_d_3WarriorsRP2_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				G1_25_d_3WarriorsRP2_override_ghost_armor.Items.Add(item2);
+				G1_25_d_3WarriorsRP2_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_25_d_3WarriorsRP2_override_ghost_armor;
 			}
@@ -3956,17 +3956,17 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11498258;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_d_3WarriorsRP2_override_succubus_kristell.Items.Add(item0);
+				G1_25_d_3WarriorsRP2_override_succubus_kristell.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3029);
 				item1.Info.ColorA = 15635326;
 				item1.Info.ColorB = 15635326;
 				item1.Info.ColorC = 15635326;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_d_3WarriorsRP2_override_succubus_kristell.Items.Add(item1);
+				G1_25_d_3WarriorsRP2_override_succubus_kristell.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15046);
 				item2.Info.Pocket = 5;
-				G1_25_d_3WarriorsRP2_override_succubus_kristell.Items.Add(item2);
+				G1_25_d_3WarriorsRP2_override_succubus_kristell.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_25_d_3WarriorsRP2_override_succubus_kristell;
 			}
@@ -4000,46 +4000,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_c_3WarriorsRP2_override_tarlach.Items.Add(item0);
+				G1_25_c_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_c_3WarriorsRP2_override_tarlach.Items.Add(item1);
+				G1_25_c_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_25_c_3WarriorsRP2_override_tarlach.Items.Add(item2);
+				G1_25_c_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_25_c_3WarriorsRP2_override_tarlach.Items.Add(item3);
+				G1_25_c_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_25_c_3WarriorsRP2_override_tarlach.Items.Add(item4);
+				G1_25_c_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_25_c_3WarriorsRP2_override_tarlach.Items.Add(item5);
+				G1_25_c_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_25_c_3WarriorsRP2_override_tarlach.Items.Add(item6);
+				G1_25_c_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_25_c_3WarriorsRP2_override_tarlach;
 			}
@@ -4073,33 +4073,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_c_3WarriorsRP2_override_mari.Items.Add(item0);
+				G1_25_c_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_c_3WarriorsRP2_override_mari.Items.Add(item1);
+				G1_25_c_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_c_3WarriorsRP2_override_mari.Items.Add(item2);
+				G1_25_c_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_25_c_3WarriorsRP2_override_mari.Items.Add(item3);
+				G1_25_c_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_25_c_3WarriorsRP2_override_mari.Items.Add(item4);
+				G1_25_c_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -4107,7 +4107,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_25_c_3WarriorsRP2_override_mari.Items.Add(item5);
+				G1_25_c_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_c_3WarriorsRP2_override_mari;
 			}
@@ -4142,39 +4142,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16359238;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_c_3WarriorsRP2_override_ruairi.Items.Add(item0);
+				G1_25_c_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_c_3WarriorsRP2_override_ruairi.Items.Add(item1);
+				G1_25_c_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_c_3WarriorsRP2_override_ruairi.Items.Add(item2);
+				G1_25_c_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G1_25_c_3WarriorsRP2_override_ruairi.Items.Add(item3);
+				G1_25_c_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G1_25_c_3WarriorsRP2_override_ruairi.Items.Add(item4);
+				G1_25_c_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G1_25_c_3WarriorsRP2_override_ruairi.Items.Add(item5);
+				G1_25_c_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_c_3WarriorsRP2_override_ruairi;
 			}
@@ -4210,14 +4210,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G1_25_c_3WarriorsRP2_override_dark_lord.Items.Add(item0);
+				G1_25_c_3WarriorsRP2_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_25_c_3WarriorsRP2_override_dark_lord.Items.Add(item1);
+				G1_25_c_3WarriorsRP2_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G1_25_c_3WarriorsRP2_override_dark_lord;
 			}
@@ -4251,46 +4251,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_b_3WarriorsRP2_override_tarlach.Items.Add(item0);
+				G1_25_b_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_b_3WarriorsRP2_override_tarlach.Items.Add(item1);
+				G1_25_b_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_25_b_3WarriorsRP2_override_tarlach.Items.Add(item2);
+				G1_25_b_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_25_b_3WarriorsRP2_override_tarlach.Items.Add(item3);
+				G1_25_b_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_25_b_3WarriorsRP2_override_tarlach.Items.Add(item4);
+				G1_25_b_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_25_b_3WarriorsRP2_override_tarlach.Items.Add(item5);
+				G1_25_b_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_25_b_3WarriorsRP2_override_tarlach.Items.Add(item6);
+				G1_25_b_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_25_b_3WarriorsRP2_override_tarlach;
 			}
@@ -4324,33 +4324,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_b_3WarriorsRP2_override_mari.Items.Add(item0);
+				G1_25_b_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_b_3WarriorsRP2_override_mari.Items.Add(item1);
+				G1_25_b_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_b_3WarriorsRP2_override_mari.Items.Add(item2);
+				G1_25_b_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_25_b_3WarriorsRP2_override_mari.Items.Add(item3);
+				G1_25_b_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_25_b_3WarriorsRP2_override_mari.Items.Add(item4);
+				G1_25_b_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -4358,7 +4358,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_25_b_3WarriorsRP2_override_mari.Items.Add(item5);
+				G1_25_b_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_b_3WarriorsRP2_override_mari;
 			}
@@ -4393,39 +4393,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16359238;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_b_3WarriorsRP2_override_ruairi.Items.Add(item0);
+				G1_25_b_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_b_3WarriorsRP2_override_ruairi.Items.Add(item1);
+				G1_25_b_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_b_3WarriorsRP2_override_ruairi.Items.Add(item2);
+				G1_25_b_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G1_25_b_3WarriorsRP2_override_ruairi.Items.Add(item3);
+				G1_25_b_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G1_25_b_3WarriorsRP2_override_ruairi.Items.Add(item4);
+				G1_25_b_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G1_25_b_3WarriorsRP2_override_ruairi.Items.Add(item5);
+				G1_25_b_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_b_3WarriorsRP2_override_ruairi;
 			}
@@ -4461,14 +4461,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G1_25_b_3WarriorsRP2_override_dark_lord.Items.Add(item0);
+				G1_25_b_3WarriorsRP2_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_25_b_3WarriorsRP2_override_dark_lord.Items.Add(item1);
+				G1_25_b_3WarriorsRP2_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G1_25_b_3WarriorsRP2_override_dark_lord;
 			}
@@ -4502,46 +4502,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_a_3WarriorsRP2_override_tarlach.Items.Add(item0);
+				G1_25_a_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_a_3WarriorsRP2_override_tarlach.Items.Add(item1);
+				G1_25_a_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_25_a_3WarriorsRP2_override_tarlach.Items.Add(item2);
+				G1_25_a_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_25_a_3WarriorsRP2_override_tarlach.Items.Add(item3);
+				G1_25_a_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_25_a_3WarriorsRP2_override_tarlach.Items.Add(item4);
+				G1_25_a_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_25_a_3WarriorsRP2_override_tarlach.Items.Add(item5);
+				G1_25_a_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_25_a_3WarriorsRP2_override_tarlach.Items.Add(item6);
+				G1_25_a_3WarriorsRP2_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_25_a_3WarriorsRP2_override_tarlach;
 			}
@@ -4575,33 +4575,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_a_3WarriorsRP2_override_mari.Items.Add(item0);
+				G1_25_a_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_a_3WarriorsRP2_override_mari.Items.Add(item1);
+				G1_25_a_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_a_3WarriorsRP2_override_mari.Items.Add(item2);
+				G1_25_a_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_25_a_3WarriorsRP2_override_mari.Items.Add(item3);
+				G1_25_a_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_25_a_3WarriorsRP2_override_mari.Items.Add(item4);
+				G1_25_a_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -4609,7 +4609,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_25_a_3WarriorsRP2_override_mari.Items.Add(item5);
+				G1_25_a_3WarriorsRP2_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_a_3WarriorsRP2_override_mari;
 			}
@@ -4644,39 +4644,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16359238;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_25_a_3WarriorsRP2_override_ruairi.Items.Add(item0);
+				G1_25_a_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_25_a_3WarriorsRP2_override_ruairi.Items.Add(item1);
+				G1_25_a_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_25_a_3WarriorsRP2_override_ruairi.Items.Add(item2);
+				G1_25_a_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G1_25_a_3WarriorsRP2_override_ruairi.Items.Add(item3);
+				G1_25_a_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G1_25_a_3WarriorsRP2_override_ruairi.Items.Add(item4);
+				G1_25_a_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G1_25_a_3WarriorsRP2_override_ruairi.Items.Add(item5);
+				G1_25_a_3WarriorsRP2_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_25_a_3WarriorsRP2_override_ruairi;
 			}
@@ -4712,14 +4712,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G1_18_c_MoresRP_override_dark_lord.Items.Add(item0);
+				G1_18_c_MoresRP_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_18_c_MoresRP_override_dark_lord.Items.Add(item1);
+				G1_18_c_MoresRP_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G1_18_c_MoresRP_override_dark_lord;
 			}
@@ -4756,20 +4756,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				G1_18_c_MoresRP_override_ghost_armor.Items.Add(item0);
+				G1_18_c_MoresRP_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_18_c_MoresRP_override_ghost_armor.Items.Add(item1);
+				G1_18_c_MoresRP_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				G1_18_c_MoresRP_override_ghost_armor.Items.Add(item2);
+				G1_18_c_MoresRP_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_18_c_MoresRP_override_ghost_armor;
 			}
@@ -4803,37 +4803,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_18_c_MoresRP_override_mores.Items.Add(item0);
+				G1_18_c_MoresRP_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_18_c_MoresRP_override_mores.Items.Add(item1);
+				G1_18_c_MoresRP_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_18_c_MoresRP_override_mores.Items.Add(item2);
+				G1_18_c_MoresRP_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_18_c_MoresRP_override_mores.Items.Add(item3);
+				G1_18_c_MoresRP_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_18_c_MoresRP_override_mores.Items.Add(item4);
+				G1_18_c_MoresRP_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_18_c_MoresRP_override_mores.Items.Add(item5);
+				G1_18_c_MoresRP_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_18_c_MoresRP_override_mores;
 			}
@@ -4865,27 +4865,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15798145;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_18_c_MoresRP_override_mob1.Items.Add(item0);
+				G1_18_c_MoresRP_override_mob1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4007);
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_18_c_MoresRP_override_mob1.Items.Add(item1);
+				G1_18_c_MoresRP_override_mob1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15044);
 				item2.Info.Pocket = 5;
-				G1_18_c_MoresRP_override_mob1.Items.Add(item2);
+				G1_18_c_MoresRP_override_mob1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17017);
 				item3.Info.Pocket = 7;
-				G1_18_c_MoresRP_override_mob1.Items.Add(item3);
+				G1_18_c_MoresRP_override_mob1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19002);
 				item4.Info.Pocket = 9;
-				G1_18_c_MoresRP_override_mob1.Items.Add(item4);
+				G1_18_c_MoresRP_override_mob1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40035);
 				item5.Info.ColorA = 3288852;
 				item5.Info.ColorB = 13420715;
 				item5.Info.ColorC = 21627;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_18_c_MoresRP_override_mob1.Items.Add(item5);
+				G1_18_c_MoresRP_override_mob1.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_18_c_MoresRP_override_mob1;
 			}
@@ -4917,27 +4917,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15922913;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_18_c_MoresRP_override_mob2.Items.Add(item0);
+				G1_18_c_MoresRP_override_mob2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4007);
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_18_c_MoresRP_override_mob2.Items.Add(item1);
+				G1_18_c_MoresRP_override_mob2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15003);
 				item2.Info.Pocket = 5;
-				G1_18_c_MoresRP_override_mob2.Items.Add(item2);
+				G1_18_c_MoresRP_override_mob2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17020);
 				item3.Info.Pocket = 7;
-				G1_18_c_MoresRP_override_mob2.Items.Add(item3);
+				G1_18_c_MoresRP_override_mob2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19001);
 				item4.Info.Pocket = 9;
-				G1_18_c_MoresRP_override_mob2.Items.Add(item4);
+				G1_18_c_MoresRP_override_mob2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40035);
 				item5.Info.ColorA = 3288852;
 				item5.Info.ColorB = 13420715;
 				item5.Info.ColorC = 21627;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_18_c_MoresRP_override_mob2.Items.Add(item5);
+				G1_18_c_MoresRP_override_mob2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_18_c_MoresRP_override_mob2;
 			}
@@ -5003,20 +5003,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				G1_18_b_MoresRP_override_ghost_armor.Items.Add(item0);
+				G1_18_b_MoresRP_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G1_18_b_MoresRP_override_ghost_armor.Items.Add(item1);
+				G1_18_b_MoresRP_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				G1_18_b_MoresRP_override_ghost_armor.Items.Add(item2);
+				G1_18_b_MoresRP_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_18_b_MoresRP_override_ghost_armor;
 			}
@@ -5050,37 +5050,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_18_b_MoresRP_override_mores.Items.Add(item0);
+				G1_18_b_MoresRP_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_18_b_MoresRP_override_mores.Items.Add(item1);
+				G1_18_b_MoresRP_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_18_b_MoresRP_override_mores.Items.Add(item2);
+				G1_18_b_MoresRP_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_18_b_MoresRP_override_mores.Items.Add(item3);
+				G1_18_b_MoresRP_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_18_b_MoresRP_override_mores.Items.Add(item4);
+				G1_18_b_MoresRP_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_18_b_MoresRP_override_mores.Items.Add(item5);
+				G1_18_b_MoresRP_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_18_b_MoresRP_override_mores;
 			}
@@ -5114,37 +5114,37 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16310094;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_18_a_MoresRP_override_mores.Items.Add(item0);
+				G1_18_a_MoresRP_override_mores.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4022);
 				item1.Info.ColorA = 12236690;
 				item1.Info.ColorB = 12236690;
 				item1.Info.ColorC = 12236690;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_18_a_MoresRP_override_mores.Items.Add(item1);
+				G1_18_a_MoresRP_override_mores.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 4194304;
 				item2.Info.Pocket = 5;
-				G1_18_a_MoresRP_override_mores.Items.Add(item2);
+				G1_18_a_MoresRP_override_mores.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 3086345;
 				item3.Info.ColorB = 2511218;
 				item3.Info.ColorC = 6832992;
 				item3.Info.Pocket = 7;
-				G1_18_a_MoresRP_override_mores.Items.Add(item3);
+				G1_18_a_MoresRP_override_mores.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19004);
 				item4.Info.ColorA = 4194304;
 				item4.Info.ColorB = 10158080;
 				item4.Info.ColorC = 11045990;
 				item4.Info.Pocket = 9;
-				G1_18_a_MoresRP_override_mores.Items.Add(item4);
+				G1_18_a_MoresRP_override_mores.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40040);
 				item5.Info.ColorA = 7626031;
 				item5.Info.ColorB = 7629908;
 				item5.Info.ColorC = 6043999;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				G1_18_a_MoresRP_override_mores.Items.Add(item5);
+				G1_18_a_MoresRP_override_mores.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_18_a_MoresRP_override_mores;
 			}
@@ -5178,46 +5178,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_15_c_TarlachRP_override_tarlach.Items.Add(item0);
+				G1_15_c_TarlachRP_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_15_c_TarlachRP_override_tarlach.Items.Add(item1);
+				G1_15_c_TarlachRP_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_15_c_TarlachRP_override_tarlach.Items.Add(item2);
+				G1_15_c_TarlachRP_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_15_c_TarlachRP_override_tarlach.Items.Add(item3);
+				G1_15_c_TarlachRP_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_15_c_TarlachRP_override_tarlach.Items.Add(item4);
+				G1_15_c_TarlachRP_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_15_c_TarlachRP_override_tarlach.Items.Add(item5);
+				G1_15_c_TarlachRP_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_15_c_TarlachRP_override_tarlach.Items.Add(item6);
+				G1_15_c_TarlachRP_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_15_c_TarlachRP_override_tarlach;
 			}
@@ -5250,17 +5250,17 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11498258;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_15_c_TarlachRP_override_succubus_kristell.Items.Add(item0);
+				G1_15_c_TarlachRP_override_succubus_kristell.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3029);
 				item1.Info.ColorA = 15635326;
 				item1.Info.ColorB = 15635326;
 				item1.Info.ColorC = 15635326;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_15_c_TarlachRP_override_succubus_kristell.Items.Add(item1);
+				G1_15_c_TarlachRP_override_succubus_kristell.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15046);
 				item2.Info.Pocket = 5;
-				G1_15_c_TarlachRP_override_succubus_kristell.Items.Add(item2);
+				G1_15_c_TarlachRP_override_succubus_kristell.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_15_c_TarlachRP_override_succubus_kristell;
 			}
@@ -5294,46 +5294,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_15_b_TarlachRP_override_tarlach.Items.Add(item0);
+				G1_15_b_TarlachRP_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_15_b_TarlachRP_override_tarlach.Items.Add(item1);
+				G1_15_b_TarlachRP_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_15_b_TarlachRP_override_tarlach.Items.Add(item2);
+				G1_15_b_TarlachRP_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_15_b_TarlachRP_override_tarlach.Items.Add(item3);
+				G1_15_b_TarlachRP_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_15_b_TarlachRP_override_tarlach.Items.Add(item4);
+				G1_15_b_TarlachRP_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_15_b_TarlachRP_override_tarlach.Items.Add(item5);
+				G1_15_b_TarlachRP_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_15_b_TarlachRP_override_tarlach.Items.Add(item6);
+				G1_15_b_TarlachRP_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_15_b_TarlachRP_override_tarlach;
 			}
@@ -5366,17 +5366,17 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11498258;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_15_b_TarlachRP_override_succubus_kristell.Items.Add(item0);
+				G1_15_b_TarlachRP_override_succubus_kristell.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3029);
 				item1.Info.ColorA = 15635326;
 				item1.Info.ColorB = 15635326;
 				item1.Info.ColorC = 15635326;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_15_b_TarlachRP_override_succubus_kristell.Items.Add(item1);
+				G1_15_b_TarlachRP_override_succubus_kristell.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15046);
 				item2.Info.Pocket = 5;
-				G1_15_b_TarlachRP_override_succubus_kristell.Items.Add(item2);
+				G1_15_b_TarlachRP_override_succubus_kristell.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G1_15_b_TarlachRP_override_succubus_kristell;
 			}
@@ -5410,46 +5410,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_15_a_TarlachRP_override_tarlach.Items.Add(item0);
+				G1_15_a_TarlachRP_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_15_a_TarlachRP_override_tarlach.Items.Add(item1);
+				G1_15_a_TarlachRP_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_15_a_TarlachRP_override_tarlach.Items.Add(item2);
+				G1_15_a_TarlachRP_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_15_a_TarlachRP_override_tarlach.Items.Add(item3);
+				G1_15_a_TarlachRP_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_15_a_TarlachRP_override_tarlach.Items.Add(item4);
+				G1_15_a_TarlachRP_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_15_a_TarlachRP_override_tarlach.Items.Add(item5);
+				G1_15_a_TarlachRP_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_15_a_TarlachRP_override_tarlach.Items.Add(item6);
+				G1_15_a_TarlachRP_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_15_a_TarlachRP_override_tarlach;
 			}
@@ -5483,46 +5483,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_10_a_BlackWizard_override_player1.Items.Add(item0);
+				G1_10_a_BlackWizard_override_player1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_10_a_BlackWizard_override_player1.Items.Add(item1);
+				G1_10_a_BlackWizard_override_player1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_10_a_BlackWizard_override_player1.Items.Add(item2);
+				G1_10_a_BlackWizard_override_player1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_10_a_BlackWizard_override_player1.Items.Add(item3);
+				G1_10_a_BlackWizard_override_player1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_10_a_BlackWizard_override_player1.Items.Add(item4);
+				G1_10_a_BlackWizard_override_player1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_10_a_BlackWizard_override_player1.Items.Add(item5);
+				G1_10_a_BlackWizard_override_player1.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_10_a_BlackWizard_override_player1.Items.Add(item6);
+				G1_10_a_BlackWizard_override_player1.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_10_a_BlackWizard_override_player1;
 			}
@@ -5556,33 +5556,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_10_a_BlackWizard_override_player2.Items.Add(item0);
+				G1_10_a_BlackWizard_override_player2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_10_a_BlackWizard_override_player2.Items.Add(item1);
+				G1_10_a_BlackWizard_override_player2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_10_a_BlackWizard_override_player2.Items.Add(item2);
+				G1_10_a_BlackWizard_override_player2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_10_a_BlackWizard_override_player2.Items.Add(item3);
+				G1_10_a_BlackWizard_override_player2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_10_a_BlackWizard_override_player2.Items.Add(item4);
+				G1_10_a_BlackWizard_override_player2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -5590,7 +5590,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_10_a_BlackWizard_override_player2.Items.Add(item5);
+				G1_10_a_BlackWizard_override_player2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_10_a_BlackWizard_override_player2;
 			}
@@ -5624,26 +5624,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13415;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_10_a_BlackWizard_override_black_wizard.Items.Add(item0);
+				G1_10_a_BlackWizard_override_black_wizard.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 1;
 				item1.Info.ColorB = 16575030;
 				item1.Info.ColorC = 23376;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_10_a_BlackWizard_override_black_wizard.Items.Add(item1);
+				G1_10_a_BlackWizard_override_black_wizard.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15002);
 				item2.Info.ColorA = 5198989;
 				item2.Info.ColorB = 16768000;
 				item2.Info.ColorC = 4934475;
 				item2.Info.Pocket = 5;
-				G1_10_a_BlackWizard_override_black_wizard.Items.Add(item2);
+				G1_10_a_BlackWizard_override_black_wizard.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(19004);
 				item3.Info.ColorA = 327680;
 				item3.Info.ColorB = 11403264;
 				item3.Info.ColorC = 11403264;
 				item3.Info.Pocket = 9;
-				G1_10_a_BlackWizard_override_black_wizard.Items.Add(item3);
+				G1_10_a_BlackWizard_override_black_wizard.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G1_10_a_BlackWizard_override_black_wizard;
 			}
@@ -5677,46 +5677,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_c_3WarriorsRP_override_tarlach.Items.Add(item0);
+				G1_5_c_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_c_3WarriorsRP_override_tarlach.Items.Add(item1);
+				G1_5_c_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_5_c_3WarriorsRP_override_tarlach.Items.Add(item2);
+				G1_5_c_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_5_c_3WarriorsRP_override_tarlach.Items.Add(item3);
+				G1_5_c_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_5_c_3WarriorsRP_override_tarlach.Items.Add(item4);
+				G1_5_c_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_5_c_3WarriorsRP_override_tarlach.Items.Add(item5);
+				G1_5_c_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_5_c_3WarriorsRP_override_tarlach.Items.Add(item6);
+				G1_5_c_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_5_c_3WarriorsRP_override_tarlach;
 			}
@@ -5750,33 +5750,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_c_3WarriorsRP_override_mari.Items.Add(item0);
+				G1_5_c_3WarriorsRP_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_c_3WarriorsRP_override_mari.Items.Add(item1);
+				G1_5_c_3WarriorsRP_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_5_c_3WarriorsRP_override_mari.Items.Add(item2);
+				G1_5_c_3WarriorsRP_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_5_c_3WarriorsRP_override_mari.Items.Add(item3);
+				G1_5_c_3WarriorsRP_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_5_c_3WarriorsRP_override_mari.Items.Add(item4);
+				G1_5_c_3WarriorsRP_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -5784,7 +5784,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_5_c_3WarriorsRP_override_mari.Items.Add(item5);
+				G1_5_c_3WarriorsRP_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_5_c_3WarriorsRP_override_mari;
 			}
@@ -5819,39 +5819,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16359238;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_c_3WarriorsRP_override_ruairi.Items.Add(item0);
+				G1_5_c_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_c_3WarriorsRP_override_ruairi.Items.Add(item1);
+				G1_5_c_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_5_c_3WarriorsRP_override_ruairi.Items.Add(item2);
+				G1_5_c_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G1_5_c_3WarriorsRP_override_ruairi.Items.Add(item3);
+				G1_5_c_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G1_5_c_3WarriorsRP_override_ruairi.Items.Add(item4);
+				G1_5_c_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G1_5_c_3WarriorsRP_override_ruairi.Items.Add(item5);
+				G1_5_c_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_5_c_3WarriorsRP_override_ruairi;
 			}
@@ -5915,39 +5915,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16359238;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_b_3WarriorsRP_override_ruairi.Items.Add(item0);
+				G1_5_b_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_b_3WarriorsRP_override_ruairi.Items.Add(item1);
+				G1_5_b_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_5_b_3WarriorsRP_override_ruairi.Items.Add(item2);
+				G1_5_b_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G1_5_b_3WarriorsRP_override_ruairi.Items.Add(item3);
+				G1_5_b_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G1_5_b_3WarriorsRP_override_ruairi.Items.Add(item4);
+				G1_5_b_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G1_5_b_3WarriorsRP_override_ruairi.Items.Add(item5);
+				G1_5_b_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_5_b_3WarriorsRP_override_ruairi;
 			}
@@ -5981,33 +5981,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_b_3WarriorsRP_override_mari.Items.Add(item0);
+				G1_5_b_3WarriorsRP_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_b_3WarriorsRP_override_mari.Items.Add(item1);
+				G1_5_b_3WarriorsRP_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_5_b_3WarriorsRP_override_mari.Items.Add(item2);
+				G1_5_b_3WarriorsRP_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_5_b_3WarriorsRP_override_mari.Items.Add(item3);
+				G1_5_b_3WarriorsRP_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_5_b_3WarriorsRP_override_mari.Items.Add(item4);
+				G1_5_b_3WarriorsRP_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -6015,7 +6015,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_5_b_3WarriorsRP_override_mari.Items.Add(item5);
+				G1_5_b_3WarriorsRP_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_5_b_3WarriorsRP_override_mari;
 			}
@@ -6049,46 +6049,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_b_3WarriorsRP_override_tarlach.Items.Add(item0);
+				G1_5_b_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_b_3WarriorsRP_override_tarlach.Items.Add(item1);
+				G1_5_b_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_5_b_3WarriorsRP_override_tarlach.Items.Add(item2);
+				G1_5_b_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_5_b_3WarriorsRP_override_tarlach.Items.Add(item3);
+				G1_5_b_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_5_b_3WarriorsRP_override_tarlach.Items.Add(item4);
+				G1_5_b_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_5_b_3WarriorsRP_override_tarlach.Items.Add(item5);
+				G1_5_b_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_5_b_3WarriorsRP_override_tarlach.Items.Add(item6);
+				G1_5_b_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_5_b_3WarriorsRP_override_tarlach;
 			}
@@ -6122,46 +6122,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_a_3WarriorsRP_override_tarlach.Items.Add(item0);
+				G1_5_a_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_a_3WarriorsRP_override_tarlach.Items.Add(item1);
+				G1_5_a_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G1_5_a_3WarriorsRP_override_tarlach.Items.Add(item2);
+				G1_5_a_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G1_5_a_3WarriorsRP_override_tarlach.Items.Add(item3);
+				G1_5_a_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G1_5_a_3WarriorsRP_override_tarlach.Items.Add(item4);
+				G1_5_a_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G1_5_a_3WarriorsRP_override_tarlach.Items.Add(item5);
+				G1_5_a_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G1_5_a_3WarriorsRP_override_tarlach.Items.Add(item6);
+				G1_5_a_3WarriorsRP_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G1_5_a_3WarriorsRP_override_tarlach;
 			}
@@ -6195,33 +6195,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_a_3WarriorsRP_override_mari.Items.Add(item0);
+				G1_5_a_3WarriorsRP_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_a_3WarriorsRP_override_mari.Items.Add(item1);
+				G1_5_a_3WarriorsRP_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_5_a_3WarriorsRP_override_mari.Items.Add(item2);
+				G1_5_a_3WarriorsRP_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G1_5_a_3WarriorsRP_override_mari.Items.Add(item3);
+				G1_5_a_3WarriorsRP_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G1_5_a_3WarriorsRP_override_mari.Items.Add(item4);
+				G1_5_a_3WarriorsRP_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -6229,7 +6229,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G1_5_a_3WarriorsRP_override_mari.Items.Add(item5);
+				G1_5_a_3WarriorsRP_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_5_a_3WarriorsRP_override_mari;
 			}
@@ -6264,39 +6264,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16359238;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G1_5_a_3WarriorsRP_override_ruairi.Items.Add(item0);
+				G1_5_a_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G1_5_a_3WarriorsRP_override_ruairi.Items.Add(item1);
+				G1_5_a_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G1_5_a_3WarriorsRP_override_ruairi.Items.Add(item2);
+				G1_5_a_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G1_5_a_3WarriorsRP_override_ruairi.Items.Add(item3);
+				G1_5_a_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G1_5_a_3WarriorsRP_override_ruairi.Items.Add(item4);
+				G1_5_a_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G1_5_a_3WarriorsRP_override_ruairi.Items.Add(item5);
+				G1_5_a_3WarriorsRP_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G1_5_a_3WarriorsRP_override_ruairi;
 			}
@@ -6358,39 +6358,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16376065;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_e_override_esras.Items.Add(item0);
+				G2_37_e_override_esras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3036);
 				item1.Info.ColorA = 8088699;
 				item1.Info.ColorB = 8088699;
 				item1.Info.ColorC = 8088699;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_e_override_esras.Items.Add(item1);
+				G2_37_e_override_esras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15089);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_37_e_override_esras.Items.Add(item2);
+				G2_37_e_override_esras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16000);
 				item3.Info.ColorA = 16118767;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_37_e_override_esras.Items.Add(item3);
+				G2_37_e_override_esras.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17020);
 				item4.Info.ColorA = 5336935;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_37_e_override_esras.Items.Add(item4);
+				G2_37_e_override_esras.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18092);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 8;
-				G2_37_e_override_esras.Items.Add(item5);
+				G2_37_e_override_esras.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_37_e_override_esras;
 			}
@@ -6423,32 +6423,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 103883;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_e_override_price.Items.Add(item0);
+				G2_37_e_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_e_override_price.Items.Add(item1);
+				G2_37_e_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				G2_37_e_override_price.Items.Add(item2);
+				G2_37_e_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				G2_37_e_override_price.Items.Add(item3);
+				G2_37_e_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				G2_37_e_override_price.Items.Add(item4);
+				G2_37_e_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_37_e_override_price;
 			}
@@ -6510,39 +6510,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16376065;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_d_override_esras.Items.Add(item0);
+				G2_37_d_override_esras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3036);
 				item1.Info.ColorA = 8088699;
 				item1.Info.ColorB = 8088699;
 				item1.Info.ColorC = 8088699;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_d_override_esras.Items.Add(item1);
+				G2_37_d_override_esras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15089);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_37_d_override_esras.Items.Add(item2);
+				G2_37_d_override_esras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16000);
 				item3.Info.ColorA = 16118767;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_37_d_override_esras.Items.Add(item3);
+				G2_37_d_override_esras.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17020);
 				item4.Info.ColorA = 5336935;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_37_d_override_esras.Items.Add(item4);
+				G2_37_d_override_esras.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18092);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 8;
-				G2_37_d_override_esras.Items.Add(item5);
+				G2_37_d_override_esras.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_37_d_override_esras;
 			}
@@ -6576,20 +6576,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 5391616;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_d_override_paladin_1.Items.Add(item0);
+				G2_37_d_override_paladin_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3001);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_d_override_paladin_1.Items.Add(item1);
+				G2_37_d_override_paladin_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13027);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 9475192;
 				item2.Info.ColorC = 8814085;
 				item2.Info.Pocket = 5;
-				G2_37_d_override_paladin_1.Items.Add(item2);
+				G2_37_d_override_paladin_1.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G2_37_d_override_paladin_1;
 			}
@@ -6622,32 +6622,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 103883;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_d_override_price.Items.Add(item0);
+				G2_37_d_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_d_override_price.Items.Add(item1);
+				G2_37_d_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				G2_37_d_override_price.Items.Add(item2);
+				G2_37_d_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				G2_37_d_override_price.Items.Add(item3);
+				G2_37_d_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				G2_37_d_override_price.Items.Add(item4);
+				G2_37_d_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_37_d_override_price;
 			}
@@ -6683,14 +6683,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G2_37_d_override_dark_lord.Items.Add(item0);
+				G2_37_d_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G2_37_d_override_dark_lord.Items.Add(item1);
+				G2_37_d_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G2_37_d_override_dark_lord;
 			}
@@ -6723,33 +6723,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_d_override_ruari_r.Items.Add(item0);
+				G2_37_d_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_d_override_ruari_r.Items.Add(item1);
+				G2_37_d_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_37_d_override_ruari_r.Items.Add(item2);
+				G2_37_d_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_37_d_override_ruari_r.Items.Add(item3);
+				G2_37_d_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_37_d_override_ruari_r.Items.Add(item4);
+				G2_37_d_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_37_d_override_ruari_r;
 			}
@@ -6784,14 +6784,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11711154;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				G2_37_d_override_metal_skeleton.Items.Add(item0);
+				G2_37_d_override_metal_skeleton.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40014);
 				item1.Info.ColorA = 7626031;
 				item1.Info.ColorB = 6446916;
 				item1.Info.ColorC = 16161065;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 11;
-				G2_37_d_override_metal_skeleton.Items.Add(item1);
+				G2_37_d_override_metal_skeleton.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(45001);
 				item2.Info.Amount = 100;
 				item2.Info.ColorA = 12493513;
@@ -6799,7 +6799,7 @@ public class CrystalBallBaseScript : NPCScript
 				item2.Info.ColorC = 11246209;
 				item2.Info.KnockCount = 2;
 				item2.Info.Pocket = 15;
-				G2_37_d_override_metal_skeleton.Items.Add(item2);
+				G2_37_d_override_metal_skeleton.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G2_37_d_override_metal_skeleton;
 			}
@@ -6832,32 +6832,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 103883;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_c_override_price.Items.Add(item0);
+				G2_37_c_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_c_override_price.Items.Add(item1);
+				G2_37_c_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				G2_37_c_override_price.Items.Add(item2);
+				G2_37_c_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				G2_37_c_override_price.Items.Add(item3);
+				G2_37_c_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				G2_37_c_override_price.Items.Add(item4);
+				G2_37_c_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_37_c_override_price;
 			}
@@ -6917,39 +6917,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16376065;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_c_override_esras.Items.Add(item0);
+				G2_37_c_override_esras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3036);
 				item1.Info.ColorA = 8088699;
 				item1.Info.ColorB = 8088699;
 				item1.Info.ColorC = 8088699;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_c_override_esras.Items.Add(item1);
+				G2_37_c_override_esras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15089);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_37_c_override_esras.Items.Add(item2);
+				G2_37_c_override_esras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16000);
 				item3.Info.ColorA = 16118767;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_37_c_override_esras.Items.Add(item3);
+				G2_37_c_override_esras.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17020);
 				item4.Info.ColorA = 5336935;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_37_c_override_esras.Items.Add(item4);
+				G2_37_c_override_esras.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18092);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 8;
-				G2_37_c_override_esras.Items.Add(item5);
+				G2_37_c_override_esras.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_37_c_override_esras;
 			}
@@ -6983,20 +6983,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 5391616;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_c_override_paladin_1.Items.Add(item0);
+				G2_37_c_override_paladin_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3001);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_c_override_paladin_1.Items.Add(item1);
+				G2_37_c_override_paladin_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13027);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 9475192;
 				item2.Info.ColorC = 8814085;
 				item2.Info.Pocket = 5;
-				G2_37_c_override_paladin_1.Items.Add(item2);
+				G2_37_c_override_paladin_1.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G2_37_c_override_paladin_1;
 			}
@@ -7029,39 +7029,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16376065;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_b_override_esras.Items.Add(item0);
+				G2_37_b_override_esras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3036);
 				item1.Info.ColorA = 8088699;
 				item1.Info.ColorB = 8088699;
 				item1.Info.ColorC = 8088699;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_b_override_esras.Items.Add(item1);
+				G2_37_b_override_esras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15089);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_37_b_override_esras.Items.Add(item2);
+				G2_37_b_override_esras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16000);
 				item3.Info.ColorA = 16118767;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_37_b_override_esras.Items.Add(item3);
+				G2_37_b_override_esras.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17020);
 				item4.Info.ColorA = 5336935;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_37_b_override_esras.Items.Add(item4);
+				G2_37_b_override_esras.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18092);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 8;
-				G2_37_b_override_esras.Items.Add(item5);
+				G2_37_b_override_esras.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_37_b_override_esras;
 			}
@@ -7094,32 +7094,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 103883;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_b_override_price.Items.Add(item0);
+				G2_37_b_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_b_override_price.Items.Add(item1);
+				G2_37_b_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				G2_37_b_override_price.Items.Add(item2);
+				G2_37_b_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				G2_37_b_override_price.Items.Add(item3);
+				G2_37_b_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				G2_37_b_override_price.Items.Add(item4);
+				G2_37_b_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_37_b_override_price;
 			}
@@ -7179,32 +7179,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 103883;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_37_a_override_price.Items.Add(item0);
+				G2_37_a_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_37_a_override_price.Items.Add(item1);
+				G2_37_a_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				G2_37_a_override_price.Items.Add(item2);
+				G2_37_a_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				G2_37_a_override_price.Items.Add(item3);
+				G2_37_a_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				G2_37_a_override_price.Items.Add(item4);
+				G2_37_a_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_37_a_override_price;
 			}
@@ -7237,39 +7237,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16376065;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_36_a_override_esras.Items.Add(item0);
+				G2_36_a_override_esras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3036);
 				item1.Info.ColorA = 8088699;
 				item1.Info.ColorB = 8088699;
 				item1.Info.ColorC = 8088699;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_36_a_override_esras.Items.Add(item1);
+				G2_36_a_override_esras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15089);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_36_a_override_esras.Items.Add(item2);
+				G2_36_a_override_esras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16000);
 				item3.Info.ColorA = 16118767;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_36_a_override_esras.Items.Add(item3);
+				G2_36_a_override_esras.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17020);
 				item4.Info.ColorA = 5336935;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_36_a_override_esras.Items.Add(item4);
+				G2_36_a_override_esras.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18092);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 8;
-				G2_36_a_override_esras.Items.Add(item5);
+				G2_36_a_override_esras.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_36_a_override_esras;
 			}
@@ -7302,32 +7302,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 103883;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_36_a_override_price.Items.Add(item0);
+				G2_36_a_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_36_a_override_price.Items.Add(item1);
+				G2_36_a_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				G2_36_a_override_price.Items.Add(item2);
+				G2_36_a_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				G2_36_a_override_price.Items.Add(item3);
+				G2_36_a_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				G2_36_a_override_price.Items.Add(item4);
+				G2_36_a_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_36_a_override_price;
 			}
@@ -7557,14 +7557,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G2_18_a_override_dark_lord.Items.Add(item0);
+				G2_18_a_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G2_18_a_override_dark_lord.Items.Add(item1);
+				G2_18_a_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G2_18_a_override_dark_lord;
 			}
@@ -7597,45 +7597,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13861245;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_18_a_override_paladin_traniee.Items.Add(item0);
+				G2_18_a_override_paladin_traniee.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 10256997;
 				item1.Info.ColorB = 10256997;
 				item1.Info.ColorC = 10256997;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_18_a_override_paladin_traniee.Items.Add(item1);
+				G2_18_a_override_paladin_traniee.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorA = 3154461;
 				item2.Info.ColorB = 12367537;
 				item2.Info.ColorC = 11972777;
 				item2.Info.Pocket = 5;
-				G2_18_a_override_paladin_traniee.Items.Add(item2);
+				G2_18_a_override_paladin_traniee.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 10258561;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_18_a_override_paladin_traniee.Items.Add(item3);
+				G2_18_a_override_paladin_traniee.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_18_a_override_paladin_traniee.Items.Add(item4);
+				G2_18_a_override_paladin_traniee.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18511);
 				item5.Info.ColorA = 4288446819;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.Pocket = 8;
-				G2_18_a_override_paladin_traniee.Items.Add(item5);
+				G2_18_a_override_paladin_traniee.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40030);
 				item6.Info.ColorA = 12632256;
 				item6.Info.ColorB = 3163460;
 				item6.Info.ColorC = 16777215;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 10;
-				G2_18_a_override_paladin_traniee.Items.Add(item6);
+				G2_18_a_override_paladin_traniee.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G2_18_a_override_paladin_traniee;
 			}
@@ -7666,13 +7666,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11583841;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				G2_18_a_override_goblin.Items.Add(item0);
+				G2_18_a_override_goblin.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(46001);
 				item1.Info.ColorA = 4274995;
 				item1.Info.ColorB = 7626031;
 				item1.Info.ColorC = 62;
 				item1.Info.Pocket = 12;
-				G2_18_a_override_goblin.Items.Add(item1);
+				G2_18_a_override_goblin.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G2_18_a_override_goblin;
 			}
@@ -7705,26 +7705,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9870030;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_18_a_override_rewan.Items.Add(item0);
+				G2_18_a_override_rewan.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_18_a_override_rewan.Items.Add(item1);
+				G2_18_a_override_rewan.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15066);
 				item2.Info.ColorA = 8876103;
 				item2.Info.ColorB = 16639172;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_18_a_override_rewan.Items.Add(item2);
+				G2_18_a_override_rewan.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17033);
 				item3.Info.ColorA = 5914921;
 				item3.Info.ColorB = 13282971;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_18_a_override_rewan.Items.Add(item3);
+				G2_18_a_override_rewan.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_18_a_override_rewan;
 			}
@@ -7757,27 +7757,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16225568;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_18_a_override_redire.Items.Add(item0);
+				G2_18_a_override_redire.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 11574886;
 				item1.Info.ColorB = 11574886;
 				item1.Info.ColorC = 11574886;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_18_a_override_redire.Items.Add(item1);
+				G2_18_a_override_redire.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13024);
 				item2.Info.ColorA = 16509917;
 				item2.Info.ColorB = 988704;
 				item2.Info.ColorC = 732448;
 				item2.Info.Pocket = 5;
-				G2_18_a_override_redire.Items.Add(item2);
+				G2_18_a_override_redire.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 12039864;
 				item3.Info.ColorB = 12878406;
 				item3.Info.ColorC = 10137506;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				G2_18_a_override_redire.Items.Add(item3);
+				G2_18_a_override_redire.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_18_a_override_redire;
 			}
@@ -7812,20 +7812,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6971752;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_11_a_override_Lugh.Items.Add(item0);
+				G2_11_a_override_Lugh.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3001);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_11_a_override_Lugh.Items.Add(item1);
+				G2_11_a_override_Lugh.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13026);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 12700642;
 				item2.Info.ColorC = 6569528;
 				item2.Info.Pocket = 5;
-				G2_11_a_override_Lugh.Items.Add(item2);
+				G2_11_a_override_Lugh.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G2_11_a_override_Lugh;
 			}
@@ -7858,33 +7858,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_10_a_override_ruari_r.Items.Add(item0);
+				G2_10_a_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_10_a_override_ruari_r.Items.Add(item1);
+				G2_10_a_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_10_a_override_ruari_r.Items.Add(item2);
+				G2_10_a_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_10_a_override_ruari_r.Items.Add(item3);
+				G2_10_a_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_10_a_override_ruari_r.Items.Add(item4);
+				G2_10_a_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_10_a_override_ruari_r;
 			}
@@ -7918,26 +7918,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_10_a_override_triona.Items.Add(item0);
+				G2_10_a_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_10_a_override_triona.Items.Add(item1);
+				G2_10_a_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_10_a_override_triona.Items.Add(item2);
+				G2_10_a_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_10_a_override_triona.Items.Add(item3);
+				G2_10_a_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_10_a_override_triona;
 			}
@@ -7973,14 +7973,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G2_10_a_override_dark_lord.Items.Add(item0);
+				G2_10_a_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G2_10_a_override_dark_lord.Items.Add(item1);
+				G2_10_a_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G2_10_a_override_dark_lord;
 			}
@@ -8042,45 +8042,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13861245;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_paladin_traniee.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 10256997;
 				item1.Info.ColorB = 10256997;
 				item1.Info.ColorC = 10256997;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_paladin_traniee.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorA = 3154461;
 				item2.Info.ColorB = 12367537;
 				item2.Info.ColorC = 11972777;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_paladin_traniee.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 10258561;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_08_d_Paladin_exercises_override_paladin_traniee.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_08_d_Paladin_exercises_override_paladin_traniee.Items.Add(item4);
+				G2_08_d_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18511);
 				item5.Info.ColorA = 4288446819;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.Pocket = 8;
-				G2_08_d_Paladin_exercises_override_paladin_traniee.Items.Add(item5);
+				G2_08_d_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40030);
 				item6.Info.ColorA = 12632256;
 				item6.Info.ColorB = 3163460;
 				item6.Info.ColorC = 16777215;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 10;
-				G2_08_d_Paladin_exercises_override_paladin_traniee.Items.Add(item6);
+				G2_08_d_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_paladin_traniee;
 			}
@@ -8114,27 +8114,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8024137;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_craig.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_craig.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 4534290;
 				item1.Info.ColorB = 4534290;
 				item1.Info.ColorC = 4534290;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_craig.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_craig.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13024);
 				item2.Info.ColorA = 9532763;
 				item2.Info.ColorB = 4600868;
 				item2.Info.ColorC = 3548187;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_craig.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_craig.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40033);
 				item3.Info.ColorA = 12039864;
 				item3.Info.ColorB = 12878406;
 				item3.Info.ColorC = 10137506;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				G2_08_d_Paladin_exercises_override_craig.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_craig.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_craig;
 			}
@@ -8167,39 +8167,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16376065;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_esras.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_esras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3036);
 				item1.Info.ColorA = 8088699;
 				item1.Info.ColorB = 8088699;
 				item1.Info.ColorC = 8088699;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_esras.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_esras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15089);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_esras.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_esras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16000);
 				item3.Info.ColorA = 16118767;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_08_d_Paladin_exercises_override_esras.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_esras.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17020);
 				item4.Info.ColorA = 5336935;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_08_d_Paladin_exercises_override_esras.Items.Add(item4);
+				G2_08_d_Paladin_exercises_override_esras.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18092);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 8;
-				G2_08_d_Paladin_exercises_override_esras.Items.Add(item5);
+				G2_08_d_Paladin_exercises_override_esras.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_esras;
 			}
@@ -8232,26 +8232,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9870030;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_rewan.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_rewan.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_rewan.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_rewan.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15066);
 				item2.Info.ColorA = 8876103;
 				item2.Info.ColorB = 16639172;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_rewan.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_rewan.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17033);
 				item3.Info.ColorA = 5914921;
 				item3.Info.ColorB = 13282971;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_08_d_Paladin_exercises_override_rewan.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_rewan.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_rewan;
 			}
@@ -8284,33 +8284,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_ruari_r.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_ruari_r.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_ruari_r.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_08_d_Paladin_exercises_override_ruari_r.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_08_d_Paladin_exercises_override_ruari_r.Items.Add(item4);
+				G2_08_d_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_ruari_r;
 			}
@@ -8344,26 +8344,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_triona.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_triona.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_triona.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_08_d_Paladin_exercises_override_triona.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_triona;
 			}
@@ -8399,14 +8399,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_dark_lord.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G2_08_d_Paladin_exercises_override_dark_lord.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_dark_lord;
 			}
@@ -8440,38 +8440,38 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12583034;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_tiron.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_tiron.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 1906450;
 				item1.Info.ColorB = 1906450;
 				item1.Info.ColorC = 1906450;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_tiron.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_tiron.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorB = 11969675;
 				item2.Info.ColorC = 2366739;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_tiron.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_tiron.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 7297088;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_08_d_Paladin_exercises_override_tiron.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_tiron.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 13348764;
 				item4.Info.ColorB = 13285540;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_08_d_Paladin_exercises_override_tiron.Items.Add(item4);
+				G2_08_d_Paladin_exercises_override_tiron.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 12632256;
 				item5.Info.ColorB = 3163460;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G2_08_d_Paladin_exercises_override_tiron.Items.Add(item5);
+				G2_08_d_Paladin_exercises_override_tiron.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_tiron;
 			}
@@ -8505,44 +8505,44 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16295771;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_d_Paladin_exercises_override_cador.Items.Add(item0);
+				G2_08_d_Paladin_exercises_override_cador.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 1906450;
 				item1.Info.ColorB = 1906450;
 				item1.Info.ColorC = 1906450;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_d_Paladin_exercises_override_cador.Items.Add(item1);
+				G2_08_d_Paladin_exercises_override_cador.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorB = 11969675;
 				item2.Info.ColorC = 2366739;
 				item2.Info.Pocket = 5;
-				G2_08_d_Paladin_exercises_override_cador.Items.Add(item2);
+				G2_08_d_Paladin_exercises_override_cador.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 7297088;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_08_d_Paladin_exercises_override_cador.Items.Add(item3);
+				G2_08_d_Paladin_exercises_override_cador.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 13348764;
 				item4.Info.ColorB = 13285540;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_08_d_Paladin_exercises_override_cador.Items.Add(item4);
+				G2_08_d_Paladin_exercises_override_cador.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18511);
 				item5.Info.ColorA = 4288446819;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.Pocket = 8;
-				G2_08_d_Paladin_exercises_override_cador.Items.Add(item5);
+				G2_08_d_Paladin_exercises_override_cador.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40011);
 				item6.Info.ColorA = 12632256;
 				item6.Info.ColorB = 3163460;
 				item6.Info.ColorC = 16777215;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 10;
-				G2_08_d_Paladin_exercises_override_cador.Items.Add(item6);
+				G2_08_d_Paladin_exercises_override_cador.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G2_08_d_Paladin_exercises_override_cador;
 			}
@@ -8575,33 +8575,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_c_Paladin_exercises_override_ruari_r.Items.Add(item0);
+				G2_08_c_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_c_Paladin_exercises_override_ruari_r.Items.Add(item1);
+				G2_08_c_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_08_c_Paladin_exercises_override_ruari_r.Items.Add(item2);
+				G2_08_c_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_08_c_Paladin_exercises_override_ruari_r.Items.Add(item3);
+				G2_08_c_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_08_c_Paladin_exercises_override_ruari_r.Items.Add(item4);
+				G2_08_c_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_08_c_Paladin_exercises_override_ruari_r;
 			}
@@ -8635,26 +8635,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_c_Paladin_exercises_override_triona.Items.Add(item0);
+				G2_08_c_Paladin_exercises_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_c_Paladin_exercises_override_triona.Items.Add(item1);
+				G2_08_c_Paladin_exercises_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_08_c_Paladin_exercises_override_triona.Items.Add(item2);
+				G2_08_c_Paladin_exercises_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_08_c_Paladin_exercises_override_triona.Items.Add(item3);
+				G2_08_c_Paladin_exercises_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_08_c_Paladin_exercises_override_triona;
 			}
@@ -8687,45 +8687,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13861245;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_c_Paladin_exercises_override_paladin_traniee.Items.Add(item0);
+				G2_08_c_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 10256997;
 				item1.Info.ColorB = 10256997;
 				item1.Info.ColorC = 10256997;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_c_Paladin_exercises_override_paladin_traniee.Items.Add(item1);
+				G2_08_c_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorA = 3154461;
 				item2.Info.ColorB = 12367537;
 				item2.Info.ColorC = 11972777;
 				item2.Info.Pocket = 5;
-				G2_08_c_Paladin_exercises_override_paladin_traniee.Items.Add(item2);
+				G2_08_c_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 10258561;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_08_c_Paladin_exercises_override_paladin_traniee.Items.Add(item3);
+				G2_08_c_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_08_c_Paladin_exercises_override_paladin_traniee.Items.Add(item4);
+				G2_08_c_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18511);
 				item5.Info.ColorA = 4288446819;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.Pocket = 8;
-				G2_08_c_Paladin_exercises_override_paladin_traniee.Items.Add(item5);
+				G2_08_c_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40030);
 				item6.Info.ColorA = 12632256;
 				item6.Info.ColorB = 3163460;
 				item6.Info.ColorC = 16777215;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 10;
-				G2_08_c_Paladin_exercises_override_paladin_traniee.Items.Add(item6);
+				G2_08_c_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G2_08_c_Paladin_exercises_override_paladin_traniee;
 			}
@@ -8759,26 +8759,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_b_Paladin_exercises_override_triona.Items.Add(item0);
+				G2_08_b_Paladin_exercises_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_b_Paladin_exercises_override_triona.Items.Add(item1);
+				G2_08_b_Paladin_exercises_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_08_b_Paladin_exercises_override_triona.Items.Add(item2);
+				G2_08_b_Paladin_exercises_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_08_b_Paladin_exercises_override_triona.Items.Add(item3);
+				G2_08_b_Paladin_exercises_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_08_b_Paladin_exercises_override_triona;
 			}
@@ -8811,45 +8811,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13861245;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_b_Paladin_exercises_override_paladin_traniee.Items.Add(item0);
+				G2_08_b_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 10256997;
 				item1.Info.ColorB = 10256997;
 				item1.Info.ColorC = 10256997;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_b_Paladin_exercises_override_paladin_traniee.Items.Add(item1);
+				G2_08_b_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorA = 3154461;
 				item2.Info.ColorB = 12367537;
 				item2.Info.ColorC = 11972777;
 				item2.Info.Pocket = 5;
-				G2_08_b_Paladin_exercises_override_paladin_traniee.Items.Add(item2);
+				G2_08_b_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 10258561;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_08_b_Paladin_exercises_override_paladin_traniee.Items.Add(item3);
+				G2_08_b_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_08_b_Paladin_exercises_override_paladin_traniee.Items.Add(item4);
+				G2_08_b_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18511);
 				item5.Info.ColorA = 4288446819;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.Pocket = 8;
-				G2_08_b_Paladin_exercises_override_paladin_traniee.Items.Add(item5);
+				G2_08_b_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40030);
 				item6.Info.ColorA = 12632256;
 				item6.Info.ColorB = 3163460;
 				item6.Info.ColorC = 16777215;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 10;
-				G2_08_b_Paladin_exercises_override_paladin_traniee.Items.Add(item6);
+				G2_08_b_Paladin_exercises_override_paladin_traniee.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G2_08_b_Paladin_exercises_override_paladin_traniee;
 			}
@@ -8882,33 +8882,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_a_Paladin_exercises_override_ruari_r.Items.Add(item0);
+				G2_08_a_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_a_Paladin_exercises_override_ruari_r.Items.Add(item1);
+				G2_08_a_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_08_a_Paladin_exercises_override_ruari_r.Items.Add(item2);
+				G2_08_a_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_08_a_Paladin_exercises_override_ruari_r.Items.Add(item3);
+				G2_08_a_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_08_a_Paladin_exercises_override_ruari_r.Items.Add(item4);
+				G2_08_a_Paladin_exercises_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_08_a_Paladin_exercises_override_ruari_r;
 			}
@@ -8942,26 +8942,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_08_a_Paladin_exercises_override_triona.Items.Add(item0);
+				G2_08_a_Paladin_exercises_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_08_a_Paladin_exercises_override_triona.Items.Add(item1);
+				G2_08_a_Paladin_exercises_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_08_a_Paladin_exercises_override_triona.Items.Add(item2);
+				G2_08_a_Paladin_exercises_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_08_a_Paladin_exercises_override_triona.Items.Add(item3);
+				G2_08_a_Paladin_exercises_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_08_a_Paladin_exercises_override_triona;
 			}
@@ -8994,33 +8994,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_07_a_Darkload_override_ruari_r.Items.Add(item0);
+				G2_07_a_Darkload_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_07_a_Darkload_override_ruari_r.Items.Add(item1);
+				G2_07_a_Darkload_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_07_a_Darkload_override_ruari_r.Items.Add(item2);
+				G2_07_a_Darkload_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_07_a_Darkload_override_ruari_r.Items.Add(item3);
+				G2_07_a_Darkload_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_07_a_Darkload_override_ruari_r.Items.Add(item4);
+				G2_07_a_Darkload_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_07_a_Darkload_override_ruari_r;
 			}
@@ -9054,26 +9054,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_07_a_Darkload_override_triona.Items.Add(item0);
+				G2_07_a_Darkload_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_07_a_Darkload_override_triona.Items.Add(item1);
+				G2_07_a_Darkload_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_07_a_Darkload_override_triona.Items.Add(item2);
+				G2_07_a_Darkload_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_07_a_Darkload_override_triona.Items.Add(item3);
+				G2_07_a_Darkload_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_07_a_Darkload_override_triona;
 			}
@@ -9109,14 +9109,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G2_07_a_Darkload_override_dark_lord.Items.Add(item0);
+				G2_07_a_Darkload_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G2_07_a_Darkload_override_dark_lord.Items.Add(item1);
+				G2_07_a_Darkload_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G2_07_a_Darkload_override_dark_lord;
 			}
@@ -9149,33 +9149,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_06_a_Triona_override_ruari_r.Items.Add(item0);
+				G2_06_a_Triona_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_06_a_Triona_override_ruari_r.Items.Add(item1);
+				G2_06_a_Triona_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_06_a_Triona_override_ruari_r.Items.Add(item2);
+				G2_06_a_Triona_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_06_a_Triona_override_ruari_r.Items.Add(item3);
+				G2_06_a_Triona_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_06_a_Triona_override_ruari_r.Items.Add(item4);
+				G2_06_a_Triona_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_06_a_Triona_override_ruari_r;
 			}
@@ -9209,26 +9209,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_06_a_Triona_override_triona.Items.Add(item0);
+				G2_06_a_Triona_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_06_a_Triona_override_triona.Items.Add(item1);
+				G2_06_a_Triona_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_06_a_Triona_override_triona.Items.Add(item2);
+				G2_06_a_Triona_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_06_a_Triona_override_triona.Items.Add(item3);
+				G2_06_a_Triona_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_06_a_Triona_override_triona;
 			}
@@ -9263,39 +9263,39 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9407268;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_ruairi.Items.Add(item0);
+				G2_05_a_Ruairi_override_ruairi.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 268435494;
 				item1.Info.ColorB = 268435494;
 				item1.Info.ColorC = 268435494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_ruairi.Items.Add(item1);
+				G2_05_a_Ruairi_override_ruairi.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13021);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_ruairi.Items.Add(item2);
+				G2_05_a_Ruairi_override_ruairi.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16508);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 6;
-				G2_05_a_Ruairi_override_ruairi.Items.Add(item3);
+				G2_05_a_Ruairi_override_ruairi.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17509);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 7;
-				G2_05_a_Ruairi_override_ruairi.Items.Add(item4);
+				G2_05_a_Ruairi_override_ruairi.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40028);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G2_05_a_Ruairi_override_ruairi.Items.Add(item5);
+				G2_05_a_Ruairi_override_ruairi.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_05_a_Ruairi_override_ruairi;
 			}
@@ -9329,33 +9329,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4594797;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_mari.Items.Add(item0);
+				G2_05_a_Ruairi_override_mari.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_mari.Items.Add(item1);
+				G2_05_a_Ruairi_override_mari.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_mari.Items.Add(item2);
+				G2_05_a_Ruairi_override_mari.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				G2_05_a_Ruairi_override_mari.Items.Add(item3);
+				G2_05_a_Ruairi_override_mari.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				G2_05_a_Ruairi_override_mari.Items.Add(item4);
+				G2_05_a_Ruairi_override_mari.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -9363,7 +9363,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				G2_05_a_Ruairi_override_mari.Items.Add(item5);
+				G2_05_a_Ruairi_override_mari.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_05_a_Ruairi_override_mari;
 			}
@@ -9397,46 +9397,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4718592;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_tarlach.Items.Add(item0);
+				G2_05_a_Ruairi_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_tarlach.Items.Add(item1);
+				G2_05_a_Ruairi_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_tarlach.Items.Add(item2);
+				G2_05_a_Ruairi_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				G2_05_a_Ruairi_override_tarlach.Items.Add(item3);
+				G2_05_a_Ruairi_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				G2_05_a_Ruairi_override_tarlach.Items.Add(item4);
+				G2_05_a_Ruairi_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				G2_05_a_Ruairi_override_tarlach.Items.Add(item5);
+				G2_05_a_Ruairi_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				G2_05_a_Ruairi_override_tarlach.Items.Add(item6);
+				G2_05_a_Ruairi_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G2_05_a_Ruairi_override_tarlach;
 			}
@@ -9501,14 +9501,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_dark_lord.Items.Add(item0);
+				G2_05_a_Ruairi_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G2_05_a_Ruairi_override_dark_lord.Items.Add(item1);
+				G2_05_a_Ruairi_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _G2_05_a_Ruairi_override_dark_lord;
 			}
@@ -9545,20 +9545,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_ghost_armor.Items.Add(item0);
+				G2_05_a_Ruairi_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				G2_05_a_Ruairi_override_ghost_armor.Items.Add(item1);
+				G2_05_a_Ruairi_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				G2_05_a_Ruairi_override_ghost_armor.Items.Add(item2);
+				G2_05_a_Ruairi_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _G2_05_a_Ruairi_override_ghost_armor;
 			}
@@ -9591,33 +9591,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9484513;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_ruari_r.Items.Add(item0);
+				G2_05_a_Ruairi_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_ruari_r.Items.Add(item1);
+				G2_05_a_Ruairi_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_ruari_r.Items.Add(item2);
+				G2_05_a_Ruairi_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				G2_05_a_Ruairi_override_ruari_r.Items.Add(item3);
+				G2_05_a_Ruairi_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				G2_05_a_Ruairi_override_ruari_r.Items.Add(item4);
+				G2_05_a_Ruairi_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _G2_05_a_Ruairi_override_ruari_r;
 			}
@@ -9651,26 +9651,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2036842;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_triona.Items.Add(item0);
+				G2_05_a_Ruairi_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_triona.Items.Add(item1);
+				G2_05_a_Ruairi_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_triona.Items.Add(item2);
+				G2_05_a_Ruairi_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				G2_05_a_Ruairi_override_triona.Items.Add(item3);
+				G2_05_a_Ruairi_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_05_a_Ruairi_override_triona;
 			}
@@ -9704,44 +9704,44 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16295771;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_cador.Items.Add(item0);
+				G2_05_a_Ruairi_override_cador.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 1906450;
 				item1.Info.ColorB = 1906450;
 				item1.Info.ColorC = 1906450;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_cador.Items.Add(item1);
+				G2_05_a_Ruairi_override_cador.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorB = 11969675;
 				item2.Info.ColorC = 2366739;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_cador.Items.Add(item2);
+				G2_05_a_Ruairi_override_cador.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 7297088;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_05_a_Ruairi_override_cador.Items.Add(item3);
+				G2_05_a_Ruairi_override_cador.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 13348764;
 				item4.Info.ColorB = 13285540;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_05_a_Ruairi_override_cador.Items.Add(item4);
+				G2_05_a_Ruairi_override_cador.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18511);
 				item5.Info.ColorA = 4288446819;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.Pocket = 8;
-				G2_05_a_Ruairi_override_cador.Items.Add(item5);
+				G2_05_a_Ruairi_override_cador.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40011);
 				item6.Info.ColorA = 12632256;
 				item6.Info.ColorB = 3163460;
 				item6.Info.ColorC = 16777215;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 10;
-				G2_05_a_Ruairi_override_cador.Items.Add(item6);
+				G2_05_a_Ruairi_override_cador.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _G2_05_a_Ruairi_override_cador;
 			}
@@ -9775,38 +9775,38 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12583034;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_tiron.Items.Add(item0);
+				G2_05_a_Ruairi_override_tiron.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 1906450;
 				item1.Info.ColorB = 1906450;
 				item1.Info.ColorC = 1906450;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_tiron.Items.Add(item1);
+				G2_05_a_Ruairi_override_tiron.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorB = 11969675;
 				item2.Info.ColorC = 2366739;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_tiron.Items.Add(item2);
+				G2_05_a_Ruairi_override_tiron.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 7297088;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				G2_05_a_Ruairi_override_tiron.Items.Add(item3);
+				G2_05_a_Ruairi_override_tiron.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 13348764;
 				item4.Info.ColorB = 13285540;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				G2_05_a_Ruairi_override_tiron.Items.Add(item4);
+				G2_05_a_Ruairi_override_tiron.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 12632256;
 				item5.Info.ColorB = 3163460;
 				item5.Info.ColorC = 16777215;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				G2_05_a_Ruairi_override_tiron.Items.Add(item5);
+				G2_05_a_Ruairi_override_tiron.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _G2_05_a_Ruairi_override_tiron;
 			}
@@ -9840,27 +9840,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8024137;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				G2_05_a_Ruairi_override_craig.Items.Add(item0);
+				G2_05_a_Ruairi_override_craig.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 4534290;
 				item1.Info.ColorB = 4534290;
 				item1.Info.ColorC = 4534290;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				G2_05_a_Ruairi_override_craig.Items.Add(item1);
+				G2_05_a_Ruairi_override_craig.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13024);
 				item2.Info.ColorA = 9532763;
 				item2.Info.ColorB = 4600868;
 				item2.Info.ColorC = 3548187;
 				item2.Info.Pocket = 5;
-				G2_05_a_Ruairi_override_craig.Items.Add(item2);
+				G2_05_a_Ruairi_override_craig.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40033);
 				item3.Info.ColorA = 12039864;
 				item3.Info.ColorB = 12878406;
 				item3.Info.ColorC = 10137506;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				G2_05_a_Ruairi_override_craig.Items.Add(item3);
+				G2_05_a_Ruairi_override_craig.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _G2_05_a_Ruairi_override_craig;
 			}
@@ -9920,46 +9920,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_19_a_EndingDragon_override_player1.Items.Add(item0);
+				g3_19_a_EndingDragon_override_player1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_19_a_EndingDragon_override_player1.Items.Add(item1);
+				g3_19_a_EndingDragon_override_player1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_19_a_EndingDragon_override_player1.Items.Add(item2);
+				g3_19_a_EndingDragon_override_player1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				g3_19_a_EndingDragon_override_player1.Items.Add(item3);
+				g3_19_a_EndingDragon_override_player1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				g3_19_a_EndingDragon_override_player1.Items.Add(item4);
+				g3_19_a_EndingDragon_override_player1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				g3_19_a_EndingDragon_override_player1.Items.Add(item5);
+				g3_19_a_EndingDragon_override_player1.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				g3_19_a_EndingDragon_override_player1.Items.Add(item6);
+				g3_19_a_EndingDragon_override_player1.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _g3_19_a_EndingDragon_override_player1;
 			}
@@ -9993,33 +9993,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_19_a_EndingDragon_override_player2.Items.Add(item0);
+				g3_19_a_EndingDragon_override_player2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_19_a_EndingDragon_override_player2.Items.Add(item1);
+				g3_19_a_EndingDragon_override_player2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				g3_19_a_EndingDragon_override_player2.Items.Add(item2);
+				g3_19_a_EndingDragon_override_player2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				g3_19_a_EndingDragon_override_player2.Items.Add(item3);
+				g3_19_a_EndingDragon_override_player2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				g3_19_a_EndingDragon_override_player2.Items.Add(item4);
+				g3_19_a_EndingDragon_override_player2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -10027,7 +10027,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				g3_19_a_EndingDragon_override_player2.Items.Add(item5);
+				g3_19_a_EndingDragon_override_player2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _g3_19_a_EndingDragon_override_player2;
 			}
@@ -10087,26 +10087,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7323719;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_19_a_EndingDragon_override_triona.Items.Add(item0);
+				g3_19_a_EndingDragon_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_19_a_EndingDragon_override_triona.Items.Add(item1);
+				g3_19_a_EndingDragon_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				g3_19_a_EndingDragon_override_triona.Items.Add(item2);
+				g3_19_a_EndingDragon_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				g3_19_a_EndingDragon_override_triona.Items.Add(item3);
+				g3_19_a_EndingDragon_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_19_a_EndingDragon_override_triona;
 			}
@@ -10142,14 +10142,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				g3_19_a_EndingDragon_override_dark_lord.Items.Add(item0);
+				g3_19_a_EndingDragon_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_19_a_EndingDragon_override_dark_lord.Items.Add(item1);
+				g3_19_a_EndingDragon_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _g3_19_a_EndingDragon_override_dark_lord;
 			}
@@ -10183,33 +10183,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_17_b_AllStarShow_override_player2.Items.Add(item0);
+				g3_17_b_AllStarShow_override_player2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_17_b_AllStarShow_override_player2.Items.Add(item1);
+				g3_17_b_AllStarShow_override_player2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				g3_17_b_AllStarShow_override_player2.Items.Add(item2);
+				g3_17_b_AllStarShow_override_player2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				g3_17_b_AllStarShow_override_player2.Items.Add(item3);
+				g3_17_b_AllStarShow_override_player2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				g3_17_b_AllStarShow_override_player2.Items.Add(item4);
+				g3_17_b_AllStarShow_override_player2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -10217,7 +10217,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				g3_17_b_AllStarShow_override_player2.Items.Add(item5);
+				g3_17_b_AllStarShow_override_player2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _g3_17_b_AllStarShow_override_player2;
 			}
@@ -10251,46 +10251,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_17_b_AllStarShow_override_player1.Items.Add(item0);
+				g3_17_b_AllStarShow_override_player1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_17_b_AllStarShow_override_player1.Items.Add(item1);
+				g3_17_b_AllStarShow_override_player1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_17_b_AllStarShow_override_player1.Items.Add(item2);
+				g3_17_b_AllStarShow_override_player1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				g3_17_b_AllStarShow_override_player1.Items.Add(item3);
+				g3_17_b_AllStarShow_override_player1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				g3_17_b_AllStarShow_override_player1.Items.Add(item4);
+				g3_17_b_AllStarShow_override_player1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				g3_17_b_AllStarShow_override_player1.Items.Add(item5);
+				g3_17_b_AllStarShow_override_player1.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				g3_17_b_AllStarShow_override_player1.Items.Add(item6);
+				g3_17_b_AllStarShow_override_player1.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _g3_17_b_AllStarShow_override_player1;
 			}
@@ -10326,14 +10326,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				g3_17_b_AllStarShow_override_dark_lord.Items.Add(item0);
+				g3_17_b_AllStarShow_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_17_b_AllStarShow_override_dark_lord.Items.Add(item1);
+				g3_17_b_AllStarShow_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _g3_17_b_AllStarShow_override_dark_lord;
 			}
@@ -10366,33 +10366,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12677551;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_17_b_AllStarShow_override_ruairi_dark.Items.Add(item0);
+				g3_17_b_AllStarShow_override_ruairi_dark.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4958);
 				item1.Info.ColorA = 4291630100;
 				item1.Info.ColorB = 4291630100;
 				item1.Info.ColorC = 4291630100;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_17_b_AllStarShow_override_ruairi_dark.Items.Add(item1);
+				g3_17_b_AllStarShow_override_ruairi_dark.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15120);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4285085253;
 				item2.Info.ColorC = 4294570743;
 				item2.Info.Pocket = 5;
-				g3_17_b_AllStarShow_override_ruairi_dark.Items.Add(item2);
+				g3_17_b_AllStarShow_override_ruairi_dark.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 4286207297;
 				item3.Info.ColorB = 4283903301;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 7;
-				g3_17_b_AllStarShow_override_ruairi_dark.Items.Add(item3);
+				g3_17_b_AllStarShow_override_ruairi_dark.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40033);
 				item4.Info.ColorA = 4279571228;
 				item4.Info.ColorB = 4293440362;
 				item4.Info.ColorC = 4280558377;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				g3_17_b_AllStarShow_override_ruairi_dark.Items.Add(item4);
+				g3_17_b_AllStarShow_override_ruairi_dark.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_17_b_AllStarShow_override_ruairi_dark;
 			}
@@ -10426,46 +10426,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_17_b_AllStarShow_override_tarlach.Items.Add(item0);
+				g3_17_b_AllStarShow_override_tarlach.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_17_b_AllStarShow_override_tarlach.Items.Add(item1);
+				g3_17_b_AllStarShow_override_tarlach.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_17_b_AllStarShow_override_tarlach.Items.Add(item2);
+				g3_17_b_AllStarShow_override_tarlach.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				g3_17_b_AllStarShow_override_tarlach.Items.Add(item3);
+				g3_17_b_AllStarShow_override_tarlach.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				g3_17_b_AllStarShow_override_tarlach.Items.Add(item4);
+				g3_17_b_AllStarShow_override_tarlach.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				g3_17_b_AllStarShow_override_tarlach.Items.Add(item5);
+				g3_17_b_AllStarShow_override_tarlach.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				g3_17_b_AllStarShow_override_tarlach.Items.Add(item6);
+				g3_17_b_AllStarShow_override_tarlach.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _g3_17_b_AllStarShow_override_tarlach;
 			}
@@ -10612,33 +10612,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12677551;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Items.Add(item0);
+				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4958);
 				item1.Info.ColorA = 4291630100;
 				item1.Info.ColorB = 4291630100;
 				item1.Info.ColorC = 4291630100;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Items.Add(item1);
+				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15120);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4285085253;
 				item2.Info.ColorC = 4294570743;
 				item2.Info.Pocket = 5;
-				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Items.Add(item2);
+				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 4286207297;
 				item3.Info.ColorB = 4283903301;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 7;
-				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Items.Add(item3);
+				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40033);
 				item4.Info.ColorA = 4279571228;
 				item4.Info.ColorB = 4293440362;
 				item4.Info.ColorC = 4280558377;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Items.Add(item4);
+				g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_17_a_Ruairi_VS_Morgant_override_ruairi_dark;
 			}
@@ -10674,14 +10674,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.Items.Add(item0);
+				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.Items.Add(item1);
+				g3_17_a_Ruairi_VS_Morgant_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _g3_17_a_Ruairi_VS_Morgant_override_dark_lord;
 			}
@@ -10715,46 +10715,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7745;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.Items.Add(item0);
+				g3_17_a_Ruairi_VS_Morgant_override_player1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 14531456;
 				item1.Info.ColorB = 14531456;
 				item1.Info.ColorC = 14531456;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.Items.Add(item1);
+				g3_17_a_Ruairi_VS_Morgant_override_player1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15069);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.Items.Add(item2);
+				g3_17_a_Ruairi_VS_Morgant_override_player1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17032);
 				item3.Info.ColorA = 5648913;
 				item3.Info.ColorB = 16571605;
 				item3.Info.ColorC = 8235060;
 				item3.Info.Pocket = 7;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.Items.Add(item3);
+				g3_17_a_Ruairi_VS_Morgant_override_player1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18028);
 				item4.Info.ColorA = 6446916;
 				item4.Info.ColorB = 12632256;
 				item4.Info.ColorC = 6296681;
 				item4.Info.Pocket = 8;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.Items.Add(item4);
+				g3_17_a_Ruairi_VS_Morgant_override_player1.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(19004);
 				item5.Info.ColorA = 13269812;
 				item5.Info.ColorB = 11817009;
 				item5.Info.ColorC = 14335111;
 				item5.Info.FigureA = 1;
 				item5.Info.Pocket = 9;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.Items.Add(item5);
+				g3_17_a_Ruairi_VS_Morgant_override_player1.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40017);
 				item6.Info.ColorA = 14336956;
 				item6.Info.ColorB = 11194312;
 				item6.Info.ColorC = 11627338;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 11;
-				g3_17_a_Ruairi_VS_Morgant_override_player1.Items.Add(item6);
+				g3_17_a_Ruairi_VS_Morgant_override_player1.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _g3_17_a_Ruairi_VS_Morgant_override_player1;
 			}
@@ -10788,33 +10788,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6515565;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_17_a_Ruairi_VS_Morgant_override_player2.Items.Add(item0);
+				g3_17_a_Ruairi_VS_Morgant_override_player2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3028);
 				item1.Info.ColorA = 16754293;
 				item1.Info.ColorB = 16754293;
 				item1.Info.ColorC = 16754293;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_17_a_Ruairi_VS_Morgant_override_player2.Items.Add(item1);
+				g3_17_a_Ruairi_VS_Morgant_override_player2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15054);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				g3_17_a_Ruairi_VS_Morgant_override_player2.Items.Add(item2);
+				g3_17_a_Ruairi_VS_Morgant_override_player2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 8081712;
 				item3.Info.ColorB = 15119571;
 				item3.Info.ColorC = 22913;
 				item3.Info.Pocket = 7;
-				g3_17_a_Ruairi_VS_Morgant_override_player2.Items.Add(item3);
+				g3_17_a_Ruairi_VS_Morgant_override_player2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40029);
 				item4.Info.ColorA = 7629908;
 				item4.Info.ColorB = 11315480;
 				item4.Info.ColorC = 14659750;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				g3_17_a_Ruairi_VS_Morgant_override_player2.Items.Add(item4);
+				g3_17_a_Ruairi_VS_Morgant_override_player2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(45001);
 				item5.Info.Amount = 100;
 				item5.Info.ColorA = 24129;
@@ -10822,7 +10822,7 @@ public class CrystalBallBaseScript : NPCScript
 				item5.Info.ColorC = 16569951;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 14;
-				g3_17_a_Ruairi_VS_Morgant_override_player2.Items.Add(item5);
+				g3_17_a_Ruairi_VS_Morgant_override_player2.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _g3_17_a_Ruairi_VS_Morgant_override_player2;
 			}
@@ -10888,20 +10888,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				g3_12_a_DiscoverTheDragon_override_ghost_armor.Items.Add(item0);
+				g3_12_a_DiscoverTheDragon_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_12_a_DiscoverTheDragon_override_ghost_armor.Items.Add(item1);
+				g3_12_a_DiscoverTheDragon_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				g3_12_a_DiscoverTheDragon_override_ghost_armor.Items.Add(item2);
+				g3_12_a_DiscoverTheDragon_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _g3_12_a_DiscoverTheDragon_override_ghost_armor;
 			}
@@ -10934,26 +10934,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11551007;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_12_a_DiscoverTheDragon_override_kristell.Items.Add(item0);
+				g3_12_a_DiscoverTheDragon_override_kristell.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 15635326;
 				item1.Info.ColorB = 15635326;
 				item1.Info.ColorC = 15635326;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_12_a_DiscoverTheDragon_override_kristell.Items.Add(item1);
+				g3_12_a_DiscoverTheDragon_override_kristell.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15009);
 				item2.Info.ColorA = 3158323;
 				item2.Info.ColorB = 13031658;
 				item2.Info.ColorC = 14403393;
 				item2.Info.Pocket = 5;
-				g3_12_a_DiscoverTheDragon_override_kristell.Items.Add(item2);
+				g3_12_a_DiscoverTheDragon_override_kristell.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 3158323;
 				item3.Info.ColorB = 8113591;
 				item3.Info.ColorC = 7234917;
 				item3.Info.Pocket = 7;
-				g3_12_a_DiscoverTheDragon_override_kristell.Items.Add(item3);
+				g3_12_a_DiscoverTheDragon_override_kristell.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_12_a_DiscoverTheDragon_override_kristell;
 			}
@@ -10989,14 +10989,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				g3_12_a_DiscoverTheDragon_override_dark_lord.Items.Add(item0);
+				g3_12_a_DiscoverTheDragon_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_12_a_DiscoverTheDragon_override_dark_lord.Items.Add(item1);
+				g3_12_a_DiscoverTheDragon_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _g3_12_a_DiscoverTheDragon_override_dark_lord;
 			}
@@ -11030,26 +11030,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7323719;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_10_a_RuairiTriona_override_triona.Items.Add(item0);
+				g3_10_a_RuairiTriona_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_10_a_RuairiTriona_override_triona.Items.Add(item1);
+				g3_10_a_RuairiTriona_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				g3_10_a_RuairiTriona_override_triona.Items.Add(item2);
+				g3_10_a_RuairiTriona_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				g3_10_a_RuairiTriona_override_triona.Items.Add(item3);
+				g3_10_a_RuairiTriona_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_10_a_RuairiTriona_override_triona;
 			}
@@ -11082,33 +11082,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12677551;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_10_a_RuairiTriona_override_ruairi_dark.Items.Add(item0);
+				g3_10_a_RuairiTriona_override_ruairi_dark.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4958);
 				item1.Info.ColorA = 4291630100;
 				item1.Info.ColorB = 4291630100;
 				item1.Info.ColorC = 4291630100;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_10_a_RuairiTriona_override_ruairi_dark.Items.Add(item1);
+				g3_10_a_RuairiTriona_override_ruairi_dark.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15120);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4285085253;
 				item2.Info.ColorC = 4294570743;
 				item2.Info.Pocket = 5;
-				g3_10_a_RuairiTriona_override_ruairi_dark.Items.Add(item2);
+				g3_10_a_RuairiTriona_override_ruairi_dark.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 4286207297;
 				item3.Info.ColorB = 4283903301;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 7;
-				g3_10_a_RuairiTriona_override_ruairi_dark.Items.Add(item3);
+				g3_10_a_RuairiTriona_override_ruairi_dark.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40033);
 				item4.Info.ColorA = 4279571228;
 				item4.Info.ColorB = 4293440362;
 				item4.Info.ColorC = 4280558377;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				g3_10_a_RuairiTriona_override_ruairi_dark.Items.Add(item4);
+				g3_10_a_RuairiTriona_override_ruairi_dark.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_10_a_RuairiTriona_override_ruairi_dark;
 			}
@@ -11141,33 +11141,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12677551;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_e_MeetRuairi_override_ruairi_dark.Items.Add(item0);
+				g3_06_e_MeetRuairi_override_ruairi_dark.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4958);
 				item1.Info.ColorA = 4291630100;
 				item1.Info.ColorB = 4291630100;
 				item1.Info.ColorC = 4291630100;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_e_MeetRuairi_override_ruairi_dark.Items.Add(item1);
+				g3_06_e_MeetRuairi_override_ruairi_dark.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15120);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4285085253;
 				item2.Info.ColorC = 4294570743;
 				item2.Info.Pocket = 5;
-				g3_06_e_MeetRuairi_override_ruairi_dark.Items.Add(item2);
+				g3_06_e_MeetRuairi_override_ruairi_dark.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 4286207297;
 				item3.Info.ColorB = 4283903301;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 7;
-				g3_06_e_MeetRuairi_override_ruairi_dark.Items.Add(item3);
+				g3_06_e_MeetRuairi_override_ruairi_dark.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40033);
 				item4.Info.ColorA = 4279571228;
 				item4.Info.ColorB = 4293440362;
 				item4.Info.ColorC = 4280558377;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				g3_06_e_MeetRuairi_override_ruairi_dark.Items.Add(item4);
+				g3_06_e_MeetRuairi_override_ruairi_dark.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_e_MeetRuairi_override_ruairi_dark;
 			}
@@ -11204,20 +11204,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				g3_06_e_MeetRuairi_override_ghost_armor.Items.Add(item0);
+				g3_06_e_MeetRuairi_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_06_e_MeetRuairi_override_ghost_armor.Items.Add(item1);
+				g3_06_e_MeetRuairi_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				g3_06_e_MeetRuairi_override_ghost_armor.Items.Add(item2);
+				g3_06_e_MeetRuairi_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _g3_06_e_MeetRuairi_override_ghost_armor;
 			}
@@ -11282,14 +11282,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				g3_06_e_MeetRuairi_override_dark_lord.Items.Add(item0);
+				g3_06_e_MeetRuairi_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_06_e_MeetRuairi_override_dark_lord.Items.Add(item1);
+				g3_06_e_MeetRuairi_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _g3_06_e_MeetRuairi_override_dark_lord;
 			}
@@ -11322,32 +11322,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 5273123;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_e_MeetRuairi_override_price.Items.Add(item0);
+				g3_06_e_MeetRuairi_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_e_MeetRuairi_override_price.Items.Add(item1);
+				g3_06_e_MeetRuairi_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				g3_06_e_MeetRuairi_override_price.Items.Add(item2);
+				g3_06_e_MeetRuairi_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				g3_06_e_MeetRuairi_override_price.Items.Add(item3);
+				g3_06_e_MeetRuairi_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				g3_06_e_MeetRuairi_override_price.Items.Add(item4);
+				g3_06_e_MeetRuairi_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_e_MeetRuairi_override_price;
 			}
@@ -11380,33 +11380,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12677551;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_d_GrandBattle_override_ruairi_dark.Items.Add(item0);
+				g3_06_d_GrandBattle_override_ruairi_dark.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4958);
 				item1.Info.ColorA = 4291630100;
 				item1.Info.ColorB = 4291630100;
 				item1.Info.ColorC = 4291630100;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_d_GrandBattle_override_ruairi_dark.Items.Add(item1);
+				g3_06_d_GrandBattle_override_ruairi_dark.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15120);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4285085253;
 				item2.Info.ColorC = 4294570743;
 				item2.Info.Pocket = 5;
-				g3_06_d_GrandBattle_override_ruairi_dark.Items.Add(item2);
+				g3_06_d_GrandBattle_override_ruairi_dark.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 4286207297;
 				item3.Info.ColorB = 4283903301;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 7;
-				g3_06_d_GrandBattle_override_ruairi_dark.Items.Add(item3);
+				g3_06_d_GrandBattle_override_ruairi_dark.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40033);
 				item4.Info.ColorA = 4279571228;
 				item4.Info.ColorB = 4293440362;
 				item4.Info.ColorC = 4280558377;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				g3_06_d_GrandBattle_override_ruairi_dark.Items.Add(item4);
+				g3_06_d_GrandBattle_override_ruairi_dark.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_d_GrandBattle_override_ruairi_dark;
 			}
@@ -11443,20 +11443,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				g3_06_d_GrandBattle_override_ghost_armor.Items.Add(item0);
+				g3_06_d_GrandBattle_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_06_d_GrandBattle_override_ghost_armor.Items.Add(item1);
+				g3_06_d_GrandBattle_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				g3_06_d_GrandBattle_override_ghost_armor.Items.Add(item2);
+				g3_06_d_GrandBattle_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _g3_06_d_GrandBattle_override_ghost_armor;
 			}
@@ -11490,27 +11490,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13804828;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_d_GrandBattle_override_craig.Items.Add(item0);
+				g3_06_d_GrandBattle_override_craig.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 4534290;
 				item1.Info.ColorB = 4534290;
 				item1.Info.ColorC = 4534290;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_d_GrandBattle_override_craig.Items.Add(item1);
+				g3_06_d_GrandBattle_override_craig.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13024);
 				item2.Info.ColorA = 9532763;
 				item2.Info.ColorB = 4600868;
 				item2.Info.ColorC = 3548187;
 				item2.Info.Pocket = 5;
-				g3_06_d_GrandBattle_override_craig.Items.Add(item2);
+				g3_06_d_GrandBattle_override_craig.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40033);
 				item3.Info.ColorA = 12039864;
 				item3.Info.ColorB = 12878406;
 				item3.Info.ColorC = 10137506;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				g3_06_d_GrandBattle_override_craig.Items.Add(item3);
+				g3_06_d_GrandBattle_override_craig.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_d_GrandBattle_override_craig;
 			}
@@ -11543,45 +11543,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7369329;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_d_GrandBattle_override_paladin_traniee.Items.Add(item0);
+				g3_06_d_GrandBattle_override_paladin_traniee.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 10256997;
 				item1.Info.ColorB = 10256997;
 				item1.Info.ColorC = 10256997;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_d_GrandBattle_override_paladin_traniee.Items.Add(item1);
+				g3_06_d_GrandBattle_override_paladin_traniee.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(13011);
 				item2.Info.ColorA = 3154461;
 				item2.Info.ColorB = 12367537;
 				item2.Info.ColorC = 11972777;
 				item2.Info.Pocket = 5;
-				g3_06_d_GrandBattle_override_paladin_traniee.Items.Add(item2);
+				g3_06_d_GrandBattle_override_paladin_traniee.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16503);
 				item3.Info.ColorA = 10258561;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 6;
-				g3_06_d_GrandBattle_override_paladin_traniee.Items.Add(item3);
+				g3_06_d_GrandBattle_override_paladin_traniee.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17508);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 7;
-				g3_06_d_GrandBattle_override_paladin_traniee.Items.Add(item4);
+				g3_06_d_GrandBattle_override_paladin_traniee.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(18511);
 				item5.Info.ColorA = 4288446819;
 				item5.Info.ColorB = 16777215;
 				item5.Info.ColorC = 16777215;
 				item5.Info.Pocket = 8;
-				g3_06_d_GrandBattle_override_paladin_traniee.Items.Add(item5);
+				g3_06_d_GrandBattle_override_paladin_traniee.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40030);
 				item6.Info.ColorA = 12632256;
 				item6.Info.ColorB = 3163460;
 				item6.Info.ColorC = 16777215;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 10;
-				g3_06_d_GrandBattle_override_paladin_traniee.Items.Add(item6);
+				g3_06_d_GrandBattle_override_paladin_traniee.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _g3_06_d_GrandBattle_override_paladin_traniee;
 			}
@@ -11618,20 +11618,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				g3_06_c_DestroyStatue_override_ghost_armor.Items.Add(item0);
+				g3_06_c_DestroyStatue_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_06_c_DestroyStatue_override_ghost_armor.Items.Add(item1);
+				g3_06_c_DestroyStatue_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				g3_06_c_DestroyStatue_override_ghost_armor.Items.Add(item2);
+				g3_06_c_DestroyStatue_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _g3_06_c_DestroyStatue_override_ghost_armor;
 			}
@@ -11664,33 +11664,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12677551;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_c_DestroyStatue_override_ruairi_dark.Items.Add(item0);
+				g3_06_c_DestroyStatue_override_ruairi_dark.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4958);
 				item1.Info.ColorA = 4291630100;
 				item1.Info.ColorB = 4291630100;
 				item1.Info.ColorC = 4291630100;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_c_DestroyStatue_override_ruairi_dark.Items.Add(item1);
+				g3_06_c_DestroyStatue_override_ruairi_dark.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15120);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4285085253;
 				item2.Info.ColorC = 4294570743;
 				item2.Info.Pocket = 5;
-				g3_06_c_DestroyStatue_override_ruairi_dark.Items.Add(item2);
+				g3_06_c_DestroyStatue_override_ruairi_dark.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 4286207297;
 				item3.Info.ColorB = 4283903301;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 7;
-				g3_06_c_DestroyStatue_override_ruairi_dark.Items.Add(item3);
+				g3_06_c_DestroyStatue_override_ruairi_dark.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40033);
 				item4.Info.ColorA = 4279571228;
 				item4.Info.ColorB = 4293440362;
 				item4.Info.ColorC = 4280558377;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				g3_06_c_DestroyStatue_override_ruairi_dark.Items.Add(item4);
+				g3_06_c_DestroyStatue_override_ruairi_dark.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_c_DestroyStatue_override_ruairi_dark;
 			}
@@ -11724,25 +11724,25 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16358476;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_b_Redire_override_comgan.Items.Add(item0);
+				g3_06_b_Redire_override_comgan.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 268435455;
 				item1.Info.ColorB = 268435455;
 				item1.Info.ColorC = 268435455;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_b_Redire_override_comgan.Items.Add(item1);
+				g3_06_b_Redire_override_comgan.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15060);
 				item2.Info.ColorA = 4194304;
 				item2.Info.ColorB = 15788701;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_06_b_Redire_override_comgan.Items.Add(item2);
+				g3_06_b_Redire_override_comgan.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorB = 16016267;
 				item3.Info.ColorC = 16379748;
 				item3.Info.Pocket = 7;
-				g3_06_b_Redire_override_comgan.Items.Add(item3);
+				g3_06_b_Redire_override_comgan.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_b_Redire_override_comgan;
 			}
@@ -11776,32 +11776,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16770698;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_b_Redire_override_riocard.Items.Add(item0);
+				g3_06_b_Redire_override_riocard.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4001);
 				item1.Info.ColorA = 11500340;
 				item1.Info.ColorB = 11500340;
 				item1.Info.ColorC = 11500340;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_b_Redire_override_riocard.Items.Add(item1);
+				g3_06_b_Redire_override_riocard.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15040);
 				item2.Info.ColorA = 15715915;
 				item2.Info.ColorB = 11911806;
 				item2.Info.ColorC = 3626303;
 				item2.Info.Pocket = 5;
-				g3_06_b_Redire_override_riocard.Items.Add(item2);
+				g3_06_b_Redire_override_riocard.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17010);
 				item3.Info.ColorA = 5317922;
 				item3.Info.ColorB = 10354805;
 				item3.Info.ColorC = 12058741;
 				item3.Info.Pocket = 7;
-				g3_06_b_Redire_override_riocard.Items.Add(item3);
+				g3_06_b_Redire_override_riocard.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18007);
 				item4.Info.ColorA = 15715915;
 				item4.Info.ColorB = 7124196;
 				item4.Info.ColorC = 108688;
 				item4.Info.Pocket = 8;
-				g3_06_b_Redire_override_riocard.Items.Add(item4);
+				g3_06_b_Redire_override_riocard.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_b_Redire_override_riocard;
 			}
@@ -11835,25 +11835,25 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16161065;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_b_Redire_override_jenifer.Items.Add(item0);
+				g3_06_b_Redire_override_jenifer.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3001);
 				item1.Info.ColorA = 2362394;
 				item1.Info.ColorB = 2362394;
 				item1.Info.ColorC = 2362394;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_b_Redire_override_jenifer.Items.Add(item1);
+				g3_06_b_Redire_override_jenifer.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15020);
 				item2.Info.ColorA = 16354436;
 				item2.Info.ColorB = 16506327;
 				item2.Info.ColorC = 3478289;
 				item2.Info.Pocket = 5;
-				g3_06_b_Redire_override_jenifer.Items.Add(item2);
+				g3_06_b_Redire_override_jenifer.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17013);
 				item3.Info.ColorB = 3565921;
 				item3.Info.ColorC = 14341867;
 				item3.Info.Pocket = 7;
-				g3_06_b_Redire_override_jenifer.Items.Add(item3);
+				g3_06_b_Redire_override_jenifer.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_b_Redire_override_jenifer;
 			}
@@ -11884,13 +11884,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9776656;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				g3_06_b_Redire_override_goblin.Items.Add(item0);
+				g3_06_b_Redire_override_goblin.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(46001);
 				item1.Info.ColorA = 10730112;
 				item1.Info.ColorB = 7626031;
 				item1.Info.ColorC = 9012672;
 				item1.Info.Pocket = 12;
-				g3_06_b_Redire_override_goblin.Items.Add(item1);
+				g3_06_b_Redire_override_goblin.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _g3_06_b_Redire_override_goblin;
 			}
@@ -11923,32 +11923,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 5273123;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_b_Redire_override_price.Items.Add(item0);
+				g3_06_b_Redire_override_price.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 12698264;
 				item1.Info.ColorB = 12698264;
 				item1.Info.ColorC = 12698264;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_b_Redire_override_price.Items.Add(item1);
+				g3_06_b_Redire_override_price.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15052);
 				item2.Info.ColorA = 9989195;
 				item2.Info.ColorB = 1580563;
 				item2.Info.ColorC = 12759966;
 				item2.Info.Pocket = 5;
-				g3_06_b_Redire_override_price.Items.Add(item2);
+				g3_06_b_Redire_override_price.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17044);
 				item3.Info.ColorA = 7624238;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				g3_06_b_Redire_override_price.Items.Add(item3);
+				g3_06_b_Redire_override_price.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18024);
 				item4.Info.ColorA = 5141105;
 				item4.Info.ColorB = 2371887;
 				item4.Info.ColorC = 16777215;
 				item4.Info.Pocket = 8;
-				g3_06_b_Redire_override_price.Items.Add(item4);
+				g3_06_b_Redire_override_price.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_b_Redire_override_price;
 			}
@@ -11982,33 +11982,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16773408;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_09_Runda_override_james.Items.Add(item0);
+				g3_06_a_DungeonRecovery_09_Runda_override_james.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 14725206;
 				item1.Info.ColorB = 14725206;
 				item1.Info.ColorC = 14725206;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_09_Runda_override_james.Items.Add(item1);
+				g3_06_a_DungeonRecovery_09_Runda_override_james.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15081);
 				item2.Info.ColorA = 5851443;
 				item2.Info.ColorB = 6908265;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_09_Runda_override_james.Items.Add(item2);
+				g3_06_a_DungeonRecovery_09_Runda_override_james.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17012);
 				item3.Info.ColorA = 5265458;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 4934475;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_09_Runda_override_james.Items.Add(item3);
+				g3_06_a_DungeonRecovery_09_Runda_override_james.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18091);
 				item4.Info.ColorA = 7631988;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 8;
-				g3_06_a_DungeonRecovery_09_Runda_override_james.Items.Add(item4);
+				g3_06_a_DungeonRecovery_09_Runda_override_james.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_a_DungeonRecovery_09_Runda_override_james;
 			}
@@ -12042,33 +12042,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16773408;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_08_Coil_override_james.Items.Add(item0);
+				g3_06_a_DungeonRecovery_08_Coil_override_james.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 14725206;
 				item1.Info.ColorB = 14725206;
 				item1.Info.ColorC = 14725206;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_08_Coil_override_james.Items.Add(item1);
+				g3_06_a_DungeonRecovery_08_Coil_override_james.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15081);
 				item2.Info.ColorA = 5851443;
 				item2.Info.ColorB = 6908265;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_08_Coil_override_james.Items.Add(item2);
+				g3_06_a_DungeonRecovery_08_Coil_override_james.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17012);
 				item3.Info.ColorA = 5265458;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 4934475;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_08_Coil_override_james.Items.Add(item3);
+				g3_06_a_DungeonRecovery_08_Coil_override_james.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18091);
 				item4.Info.ColorA = 7631988;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 8;
-				g3_06_a_DungeonRecovery_08_Coil_override_james.Items.Add(item4);
+				g3_06_a_DungeonRecovery_08_Coil_override_james.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_a_DungeonRecovery_08_Coil_override_james;
 			}
@@ -12102,33 +12102,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16773408;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_07_Peaca_override_james.Items.Add(item0);
+				g3_06_a_DungeonRecovery_07_Peaca_override_james.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 14725206;
 				item1.Info.ColorB = 14725206;
 				item1.Info.ColorC = 14725206;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_07_Peaca_override_james.Items.Add(item1);
+				g3_06_a_DungeonRecovery_07_Peaca_override_james.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15081);
 				item2.Info.ColorA = 5851443;
 				item2.Info.ColorB = 6908265;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_07_Peaca_override_james.Items.Add(item2);
+				g3_06_a_DungeonRecovery_07_Peaca_override_james.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17012);
 				item3.Info.ColorA = 5265458;
 				item3.Info.ColorB = 16777215;
 				item3.Info.ColorC = 4934475;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_07_Peaca_override_james.Items.Add(item3);
+				g3_06_a_DungeonRecovery_07_Peaca_override_james.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18091);
 				item4.Info.ColorA = 7631988;
 				item4.Info.ColorB = 16777215;
 				item4.Info.ColorC = 16777215;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 8;
-				g3_06_a_DungeonRecovery_07_Peaca_override_james.Items.Add(item4);
+				g3_06_a_DungeonRecovery_07_Peaca_override_james.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_06_a_DungeonRecovery_07_Peaca_override_james;
 			}
@@ -12162,25 +12162,25 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16358476;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Items.Add(item0);
+				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 268435455;
 				item1.Info.ColorB = 268435455;
 				item1.Info.ColorC = 268435455;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Items.Add(item1);
+				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15060);
 				item2.Info.ColorA = 4194304;
 				item2.Info.ColorB = 15788701;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Items.Add(item2);
+				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorB = 16016267;
 				item3.Info.ColorC = 16379748;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Items.Add(item3);
+				g3_06_a_DungeonRecovery_06_Fiodh_override_comgan.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_a_DungeonRecovery_06_Fiodh_override_comgan;
 			}
@@ -12214,25 +12214,25 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16358476;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Items.Add(item0);
+				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 268435455;
 				item1.Info.ColorB = 268435455;
 				item1.Info.ColorC = 268435455;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Items.Add(item1);
+				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15060);
 				item2.Info.ColorA = 4194304;
 				item2.Info.ColorB = 15788701;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Items.Add(item2);
+				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorB = 16016267;
 				item3.Info.ColorC = 16379748;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Items.Add(item3);
+				g3_06_a_DungeonRecovery_05_Barri_override_comgan.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_a_DungeonRecovery_05_Barri_override_comgan;
 			}
@@ -12265,26 +12265,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11551007;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_04_Math_override_kristell.Items.Add(item0);
+				g3_06_a_DungeonRecovery_04_Math_override_kristell.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 15635326;
 				item1.Info.ColorB = 15635326;
 				item1.Info.ColorC = 15635326;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_04_Math_override_kristell.Items.Add(item1);
+				g3_06_a_DungeonRecovery_04_Math_override_kristell.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15009);
 				item2.Info.ColorA = 3158323;
 				item2.Info.ColorB = 13031658;
 				item2.Info.ColorC = 14403393;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_04_Math_override_kristell.Items.Add(item2);
+				g3_06_a_DungeonRecovery_04_Math_override_kristell.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 3158323;
 				item3.Info.ColorB = 8113591;
 				item3.Info.ColorC = 7234917;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_04_Math_override_kristell.Items.Add(item3);
+				g3_06_a_DungeonRecovery_04_Math_override_kristell.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_a_DungeonRecovery_04_Math_override_kristell;
 			}
@@ -12317,26 +12317,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11551007;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Items.Add(item0);
+				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 15635326;
 				item1.Info.ColorB = 15635326;
 				item1.Info.ColorC = 15635326;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Items.Add(item1);
+				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15009);
 				item2.Info.ColorA = 3158323;
 				item2.Info.ColorB = 13031658;
 				item2.Info.ColorC = 14403393;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Items.Add(item2);
+				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 3158323;
 				item3.Info.ColorB = 8113591;
 				item3.Info.ColorC = 7234917;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Items.Add(item3);
+				g3_06_a_DungeonRecovery_03_Rabbie_override_kristell.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_a_DungeonRecovery_03_Rabbie_override_kristell;
 			}
@@ -12367,26 +12367,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 196650;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Items.Add(item0);
+				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3022);
 				item1.Info.ColorA = 6177342;
 				item1.Info.ColorB = 6177342;
 				item1.Info.ColorC = 6177342;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Items.Add(item1);
+				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15009);
 				item2.Info.ColorA = 3158323;
 				item2.Info.ColorB = 13031658;
 				item2.Info.ColorC = 14403393;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Items.Add(item2);
+				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 3158323;
 				item3.Info.ColorB = 10523261;
 				item3.Info.ColorC = 5198989;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Items.Add(item3);
+				g3_06_a_DungeonRecovery_02_Ciar_override_endelyon.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_a_DungeonRecovery_02_Ciar_override_endelyon;
 			}
@@ -12417,26 +12417,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 196650;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Items.Add(item0);
+				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3022);
 				item1.Info.ColorA = 6177342;
 				item1.Info.ColorB = 6177342;
 				item1.Info.ColorC = 6177342;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Items.Add(item1);
+				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15009);
 				item2.Info.ColorA = 3158323;
 				item2.Info.ColorB = 13031658;
 				item2.Info.ColorC = 14403393;
 				item2.Info.Pocket = 5;
-				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Items.Add(item2);
+				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17015);
 				item3.Info.ColorA = 3158323;
 				item3.Info.ColorB = 10523261;
 				item3.Info.ColorC = 5198989;
 				item3.Info.Pocket = 7;
-				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Items.Add(item3);
+				g3_06_a_DungeonRecovery_01_Alby_override_endelyon.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_06_a_DungeonRecovery_01_Alby_override_endelyon;
 			}
@@ -12473,20 +12473,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 5716254;
 				item0.Info.ColorC = 10196898;
 				item0.Info.Pocket = 5;
-				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Items.Add(item0);
+				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40012);
 				item1.Info.ColorA = 13421772;
 				item1.Info.ColorB = 15575117;
 				item1.Info.ColorC = 7501682;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Items.Add(item1);
+				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40906);
 				item2.Info.ColorA = 4671303;
 				item2.Info.ColorB = 4548435;
 				item2.Info.ColorC = 569282;
 				item2.Info.Pocket = 12;
-				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Items.Add(item2);
+				g3_05_a_RuairiBeDarkKnight_override_ghost_armor.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _g3_05_a_RuairiBeDarkKnight_override_ghost_armor;
 			}
@@ -12519,33 +12519,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12677551;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Items.Add(item0);
+				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4958);
 				item1.Info.ColorA = 4291630100;
 				item1.Info.ColorB = 4291630100;
 				item1.Info.ColorC = 4291630100;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Items.Add(item1);
+				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15120);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4285085253;
 				item2.Info.ColorC = 4294570743;
 				item2.Info.Pocket = 5;
-				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Items.Add(item2);
+				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 4286207297;
 				item3.Info.ColorB = 4283903301;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 7;
-				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Items.Add(item3);
+				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40033);
 				item4.Info.ColorA = 4279571228;
 				item4.Info.ColorB = 4293440362;
 				item4.Info.ColorC = 4280558377;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Items.Add(item4);
+				g3_05_a_RuairiBeDarkKnight_override_ruairi_dark.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_05_a_RuairiBeDarkKnight_override_ruairi_dark;
 			}
@@ -12610,14 +12610,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				g3_05_a_RuairiBeDarkKnight_override_dark_lord.Items.Add(item0);
+				g3_05_a_RuairiBeDarkKnight_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				g3_05_a_RuairiBeDarkKnight_override_dark_lord.Items.Add(item1);
+				g3_05_a_RuairiBeDarkKnight_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _g3_05_a_RuairiBeDarkKnight_override_dark_lord;
 			}
@@ -12651,26 +12651,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7323719;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_03_a_RuairisDream_override_triona.Items.Add(item0);
+				g3_03_a_RuairisDream_override_triona.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4954);
 				item1.Info.ColorA = 10442302;
 				item1.Info.ColorB = 10442302;
 				item1.Info.ColorC = 10442302;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_03_a_RuairisDream_override_triona.Items.Add(item1);
+				g3_03_a_RuairisDream_override_triona.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15088);
 				item2.Info.ColorA = 7948849;
 				item2.Info.ColorB = 11964265;
 				item2.Info.ColorC = 15189935;
 				item2.Info.Pocket = 5;
-				g3_03_a_RuairisDream_override_triona.Items.Add(item2);
+				g3_03_a_RuairisDream_override_triona.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17511);
 				item3.Info.ColorA = 8476223;
 				item3.Info.ColorB = 5977380;
 				item3.Info.ColorC = 5911591;
 				item3.Info.Pocket = 7;
-				g3_03_a_RuairisDream_override_triona.Items.Add(item3);
+				g3_03_a_RuairisDream_override_triona.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g3_03_a_RuairisDream_override_triona;
 			}
@@ -12703,33 +12703,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12428750;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g3_03_a_RuairisDream_override_ruari_r.Items.Add(item0);
+				g3_03_a_RuairisDream_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g3_03_a_RuairisDream_override_ruari_r.Items.Add(item1);
+				g3_03_a_RuairisDream_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				g3_03_a_RuairisDream_override_ruari_r.Items.Add(item2);
+				g3_03_a_RuairisDream_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				g3_03_a_RuairisDream_override_ruari_r.Items.Add(item3);
+				g3_03_a_RuairisDream_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				g3_03_a_RuairisDream_override_ruari_r.Items.Add(item4);
+				g3_03_a_RuairisDream_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g3_03_a_RuairisDream_override_ruari_r;
 			}
@@ -12844,33 +12844,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16639211;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				Dungeon_success_atrata_override_atrata.Items.Add(item0);
+				Dungeon_success_atrata_override_atrata.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5002);
 				item1.Info.ColorA = 726045;
 				item1.Info.ColorB = 726045;
 				item1.Info.ColorC = 726045;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				Dungeon_success_atrata_override_atrata.Items.Add(item1);
+				Dungeon_success_atrata_override_atrata.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(17024);
 				item2.Info.ColorA = 3806250;
 				item2.Info.ColorB = 6068988;
 				item2.Info.ColorC = 4697073;
 				item2.Info.Pocket = 7;
-				Dungeon_success_atrata_override_atrata.Items.Add(item2);
+				Dungeon_success_atrata_override_atrata.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18128);
 				item3.Info.ColorA = 16777215;
 				item3.Info.ColorB = 9936121;
 				item3.Info.ColorC = 4587736;
 				item3.Info.Pocket = 8;
-				Dungeon_success_atrata_override_atrata.Items.Add(item3);
+				Dungeon_success_atrata_override_atrata.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19022);
 				item4.Info.ColorA = 15701664;
 				item4.Info.ColorB = 5967403;
 				item4.Info.ColorC = 1508383;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				Dungeon_success_atrata_override_atrata.Items.Add(item4);
+				Dungeon_success_atrata_override_atrata.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _Dungeon_success_atrata_override_atrata;
 			}
@@ -12956,7 +12956,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6385735;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				g7s3_rp_03_override_DesertFanaticSpecter2.Items.Add(item0);
+				g7s3_rp_03_override_DesertFanaticSpecter2.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _g7s3_rp_03_override_DesertFanaticSpecter2;
 			}
@@ -12989,7 +12989,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16777215;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				g7s3_rp_03_override_DesertFanaticPriestSpecter.Items.Add(item0);
+				g7s3_rp_03_override_DesertFanaticPriestSpecter.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _g7s3_rp_03_override_DesertFanaticPriestSpecter;
 			}
@@ -13023,32 +13023,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9902157;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g7s3_rp_03_override_castanea.Items.Add(item0);
+				g7s3_rp_03_override_castanea.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5003);
 				item1.Info.ColorA = 9593479;
 				item1.Info.ColorB = 9593479;
 				item1.Info.ColorC = 9593479;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g7s3_rp_03_override_castanea.Items.Add(item1);
+				g7s3_rp_03_override_castanea.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15169);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4278667642;
 				item2.Info.ColorC = 4278667642;
 				item2.Info.Pocket = 5;
-				g7s3_rp_03_override_castanea.Items.Add(item2);
+				g7s3_rp_03_override_castanea.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17065);
 				item3.Info.ColorA = 854808;
 				item3.Info.ColorB = 722182;
 				item3.Info.ColorC = 9728512;
 				item3.Info.Pocket = 7;
-				g7s3_rp_03_override_castanea.Items.Add(item3);
+				g7s3_rp_03_override_castanea.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19010);
 				item4.Info.ColorA = 2884361;
 				item4.Info.ColorC = 6362418;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				g7s3_rp_03_override_castanea.Items.Add(item4);
+				g7s3_rp_03_override_castanea.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g7s3_rp_03_override_castanea;
 			}
@@ -13081,7 +13081,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16777215;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				g7s3_rp_02_override_DesertFanaticPriestSpecter.Items.Add(item0);
+				g7s3_rp_02_override_DesertFanaticPriestSpecter.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _g7s3_rp_02_override_DesertFanaticPriestSpecter;
 			}
@@ -13140,7 +13140,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16777215;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				g7s3_rp_01_override_DesertFanaticPriestSpecter.Items.Add(item0);
+				g7s3_rp_01_override_DesertFanaticPriestSpecter.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _g7s3_rp_01_override_DesertFanaticPriestSpecter;
 			}
@@ -13173,33 +13173,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12428750;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g8s1_ending_override_ruari_r.Items.Add(item0);
+				g8s1_ending_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g8s1_ending_override_ruari_r.Items.Add(item1);
+				g8s1_ending_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				g8s1_ending_override_ruari_r.Items.Add(item2);
+				g8s1_ending_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				g8s1_ending_override_ruari_r.Items.Add(item3);
+				g8s1_ending_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				g8s1_ending_override_ruari_r.Items.Add(item4);
+				g8s1_ending_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g8s1_ending_override_ruari_r;
 			}
@@ -13234,26 +13234,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 1780091;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g8s1_ending_override_carasek.Items.Add(item0);
+				g8s1_ending_override_carasek.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4021);
 				item1.Info.ColorA = 4293516226;
 				item1.Info.ColorB = 4293516226;
 				item1.Info.ColorC = 4293516226;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g8s1_ending_override_carasek.Items.Add(item1);
+				g8s1_ending_override_carasek.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15007);
 				item2.Info.ColorA = 4278326560;
 				item2.Info.ColorB = 4278589485;
 				item2.Info.ColorC = 4278190080;
 				item2.Info.Pocket = 5;
-				g8s1_ending_override_carasek.Items.Add(item2);
+				g8s1_ending_override_carasek.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17055);
 				item3.Info.ColorA = 4278389522;
 				item3.Info.ColorB = 4278190080;
 				item3.Info.ColorC = 16777215;
 				item3.Info.Pocket = 7;
-				g8s1_ending_override_carasek.Items.Add(item3);
+				g8s1_ending_override_carasek.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _g8s1_ending_override_carasek;
 			}
@@ -13313,33 +13313,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16639211;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g8s1_kill_red_dragon_override_atrata.Items.Add(item0);
+				g8s1_kill_red_dragon_override_atrata.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5002);
 				item1.Info.ColorA = 726045;
 				item1.Info.ColorB = 726045;
 				item1.Info.ColorC = 726045;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g8s1_kill_red_dragon_override_atrata.Items.Add(item1);
+				g8s1_kill_red_dragon_override_atrata.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(17024);
 				item2.Info.ColorA = 3806250;
 				item2.Info.ColorB = 6068988;
 				item2.Info.ColorC = 4697073;
 				item2.Info.Pocket = 7;
-				g8s1_kill_red_dragon_override_atrata.Items.Add(item2);
+				g8s1_kill_red_dragon_override_atrata.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18128);
 				item3.Info.ColorA = 16777215;
 				item3.Info.ColorB = 9936121;
 				item3.Info.ColorC = 4587736;
 				item3.Info.Pocket = 8;
-				g8s1_kill_red_dragon_override_atrata.Items.Add(item3);
+				g8s1_kill_red_dragon_override_atrata.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19022);
 				item4.Info.ColorA = 15701664;
 				item4.Info.ColorB = 5967403;
 				item4.Info.ColorC = 1508383;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				g8s1_kill_red_dragon_override_atrata.Items.Add(item4);
+				g8s1_kill_red_dragon_override_atrata.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g8s1_kill_red_dragon_override_atrata;
 			}
@@ -13373,7 +13373,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.FigureA = 1;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				g8s1_kill_red_dragon_override_taunes_sword.Items.Add(item0);
+				g8s1_kill_red_dragon_override_taunes_sword.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _g8s1_kill_red_dragon_override_taunes_sword;
 			}
@@ -13485,33 +13485,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12428750;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g8s1_kill_red_dragon_override_ruari_r.Items.Add(item0);
+				g8s1_kill_red_dragon_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g8s1_kill_red_dragon_override_ruari_r.Items.Add(item1);
+				g8s1_kill_red_dragon_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				g8s1_kill_red_dragon_override_ruari_r.Items.Add(item2);
+				g8s1_kill_red_dragon_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				g8s1_kill_red_dragon_override_ruari_r.Items.Add(item3);
+				g8s1_kill_red_dragon_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				g8s1_kill_red_dragon_override_ruari_r.Items.Add(item4);
+				g8s1_kill_red_dragon_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g8s1_kill_red_dragon_override_ruari_r;
 			}
@@ -13571,33 +13571,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16639211;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				g8s1_GoldDragon2_override_atrata.Items.Add(item0);
+				g8s1_GoldDragon2_override_atrata.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5002);
 				item1.Info.ColorA = 726045;
 				item1.Info.ColorB = 726045;
 				item1.Info.ColorC = 726045;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				g8s1_GoldDragon2_override_atrata.Items.Add(item1);
+				g8s1_GoldDragon2_override_atrata.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(17024);
 				item2.Info.ColorA = 3806250;
 				item2.Info.ColorB = 6068988;
 				item2.Info.ColorC = 4697073;
 				item2.Info.Pocket = 7;
-				g8s1_GoldDragon2_override_atrata.Items.Add(item2);
+				g8s1_GoldDragon2_override_atrata.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18128);
 				item3.Info.ColorA = 16777215;
 				item3.Info.ColorB = 9936121;
 				item3.Info.ColorC = 4587736;
 				item3.Info.Pocket = 8;
-				g8s1_GoldDragon2_override_atrata.Items.Add(item3);
+				g8s1_GoldDragon2_override_atrata.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19022);
 				item4.Info.ColorA = 15701664;
 				item4.Info.ColorB = 5967403;
 				item4.Info.ColorC = 1508383;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				g8s1_GoldDragon2_override_atrata.Items.Add(item4);
+				g8s1_GoldDragon2_override_atrata.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _g8s1_GoldDragon2_override_atrata;
 			}
@@ -13656,33 +13656,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12428750;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				meet_Ruari_override_ruari_r.Items.Add(item0);
+				meet_Ruari_override_ruari_r.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4029);
 				item1.Info.ColorA = 12263439;
 				item1.Info.ColorB = 12263439;
 				item1.Info.ColorC = 12263439;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				meet_Ruari_override_ruari_r.Items.Add(item1);
+				meet_Ruari_override_ruari_r.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15005);
 				item2.Info.ColorA = 13610868;
 				item2.Info.ColorB = 8148767;
 				item2.Info.ColorC = 9660234;
 				item2.Info.Pocket = 5;
-				meet_Ruari_override_ruari_r.Items.Add(item2);
+				meet_Ruari_override_ruari_r.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17003);
 				item3.Info.ColorA = 3282446;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				meet_Ruari_override_ruari_r.Items.Add(item3);
+				meet_Ruari_override_ruari_r.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19006);
 				item4.Info.ColorA = 1185816;
 				item4.Info.ColorB = 13010528;
 				item4.Info.ColorC = 9272690;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				meet_Ruari_override_ruari_r.Items.Add(item4);
+				meet_Ruari_override_ruari_r.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _meet_Ruari_override_ruari_r;
 			}
@@ -13784,26 +13784,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 33990;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				surveying_volcanism_override_belita.Items.Add(item0);
+				surveying_volcanism_override_belita.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3018);
 				item1.Info.ColorA = 2956820;
 				item1.Info.ColorB = 2956820;
 				item1.Info.ColorC = 2956820;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				surveying_volcanism_override_belita.Items.Add(item1);
+				surveying_volcanism_override_belita.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15301);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				surveying_volcanism_override_belita.Items.Add(item2);
+				surveying_volcanism_override_belita.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17061);
 				item3.Info.ColorA = 3289395;
 				item3.Info.ColorB = 4275522;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				surveying_volcanism_override_belita.Items.Add(item3);
+				surveying_volcanism_override_belita.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _surveying_volcanism_override_belita;
 			}
@@ -13888,32 +13888,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9902157;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				Dungeon_success_Effie_Brother_override_castanea.Items.Add(item0);
+				Dungeon_success_Effie_Brother_override_castanea.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5003);
 				item1.Info.ColorA = 9593479;
 				item1.Info.ColorB = 9593479;
 				item1.Info.ColorC = 9593479;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				Dungeon_success_Effie_Brother_override_castanea.Items.Add(item1);
+				Dungeon_success_Effie_Brother_override_castanea.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15169);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4278667642;
 				item2.Info.ColorC = 4278667642;
 				item2.Info.Pocket = 5;
-				Dungeon_success_Effie_Brother_override_castanea.Items.Add(item2);
+				Dungeon_success_Effie_Brother_override_castanea.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17065);
 				item3.Info.ColorA = 854808;
 				item3.Info.ColorB = 722182;
 				item3.Info.ColorC = 9728512;
 				item3.Info.Pocket = 7;
-				Dungeon_success_Effie_Brother_override_castanea.Items.Add(item3);
+				Dungeon_success_Effie_Brother_override_castanea.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19010);
 				item4.Info.ColorA = 2884361;
 				item4.Info.ColorC = 6362418;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				Dungeon_success_Effie_Brother_override_castanea.Items.Add(item4);
+				Dungeon_success_Effie_Brother_override_castanea.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _Dungeon_success_Effie_Brother_override_castanea;
 			}
@@ -13950,20 +13950,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12489669;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				Dungeon_success_Effie_Brother_override_phaselus.Items.Add(item0);
+				Dungeon_success_Effie_Brother_override_phaselus.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4036);
 				item1.Info.ColorA = 9202508;
 				item1.Info.ColorB = 9202508;
 				item1.Info.ColorC = 9202508;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				Dungeon_success_Effie_Brother_override_phaselus.Items.Add(item1);
+				Dungeon_success_Effie_Brother_override_phaselus.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(19001);
 				item2.Info.ColorA = 8405564;
 				item2.Info.ColorB = 5599519;
 				item2.Info.ColorC = 7143639;
 				item2.Info.Pocket = 9;
-				Dungeon_success_Effie_Brother_override_phaselus.Items.Add(item2);
+				Dungeon_success_Effie_Brother_override_phaselus.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _Dungeon_success_Effie_Brother_override_phaselus;
 			}
@@ -14000,20 +14000,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7566196;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Items.Add(item0);
+				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6001);
 				item1.Info.ColorA = 11643557;
 				item1.Info.ColorB = 11643557;
 				item1.Info.ColorC = 11643557;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Items.Add(item1);
+				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15300);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Items.Add(item2);
+				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40005);
 				item3.Info.ColorA = 11974338;
 				item3.Info.ColorB = 4211506;
@@ -14021,14 +14021,14 @@ public class CrystalBallBaseScript : NPCScript
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
 				item3.Info.X = 2;
-				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Items.Add(item3);
+				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40097);
 				item4.Info.ColorA = 11579568;
 				item4.Info.ColorB = 16239997;
 				item4.Info.ColorC = 6385735;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 11;
-				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Items.Add(item4);
+				Dungeon_success_Effie_Brother_override_Effie_Brother_RP.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _Dungeon_success_Effie_Brother_override_Effie_Brother_RP;
 			}
@@ -14061,7 +14061,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6385735;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				Dungeon_success_Effie_Brother_override_DesertFanaticSpecter2.Items.Add(item0);
+				Dungeon_success_Effie_Brother_override_DesertFanaticSpecter2.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _Dungeon_success_Effie_Brother_override_DesertFanaticSpecter2;
 			}
@@ -14095,32 +14095,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9902157;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				Dungeon_into_Effie_Brother_override_castanea.Items.Add(item0);
+				Dungeon_into_Effie_Brother_override_castanea.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5003);
 				item1.Info.ColorA = 9593479;
 				item1.Info.ColorB = 9593479;
 				item1.Info.ColorC = 9593479;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				Dungeon_into_Effie_Brother_override_castanea.Items.Add(item1);
+				Dungeon_into_Effie_Brother_override_castanea.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15169);
 				item2.Info.ColorA = 4286611584;
 				item2.Info.ColorB = 4278667642;
 				item2.Info.ColorC = 4278667642;
 				item2.Info.Pocket = 5;
-				Dungeon_into_Effie_Brother_override_castanea.Items.Add(item2);
+				Dungeon_into_Effie_Brother_override_castanea.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17065);
 				item3.Info.ColorA = 854808;
 				item3.Info.ColorB = 722182;
 				item3.Info.ColorC = 9728512;
 				item3.Info.Pocket = 7;
-				Dungeon_into_Effie_Brother_override_castanea.Items.Add(item3);
+				Dungeon_into_Effie_Brother_override_castanea.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(19010);
 				item4.Info.ColorA = 2884361;
 				item4.Info.ColorC = 6362418;
 				item4.Info.FigureA = 1;
 				item4.Info.Pocket = 9;
-				Dungeon_into_Effie_Brother_override_castanea.Items.Add(item4);
+				Dungeon_into_Effie_Brother_override_castanea.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _Dungeon_into_Effie_Brother_override_castanea;
 			}
@@ -14157,20 +14157,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12489669;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				Dungeon_into_Effie_Brother_override_phaselus.Items.Add(item0);
+				Dungeon_into_Effie_Brother_override_phaselus.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4036);
 				item1.Info.ColorA = 9202508;
 				item1.Info.ColorB = 9202508;
 				item1.Info.ColorC = 9202508;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				Dungeon_into_Effie_Brother_override_phaselus.Items.Add(item1);
+				Dungeon_into_Effie_Brother_override_phaselus.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(19001);
 				item2.Info.ColorA = 8405564;
 				item2.Info.ColorB = 5599519;
 				item2.Info.ColorC = 7143639;
 				item2.Info.Pocket = 9;
-				Dungeon_into_Effie_Brother_override_phaselus.Items.Add(item2);
+				Dungeon_into_Effie_Brother_override_phaselus.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _Dungeon_into_Effie_Brother_override_phaselus;
 			}
@@ -14203,7 +14203,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6385735;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				Dungeon_into_Effie_Brother_override_DesertFanaticSpecter2.Items.Add(item0);
+				Dungeon_into_Effie_Brother_override_DesertFanaticSpecter2.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _Dungeon_into_Effie_Brother_override_DesertFanaticSpecter2;
 			}
@@ -14285,27 +14285,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_12_end_and_override_leymore_1.Items.Add(item0);
+				C3G9S1_S16_12_end_and_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_12_end_and_override_leymore_1.Items.Add(item1);
+				C3G9S1_S16_12_end_and_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_12_end_and_override_leymore_1.Items.Add(item2);
+				C3G9S1_S16_12_end_and_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_12_end_and_override_leymore_1.Items.Add(item3);
+				C3G9S1_S16_12_end_and_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_12_end_and_override_leymore_1;
 			}
@@ -14342,40 +14342,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_12_end_and_override_jenna_2.Items.Add(item0);
+				C3G9S1_S16_12_end_and_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_12_end_and_override_jenna_2.Items.Add(item1);
+				C3G9S1_S16_12_end_and_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_12_end_and_override_jenna_2.Items.Add(item2);
+				C3G9S1_S16_12_end_and_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_12_end_and_override_jenna_2.Items.Add(item3);
+				C3G9S1_S16_12_end_and_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_12_end_and_override_jenna_2.Items.Add(item4);
+				C3G9S1_S16_12_end_and_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S16_12_end_and_override_jenna_2.Items.Add(item5);
+				C3G9S1_S16_12_end_and_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -14383,7 +14383,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S16_12_end_and_override_jenna_2.Items.Add(item6);
+				C3G9S1_S16_12_end_and_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S16_12_end_and_override_jenna_2;
 			}
@@ -14419,27 +14419,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_11_kill_solas_override_leymore_1.Items.Add(item0);
+				C3G9S1_S16_11_kill_solas_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_11_kill_solas_override_leymore_1.Items.Add(item1);
+				C3G9S1_S16_11_kill_solas_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_11_kill_solas_override_leymore_1.Items.Add(item2);
+				C3G9S1_S16_11_kill_solas_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_11_kill_solas_override_leymore_1.Items.Add(item3);
+				C3G9S1_S16_11_kill_solas_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_11_kill_solas_override_leymore_1;
 			}
@@ -14476,40 +14476,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_11_kill_solas_override_jenna_2.Items.Add(item0);
+				C3G9S1_S16_11_kill_solas_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_11_kill_solas_override_jenna_2.Items.Add(item1);
+				C3G9S1_S16_11_kill_solas_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_11_kill_solas_override_jenna_2.Items.Add(item2);
+				C3G9S1_S16_11_kill_solas_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_11_kill_solas_override_jenna_2.Items.Add(item3);
+				C3G9S1_S16_11_kill_solas_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_11_kill_solas_override_jenna_2.Items.Add(item4);
+				C3G9S1_S16_11_kill_solas_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S16_11_kill_solas_override_jenna_2.Items.Add(item5);
+				C3G9S1_S16_11_kill_solas_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -14517,7 +14517,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S16_11_kill_solas_override_jenna_2.Items.Add(item6);
+				C3G9S1_S16_11_kill_solas_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S16_11_kill_solas_override_jenna_2;
 			}
@@ -14553,27 +14553,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_11_kill_solas_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_11_kill_solas_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_11_kill_solas_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_11_kill_solas_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_11_kill_solas_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_11_kill_solas_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_11_kill_solas_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_11_kill_solas_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_11_kill_solas_override_cai_1;
 			}
@@ -14635,27 +14635,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_10_broken_wall_override_leymore_1.Items.Add(item0);
+				C3G9S1_S16_10_broken_wall_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_10_broken_wall_override_leymore_1.Items.Add(item1);
+				C3G9S1_S16_10_broken_wall_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_10_broken_wall_override_leymore_1.Items.Add(item2);
+				C3G9S1_S16_10_broken_wall_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_10_broken_wall_override_leymore_1.Items.Add(item3);
+				C3G9S1_S16_10_broken_wall_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_10_broken_wall_override_leymore_1;
 			}
@@ -14691,27 +14691,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_10_broken_wall_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_10_broken_wall_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_10_broken_wall_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_10_broken_wall_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_10_broken_wall_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_10_broken_wall_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_10_broken_wall_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_10_broken_wall_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_10_broken_wall_override_cai_1;
 			}
@@ -14748,40 +14748,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_10_broken_wall_override_jenna_2.Items.Add(item0);
+				C3G9S1_S16_10_broken_wall_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_10_broken_wall_override_jenna_2.Items.Add(item1);
+				C3G9S1_S16_10_broken_wall_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_10_broken_wall_override_jenna_2.Items.Add(item2);
+				C3G9S1_S16_10_broken_wall_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_10_broken_wall_override_jenna_2.Items.Add(item3);
+				C3G9S1_S16_10_broken_wall_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_10_broken_wall_override_jenna_2.Items.Add(item4);
+				C3G9S1_S16_10_broken_wall_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S16_10_broken_wall_override_jenna_2.Items.Add(item5);
+				C3G9S1_S16_10_broken_wall_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -14789,7 +14789,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S16_10_broken_wall_override_jenna_2.Items.Add(item6);
+				C3G9S1_S16_10_broken_wall_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S16_10_broken_wall_override_jenna_2;
 			}
@@ -14851,27 +14851,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Items.Add(item0);
+				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Items.Add(item1);
+				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Items.Add(item2);
+				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Items.Add(item3);
+				C3G9S1_S16_9_claimhsolas_change_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_9_claimhsolas_change_override_leymore_1;
 			}
@@ -14908,40 +14908,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Items.Add(item0);
+				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Items.Add(item1);
+				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Items.Add(item2);
+				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Items.Add(item3);
+				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Items.Add(item4);
+				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Items.Add(item5);
+				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -14949,7 +14949,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Items.Add(item6);
+				C3G9S1_S16_9_claimhsolas_change_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S16_9_claimhsolas_change_override_jenna_2;
 			}
@@ -14985,27 +14985,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_9_claimhsolas_change_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_9_claimhsolas_change_override_cai_1;
 			}
@@ -15093,27 +15093,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6969997;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Items.Add(item0);
+				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4102);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Items.Add(item1);
+				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15336);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Items.Add(item2);
+				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40242);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 10917180;
 				item3.Info.ColorC = 6900528;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Items.Add(item3);
+				C3G9S1_S16_8_appear_claimhsolas_override_fallon.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_8_appear_claimhsolas_override_fallon;
 			}
@@ -15149,27 +15149,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_8_appear_claimhsolas_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_8_appear_claimhsolas_override_cai_1;
 			}
@@ -15260,27 +15260,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_7_destruct_alchemical_machine_override_cai_1;
 			}
@@ -15311,16 +15311,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_7_destruct_alchemical_machine_override_FighterB;
 			}
@@ -15354,7 +15354,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_7_destruct_alchemical_machine_override_jaco_lancer;
 			}
@@ -15385,16 +15385,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_7_destruct_alchemical_machine_override_FighterA;
 			}
@@ -15428,13 +15428,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3814709;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.Items.Add(item0);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40268);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 2379635;
 				item1.Info.ColorC = 558145;
 				item1.Info.Pocket = 12;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.Items.Add(item1);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_7_destruct_alchemical_machine_override_Warrior;
 			}
@@ -15463,7 +15463,7 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_7_destruct_alchemical_machine_override_LancerB.Items.Add(item0);
+				C3G9S1_S16_7_destruct_alchemical_machine_override_LancerB.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_7_destruct_alchemical_machine_override_LancerB;
 			}
@@ -15499,27 +15499,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_6_2_rescue_cai_2_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_6_2_rescue_cai_2_override_cai_1;
 			}
@@ -15548,7 +15548,7 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_2_rescue_cai_2_override_LancerB.Items.Add(item0);
+				C3G9S1_S16_6_2_rescue_cai_2_override_LancerB.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_6_2_rescue_cai_2_override_LancerB;
 			}
@@ -15605,16 +15605,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_6_2_rescue_cai_2_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_6_2_rescue_cai_2_override_FighterA;
 			}
@@ -15648,13 +15648,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3814709;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.Items.Add(item0);
+				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40268);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 2379635;
 				item1.Info.ColorC = 558145;
 				item1.Info.Pocket = 12;
-				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.Items.Add(item1);
+				C3G9S1_S16_6_2_rescue_cai_2_override_Warrior.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_6_2_rescue_cai_2_override_Warrior;
 			}
@@ -15685,16 +15685,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_6_2_rescue_cai_2_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_6_2_rescue_cai_2_override_FighterB;
 			}
@@ -15728,7 +15728,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_2_rescue_cai_2_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_6_2_rescue_cai_2_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_6_2_rescue_cai_2_override_jaco_lancer;
 			}
@@ -15764,27 +15764,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_6_rescue_cai_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_6_rescue_cai_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_6_rescue_cai_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_6_rescue_cai_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_6_rescue_cai_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_6_rescue_cai_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_6_rescue_cai_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_6_rescue_cai_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_6_rescue_cai_override_cai_1;
 			}
@@ -15813,7 +15813,7 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_rescue_cai_override_LancerB.Items.Add(item0);
+				C3G9S1_S16_6_rescue_cai_override_LancerB.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_6_rescue_cai_override_LancerB;
 			}
@@ -15870,16 +15870,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_rescue_cai_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_6_rescue_cai_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_6_rescue_cai_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_6_rescue_cai_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_6_rescue_cai_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_6_rescue_cai_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_6_rescue_cai_override_FighterA;
 			}
@@ -15913,13 +15913,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3814709;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_rescue_cai_override_Warrior.Items.Add(item0);
+				C3G9S1_S16_6_rescue_cai_override_Warrior.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40268);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 2379635;
 				item1.Info.ColorC = 558145;
 				item1.Info.Pocket = 12;
-				C3G9S1_S16_6_rescue_cai_override_Warrior.Items.Add(item1);
+				C3G9S1_S16_6_rescue_cai_override_Warrior.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_6_rescue_cai_override_Warrior;
 			}
@@ -15950,16 +15950,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_rescue_cai_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_6_rescue_cai_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_6_rescue_cai_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_6_rescue_cai_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_6_rescue_cai_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_6_rescue_cai_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_6_rescue_cai_override_FighterB;
 			}
@@ -15993,7 +15993,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_6_rescue_cai_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_6_rescue_cai_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_6_rescue_cai_override_jaco_lancer;
 			}
@@ -16027,13 +16027,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3808284;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_Tethra.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_Tethra.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40269);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 11078962;
 				item1.Info.ColorC = 16637663;
 				item1.Info.Pocket = 12;
-				C3G9S1_S16_5_tethra_dead_override_Tethra.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_Tethra.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_Tethra;
 			}
@@ -16069,27 +16069,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_leymore_1.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_leymore_1.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_leymore_1.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_leymore_1.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_leymore_1;
 			}
@@ -16126,40 +16126,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_jenna_2.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_jenna_2.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_jenna_2.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_jenna_2.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_5_tethra_dead_override_jenna_2.Items.Add(item4);
+				C3G9S1_S16_5_tethra_dead_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S16_5_tethra_dead_override_jenna_2.Items.Add(item5);
+				C3G9S1_S16_5_tethra_dead_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -16167,7 +16167,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S16_5_tethra_dead_override_jenna_2.Items.Add(item6);
+				C3G9S1_S16_5_tethra_dead_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_jenna_2;
 			}
@@ -16202,26 +16202,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_human_soldier_man5;
 			}
@@ -16258,7 +16258,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16043526;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8015);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
@@ -16267,19 +16267,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_giant_soldier_man1;
 			}
@@ -16315,26 +16315,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_human_soldier_man1;
 			}
@@ -16370,32 +16370,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15450641;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6007);
 				item1.Info.ColorA = 8096429;
 				item1.Info.ColorB = 8096429;
 				item1.Info.ColorC = 8096429;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Items.Add(item4);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_elf_soldier_man2;
 			}
@@ -16431,26 +16431,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_human_soldier_man3;
 			}
@@ -16487,26 +16487,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8565096;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 7368819;
 				item1.Info.ColorB = 7368819;
 				item1.Info.ColorC = 7368819;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_human_soldier_woman4;
 			}
@@ -16542,32 +16542,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16701384;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6001);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Items.Add(item4);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_elf_soldier_man4;
 			}
@@ -16603,26 +16603,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16292168;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
 				item1.Info.ColorC = 6697779;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_human_soldier_man4;
 			}
@@ -16658,32 +16658,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2518611;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6006);
 				item1.Info.ColorA = 15197183;
 				item1.Info.ColorB = 15197183;
 				item1.Info.ColorC = 15197183;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Items.Add(item4);
+				C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_elf_soldier_man1;
 			}
@@ -16718,26 +16718,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_human_soldier_woman1;
 			}
@@ -16774,7 +16774,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16560727;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8017);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
@@ -16783,19 +16783,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_giant_soldier_man3;
 			}
@@ -16832,26 +16832,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_human_soldier_woman3;
 			}
@@ -16887,26 +16887,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13442373;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(7003);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15345);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40178);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Items.Add(item3);
+				C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_giant_soldier_woman1;
 			}
@@ -16940,7 +16940,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_jaco_lancer;
 			}
@@ -16971,16 +16971,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_5_tethra_dead_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_5_tethra_dead_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_FighterB;
 			}
@@ -17014,7 +17014,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9043978;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_jaco_archer.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_jaco_archer.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 12817230;
@@ -17022,7 +17022,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 6121904;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G9S1_S16_5_tethra_dead_override_jaco_archer.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_jaco_archer.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_jaco_archer;
 			}
@@ -17053,16 +17053,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_5_tethra_dead_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_5_tethra_dead_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_5_tethra_dead_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_5_tethra_dead_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_5_tethra_dead_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_5_tethra_dead_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_5_tethra_dead_override_FighterA;
 			}
@@ -17121,13 +17121,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3808284;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_Tethra.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_Tethra.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40269);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 11078962;
 				item1.Info.ColorC = 16637663;
 				item1.Info.Pocket = 12;
-				C3G9S1_S16_4_vs_tethra_again_override_Tethra.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_Tethra.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_Tethra;
 			}
@@ -17163,27 +17163,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_leymore_1;
 			}
@@ -17220,40 +17220,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Items.Add(item4);
+				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Items.Add(item5);
+				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -17261,7 +17261,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Items.Add(item6);
+				C3G9S1_S16_4_vs_tethra_again_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_jenna_2;
 			}
@@ -17296,26 +17296,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man5;
 			}
@@ -17352,7 +17352,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16043526;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8015);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
@@ -17361,19 +17361,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man1;
 			}
@@ -17409,26 +17409,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man1;
 			}
@@ -17464,32 +17464,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15450641;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6007);
 				item1.Info.ColorA = 8096429;
 				item1.Info.ColorB = 8096429;
 				item1.Info.ColorC = 8096429;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Items.Add(item4);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man2;
 			}
@@ -17525,26 +17525,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man3;
 			}
@@ -17581,26 +17581,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8565096;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 7368819;
 				item1.Info.ColorB = 7368819;
 				item1.Info.ColorC = 7368819;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman4;
 			}
@@ -17636,32 +17636,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16701384;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6001);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Items.Add(item4);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man4;
 			}
@@ -17697,26 +17697,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16292168;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
 				item1.Info.ColorC = 6697779;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_human_soldier_man4;
 			}
@@ -17752,32 +17752,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2518611;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6006);
 				item1.Info.ColorA = 15197183;
 				item1.Info.ColorB = 15197183;
 				item1.Info.ColorC = 15197183;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Items.Add(item4);
+				C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_elf_soldier_man1;
 			}
@@ -17812,26 +17812,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman1;
 			}
@@ -17868,7 +17868,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16560727;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8017);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
@@ -17877,19 +17877,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_man3;
 			}
@@ -17926,26 +17926,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_human_soldier_woman3;
 			}
@@ -17981,26 +17981,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13442373;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(7003);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15345);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40178);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Items.Add(item3);
+				C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_giant_soldier_woman1;
 			}
@@ -18034,7 +18034,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_jaco_lancer;
 			}
@@ -18068,7 +18068,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9043978;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 12817230;
@@ -18076,7 +18076,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 6121904;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_jaco_archer.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_jaco_archer;
 			}
@@ -18107,16 +18107,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_FighterB;
 			}
@@ -18147,16 +18147,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_4_vs_tethra_again_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_4_vs_tethra_again_override_FighterA;
 			}
@@ -18216,26 +18216,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_human_soldier_man5;
 			}
@@ -18266,7 +18266,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 7038809;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_karpfen.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_karpfen.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_karpfen;
 			}
@@ -18302,24 +18302,24 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9139200;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_andras.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_andras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3101);
 				item1.Info.ColorA = 14077619;
 				item1.Info.ColorB = 14077619;
 				item1.Info.ColorC = 14077619;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_andras.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_andras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15337);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 10790052;
 				item2.Info.ColorC = 4598031;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_andras.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_andras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40108);
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_andras.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_andras.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_andras;
 			}
@@ -18355,40 +18355,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16633933;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_granat.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_granat.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6008);
 				item1.Info.ColorA = 10342636;
 				item1.Info.ColorB = 10342636;
 				item1.Info.ColorC = 10342636;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_granat.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_granat.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(14025);
 				item2.Info.ColorA = 5070717;
 				item2.Info.ColorB = 8946820;
 				item2.Info.ColorC = 13555688;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_granat.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_granat.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17046);
 				item3.Info.ColorA = 5070717;
 				item3.Info.ColorB = 9934743;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G9S1_S16_3_stop_the_clau_override_granat.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_granat.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40236);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_granat.Items.Add(item4);
+				C3G9S1_S16_3_stop_the_clau_override_granat.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40005);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 11;
-				C3G9S1_S16_3_stop_the_clau_override_granat.Items.Add(item5);
+				C3G9S1_S16_3_stop_the_clau_override_granat.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -18396,7 +18396,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 12;
-				C3G9S1_S16_3_stop_the_clau_override_granat.Items.Add(item6);
+				C3G9S1_S16_3_stop_the_clau_override_granat.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_granat;
 			}
@@ -18432,26 +18432,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16759398;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3018);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman2;
 			}
@@ -18488,7 +18488,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7386016;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8022);
 				item1.Info.ColorA = 13408563;
 				item1.Info.ColorB = 13408563;
@@ -18497,19 +18497,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man4;
 			}
@@ -18546,26 +18546,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16425550;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3039);
 				item1.Info.ColorA = 6697728;
 				item1.Info.ColorB = 6697728;
 				item1.Info.ColorC = 6697728;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman5;
 			}
@@ -18602,32 +18602,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15046742;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5001);
 				item1.Info.ColorA = 3381657;
 				item1.Info.ColorB = 3381657;
 				item1.Info.ColorC = 3381657;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15343);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40225);
 				item3.Info.ColorA = 14202750;
 				item3.Info.ColorB = 13005113;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40006);
 				item4.Info.ColorA = 12961221;
 				item4.Info.ColorB = 7037243;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Items.Add(item4);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_elf_soldier_woman3;
 			}
@@ -18663,26 +18663,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_human_soldier_man3;
 			}
@@ -18718,32 +18718,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2518611;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6006);
 				item1.Info.ColorA = 15197183;
 				item1.Info.ColorB = 15197183;
 				item1.Info.ColorC = 15197183;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Items.Add(item4);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man1;
 			}
@@ -18780,7 +18780,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16043526;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8015);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
@@ -18789,19 +18789,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man1;
 			}
@@ -18838,26 +18838,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman3;
 			}
@@ -18892,26 +18892,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_human_soldier_woman1;
 			}
@@ -18947,7 +18947,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2434690;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8003);
 				item1.Info.ColorA = 4343139;
 				item1.Info.ColorB = 4343139;
@@ -18956,19 +18956,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_giant_soldier_man2;
 			}
@@ -19004,32 +19004,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 308613;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6005);
 				item1.Info.ColorA = 16762822;
 				item1.Info.ColorB = 16762822;
 				item1.Info.ColorC = 16762822;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Items.Add(item4);
+				C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_elf_soldier_man3;
 			}
@@ -19060,16 +19060,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_3_stop_the_clau_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_3_stop_the_clau_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_FighterB;
 			}
@@ -19103,7 +19103,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9043978;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 12817230;
@@ -19111,7 +19111,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 6121904;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_jaco_archer.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_jaco_archer;
 			}
@@ -19145,7 +19145,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_jaco_lancer;
 			}
@@ -19176,7 +19176,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_shadow_alchemist.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_shadow_alchemist.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_shadow_alchemist;
 			}
@@ -19207,16 +19207,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_3_stop_the_clau_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_3_stop_the_clau_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_3_stop_the_clau_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_3_stop_the_clau_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_3_stop_the_clau_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_3_stop_the_clau_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_3_stop_the_clau_override_FighterA;
 			}
@@ -19276,26 +19276,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_human_soldier_man5;
 			}
@@ -19331,26 +19331,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12583016;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(7002);
 				item1.Info.ColorA = 3355494;
 				item1.Info.ColorB = 3355494;
 				item1.Info.ColorC = 3355494;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15345);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40178);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_giant_soldier_woman3;
 			}
@@ -19386,26 +19386,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_human_soldier_man1;
 			}
@@ -19441,32 +19441,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2518611;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6006);
 				item1.Info.ColorA = 15197183;
 				item1.Info.ColorB = 15197183;
 				item1.Info.ColorC = 15197183;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Items.Add(item4);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man1;
 			}
@@ -19502,26 +19502,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16759398;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3018);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman2;
 			}
@@ -19558,7 +19558,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7386016;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8022);
 				item1.Info.ColorA = 13408563;
 				item1.Info.ColorB = 13408563;
@@ -19567,19 +19567,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man4;
 			}
@@ -19616,26 +19616,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16425550;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3039);
 				item1.Info.ColorA = 6697728;
 				item1.Info.ColorB = 6697728;
 				item1.Info.ColorC = 6697728;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman5;
 			}
@@ -19672,32 +19672,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15046742;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5001);
 				item1.Info.ColorA = 3381657;
 				item1.Info.ColorB = 3381657;
 				item1.Info.ColorC = 3381657;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15343);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40225);
 				item3.Info.ColorA = 14202750;
 				item3.Info.ColorB = 13005113;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40006);
 				item4.Info.ColorA = 12961221;
 				item4.Info.ColorB = 7037243;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Items.Add(item4);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_elf_soldier_woman3;
 			}
@@ -19733,26 +19733,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_human_soldier_man3;
 			}
@@ -19789,7 +19789,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16043526;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8015);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
@@ -19798,19 +19798,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man1;
 			}
@@ -19847,26 +19847,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman3;
 			}
@@ -19901,26 +19901,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_human_soldier_woman1;
 			}
@@ -19956,7 +19956,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2434690;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8003);
 				item1.Info.ColorA = 4343139;
 				item1.Info.ColorB = 4343139;
@@ -19965,19 +19965,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_giant_soldier_man2;
 			}
@@ -20013,32 +20013,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 308613;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6005);
 				item1.Info.ColorA = 16762822;
 				item1.Info.ColorB = 16762822;
 				item1.Info.ColorC = 16762822;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Items.Add(item3);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Items.Add(item4);
+				C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_elf_soldier_man3;
 			}
@@ -20069,16 +20069,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_2_good_vs_bad_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_2_good_vs_bad_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_FighterA;
 			}
@@ -20112,7 +20112,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9043978;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 12817230;
@@ -20120,7 +20120,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 6121904;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_jaco_archer.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_jaco_archer;
 			}
@@ -20154,7 +20154,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_jaco_lancer;
 			}
@@ -20185,7 +20185,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_shadow_alchemist.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_shadow_alchemist.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_shadow_alchemist;
 			}
@@ -20216,16 +20216,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_2_good_vs_bad_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_2_good_vs_bad_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_2_good_vs_bad_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_2_good_vs_bad_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_2_good_vs_bad_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_2_good_vs_bad_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_2_good_vs_bad_override_FighterB;
 			}
@@ -20286,27 +20286,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_1_fallon_identity_override_cai_1.Items.Add(item0);
+				C3G9S1_S16_1_fallon_identity_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_1_fallon_identity_override_cai_1.Items.Add(item1);
+				C3G9S1_S16_1_fallon_identity_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_1_fallon_identity_override_cai_1.Items.Add(item2);
+				C3G9S1_S16_1_fallon_identity_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_1_fallon_identity_override_cai_1.Items.Add(item3);
+				C3G9S1_S16_1_fallon_identity_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_1_fallon_identity_override_cai_1;
 			}
@@ -20342,27 +20342,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6969997;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S16_1_fallon_identity_override_fallon.Items.Add(item0);
+				C3G9S1_S16_1_fallon_identity_override_fallon.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4102);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S16_1_fallon_identity_override_fallon.Items.Add(item1);
+				C3G9S1_S16_1_fallon_identity_override_fallon.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15336);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S16_1_fallon_identity_override_fallon.Items.Add(item2);
+				C3G9S1_S16_1_fallon_identity_override_fallon.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40242);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 10917180;
 				item3.Info.ColorC = 6900528;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S16_1_fallon_identity_override_fallon.Items.Add(item3);
+				C3G9S1_S16_1_fallon_identity_override_fallon.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S16_1_fallon_identity_override_fallon;
 			}
@@ -20396,13 +20396,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3814709;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_1_fallon_identity_override_Warrior.Items.Add(item0);
+				C3G9S1_S16_1_fallon_identity_override_Warrior.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40268);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 2379635;
 				item1.Info.ColorC = 558145;
 				item1.Info.Pocket = 12;
-				C3G9S1_S16_1_fallon_identity_override_Warrior.Items.Add(item1);
+				C3G9S1_S16_1_fallon_identity_override_Warrior.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S16_1_fallon_identity_override_Warrior;
 			}
@@ -20431,7 +20431,7 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40256);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_1_fallon_identity_override_LancerB.Items.Add(item0);
+				C3G9S1_S16_1_fallon_identity_override_LancerB.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_1_fallon_identity_override_LancerB;
 			}
@@ -20491,7 +20491,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_1_fallon_identity_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S16_1_fallon_identity_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S16_1_fallon_identity_override_jaco_lancer;
 			}
@@ -20522,16 +20522,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_1_fallon_identity_override_FighterB.Items.Add(item0);
+				C3G9S1_S16_1_fallon_identity_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_1_fallon_identity_override_FighterB.Items.Add(item1);
+				C3G9S1_S16_1_fallon_identity_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_1_fallon_identity_override_FighterB.Items.Add(item2);
+				C3G9S1_S16_1_fallon_identity_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_1_fallon_identity_override_FighterB;
 			}
@@ -20562,16 +20562,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S16_1_fallon_identity_override_FighterA.Items.Add(item0);
+				C3G9S1_S16_1_fallon_identity_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S16_1_fallon_identity_override_FighterA.Items.Add(item1);
+				C3G9S1_S16_1_fallon_identity_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S16_1_fallon_identity_override_FighterA.Items.Add(item2);
+				C3G9S1_S16_1_fallon_identity_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S16_1_fallon_identity_override_FighterA;
 			}
@@ -20634,40 +20634,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_jenna_2.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_jenna_2.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_jenna_2.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_jenna_2.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_jenna_2.Items.Add(item4);
+				C3G9S1_S14_2_another_race_help_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S14_2_another_race_help_override_jenna_2.Items.Add(item5);
+				C3G9S1_S14_2_another_race_help_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -20675,7 +20675,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S14_2_another_race_help_override_jenna_2.Items.Add(item6);
+				C3G9S1_S14_2_another_race_help_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_jenna_2;
 			}
@@ -20711,24 +20711,24 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9139200;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_andras.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_andras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3101);
 				item1.Info.ColorA = 14077619;
 				item1.Info.ColorB = 14077619;
 				item1.Info.ColorC = 14077619;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_andras.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_andras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15337);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 10790052;
 				item2.Info.ColorC = 4598031;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_andras.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_andras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40108);
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_andras.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_andras.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_andras;
 			}
@@ -20764,40 +20764,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16633933;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_granat.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_granat.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6008);
 				item1.Info.ColorA = 10342636;
 				item1.Info.ColorB = 10342636;
 				item1.Info.ColorC = 10342636;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_granat.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_granat.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(14025);
 				item2.Info.ColorA = 5070717;
 				item2.Info.ColorB = 8946820;
 				item2.Info.ColorC = 13555688;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_granat.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_granat.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17046);
 				item3.Info.ColorA = 5070717;
 				item3.Info.ColorB = 9934743;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G9S1_S14_2_another_race_help_override_granat.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_granat.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40236);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_granat.Items.Add(item4);
+				C3G9S1_S14_2_another_race_help_override_granat.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40005);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_granat.Items.Add(item5);
+				C3G9S1_S14_2_another_race_help_override_granat.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -20805,7 +20805,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 12;
-				C3G9S1_S14_2_another_race_help_override_granat.Items.Add(item6);
+				C3G9S1_S14_2_another_race_help_override_granat.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_granat;
 			}
@@ -20836,7 +20836,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 7038809;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_karpfen.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_karpfen.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_karpfen;
 			}
@@ -20871,26 +20871,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_human_soldier_man5;
 			}
@@ -20925,26 +20925,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_human_soldier_woman1;
 			}
@@ -20980,26 +20980,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_human_soldier_man3;
 			}
@@ -21036,26 +21036,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8565096;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 7368819;
 				item1.Info.ColorB = 7368819;
 				item1.Info.ColorC = 7368819;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_woman4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_human_soldier_woman4;
 			}
@@ -21091,26 +21091,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_human_soldier_man1;
 			}
@@ -21146,32 +21146,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2518611;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6006);
 				item1.Info.ColorA = 15197183;
 				item1.Info.ColorB = 15197183;
 				item1.Info.ColorC = 15197183;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Items.Add(item4);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man1.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_elf_soldier_man1;
 			}
@@ -21207,32 +21207,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15450641;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6007);
 				item1.Info.ColorA = 8096429;
 				item1.Info.ColorB = 8096429;
 				item1.Info.ColorC = 8096429;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Items.Add(item4);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man2.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_elf_soldier_man2;
 			}
@@ -21268,32 +21268,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12518184;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5003);
 				item1.Info.ColorA = 13026246;
 				item1.Info.ColorB = 13026246;
 				item1.Info.ColorC = 13026246;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15343);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40225);
 				item3.Info.ColorA = 14202750;
 				item3.Info.ColorB = 13005113;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40006);
 				item4.Info.ColorA = 12961221;
 				item4.Info.ColorB = 7037243;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Items.Add(item4);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_elf_soldier_woman2;
 			}
@@ -21329,32 +21329,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2697351;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5005);
 				item1.Info.ColorA = 13544109;
 				item1.Info.ColorB = 13544109;
 				item1.Info.ColorC = 13544109;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15343);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40225);
 				item3.Info.ColorA = 14202750;
 				item3.Info.ColorB = 13005113;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40006);
 				item4.Info.ColorA = 12961221;
 				item4.Info.ColorB = 7037243;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Items.Add(item4);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_elf_soldier_woman1;
 			}
@@ -21390,32 +21390,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 308613;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6005);
 				item1.Info.ColorA = 16762822;
 				item1.Info.ColorB = 16762822;
 				item1.Info.ColorC = 16762822;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Items.Add(item4);
+				C3G9S1_S14_2_another_race_help_override_elf_soldier_man3.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_elf_soldier_man3;
 			}
@@ -21452,7 +21452,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16043526;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8015);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
@@ -21461,19 +21461,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_giant_soldier_man1;
 			}
@@ -21509,7 +21509,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2434690;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8003);
 				item1.Info.ColorA = 4343139;
 				item1.Info.ColorB = 4343139;
@@ -21518,19 +21518,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_giant_soldier_man2;
 			}
@@ -21567,7 +21567,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16560727;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8017);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
@@ -21576,19 +21576,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_giant_soldier_man3;
 			}
@@ -21624,26 +21624,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13442373;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(7003);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15345);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40178);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_giant_soldier_woman1;
 			}
@@ -21680,26 +21680,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16566465;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(7005);
 				item1.Info.ColorA = 6697830;
 				item1.Info.ColorB = 6697830;
 				item1.Info.ColorC = 6697830;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15345);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40178);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Items.Add(item3);
+				C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_giant_soldier_woman2;
 			}
@@ -21730,16 +21730,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_FighterB.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_FighterB.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S14_2_another_race_help_override_FighterB.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_FighterB;
 			}
@@ -21773,7 +21773,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_jaco_lancer;
 			}
@@ -21804,16 +21804,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_FighterA.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S14_2_another_race_help_override_FighterA.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S14_2_another_race_help_override_FighterA.Items.Add(item2);
+				C3G9S1_S14_2_another_race_help_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_FighterA;
 			}
@@ -21847,7 +21847,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9043978;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_2_another_race_help_override_jaco_archer.Items.Add(item0);
+				C3G9S1_S14_2_another_race_help_override_jaco_archer.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 12817230;
@@ -21855,7 +21855,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 6121904;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G9S1_S14_2_another_race_help_override_jaco_archer.Items.Add(item1);
+				C3G9S1_S14_2_another_race_help_override_jaco_archer.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S14_2_another_race_help_override_jaco_archer;
 			}
@@ -21892,40 +21892,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Items.Add(item0);
+				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Items.Add(item1);
+				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Items.Add(item2);
+				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Items.Add(item3);
+				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Items.Add(item4);
+				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Items.Add(item5);
+				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -21933,7 +21933,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Items.Add(item6);
+				C3G9S1_S14_1_meet_again_jenna_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S14_1_meet_again_jenna_override_jenna_2;
 			}
@@ -21964,16 +21964,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Items.Add(item0);
+				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Items.Add(item1);
+				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Items.Add(item2);
+				C3G9S1_S14_1_meet_again_jenna_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S14_1_meet_again_jenna_override_FighterB;
 			}
@@ -22007,7 +22007,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_1_meet_again_jenna_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S14_1_meet_again_jenna_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S14_1_meet_again_jenna_override_jaco_lancer;
 			}
@@ -22038,16 +22038,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Items.Add(item0);
+				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Items.Add(item1);
+				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Items.Add(item2);
+				C3G9S1_S14_1_meet_again_jenna_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S14_1_meet_again_jenna_override_FighterA;
 			}
@@ -22081,7 +22081,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9043978;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.Items.Add(item0);
+				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 12817230;
@@ -22089,7 +22089,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 6121904;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.Items.Add(item1);
+				C3G9S1_S14_1_meet_again_jenna_override_jaco_archer.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S14_1_meet_again_jenna_override_jaco_archer;
 			}
@@ -22125,27 +22125,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S13_leave_leymore_override_leymore_1.Items.Add(item0);
+				C3G9S1_S13_leave_leymore_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S13_leave_leymore_override_leymore_1.Items.Add(item1);
+				C3G9S1_S13_leave_leymore_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S13_leave_leymore_override_leymore_1.Items.Add(item2);
+				C3G9S1_S13_leave_leymore_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S13_leave_leymore_override_leymore_1.Items.Add(item3);
+				C3G9S1_S13_leave_leymore_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S13_leave_leymore_override_leymore_1;
 			}
@@ -22182,40 +22182,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S13_leave_leymore_override_jenna_2.Items.Add(item0);
+				C3G9S1_S13_leave_leymore_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S13_leave_leymore_override_jenna_2.Items.Add(item1);
+				C3G9S1_S13_leave_leymore_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S13_leave_leymore_override_jenna_2.Items.Add(item2);
+				C3G9S1_S13_leave_leymore_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S13_leave_leymore_override_jenna_2.Items.Add(item3);
+				C3G9S1_S13_leave_leymore_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S13_leave_leymore_override_jenna_2.Items.Add(item4);
+				C3G9S1_S13_leave_leymore_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S13_leave_leymore_override_jenna_2.Items.Add(item5);
+				C3G9S1_S13_leave_leymore_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -22223,7 +22223,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S13_leave_leymore_override_jenna_2.Items.Add(item6);
+				C3G9S1_S13_leave_leymore_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S13_leave_leymore_override_jenna_2;
 			}
@@ -22254,7 +22254,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S12_3_enter_the_cai_override_shadow_alchemist.Items.Add(item0);
+				C3G9S1_S12_3_enter_the_cai_override_shadow_alchemist.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S12_3_enter_the_cai_override_shadow_alchemist;
 			}
@@ -22290,27 +22290,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S12_3_enter_the_cai_override_cai_1.Items.Add(item0);
+				C3G9S1_S12_3_enter_the_cai_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S12_3_enter_the_cai_override_cai_1.Items.Add(item1);
+				C3G9S1_S12_3_enter_the_cai_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S12_3_enter_the_cai_override_cai_1.Items.Add(item2);
+				C3G9S1_S12_3_enter_the_cai_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S12_3_enter_the_cai_override_cai_1.Items.Add(item3);
+				C3G9S1_S12_3_enter_the_cai_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S12_3_enter_the_cai_override_cai_1;
 			}
@@ -22368,7 +22368,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S12_2_fight_magicion_override_shadow_alchemist.Items.Add(item0);
+				C3G9S1_S12_2_fight_magicion_override_shadow_alchemist.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S12_2_fight_magicion_override_shadow_alchemist;
 			}
@@ -22431,27 +22431,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S11_kill_leymore_override_leymore_1.Items.Add(item0);
+				C3G9S1_S11_kill_leymore_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S11_kill_leymore_override_leymore_1.Items.Add(item1);
+				C3G9S1_S11_kill_leymore_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S11_kill_leymore_override_leymore_1.Items.Add(item2);
+				C3G9S1_S11_kill_leymore_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S11_kill_leymore_override_leymore_1.Items.Add(item3);
+				C3G9S1_S11_kill_leymore_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S11_kill_leymore_override_leymore_1;
 			}
@@ -22488,40 +22488,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S11_kill_leymore_override_jenna_2.Items.Add(item0);
+				C3G9S1_S11_kill_leymore_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S11_kill_leymore_override_jenna_2.Items.Add(item1);
+				C3G9S1_S11_kill_leymore_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S11_kill_leymore_override_jenna_2.Items.Add(item2);
+				C3G9S1_S11_kill_leymore_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S11_kill_leymore_override_jenna_2.Items.Add(item3);
+				C3G9S1_S11_kill_leymore_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S11_kill_leymore_override_jenna_2.Items.Add(item4);
+				C3G9S1_S11_kill_leymore_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S11_kill_leymore_override_jenna_2.Items.Add(item5);
+				C3G9S1_S11_kill_leymore_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -22529,7 +22529,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S11_kill_leymore_override_jenna_2.Items.Add(item6);
+				C3G9S1_S11_kill_leymore_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S11_kill_leymore_override_jenna_2;
 			}
@@ -22593,40 +22593,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S10_jenna_help_override_jenna_2.Items.Add(item0);
+				C3G9S1_S10_jenna_help_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S10_jenna_help_override_jenna_2.Items.Add(item1);
+				C3G9S1_S10_jenna_help_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S10_jenna_help_override_jenna_2.Items.Add(item2);
+				C3G9S1_S10_jenna_help_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S10_jenna_help_override_jenna_2.Items.Add(item3);
+				C3G9S1_S10_jenna_help_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S10_jenna_help_override_jenna_2.Items.Add(item4);
+				C3G9S1_S10_jenna_help_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S10_jenna_help_override_jenna_2.Items.Add(item5);
+				C3G9S1_S10_jenna_help_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -22634,7 +22634,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S10_jenna_help_override_jenna_2.Items.Add(item6);
+				C3G9S1_S10_jenna_help_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S10_jenna_help_override_jenna_2;
 			}
@@ -22668,13 +22668,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3808284;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_4_lose_player_override_Tethra.Items.Add(item0);
+				C3G9S1_S9_4_lose_player_override_Tethra.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40269);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 11078962;
 				item1.Info.ColorC = 16637663;
 				item1.Info.Pocket = 12;
-				C3G9S1_S9_4_lose_player_override_Tethra.Items.Add(item1);
+				C3G9S1_S9_4_lose_player_override_Tethra.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S9_4_lose_player_override_Tethra;
 			}
@@ -22710,27 +22710,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6969997;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S9_4_lose_player_override_fallon.Items.Add(item0);
+				C3G9S1_S9_4_lose_player_override_fallon.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4102);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S9_4_lose_player_override_fallon.Items.Add(item1);
+				C3G9S1_S9_4_lose_player_override_fallon.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15336);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S9_4_lose_player_override_fallon.Items.Add(item2);
+				C3G9S1_S9_4_lose_player_override_fallon.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40242);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 10917180;
 				item3.Info.ColorC = 6900528;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S9_4_lose_player_override_fallon.Items.Add(item3);
+				C3G9S1_S9_4_lose_player_override_fallon.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S9_4_lose_player_override_fallon;
 			}
@@ -22764,13 +22764,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3808284;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_3_enter_the_tethra_override_Tethra.Items.Add(item0);
+				C3G9S1_S9_3_enter_the_tethra_override_Tethra.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40269);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 11078962;
 				item1.Info.ColorC = 16637663;
 				item1.Info.Pocket = 12;
-				C3G9S1_S9_3_enter_the_tethra_override_Tethra.Items.Add(item1);
+				C3G9S1_S9_3_enter_the_tethra_override_Tethra.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S9_3_enter_the_tethra_override_Tethra;
 			}
@@ -22804,7 +22804,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_3_enter_the_tethra_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S9_3_enter_the_tethra_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S9_3_enter_the_tethra_override_jaco_lancer;
 			}
@@ -22835,16 +22835,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Items.Add(item0);
+				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Items.Add(item1);
+				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Items.Add(item2);
+				C3G9S1_S9_3_enter_the_tethra_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S9_3_enter_the_tethra_override_FighterA;
 			}
@@ -22875,16 +22875,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Items.Add(item0);
+				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Items.Add(item1);
+				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Items.Add(item2);
+				C3G9S1_S9_3_enter_the_tethra_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S9_3_enter_the_tethra_override_FighterB;
 			}
@@ -22920,27 +22920,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S9_2_meet_leymore_override_leymore_1.Items.Add(item0);
+				C3G9S1_S9_2_meet_leymore_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S9_2_meet_leymore_override_leymore_1.Items.Add(item1);
+				C3G9S1_S9_2_meet_leymore_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S9_2_meet_leymore_override_leymore_1.Items.Add(item2);
+				C3G9S1_S9_2_meet_leymore_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S9_2_meet_leymore_override_leymore_1.Items.Add(item3);
+				C3G9S1_S9_2_meet_leymore_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S9_2_meet_leymore_override_leymore_1;
 			}
@@ -22971,7 +22971,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_2_meet_leymore_override_shadow_alchemist.Items.Add(item0);
+				C3G9S1_S9_2_meet_leymore_override_shadow_alchemist.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S9_2_meet_leymore_override_shadow_alchemist;
 			}
@@ -23005,7 +23005,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_2_meet_leymore_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S9_2_meet_leymore_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S9_2_meet_leymore_override_jaco_lancer;
 			}
@@ -23036,16 +23036,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_2_meet_leymore_override_FighterA.Items.Add(item0);
+				C3G9S1_S9_2_meet_leymore_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S9_2_meet_leymore_override_FighterA.Items.Add(item1);
+				C3G9S1_S9_2_meet_leymore_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S9_2_meet_leymore_override_FighterA.Items.Add(item2);
+				C3G9S1_S9_2_meet_leymore_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S9_2_meet_leymore_override_FighterA;
 			}
@@ -23076,16 +23076,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_2_meet_leymore_override_FighterB.Items.Add(item0);
+				C3G9S1_S9_2_meet_leymore_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S9_2_meet_leymore_override_FighterB.Items.Add(item1);
+				C3G9S1_S9_2_meet_leymore_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S9_2_meet_leymore_override_FighterB.Items.Add(item2);
+				C3G9S1_S9_2_meet_leymore_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S9_2_meet_leymore_override_FighterB;
 			}
@@ -23121,27 +23121,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Items.Add(item0);
+				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Items.Add(item1);
+				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Items.Add(item2);
+				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Items.Add(item3);
+				C3G9S1_S9_1_leymore_with_enemy_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S9_1_leymore_with_enemy_override_leymore_1;
 			}
@@ -23172,7 +23172,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_1_leymore_with_enemy_override_shadow_alchemist.Items.Add(item0);
+				C3G9S1_S9_1_leymore_with_enemy_override_shadow_alchemist.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S9_1_leymore_with_enemy_override_shadow_alchemist;
 			}
@@ -23206,7 +23206,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_1_leymore_with_enemy_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S9_1_leymore_with_enemy_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S9_1_leymore_with_enemy_override_jaco_lancer;
 			}
@@ -23237,16 +23237,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Items.Add(item0);
+				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Items.Add(item1);
+				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Items.Add(item2);
+				C3G9S1_S9_1_leymore_with_enemy_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S9_1_leymore_with_enemy_override_FighterB;
 			}
@@ -23277,16 +23277,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Items.Add(item0);
+				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Items.Add(item1);
+				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Items.Add(item2);
+				C3G9S1_S9_1_leymore_with_enemy_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S9_1_leymore_with_enemy_override_FighterA;
 			}
@@ -23346,14 +23346,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 15975003;
 				item0.Info.ColorC = 8421504;
 				item0.Info.Pocket = 5;
-				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.Items.Add(item0);
+				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40010);
 				item1.Info.ColorA = 11053224;
 				item1.Info.ColorB = 11768908;
 				item1.Info.ColorC = 11184810;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.Items.Add(item1);
+				C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S8_2_Elatha_fight_override_incubus_senmag_transform;
 			}
@@ -23416,27 +23416,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S7_2_jenna_fail_override_leymore_1.Items.Add(item0);
+				C3G9S1_S7_2_jenna_fail_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S7_2_jenna_fail_override_leymore_1.Items.Add(item1);
+				C3G9S1_S7_2_jenna_fail_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S7_2_jenna_fail_override_leymore_1.Items.Add(item2);
+				C3G9S1_S7_2_jenna_fail_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S7_2_jenna_fail_override_leymore_1.Items.Add(item3);
+				C3G9S1_S7_2_jenna_fail_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S7_2_jenna_fail_override_leymore_1;
 			}
@@ -23472,27 +23472,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S7_2_jenna_fail_override_cai_1.Items.Add(item0);
+				C3G9S1_S7_2_jenna_fail_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S7_2_jenna_fail_override_cai_1.Items.Add(item1);
+				C3G9S1_S7_2_jenna_fail_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S7_2_jenna_fail_override_cai_1.Items.Add(item2);
+				C3G9S1_S7_2_jenna_fail_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S7_2_jenna_fail_override_cai_1.Items.Add(item3);
+				C3G9S1_S7_2_jenna_fail_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S7_2_jenna_fail_override_cai_1;
 			}
@@ -23556,40 +23556,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S7_2_jenna_fail_override_jenna_2.Items.Add(item0);
+				C3G9S1_S7_2_jenna_fail_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S7_2_jenna_fail_override_jenna_2.Items.Add(item1);
+				C3G9S1_S7_2_jenna_fail_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S7_2_jenna_fail_override_jenna_2.Items.Add(item2);
+				C3G9S1_S7_2_jenna_fail_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S7_2_jenna_fail_override_jenna_2.Items.Add(item3);
+				C3G9S1_S7_2_jenna_fail_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S7_2_jenna_fail_override_jenna_2.Items.Add(item4);
+				C3G9S1_S7_2_jenna_fail_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S7_2_jenna_fail_override_jenna_2.Items.Add(item5);
+				C3G9S1_S7_2_jenna_fail_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -23597,7 +23597,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S7_2_jenna_fail_override_jenna_2.Items.Add(item6);
+				C3G9S1_S7_2_jenna_fail_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S7_2_jenna_fail_override_jenna_2;
 			}
@@ -23632,26 +23632,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12080678;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S7_1_doubt_jenna_override_collen.Items.Add(item0);
+				C3G9S1_S7_1_doubt_jenna_override_collen.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4101);
 				item1.Info.ColorA = 9861436;
 				item1.Info.ColorB = 9861436;
 				item1.Info.ColorC = 9861436;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S7_1_doubt_jenna_override_collen.Items.Add(item1);
+				C3G9S1_S7_1_doubt_jenna_override_collen.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15334);
 				item2.Info.ColorA = 2961200;
 				item2.Info.ColorB = 5789784;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				C3G9S1_S7_1_doubt_jenna_override_collen.Items.Add(item2);
+				C3G9S1_S7_1_doubt_jenna_override_collen.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17066);
 				item3.Info.ColorA = 5789784;
 				item3.Info.ColorB = 5853113;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G9S1_S7_1_doubt_jenna_override_collen.Items.Add(item3);
+				C3G9S1_S7_1_doubt_jenna_override_collen.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S7_1_doubt_jenna_override_collen;
 			}
@@ -23688,20 +23688,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14990296;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S7_1_doubt_jenna_override_jenna.Items.Add(item0);
+				C3G9S1_S7_1_doubt_jenna_override_jenna.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S7_1_doubt_jenna_override_jenna.Items.Add(item1);
+				C3G9S1_S7_1_doubt_jenna_override_jenna.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S7_1_doubt_jenna_override_jenna.Items.Add(item2);
+				C3G9S1_S7_1_doubt_jenna_override_jenna.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S7_1_doubt_jenna_override_jenna;
 			}
@@ -23738,20 +23738,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14990296;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S6_2_jenna_confession_override_jenna.Items.Add(item0);
+				C3G9S1_S6_2_jenna_confession_override_jenna.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S6_2_jenna_confession_override_jenna.Items.Add(item1);
+				C3G9S1_S6_2_jenna_confession_override_jenna.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S6_2_jenna_confession_override_jenna.Items.Add(item2);
+				C3G9S1_S6_2_jenna_confession_override_jenna.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S6_2_jenna_confession_override_jenna;
 			}
@@ -23788,20 +23788,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14990296;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S6_1_jail_rescue_override_jenna.Items.Add(item0);
+				C3G9S1_S6_1_jail_rescue_override_jenna.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S6_1_jail_rescue_override_jenna.Items.Add(item1);
+				C3G9S1_S6_1_jail_rescue_override_jenna.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S6_1_jail_rescue_override_jenna.Items.Add(item2);
+				C3G9S1_S6_1_jail_rescue_override_jenna.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S6_1_jail_rescue_override_jenna;
 			}
@@ -23837,17 +23837,17 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4373101;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_01.Items.Add(item0);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_01.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(19055);
 				item1.Info.ColorA = 5000268;
 				item1.Info.ColorB = 14063922;
 				item1.Info.ColorC = 8349502;
 				item1.Info.Pocket = 9;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_01.Items.Add(item1);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_01.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40011);
 				item2.Info.KnockCount = 1;
 				item2.Info.Pocket = 10;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_01.Items.Add(item2);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_01.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_01;
 			}
@@ -23883,17 +23883,17 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 17036;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_02.Items.Add(item0);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(19055);
 				item1.Info.ColorA = 5000268;
 				item1.Info.ColorB = 14063922;
 				item1.Info.ColorC = 8349502;
 				item1.Info.Pocket = 9;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_02.Items.Add(item1);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40011);
 				item2.Info.KnockCount = 1;
 				item2.Info.Pocket = 10;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_02.Items.Add(item2);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_02.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_02;
 			}
@@ -23929,17 +23929,17 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15667288;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_03.Items.Add(item0);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_03.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(19055);
 				item1.Info.ColorA = 5000268;
 				item1.Info.ColorB = 14063922;
 				item1.Info.ColorC = 8349502;
 				item1.Info.Pocket = 9;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_03.Items.Add(item1);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_03.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40011);
 				item2.Info.KnockCount = 1;
 				item2.Info.Pocket = 10;
-				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_03.Items.Add(item2);
+				C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_03.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S6_1_jail_rescue_override_shrine_knight_male_03;
 			}
@@ -23974,26 +23974,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S5_2_use_ice_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_2_use_ice_override_human_soldier_woman1;
 			}
@@ -24029,26 +24029,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_2_use_ice_override_human_soldier_man1;
 			}
@@ -24084,26 +24084,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16378624;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Items.Add(item0);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4004);
 				item1.Info.ColorA = 10247490;
 				item1.Info.ColorB = 10247490;
 				item1.Info.ColorC = 10247490;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Items.Add(item1);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Items.Add(item2);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Items.Add(item3);
+				C3G9S1_S5_2_use_ice_override_human_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_2_use_ice_override_human_soldier_man2;
 			}
@@ -24137,7 +24137,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S5_2_use_ice_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S5_2_use_ice_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S5_2_use_ice_override_jaco_lancer;
 			}
@@ -24168,16 +24168,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S5_2_use_ice_override_FighterB.Items.Add(item0);
+				C3G9S1_S5_2_use_ice_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S5_2_use_ice_override_FighterB.Items.Add(item1);
+				C3G9S1_S5_2_use_ice_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S5_2_use_ice_override_FighterB.Items.Add(item2);
+				C3G9S1_S5_2_use_ice_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S5_2_use_ice_override_FighterB;
 			}
@@ -24208,16 +24208,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S5_2_use_ice_override_FighterA.Items.Add(item0);
+				C3G9S1_S5_2_use_ice_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S5_2_use_ice_override_FighterA.Items.Add(item1);
+				C3G9S1_S5_2_use_ice_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S5_2_use_ice_override_FighterA.Items.Add(item2);
+				C3G9S1_S5_2_use_ice_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S5_2_use_ice_override_FighterA;
 			}
@@ -24254,40 +24254,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Items.Add(item4);
+				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Items.Add(item5);
+				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -24295,7 +24295,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Items.Add(item6);
+				C3G9S1_S5_1_first_meet_jenna_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_jenna_2;
 			}
@@ -24330,26 +24330,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman1;
 			}
@@ -24385,26 +24385,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man1;
 			}
@@ -24440,26 +24440,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16378624;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4004);
 				item1.Info.ColorA = 10247490;
 				item1.Info.ColorB = 10247490;
 				item1.Info.ColorC = 10247490;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man2;
 			}
@@ -24496,26 +24496,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman3;
 			}
@@ -24550,26 +24550,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man5;
 			}
@@ -24606,26 +24606,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8565096;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 7368819;
 				item1.Info.ColorB = 7368819;
 				item1.Info.ColorC = 7368819;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman4;
 			}
@@ -24661,26 +24661,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16292168;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
 				item1.Info.ColorC = 6697779;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man4;
 			}
@@ -24717,26 +24717,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16425550;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3039);
 				item1.Info.ColorA = 6697728;
 				item1.Info.ColorB = 6697728;
 				item1.Info.ColorC = 6697728;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_woman5;
 			}
@@ -24772,26 +24772,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_human_soldier_man3;
 			}
@@ -24822,16 +24822,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40267);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 2911361;
 				item2.Info.Pocket = 12;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_FighterB.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_FighterB;
 			}
@@ -24865,7 +24865,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4272395;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_jaco_lancer.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_jaco_lancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_jaco_lancer;
 			}
@@ -24896,16 +24896,16 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40261);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Items.Add(item0);
+				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.Pocket = 11;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Items.Add(item1);
+				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(40262);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 11710557;
 				item2.Info.Pocket = 12;
-				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Items.Add(item2);
+				C3G9S1_S5_1_first_meet_jenna_override_FighterA.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G9S1_S5_1_first_meet_jenna_override_FighterA;
 			}
@@ -24968,27 +24968,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6969997;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S4_help_fallon_override_fallon.Items.Add(item0);
+				C3G9S1_S4_help_fallon_override_fallon.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4102);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S4_help_fallon_override_fallon.Items.Add(item1);
+				C3G9S1_S4_help_fallon_override_fallon.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15336);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S4_help_fallon_override_fallon.Items.Add(item2);
+				C3G9S1_S4_help_fallon_override_fallon.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40242);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 10917180;
 				item3.Info.ColorC = 6900528;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S4_help_fallon_override_fallon.Items.Add(item3);
+				C3G9S1_S4_help_fallon_override_fallon.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S4_help_fallon_override_fallon;
 			}
@@ -25023,26 +25023,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S4_help_fallon_override_human_soldier_woman1;
 			}
@@ -25078,26 +25078,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S4_help_fallon_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S4_help_fallon_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S4_help_fallon_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S4_help_fallon_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S4_help_fallon_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S4_help_fallon_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S4_help_fallon_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S4_help_fallon_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S4_help_fallon_override_human_soldier_man1;
 			}
@@ -25133,26 +25133,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16378624;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S4_help_fallon_override_human_soldier_man2.Items.Add(item0);
+				C3G9S1_S4_help_fallon_override_human_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4004);
 				item1.Info.ColorA = 10247490;
 				item1.Info.ColorB = 10247490;
 				item1.Info.ColorC = 10247490;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S4_help_fallon_override_human_soldier_man2.Items.Add(item1);
+				C3G9S1_S4_help_fallon_override_human_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S4_help_fallon_override_human_soldier_man2.Items.Add(item2);
+				C3G9S1_S4_help_fallon_override_human_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S4_help_fallon_override_human_soldier_man2.Items.Add(item3);
+				C3G9S1_S4_help_fallon_override_human_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S4_help_fallon_override_human_soldier_man2;
 			}
@@ -25189,26 +25189,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16425550;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Items.Add(item0);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3039);
 				item1.Info.ColorA = 6697728;
 				item1.Info.ColorB = 6697728;
 				item1.Info.ColorC = 6697728;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Items.Add(item1);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Items.Add(item2);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Items.Add(item3);
+				C3G9S1_S4_help_fallon_override_human_soldier_woman5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S4_help_fallon_override_human_soldier_woman5;
 			}
@@ -25244,26 +25244,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16292168;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S4_help_fallon_override_human_soldier_man4.Items.Add(item0);
+				C3G9S1_S4_help_fallon_override_human_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
 				item1.Info.ColorC = 6697779;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S4_help_fallon_override_human_soldier_man4.Items.Add(item1);
+				C3G9S1_S4_help_fallon_override_human_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S4_help_fallon_override_human_soldier_man4.Items.Add(item2);
+				C3G9S1_S4_help_fallon_override_human_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S4_help_fallon_override_human_soldier_man4.Items.Add(item3);
+				C3G9S1_S4_help_fallon_override_human_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S4_help_fallon_override_human_soldier_man4;
 			}
@@ -25299,27 +25299,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Items.Add(item0);
+				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Items.Add(item1);
+				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Items.Add(item2);
+				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Items.Add(item3);
+				C3G9S1_S3_2_appear_glasgavelen_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S3_2_appear_glasgavelen_override_leymore_1;
 			}
@@ -25355,27 +25355,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Items.Add(item0);
+				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Items.Add(item1);
+				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Items.Add(item2);
+				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Items.Add(item3);
+				C3G9S1_S3_2_appear_glasgavelen_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S3_2_appear_glasgavelen_override_cai_1;
 			}
@@ -25465,27 +25465,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S3_1_shadow_world_override_leymore_1.Items.Add(item0);
+				C3G9S1_S3_1_shadow_world_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S3_1_shadow_world_override_leymore_1.Items.Add(item1);
+				C3G9S1_S3_1_shadow_world_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G9S1_S3_1_shadow_world_override_leymore_1.Items.Add(item2);
+				C3G9S1_S3_1_shadow_world_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S3_1_shadow_world_override_leymore_1.Items.Add(item3);
+				C3G9S1_S3_1_shadow_world_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S3_1_shadow_world_override_leymore_1;
 			}
@@ -25521,27 +25521,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S3_1_shadow_world_override_cai_1.Items.Add(item0);
+				C3G9S1_S3_1_shadow_world_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S3_1_shadow_world_override_cai_1.Items.Add(item1);
+				C3G9S1_S3_1_shadow_world_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G9S1_S3_1_shadow_world_override_cai_1.Items.Add(item2);
+				C3G9S1_S3_1_shadow_world_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S3_1_shadow_world_override_cai_1.Items.Add(item3);
+				C3G9S1_S3_1_shadow_world_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S3_1_shadow_world_override_cai_1;
 			}
@@ -25604,27 +25604,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 49;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_fallon_2.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_fallon_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4102);
 				item1.Info.ColorA = 3342336;
 				item1.Info.ColorB = 3342336;
 				item1.Info.ColorC = 3342336;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_fallon_2.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_fallon_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15336);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_fallon_2.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_fallon_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40242);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 10917180;
 				item3.Info.ColorC = 6900528;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_fallon_2.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_fallon_2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_fallon_2;
 			}
@@ -25658,7 +25658,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 5390931;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 11;
-				C3G9S1_S2_2_ru_save_us_override_Lugh3.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_Lugh3.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_Lugh3;
 			}
@@ -25722,26 +25722,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16425550;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3039);
 				item1.Info.ColorA = 6697728;
 				item1.Info.ColorB = 6697728;
 				item1.Info.ColorC = 6697728;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_woman5;
 			}
@@ -25777,26 +25777,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_man1;
 			}
@@ -25833,26 +25833,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_woman3;
 			}
@@ -25888,26 +25888,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_man3;
 			}
@@ -25942,26 +25942,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_man5;
 			}
@@ -25996,26 +25996,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_woman1;
 			}
@@ -26051,26 +26051,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16759398;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3018);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_woman2;
 			}
@@ -26106,26 +26106,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16378624;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4004);
 				item1.Info.ColorA = 10247490;
 				item1.Info.ColorB = 10247490;
 				item1.Info.ColorC = 10247490;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_man2;
 			}
@@ -26162,26 +26162,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8565096;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 7368819;
 				item1.Info.ColorB = 7368819;
 				item1.Info.ColorC = 7368819;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_woman4;
 			}
@@ -26217,26 +26217,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16292168;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
 				item1.Info.ColorC = 6697779;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_human_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_human_soldier_man4;
 			}
@@ -26270,38 +26270,38 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14649974;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(13006);
 				item1.Info.ColorA = 4718592;
 				item1.Info.ColorB = 4718592;
 				item1.Info.ColorC = 4718592;
 				item1.Info.Pocket = 5;
-				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(16502);
 				item2.Info.ColorA = 4718592;
 				item2.Info.ColorB = 4718592;
 				item2.Info.ColorC = 4718592;
 				item2.Info.Pocket = 6;
-				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Items.Add(item2);
+				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17507);
 				item3.Info.ColorA = 4718592;
 				item3.Info.ColorB = 4718592;
 				item3.Info.ColorC = 4718592;
 				item3.Info.Pocket = 7;
-				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Items.Add(item3);
+				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18509);
 				item4.Info.ColorA = 4718592;
 				item4.Info.ColorB = 4718592;
 				item4.Info.ColorC = 4718592;
 				item4.Info.Pocket = 8;
-				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Items.Add(item4);
+				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40030);
 				item5.Info.ColorA = 4718592;
 				item5.Info.ColorB = 327680;
 				item5.Info.ColorC = 327680;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Items.Add(item5);
+				C3G9S1_S2_2_ru_save_us_override_DarkLord_RP.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_DarkLord_RP;
 			}
@@ -26334,13 +26334,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14283258;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.Items.Add(item0);
+				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(46001);
 				item1.Info.ColorA = 5001296;
 				item1.Info.ColorB = 6446916;
 				item1.Info.ColorC = 3692560;
 				item1.Info.Pocket = 12;
-				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.Items.Add(item1);
+				C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S2_2_ru_save_us_override_goblin_c3_cutscene;
 			}
@@ -26376,27 +26376,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 49;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_1_fallon_attack_override_fallon_2.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_fallon_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4102);
 				item1.Info.ColorA = 3342336;
 				item1.Info.ColorB = 3342336;
 				item1.Info.ColorC = 3342336;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_1_fallon_attack_override_fallon_2.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_fallon_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15336);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_1_fallon_attack_override_fallon_2.Items.Add(item2);
+				C3G9S1_S2_1_fallon_attack_override_fallon_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40242);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 10917180;
 				item3.Info.ColorC = 6900528;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_1_fallon_attack_override_fallon_2.Items.Add(item3);
+				C3G9S1_S2_1_fallon_attack_override_fallon_2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_fallon_2;
 			}
@@ -26433,26 +26433,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16425550;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3039);
 				item1.Info.ColorA = 6697728;
 				item1.Info.ColorB = 6697728;
 				item1.Info.ColorC = 6697728;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Items.Add(item2);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Items.Add(item3);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_human_soldier_woman5;
 			}
@@ -26488,26 +26488,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Items.Add(item2);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Items.Add(item3);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_human_soldier_man1;
 			}
@@ -26544,26 +26544,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Items.Add(item2);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Items.Add(item3);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_human_soldier_woman3;
 			}
@@ -26599,26 +26599,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Items.Add(item2);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Items.Add(item3);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_human_soldier_man3;
 			}
@@ -26653,26 +26653,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Items.Add(item2);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Items.Add(item3);
+				C3G9S1_S2_1_fallon_attack_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_human_soldier_man5;
 			}
@@ -26706,26 +26706,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13415;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G9S1_S2_1_fallon_attack_override_black_wizard.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_black_wizard.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 1;
 				item1.Info.ColorB = 16575030;
 				item1.Info.ColorC = 23376;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G9S1_S2_1_fallon_attack_override_black_wizard.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_black_wizard.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15002);
 				item2.Info.ColorA = 5198989;
 				item2.Info.ColorB = 16768000;
 				item2.Info.ColorC = 4934475;
 				item2.Info.Pocket = 5;
-				C3G9S1_S2_1_fallon_attack_override_black_wizard.Items.Add(item2);
+				C3G9S1_S2_1_fallon_attack_override_black_wizard.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(19004);
 				item3.Info.ColorA = 327680;
 				item3.Info.ColorB = 11403264;
 				item3.Info.ColorC = 11403264;
 				item3.Info.Pocket = 9;
-				C3G9S1_S2_1_fallon_attack_override_black_wizard.Items.Add(item3);
+				C3G9S1_S2_1_fallon_attack_override_black_wizard.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_black_wizard;
 			}
@@ -26758,13 +26758,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14283258;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.Items.Add(item0);
+				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(46001);
 				item1.Info.ColorA = 5001296;
 				item1.Info.ColorB = 6446916;
 				item1.Info.ColorC = 3692560;
 				item1.Info.Pocket = 12;
-				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.Items.Add(item1);
+				C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G9S1_S2_1_fallon_attack_override_goblin_c3_cutscene;
 			}
@@ -26826,27 +26826,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S15_3_ending_override_cai_1.Items.Add(item0);
+				C3G10_S15_3_ending_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S15_3_ending_override_cai_1.Items.Add(item1);
+				C3G10_S15_3_ending_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G10_S15_3_ending_override_cai_1.Items.Add(item2);
+				C3G10_S15_3_ending_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S15_3_ending_override_cai_1.Items.Add(item3);
+				C3G10_S15_3_ending_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S15_3_ending_override_cai_1;
 			}
@@ -26937,20 +26937,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16101708;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S14_1_doubleganger_override_cai_double_gore.Items.Add(item0);
+				C3G10_S14_1_doubleganger_override_cai_double_gore.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S14_1_doubleganger_override_cai_double_gore.Items.Add(item1);
+				C3G10_S14_1_doubleganger_override_cai_double_gore.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G10_S14_1_doubleganger_override_cai_double_gore.Items.Add(item2);
+				C3G10_S14_1_doubleganger_override_cai_double_gore.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G10_S14_1_doubleganger_override_cai_double_gore;
 			}
@@ -26986,27 +26986,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S14_1_doubleganger_override_leymore_1.Items.Add(item0);
+				C3G10_S14_1_doubleganger_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S14_1_doubleganger_override_leymore_1.Items.Add(item1);
+				C3G10_S14_1_doubleganger_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G10_S14_1_doubleganger_override_leymore_1.Items.Add(item2);
+				C3G10_S14_1_doubleganger_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S14_1_doubleganger_override_leymore_1.Items.Add(item3);
+				C3G10_S14_1_doubleganger_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S14_1_doubleganger_override_leymore_1;
 			}
@@ -27043,34 +27043,34 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14710566;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S14_1_doubleganger_override_elatha_rp.Items.Add(item0);
+				C3G10_S14_1_doubleganger_override_elatha_rp.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4104);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S14_1_doubleganger_override_elatha_rp.Items.Add(item1);
+				C3G10_S14_1_doubleganger_override_elatha_rp.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15364);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S14_1_doubleganger_override_elatha_rp.Items.Add(item2);
+				C3G10_S14_1_doubleganger_override_elatha_rp.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S14_1_doubleganger_override_elatha_rp.Items.Add(item3);
+				C3G10_S14_1_doubleganger_override_elatha_rp.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40232);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G10_S14_1_doubleganger_override_elatha_rp.Items.Add(item4);
+				C3G10_S14_1_doubleganger_override_elatha_rp.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G10_S14_1_doubleganger_override_elatha_rp;
 			}
@@ -27165,26 +27165,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15901;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_neamhain.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_neamhain.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5004);
 				item1.Info.ColorA = 8072208;
 				item1.Info.ColorB = 8072208;
 				item1.Info.ColorC = 8072208;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_neamhain.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_neamhain.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(17055);
 				item2.Info.ColorA = 3024677;
 				item2.Info.ColorB = 4898815;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 7;
-				C3G10_S13_2_Neamhain_entrance_override_neamhain.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_neamhain.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(19022);
 				item3.Info.ColorA = 12096592;
 				item3.Info.ColorB = 3158064;
 				item3.Info.ColorC = 5066061;
 				item3.Info.Pocket = 9;
-				C3G10_S13_2_Neamhain_entrance_override_neamhain.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_neamhain.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_neamhain;
 			}
@@ -27300,40 +27300,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16633933;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_granat.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_granat.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6008);
 				item1.Info.ColorA = 10342636;
 				item1.Info.ColorB = 10342636;
 				item1.Info.ColorC = 10342636;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_granat.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_granat.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(14025);
 				item2.Info.ColorA = 5070717;
 				item2.Info.ColorB = 8946820;
 				item2.Info.ColorC = 13555688;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_granat.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_granat.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17046);
 				item3.Info.ColorA = 5070717;
 				item3.Info.ColorB = 9934743;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G10_S13_2_Neamhain_entrance_override_granat.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_granat.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40236);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_granat.Items.Add(item4);
+				C3G10_S13_2_Neamhain_entrance_override_granat.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40005);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 8421504;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 11;
-				C3G10_S13_2_Neamhain_entrance_override_granat.Items.Add(item5);
+				C3G10_S13_2_Neamhain_entrance_override_granat.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -27341,7 +27341,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 12;
-				C3G10_S13_2_Neamhain_entrance_override_granat.Items.Add(item6);
+				C3G10_S13_2_Neamhain_entrance_override_granat.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_granat;
 			}
@@ -27377,24 +27377,24 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9139200;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_andras.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_andras.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3101);
 				item1.Info.ColorA = 14077619;
 				item1.Info.ColorB = 14077619;
 				item1.Info.ColorC = 14077619;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_andras.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_andras.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15337);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 10790052;
 				item2.Info.ColorC = 4598031;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_andras.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_andras.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40108);
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_andras.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_andras.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_andras;
 			}
@@ -27425,7 +27425,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 7038809;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_karpfen.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_karpfen.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_karpfen;
 			}
@@ -27460,26 +27460,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6377571;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4039);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_man5;
 			}
@@ -27516,7 +27516,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16043526;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8015);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
@@ -27525,19 +27525,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man1;
 			}
@@ -27573,26 +27573,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6194471;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4003);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
 				item1.Info.ColorC = 3749945;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_man1;
 			}
@@ -27628,32 +27628,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15450641;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6007);
 				item1.Info.ColorA = 8096429;
 				item1.Info.ColorB = 8096429;
 				item1.Info.ColorC = 8096429;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Items.Add(item4);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man2;
 			}
@@ -27689,26 +27689,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10188803;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 2169913;
 				item1.Info.ColorB = 2169913;
 				item1.Info.ColorC = 2169913;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_man3;
 			}
@@ -27745,26 +27745,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8565096;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3017);
 				item1.Info.ColorA = 7368819;
 				item1.Info.ColorB = 7368819;
 				item1.Info.ColorC = 7368819;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman4;
 			}
@@ -27800,32 +27800,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16701384;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6001);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Items.Add(item4);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man4;
 			}
@@ -27861,26 +27861,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16292168;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 6697779;
 				item1.Info.ColorB = 6697779;
 				item1.Info.ColorC = 6697779;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_man4;
 			}
@@ -27916,32 +27916,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2518611;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6006);
 				item1.Info.ColorA = 15197183;
 				item1.Info.ColorB = 15197183;
 				item1.Info.ColorC = 15197183;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15342);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40224);
 				item3.Info.ColorA = 14202750;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40243);
 				item4.Info.ColorA = 16777215;
 				item4.Info.ColorB = 6112537;
 				item4.Info.ColorC = 6116663;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Items.Add(item4);
+				C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_elf_soldier_man1;
 			}
@@ -27976,26 +27976,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 45763;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3023);
 				item1.Info.ColorA = 11297061;
 				item1.Info.ColorB = 11297061;
 				item1.Info.ColorC = 11297061;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman1;
 			}
@@ -28032,7 +28032,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16560727;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(8017);
 				item1.Info.ColorA = 3749945;
 				item1.Info.ColorB = 3749945;
@@ -28041,19 +28041,19 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
 				item1.Info.uFigureB = 33;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15344);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40176);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_giant_soldier_man3;
 			}
@@ -28090,26 +28090,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16287820;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 3355443;
 				item1.Info.ColorB = 3355443;
 				item1.Info.ColorC = 3355443;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15341);
 				item2.Info.ColorA = 5652524;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 4736839;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_woman3;
 			}
@@ -28145,26 +28145,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13442373;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(7003);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15345);
 				item2.Info.ColorA = 2762521;
 				item2.Info.ColorB = 9341816;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40178);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman1;
 			}
@@ -28200,26 +28200,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16378624;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4004);
 				item1.Info.ColorA = 10247490;
 				item1.Info.ColorB = 10247490;
 				item1.Info.ColorC = 10247490;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15340);
 				item2.Info.ColorA = 7887934;
 				item2.Info.ColorB = 6503473;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40080);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 7303023;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_human_soldier_man2;
 			}
@@ -28256,26 +28256,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16566465;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(7005);
 				item1.Info.ColorA = 6697830;
 				item1.Info.ColorB = 6697830;
 				item1.Info.ColorC = 6697830;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15345);
 				item2.Info.ColorA = 6583954;
 				item2.Info.ColorB = 7897757;
 				item2.Info.ColorC = 12566463;
 				item2.Info.Pocket = 5;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Items.Add(item2);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40178);
 				item3.Info.ColorA = 2302755;
 				item3.Info.ColorB = 6379321;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Items.Add(item3);
+				C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_giant_soldier_woman2;
 			}
@@ -28308,13 +28308,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12061071;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_bonefighter.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_bonefighter.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 4522076;
 				item1.Info.Pocket = 12;
-				C3G10_S13_2_Neamhain_entrance_override_bonefighter.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_bonefighter.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_bonefighter;
 			}
@@ -28347,7 +28347,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8936545;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_bonearcher.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_bonearcher.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 16221078;
@@ -28355,7 +28355,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 8958820;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G10_S13_2_Neamhain_entrance_override_bonearcher.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_bonearcher.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_bonearcher;
 			}
@@ -28388,7 +28388,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11033932;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_bonelancer.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_bonelancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_bonelancer;
 			}
@@ -28447,13 +28447,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S13_2_Neamhain_entrance_override_mata.Items.Add(item0);
+				C3G10_S13_2_Neamhain_entrance_override_mata.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40967);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 8421504;
 				item1.Info.Pocket = 12;
-				C3G10_S13_2_Neamhain_entrance_override_mata.Items.Add(item1);
+				C3G10_S13_2_Neamhain_entrance_override_mata.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G10_S13_2_Neamhain_entrance_override_mata;
 			}
@@ -28514,13 +28514,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S12_3_Neamhain_secret_override_mata.Items.Add(item0);
+				C3G10_S12_3_Neamhain_secret_override_mata.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40967);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 8421504;
 				item1.Info.Pocket = 12;
-				C3G10_S12_3_Neamhain_secret_override_mata.Items.Add(item1);
+				C3G10_S12_3_Neamhain_secret_override_mata.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G10_S12_3_Neamhain_secret_override_mata;
 			}
@@ -28583,26 +28583,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 1015362;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S11_3_James_rescue_override_wovoka.Items.Add(item0);
+				C3G10_S11_3_James_rescue_override_wovoka.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4092);
 				item1.Info.ColorA = 3813935;
 				item1.Info.ColorB = 3813935;
 				item1.Info.ColorC = 3813935;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S11_3_James_rescue_override_wovoka.Items.Add(item1);
+				C3G10_S11_3_James_rescue_override_wovoka.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15241);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S11_3_James_rescue_override_wovoka.Items.Add(item2);
+				C3G10_S11_3_James_rescue_override_wovoka.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18168);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 8;
-				C3G10_S11_3_James_rescue_override_wovoka.Items.Add(item3);
+				C3G10_S11_3_James_rescue_override_wovoka.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S11_3_James_rescue_override_wovoka;
 			}
@@ -28639,20 +28639,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16101708;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S11_3_James_rescue_override_cai_double_gore.Items.Add(item0);
+				C3G10_S11_3_James_rescue_override_cai_double_gore.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S11_3_James_rescue_override_cai_double_gore.Items.Add(item1);
+				C3G10_S11_3_James_rescue_override_cai_double_gore.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G10_S11_3_James_rescue_override_cai_double_gore.Items.Add(item2);
+				C3G10_S11_3_James_rescue_override_cai_double_gore.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G10_S11_3_James_rescue_override_cai_double_gore;
 			}
@@ -28712,15 +28712,15 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40014);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Items.Add(item0);
+				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40083);
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 11;
-				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Items.Add(item1);
+				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(45004);
 				item2.Info.Amount = 1;
 				item2.Info.Pocket = 14;
-				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Items.Add(item2);
+				C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G10_S11_2_shdow_cai_override_boss_defender_of_ruins;
 			}
@@ -28786,20 +28786,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16101708;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S11_2_shdow_cai_override_cai_double_gore.Items.Add(item0);
+				C3G10_S11_2_shdow_cai_override_cai_double_gore.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S11_2_shdow_cai_override_cai_double_gore.Items.Add(item1);
+				C3G10_S11_2_shdow_cai_override_cai_double_gore.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G10_S11_2_shdow_cai_override_cai_double_gore.Items.Add(item2);
+				C3G10_S11_2_shdow_cai_override_cai_double_gore.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G10_S11_2_shdow_cai_override_cai_double_gore;
 			}
@@ -28836,46 +28836,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2140127;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item0);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4005);
 				item1.Info.ColorA = 2496527;
 				item1.Info.ColorB = 2496527;
 				item1.Info.ColorC = 2496527;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item1);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15299);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item2);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17029);
 				item3.Info.ColorA = 3421238;
 				item3.Info.ColorB = 12104227;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item3);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40083);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item4);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40204);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 11;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item5);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40083);
 				item6.Info.ColorA = 8421504;
 				item6.Info.ColorB = 8421504;
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 12;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item6);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item6, item6.Pocket);
 				var item7 = new MabiItem(60059);
 				item7.Info.Amount = 10;
 				item7.Info.ColorA = 8421504;
@@ -28883,7 +28883,7 @@ public class CrystalBallBaseScript : NPCScript
 				item7.Info.ColorC = 8421504;
 				item7.Info.KnockCount = 2;
 				item7.Info.Pocket = 13;
-				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Items.Add(item7);
+				C3G10_S10_4_voight_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item7, item7.Pocket);
 
 				return _C3G10_S10_4_voight_loveaffair_outro_override_arneng;
 			}
@@ -28920,26 +28920,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6160384;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Items.Add(item0);
+				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3024);
 				item1.Info.ColorA = 13005113;
 				item1.Info.ColorB = 13005113;
 				item1.Info.ColorC = 13005113;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Items.Add(item1);
+				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15136);
 				item2.Info.ColorA = 4343139;
 				item2.Info.ColorB = 13486532;
 				item2.Info.ColorC = 14048667;
 				item2.Info.Pocket = 5;
-				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Items.Add(item2);
+				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17135);
 				item3.Info.ColorA = 2236715;
 				item3.Info.ColorB = 8882678;
 				item3.Info.ColorC = 2654707;
 				item3.Info.Pocket = 7;
-				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Items.Add(item3);
+				C3G10_S10_4_voight_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S10_4_voight_loveaffair_outro_override_ilsa;
 			}
@@ -28973,26 +28973,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11468921;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Items.Add(item0);
+				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 6779510;
 				item1.Info.ColorB = 6779510;
 				item1.Info.ColorC = 6779510;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Items.Add(item1);
+				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15393);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Items.Add(item2);
+				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18160);
 				item3.Info.ColorA = 9868950;
 				item3.Info.ColorB = 12369084;
 				item3.Info.ColorC = 9735311;
 				item3.Info.Pocket = 8;
-				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Items.Add(item3);
+				C3G10_S10_4_voight_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S10_4_voight_loveaffair_outro_override_voight2;
 			}
@@ -29029,46 +29029,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2140127;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item0);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4005);
 				item1.Info.ColorA = 2496527;
 				item1.Info.ColorB = 2496527;
 				item1.Info.ColorC = 2496527;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item1);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15299);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item2);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17029);
 				item3.Info.ColorA = 3421238;
 				item3.Info.ColorB = 12104227;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item3);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40083);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item4);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40204);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 11;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item5);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40083);
 				item6.Info.ColorA = 8421504;
 				item6.Info.ColorB = 8421504;
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 12;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item6);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item6, item6.Pocket);
 				var item7 = new MabiItem(60059);
 				item7.Info.Amount = 10;
 				item7.Info.ColorA = 8421504;
@@ -29076,7 +29076,7 @@ public class CrystalBallBaseScript : NPCScript
 				item7.Info.ColorC = 8421504;
 				item7.Info.KnockCount = 2;
 				item7.Info.Pocket = 13;
-				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Items.Add(item7);
+				C3G10_S10_2_arneng_loveaffair_outro_override_arneng.Inventory.ForcePutItem(item7, item7.Pocket);
 
 				return _C3G10_S10_2_arneng_loveaffair_outro_override_arneng;
 			}
@@ -29113,26 +29113,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6160384;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Items.Add(item0);
+				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3024);
 				item1.Info.ColorA = 13005113;
 				item1.Info.ColorB = 13005113;
 				item1.Info.ColorC = 13005113;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Items.Add(item1);
+				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15136);
 				item2.Info.ColorA = 4343139;
 				item2.Info.ColorB = 13486532;
 				item2.Info.ColorC = 14048667;
 				item2.Info.Pocket = 5;
-				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Items.Add(item2);
+				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17135);
 				item3.Info.ColorA = 2236715;
 				item3.Info.ColorB = 8882678;
 				item3.Info.ColorC = 2654707;
 				item3.Info.Pocket = 7;
-				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Items.Add(item3);
+				C3G10_S10_2_arneng_loveaffair_outro_override_ilsa.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S10_2_arneng_loveaffair_outro_override_ilsa;
 			}
@@ -29166,26 +29166,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11468921;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Items.Add(item0);
+				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4955);
 				item1.Info.ColorA = 6779510;
 				item1.Info.ColorB = 6779510;
 				item1.Info.ColorC = 6779510;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Items.Add(item1);
+				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15393);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Items.Add(item2);
+				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18160);
 				item3.Info.ColorA = 9868950;
 				item3.Info.ColorB = 12369084;
 				item3.Info.ColorC = 9735311;
 				item3.Info.Pocket = 8;
-				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Items.Add(item3);
+				C3G10_S10_2_arneng_loveaffair_outro_override_voight2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S10_2_arneng_loveaffair_outro_override_voight2;
 			}
@@ -29222,46 +29222,46 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2140127;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item0);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4005);
 				item1.Info.ColorA = 2496527;
 				item1.Info.ColorB = 2496527;
 				item1.Info.ColorC = 2496527;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item1);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15299);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item2);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17029);
 				item3.Info.ColorA = 3421238;
 				item3.Info.ColorB = 12104227;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item3);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40083);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 1;
 				item4.Info.Pocket = 10;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item4);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40204);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 11;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item5);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(40083);
 				item6.Info.ColorA = 8421504;
 				item6.Info.ColorB = 8421504;
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 1;
 				item6.Info.Pocket = 12;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item6);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item6, item6.Pocket);
 				var item7 = new MabiItem(60059);
 				item7.Info.Amount = 10;
 				item7.Info.ColorA = 8421504;
@@ -29269,7 +29269,7 @@ public class CrystalBallBaseScript : NPCScript
 				item7.Info.ColorC = 8421504;
 				item7.Info.KnockCount = 2;
 				item7.Info.Pocket = 13;
-				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Items.Add(item7);
+				C3G10_S10_1_arneng_loveaffair_intro_override_arneng.Inventory.ForcePutItem(item7, item7.Pocket);
 
 				return _C3G10_S10_1_arneng_loveaffair_intro_override_arneng;
 			}
@@ -29306,34 +29306,34 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14710566;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S8_darklord_elatha_override_elatha_rp.Items.Add(item0);
+				C3G10_S8_darklord_elatha_override_elatha_rp.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4104);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S8_darklord_elatha_override_elatha_rp.Items.Add(item1);
+				C3G10_S8_darklord_elatha_override_elatha_rp.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15364);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S8_darklord_elatha_override_elatha_rp.Items.Add(item2);
+				C3G10_S8_darklord_elatha_override_elatha_rp.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40010);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S8_darklord_elatha_override_elatha_rp.Items.Add(item3);
+				C3G10_S8_darklord_elatha_override_elatha_rp.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40232);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G10_S8_darklord_elatha_override_elatha_rp.Items.Add(item4);
+				C3G10_S8_darklord_elatha_override_elatha_rp.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G10_S8_darklord_elatha_override_elatha_rp;
 			}
@@ -29369,14 +29369,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorB = 16519;
 				item0.Info.ColorC = 16423503;
 				item0.Info.Pocket = 5;
-				C3G10_S8_darklord_elatha_override_dark_lord.Items.Add(item0);
+				C3G10_S8_darklord_elatha_override_dark_lord.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40907);
 				item1.Info.ColorA = 9670035;
 				item1.Info.ColorB = 8813702;
 				item1.Info.ColorC = 5390931;
 				item1.Info.KnockCount = 1;
 				item1.Info.Pocket = 10;
-				C3G10_S8_darklord_elatha_override_dark_lord.Items.Add(item1);
+				C3G10_S8_darklord_elatha_override_dark_lord.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G10_S8_darklord_elatha_override_dark_lord;
 			}
@@ -29412,27 +29412,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Items.Add(item0);
+				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Items.Add(item1);
+				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Items.Add(item2);
+				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Items.Add(item3);
+				C3G10_S4_2_elatha_and_leymore_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S4_2_elatha_and_leymore_override_leymore_1;
 			}
@@ -29495,27 +29495,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Items.Add(item0);
+				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Items.Add(item1);
+				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Items.Add(item2);
+				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Items.Add(item3);
+				C3G10_S4_1_in_memory_of_leymore_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S4_1_in_memory_of_leymore_override_leymore_1;
 			}
@@ -29552,40 +29552,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Items.Add(item0);
+				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Items.Add(item1);
+				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Items.Add(item2);
+				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Items.Add(item3);
+				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Items.Add(item4);
+				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Items.Add(item5);
+				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -29593,7 +29593,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Items.Add(item6);
+				C3G10_S4_1_in_memory_of_leymore_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G10_S4_1_in_memory_of_leymore_override_jenna_2;
 			}
@@ -29629,27 +29629,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Items.Add(item0);
+				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Items.Add(item1);
+				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Items.Add(item2);
+				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Items.Add(item3);
+				C3G10_S4_1_in_memory_of_leymore_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G10_S4_1_in_memory_of_leymore_override_cai_1;
 			}
@@ -29711,20 +29711,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9902136;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S3_3_shadow_witness_override_prisoner.Items.Add(item0);
+				C3G10_S3_3_shadow_witness_override_prisoner.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4956);
 				item1.Info.ColorA = 6503473;
 				item1.Info.ColorB = 6503473;
 				item1.Info.ColorC = 6503473;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S3_3_shadow_witness_override_prisoner.Items.Add(item1);
+				C3G10_S3_3_shadow_witness_override_prisoner.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15395);
 				item2.Info.ColorA = 8945273;
 				item2.Info.ColorB = 6839643;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G10_S3_3_shadow_witness_override_prisoner.Items.Add(item2);
+				C3G10_S3_3_shadow_witness_override_prisoner.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G10_S3_3_shadow_witness_override_prisoner;
 			}
@@ -29757,7 +29757,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11033932;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S3_3_shadow_witness_override_bonelancer.Items.Add(item0);
+				C3G10_S3_3_shadow_witness_override_bonelancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G10_S3_3_shadow_witness_override_bonelancer;
 			}
@@ -29790,13 +29790,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12061071;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S3_3_shadow_witness_override_bonefighter.Items.Add(item0);
+				C3G10_S3_3_shadow_witness_override_bonefighter.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 4522076;
 				item1.Info.Pocket = 12;
-				C3G10_S3_3_shadow_witness_override_bonefighter.Items.Add(item1);
+				C3G10_S3_3_shadow_witness_override_bonefighter.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G10_S3_3_shadow_witness_override_bonefighter;
 			}
@@ -29829,7 +29829,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8936545;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G10_S3_3_shadow_witness_override_bonearcher.Items.Add(item0);
+				C3G10_S3_3_shadow_witness_override_bonearcher.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(45023);
 				item1.Info.Amount = 100;
 				item1.Info.ColorA = 16221078;
@@ -29837,7 +29837,7 @@ public class CrystalBallBaseScript : NPCScript
 				item1.Info.ColorC = 8958820;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 14;
-				C3G10_S3_3_shadow_witness_override_bonearcher.Items.Add(item1);
+				C3G10_S3_3_shadow_witness_override_bonearcher.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G10_S3_3_shadow_witness_override_bonearcher;
 			}
@@ -29874,20 +29874,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16101708;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G10_S1_prophecy_dream_override_cai_double_gore.Items.Add(item0);
+				C3G10_S1_prophecy_dream_override_cai_double_gore.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G10_S1_prophecy_dream_override_cai_double_gore.Items.Add(item1);
+				C3G10_S1_prophecy_dream_override_cai_double_gore.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G10_S1_prophecy_dream_override_cai_double_gore.Items.Add(item2);
+				C3G10_S1_prophecy_dream_override_cai_double_gore.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G10_S1_prophecy_dream_override_cai_double_gore;
 			}
@@ -30020,7 +30020,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15917669;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				C3G11_S9_2_shadowknight_returns_override_shadow_knight.Items.Add(item0);
+				C3G11_S9_2_shadowknight_returns_override_shadow_knight.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S9_2_shadowknight_returns_override_shadow_knight;
 			}
@@ -30053,13 +30053,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14384255;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S9_2_shadowknight_returns_override_python_army.Items.Add(item0);
+				C3G11_S9_2_shadowknight_returns_override_python_army.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 15949972;
 				item1.Info.Pocket = 12;
-				C3G11_S9_2_shadowknight_returns_override_python_army.Items.Add(item1);
+				C3G11_S9_2_shadowknight_returns_override_python_army.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G11_S9_2_shadowknight_returns_override_python_army;
 			}
@@ -30091,7 +30091,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S9_2_shadowknight_returns_override_python_shaman.Items.Add(item0);
+				C3G11_S9_2_shadowknight_returns_override_python_shaman.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S9_2_shadowknight_returns_override_python_shaman;
 			}
@@ -30128,40 +30128,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S9_2_shadowknight_returns_override_jenna_2.Items.Add(item0);
+				C3G11_S9_2_shadowknight_returns_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S9_2_shadowknight_returns_override_jenna_2.Items.Add(item1);
+				C3G11_S9_2_shadowknight_returns_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G11_S9_2_shadowknight_returns_override_jenna_2.Items.Add(item2);
+				C3G11_S9_2_shadowknight_returns_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G11_S9_2_shadowknight_returns_override_jenna_2.Items.Add(item3);
+				C3G11_S9_2_shadowknight_returns_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G11_S9_2_shadowknight_returns_override_jenna_2.Items.Add(item4);
+				C3G11_S9_2_shadowknight_returns_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G11_S9_2_shadowknight_returns_override_jenna_2.Items.Add(item5);
+				C3G11_S9_2_shadowknight_returns_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -30169,7 +30169,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G11_S9_2_shadowknight_returns_override_jenna_2.Items.Add(item6);
+				C3G11_S9_2_shadowknight_returns_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G11_S9_2_shadowknight_returns_override_jenna_2;
 			}
@@ -30205,27 +30205,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S9_2_shadowknight_returns_override_leymore_1.Items.Add(item0);
+				C3G11_S9_2_shadowknight_returns_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S9_2_shadowknight_returns_override_leymore_1.Items.Add(item1);
+				C3G11_S9_2_shadowknight_returns_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G11_S9_2_shadowknight_returns_override_leymore_1.Items.Add(item2);
+				C3G11_S9_2_shadowknight_returns_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S9_2_shadowknight_returns_override_leymore_1.Items.Add(item3);
+				C3G11_S9_2_shadowknight_returns_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S9_2_shadowknight_returns_override_leymore_1;
 			}
@@ -30261,27 +30261,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S9_2_shadowknight_returns_override_cai_1.Items.Add(item0);
+				C3G11_S9_2_shadowknight_returns_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S9_2_shadowknight_returns_override_cai_1.Items.Add(item1);
+				C3G11_S9_2_shadowknight_returns_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G11_S9_2_shadowknight_returns_override_cai_1.Items.Add(item2);
+				C3G11_S9_2_shadowknight_returns_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S9_2_shadowknight_returns_override_cai_1.Items.Add(item3);
+				C3G11_S9_2_shadowknight_returns_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S9_2_shadowknight_returns_override_cai_1;
 			}
@@ -30492,7 +30492,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S9_0_shaman_override_python_shaman.Items.Add(item0);
+				C3G11_S9_0_shaman_override_python_shaman.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S9_0_shaman_override_python_shaman;
 			}
@@ -30524,7 +30524,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15917669;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				C3G11_S8_3_shadowknight_retreat_override_shadow_knight.Items.Add(item0);
+				C3G11_S8_3_shadowknight_retreat_override_shadow_knight.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S8_3_shadowknight_retreat_override_shadow_knight;
 			}
@@ -30556,7 +30556,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S8_3_shadowknight_retreat_override_python_shaman.Items.Add(item0);
+				C3G11_S8_3_shadowknight_retreat_override_python_shaman.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S8_3_shadowknight_retreat_override_python_shaman;
 			}
@@ -30589,13 +30589,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14384255;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S8_3_shadowknight_retreat_override_python_army.Items.Add(item0);
+				C3G11_S8_3_shadowknight_retreat_override_python_army.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 15949972;
 				item1.Info.Pocket = 12;
-				C3G11_S8_3_shadowknight_retreat_override_python_army.Items.Add(item1);
+				C3G11_S8_3_shadowknight_retreat_override_python_army.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G11_S8_3_shadowknight_retreat_override_python_army;
 			}
@@ -30627,7 +30627,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15917669;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				C3G11_S8_1_shadowknight_truth_override_shadow_knight_mask.Items.Add(item0);
+				C3G11_S8_1_shadowknight_truth_override_shadow_knight_mask.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S8_1_shadowknight_truth_override_shadow_knight_mask;
 			}
@@ -30659,7 +30659,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15917669;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				C3G11_S8_1_shadowknight_truth_override_shadow_knight.Items.Add(item0);
+				C3G11_S8_1_shadowknight_truth_override_shadow_knight.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S8_1_shadowknight_truth_override_shadow_knight;
 			}
@@ -30692,13 +30692,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14384255;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S8_1_shadowknight_truth_override_python_army.Items.Add(item0);
+				C3G11_S8_1_shadowknight_truth_override_python_army.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 15949972;
 				item1.Info.Pocket = 12;
-				C3G11_S8_1_shadowknight_truth_override_python_army.Items.Add(item1);
+				C3G11_S8_1_shadowknight_truth_override_python_army.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G11_S8_1_shadowknight_truth_override_python_army;
 			}
@@ -30730,7 +30730,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S8_1_shadowknight_truth_override_python_shaman.Items.Add(item0);
+				C3G11_S8_1_shadowknight_truth_override_python_shaman.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S8_1_shadowknight_truth_override_python_shaman;
 			}
@@ -30791,20 +30791,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14990296;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S7_2_jenna_rage_override_jenna.Items.Add(item0);
+				C3G11_S7_2_jenna_rage_override_jenna.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S7_2_jenna_rage_override_jenna.Items.Add(item1);
+				C3G11_S7_2_jenna_rage_override_jenna.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G11_S7_2_jenna_rage_override_jenna.Items.Add(item2);
+				C3G11_S7_2_jenna_rage_override_jenna.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G11_S7_2_jenna_rage_override_jenna;
 			}
@@ -30840,27 +30840,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S7_2_jenna_rage_override_leymore_1.Items.Add(item0);
+				C3G11_S7_2_jenna_rage_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S7_2_jenna_rage_override_leymore_1.Items.Add(item1);
+				C3G11_S7_2_jenna_rage_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G11_S7_2_jenna_rage_override_leymore_1.Items.Add(item2);
+				C3G11_S7_2_jenna_rage_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S7_2_jenna_rage_override_leymore_1.Items.Add(item3);
+				C3G11_S7_2_jenna_rage_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S7_2_jenna_rage_override_leymore_1;
 			}
@@ -30921,20 +30921,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 14990296;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S7_1_jenna_offering_override_jenna.Items.Add(item0);
+				C3G11_S7_1_jenna_offering_override_jenna.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S7_1_jenna_offering_override_jenna.Items.Add(item1);
+				C3G11_S7_1_jenna_offering_override_jenna.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G11_S7_1_jenna_offering_override_jenna.Items.Add(item2);
+				C3G11_S7_1_jenna_offering_override_jenna.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G11_S7_1_jenna_offering_override_jenna;
 			}
@@ -30970,27 +30970,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S7_1_jenna_offering_override_leymore_1.Items.Add(item0);
+				C3G11_S7_1_jenna_offering_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S7_1_jenna_offering_override_leymore_1.Items.Add(item1);
+				C3G11_S7_1_jenna_offering_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G11_S7_1_jenna_offering_override_leymore_1.Items.Add(item2);
+				C3G11_S7_1_jenna_offering_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S7_1_jenna_offering_override_leymore_1.Items.Add(item3);
+				C3G11_S7_1_jenna_offering_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S7_1_jenna_offering_override_leymore_1;
 			}
@@ -31082,40 +31082,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S6_cichol_death_override_jenna_2.Items.Add(item0);
+				C3G11_S6_cichol_death_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S6_cichol_death_override_jenna_2.Items.Add(item1);
+				C3G11_S6_cichol_death_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G11_S6_cichol_death_override_jenna_2.Items.Add(item2);
+				C3G11_S6_cichol_death_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G11_S6_cichol_death_override_jenna_2.Items.Add(item3);
+				C3G11_S6_cichol_death_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G11_S6_cichol_death_override_jenna_2.Items.Add(item4);
+				C3G11_S6_cichol_death_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G11_S6_cichol_death_override_jenna_2.Items.Add(item5);
+				C3G11_S6_cichol_death_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -31123,7 +31123,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G11_S6_cichol_death_override_jenna_2.Items.Add(item6);
+				C3G11_S6_cichol_death_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G11_S6_cichol_death_override_jenna_2;
 			}
@@ -31160,26 +31160,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16703956;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S6_cichol_death_override_jenna_3.Items.Add(item0);
+				C3G11_S6_cichol_death_override_jenna_3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S6_cichol_death_override_jenna_3.Items.Add(item1);
+				C3G11_S6_cichol_death_override_jenna_3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G11_S6_cichol_death_override_jenna_3.Items.Add(item2);
+				C3G11_S6_cichol_death_override_jenna_3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40081);
 				item3.Info.ColorA = 3749945;
 				item3.Info.ColorB = 6697728;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 11;
-				C3G11_S6_cichol_death_override_jenna_3.Items.Add(item3);
+				C3G11_S6_cichol_death_override_jenna_3.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(45001);
 				item4.Info.Amount = 100;
 				item4.Info.ColorA = 8421504;
@@ -31187,7 +31187,7 @@ public class CrystalBallBaseScript : NPCScript
 				item4.Info.ColorC = 8421504;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 13;
-				C3G11_S6_cichol_death_override_jenna_3.Items.Add(item4);
+				C3G11_S6_cichol_death_override_jenna_3.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G11_S6_cichol_death_override_jenna_3;
 			}
@@ -31223,27 +31223,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S6_cichol_death_override_leymore_1.Items.Add(item0);
+				C3G11_S6_cichol_death_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S6_cichol_death_override_leymore_1.Items.Add(item1);
+				C3G11_S6_cichol_death_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G11_S6_cichol_death_override_leymore_1.Items.Add(item2);
+				C3G11_S6_cichol_death_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S6_cichol_death_override_leymore_1.Items.Add(item3);
+				C3G11_S6_cichol_death_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S6_cichol_death_override_leymore_1;
 			}
@@ -31279,27 +31279,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S5_3_partholon_mystery_override_leymore_1.Items.Add(item0);
+				C3G11_S5_3_partholon_mystery_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S5_3_partholon_mystery_override_leymore_1.Items.Add(item1);
+				C3G11_S5_3_partholon_mystery_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G11_S5_3_partholon_mystery_override_leymore_1.Items.Add(item2);
+				C3G11_S5_3_partholon_mystery_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S5_3_partholon_mystery_override_leymore_1.Items.Add(item3);
+				C3G11_S5_3_partholon_mystery_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S5_3_partholon_mystery_override_leymore_1;
 			}
@@ -31361,26 +31361,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16703196;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Items.Add(item0);
+				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4083);
 				item1.Info.ColorA = 2234383;
 				item1.Info.ColorB = 2234383;
 				item1.Info.ColorC = 2234383;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Items.Add(item1);
+				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15007);
 				item2.Info.ColorA = 1050369;
 				item2.Info.ColorB = 787713;
 				item2.Info.ColorC = 7158802;
 				item2.Info.Pocket = 5;
-				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Items.Add(item2);
+				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17031);
 				item3.Info.ColorA = 2166542;
 				item3.Info.ColorB = 7143478;
 				item3.Info.ColorC = 4915207;
 				item3.Info.Pocket = 7;
-				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Items.Add(item3);
+				C3G11_S5_2_belita_revenge_outro_override_lucas_02.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S5_2_belita_revenge_outro_override_lucas_02;
 			}
@@ -31413,26 +31413,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16703196;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Items.Add(item0);
+				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4083);
 				item1.Info.ColorA = 2234383;
 				item1.Info.ColorB = 2234383;
 				item1.Info.ColorC = 2234383;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Items.Add(item1);
+				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15007);
 				item2.Info.ColorA = 1050369;
 				item2.Info.ColorB = 787713;
 				item2.Info.ColorC = 7158802;
 				item2.Info.Pocket = 5;
-				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Items.Add(item2);
+				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17031);
 				item3.Info.ColorA = 2166542;
 				item3.Info.ColorB = 7143478;
 				item3.Info.ColorC = 4915207;
 				item3.Info.Pocket = 7;
-				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Items.Add(item3);
+				C3G11_S5_1_belita_revenge_intro_override_lucas_02.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S5_1_belita_revenge_intro_override_lucas_02;
 			}
@@ -31468,27 +31468,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S4_pythonknight_advent_override_cai_1.Items.Add(item0);
+				C3G11_S4_pythonknight_advent_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S4_pythonknight_advent_override_cai_1.Items.Add(item1);
+				C3G11_S4_pythonknight_advent_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G11_S4_pythonknight_advent_override_cai_1.Items.Add(item2);
+				C3G11_S4_pythonknight_advent_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S4_pythonknight_advent_override_cai_1.Items.Add(item3);
+				C3G11_S4_pythonknight_advent_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S4_pythonknight_advent_override_cai_1;
 			}
@@ -31524,27 +31524,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2388806;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S4_pythonknight_advent_override_leymore_1.Items.Add(item0);
+				C3G11_S4_pythonknight_advent_override_leymore_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S4_pythonknight_advent_override_leymore_1.Items.Add(item1);
+				C3G11_S4_pythonknight_advent_override_leymore_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G11_S4_pythonknight_advent_override_leymore_1.Items.Add(item2);
+				C3G11_S4_pythonknight_advent_override_leymore_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 10392696;
 				item3.Info.ColorB = 14729332;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G11_S4_pythonknight_advent_override_leymore_1.Items.Add(item3);
+				C3G11_S4_pythonknight_advent_override_leymore_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G11_S4_pythonknight_advent_override_leymore_1;
 			}
@@ -31576,7 +31576,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15917669;
 				item0.Info.KnockCount = 1;
 				item0.Info.Pocket = 10;
-				C3G11_S4_pythonknight_advent_override_shadow_knight_mask.Items.Add(item0);
+				C3G11_S4_pythonknight_advent_override_shadow_knight_mask.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S4_pythonknight_advent_override_shadow_knight_mask;
 			}
@@ -31610,13 +31610,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8421504;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S4_pythonknight_advent_override_mata.Items.Add(item0);
+				C3G11_S4_pythonknight_advent_override_mata.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40967);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 8421504;
 				item1.Info.Pocket = 12;
-				C3G11_S4_pythonknight_advent_override_mata.Items.Add(item1);
+				C3G11_S4_pythonknight_advent_override_mata.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G11_S4_pythonknight_advent_override_mata;
 			}
@@ -31649,13 +31649,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12061071;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S4_pythonknight_advent_override_bonefighter.Items.Add(item0);
+				C3G11_S4_pythonknight_advent_override_bonefighter.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40262);
 				item1.Info.ColorA = 8421504;
 				item1.Info.ColorB = 8421504;
 				item1.Info.ColorC = 4522076;
 				item1.Info.Pocket = 12;
-				C3G11_S4_pythonknight_advent_override_bonefighter.Items.Add(item1);
+				C3G11_S4_pythonknight_advent_override_bonefighter.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G11_S4_pythonknight_advent_override_bonefighter;
 			}
@@ -31688,7 +31688,7 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 11033932;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G11_S4_pythonknight_advent_override_bonelancer.Items.Add(item0);
+				C3G11_S4_pythonknight_advent_override_bonelancer.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G11_S4_pythonknight_advent_override_bonelancer;
 			}
@@ -31723,14 +31723,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4537234;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S3_jenna_rebirth_override_hallalchemist_02.Items.Add(item0);
+				C3G11_S3_jenna_rebirth_override_hallalchemist_02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40258);
 				item1.Info.ColorA = 6447714;
 				item1.Info.ColorB = 3750201;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G11_S3_jenna_rebirth_override_hallalchemist_02.Items.Add(item1);
+				C3G11_S3_jenna_rebirth_override_hallalchemist_02.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G11_S3_jenna_rebirth_override_hallalchemist_02;
 			}
@@ -31766,14 +31766,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16226083;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S3_jenna_rebirth_override_hallalchemist_staff.Items.Add(item0);
+				C3G11_S3_jenna_rebirth_override_hallalchemist_staff.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40258);
 				item1.Info.ColorA = 6447714;
 				item1.Info.ColorB = 3750201;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G11_S3_jenna_rebirth_override_hallalchemist_staff.Items.Add(item1);
+				C3G11_S3_jenna_rebirth_override_hallalchemist_staff.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G11_S3_jenna_rebirth_override_hallalchemist_staff;
 			}
@@ -31834,40 +31834,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15555113;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S3_jenna_rebirth_override_jenna_2.Items.Add(item0);
+				C3G11_S3_jenna_rebirth_override_jenna_2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3103);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S3_jenna_rebirth_override_jenna_2.Items.Add(item1);
+				C3G11_S3_jenna_rebirth_override_jenna_2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15330);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G11_S3_jenna_rebirth_override_jenna_2.Items.Add(item2);
+				C3G11_S3_jenna_rebirth_override_jenna_2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G11_S3_jenna_rebirth_override_jenna_2.Items.Add(item3);
+				C3G11_S3_jenna_rebirth_override_jenna_2.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G11_S3_jenna_rebirth_override_jenna_2.Items.Add(item4);
+				C3G11_S3_jenna_rebirth_override_jenna_2.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G11_S3_jenna_rebirth_override_jenna_2.Items.Add(item5);
+				C3G11_S3_jenna_rebirth_override_jenna_2.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 100;
 				item6.Info.ColorA = 8421504;
@@ -31875,7 +31875,7 @@ public class CrystalBallBaseScript : NPCScript
 				item6.Info.ColorC = 8421504;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 13;
-				C3G11_S3_jenna_rebirth_override_jenna_2.Items.Add(item6);
+				C3G11_S3_jenna_rebirth_override_jenna_2.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G11_S3_jenna_rebirth_override_jenna_2;
 			}
@@ -31912,32 +31912,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6768737;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S1_2_meeting_buchanan_override_buchanan.Items.Add(item0);
+				C3G11_S1_2_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4113);
 				item1.Info.ColorA = 11907709;
 				item1.Info.ColorB = 11907709;
 				item1.Info.ColorC = 11907709;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S1_2_meeting_buchanan_override_buchanan.Items.Add(item1);
+				C3G11_S1_2_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15439);
 				item2.Info.ColorA = 1843496;
 				item2.Info.ColorB = 15261393;
 				item2.Info.ColorC = 3892072;
 				item2.Info.Pocket = 5;
-				C3G11_S1_2_meeting_buchanan_override_buchanan.Items.Add(item2);
+				C3G11_S1_2_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17066);
 				item3.Info.ColorA = 3355443;
 				item3.Info.ColorB = 13282800;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G11_S1_2_meeting_buchanan_override_buchanan.Items.Add(item3);
+				C3G11_S1_2_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18258);
 				item4.Info.ColorA = 3104116;
 				item4.Info.ColorB = 11974326;
 				item4.Info.ColorC = 12619733;
 				item4.Info.Pocket = 8;
-				C3G11_S1_2_meeting_buchanan_override_buchanan.Items.Add(item4);
+				C3G11_S1_2_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G11_S1_2_meeting_buchanan_override_buchanan;
 			}
@@ -32004,32 +32004,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6768737;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G11_S1_1_meeting_buchanan_override_buchanan.Items.Add(item0);
+				C3G11_S1_1_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4113);
 				item1.Info.ColorA = 11907709;
 				item1.Info.ColorB = 11907709;
 				item1.Info.ColorC = 11907709;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G11_S1_1_meeting_buchanan_override_buchanan.Items.Add(item1);
+				C3G11_S1_1_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15439);
 				item2.Info.ColorA = 1843496;
 				item2.Info.ColorB = 15261393;
 				item2.Info.ColorC = 3892072;
 				item2.Info.Pocket = 5;
-				C3G11_S1_1_meeting_buchanan_override_buchanan.Items.Add(item2);
+				C3G11_S1_1_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17066);
 				item3.Info.ColorA = 3355443;
 				item3.Info.ColorB = 13282800;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G11_S1_1_meeting_buchanan_override_buchanan.Items.Add(item3);
+				C3G11_S1_1_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18258);
 				item4.Info.ColorA = 3104116;
 				item4.Info.ColorB = 11974326;
 				item4.Info.ColorC = 12619733;
 				item4.Info.Pocket = 8;
-				C3G11_S1_1_meeting_buchanan_override_buchanan.Items.Add(item4);
+				C3G11_S1_1_meeting_buchanan_override_buchanan.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G11_S1_1_meeting_buchanan_override_buchanan;
 			}
@@ -32120,20 +32120,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9637767;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S11_restore_brionac_override_leymore.Items.Add(item0);
+				C3G12_S11_restore_brionac_override_leymore.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S11_restore_brionac_override_leymore.Items.Add(item1);
+				C3G12_S11_restore_brionac_override_leymore.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G12_S11_restore_brionac_override_leymore.Items.Add(item2);
+				C3G12_S11_restore_brionac_override_leymore.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G12_S11_restore_brionac_override_leymore;
 			}
@@ -32170,45 +32170,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7770253;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S11_restore_brionac_override_jenna_renewalG12.Items.Add(item0);
+				C3G12_S11_restore_brionac_override_jenna_renewalG12.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3112);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S11_restore_brionac_override_jenna_renewalG12.Items.Add(item1);
+				C3G12_S11_restore_brionac_override_jenna_renewalG12.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15479);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S11_restore_brionac_override_jenna_renewalG12.Items.Add(item2);
+				C3G12_S11_restore_brionac_override_jenna_renewalG12.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G12_S11_restore_brionac_override_jenna_renewalG12.Items.Add(item3);
+				C3G12_S11_restore_brionac_override_jenna_renewalG12.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G12_S11_restore_brionac_override_jenna_renewalG12.Items.Add(item4);
+				C3G12_S11_restore_brionac_override_jenna_renewalG12.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G12_S11_restore_brionac_override_jenna_renewalG12.Items.Add(item5);
+				C3G12_S11_restore_brionac_override_jenna_renewalG12.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 1;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 15;
-				C3G12_S11_restore_brionac_override_jenna_renewalG12.Items.Add(item6);
+				C3G12_S11_restore_brionac_override_jenna_renewalG12.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G12_S11_restore_brionac_override_jenna_renewalG12;
 			}
@@ -32244,20 +32244,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6909027;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S11_restore_brionac_override_cai.Items.Add(item0);
+				C3G12_S11_restore_brionac_override_cai.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S11_restore_brionac_override_cai.Items.Add(item1);
+				C3G12_S11_restore_brionac_override_cai.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G12_S11_restore_brionac_override_cai.Items.Add(item2);
+				C3G12_S11_restore_brionac_override_cai.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G12_S11_restore_brionac_override_cai;
 			}
@@ -32293,20 +32293,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8847442;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S10_eabha_dream3_override_falias_eabha.Items.Add(item0);
+				C3G12_S10_eabha_dream3_override_falias_eabha.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4099);
 				item1.Info.ColorA = 8746847;
 				item1.Info.ColorB = 8746847;
 				item1.Info.ColorC = 8746847;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S10_eabha_dream3_override_falias_eabha.Items.Add(item1);
+				C3G12_S10_eabha_dream3_override_falias_eabha.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15333);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 15000804;
 				item2.Info.ColorC = 13492708;
 				item2.Info.Pocket = 5;
-				C3G12_S10_eabha_dream3_override_falias_eabha.Items.Add(item2);
+				C3G12_S10_eabha_dream3_override_falias_eabha.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G12_S10_eabha_dream3_override_falias_eabha;
 			}
@@ -32395,20 +32395,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8847442;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S8_eabha_dream2_override_falias_eabha.Items.Add(item0);
+				C3G12_S8_eabha_dream2_override_falias_eabha.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4099);
 				item1.Info.ColorA = 8746847;
 				item1.Info.ColorB = 8746847;
 				item1.Info.ColorC = 8746847;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S8_eabha_dream2_override_falias_eabha.Items.Add(item1);
+				C3G12_S8_eabha_dream2_override_falias_eabha.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15333);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 15000804;
 				item2.Info.ColorC = 13492708;
 				item2.Info.Pocket = 5;
-				C3G12_S8_eabha_dream2_override_falias_eabha.Items.Add(item2);
+				C3G12_S8_eabha_dream2_override_falias_eabha.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G12_S8_eabha_dream2_override_falias_eabha;
 			}
@@ -32444,20 +32444,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8847442;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S6_eabha_dream1_override_falias_eabha.Items.Add(item0);
+				C3G12_S6_eabha_dream1_override_falias_eabha.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4099);
 				item1.Info.ColorA = 8746847;
 				item1.Info.ColorB = 8746847;
 				item1.Info.ColorC = 8746847;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S6_eabha_dream1_override_falias_eabha.Items.Add(item1);
+				C3G12_S6_eabha_dream1_override_falias_eabha.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15333);
 				item2.Info.ColorA = 16777215;
 				item2.Info.ColorB = 15000804;
 				item2.Info.ColorC = 13492708;
 				item2.Info.Pocket = 5;
-				C3G12_S6_eabha_dream1_override_falias_eabha.Items.Add(item2);
+				C3G12_S6_eabha_dream1_override_falias_eabha.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G12_S6_eabha_dream1_override_falias_eabha;
 			}
@@ -32493,20 +32493,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9637767;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_leymore.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_leymore.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_leymore.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_leymore.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_leymore.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_leymore.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_leymore;
 			}
@@ -32543,45 +32543,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7770253;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3112);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15479);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Items.Add(item4);
+				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Items.Add(item5);
+				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 1;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 15;
-				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Items.Add(item6);
+				C3G12_S5_2_death_helvetius_override_jenna_renewalG12.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_jenna_renewalG12;
 			}
@@ -32617,27 +32617,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_cai_1.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_cai_1.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_cai_1.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G12_S5_2_death_helvetius_override_cai_1.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_cai_1;
 			}
@@ -32674,26 +32674,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16362583;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_lennox.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_lennox.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4117);
 				item1.Info.ColorA = 7701129;
 				item1.Info.ColorB = 7701129;
 				item1.Info.ColorC = 7701129;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_lennox.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_lennox.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15567);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_lennox.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_lennox.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18289);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 8;
-				C3G12_S5_2_death_helvetius_override_lennox.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_lennox.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_lennox;
 			}
@@ -32729,13 +32729,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6225;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_helvetius_g12.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_helvetius_g12.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(15566);
 				item1.Info.ColorA = 1776411;
 				item1.Info.ColorB = 8072208;
 				item1.Info.ColorC = 8421504;
 				item1.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_helvetius_g12.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_helvetius_g12.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_helvetius_g12;
 			}
@@ -32771,26 +32771,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 1718162;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 15657348;
 				item1.Info.ColorB = 15657348;
 				item1.Info.ColorC = 15657348;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male01.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_royalalchemist_male01;
 			}
@@ -32826,26 +32826,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4157477;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3024);
 				item1.Info.ColorA = 1982739;
 				item1.Info.ColorB = 1982739;
 				item1.Info.ColorC = 1982739;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female02.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_royalalchemist_female02;
 			}
@@ -32882,26 +32882,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16427158;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4086);
 				item1.Info.ColorA = 2634578;
 				item1.Info.ColorB = 2634578;
 				item1.Info.ColorC = 2634578;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male03.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_royalalchemist_male03;
 			}
@@ -32937,26 +32937,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3123783;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3037);
 				item1.Info.ColorA = 2883584;
 				item1.Info.ColorB = 2883584;
 				item1.Info.ColorC = 2883584;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female01.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_royalalchemist_female01;
 			}
@@ -32992,26 +32992,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 1276817;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4111);
 				item1.Info.ColorA = 6703673;
 				item1.Info.ColorB = 6703673;
 				item1.Info.ColorC = 6703673;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_male02.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_royalalchemist_male02;
 			}
@@ -33047,26 +33047,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 5219393;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5003);
 				item1.Info.ColorA = 1315860;
 				item1.Info.ColorB = 1315860;
 				item1.Info.ColorC = 1315860;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Items.Add(item2);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Items.Add(item3);
+				C3G12_S5_2_death_helvetius_override_royalalchemist_female03.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_royalalchemist_female03;
 			}
@@ -33102,14 +33102,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16226083;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_2_death_helvetius_override_hallalchemist_staff.Items.Add(item0);
+				C3G12_S5_2_death_helvetius_override_hallalchemist_staff.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40258);
 				item1.Info.ColorA = 6447714;
 				item1.Info.ColorB = 3750201;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G12_S5_2_death_helvetius_override_hallalchemist_staff.Items.Add(item1);
+				C3G12_S5_2_death_helvetius_override_hallalchemist_staff.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G12_S5_2_death_helvetius_override_hallalchemist_staff;
 			}
@@ -33145,20 +33145,20 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9637767;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_leymore.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_leymore.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4098);
 				item1.Info.ColorA = 7509391;
 				item1.Info.ColorB = 7509391;
 				item1.Info.ColorC = 7509391;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_leymore.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_leymore.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15332);
 				item2.Info.ColorA = 6712689;
 				item2.Info.ColorB = 2040099;
 				item2.Info.ColorC = 10394261;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_leymore.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_leymore.Inventory.ForcePutItem(item2, item2.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_leymore;
 			}
@@ -33195,45 +33195,45 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7770253;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3112);
 				item1.Info.ColorA = 8790837;
 				item1.Info.ColorB = 8790837;
 				item1.Info.ColorC = 8790837;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15479);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40011);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 3355392;
 				item3.Info.ColorC = 10040064;
 				item3.Info.KnockCount = 1;
 				item3.Info.Pocket = 10;
-				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40081);
 				item4.Info.ColorA = 3749945;
 				item4.Info.ColorB = 6697728;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 11;
-				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Items.Add(item4);
+				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40011);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 3355392;
 				item5.Info.ColorC = 10040064;
 				item5.Info.KnockCount = 1;
 				item5.Info.Pocket = 12;
-				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Items.Add(item5);
+				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Inventory.ForcePutItem(item5, item5.Pocket);
 				var item6 = new MabiItem(45001);
 				item6.Info.Amount = 1;
 				item6.Info.KnockCount = 2;
 				item6.Info.Pocket = 15;
-				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Items.Add(item6);
+				C3G12_S5_1_meet_lennox_override_jenna_renewalG12.Inventory.ForcePutItem(item6, item6.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_jenna_renewalG12;
 			}
@@ -33269,27 +33269,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13482501;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_cai_1.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_cai_1.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4097);
 				item1.Info.ColorA = 5590600;
 				item1.Info.ColorB = 5590600;
 				item1.Info.ColorC = 5590600;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_cai_1.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_cai_1.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15331);
 				item2.Info.ColorA = 3161951;
 				item2.Info.ColorB = 13750737;
 				item2.Info.ColorC = 3552822;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_cai_1.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_cai_1.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(40258);
 				item3.Info.ColorA = 16509617;
 				item3.Info.ColorB = 7763574;
 				item3.Info.ColorC = 10318938;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 10;
-				C3G12_S5_1_meet_lennox_override_cai_1.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_cai_1.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_cai_1;
 			}
@@ -33326,26 +33326,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16362583;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_lennox.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_lennox.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4117);
 				item1.Info.ColorA = 7701129;
 				item1.Info.ColorB = 7701129;
 				item1.Info.ColorC = 7701129;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_lennox.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_lennox.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15567);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_lennox.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_lennox.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18289);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 8;
-				C3G12_S5_1_meet_lennox_override_lennox.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_lennox.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_lennox;
 			}
@@ -33380,14 +33380,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4537234;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_hallalchemist_02.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_hallalchemist_02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40258);
 				item1.Info.ColorA = 6447714;
 				item1.Info.ColorB = 3750201;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G12_S5_1_meet_lennox_override_hallalchemist_02.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_hallalchemist_02.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_hallalchemist_02;
 			}
@@ -33423,26 +33423,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 1718162;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4042);
 				item1.Info.ColorA = 15657348;
 				item1.Info.ColorB = 15657348;
 				item1.Info.ColorC = 15657348;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male01.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_royalalchemist_male01;
 			}
@@ -33478,26 +33478,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4157477;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3024);
 				item1.Info.ColorA = 1982739;
 				item1.Info.ColorB = 1982739;
 				item1.Info.ColorC = 1982739;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female02.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_royalalchemist_female02;
 			}
@@ -33534,26 +33534,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16427158;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4086);
 				item1.Info.ColorA = 2634578;
 				item1.Info.ColorB = 2634578;
 				item1.Info.ColorC = 2634578;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male03.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_royalalchemist_male03;
 			}
@@ -33589,26 +33589,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 3123783;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3037);
 				item1.Info.ColorA = 2883584;
 				item1.Info.ColorB = 2883584;
 				item1.Info.ColorC = 2883584;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female01.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_royalalchemist_female01;
 			}
@@ -33644,26 +33644,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 1276817;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4111);
 				item1.Info.ColorA = 6703673;
 				item1.Info.ColorB = 6703673;
 				item1.Info.ColorC = 6703673;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_male02.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_royalalchemist_male02;
 			}
@@ -33699,26 +33699,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 5219393;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5003);
 				item1.Info.ColorA = 1315860;
 				item1.Info.ColorB = 1315860;
 				item1.Info.ColorC = 1315860;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15478);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Items.Add(item2);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17177);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Items.Add(item3);
+				C3G12_S5_1_meet_lennox_override_royalalchemist_female03.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_royalalchemist_female03;
 			}
@@ -33754,14 +33754,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16226083;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S5_1_meet_lennox_override_hallalchemist_staff.Items.Add(item0);
+				C3G12_S5_1_meet_lennox_override_hallalchemist_staff.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40258);
 				item1.Info.ColorA = 6447714;
 				item1.Info.ColorB = 3750201;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G12_S5_1_meet_lennox_override_hallalchemist_staff.Items.Add(item1);
+				C3G12_S5_1_meet_lennox_override_hallalchemist_staff.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G12_S5_1_meet_lennox_override_hallalchemist_staff;
 			}
@@ -33796,32 +33796,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 1925764;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_husband.Items.Add(item0);
+				C3G12_S4_3_wedding_override_husband.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4030);
 				item1.Info.ColorA = 12048605;
 				item1.Info.ColorB = 12048605;
 				item1.Info.ColorC = 12048605;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_husband.Items.Add(item1);
+				C3G12_S4_3_wedding_override_husband.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15122);
 				item2.Info.ColorA = 2172203;
 				item2.Info.ColorB = 3089941;
 				item2.Info.ColorC = 16574914;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_husband.Items.Add(item2);
+				C3G12_S4_3_wedding_override_husband.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17051);
 				item3.Info.ColorA = 3157288;
 				item3.Info.ColorB = 16119634;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_husband.Items.Add(item3);
+				C3G12_S4_3_wedding_override_husband.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18260);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 8421504;
 				item4.Info.ColorC = 8421504;
 				item4.Info.Pocket = 8;
-				C3G12_S4_3_wedding_override_husband.Items.Add(item4);
+				C3G12_S4_3_wedding_override_husband.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_husband;
 			}
@@ -33858,33 +33858,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2077097;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_bride.Items.Add(item0);
+				C3G12_S4_3_wedding_override_bride.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(5003);
 				item1.Info.ColorA = 3419964;
 				item1.Info.ColorB = 3419964;
 				item1.Info.ColorC = 3419964;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_bride.Items.Add(item1);
+				C3G12_S4_3_wedding_override_bride.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15123);
 				item2.Info.ColorA = 16380128;
 				item2.Info.ColorB = 16777215;
 				item2.Info.ColorC = 8876881;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_bride.Items.Add(item2);
+				C3G12_S4_3_wedding_override_bride.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17052);
 				item3.Info.ColorA = 6987244;
 				item3.Info.ColorB = 7247027;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_bride.Items.Add(item3);
+				C3G12_S4_3_wedding_override_bride.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40088);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 4941169;
 				item4.Info.ColorC = 10410751;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				C3G12_S4_3_wedding_override_bride.Items.Add(item4);
+				C3G12_S4_3_wedding_override_bride.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_bride;
 			}
@@ -33919,40 +33919,40 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 4202853;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_pencast.Items.Add(item0);
+				C3G12_S4_3_wedding_override_pencast.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4109);
 				item1.Info.ColorA = 11381413;
 				item1.Info.ColorB = 11381413;
 				item1.Info.ColorC = 11381413;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_pencast.Items.Add(item1);
+				C3G12_S4_3_wedding_override_pencast.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15389);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_pencast.Items.Add(item2);
+				C3G12_S4_3_wedding_override_pencast.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17049);
 				item3.Info.ColorA = 15721397;
 				item3.Info.ColorB = 6684723;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_pencast.Items.Add(item3);
+				C3G12_S4_3_wedding_override_pencast.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(18247);
 				item4.Info.ColorA = 8421504;
 				item4.Info.ColorB = 4956904;
 				item4.Info.ColorC = 9120555;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 8;
-				C3G12_S4_3_wedding_override_pencast.Items.Add(item4);
+				C3G12_S4_3_wedding_override_pencast.Inventory.ForcePutItem(item4, item4.Pocket);
 				var item5 = new MabiItem(40290);
 				item5.Info.ColorA = 8421504;
 				item5.Info.ColorB = 8421504;
 				item5.Info.ColorC = 1401413;
 				item5.Info.KnockCount = 2;
 				item5.Info.Pocket = 10;
-				C3G12_S4_3_wedding_override_pencast.Items.Add(item5);
+				C3G12_S4_3_wedding_override_pencast.Inventory.ForcePutItem(item5, item5.Pocket);
 
 				return _C3G12_S4_3_wedding_override_pencast;
 			}
@@ -33989,26 +33989,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 13877981;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_corentin.Items.Add(item0);
+				C3G12_S4_3_wedding_override_corentin.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3113);
 				item1.Info.ColorA = 2105376;
 				item1.Info.ColorB = 2105376;
 				item1.Info.ColorC = 2105376;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_corentin.Items.Add(item1);
+				C3G12_S4_3_wedding_override_corentin.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15561);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 13471816;
 				item2.Info.ColorC = 13471816;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_corentin.Items.Add(item2);
+				C3G12_S4_3_wedding_override_corentin.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17142);
 				item3.Info.ColorA = 4539717;
 				item3.Info.ColorB = 10921640;
 				item3.Info.ColorC = 8067678;
 				item3.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_corentin.Items.Add(item3);
+				C3G12_S4_3_wedding_override_corentin.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S4_3_wedding_override_corentin;
 			}
@@ -34045,26 +34045,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15443010;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_lileas.Items.Add(item0);
+				C3G12_S4_3_wedding_override_lileas.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3108);
 				item1.Info.ColorA = 16764006;
 				item1.Info.ColorB = 16764006;
 				item1.Info.ColorC = 16764006;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_lileas.Items.Add(item1);
+				C3G12_S4_3_wedding_override_lileas.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15387);
 				item2.Info.ColorA = 16760115;
 				item2.Info.ColorB = 10247490;
 				item2.Info.ColorC = 6637620;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_lileas.Items.Add(item2);
+				C3G12_S4_3_wedding_override_lileas.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17176);
 				item3.Info.ColorA = 3946548;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_lileas.Items.Add(item3);
+				C3G12_S4_3_wedding_override_lileas.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S4_3_wedding_override_lileas;
 			}
@@ -34101,28 +34101,28 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16362694;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_alpin.Items.Add(item0);
+				C3G12_S4_3_wedding_override_alpin.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4115);
 				item1.Info.ColorA = 16774028;
 				item1.Info.ColorB = 16774028;
 				item1.Info.ColorC = 16774028;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_alpin.Items.Add(item1);
+				C3G12_S4_3_wedding_override_alpin.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15560);
 				item2.Info.ColorA = 15527148;
 				item2.Info.ColorB = 6058022;
 				item2.Info.ColorC = 12569702;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_alpin.Items.Add(item2);
+				C3G12_S4_3_wedding_override_alpin.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16016);
 				item3.Info.ColorA = 14800331;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_alpin.Items.Add(item3);
+				C3G12_S4_3_wedding_override_alpin.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17138);
 				item4.Info.ColorA = 3487029;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_alpin.Items.Add(item4);
+				C3G12_S4_3_wedding_override_alpin.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_alpin;
 			}
@@ -34156,26 +34156,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16225824;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_castle_guard4.Items.Add(item0);
+				C3G12_S4_3_wedding_override_castle_guard4.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4103);
 				item1.Info.ColorA = 7210665;
 				item1.Info.ColorB = 7210665;
 				item1.Info.ColorC = 7210665;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_castle_guard4.Items.Add(item1);
+				C3G12_S4_3_wedding_override_castle_guard4.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15437);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_castle_guard4.Items.Add(item2);
+				C3G12_S4_3_wedding_override_castle_guard4.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18260);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 8;
-				C3G12_S4_3_wedding_override_castle_guard4.Items.Add(item3);
+				C3G12_S4_3_wedding_override_castle_guard4.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S4_3_wedding_override_castle_guard4;
 			}
@@ -34212,26 +34212,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7235674;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_castle_guard3.Items.Add(item0);
+				C3G12_S4_3_wedding_override_castle_guard3.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4090);
 				item1.Info.ColorA = 9583453;
 				item1.Info.ColorB = 9583453;
 				item1.Info.ColorC = 9583453;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_castle_guard3.Items.Add(item1);
+				C3G12_S4_3_wedding_override_castle_guard3.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15437);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_castle_guard3.Items.Add(item2);
+				C3G12_S4_3_wedding_override_castle_guard3.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18260);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 8;
-				C3G12_S4_3_wedding_override_castle_guard3.Items.Add(item3);
+				C3G12_S4_3_wedding_override_castle_guard3.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S4_3_wedding_override_castle_guard3;
 			}
@@ -34268,26 +34268,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 12338063;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_castle_guard2.Items.Add(item0);
+				C3G12_S4_3_wedding_override_castle_guard2.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4090);
 				item1.Info.ColorA = 9583453;
 				item1.Info.ColorB = 9583453;
 				item1.Info.ColorC = 9583453;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_castle_guard2.Items.Add(item1);
+				C3G12_S4_3_wedding_override_castle_guard2.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15437);
 				item2.Info.ColorA = 8421504;
 				item2.Info.ColorB = 8421504;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_castle_guard2.Items.Add(item2);
+				C3G12_S4_3_wedding_override_castle_guard2.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18260);
 				item3.Info.ColorA = 8421504;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 8;
-				C3G12_S4_3_wedding_override_castle_guard2.Items.Add(item3);
+				C3G12_S4_3_wedding_override_castle_guard2.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S4_3_wedding_override_castle_guard2;
 			}
@@ -34323,33 +34323,33 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8833934;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_castle_alchemist.Items.Add(item0);
+				C3G12_S4_3_wedding_override_castle_alchemist.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(6009);
 				item1.Info.ColorA = 13014272;
 				item1.Info.ColorB = 13014272;
 				item1.Info.ColorC = 13014272;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_castle_alchemist.Items.Add(item1);
+				C3G12_S4_3_wedding_override_castle_alchemist.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15333);
 				item2.Info.ColorA = 2169913;
 				item2.Info.ColorB = 11897467;
 				item2.Info.ColorC = 16249822;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_castle_alchemist.Items.Add(item2);
+				C3G12_S4_3_wedding_override_castle_alchemist.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18007);
 				item3.Info.ColorA = 2169913;
 				item3.Info.ColorB = 10456565;
 				item3.Info.ColorC = 8061133;
 				item3.Info.Pocket = 8;
-				C3G12_S4_3_wedding_override_castle_alchemist.Items.Add(item3);
+				C3G12_S4_3_wedding_override_castle_alchemist.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(40258);
 				item4.Info.ColorA = 6723942;
 				item4.Info.ColorB = 12418337;
 				item4.Info.ColorC = 10247490;
 				item4.Info.KnockCount = 2;
 				item4.Info.Pocket = 10;
-				C3G12_S4_3_wedding_override_castle_alchemist.Items.Add(item4);
+				C3G12_S4_3_wedding_override_castle_alchemist.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_castle_alchemist;
 			}
@@ -34385,26 +34385,26 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2500223;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_castle_church.Items.Add(item0);
+				C3G12_S4_3_wedding_override_castle_church.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4111);
 				item1.Info.ColorA = 6697728;
 				item1.Info.ColorB = 6697728;
 				item1.Info.ColorC = 6697728;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_castle_church.Items.Add(item1);
+				C3G12_S4_3_wedding_override_castle_church.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15334);
 				item2.Info.ColorA = 2961200;
 				item2.Info.ColorB = 5789784;
 				item2.Info.ColorC = 16777215;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_castle_church.Items.Add(item2);
+				C3G12_S4_3_wedding_override_castle_church.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(17066);
 				item3.Info.ColorA = 5789784;
 				item3.Info.ColorB = 5853113;
 				item3.Info.ColorC = 8421504;
 				item3.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_castle_church.Items.Add(item3);
+				C3G12_S4_3_wedding_override_castle_church.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S4_3_wedding_override_castle_church;
 			}
@@ -34437,32 +34437,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 2911058;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_01.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_01.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3018);
 				item1.Info.ColorA = 4291257701;
 				item1.Info.ColorB = 4291257701;
 				item1.Info.ColorC = 4291257701;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_01.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_01.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_01.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_01.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_01.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_01.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_01.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_01.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_01;
 			}
@@ -34495,32 +34495,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16638427;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_02.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_02.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3009);
 				item1.Info.ColorA = 4293831319;
 				item1.Info.ColorB = 4293831319;
 				item1.Info.ColorC = 4293831319;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_02.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_02.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_02.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_02.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_02.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_02.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_02.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_02.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_02;
 			}
@@ -34554,32 +34554,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7236186;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_03.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_03.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3012);
 				item1.Info.ColorA = 4291548033;
 				item1.Info.ColorB = 4291548033;
 				item1.Info.ColorC = 4291548033;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_03.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_03.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_03.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_03.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_03.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_03.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_03.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_03.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_03;
 			}
@@ -34613,32 +34613,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 9095261;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_04.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_04.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3019);
 				item1.Info.ColorA = 4289422405;
 				item1.Info.ColorB = 4289422405;
 				item1.Info.ColorC = 4289422405;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_04.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_04.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_04.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_04.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_04.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_04.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_04.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_04.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_04;
 			}
@@ -34672,32 +34672,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16701899;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_05.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_05.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3022);
 				item1.Info.ColorA = 4291079627;
 				item1.Info.ColorB = 4291079627;
 				item1.Info.ColorC = 4291079627;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_05.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_05.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_05.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_05.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_05.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_05.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_05.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_05.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_05;
 			}
@@ -34730,32 +34730,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7209016;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_06.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_06.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3024);
 				item1.Info.ColorA = 4290035674;
 				item1.Info.ColorB = 4290035674;
 				item1.Info.ColorC = 4290035674;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_06.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_06.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_06.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_06.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_06.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_06.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_06.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_06.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_06;
 			}
@@ -34788,32 +34788,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 7552656;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_07.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_07.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3025);
 				item1.Info.ColorA = 4294233818;
 				item1.Info.ColorB = 4294233818;
 				item1.Info.ColorC = 4294233818;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_07.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_07.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_07.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_07.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_07.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_07.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_07.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_07.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_07;
 			}
@@ -34847,32 +34847,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 10682418;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_08.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_08.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3030);
 				item1.Info.ColorA = 4293512589;
 				item1.Info.ColorB = 4293512589;
 				item1.Info.ColorC = 4293512589;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_08.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_08.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_08.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_08.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_08.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_08.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_08.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_08.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_08;
 			}
@@ -34906,32 +34906,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16429656;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_09.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_09.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3084);
 				item1.Info.ColorA = 4289437327;
 				item1.Info.ColorB = 4289437327;
 				item1.Info.ColorC = 4289437327;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_09.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_09.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_09.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_09.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_09.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_09.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_09.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_09.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_09;
 			}
@@ -34965,32 +34965,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 15965750;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_10.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_10.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3047);
 				item1.Info.ColorA = 4289629348;
 				item1.Info.ColorB = 4289629348;
 				item1.Info.ColorC = 4289629348;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_10.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_10.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_10.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_10.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_10.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_10.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_10.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_10.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_10;
 			}
@@ -35024,32 +35024,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 27573;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_11.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_11.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3045);
 				item1.Info.ColorA = 4293771907;
 				item1.Info.ColorB = 4293771907;
 				item1.Info.ColorC = 4293771907;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_11.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_11.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_11.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_11.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_11.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_11.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_11.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_11.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_11;
 			}
@@ -35082,32 +35082,32 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 8067972;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S4_3_wedding_override_wedding_helper_12.Items.Add(item0);
+				C3G12_S4_3_wedding_override_wedding_helper_12.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(3042);
 				item1.Info.ColorA = 4290958215;
 				item1.Info.ColorB = 4290958215;
 				item1.Info.ColorC = 4290958215;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S4_3_wedding_override_wedding_helper_12.Items.Add(item1);
+				C3G12_S4_3_wedding_override_wedding_helper_12.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15063);
 				item2.Info.ColorA = 4294833394;
 				item2.Info.ColorB = 4294293177;
 				item2.Info.ColorC = 4293887365;
 				item2.Info.Pocket = 5;
-				C3G12_S4_3_wedding_override_wedding_helper_12.Items.Add(item2);
+				C3G12_S4_3_wedding_override_wedding_helper_12.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(16011);
 				item3.Info.ColorA = 4294967295;
 				item3.Info.ColorB = 4294967295;
 				item3.Info.ColorC = 4294967295;
 				item3.Info.Pocket = 6;
-				C3G12_S4_3_wedding_override_wedding_helper_12.Items.Add(item3);
+				C3G12_S4_3_wedding_override_wedding_helper_12.Inventory.ForcePutItem(item3, item3.Pocket);
 				var item4 = new MabiItem(17023);
 				item4.Info.ColorA = 4293819262;
 				item4.Info.ColorB = 4293551718;
 				item4.Info.ColorC = 4294967295;
 				item4.Info.Pocket = 7;
-				C3G12_S4_3_wedding_override_wedding_helper_12.Items.Add(item4);
+				C3G12_S4_3_wedding_override_wedding_helper_12.Inventory.ForcePutItem(item4, item4.Pocket);
 
 				return _C3G12_S4_3_wedding_override_wedding_helper_12;
 			}
@@ -35192,7 +35192,7 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40340);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G12_S4_2_neamhain_snare_override_daol.Items.Add(item0);
+				C3G12_S4_2_neamhain_snare_override_daol.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G12_S4_2_neamhain_snare_override_daol;
 			}
@@ -35277,7 +35277,7 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40340);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G12_S4_1_neamhain_snare_override_daol.Items.Add(item0);
+				C3G12_S4_1_neamhain_snare_override_daol.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G12_S4_1_neamhain_snare_override_daol;
 			}
@@ -35335,7 +35335,7 @@ public class CrystalBallBaseScript : NPCScript
 				var item0 = new MabiItem(40340);
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 10;
-				C3G12_S3_1_enter_the_canal_override_daol_light.Items.Add(item0);
+				C3G12_S3_1_enter_the_canal_override_daol_light.Inventory.ForcePutItem(item0, item0.Pocket);
 
 				return _C3G12_S3_1_enter_the_canal_override_daol_light;
 			}
@@ -35371,27 +35371,27 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 232579;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S2_rebirth_nuadha_override_jarlath.Items.Add(item0);
+				C3G12_S2_rebirth_nuadha_override_jarlath.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(4116);
 				item1.Info.ColorA = 16774028;
 				item1.Info.ColorB = 16774028;
 				item1.Info.ColorC = 16774028;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 4;
-				C3G12_S2_rebirth_nuadha_override_jarlath.Items.Add(item1);
+				C3G12_S2_rebirth_nuadha_override_jarlath.Inventory.ForcePutItem(item1, item1.Pocket);
 				var item2 = new MabiItem(15565);
 				item2.Info.ColorA = 5329233;
 				item2.Info.ColorB = 2171169;
 				item2.Info.ColorC = 8421504;
 				item2.Info.Pocket = 5;
-				C3G12_S2_rebirth_nuadha_override_jarlath.Items.Add(item2);
+				C3G12_S2_rebirth_nuadha_override_jarlath.Inventory.ForcePutItem(item2, item2.Pocket);
 				var item3 = new MabiItem(18288);
 				item3.Info.ColorA = 14803425;
 				item3.Info.ColorB = 8421504;
 				item3.Info.ColorC = 8421504;
 				item3.Info.KnockCount = 2;
 				item3.Info.Pocket = 8;
-				C3G12_S2_rebirth_nuadha_override_jarlath.Items.Add(item3);
+				C3G12_S2_rebirth_nuadha_override_jarlath.Inventory.ForcePutItem(item3, item3.Pocket);
 
 				return _C3G12_S2_rebirth_nuadha_override_jarlath;
 			}
@@ -35427,14 +35427,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16226083;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S2_rebirth_nuadha_override_hallalchemist_staff.Items.Add(item0);
+				C3G12_S2_rebirth_nuadha_override_hallalchemist_staff.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40258);
 				item1.Info.ColorA = 6447714;
 				item1.Info.ColorB = 3750201;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G12_S2_rebirth_nuadha_override_hallalchemist_staff.Items.Add(item1);
+				C3G12_S2_rebirth_nuadha_override_hallalchemist_staff.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G12_S2_rebirth_nuadha_override_hallalchemist_staff;
 			}
@@ -35523,13 +35523,13 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 6225;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S1_2_helvetius_override_helvetius_g12.Items.Add(item0);
+				C3G12_S1_2_helvetius_override_helvetius_g12.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(15566);
 				item1.Info.ColorA = 1776411;
 				item1.Info.ColorB = 8072208;
 				item1.Info.ColorC = 8421504;
 				item1.Info.Pocket = 5;
-				C3G12_S1_2_helvetius_override_helvetius_g12.Items.Add(item1);
+				C3G12_S1_2_helvetius_override_helvetius_g12.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G12_S1_2_helvetius_override_helvetius_g12;
 			}
@@ -35565,14 +35565,14 @@ public class CrystalBallBaseScript : NPCScript
 				item0.Info.ColorC = 16226083;
 				item0.Info.KnockCount = 2;
 				item0.Info.Pocket = 3;
-				C3G12_S1_opening_override_hallalchemist_staff.Items.Add(item0);
+				C3G12_S1_opening_override_hallalchemist_staff.Inventory.ForcePutItem(item0, item0.Pocket);
 				var item1 = new MabiItem(40258);
 				item1.Info.ColorA = 6447714;
 				item1.Info.ColorB = 3750201;
 				item1.Info.ColorC = 8421504;
 				item1.Info.KnockCount = 2;
 				item1.Info.Pocket = 10;
-				C3G12_S1_opening_override_hallalchemist_staff.Items.Add(item1);
+				C3G12_S1_opening_override_hallalchemist_staff.Inventory.ForcePutItem(item1, item1.Pocket);
 
 				return _C3G12_S1_opening_override_hallalchemist_staff;
 			}

@@ -87,17 +87,9 @@ namespace Aura.World.World
 
 			_pockets = new Dictionary<Pocket, InventoryPocket>();
 
-			var width = (creature.RaceInfo != null ? creature.RaceInfo.InvWidth : DefaultWidth);
-			var height = (creature.RaceInfo != null ? creature.RaceInfo.InvHeight : DefaultHeight);
-			if (creature.RaceInfo == null)
-				Logger.Warning("Race for creature '{0:X016}' not loaded before initializing inventory.", creature.Id);
-
-			// Cursor, Inv, etc
+			// Cursor, Temp
 			this.Add(new InventoryPocketStack(Pocket.Temporary));
 			this.Add(new InventoryPocketSingle(Pocket.Cursor));
-			this.Add(new InventoryPocketNormal(Pocket.Inventory, width, height));
-			this.Add(new InventoryPocketNormal(Pocket.PersonalInventory, width, height));
-			this.Add(new InventoryPocketNormal(Pocket.VIPInventory, width, height));
 
 			// Equipment
 			for (var i = Pocket.Face; i <= Pocket.Accessory2; ++i)
@@ -114,6 +106,23 @@ namespace Aura.World.World
 				Logger.Warning("Replacing pocket '{0}' in '{1}'s inventory.", inventoryPocket.Pocket, _creature);
 
 			_pockets[inventoryPocket.Pocket] = inventoryPocket;
+		}
+
+		/// <summary>
+		/// Adds main inventories (Inv, personal, VIP). Call after creature's
+		/// defaults have been loaded.
+		/// </summary>
+		public void AddMainInventory()
+		{
+			if (_creature.RaceInfo == null)
+				Logger.Warning("Race for creature '{0}' ({1:X016}) not loaded before initializing inventory.", _creature.Name, _creature.Id);
+
+			var width = (_creature.RaceInfo != null ? _creature.RaceInfo.InvWidth : DefaultWidth);
+			var height = (_creature.RaceInfo != null ? _creature.RaceInfo.InvHeight : DefaultHeight);
+
+			this.Add(new InventoryPocketNormal(Pocket.Inventory, width, height));
+			this.Add(new InventoryPocketNormal(Pocket.PersonalInventory, width, height));
+			this.Add(new InventoryPocketNormal(Pocket.VIPInventory, width, height));
 		}
 
 		public bool Has(Pocket pocket)
@@ -530,6 +539,11 @@ namespace Aura.World.World
 		public bool Has(uint itemId, uint amount = 1)
 		{
 			return (this.CountItem(itemId) >= amount);
+		}
+
+		public bool HasGold(uint amount)
+		{
+			return this.Has(GoldItemId, amount);
 		}
 	}
 

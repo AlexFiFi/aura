@@ -131,13 +131,13 @@ public class DilysScript : NPCScript
 				r = Select(c);
 				if(r == "@recieveheal")
 				{
-					if (!c.Character.HasGold(_healCost))
+					if (!c.Character.Inventory.HasGold(_healCost))
 					{
 						Msg(c, "Oh no, I don't think you have enough gold.<br/>Hmmm... The gold covers the cost of the bandages and medicine...<br/>How about doing a part-time job?");
 						End();
 					}
 					
-					c.Character.RemoveGold(_healCost);
+					c.Character.Inventory.RemoveGold(_healCost);
 					c.Character.FullHealLife();
 					
 					Msg(c, "Good, I've put on some bandages and your treatment is done.<br/>If you get injured again, don't hesitate to visit me.");
@@ -172,13 +172,13 @@ public class DilysScript : NPCScript
 				r = Select(c);
 				if(r == "@recieveheal")
 				{
-					if (!c.Character.HasGold(_petHealCost))
+					if (!c.Character.Inventory.HasGold(_petHealCost))
 					{
 						Msg(c, "Oh no, I don't think you have enough gold.<br/>Hmmm... The gold covers the cost of the bandages and medicine...<br/>How about doing a part-time job?");
 						End();
 					}
 					
-					c.Character.RemoveGold(_petHealCost);
+					c.Character.Inventory.RemoveGold(_petHealCost);
 					c.Character.Pet.FullHealLife();
 					
 					Msg(c, "Okay, all bandaged up and ready to go!<br/>If your dear animal friend gets hurt again, do not hesitate to visit me.");
