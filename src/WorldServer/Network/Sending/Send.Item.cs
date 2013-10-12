@@ -223,5 +223,20 @@ namespace Aura.World.Network
 
 			creature.Client.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends DyePickColorR to creature's client.
+		/// </summary>
+		/// <param name="creature"></param>
+		/// <param name="success"></param>
+		public static void DyePickColorR(MabiCreature creature, bool success)
+		{
+			var packet = new MabiPacket(Op.DyePickColorR, creature.Id);
+			packet.PutByte(success);
+			if (success)
+				packet.PutBin(creature.Temp.DyeCursors);
+
+			creature.Client.Send(packet);
+		}
 	}
 }
