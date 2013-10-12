@@ -123,27 +123,29 @@ namespace Aura.World.Scripting
 
 		protected virtual void EquipItem(Pocket pocket, uint itemClass, uint color1 = 0, uint color2 = 0, uint color3 = 0)
 		{
+			if (!pocket.IsEquip())
+				return;
+
 			var item = new MabiItem(itemClass);
 			item.Info.ColorA = color1;
 			item.Info.ColorB = color2;
 			item.Info.ColorC = color3;
-			item.Info.Pocket = (byte)pocket;
 
 			//var inPocket = this.Creature.GetItemInPocket(slot);
 			//if (inPocket != null)
 			//    this.Creature.Items.Remove(inPocket);
 
-			this.Creature.Items.Add(item);
+			this.Creature.Inventory.ForcePutItem(item, pocket);
 
 			Send.EquipmentChanged(this.Creature, item);
 		}
 
 		protected void SetHoodDown()
 		{
-			var item = this.Creature.GetItemInPocket(Pocket.Robe);
+			var item = this.Creature.Inventory.GetItemAt(Pocket.Robe, 0, 0);
 			if (item != null)
 				item.Info.FigureA = 0;
-			item = this.Creature.GetItemInPocket(Pocket.RobeStyle);
+			item = this.Creature.Inventory.GetItemAt(Pocket.RobeStyle, 0, 0);
 			if (item != null)
 				item.Info.FigureA = 0;
 		}

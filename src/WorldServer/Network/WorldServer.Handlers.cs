@@ -860,7 +860,7 @@ namespace Aura.World.Network
 			{
 				mail.Type = (byte)MailTypes.Item;
 
-				var item = client.Character.GetItem(itemId);
+				var item = client.Character.Inventory.GetItem(itemId);
 				if (item == null)
 				{
 					Send.MsgBox(client, client.Character, Localization.Get("world.mail_item")); // You can't send an item you don't have!
@@ -868,8 +868,7 @@ namespace Aura.World.Network
 					return;
 				}
 
-				Send.ItemRemove(client.Character, item);
-				client.Character.Items.Remove(item);
+				client.Character.Inventory.Remove(item);
 				WorldDb.Instance.SaveMailItem(item, null);
 			}
 
@@ -933,8 +932,7 @@ namespace Aura.World.Network
 			}
 
 			var item = WorldDb.Instance.GetItem(mail.ItemId);
-			item.Info.Pocket = (byte)Pocket.Temporary; // TODO: Inv
-			client.Character.Items.Add(item);
+			client.Character.Inventory.PutItem(item, Pocket.Temporary); // TODO: Inv
 			WorldDb.Instance.SaveMailItem(item, client.Character);
 
 			mail.Delete();
@@ -961,8 +959,7 @@ namespace Aura.World.Network
 			//TODO: COD
 
 			var item = WorldDb.Instance.GetItem(mail.ItemId);
-			item.Info.Pocket = (byte)Pocket.Temporary; //Todo: Inv
-			client.Character.Items.Add(item);
+			client.Character.Inventory.PutItem(item, Pocket.Temporary); // TODO: Inv
 			WorldDb.Instance.SaveMailItem(item, client.Character);
 
 			mail.Delete();
@@ -1622,7 +1619,7 @@ namespace Aura.World.Network
 				price = (uint)(price / newItem.StackMax * newItem.Count);
 
 			// Check gold
-			if (!creature.HasGold(price))
+			if (creature.Inventory.Gold < price)
 			{
 				Send.MsgBox(client, creature, Localization.Get("world.shop_gold")); // Insufficient amount of gold.
 				Send.ShopBuyItemR(creature, false);
@@ -1639,7 +1636,7 @@ namespace Aura.World.Network
 				success = creature.Inventory.PutItem(newItem, false);
 
 			if (success)
-				creature.RemoveGold(price);
+				creature.Inventory.RemoveGold(price);
 
 			Send.ShopBuyItemR(creature, success);
 		}
@@ -1682,7 +1679,7 @@ namespace Aura.World.Network
 				sellingPrice = (uint)(sellingPrice / item.StackMax * item.Count);
 			}
 
-			creature.GiveGold(sellingPrice);
+			creature.Inventory.GiveGold(sellingPrice);
 
 			Send.ShopSellItemR(creature);
 		}
@@ -2339,12 +2336,12 @@ namespace Aura.World.Network
 					// TODO: Add item groups, so we can remove on of the
 					//   various available soul stones.
 
-					if (!creature.HasItem(75213))
+					if (!creature.Inventory.Has(75213))
 					{
 						Send.ReviveFail(creature);
 						return;
 					}
-					creature.RemoveItem(75213, 1);
+					creature.Inventory.RemoveItem(75213, 1);
 
 					creature.FullHeal();
 					creature.Revive();
@@ -2835,14 +2832,14 @@ namespace Aura.World.Network
 			if (creature.Guild == null)
 				return;
 
-			if (!creature.HasGold(amount))
+			if (creature.Inventory.Gold < amount)
 			{
 				Send.GuildDonateR(creature, false);
 				return;
 			}
 
 			creature.Guild.Gold += amount;
-			creature.RemoveGold(amount);
+			creature.Inventory.RemoveGold(amount);
 
 			creature.Guild.Save();
 

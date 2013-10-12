@@ -32,7 +32,7 @@ namespace Aura.World.Skills
 			var singing = packet.GetString(); // [180300, NA166 (18.09.2013)] Singing
 			var hidden = packet.GetByte();
 
-			var item = creature.GetItem(itemId);
+			var item = creature.Inventory.GetItem(itemId);
 			if (item == null)
 				return SkillResults.Failure;
 

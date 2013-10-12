@@ -22,7 +22,7 @@ namespace Aura.World.Skills
 			if (chairOId > 0)
 			{
 				// Check item
-				var item = creature.GetItem(chairOId);
+				var item = creature.Inventory.GetItem(chairOId);
 				if (item != null && item.Type == ItemType.Misc)
 				{
 					// Get chair prop id

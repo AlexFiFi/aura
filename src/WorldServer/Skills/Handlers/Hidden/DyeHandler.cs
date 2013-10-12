@@ -18,8 +18,8 @@ namespace Aura.World.Skills
 			var itemId = packet.GetLong();
 			var dyeId = packet.GetLong();
 
-			var item = creature.GetItem(itemId);
-			var dye = creature.GetItem(dyeId);
+			var item = creature.Inventory.GetItem(itemId);
+			var dye = creature.Inventory.GetItem(dyeId);
 			if (item == null || dye == null)
 				return SkillResults.Failure;
 
@@ -146,7 +146,8 @@ namespace Aura.World.Skills
 		/// <param name="creature"></param>
 		public void DyeSuccess(MabiCreature creature)
 		{
-			// delete dye
+			// Delete dye
+			creature.Inventory.Remove(creature.Temp.SkillItem2);
 
 			// Success effect and aquire box
 			WorldManager.Instance.Broadcast(new MabiPacket(Op.Effect, creature.Id).PutInt(2).PutByte(4), SendTargets.Range, creature);
@@ -154,7 +155,7 @@ namespace Aura.World.Skills
 
 			// Update equipped item color
 			if (creature.Temp.SkillItem1.IsEquipped())
-				creature.ItemUpdate(creature.Temp.SkillItem1);
+				Send.ItemInfo(creature.Client, creature, creature.Temp.SkillItem1);
 		}
 	}
 }

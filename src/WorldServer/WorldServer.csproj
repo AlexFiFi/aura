@@ -144,7 +144,6 @@
     <Compile Include="World\Inventory\InventoryPockets.cs" />
     <Compile Include="World\MabiCooldown.cs" />
     <Compile Include="World\MabiCreature.cs" />
-    <Compile Include="World\MabiCreature.Items.cs" />
     <Compile Include="World\MabiCutscene.cs" />
     <Compile Include="World\MabiEntity.cs" />
     <Compile Include="World\Guilds\MabiGuild.cs" />
