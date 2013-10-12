@@ -12,6 +12,6 @@ As such, every user is free to use Aura, and choose how to use it.
 
 Links
 ---------
-* Aura Forums: http://dev.mabinoger.org/
+* Aura Forums: http://dev.mabinoger.com/
 
 * GitHub: https://github.com/aura-project/
