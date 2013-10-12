@@ -140,13 +140,13 @@ public class ManusScript : NPCScript
 				r = Select(c);
 				if(r == "@recieveheal")
 				{
-					if (!c.Character.HasGold(_healCost))
+					if (!c.Character.Inventory.HasGold(_healCost))
 					{
 						Msg(c, "Oh no, I don't think you have enough gold.<br/>Hmmm... The gold covers the cost of the bandages and medicine...<br/>How about doing a part-time job?");
 						End();
 					}
 					
-					c.Character.RemoveGold(_healCost);
+					c.Character.Inventory.RemoveGold(_healCost);
 					c.Character.FullHealLife();
 					
 					Msg(c, "Good, I've put on some bandages and your treatment is done.<br/>If you get injured again, don't hesitate to visit me.");
@@ -181,13 +181,13 @@ public class ManusScript : NPCScript
 				r = Select(c);
 				if(r == "@recieveheal")
 				{
-					if (!c.Character.HasGold(_petHealCost))
+					if (!c.Character.Inventory.HasGold(_petHealCost))
 					{
 						Msg(c, "Ummm... " + c.Character.Name + "?<br/>I am sorry, but i think you are short on cash. I can't treat your pet then.");
 						End();
 					}
 					
-					c.Character.RemoveGold(_petHealCost);
+					c.Character.Inventory.RemoveGold(_petHealCost);
 					c.Character.Pet.FullHealLife();
 					
 					Msg(c, "The treatment is complete.<br/>I wish you'd treat your pet with more respect, as much as you'd have for yourself.");

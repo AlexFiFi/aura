@@ -298,12 +298,12 @@ public class TaraSealStoneScript : _SealStoneScript
 			return false;
 		
 		// Shoes
-		var item = cr.GetItemInPocket(Pocket.Shoe);
+		var item = cr.Inventory.GetItemAt(Pocket.Shoe, 0, 0);
 		if(item == null || (item.Info.Class != 17138))
 			return false;
 		
 		// Clothes
-		item = cr.GetItemInPocket(Pocket.Armor);
+		item = cr.Inventory.GetItemAt(Pocket.Armor, 0, 0);
 		if(item == null || (item.Info.Class != 15351))
 			return false;
 		
