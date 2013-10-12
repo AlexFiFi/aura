@@ -60,15 +60,16 @@ namespace Aura.World.World
 		}
 
 		private WeaponSet _weaponSet;
+		/// <summary>
+		/// Sets or returns the selected weapon set.
+		/// </summary>
 		public WeaponSet WeaponSet
 		{
 			get { return _weaponSet; }
 			set
 			{
 				_weaponSet = value;
-				// params?
-				this.UpdateEquipReferences(Pocket.RightHand1, Pocket.RightHand2);
-				this.UpdateEquipReferences(Pocket.RightHand2, Pocket.RightHand1);
+				this.UpdateEquipReferences(Pocket.RightHand1, Pocket.LeftHand1, Pocket.Magazine1);
 			}
 		}
 
@@ -218,7 +219,7 @@ namespace Aura.World.World
 		/// <param name="item"></param>
 		/// <param name="temp"></param>
 		/// <returns></returns>
-		public bool PutItem(MabiItem item, bool tempFallback)
+		public bool PutItem(MabiItem item, bool tempFallback, bool sendItemNew = true)
 		{
 			bool success;
 
@@ -230,7 +231,7 @@ namespace Aura.World.World
 				success = _pockets[Pocket.Temporary].PutItem(item);
 
 			// Inform about new item
-			if (success)
+			if (success && sendItemNew)
 				Send.ItemInfo(_creature.Client, _creature, item);
 
 			return success;
@@ -246,24 +247,37 @@ namespace Aura.World.World
 		/// <returns></returns>
 		public bool FitIn(MabiItem item, bool tempFallback, bool sendItemNew)
 		{
-			var amount = item.Info.Amount;
+			if (item.StackType == BundleType.Stackable)
+			{
+				// Try stacks/sacs first
+				List<MabiItem> changed;
+				_pockets[Pocket.Inventory].FillStacks(item, out changed);
+				this.UpdateChangedItems(changed);
 
-			List<MabiItem> changed;
-			bool success;
+				// Add new item stacks as long as needed.
+				while (item.Info.Amount > item.StackMax)
+				{
+					var newStackItem = new MabiItem(item);
+					newStackItem.Info.Amount = item.StackMax;
 
-			// Try inv
-			success = _pockets[Pocket.Inventory].FitIn(item, out changed);
-			this.UpdateChangedItems(changed);
+					// Break if no new items can be added (no space left)
+					if (!_pockets[Pocket.Inventory].PutItem(newStackItem))
+						break;
 
-			// Try temp
-			if (!success && tempFallback)
-				success = _pockets[Pocket.Temporary].PutItem(item);
+					Send.ItemInfo(_creature.Client, _creature, newStackItem);
+					item.Info.Amount -= item.StackMax;
+				}
 
-			// Inform about new item, if it wasn't added to stacks completely
-			if (success && item.Info.Amount > 0 && sendItemNew)
-				Send.ItemInfo(_creature.Client, _creature, item);
+				if (item.Info.Amount == 0)
+					return true;
+			}
 
-			return success;
+			return this.PutItem(item, tempFallback, sendItemNew);
+		}
+
+		public void Debug()
+		{
+			(_pockets[Pocket.Inventory] as InventoryPocketNormal).TestMap();
 		}
 
 		/// <summary>
@@ -349,25 +363,24 @@ namespace Aura.World.World
 			}
 		}
 
-		private void UpdateEquipReferences(Pocket source, Pocket target)
+		private void UpdateEquipReferences(params Pocket[] toCheck)
 		{
-			// Right Hand
-			if (source == Pocket.RightHand1 || target == Pocket.RightHand1)
-				this.RightHand = _pockets[Pocket.RightHand1].GetItemAt(0, 0);
-			if (source == Pocket.RightHand2 || target == Pocket.RightHand2)
-				this.RightHand = _pockets[Pocket.RightHand2].GetItemAt(0, 0);
+			var firstSet = (this.WeaponSet == World.WeaponSet.First);
 
-			// Left Hand
-			if (source == Pocket.LeftHand1 || target == Pocket.LeftHand1)
-				this.RightHand = _pockets[Pocket.LeftHand1].GetItemAt(0, 0);
-			if (source == Pocket.LeftHand2 || target == Pocket.LeftHand2)
-				this.RightHand = _pockets[Pocket.LeftHand2].GetItemAt(0, 0);
+			foreach (var pocket in toCheck)
+			{
+				// Right Hand
+				if (pocket == Pocket.RightHand1 || pocket == Pocket.RightHand2)
+					this.RightHand = _pockets[firstSet ? Pocket.RightHand1 : Pocket.RightHand2].GetItemAt(0, 0);
 
-			// Magazine
-			if (source == Pocket.Magazine1 || target == Pocket.Magazine1)
-				this.RightHand = _pockets[Pocket.Magazine1].GetItemAt(0, 0);
-			if (source == Pocket.Magazine2 || target == Pocket.Magazine2)
-				this.RightHand = _pockets[Pocket.Magazine2].GetItemAt(0, 0);
+				// Left Hand
+				if (pocket == Pocket.LeftHand1 || pocket == Pocket.LeftHand2)
+					this.LeftHand = _pockets[firstSet ? Pocket.LeftHand1 : Pocket.LeftHand2].GetItemAt(0, 0);
+
+				// Magazine
+				if (pocket == Pocket.Magazine1 || pocket == Pocket.Magazine2)
+					this.Magazine = _pockets[firstSet ? Pocket.Magazine1 : Pocket.Magazine2].GetItemAt(0, 0);
+			}
 		}
 
 		private void CheckEquipMoved(MabiItem item, Pocket source, Pocket target)

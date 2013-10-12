@@ -37,7 +37,14 @@ namespace Aura.World.World
 
 		public abstract bool PutItem(MabiItem item);
 
-		public abstract bool FitIn(MabiItem item, out List<MabiItem> changed);
+		/// <summary>
+		/// Fills stacks that take this item. Returns true if item has been
+		/// was completely added to stacks/sacs.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="changed"></param>
+		/// <returns></returns>
+		public abstract bool FillStacks(MabiItem item, out List<MabiItem> changed);
 
 		/// <summary>
 		/// Removes item from pocket.
@@ -230,6 +237,28 @@ namespace Aura.World.World
 			return false;
 		}
 
+		public void TestMap()
+		{
+			var items = Items.ToList();
+			for (int i = 0; i < items.Count; ++i)
+			{
+				Console.WriteLine((i + 1) + ") " + items[i].DataInfo.Name);
+				items[i].OptionInfo.DucatPrice = (uint)i + 1;
+			}
+			for (var y = 0; y < _height; ++y)
+			{
+				for (var x = 0; x < _width; ++x)
+				{
+					if (_map[x, y] != null)
+						Console.Write(_map[x, y].OptionInfo.DucatPrice.ToString().PadLeft(2) + " ");
+					else
+						Console.Write(" 0" + " ");
+				}
+				Console.WriteLine("|");
+				Console.WriteLine();
+			}
+		}
+
 		public override MabiItem GetItemAt(uint x, uint y)
 		{
 			if (x > _width - 1 || y > _height - 1)
@@ -237,20 +266,26 @@ namespace Aura.World.World
 			return _map[x, y];
 		}
 
-		public override bool FitIn(MabiItem item, out List<MabiItem> changed)
+		public override bool FillStacks(MabiItem item, out List<MabiItem> changed)
 		{
 			changed = new List<MabiItem>();
 
-			// Try to fit item into stacks first.
-			if (item.StackType == BundleType.Stackable)
+			if (item.StackType != BundleType.Stackable)
+				return false;
+
+			for (var y = 0; y < _height; ++y)
 			{
-				foreach (var invItem in _items.Values)
+				for (var x = 0; x < _width; ++x)
 				{
+					var invItem = _map[x, y];
+					if (invItem == null || changed.Contains(invItem))
+						continue;
+
 					// If same class or item is stack item of inventory item
 					if (item.Info.Class == invItem.Info.Class || invItem.StackItem == item.Info.Class)
 					{
 						// If item fits into stack 100%
-						if (invItem.Info.Amount + item.Info.Amount <= invItem.StackMax)
+						if ((uint)invItem.Info.Amount + (uint)item.Info.Amount <= (uint)invItem.StackMax)
 						{
 							invItem.Info.Amount += item.Info.Amount;
 							item.Info.Amount = 0;
@@ -263,8 +298,9 @@ namespace Aura.World.World
 						// If stack is not full
 						if (invItem.Info.Amount < invItem.StackMax)
 						{
-							item.Info.Amount -= (ushort)(invItem.StackMax - invItem.Info.Amount);
-							invItem.Info.Amount = invItem.StackMax;
+							var diff = Math.Min(item.Info.Amount, (ushort)(invItem.StackMax - invItem.Info.Amount));
+							item.Info.Amount -= diff;
+							invItem.Info.Amount += diff;
 
 							changed.Add(invItem);
 						}
@@ -272,8 +308,7 @@ namespace Aura.World.World
 				}
 			}
 
-			// Try to put it into an empty space.
-			return this.PutItem(item);
+			return false;
 		}
 
 		public override bool Has(MabiItem item)
@@ -289,11 +324,8 @@ namespace Aura.World.World
 			{
 				for (int x = (int)_width - 1; x >= 0; --x)
 				{
-					if (_map[x, y] == null)
-						continue;
-
 					var item = _map[x, y];
-					if (changed.Contains(item))
+					if (item == null || changed.Contains(item))
 						continue;
 
 					// Normal
@@ -303,6 +335,7 @@ namespace Aura.World.World
 						amount--;
 						item.Info.Amount = 0;
 						changed.Add(item);
+						_items.Remove(item.Id);
 					}
 
 					// Sacs/Stackables
@@ -314,10 +347,15 @@ namespace Aura.World.World
 							amount -= item.Info.Amount;
 							item.Info.Amount = 0;
 							changed.Add(item);
+							if (item.StackType != BundleType.Sac)
+							{
+								_items.Remove(item.Id);
+								this.ClearFromMap(item);
+							}
 						}
 						else
 						{
-							result += (uint)amount;
+							result += amount;
 							item.Info.Amount -= (ushort)amount;
 							amount = 0;
 							changed.Add(item);
@@ -411,10 +449,10 @@ namespace Aura.World.World
 			return _item;
 		}
 
-		public override bool FitIn(MabiItem item, out List<MabiItem> changed)
+		public override bool FillStacks(MabiItem item, out List<MabiItem> changed)
 		{
 			changed = null;
-			return this.PutItem(item);
+			return false;
 		}
 
 		public override bool Has(MabiItem item)
@@ -486,10 +524,10 @@ namespace Aura.World.World
 			return _items.FirstOrDefault();
 		}
 
-		public override bool FitIn(MabiItem item, out List<MabiItem> changed)
+		public override bool FillStacks(MabiItem item, out List<MabiItem> changed)
 		{
 			changed = null;
-			return this.PutItem(item);
+			return false;
 		}
 
 		public override bool Has(MabiItem item)
