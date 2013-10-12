@@ -427,7 +427,7 @@ namespace Aura.World.Network
 				return;
 
 			// Check item and alive
-			var item = creature.GetItem(itemOId);
+			var item = creature.Inventory.GetItem(itemOId);
 			if (item == null || creature.IsDead)
 			{
 				Send.UseItemResponse(client, creature, false, 0);
@@ -445,7 +445,7 @@ namespace Aura.World.Network
 
 			// Use item
 			script.OnUse(creature, item);
-			creature.DecItem(item);
+			creature.Inventory.DecItem(item);
 
 			// Mandatory stat update
 			WorldManager.Instance.CreatureStatsUpdate(creature);
