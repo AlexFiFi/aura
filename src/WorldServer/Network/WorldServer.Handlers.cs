@@ -3245,14 +3245,15 @@ namespace Aura.World.Network
 		/// <param name="packet"></param>
 		private void HandleDyePickColor(WorldClient client, MabiPacket packet)
 		{
+			var itemId = packet.GetLong();
+
 			if (client.Character.Id != packet.Id)
 				return;
 
-			var itemId = packet.GetLong();
-			var item = client.Character.GetItem(itemId);
+			var item = client.Character.Inventory.GetItem(itemId);
 			if (item == null)
 			{
-				client.Send(new MabiPacket(Op.DyePickColorR, client.Character.Id).PutByte(false));
+				Send.DyePickColorR(client.Character, false);
 				return;
 			}
 
@@ -3273,10 +3274,7 @@ namespace Aura.World.Network
 				};
 			}
 
-			var p = new MabiPacket(Op.DyePickColorR, client.Character.Id);
-			p.PutByte(true);
-			p.PutBin(client.Character.Temp.DyeCursors);
-			client.Send(p);
+			Send.DyePickColorR(client.Character, true);
 		}
 
 		private void HandleChannelStatus(WorldClient client, MabiPacket packet)
