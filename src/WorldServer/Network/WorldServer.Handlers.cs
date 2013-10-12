@@ -1669,13 +1669,13 @@ namespace Aura.World.Network
 				var stackItem = MabiData.ItemDb.Find(item.StackItem);
 				if (stackItem != null)
 				{
-					sellingPrice += (stackItem.SellingPrice / stackItem.StackMax) * item.Info.Amount;
+					sellingPrice += (uint)((item.Info.Amount / (float)stackItem.StackMax) * stackItem.SellingPrice);
 				}
 			}
 			else if (item.StackType == BundleType.Stackable)
 			{
 				// Individuel price for this stack
-				sellingPrice = (uint)(sellingPrice / item.StackMax * item.Count);
+				sellingPrice = (uint)((item.Count / (float)item.StackMax) * sellingPrice);
 			}
 
 			creature.Inventory.GiveGold(sellingPrice);
