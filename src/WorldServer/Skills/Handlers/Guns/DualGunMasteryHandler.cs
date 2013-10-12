@@ -1,4 +1,4 @@
-﻿// Copyright (c) Aura development team - Licensed under GNU GPL
+// Copyright (c) Aura development team - Licensed under GNU GPL
 // For more information, see licence.txt in the main folder
 
 using Aura.Shared.Const;
@@ -63,9 +63,7 @@ namespace Aura.World.Skills
 
 			// Damage
 			{
-				var rnd = RandomProvider.Get();
-				var damage = (float)rnd.Next(attacker.RightHand.OptionInfo.AttackMin, attacker.RightHand.OptionInfo.AttackMax);
-
+				var damage = attacker.GetRndTotalDamage(); //+ ((attacker.Str + attacker.Int) / 5)
 				target.TakeDamage(tAction.Damage = damage);
 			}
 
