@@ -60,6 +60,7 @@ namespace Aura.World.World
 			this.AddCommand("over9000", "", Authority.GameMaster, Command_over9k);
 			this.AddCommand("motion", "<category> <motion>", Authority.GameMaster, Command_motion);
 			this.AddCommand("broadcast", "<notice>", Authority.GameMaster, Command_broadcast);
+			this.AddCommand("inv", "<add|rm> <id> <amount>", Authority.GameMaster, Command_inv);
 
 			this.AddCommand("test", Authority.Admin, Command_test);
 			this.AddCommand("reloadscripts", Authority.Admin, Command_reloadscripts);
@@ -1108,6 +1109,29 @@ namespace Aura.World.World
 				Send.WorldNotice(NoticeType.TopRed, 20000, notice);
 			else
 				Send.ChannelNotice(NoticeType.TopRed, 20000, notice);
+
+			return CommandResult.Okay;
+		}
+
+		private CommandResult Command_inv(WorldClient client, MabiCreature creature, string[] args, string msg)
+		{
+			if (args.Length < 4)
+				return CommandResult.WrongParameter;
+
+			uint id, amount;
+			if (!uint.TryParse(args[2], out id))
+				return CommandResult.WrongParameter;
+			if (!uint.TryParse(args[3], out amount))
+				return CommandResult.WrongParameter;
+
+			if (args[1] == "add")
+				creature.Inventory.GiveItem(uint.Parse(args[2]), uint.Parse(args[3]));
+			else if (args[1] == "rm")
+				creature.Inventory.RemoveItem(uint.Parse(args[2]), uint.Parse(args[3]));
+			else if (args[1] == "dbg")
+				creature.Inventory.Debug();
+			else
+				return CommandResult.WrongParameter;
 
 			return CommandResult.Okay;
 		}
