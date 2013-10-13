@@ -399,14 +399,19 @@ namespace Aura.World.World
 				{
 					// Try inventory first.
 					// TODO: List of pockets stuff can be auto-moved to.
-					if (!_pockets[Pocket.Inventory].Add(leftItem))
-					{
-						// Fallback, temp inv
-						_pockets[Pocket.Temporary].Add(leftItem);
-					}
+					var success = _pockets[Pocket.Inventory].Add(leftItem);
 
-					Send.ItemMoveInfo(_creature, leftItem, leftPocket, null);
-					Send.EquipmentMoved(_creature, leftPocket);
+					// Fallback, temp inv
+					if (!success)
+						success = _pockets[Pocket.Temporary].Add(leftItem);
+
+					if (success)
+					{
+						_pockets[leftPocket].Remove(leftItem);
+
+						Send.ItemMoveInfo(_creature, leftItem, leftPocket, null);
+						Send.EquipmentMoved(_creature, leftPocket);
+					}
 				}
 			}
 		}
