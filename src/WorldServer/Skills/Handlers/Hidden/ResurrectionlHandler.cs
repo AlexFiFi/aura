@@ -60,7 +60,7 @@ namespace Aura.World.Skills
 			if (creature.Temp.SkillItem1 == null || creature.Temp.SkillItem1.Info.Class != 63000 || creature.Temp.SkillItem1.Info.Amount < 1)
 				return SkillResults.Failure;
 
-			creature.Inventory.DecItem(creature.Temp.SkillItem1);
+			creature.Inventory.Decrement(creature.Temp.SkillItem1);
 
 			// TODO: stats
 

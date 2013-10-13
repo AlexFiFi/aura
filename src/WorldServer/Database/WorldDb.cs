@@ -423,7 +423,7 @@ namespace Aura.World.Database
 						if (!character.Inventory.Has(item.Pocket))
 							throw new Exception(string.Format("Character '{0}' failed to load, pocket '{1}' missing in inventory.", character.Name, item.Pocket));
 
-						character.Inventory.ForcePutItem(item, item.Pocket);
+						character.Inventory.ForceAdd(item, item.Pocket);
 					}
 				}
 			}

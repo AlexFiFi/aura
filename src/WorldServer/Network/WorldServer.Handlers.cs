@@ -444,7 +444,7 @@ namespace Aura.World.Network
 
 			// Use item
 			script.OnUse(creature, item);
-			creature.Inventory.DecItem(item);
+			creature.Inventory.Decrement(item);
 
 			// Mandatory stat update
 			WorldManager.Instance.CreatureStatsUpdate(creature);
@@ -931,7 +931,7 @@ namespace Aura.World.Network
 			}
 
 			var item = WorldDb.Instance.GetItem(mail.ItemId);
-			client.Character.Inventory.PutItem(item, Pocket.Temporary); // TODO: Inv
+			client.Character.Inventory.Add(item, Pocket.Temporary); // TODO: Inv
 			WorldDb.Instance.SaveMailItem(item, client.Character);
 
 			mail.Delete();
@@ -958,7 +958,7 @@ namespace Aura.World.Network
 			//TODO: COD
 
 			var item = WorldDb.Instance.GetItem(mail.ItemId);
-			client.Character.Inventory.PutItem(item, Pocket.Temporary); // TODO: Inv
+			client.Character.Inventory.Add(item, Pocket.Temporary); // TODO: Inv
 			WorldDb.Instance.SaveMailItem(item, client.Character);
 
 			mail.Delete();
@@ -1011,7 +1011,7 @@ namespace Aura.World.Network
 				creature.StopMove();
 
 			// Try to move item
-			if (!creature.Inventory.MoveItem(item, target, targetX, targetY))
+			if (!creature.Inventory.Move(item, target, targetX, targetY))
 			{
 				Send.ItemMoveR(creature, false);
 				return;
@@ -1177,7 +1177,7 @@ namespace Aura.World.Network
 				return;
 			}
 
-			var success = creature.Inventory.FitIn(item, false, false);
+			var success = creature.Inventory.Insert(item, false, false);
 			if (success)
 			{
 				// Order is important here, remove from world first =/
@@ -1222,7 +1222,7 @@ namespace Aura.World.Network
 			splitItem.Info.Amount = amount;
 
 			// New item on cursor
-			if (!creature.Inventory.PutItem(splitItem, Pocket.Cursor))
+			if (!creature.Inventory.Add(splitItem, Pocket.Cursor))
 			{
 				Send.ItemSplitR(creature, false);
 				return;
@@ -1629,10 +1629,10 @@ namespace Aura.World.Network
 
 			// Cursor
 			if (targetPocket == 0)
-				success = creature.Inventory.PutItem(newItem, Pocket.Cursor);
+				success = creature.Inventory.Add(newItem, Pocket.Cursor);
 			// Inventory
 			else if (targetPocket == 1)
-				success = creature.Inventory.PutItem(newItem, false);
+				success = creature.Inventory.Add(newItem, false);
 
 			if (success)
 				creature.Inventory.RemoveGold(price);
@@ -1678,7 +1678,7 @@ namespace Aura.World.Network
 				sellingPrice = (uint)((item.Count / (float)item.StackMax) * sellingPrice);
 			}
 
-			creature.Inventory.GiveGold(sellingPrice);
+			creature.Inventory.AddGold(sellingPrice);
 
 			Send.ShopSellItemR(creature);
 		}
@@ -2340,7 +2340,7 @@ namespace Aura.World.Network
 						Send.ReviveFail(creature);
 						return;
 					}
-					creature.Inventory.RemoveItem(75213, 1);
+					creature.Inventory.Remove(75213, 1);
 
 					creature.FullHeal();
 					creature.Revive();

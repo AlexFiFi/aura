@@ -79,7 +79,7 @@ namespace Aura.World.World
 
 		public uint Gold
 		{
-			get { return this.CountItem(GoldItemId); }
+			get { return this.Count(GoldItemId); }
 		}
 
 		public CreatureInventory(MabiCreature creature)
@@ -111,12 +111,12 @@ namespace Aura.World.World
 
 		/// <summary>
 		/// Adds main inventories (Inv, personal, VIP). Call after creature's
-		/// defaults have been loaded.
+		/// defaults (RaceInfo) have been loaded.
 		/// </summary>
 		public void AddMainInventory()
 		{
 			if (_creature.RaceInfo == null)
-				Logger.Warning("Race for creature '{0}' ({1:X016}) not loaded before initializing inventory.", _creature.Name, _creature.Id);
+				Logger.Warning("Race for creature '{0}' ({1:X016}) not loaded before initializing main inventory.", _creature.Name, _creature.Id);
 
 			var width = (_creature.RaceInfo != null ? _creature.RaceInfo.InvWidth : DefaultWidth);
 			var height = (_creature.RaceInfo != null ? _creature.RaceInfo.InvHeight : DefaultHeight);
@@ -144,7 +144,7 @@ namespace Aura.World.World
 			return _pockets[pocket].GetItemAt(x, y);
 		}
 
-		public bool MoveItem(MabiItem item, Pocket target, byte targetX, byte targetY)
+		public bool Move(MabiItem item, Pocket target, byte targetX, byte targetY)
 		{
 			if (!this.Has(target))
 				return false;
@@ -153,7 +153,7 @@ namespace Aura.World.World
 			var amount = item.Info.Amount;
 
 			MabiItem collidingItem = null;
-			if (!_pockets[target].TryPutItem(item, targetX, targetY, out collidingItem))
+			if (!_pockets[target].TryAdd(item, targetX, targetY, out collidingItem))
 				return false;
 
 			// If amount differs (item was added to stack)
@@ -180,7 +180,7 @@ namespace Aura.World.World
 
 				// Toss it in, it should be the cursor.
 				if (collidingItem != null)
-					_pockets[source].ForcePutItem(collidingItem);
+					_pockets[source].ForceAdd(collidingItem);
 
 				Send.ItemMoveInfo(_creature, item, source, collidingItem);
 			}
@@ -196,9 +196,9 @@ namespace Aura.World.World
 		/// <param name="item"></param>
 		/// <param name="pocket"></param>
 		/// <returns></returns>
-		public bool PutItem(MabiItem item, Pocket pocket)
+		public bool Add(MabiItem item, Pocket pocket)
 		{
-			var success = _pockets[pocket].PutItem(item);
+			var success = _pockets[pocket].Add(item);
 			if (success)
 			{
 				Send.ItemInfo(_creature.Client, _creature, item);
@@ -208,9 +208,15 @@ namespace Aura.World.World
 			return success;
 		}
 
-		public void ForcePutItem(MabiItem item, Pocket pocket)
+		/// <summary>
+		/// Adds item to pocket, without boundary and space checks.
+		/// Only use when initializing!
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="pocket"></param>
+		public void ForceAdd(MabiItem item, Pocket pocket)
 		{
-			_pockets[pocket].ForcePutItem(item);
+			_pockets[pocket].ForceAdd(item);
 			this.UpdateEquipReferences(pocket);
 		}
 
@@ -223,16 +229,16 @@ namespace Aura.World.World
 		/// <param name="item"></param>
 		/// <param name="temp"></param>
 		/// <returns></returns>
-		public bool PutItem(MabiItem item, bool tempFallback, bool sendItemNew = true)
+		public bool Add(MabiItem item, bool tempFallback, bool sendItemNew = true)
 		{
 			bool success;
 
 			// Try inv
-			success = _pockets[Pocket.Inventory].PutItem(item);
+			success = _pockets[Pocket.Inventory].Add(item);
 
 			// Try temp
 			if (!success && tempFallback)
-				success = _pockets[Pocket.Temporary].PutItem(item);
+				success = _pockets[Pocket.Temporary].Add(item);
 
 			// Inform about new item
 			if (success && sendItemNew)
@@ -249,7 +255,7 @@ namespace Aura.World.World
 		/// <param name="item"></param>
 		/// <param name="tempFallback"></param>
 		/// <returns></returns>
-		public bool FitIn(MabiItem item, bool tempFallback, bool sendItemNew)
+		public bool Insert(MabiItem item, bool tempFallback, bool sendItemNew)
 		{
 			if (item.StackType == BundleType.Stackable)
 			{
@@ -265,7 +271,7 @@ namespace Aura.World.World
 					newStackItem.Info.Amount = item.StackMax;
 
 					// Break if no new items can be added (no space left)
-					if (!_pockets[Pocket.Inventory].PutItem(newStackItem))
+					if (!_pockets[Pocket.Inventory].Add(newStackItem))
 						break;
 
 					Send.ItemInfo(_creature.Client, _creature, newStackItem);
@@ -276,7 +282,7 @@ namespace Aura.World.World
 					return true;
 			}
 
-			return this.PutItem(item, tempFallback, sendItemNew);
+			return this.Add(item, tempFallback, sendItemNew);
 		}
 
 		public void Debug()
@@ -369,10 +375,10 @@ namespace Aura.World.World
 				{
 					// Try inventory first.
 					// TODO: List of pockets stuff can be auto-moved to.
-					if (!_pockets[Pocket.Inventory].PutItem(leftItem))
+					if (!_pockets[Pocket.Inventory].Add(leftItem))
 					{
 						// Fallback, temp inv
-						_pockets[Pocket.Temporary].PutItem(leftItem);
+						_pockets[Pocket.Temporary].Add(leftItem);
 					}
 
 					Send.ItemMoveInfo(_creature, leftItem, leftPocket, null);
@@ -461,7 +467,7 @@ namespace Aura.World.World
 		/// <param name="item"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		public bool DecItem(MabiItem item, ushort amount = 1)
+		public bool Decrement(MabiItem item, ushort amount = 1)
 		{
 			if (!this.Has(item) || item.Info.Amount == 0 || item.Info.Amount < amount)
 				return false;
@@ -505,35 +511,40 @@ namespace Aura.World.World
 		/// <param name="itemId"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		public bool GiveItem(uint itemId, uint amount = 1)
+		public bool Add(uint itemId, uint amount = 1)
 		{
 			var newItem = new MabiItem(itemId);
 
 			if (newItem.StackType == BundleType.Stackable)
 			{
 				newItem.Info.Amount = (ushort)Math.Min(amount, ushort.MaxValue);
-				return this.FitIn(newItem, true, true);
+				return this.Insert(newItem, true, true);
 			}
 			else if (newItem.StackType == BundleType.Sac)
 			{
 				newItem.Info.Amount = (ushort)Math.Min(amount, ushort.MaxValue);
-				return this.PutItem(newItem, true);
+				return this.Add(newItem, true);
 			}
 			else
 			{
 				for (int i = 0; i < amount; ++i)
-					this.PutItem(new MabiItem(itemId), true);
+					this.Add(new MabiItem(itemId), true);
 				return true;
 			}
 		}
 
-		public bool GiveGold(uint amount)
+		/// <summary>
+		/// Adds amount of gold to the inventory.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public bool AddGold(uint amount)
 		{
 			// Add gold, stack for stack
 			do
 			{
 				var stackAmount = Math.Min(GoldStackMax, amount);
-				this.GiveItem(GoldItemId, stackAmount);
+				this.Add(GoldItemId, stackAmount);
 				amount -= stackAmount;
 			}
 			while (amount > 0);
@@ -541,7 +552,13 @@ namespace Aura.World.World
 			return true;
 		}
 
-		public bool RemoveItem(uint itemId, uint amount = 1)
+		/// <summary>
+		/// Removes items with itemId from the inventory.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public bool Remove(uint itemId, uint amount = 1)
 		{
 			if (amount < 0)
 				amount = 0;
@@ -562,26 +579,48 @@ namespace Aura.World.World
 			return (amount == 0);
 		}
 
+		/// <summary>
+		/// Removes gold from the inventory.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
 		public bool RemoveGold(uint amount)
 		{
-			return this.RemoveItem(GoldItemId, amount);
+			return this.Remove(GoldItemId, amount);
 		}
 
-		public uint CountItem(uint itemId)
+		/// <summary>
+		/// Returns amount of items with itemId in the inventory.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public uint Count(uint itemId)
 		{
 			uint result = 0;
 
 			foreach (var pocket in _pockets.Values)
-				result += pocket.CountItem(itemId);
+				result += pocket.Count(itemId);
 
 			return result;
 		}
-
+		/// <summary>
+		/// Returns true if amount of items with itemId in inventory is equal
+		/// or greater than amount.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
 		public bool Has(uint itemId, uint amount = 1)
 		{
-			return (this.CountItem(itemId) >= amount);
+			return (this.Count(itemId) >= amount);
 		}
 
+		/// <summary>
+		/// Returns true if amount of gold items in inventory is equal or
+		/// greater than amount.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
 		public bool HasGold(uint amount)
 		{
 			return this.Has(GoldItemId, amount);

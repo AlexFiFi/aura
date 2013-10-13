@@ -135,7 +135,7 @@ namespace Aura.World.Scripting
 			//if (inPocket != null)
 			//    this.Creature.Items.Remove(inPocket);
 
-			this.Creature.Inventory.ForcePutItem(item, pocket);
+			this.Creature.Inventory.ForceAdd(item, pocket);
 
 			Send.EquipmentChanged(this.Creature, item);
 		}
