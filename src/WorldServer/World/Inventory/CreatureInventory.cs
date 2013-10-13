@@ -126,16 +126,40 @@ namespace Aura.World.World
 			this.Add(new InventoryPocketNormal(Pocket.VIPInventory, width, height));
 		}
 
+		/// <summary>
+		/// Returns true if pocket exists in this inventory.
+		/// </summary>
+		/// <param name="pocket"></param>
+		/// <returns></returns>
 		public bool Has(Pocket pocket)
 		{
 			return _pockets.ContainsKey(pocket);
 		}
 
+		/// <summary>
+		/// Returns MabiItem with the id, or null if it couldn't be found.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <returns></returns>
 		public MabiItem GetItem(ulong itemId)
 		{
-			return this.Items.FirstOrDefault(a => a.Id == itemId);
+			foreach (var pocket in _pockets.Values)
+			{
+				var item = pocket.GetItem(itemId);
+				if (item != null)
+					return item;
+			}
+
+			return null;
 		}
 
+		/// <summary>
+		/// Returns item at the location, or null if there is no item there.
+		/// </summary>
+		/// <param name="pocket"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
 		public MabiItem GetItemAt(Pocket pocket, uint x, uint y)
 		{
 			if (!this.Has(pocket))

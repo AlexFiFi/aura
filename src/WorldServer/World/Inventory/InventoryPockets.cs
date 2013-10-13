@@ -67,6 +67,8 @@ namespace Aura.World.World
 		/// <returns></returns>
 		public abstract MabiItem GetItemAt(uint x, uint y);
 
+		public abstract MabiItem GetItem(ulong id);
+
 		public abstract uint Remove(uint itemId, uint amount, ref List<MabiItem> changed);
 
 		public abstract uint Count(uint itemId);
@@ -381,6 +383,13 @@ namespace Aura.World.World
 
 			return result;
 		}
+
+		public override MabiItem GetItem(ulong id)
+		{
+			MabiItem item;
+			_items.TryGetValue(id, out item);
+			return item;
+		}
 	}
 
 	/// <summary>
@@ -471,6 +480,13 @@ namespace Aura.World.World
 				return _item.Info.Amount;
 			return 0;
 		}
+
+		public override MabiItem GetItem(ulong id)
+		{
+			if (_item != null && _item.Id == id)
+				return _item;
+			return null;
+		}
 	}
 
 	/// <summary>
@@ -549,6 +565,11 @@ namespace Aura.World.World
 					result += item.Info.Amount;
 
 			return result;
+		}
+
+		public override MabiItem GetItem(ulong id)
+		{
+			return _items.FirstOrDefault(a => a.Id == id);
 		}
 	}
 }
