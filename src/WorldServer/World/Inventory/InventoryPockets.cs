@@ -27,15 +27,15 @@ namespace Aura.World.World
 		/// <param name="targetY"></param>
 		/// <param name="colliding"></param>
 		/// <returns></returns>
-		public abstract bool TryPutItem(MabiItem item, byte targetX, byte targetY, out MabiItem colliding);
+		public abstract bool TryAdd(MabiItem item, byte targetX, byte targetY, out MabiItem colliding);
 
 		/// <summary>
 		/// Puts item into the pocket, at the location it has.
 		/// </summary>
 		/// <param name="item"></param>
-		public abstract void ForcePutItem(MabiItem item);
+		public abstract void ForceAdd(MabiItem item);
 
-		public abstract bool PutItem(MabiItem item);
+		public abstract bool Add(MabiItem item);
 
 		/// <summary>
 		/// Fills stacks that take this item. Returns true if item has been
@@ -69,7 +69,7 @@ namespace Aura.World.World
 
 		public abstract uint Remove(uint itemId, uint amount, ref List<MabiItem> changed);
 
-		public abstract uint CountItem(uint itemId);
+		public abstract uint Count(uint itemId);
 	}
 
 	/// <summary>
@@ -100,7 +100,7 @@ namespace Aura.World.World
 			}
 		}
 
-		public override bool TryPutItem(MabiItem newItem, byte targetX, byte targetY, out MabiItem collidingItem)
+		public override bool TryAdd(MabiItem newItem, byte targetX, byte targetY, out MabiItem collidingItem)
 		{
 			collidingItem = null;
 
@@ -197,7 +197,7 @@ namespace Aura.World.World
 			return false;
 		}
 
-		public override void ForcePutItem(MabiItem item)
+		public override void ForceAdd(MabiItem item)
 		{
 			this.AddToMap(item);
 			_items.Add(item.Id, item);
@@ -215,7 +215,7 @@ namespace Aura.World.World
 			return false;
 		}
 
-		public override bool PutItem(MabiItem item)
+		public override bool Add(MabiItem item)
 		{
 			MabiItem collidingItem;
 
@@ -228,7 +228,7 @@ namespace Aura.World.World
 
 					if (!this.TryGetCollidingItem(x, y, item, out collidingItem))
 					{
-						this.TryPutItem(item, x, y, out collidingItem);
+						this.TryAdd(item, x, y, out collidingItem);
 						return true;
 					}
 				}
@@ -371,7 +371,7 @@ namespace Aura.World.World
 			return result;
 		}
 
-		public override uint CountItem(uint itemId)
+		public override uint Count(uint itemId)
 		{
 			uint result = 0;
 
@@ -403,7 +403,7 @@ namespace Aura.World.World
 			}
 		}
 
-		public override bool TryPutItem(MabiItem item, byte targetX, byte targetY, out MabiItem collidingItem)
+		public override bool TryAdd(MabiItem item, byte targetX, byte targetY, out MabiItem collidingItem)
 		{
 			collidingItem = null;
 			if (_item != null)
@@ -418,7 +418,7 @@ namespace Aura.World.World
 			return true;
 		}
 
-		public override void ForcePutItem(MabiItem item)
+		public override void ForceAdd(MabiItem item)
 		{
 			_item = item;
 			_item.Move(this.Pocket, 0, 0);
@@ -435,12 +435,12 @@ namespace Aura.World.World
 			return false;
 		}
 
-		public override bool PutItem(MabiItem item)
+		public override bool Add(MabiItem item)
 		{
 			if (_item != null)
 				return false;
 
-			this.ForcePutItem(item);
+			this.ForceAdd(item);
 			return true;
 		}
 
@@ -465,7 +465,7 @@ namespace Aura.World.World
 			return 0;
 		}
 
-		public override uint CountItem(uint itemId)
+		public override uint Count(uint itemId)
 		{
 			if (_item != null && _item.Info.Class == itemId)
 				return _item.Info.Amount;
@@ -495,14 +495,14 @@ namespace Aura.World.World
 			}
 		}
 
-		public override bool TryPutItem(MabiItem item, byte targetX, byte targetY, out MabiItem colliding)
+		public override bool TryAdd(MabiItem item, byte targetX, byte targetY, out MabiItem colliding)
 		{
 			colliding = null;
 			_items.Add(item);
 			return true;
 		}
 
-		public override void ForcePutItem(MabiItem item)
+		public override void ForceAdd(MabiItem item)
 		{
 			_items.Add(item);
 			item.Move(this.Pocket, 0, 0);
@@ -513,9 +513,9 @@ namespace Aura.World.World
 			return _items.Remove(item);
 		}
 
-		public override bool PutItem(MabiItem item)
+		public override bool Add(MabiItem item)
 		{
-			this.ForcePutItem(item);
+			this.ForceAdd(item);
 			return true;
 		}
 
@@ -540,7 +540,7 @@ namespace Aura.World.World
 			return 0;
 		}
 
-		public override uint CountItem(uint itemId)
+		public override uint Count(uint itemId)
 		{
 			uint result = 0;
 

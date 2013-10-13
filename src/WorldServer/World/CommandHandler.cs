@@ -367,7 +367,7 @@ namespace Aura.World.World
 
 				//newItem.Info.Pocket = (byte)Pocket.Temporary;
 				//creature.Items.Add(newItem);
-				creature.Inventory.PutItem(newItem, Pocket.Temporary);
+				creature.Inventory.Add(newItem, Pocket.Temporary);
 
 				//Send.ItemInfo(client, creature, newItem);
 			}
@@ -1125,9 +1125,9 @@ namespace Aura.World.World
 				return CommandResult.WrongParameter;
 
 			if (args[1] == "add")
-				creature.Inventory.GiveItem(uint.Parse(args[2]), uint.Parse(args[3]));
+				creature.Inventory.Add(uint.Parse(args[2]), uint.Parse(args[3]));
 			else if (args[1] == "rm")
-				creature.Inventory.RemoveItem(uint.Parse(args[2]), uint.Parse(args[3]));
+				creature.Inventory.Remove(uint.Parse(args[2]), uint.Parse(args[3]));
 			else if (args[1] == "dbg")
 				creature.Inventory.Debug();
 			else
