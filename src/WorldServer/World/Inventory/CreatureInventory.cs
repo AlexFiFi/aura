@@ -200,7 +200,10 @@ namespace Aura.World.World
 		{
 			var success = _pockets[pocket].PutItem(item);
 			if (success)
+			{
 				Send.ItemInfo(_creature.Client, _creature, item);
+				this.UpdateEquipReferences(pocket);
+			}
 
 			return success;
 		}
@@ -208,6 +211,7 @@ namespace Aura.World.World
 		public void ForcePutItem(MabiItem item, Pocket pocket)
 		{
 			_pockets[pocket].ForcePutItem(item);
+			this.UpdateEquipReferences(pocket);
 		}
 
 		/// <summary>
@@ -278,6 +282,20 @@ namespace Aura.World.World
 		public void Debug()
 		{
 			(_pockets[Pocket.Inventory] as InventoryPocketNormal).TestMap();
+
+			Send.ServerMessage(_creature.Client, _creature, this.WeaponSet.ToString());
+			if (this.RightHand == null)
+				Send.ServerMessage(_creature.Client, _creature, "null");
+			else
+				Send.ServerMessage(_creature.Client, _creature, this.RightHand.ToString());
+			if (this.LeftHand == null)
+				Send.ServerMessage(_creature.Client, _creature, "null");
+			else
+				Send.ServerMessage(_creature.Client, _creature, this.LeftHand.ToString());
+			if (this.Magazine == null)
+				Send.ServerMessage(_creature.Client, _creature, "null");
+			else
+				Send.ServerMessage(_creature.Client, _creature, this.Magazine.ToString());
 		}
 
 		/// <summary>
@@ -363,6 +381,10 @@ namespace Aura.World.World
 			}
 		}
 
+		/// <summary>
+		/// Updates RightHand, LeftHand, and Magazine, if necessary.
+		/// </summary>
+		/// <param name="toCheck"></param>
 		private void UpdateEquipReferences(params Pocket[] toCheck)
 		{
 			var firstSet = (this.WeaponSet == World.WeaponSet.First);
@@ -383,6 +405,12 @@ namespace Aura.World.World
 			}
 		}
 
+		/// <summary>
+		/// Sends EquipmentMoved and EquipmentChanged, if necessary.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="source"></param>
+		/// <param name="target"></param>
 		private void CheckEquipMoved(MabiItem item, Pocket source, Pocket target)
 		{
 			if (source.IsEquip())

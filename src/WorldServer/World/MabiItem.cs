@@ -137,6 +137,11 @@ namespace Aura.World.World
 			//this.AdditionalInfo = quest.ToolTip;
 		}
 
+		public override string ToString()
+		{
+			return string.Format("{0}:\"{1}\"", this.Info.Class, (this.DataInfo != null ? this.DataInfo.Name : "?"));
+		}
+
 		public override EntityType EntityType
 		{
 			get { return EntityType.Item; }
