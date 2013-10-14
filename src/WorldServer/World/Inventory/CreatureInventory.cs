@@ -423,20 +423,20 @@ namespace Aura.World.World
 		private void UpdateEquipReferences(params Pocket[] toCheck)
 		{
 			var firstSet = (this.WeaponSet == World.WeaponSet.First);
+			var updatedHands = false;
 
 			foreach (var pocket in toCheck)
 			{
-				// Right Hand
-				if (pocket == Pocket.RightHand1 || pocket == Pocket.RightHand2)
+				// Update all "hands" at once, easier.
+				if (!updatedHands && pocket >= Pocket.RightHand1 && pocket <= Pocket.Magazine2)
+				{
 					this.RightHand = _pockets[firstSet ? Pocket.RightHand1 : Pocket.RightHand2].GetItemAt(0, 0);
-
-				// Left Hand
-				if (pocket == Pocket.LeftHand1 || pocket == Pocket.LeftHand2)
 					this.LeftHand = _pockets[firstSet ? Pocket.LeftHand1 : Pocket.LeftHand2].GetItemAt(0, 0);
-
-				// Magazine
-				if (pocket == Pocket.Magazine1 || pocket == Pocket.Magazine2)
 					this.Magazine = _pockets[firstSet ? Pocket.Magazine1 : Pocket.Magazine2].GetItemAt(0, 0);
+
+					// Don't do it twice.
+					updatedHands = true;
+				}
 			}
 		}
 
