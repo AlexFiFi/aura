@@ -280,12 +280,14 @@ namespace Aura.World.Network
 				// Update state, so we don't get here again automatically.
 				character.State |= CreatureStates.EverEnteredWorld;
 
-				if (WorldManager.Instance.GetCreatureById(Id.Nao) == null)
-					Logger.Warning("Nao NPC not found.");
+				var introNpcId = (character is MabiCharacter ? Id.Nao : Id.Tin);
+
+				if (WorldManager.Instance.GetCreatureById(introNpcId) == null)
+					Logger.Warning("Intro NPC not found.");
 
 				// With this packet many buttons and stuff are disabled,
 				// until you're really logged in.
-				Send.SpecialLogin(client, character, 1000, 3200, 3200, Id.Nao);
+				Send.SpecialLogin(client, character, 1000, 3200, 3200, introNpcId);
 			}
 
 			client.State = ClientState.LoggedIn;

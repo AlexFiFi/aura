@@ -1,6 +1,7 @@
 using System.Collections;
 using Aura.Data;
 using Aura.Shared.Const;
+using Aura.World.Player;
 using Aura.World.Network;
 using Aura.World.Scripting;
 using Aura.World.World;
@@ -11,7 +12,6 @@ public class NaoScript : NPCScript
 
 	public override void OnLoad()
 	{
-		// Nao is the only NPC that needs a specific id so far.
 		SetId(Id.Nao);
 		SetName("_nao");
 		SetRace(1);
@@ -107,6 +107,30 @@ public class NaoScript : NPCScript
 	}
 }
 
+public class TinPetIntroScript : NPCScript
+{
+	public override void OnLoad()
+	{
+		SetId(Id.Tin);
+		SetName("_tin");
+		SetRace(10002);
+		SetLocation(1000, 0, 0);
+	}
+
+	public override IEnumerable OnTalk(WorldClient c)
+	{
+		Msg(c, "Hi. <username/>.<br/>Nice to meet you..");
+		Msg(c, "I wish you the best of luck with all that you do here in Erinn...<br/>See ya.", Button("End Conversation"));
+		var r = Select(c);
+
+		c.Character.SetLocation(1, 15250, 38467);
+		
+		Close(c);
+		
+		Return();
+	}
+}
+
 public class TinScript : NPCScript
 {
 	public override void OnLoad()
@@ -127,6 +151,14 @@ public class TinScript : NPCScript
 
 	public override IEnumerable OnTalk(WorldClient c)
 	{
+		if(c.Character is MabiPet)
+		{
+			Msg(c, "Hi. <username/>.<br/>Nice to meet you..");
+			Msg(c, "I wish you the best of luck with all that you do here in Erinn...<br/>See ya.");
+			
+			Return();
+		}
+	
 		Msg(c, "Hey, who are you?");
 		Msg(c, "You don't look like you're from this world. Am I right?<br/>Did you make your way down here from Soul Stream?<br/>Ahhh, so Nao sent you here!");
 		Msg(c, "She's way too obedient to the Goddess' wishes.<br/>Anyway, she's a good girl, so be nice to her.");

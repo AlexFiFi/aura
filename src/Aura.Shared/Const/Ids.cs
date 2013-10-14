@@ -42,5 +42,6 @@ namespace Aura.Shared.Const
 		public const uint PetCardType = 102;
 
 		public const ulong Nao = 0x0010FFFFFFFFFFFF;
+		public const ulong Tin = 0x0010FFFFFFFFFFFE;
 	}
 }
