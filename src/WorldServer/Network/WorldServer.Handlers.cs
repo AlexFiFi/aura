@@ -155,6 +155,13 @@ namespace Aura.World.Network
 			this.RegisterPacketHandler(Op.Internal.ServerIdentify, HandleServerIdentify);
 			this.RegisterPacketHandler(Op.ChannelStatus, HandleChannelStatus);
 
+            this.RegisterPacketHandler(Op.BankGoldDeposit, HandleBankGoldDeposit);
+            this.RegisterPacketHandler(Op.BankGoldWithdraw, HandleBankGoldWithdraw);
+            this.RegisterPacketHandler(Op.BankInventoryRequest, HandleBankInventoryRequest);
+            this.RegisterPacketHandler(Op.BankClose, HandleBankClose);
+            this.RegisterPacketHandler(Op.BankPasswordChange, HandleBankPasswordChange);
+            this.RegisterPacketHandler(Op.BankUnlock, HandleBankUnlock);
+
 			// Temp/Unknown
 			// --------------------------------------------------------------
 
@@ -3357,5 +3364,62 @@ namespace Aura.World.Network
 
 			client.Send(response);
 		}
+
+        private void HandleBankGoldWithdraw(WorldClient client, MabiPacket packet)
+        {
+            var isCheck = packet.GetBool();
+            var amount = packet.GetInt();
+
+            var success = client.Account.BankManager.Withdraw((MabiCharacter)client.Character, amount, isCheck);
+
+            Send.BankGoldAmount(client);
+            Send.BankWithdrawR(client, success);
+        }
+
+        private void HandleBankGoldDeposit(WorldClient client, MabiPacket packet)
+        {
+            var amount = packet.GetInt();
+
+            var success = client.Account.BankManager.Deposit((MabiCharacter)client.Character, amount);
+
+            Send.BankGoldAmount(client);
+            Send.BankDepositR(client, success);
+        }
+
+        private void HandleBankInventoryRequest(WorldClient client, MabiPacket packet)
+        {
+            // The client should only ever send an index of 0 (human), 1 (elf), or 2 (giant)
+            // 
+            var index = packet.GetByte();
+            Send.BankStatus(client, index);
+
+            // Testing purposes only:
+            /*
+            List<BankPocket> pockets = new List<BankPocket>();
+            if (index == 1)
+            {
+                pockets.Add(new BankPocket("Hello 1", 1, true, 12, 8));
+                pockets.Add(new BankPocket("Hello 2", 2, true, 12, 8)); // Hmm
+            }
+            else if (index == 2)
+            {
+                pockets.Add(new BankPocket("Hello 3", 3, true, 15, 10)); //
+            }
+            */
+        }
+
+        private void HandleBankClose(WorldClient client, MabiPacket packet)
+        {
+            // Just send a success for now
+            Send.BankCloseR(client, true);
+        }
+
+        private void HandleBankPasswordChange(WorldClient client, MabiPacket packet)
+        {
+        }
+
+        private void HandleBankUnlock(WorldClient client, MabiPacket packet)
+        {
+        }
 	}
 }

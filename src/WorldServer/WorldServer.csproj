@@ -63,6 +63,7 @@
     <Compile Include="Events\EventArgs.cs" />
     <Compile Include="Events\EventManager.cs" />
     <Compile Include="Network\PacketCreator.cs" />
+    <Compile Include="Network\Sending\Send.Bank.cs" />
     <Compile Include="Network\Sending\Send.PvP.cs" />
     <Compile Include="Network\Sending\Send.Entity.cs" />
     <Compile Include="Network\Sending\Send.Quest.cs" />
@@ -80,12 +81,14 @@
     <Compile Include="Network\WorldServer.Handlers.cs" />
     <Compile Include="Network\WorldServer.cs" />
     <Compile Include="Player\Account.cs" />
+    <Compile Include="Player\AccountBankManager.cs" />
     <Compile Include="Player\MabiCharacter.cs" />
     <Compile Include="Player\MabiPC.cs" />
     <Compile Include="Player\MabiPet.cs" />
     <Compile Include="Player\ShamalaTransformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\Base\BaseScript.Bank.cs" />
     <Compile Include="Scripting\Misc\AIScript.cs" />
     <Compile Include="Scripting\Base\BaseScript.cs" />
     <Compile Include="Scripting\Base\BaseScript.Props.cs" />
@@ -133,6 +136,7 @@
     <Compile Include="Skills\SkillHelper.cs" />
     <Compile Include="Skills\SkillManager.cs" />
     <Compile Include="Util\WorldConf.cs" />
+    <Compile Include="World\BankManager.cs" />
     <Compile Include="World\CommandHandler.cs" />
     <Compile Include="World\CreatureSkillManager.cs" />
     <Compile Include="World\CreatureTalentManager.cs" />

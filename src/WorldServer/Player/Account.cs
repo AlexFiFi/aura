@@ -26,6 +26,8 @@ namespace Aura.World.Player
 		public List<MabiPet> Pets = new List<MabiPet>();
 
 		public ScriptingVariables Vars { get; protected set; }
+        
+        public AccountBankManager BankManager { get; set; }
 
 		public Account()
 		{

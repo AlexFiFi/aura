@@ -127,9 +127,121 @@ namespace Aura.World.Database
 
 				account.Vars.Load(account.Name, 0);
 
+                // Load the bank manager
+                account.BankManager = this.GetBankAccount(account);
+
 				return account;
 			}
 		}
+
+        /// <summary>
+        /// Get the bank account (AccountBankManager) of an account.
+        /// Currently unused for testing.
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public AccountBankManager GetBankAccount(Account account)
+        {
+            using (var conn = MabiDb.Instance.GetConnection())
+            {
+                var accName = MySqlHelper.EscapeString(account.Name);
+                AccountBankManager bankMgr = null;
+
+                using (var reader = MabiDb.Instance.Query("SELECT * FROM bank_accounts WHERE accountId = '" + accName + "'", conn))
+                {
+                    if (!reader.Read())
+                    {
+                        // If user doesn't have an account yet
+                        bankMgr = new AccountBankManager(account);
+                    }
+                    else
+                    {
+                        var gold = reader.GetUInt32("gold");
+                        var password = reader.GetString("password");
+                        var lastUse = reader["lastuse"] as DateTime? ?? DateTime.MinValue;
+
+                        bankMgr = new AccountBankManager(account, gold, password);
+                    }
+                }
+
+                // Add pockets
+                bankMgr.AddPockets(this.GetBankPockets(account));
+
+                return bankMgr;
+            }
+        }
+
+        public List<BankPocket> GetBankPockets(Account account)
+        {
+            Console.WriteLine("Getting bank pockets from db");
+            List<BankPocket> pockets = new List<BankPocket>();
+
+            using (var conn = MabiDb.Instance.GetConnection())
+            {
+                var accName = MySqlHelper.EscapeString(account.Name);
+
+                using (var reader = MabiDb.Instance.Query("SELECT * FROM bank_pockets WHERE accountId = '" + accName + "'", conn))
+                {
+                    while (reader.Read())
+                    {
+                        var index = reader.GetByte("_index");
+                        var name = reader.GetString("name");
+                        var enabled = reader.GetBoolean("enabled");
+                        var width = reader.GetUInt32("width");
+                        var height = reader.GetUInt32("height");
+
+                        pockets.Add(new BankPocket(name, index, enabled, width, height));
+                    }
+                }
+
+                Console.WriteLine("Making sure at least 3 bank pockets..");
+                // TODO: Make sure at least 3 pockets gotten (indices 0, 1, 2 for human, elf, giant)
+                // If not, create them. If character not gotten yet, make sure `enabled` is false.
+                bool[] required = new bool[3];
+                foreach(var pocket in pockets)
+                {
+                    for (byte i = 0; i < 3; i++)
+                        if (pocket.Index == i) required[i] = true;
+                }
+                for (byte i = 0; i < 3; i++)
+                {
+                    // A "required" bank pocket is missing, add it
+                    if (!required[i])
+                    {
+                        // Set this 
+                        Predicate<MabiCharacter> p = null;
+                        if (i == 0) p = (x => x.IsHuman); // 0 = Human
+                        else if (i == 1) p = (x => x.IsElf); // 1 = Elf
+                        else if (i == 2) p = (x => x.IsGiant); // 2 = Giant
+
+                        var enabled = (p != null && account.Characters.Exists(p));
+
+                        var pocket = new BankPocket(null, i, false, 12, 8); // TODO?: Make 12, 8 changeable via config
+                        pockets.Add(pocket);
+                    }
+                }
+
+                Console.WriteLine("# of pockets: " + pockets.Count);
+
+                // Make sure first three are enabled if respective character exists (human, elf, giant)
+                for (byte i = 0; i < 3; i++)
+                {
+                    var pocket = pockets.Find(x => x.Index == i);
+                    if (pocket == null) continue; // Should never happen?
+                    
+                    Predicate<MabiCharacter> p = null;
+                    if (i == 0) p = (x => x.IsHuman); // 0 = Human
+                    else if (i == 1) p = (x => x.IsElf); // 1 = Elf
+                    else if (i == 2) p = (x => x.IsGiant); // 2 = Giant
+
+                    var enabled = (p != null && account.Characters.Exists(p));
+
+                    pocket.IsEnabled = enabled; // Set enabled
+                }
+            }
+
+            return pockets;
+        }
 
 		/// <summary>
 		/// Reads all characters in the given account from the database and adds them to it.
@@ -682,8 +794,99 @@ namespace Aura.World.Database
 			foreach (var pet in account.Pets.Where(a => a.Save))
 				this.SaveCharacter(account, pet);
 
+            // Save bank account
+            this.SaveBankAccount(account.BankManager);
+
 			account.Vars.Save(account.Name, 0);
 		}
+
+        /// <summary>
+        /// Writes bank account to the database.
+        /// </summary>
+        /// <param name="bankMgr">Bank manager</param>
+        public void SaveBankAccount(AccountBankManager bankMgr)
+        {
+            var account = bankMgr.Account;
+
+            using (var conn = MabiDb.Instance.GetConnection())
+            {
+                MySqlTransaction transaction = null;
+                try
+                {
+                    transaction = conn.BeginTransaction();
+
+                    var delmc = new MySqlCommand("DELETE FROM `bank_accounts` WHERE accountId = @accountId", conn, transaction);
+                    delmc.Parameters.AddWithValue("@accountId", account.Name);
+                    delmc.ExecuteNonQuery();
+
+                    var mc = new MySqlCommand(
+                        "INSERT INTO `bank_accounts` VALUES (@accountId, @password, @gold, @lastuse)", conn);
+
+                    mc.Parameters.AddWithValue("@accountId", account.Name);
+                    mc.Parameters.AddWithValue("@password", bankMgr.Password);
+                    mc.Parameters.AddWithValue("@gold", bankMgr.Gold);
+                    mc.Parameters.AddWithValue("@lastuse", bankMgr.LastUse);
+
+                    mc.ExecuteNonQuery();
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+
+            // Save Pockets
+            Console.WriteLine("About to write pockets to db");
+            foreach (var pair in bankMgr.Pockets)
+                this.SaveBankPocket(account, pair.Value);
+        }
+
+        /// <summary>
+        /// Writes a bank pocket to the database.
+        /// </summary>
+        /// <param name="account">Owner of the bank pocket</param>
+        /// <param name="pocket">Bank pocket to save</param>
+        public void SaveBankPocket(Account account, BankPocket pocket)
+        {
+            Console.WriteLine(String.Format("Writing pocket.. {0}", pocket.Index));
+            using (var conn = MabiDb.Instance.GetConnection())
+            {
+                MySqlTransaction transaction = null;
+                try
+                {
+                    transaction = conn.BeginTransaction();
+
+                    // Delete pocket
+                    var delmc = new MySqlCommand("DELETE FROM `bank_pockets` WHERE accountId = @accountId AND _index = @_index", conn, transaction);
+                    delmc.Parameters.AddWithValue("@accountId", account.Name);
+                    delmc.Parameters.AddWithValue("@_index", pocket.Index);
+                    delmc.ExecuteNonQuery();
+
+                    var mc = new MySqlCommand(
+                        "INSERT INTO `bank_pockets` VALUES (@accountId, @_index, @name, @enabled, @width, @height)", conn);
+
+                    mc.Parameters.AddWithValue("@accountId", account.Name);
+                    mc.Parameters.AddWithValue("@_index", pocket.Index);
+                    // Being a bitch and throwing exceptions when fetching null fields, _default_ temp fix:
+                    mc.Parameters.AddWithValue("@name", (pocket.Name == null ? "_default_" : pocket.Name)); 
+                    mc.Parameters.AddWithValue("@enabled", pocket.IsEnabled);
+                    mc.Parameters.AddWithValue("@width", pocket.Width);
+                    mc.Parameters.AddWithValue("@height", pocket.Height);
+
+                    mc.ExecuteNonQuery();
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
 
 		public void SaveCharacter(Account account, MabiPC character)
 		{
